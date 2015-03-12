@@ -8,7 +8,9 @@
             <field name="arch" type="xml">
                 <form string="Migrate" version="7.0">
                    <group colspan="4" col="4">
-                       <button name="migrate_partner" string="Partner" type="object" icon="gtk-jump-to" class="oe_highlight" />
+                       <button name="migrate_database" string="Syncro / Migrate" type="object" icon="gtk-jump-to" class="oe_highlight" />
+                       <field name="partner" />
+                       <field name="user" />
                    </group>
                 </form>
             </field>
