@@ -404,7 +404,6 @@ class SyncroXMLRPC(orm.Model):
                         #    'hr.employee'].get(item['employee_id'][0], False),
                         #'action': item['action'],
                         'categ_id': categ_id,
-                        'parent_id': 1,
                         }
 
                     new_ids = item_pool.search(cr, uid, [
