@@ -1,0 +1,48 @@
+A. tabelle / oggetti
+- elenco tabelle 6
+- elenco tabelle 7
+- elenco tabelle 6 non in 7 << valutare la migrazione manualmente (res.partner.address per gli indirizzi non default creare il partner e linkarlo, usare poi il conveter di ID
+- elenco tabelle 7 non in 6 << valutare la migrazione manualmente
+- elenco tabelle 7 e 6      << parte da migrare sicuramente
+- Via SQL confronto per vedere le tabelle che rimangono (per le relazioni many2many da compilare manualmente via SQL)
+
+B. esclusione oggetti da migrare
+- controllo quelli con record > 1 
+- vedere se si può saltare l'aggiornamento per quelli a 1 >> res.company ecc.
+- creare eventualmente gli utenti a mano per evitare problemi o ricorsività inutili
+- creare subito gli oggetti che servono dappertutto (company, utenti, poi partner, conti, prodotti)
+- verificare le tabelle da non portare manualmente (es. workflow, ir, oggetti non più presenti)
+  (vedere se ci sono tabelle che sono state rinominate o hanno casi particolari come res.partner)
+
+C. per quelle 6 e in 7 
+- valutare situazione campi per eventuale mapping (presenti in 6 e 7) o scarto (solo in 6) o default da caricare (solo in 7)
+- campi 6 non in 7
+- campi 7 non in 6
+- campi da rinominare  (mapping)
+
+D. Migrazione (da fare in ordine di ID progressivo)
+- Inserisco eventuali mappin ID per oggetti creati a mano (vedi company o utenti)
+- Identifico gli oggetti che devo creare per primo a seconda dell'albero dipendenze (algoritmo per trovare la struttura e le ricorsività)
+- creo record per A & B salvando il dizionario traduttore (vecchio ID, nuovo ID), creo solo i campi scalari (poi relazioni)
+- mapping nomi campo
+- mapping di ID per i campi relazione (per i campi relazioni)
+- escludere tutti i campi function, related, per ora anche many2many
+- problema dei campi proprietà << vedere come gestire (magari prende già il default)
+
+E. Oggetti ricorsivi
+- Valutare più passate per associare correttamente i record
+
+F. Aggiustare tramite SQL
+- i 4 campi extra non raggiungibili 
+- Non dovrebbe servire l'aggiustamento del campo contatore utilizzando i traduttori dappertutto
+
+
+VERIFICHE:
+- Verificare workflow (se ci sono oggetti a metà del percorso)
+- Verificare stampe carbone o altre stampe
+- Verificare navigabilità e funzionalità
+- Correggere la stampa carbone con le ultime modifiche effettuate su quella parte nella 6
+
+
+
+

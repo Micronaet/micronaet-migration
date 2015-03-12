@@ -1,0 +1,19 @@
+python ./analysis_record.py object_name ****************************************
+Print ID mapping for object selected (old id, new id)
+object_name, ex: product.product  ("." not "_" for separate elements)
+
+
+python ./analysis.py ***********************************************************
+
+Analize all object present in DB passed with config parser file
+Print all note and the first level of linked objects
+
+
+python ./migrare.py ************************************************************
+
+Migration of all object present in database
+
+
+NOTE: **************************************************************************
+Configuration file is in: 
+~/etl/minerals/ named: openerp.6.cfg and openerp.7.cfg
