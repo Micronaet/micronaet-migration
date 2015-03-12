@@ -76,14 +76,14 @@ class SyncroXMLRPC(orm.Model):
             ''' Search category or create if not present
             '''
             try:
-                name = item[0]
+                name = item[1]
                 category_pool = self.pool.get('hr.employee.category')
                 category_ids = category_pool.search(cr, uid, [
-                    ('name', name)], context=context)
+                    ('name', '=', name)], context=context)
                 if category_ids:
                     return category_ids[0]    
                 return category_pool.create(cr, uid, {
-                    'name': name}, context=context)    
+                    'name': name, }, context=context)    
             except:
                print "#ERR Create employee category:", sys.exc_info()
                return False    
@@ -271,19 +271,27 @@ class SyncroXMLRPC(orm.Model):
                         'birthday': item['birthday'],
                         'work_email': item['work_email'],
                         'gender': item['gender'],
-                        'parent_id': converter.get(item['id'], False), # Parent TODO 2 times
-                        'category_id': self.get_hr_category(
-                           self, cr, uid, item['category_id'], context=context)
+                        #'mobile_phone': item['mobile_phone'],
+                        'work_location': item['work_location'],
+                        'parent_id': self._converter[
+                            'hr.employee'].get(item['id'], False), # Parent TODO 2 times
                         'notes': item['notes'],
-                        #marital
-                        #product_id
-                        #journal_id
+                        'marital': item['marital'].replace(
+                            'maried', 'married').replace('other', 'single'),
+                        #product_id  journal_id
                         }
+                        
                     if not item['user_id']:
                         print "#ERR no user ID", item['name']    
                         continue
                     data['user_id'] = self._converter['res.users'][
                         item['user_id'][0]]
+                        
+                    # category_id now category_ids
+                    if item['category_id']: 
+                        data['category_ids'] = [
+                            (6, 0, [get_hr_category(self, cr, uid, 
+                            item['category_id'], context=context)])]
     
                     new_ids = item_pool.search(cr, uid, [
                         ('migration_old_id', '=', item['id'])],
@@ -314,39 +322,45 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         table = 'hr.attendance'
         if wiz_proxy.attendance:
-            table_pool = self.pool.get(table)
-            table_ids = sock.execute(
+            item_pool = self.pool.get(table)
+            item_ids = sock.execute(
                 openerp.name, uid_old, openerp.password, table, 'search', [])
             self._converter[table] = {}
             converter = self._converter[table] # for use same name
-            for table in sock.execute(openerp.name, uid_old,
-                    openerp.password, table, 'read', table_ids):
+            for item in sock.execute(openerp.name, uid_old,
+                    openerp.password, table, 'read', item_ids):
                 try:
                     # Create record to insert / update
+                    if not item['employee_id']:
+                        print "#ERR empty employee ID"
+                        continue
                     data = {
-                        'name': table['name'],
+                        'name': item['name'],
+                        'employee_id': self._converter[
+                            'hr.employee'].get(item['employee_id'][0], False),
+                        'action': item['action'],
                         }
 
-                    new_ids = table_pool.search(cr, uid, [
-                        ('migration_old_id', '=', table['id'])],
+                    new_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item['id'])],
                             context=context)
                     if new_ids: # Modify
-                        table_id = new_ids[0]
-                        table_pool.write(cr, uid, table_id, data,
+                        item_id = new_ids[0]
+                        item_pool.write(cr, uid, item_id, data,
                             context=context)
-                        print "#INFO",table , " update:", table['name']
+                        print "#INFO", item, " update:", item['name']
                     else: # Create
-                        table_id = table_pool.create(cr, uid, data,
+                        item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        print "#INFO",table , " create:", table['name']
+                        print "#INFO", table, " create:", item['name']
 
                     # Write always the ID
-                    table_pool.write(cr, uid, table_id, {
-                        'migration_old_id': table['id'],
+                    item_pool.write(cr, uid, item_id, {
+                        'migration_old_id': item['id'],
                         }, context=context)
-                    converter[table['id']] = table_id
+                    converter[item['id']] = item_id
                 except:
-                    print "#ERR",table ,"jumped:", table['name']
+                    print "#ERR", table, item['name'], sys.exc_info()
                 # NOTE No contact for this database
         else: # Load convert list form database
             self.load_converter(cr, uid, table, context=context)
