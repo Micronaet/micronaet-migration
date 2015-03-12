@@ -88,6 +88,21 @@ class SyncroXMLRPC(orm.Model):
                print "#ERR Create employee category:", sys.exc_info()
                return False    
                 
+        def get_product_category(self, cr, uid, item, context=context):
+            ''' Search category or create if not present
+            '''
+            try:
+                name = item[1]
+                category_pool = self.pool.get('product.category')
+                category_ids = category_pool.search(cr, uid, [
+                    ('name', '=', name)], context=context)
+                if category_ids:
+                    return category_ids[0]    
+                return category_pool.create(cr, uid, {
+                    'name': name, }, context=context)    
+            except:
+               print "#ERR Create employee category:", sys.exc_info()
+               return False    
 
         # ---------------------------------------------------------------------
         # Common part: connection
@@ -365,6 +380,54 @@ class SyncroXMLRPC(orm.Model):
         else: # Load convert list form database
             self.load_converter(cr, uid, table, context=context)
 
+        # ---------------------------------------------------------------------
+        # product.product TODO template
+        # ---------------------------------------------------------------------
+        table = 'product.product'
+        # TODO create parent cagtegory
+        if wiz_proxy.product:
+            item_pool = self.pool.get(table)
+            item_ids = sock.execute(
+                openerp.name, uid_old, openerp.password, table, 'search', [])
+            self._converter[table] = {}
+            converter = self._converter[table] # for use same name
+            for item in sock.execute(openerp.name, uid_old,
+                    openerp.password, table, 'read', item_ids):
+                try:
+                    categ_id = get_product_category(self, cr, uid, item[
+                        'categ_id'], context=context)
+                    # Create record to insert / update
+                    data = {
+                        'name': item['name'],
+                        'type': 'service',
+                        #'employee_id': self._converter[
+                        #    'hr.employee'].get(item['employee_id'][0], False),
+                        #'action': item['action'],
+                        'categ_id': categ_id,
+                        }
+
+                    new_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item['id'])],
+                            context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        item_pool.write(cr, uid, item_id, data,
+                            context=context)
+                        print "#INFO ", table, "update:", item['name']
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO", table, " create:", item['name']
+                        item_pool.write(cr, uid, item_id, {
+                            'migration_old_id': item['id'],
+                            }, context=context)
+                    converter[item['id']] = item_id
+                except:
+                    print "#ERR", table, item['name'], sys.exc_info()
+                # NOTE No contact for this database
+        else: # Load convert list form database
+            self.load_converter(cr, uid, table, context=context)
+
         return True
 
     _columns = {
@@ -405,6 +468,22 @@ class HrEmpoyee(orm.Model):
 class HrAttendance(orm.Model):
 
     _inherit = 'hr.attendance'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.8'),
+        }
+
+class ProductProduct(orm.Model):
+
+    _inherit = 'product.product'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.8'),
+        }
+
+class ProductTemplate(orm.Model):
+
+    _inherit = 'product.template'
 
     _columns = {
         'migration_old_id': fields.integer('ID v.8'),

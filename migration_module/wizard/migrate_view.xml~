@@ -12,7 +12,10 @@
                        <newline />
                        <field name="user" />
                        <field name="partner" />
+                       <field name="employee" />
                        <field name="attendance" />
+                       <field name="product" />
+                       <!--<field name="template" />-->
                    </group>
                 </form>
             </field>
