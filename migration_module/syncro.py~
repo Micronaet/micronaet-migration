@@ -41,21 +41,6 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 
 _logger = logging.getLogger(__name__)
 
-# Add reference for future update of migration / sync
-class ResPartner(orm.Model):
-    _inherit = 'res.partner'
-
-    _columns = {
-        'migration_old_id': fields.char('ID v.8', size=15),
-        }
-
-class ResUsers(orm.Model):
-    _inherit = 'res.users'
-
-    _columns = {
-        'migration_old_id': fields.char('ID v.8', size=15),
-        }
-
 class SyncroXMLRPC(orm.Model):
     ''' Function for migration (and setup parameters for XMLRPC
     '''
@@ -110,92 +95,94 @@ class SyncroXMLRPC(orm.Model):
                 openerp.port,
                 ), allow_none=True)
 
+        import pdb; pdb.set_trace()
         # ---------------------------------------------------------------------
         # res.users
         # ---------------------------------------------------------------------
+        t = 'res.users'
         if wiz_proxy.user:
-            users_pool = self.pool.get('res.users')
-            users_ids = sock.execute(
-                openerp.name, uid_old, openerp.password,
-                'res.users', 'search', [])
-            self._converter['res.users'] = {}
-            converter = self._converter['res.users'] # for use same name
-            for users in sock.execute(openerp.name, uid_old,
-                    openerp.password, 'res.users', 'read', users_ids):
+            item_pool = self.pool.get(t)
+            item_ids = sock.execute(
+                openerp.name, uid_old, openerp.password, t, 'search', [])
+            self._converter[t] = {}
+            converter = self._converter[t] # for use same name
+            for item in sock.execute(openerp.name, uid_old,
+                    openerp.password, t, 'read', item_ids):
                 try:
                     # Create record to insert / update
                     data = {
-                        'name': users['name'],
-                        'login': users['login'],
-                        'active': users['active'],
-                        'signature': users['signature'],
+                        'name': item['name'],
+                        'login': item['login'],
+                        'active': item['active'],
+                        'signature': item['signature'],
                         }
-                    if 'admin' != users['login']:
-                        data['password'] = users['password']
+                    if 'admin' != item['login']:
+                        data['password'] = item['password']
 
-                    new_ids = users_pool.search(cr, uid, [
-                        ('login', '=', users['login'])],  # search login
+                    new_ids = item_pool.search(cr, uid, [
+                        ('login', '=', item['login'])],  # search login
                             context=context)
                     if new_ids: # Modify
-                        users_id = new_ids[0]
-                        users_pool.write(cr, uid, users_id, data,
+                        item_id = new_ids[0]
+                        item_pool.write(cr, uid, item_id, data,
                             context=context)
-                        print "#INFO users update:", users['name']
+                        print "#INFO",t , "update:", item['name']
                     else: # Create
-                        users_id = users_pool.create(cr, uid, data,
+                        item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        print "#INFO users create:", users['name']
+                        print "#INFO",t , "create:", item['name']
 
                     # Write always the ID
-                    users_pool.write(cr, uid, users_id, {
-                        'migration_old_id': users['id'],
+                    item_pool.write(cr, uid, item_id, {
+                        'migration_old_id': item['id'],
                         }, context=context)
-                    converter[users['id']] = users_id
+                    converter[item['id']] = item_id
                 except:
-                    print "#ERR users jumped:", users['name']
+                    print "#ERR", t, "jumped:", item['name']
                 # NOTE No contact for this database
         else: # Load convert list form database
-            self.load_converter(cr, uid, 'res.users', context=context)
+            self.load_converter(cr, uid, t, context=context)
 
+        import pdb; pdb.set_trace()
         # ---------------------------------------------------------------------
         # res.partner and res.partner.address
         # ---------------------------------------------------------------------
         t = 'res.partner'
         t2 = 'res.partner.address'
         if wiz_proxy.partner:
-            partner_pool = self.pool.get(t)
-            partner_ids = sock.execute(
+            item_pool = self.pool.get(t)
+            item_ids = sock.execute(
                 openerp.name, uid_old, openerp.password, t, 'search', [])
             self._converter[t] = {}
             converter = self._converter[t] # for use same name
-            for partner in sock.execute(openerp.name, uid_old,
-                    openerp.password, t, 'read', partner_ids):
+            for item in sock.execute(openerp.name, uid_old,
+                    openerp.password, t, 'read', item_ids):
                 try:
                     # Create record to insert / update
                     data = {
-                        'name': partner['name'],
-                        'date': partner['date'],
-                        'comment': partner['comment'],
-                        'ean13': partner['ean13'],
-                        'ref': partner['ref'],
-                        'website': partner['website'],
-                        'customer': partner['customer'],
-                        'supplier': partner['supplier'],
+                        'name': item['name'],
+                        'date': item['date'],
+                        'comment': item['comment'],
+                        'ean13': item['ean13'],
+                        'ref': item['ref'],
+                        'website': item['website'],
+                        'customer': item['customer'],
+                        'supplier': item['supplier'],
                         'is_company': True,
-                        'fiscalcode': partner['x_fiscalcode'],
+                        'fiscalcode': item['x_fiscalcode'],
                         # type parent_id category vat_subjected
-                        'vat': partner['vat'],
-                        #'notify_email': partner.nofify_email,
-                        #'opt_out': partner.opt_out,
+                        'vat': item['vat'],
+                        #'notify_email': item.nofify_email,
+                        #'opt_out': item.opt_out,
                         'is_address': False,
-                        'active': partner['active'],
+                        'active': item['active'],
                         #lang
                         }
 
                     # Read info from address related to this partner:
                     address_ids = sock.execute(
                         openerp.name, uid_old, openerp.password,
-                        t2, 'search', [('partner_id', '=', partner['id'])])
+                        t2, 'search', [('item_id', '=', item['id'])])
                     if address_ids:
                         address_read = sock.execute(openerp.name, uid_old,
                             openerp.password, t2, 'read', address_ids)
@@ -216,47 +203,94 @@ class SyncroXMLRPC(orm.Model):
                             #'title': address,
                             })
 
-                    new_ids = partner_pool.search(cr, uid, [
-                        ('migration_old_id', '=', partner['id'])],
+                    new_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item['id'])],
                             context=context)
                     if new_ids: # Modify
-                        partner_id = new_ids[0]
-                        partner_pool.write(cr, uid, partner_id, data,
+                        item_id = new_ids[0]
+                        item_pool.write(cr, uid, item_id, data,
                             context=context)
-                        print "#INFO",t ," update:", partner['name']
+                        print "#INFO",t ," update:", item['name']
                     else: # Create
-                        partner_id = partner_pool.create(cr, uid, data,
+                        item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        partner_pool.write(cr, uid, partner_id, {
-                            'migration_old_id': partner['id'],
+                        item_pool.write(cr, uid, item_id, {
+                            'migration_old_id': item['id'],
                             }, context=context)
-                        print "#INFO",t ,"create:", partner['name']
+                        print "#INFO",t ,"create:", item['name']
 
-                    # Save info for next write of partner_id
-                    #if partner.is_address or not partner.is_company:
-                    #    # ID v.8 = parent_id v.7
-                    #    contact_code[partner_id] = partner.parent_id.id
-                    #else: # Partner (save transoce for id 7 > 8
-                    #    # Current ID (v.7)            = Other ID (v.8)
-                    converter[partner['id']] = partner_id
+                    converter[item['id']] = item_id
 
                     # Teste if there's more than one address
                     if len(address_ids) > 1:
-                        print "+ Address:", partner['name'], len(address_ids)
+                        print "+ Address:", item['name'], len(address_ids)
                         # TODO create other addresses: (here not present)
 
-
                 except:
-                    print "#ERR", t, "jumped:", partner['name']
+                    print "#ERR", t, "jumped:", item['name']
                 # NOTE No contact for this database
         else: # Load convert list form database
-            self.load_converter(cr, uid, 'res.partner', context=context)
+            self.load_converter(cr, uid, t, context=context)
 
+        import pdb; pdb.set_trace()
+        # ---------------------------------------------------------------------
+        # hr.employee
+        # ---------------------------------------------------------------------
+        t = 'hr.employee'
+        if wiz_proxy.employee:
+            item_pool = self.pool.get(t)
+            item_ids = sock.execute(
+                openerp.name, uid_old, openerp.password, t, 'search', [])
+            self._converter[t] = {}
+            converter = self._converter[t] # for use same name
+            for item in sock.execute(openerp.name, uid_old,
+                    openerp.password, t, 'read', item_ids):
+                try:
+                    # Create record to insert / update
+                    data = {
+                        'name': item['name'],
+                        'active': item['active'],
+                        'birthday': item['birthday'],
+                        'work_email': item['work_email'],
+                        'user_id': item['user_id'],
+                        'gender': item['gender'],
+                        'parent_id': item['parent_id'],
+                        'category_id': item['category_id'],
+                        'notes': item['notes'],
+                        #marital
+                        #product_id
+                        #journal_id
+                        }
+                    new_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item['id'])],
+                            context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        item_pool.write(cr, uid, item_id, data,
+                            context=context)
+                        print "#INFO",t , "update:", item['name']
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO",t , "create:", item['name']
+
+                    # Write always the ID
+                    item_pool.write(cr, uid, item_id, {
+                        'migration_old_id': item['id'],
+                        }, context=context)
+                    converter[item['id']] = item_id
+                except:
+                    print "#ERR",t , "jumped:", item['name']
+                # NOTE No contact for this database
+        else: # Load convert list form database
+            self.load_converter(cr, uid, t, context=context)
+
+        import pdb; pdb.set_trace()
         # ---------------------------------------------------------------------
         # hr.attendance
         # ---------------------------------------------------------------------
         t = 'hr.attendance'
-        if wiz_proxy.user:
+        if wiz_proxy.attendance:
             table_pool = self.pool.get(t)
             table_ids = sock.execute(
                 openerp.name, uid_old, openerp.password, t, 'search', [])
@@ -268,7 +302,6 @@ class SyncroXMLRPC(orm.Model):
                     # Create record to insert / update
                     data = {
                         'name': table['name'],
-
                         }
 
                     new_ids = table_pool.search(cr, uid, [
@@ -295,7 +328,6 @@ class SyncroXMLRPC(orm.Model):
         else: # Load convert list form database
             self.load_converter(cr, uid, t, context=context)
 
-
         return True
 
     _columns = {
@@ -304,6 +336,41 @@ class SyncroXMLRPC(orm.Model):
         'port': fields.integer('Source Port', required=True),
         'username': fields.char('Source Username', size=80, required=True),
         'password': fields.char('Source Password', size=80, required=True),
+        }
+
+# -----------------------------------------------------------------------------
+# Add reference for future update of migration / sync
+# -----------------------------------------------------------------------------
+class ResUsers(orm.Model):
+
+    _inherit = 'res.users'
+
+    _columns = {
+        'migration_old_id': fields.char('ID v.8', size=15),
+        }
+
+class ResPartner(orm.Model):
+
+    _inherit = 'res.partner'
+
+    _columns = {
+        'migration_old_id': fields.char('ID v.8', size=15),
+        }
+
+class HrEmpoyee(orm.Model):
+
+    _inherit = 'hr.employee'
+
+    _columns = {
+        'migration_old_id': fields.char('ID v.8', size=15),
+        }
+        
+class HrAttendance(orm.Model):
+
+    _inherit = 'hr.attendance'
+
+    _columns = {
+        'migration_old_id': fields.char('ID v.8', size=15),
         }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

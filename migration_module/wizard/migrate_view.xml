@@ -12,6 +12,7 @@
                        <newline />
                        <field name="user" />
                        <field name="partner" />
+                       <field name="employee" />
                        <field name="attendance" />
                    </group>
                 </form>

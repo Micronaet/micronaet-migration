@@ -57,6 +57,7 @@ class SyncroMigrationWizard(orm.TransientModel):
     _columns = {
         'user':fields.boolean('User'),
         'partner':fields.boolean('Partner'),
+        'employee':fields.boolean('Employee'),
         'attendance':fields.boolean('Attendance'),
         }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
