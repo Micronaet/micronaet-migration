@@ -7,10 +7,6 @@
             <field name="model">syncro.migration.wizard</field>
             <field name="arch" type="xml">
                 <form string="Migrate" version="7.0">
-                   <header>
-                       <button string="Cancel" special="cancel" />
-                       <!--<button name="action_unassign_order" string="Unassign" type="object" icon="gtk-jump-to" />-->
-                   </header>                   
                    <group colspan="4" col="4">
                        <button name="migrate_partner" string="Partner" type="object" icon="gtk-jump-to" class="oe_highlight" />
                    </group>

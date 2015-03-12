@@ -48,7 +48,7 @@ class SyncroMigrationWizard(orm.TransientModel):
 
     # Wizard button:
     def migrate_partner(self, cr, uid, ids, context=None):        
-        mod = self.pool.get('syncro.partner').syncro_partner(
+        mod = self.pool.get('syncro.xmlrpc').syncro_partner(
             cr, uid, context=context)
         return {}
         #return {'type':'ir.actions.act_window_close'}

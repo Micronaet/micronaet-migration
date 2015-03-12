@@ -47,7 +47,8 @@
         ],
     'init_xml': [], 
     'data': [
-        #'wizard/migrate_view.xml',
+        'syncro_view.xml',
+        'wizard/migrate_view.xml',
         ],
     'demo_xml': [],
     'active': False, 

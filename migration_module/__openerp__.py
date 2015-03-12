@@ -31,6 +31,7 @@
     'website': 'http://www.micronaet.it',
     'depends': [
         'base',
+        'l10n_it_fiscalcode',
         'hr',
         'report_aeroo',
         'contacts',
@@ -47,6 +48,7 @@
         ],
     'init_xml': [], 
     'data': [
+        'syncro_view.xml',
         'wizard/migrate_view.xml',
         ],
     'demo_xml': [],

@@ -49,11 +49,12 @@ class ResPartner(orm.Model):
         'migration_old_id': fields.char('ID v.8', size=15),
         }
 
-class SyncroPartner(orm.Model):
+class SyncroXMLRPC(orm.Model):
     ''' Function for migration (and setup parameters for XMLRPC
     '''
-    _name = 'syncro.partner'
+    _name = 'syncro.xmlrpc'
 
+    _converter = {}
     # -------------------------------------------------------------------------
     # Syncro / Migration procedures:   
     # -------------------------------------------------------------------------
@@ -90,36 +91,59 @@ class SyncroPartner(orm.Model):
             openerp.name, uid_old, openerp.password, 
             'res.partner', 'search', [])
         
-        partner_transcode = {} # key = ID 7 : value = ID 8
+        self._converter['res.partner'] = {}
+        converter = self._converter['res.partner'] # for use same name
+        
         contact_partner_id = {} # Key = ID contact 8: value = ID 7 partner_id
         for partner in sock.execute(openerp.name, uid_old, openerp.password, 
-                'res.partner', 'read', partner_ids):
+                'res.partner', 'read', partner_ids):                
             try:    
+                # Create record to insert / update                
                 data = { # TODO complete
                     'name': partner['name'],
-                    #'comment': partner.comment,
-                    #'ean13': partner.ean13,
-                    #'street': partner.street,
-                    #'city': partner.city,
-                    #'supplier': partner.supplier,
-                    #'ref': partner.ref,
-                    #'email': partner.email,
-                    #'website': partner.website,
-                    #'customer': partner.customer,
-                    #'is_company': partner.is_company,
-                    #'fax': partner.fax,
-                    #'street2': partner.street2,
-                    #'active': partner.active,
-                    #'phone': partner.phone,
-                    #'mobile': partner.mobile,
-                    #'fiscalcode': partner.fiscalcode,
-                    #type
-                    #'birthdate': partner.birthdate,
-                    #'vat': partner.vat,
+                    'date': partner['date'],
+                    'comment': partner['comment'],
+                    'ean13': partner['ean13'],
+                    'ref': partner['ref'],
+                    'website': partner['website'],
+                    'customer': partner['customer'],
+                    'supplier': partner['supplier'],
+                    'is_company': True,
+                    'fiscalcode': partner['x_fiscalcode'],
+                    # type parent_id category vat_subjected
+                    'vat': partner['vat'],
                     #'notify_email': partner.nofify_email,
                     #'opt_out': partner.opt_out,
-                    #'is_address': partner.is_address,                
+                    'is_address': False,
+                    'active': partner['active'],
+                    #city lang
                     }
+
+                # Read info from address related to this partner:
+                address_ids = sock.execute(
+                    openerp.name, uid_old, openerp.password, 
+                    'res.partner.address', 'search', [
+                        ('partner_id', '=', partner['id'])])
+                if address_ids:
+                    address_read = sock.execute(openerp.name, uid_old, 
+                        openerp.password, 'res.partner.address', 
+                        'read', address_ids)
+                    address = address_read[0]    
+                    data.update({
+                        # function
+                        # type
+                        'street': address['street,']
+                        'street2': address['street2'],
+                        'fax': address['fax'],
+                        'phone': address['phone'],
+                        'mobile': address['mobile'],
+                        # country!! state_id
+                        'city': address['city'],
+                        'zip': address['zip'],
+                        'email': address['email'],
+                        'birthdate': address['birthdate'],
+                        #'title': address,                        
+                        })
                 
                 new_ids = partner_pool.search(cr, uid, [
                     ('migration_old_id', '=', partner['id'])], context=context)
@@ -131,8 +155,8 @@ class SyncroPartner(orm.Model):
                 else: # Create
                     partner_id = partner_pool.create(cr, uid, data, 
                         context=context)                        
-                    partner_pool.write(cr, uid, partner.id, {
-                        'migration_old_id': partner_id, 
+                    partner_pool.write(cr, uid, partner_id, {
+                        'migration_old_id': partner['id'], 
                         }, context=context)
                     print "#INFO Partner create:", partner['name']
                     
@@ -142,7 +166,12 @@ class SyncroPartner(orm.Model):
                 #    contact_code[partner_id] = partner.parent_id.id
                 #else: # Partner (save transoce for id 7 > 8                                        
                 #    # Current ID (v.7)            = Other ID (v.8)    
-                #    partner_transcode[partner.id] = partner_id
+                converter[partner['id']] = partner_id
+                
+                # Teste if there's more than one address
+                if len(address_ids) > 1
+                    print "More address:", partner['name']
+
                 
             except:
                 print "#ERR Partner jumped:", partner['name']

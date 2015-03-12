@@ -53,6 +53,7 @@ class SyncroMigrationWizard(orm.TransientModel):
         return {}
         #return {'type':'ir.actions.act_window_close'}
 
-    _columns = {        
+    _columns = {
+        'name': fields.char('Name', size=64, required=False, readonly=False), 
         }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
