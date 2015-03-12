@@ -47,13 +47,15 @@ class SyncroMigrationWizard(orm.TransientModel):
     _name = "syncro.migration.wizard"
 
     # Wizard button:
-    def migrate_partner(self, cr, uid, ids, context=None):        
-        mod = self.pool.get('syncro.xmlrpc').syncro_partner(
-            cr, uid, context=context)
+    def migrate_database(self, cr, uid, ids, context=None):        
+        mod = self.pool.get('syncro.xmlrpc').migrate_database(
+            cr, uid, 
+            self.browse(cr, uid, ids, context=context)[0], # proxy for param.
+            context=context)
         return {}
-        #return {'type':'ir.actions.act_window_close'}
 
     _columns = {
         'partner':fields.boolean('Partner', required=False),
+        'user':fields.boolean('User', required=False),
         }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

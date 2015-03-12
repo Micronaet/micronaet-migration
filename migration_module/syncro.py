@@ -33,9 +33,9 @@ from openerp import SUPERUSER_ID
 from openerp import tools
 from openerp.tools.translate import _
 from openerp.tools.float_utils import float_round as round
-from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
-    DEFAULT_SERVER_DATETIME_FORMAT, 
-    DATETIME_FORMATS_MAP, 
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
+    DEFAULT_SERVER_DATETIME_FORMAT,
+    DATETIME_FORMATS_MAP,
     float_compare)
 
 
@@ -44,14 +44,14 @@ _logger = logging.getLogger(__name__)
 # Add reference for future update of migration / sync
 class ResPartner(orm.Model):
     _inherit = 'res.partner'
-    
+
     _columns = {
         'migration_old_id': fields.char('ID v.8', size=15),
         }
 
 class ResUsers(orm.Model):
     _inherit = 'res.users'
-    
+
     _columns = {
         'migration_old_id': fields.char('ID v.8', size=15),
         }
@@ -62,94 +62,117 @@ class SyncroXMLRPC(orm.Model):
     _name = 'syncro.xmlrpc'
 
     _converter = {}
+
+    def load_converter(self, cr, uid, table, context=None):
+        ''' Load coverter if not present
+        '''
+        if table not in self._converter:
+            self._converter[table] = {}
+
+        table_pool = self.pool.get(table)
+            table_ids = table_pool.search(cr, uid, [
+                ('migration_old_id', '!=', False)], context=None)
+            for table in table_pool.browse(
+                    cr, uid, table_ids, context=context):
+                self._converter[table][table.migration_old_id] = table.id
+        return
+
     # -------------------------------------------------------------------------
-    # Syncro / Migration procedures:   
+    # Syncro / Migration procedures:
     # -------------------------------------------------------------------------
-    def syncro_database(self, cr, uid, ids, context=None):
+    def migrate_database(self, cr, uid, wiz_proxy, context=None):
         ''' Module for syncro partner from one DB to another
         '''
         # ---------------------------------------------------------------------
         # Common part: connection
         # ---------------------------------------------------------------------
-        wiz_proxy = self.browse(cr, uid, ids, context=context)[0]
-        
         # First record only
         item_ids = self.search(cr, uid, [], context=context)
         if not item_ids:
            return False
-           
+
         openerp = self.browse(cr, uid, item_ids[0], context=context)
-        
+
         sock = xmlrpclib.ServerProxy(
             'http://%s:%s/xmlrpc/common' % (
-                openerp.hostname, 
-                openerp.port, 
+                openerp.hostname,
+                openerp.port,
                 ), allow_none=True)
-                
+
         uid_old = sock.login(
-            openerp.name, 
-            openerp.username, 
+            openerp.name,
+            openerp.username,
             openerp.password, )
-            
+
         sock = xmlrpclib.ServerProxy(
             'http://%s:%s/xmlrpc/object' % (
-                openerp.hostname, 
+                openerp.hostname,
                 openerp.port,
                 ), allow_none=True)
 
         # ---------------------------------------------------------------------
         # res.users
         # ---------------------------------------------------------------------
-        import pdb; pdb.set_trace()
         if wiz_proxy.user:
-            users_pool = self.pool.get('res.users')      
+            users_pool = self.pool.get('res.users')
             users_ids = sock.execute(
-                openerp.name, uid_old, openerp.password, 
+                openerp.name, uid_old, openerp.password,
                 'res.users', 'search', [])
             self._converter['res.users'] = {}
             converter = self._converter['res.users'] # for use same name
-            for users in sock.execute(openerp.name, uid_old, 
-                    openerp.password, 'res.users', 'read', users_ids):                
-                try:    
-                    # Create record to insert / update                
-                    data = { 
+            for users in sock.execute(openerp.name, uid_old,
+                    openerp.password, 'res.users', 'read', users_ids):
+                try:
+                    # Create record to insert / update
+                    data = {
                         'name': users['name'],
+                        'login': users['login'],
+                        'active': users['active'],
+                        'signature': users['signature'],
                         }
+                    if 'admin' != users['login']:
+                        data['password'] = users['password']
+
                     new_ids = users_pool.search(cr, uid, [
-                        ('migration_old_id', '=', users['id'])], 
+                        ('login', '=', users['login'])],  # search login
                             context=context)
                     if new_ids: # Modify
                         users_id = new_ids[0]
-                        users_pool.write(cr, uid, users_id, data, 
+                        users_pool.write(cr, uid, users_id, data,
                             context=context)
-                        print "#INFO users update:", users['name']                   
+                        print "#INFO users update:", users['name']
                     else: # Create
-                        users_id = users_pool.create(cr, uid, data, 
-                            context=context)                        
-                        users_pool.write(cr, uid, users_id, {
-                            'migration_old_id': users['id'], 
-                            }, context=context)
+                        users_id = users_pool.create(cr, uid, data,
+                            context=context)
                         print "#INFO users create:", users['name']
+
+                    # Write always the ID
+                    users_pool.write(cr, uid, users_id, {
+                        'migration_old_id': users['id'],
+                        }, context=context)
                     converter[users['id']] = users_id
                 except:
                     print "#ERR users jumped:", users['name']
-                # NOTE No contact for this database    
-        
+                # NOTE No contact for this database
+        else: # Load convert list form database
+            self.load_converter(cr, uid, 'res.users', context=context)
+
         # ---------------------------------------------------------------------
-        # res.partner and res.partner.address        
+        # res.partner and res.partner.address
         # ---------------------------------------------------------------------
+        t = 'res.partner'
+        t2 = 'res.partner.address'
         if wiz_proxy.partner:
-            partner_pool = self.pool.get('res.partner')      
+            partner_pool = self.pool.get(t)
             partner_ids = sock.execute(
-                openerp.name, uid_old, openerp.password, 
-                'res.partner', 'search', [])
-            self._converter['res.partner'] = {}
-            converter = self._converter['res.partner'] # for use same name
-            for partner in sock.execute(openerp.name, uid_old, 
-                    openerp.password, 'res.partner', 'read', partner_ids):                
-                try:    
-                    # Create record to insert / update                
-                    data = { 
+                openerp.name, uid_old, openerp.password, t, 'search', [])
+            self._converter[t] = {}
+            converter = self._converter[t] # for use same name
+            for partner in sock.execute(openerp.name, uid_old,
+                    openerp.password, t, 'read', partner_ids):
+                try:
+                    # Create record to insert / update
+                    data = {
                         'name': partner['name'],
                         'date': partner['date'],
                         'comment': partner['comment'],
@@ -171,14 +194,12 @@ class SyncroXMLRPC(orm.Model):
 
                     # Read info from address related to this partner:
                     address_ids = sock.execute(
-                        openerp.name, uid_old, openerp.password, 
-                        'res.partner.address', 'search', [
-                            ('partner_id', '=', partner['id'])])
+                        openerp.name, uid_old, openerp.password,
+                        t2, 'search', [('partner_id', '=', partner['id'])])
                     if address_ids:
-                        address_read = sock.execute(openerp.name, uid_old, 
-                            openerp.password, 'res.partner.address', 
-                            'read', address_ids)
-                        address = address_read[0]    
+                        address_read = sock.execute(openerp.name, uid_old,
+                            openerp.password, t2, 'read', address_ids)
+                        address = address_read[0]
                         data.update({
                             # function
                             # type
@@ -192,45 +213,90 @@ class SyncroXMLRPC(orm.Model):
                             'zip': address['zip'],
                             'email': address['email'],
                             'birthdate': address['birthdate'],
-                            #'title': address,                        
+                            #'title': address,
                             })
-                    
+
                     new_ids = partner_pool.search(cr, uid, [
-                        ('migration_old_id', '=', partner['id'])], 
+                        ('migration_old_id', '=', partner['id'])],
                             context=context)
                     if new_ids: # Modify
                         partner_id = new_ids[0]
-                        partner_pool.write(cr, uid, partner_id, data, 
+                        partner_pool.write(cr, uid, partner_id, data,
                             context=context)
-                        print "#INFO Partner update:", partner['name']                   
+                        print "#INFO",t ," update:", partner['name']
                     else: # Create
-                        partner_id = partner_pool.create(cr, uid, data, 
-                            context=context)                        
+                        partner_id = partner_pool.create(cr, uid, data,
+                            context=context)
                         partner_pool.write(cr, uid, partner_id, {
-                            'migration_old_id': partner['id'], 
+                            'migration_old_id': partner['id'],
                             }, context=context)
-                        print "#INFO Partner create:", partner['name']
-                        
-                    # Save info for next write of partner_id    
-                    #if partner.is_address or not partner.is_company: 
+                        print "#INFO",t ,"create:", partner['name']
+
+                    # Save info for next write of partner_id
+                    #if partner.is_address or not partner.is_company:
                     #    # ID v.8 = parent_id v.7
                     #    contact_code[partner_id] = partner.parent_id.id
-                    #else: # Partner (save transoce for id 7 > 8                                        
-                    #    # Current ID (v.7)            = Other ID (v.8)    
+                    #else: # Partner (save transoce for id 7 > 8
+                    #    # Current ID (v.7)            = Other ID (v.8)
                     converter[partner['id']] = partner_id
-                    
+
                     # Teste if there's more than one address
                     if len(address_ids) > 1:
-                        print "+ Address:", partner['name'], len(address_ids) 
+                        print "+ Address:", partner['name'], len(address_ids)
                         # TODO create other addresses: (here not present)
 
-                    
                 except:
-                    print "#ERR Partner jumped:", partner['name']
-                # NOTE No contact for this database    
-                
+                    print "#ERR", t, "jumped:", partner['name']
+                # NOTE No contact for this database
+        else: # Load convert list form database
+            self.load_converter(cr, uid, 'res.partner', context=context)
+
+        # ---------------------------------------------------------------------
+        # hr.attendance
+        # ---------------------------------------------------------------------
+        t = 'hr.attendance'
+        if wiz_proxy.user:
+            table_pool = self.pool.get(t)
+            table_ids = sock.execute(
+                openerp.name, uid_old, openerp.password, t, 'search', [])
+            self._converter[t] = {}
+            converter = self._converter[t] # for use same name
+            for table in sock.execute(openerp.name, uid_old,
+                    openerp.password, t, 'read', table_ids):
+                try:
+                    # Create record to insert / update
+                    data = {
+                        'name': table['name'],
+
+                        }
+
+                    new_ids = table_pool.search(cr, uid, [
+                        ('migration_old_id', '=', table['id'])],
+                            context=context)
+                    if new_ids: # Modify
+                        table_id = new_ids[0]
+                        table_pool.write(cr, uid, table_id, data,
+                            context=context)
+                        print "#INFO",t , " update:", table['name']
+                    else: # Create
+                        table_id = table_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO",t , " create:", table['name']
+
+                    # Write always the ID
+                    table_pool.write(cr, uid, table_id, {
+                        'migration_old_id': table['id'],
+                        }, context=context)
+                    converter[table['id']] = table_id
+                except:
+                    print "#ERR",t ,"jumped:", table['name']
+                # NOTE No contact for this database
+        else: # Load convert list form database
+            self.load_converter(cr, uid, t, context=context)
+
+
         return True
-            
+
     _columns = {
         'name': fields.char('Source DB name', size=80, required=True),
         'hostname': fields.char('Source Hostname', size=80, required=True),

@@ -7,10 +7,12 @@
             <field name="model">syncro.migration.wizard</field>
             <field name="arch" type="xml">
                 <form string="Migrate" version="7.0">
-                   <group colspan="4" col="4">
+                   <group colspan="4" col="2">
                        <button name="migrate_database" string="Syncro / Migrate" type="object" icon="gtk-jump-to" class="oe_highlight" />
-                       <field name="partner" />
+                       <newline />
                        <field name="user" />
+                       <field name="partner" />
+                       <field name="attendance" />
                    </group>
                 </form>
             </field>
