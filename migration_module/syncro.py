@@ -48,6 +48,12 @@ class SyncroXMLRPC(orm.Model):
 
     _converter = {}
 
+    # TODO change:
+    journal_id = 3 # TS
+    to_invoice = 1 # Sì 100%
+    categ_all = 1
+    general_account_id = 146
+    
     def load_converter(self, cr, uid, converter, table, 
             field_id='migration_old_id', context=None):
         ''' Load coverter if not present
@@ -89,7 +95,7 @@ class SyncroXMLRPC(orm.Model):
                return False    
                 
         def get_product_category(self, cr, uid, item, context=context):
-            ''' Search category or create if not present (not used!)
+            ''' Search category or create if not present
             '''
             try:
                 name = item[1]
@@ -97,15 +103,22 @@ class SyncroXMLRPC(orm.Model):
                 category_ids = category_pool.search(cr, uid, [
                     ('name', '=', name)], context=context)
                 if category_ids:
+                    # TODO remove
+                    category_pool.write(cr, uid, category_ids, {
+                        'parent_id': self.categ_all, 
+                        }, context=context)
                     return category_ids[0]    
                 return category_pool.create(cr, uid, {
-                    'name': name, }, context=context)    
+                    'name': name, 
+                    'parent_id': self.categ_all,
+                    }, context=context)    
             except:
                print "#ERR Create employee category:", sys.exc_info()
                return False    
 
         def get_product_category_account(self, cr, uid, item, context=context):
-            ''' Search category or create if not present
+            ''' Search category or create if not present (version correct not
+                used)
             '''
             try:
                 name = item[1]
@@ -412,32 +425,31 @@ class SyncroXMLRPC(orm.Model):
                 context=context)
 
         # ---------------------------------------------------------------------
-        # product.product >> account.analytic.account   (categoty = parent)
+        # product.product
         # ---------------------------------------------------------------------
-        table_o = 'product.product' 
-        table_d = 'account.analytic.account' 
-
-        self._converter['product.account'] = {}
-        converter = self._converter['product.account'] # for use same name
+        table = 'product.product' # template??
+        self._converter[table] = {}
+        converter = self._converter[table]
         if wiz_proxy.product:
-            item_pool = self.pool.get(table_d)
+            item_pool = self.pool.get(table)
             item_ids = sock.execute(
-                openerp.name, uid_old, openerp.password, table_o, 'search', [])
+                openerp.name, uid_old, openerp.password, table, 'search', [])
             for item in sock.execute(openerp.name, uid_old,
-                    openerp.password, table_o, 'read', item_ids):
+                    openerp.password, table, 'read', item_ids):
                 try:
                     # PARENT analytic account:
-                    categ_id = get_product_category_account(
+                    categ_id = get_product_category(
                         self, cr, uid, item[
                             'categ_id'], context=context)
                             
                     # Create record to insert / update
                     data = {
                         'name': item['name'],
-                        'type': 'normal',
-                        'parent_id': categ_id,
-                        #'code': ,
-                        'use_timesheets': True,
+                        'default_code': item['default_code'],
+                        'categ_id': categ_id,                        
+                        'type': 'service',
+                        'standard_price': 1.0,
+                        'list_price': 1.0,
                         }
 
                     new_ids = item_pool.search(cr, uid, [
@@ -447,94 +459,74 @@ class SyncroXMLRPC(orm.Model):
                         item_id = new_ids[0]
                         item_pool.write(cr, uid, item_id, data,
                             context=context)
-                        print "#INFO ", table_o, "update:", item['name']
+                        print "#INFO ", table, "update:", item['name']
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        print "#INFO", table_o, " create:", item['name']
+                        print "#INFO", table, " create:", item['name']
                         item_pool.write(cr, uid, item_id, {
                             'migration_old_id': item['id'],
                             }, context=context)
                     converter[item['id']] = item_id
                 except:
-                    print "#ERR", table_o, item['name'], sys.exc_info()
+                    print "#ERR", table, item['name'], sys.exc_info()
                 # NOTE No contact for this database
         else: # Load convert list form database
-            self.load_converter(cr, uid, converter, table=table_d, 
+            self.load_converter(cr, uid, converter, table=table, 
                 context=context)
 
         # ---------------------------------------------------------------------
-        # account.analytic.account >> res.partner
+        # account.analytic.account
         # ---------------------------------------------------------------------
-        table_o = 'account.analytic.account' 
-        table_d = 'res.partner'        
+        table = 'account.analytic.account'  # partner
 
-        self._converter['account.partner'] = {} # used account.analytic.account
-        converter = self._converter['account.partner']
+        self._converter[table] = {} 
+        converter = self._converter[table]
         if wiz_proxy.account:
-            item_pool = self.pool.get(table_d)
+            item_pool = self.pool.get(table)
             item_ids = sock.execute(
-                openerp.name, uid_old, openerp.password, table_o, 'search', [])
+                openerp.name, uid_old, openerp.password, table, 'search', [])
             for item in sock.execute(openerp.name, uid_old,
-                    openerp.password, table_o, 'read', item_ids):
+                    openerp.password, table, 'read', item_ids):
                 try:                    
                     # Create record to insert / update
                     data = {
                         'name': item['name'],
-                        'is_company': True,
-                        'customer': True,
+                        'type': 'normal',
+                        #'parent_id': categ_id,
+                        'code': item['code'],
+                        'use_timesheets': True,
                         }
                     new_ids = item_pool.search(cr, uid, [
-                        ('migration_old_account_id', '=', item['id'])],
+                        ('migration_old_id', '=', item['id'])],
                             context=context)                            
                     if new_ids: # Modify
                         item_id = new_ids[0]
                         item_pool.write(cr, uid, item_id, data,
                             context=context)
-                        print "#INFO", table_o, "update:", item['name']
+                        print "#INFO", table, "update:", item['name']
                     else: # search by name
-                        new_ids = item_pool.search(cr, uid, [ # search customer
-                            ('name', '=', item['name']),
-                            ('customer', '=', True),
-                            ])
-                        if not new_ids: # search generic partner
-                            new_ids = item_pool.search(cr, uid, [
-                                ('name', '=', item['name']), ])
-                                
-                        if new_ids: # finded by name:
-                            item_id = new_ids[0]
-                            item_pool.write(cr, uid, item_id, data,
-                                context=context)
-                            print "#INFO", table_o, "upd. name:", item['name']
-                        else: # TODO test if to create!
-                            item_id = item_pool.create(cr, uid, data,
-                                context=context)
-                            print "#WARN", table_o, " create:", item['name']
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#WARN", table, " create:", item['name']
                             
                     # Save ID created for future update        
                     item_pool.write(cr, uid, item_id, {
-                        'migration_old_account_id': item['id'],
+                        'migration_old_id': item['id'],
                         }, context=context)
                                     
                     converter[item['id']] = item_id
                 except:
-                    print "#ERR", table_o, item['name'], sys.exc_info()
-                # NOTE No contact for this database
+                    print "#ERR", table, item['name'], sys.exc_info()
         else: # Load convert list form database
             self.load_converter(
-                cr, uid, converter, table='res.partner', 
-                field_id='migration_old_account_id', context=context)
+                cr, uid, converter, table=table, context=context)
 
         # ---------------------------------------------------------------------
         # hr.analytic.timesheet
         # ---------------------------------------------------------------------
-        # TODO change:
-        product_service_id = 1 # Servizio
-        journal_id = 3 # TS
-        to_invoice = 1 # Sì 100%
         table = 'hr.analytic.timesheet' 
         
-        i = 0
         if wiz_proxy.line:
             item_pool = self.pool.get(table)
             item_ids = sock.execute(
@@ -543,9 +535,6 @@ class SyncroXMLRPC(orm.Model):
             #converter = self._converter[table] # for use same name
             for item in sock.execute(openerp.name, uid_old,
                     openerp.password, table, 'read', item_ids):
-                i += 1
-                if i > 50:
-                    break
                 try:
                     # Find foreign keys:
                     if item['user_id']:
@@ -556,19 +545,19 @@ class SyncroXMLRPC(orm.Model):
                         
                     # product > search in account
                     if item['product_id']: # account_id
-                        account_id = self._converter[
-                           'product.account'].get(item[
+                        product_id = self._converter[
+                           'product.product'].get(item[
                                'product_id'][0], False)
                     else:
-                        account_id = False # error
+                        product_id = False # error
                         
                     # account > search in partner
                     if item['account_id']: # res.partner
-                        ts_partner_id = self._converter[
-                           'account.partner'].get(item[
+                        account_id = self._converter[
+                           'account.analytic.account'].get(item[
                                'account_id'][0], False)
                     else:
-                        ts_partner_id = False # error
+                        account_id = False # error
                                 
                     # Create record to insert / update
                     data = {
@@ -578,10 +567,11 @@ class SyncroXMLRPC(orm.Model):
                         'account_id': account_id,
                         'unit_amount': item['unit_amount'],
                         'amount': item['amount'],
-                        'to_invoice': to_invoice, #item['to_invoice'],
-                        'ts_partner_id': ts_partner_id,    
-                        'product_id': product_service_id,
-                        'journal_id': journal_id,                    
+                        'to_invoice': self.to_invoice, #item['to_invoice'],
+                        #'ts_partner_id': ts_partner_id,    
+                        'product_id': product_id,
+                        'journal_id': self.journal_id,                    
+                        'general_account_id': self.general_account_id,
                         }
 
                     # Add onchange information:
@@ -625,10 +615,10 @@ class SyncroXMLRPC(orm.Model):
                             }, context=context)
                     #converter[item['id']] = item_id
                 except:
-                    print "#ERR", table_o, item['name'], sys.exc_info()
+                    print "#ERR", table, item['name'], sys.exc_info()
                 # NOTE No contact for this database
         #else: # Load convert list form database
-        #    self.load_converter(cr, uid, table_d, context=context)
+        #    self.load_converter(cr, uid, table, context=context)
 
 
         # ---------------------------------------------------------------------
