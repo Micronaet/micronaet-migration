@@ -48,19 +48,18 @@ class SyncroXMLRPC(orm.Model):
 
     _converter = {}
 
-    def load_converter(self, cr, uid, table, field_id='migration_old_id', 
-            context=None):
+    def load_converter(self, cr, uid, converter, table, 
+            field_id='migration_old_id', context=None):
         ''' Load coverter if not present
         '''
-        if table not in self._converter:
-            self._converter[table] = {}
-
         item_pool = self.pool.get(table)
         item_ids = item_pool.search(cr, uid, [
-            (field_id, '!=', False)], context=None)
+            (field_id, '!=', False),
+            (field_id, '!=', 0),
+            ], context=None)
         for item in item_pool.browse(
                 cr, uid, item_ids, context=context):
-            self._converter[table][item.migration_old_id] = item.id
+            converter[item.__getattribute__(field_id)] = item.id
         return
 
     # -------------------------------------------------------------------------
@@ -156,12 +155,13 @@ class SyncroXMLRPC(orm.Model):
         # res.users
         # ---------------------------------------------------------------------
         table = 'res.users'
+        
+        self._converter[table] = {}
+        converter = self._converter[table] # for use same name
         if wiz_proxy.user:
             item_pool = self.pool.get(table)
             item_ids = sock.execute(
                 openerp.name, uid_old, openerp.password, table, 'search', [])
-            self._converter[table] = {}
-            converter = self._converter[table] # for use same name
             for item in sock.execute(openerp.name, uid_old,
                     openerp.password, table, 'read', item_ids):
                 try:
@@ -197,19 +197,21 @@ class SyncroXMLRPC(orm.Model):
                     print "#ERR", table, "jumped:", item['name']
                 # NOTE No contact for this database
         else: # Load convert list form database
-            self.load_converter(cr, uid, table, context=context)
+            self.load_converter(cr, uid, converter, table=table, 
+                context=context)
 
         # ---------------------------------------------------------------------
         # res.partner and res.partner.address
         # ---------------------------------------------------------------------
         table = 'res.partner'
         table2 = 'res.partner.address'
+
+        self._converter[table] = {}
+        converter = self._converter[table] # for use same name
         if wiz_proxy.partner:
             item_pool = self.pool.get(table)
             item_ids = sock.execute(
                 openerp.name, uid_old, openerp.password, table, 'search', [])
-            self._converter[table] = {}
-            converter = self._converter[table] # for use same name
             for item in sock.execute(openerp.name, uid_old,
                     openerp.password, table, 'read', item_ids):
                 try:
@@ -286,18 +288,20 @@ class SyncroXMLRPC(orm.Model):
                     print "#ERR", table, "jumped:", item['name']
                 # NOTE No contact for this database
         else: # Load convert list form database
-            self.load_converter(cr, uid, table, context=context)
+            self.load_converter(cr, uid, converter, table=table, 
+                context=context)
 
         # ---------------------------------------------------------------------
         # hr.employee
         # ---------------------------------------------------------------------
         table = 'hr.employee'
+
+        self._converter[table] = {}
+        converter = self._converter[table] # for use same name
         if wiz_proxy.employee:
             item_pool = self.pool.get(table)
             item_ids = sock.execute(
                 openerp.name, uid_old, openerp.password, table, 'search', [])
-            self._converter[table] = {}
-            converter = self._converter[table] # for use same name
             for item in sock.execute(openerp.name, uid_old,
                     openerp.password, table, 'read', item_ids):
                 try:
@@ -320,10 +324,12 @@ class SyncroXMLRPC(orm.Model):
                         
                     if not item['user_id']:
                         print "#ERR no user ID", item['name']    
-                        continue
-                    data['user_id'] = self._converter['res.users'][
-                        item['user_id'][0]]
-                        
+                        #continue
+                        data['user_id'] = 19 # TODO Boniotti Clara
+                    else:    
+                        data['user_id'] = self._converter['res.users'][
+                            item['user_id'][0]]
+                            
                     # category_id now category_ids
                     if item['category_id']: 
                         data['category_ids'] = [
@@ -352,18 +358,20 @@ class SyncroXMLRPC(orm.Model):
                     print "#ERR", table, item['name'], sys.exc_info()
                 # NOTE No contact for this database
         else: # Load convert list form database
-            self.load_converter(cr, uid, table, context=context)
+            self.load_converter(cr, uid, converter, table=table, 
+                context=context)
 
         # ---------------------------------------------------------------------
         # hr.attendance
         # ---------------------------------------------------------------------
         table = 'hr.attendance'
+
+        self._converter[table] = {}
+        converter = self._converter[table] # for use same name
         if wiz_proxy.attendance:
             item_pool = self.pool.get(table)
             item_ids = sock.execute(
                 openerp.name, uid_old, openerp.password, table, 'search', [])
-            self._converter[table] = {}
-            converter = self._converter[table] # for use same name
             for item in sock.execute(openerp.name, uid_old,
                     openerp.password, table, 'read', item_ids):
                 try:
@@ -400,20 +408,21 @@ class SyncroXMLRPC(orm.Model):
                     print "#ERR", table, item['name'], sys.exc_info()
                 # NOTE No contact for this database
         else: # Load convert list form database
-            self.load_converter(cr, uid, table, context=context)
+            self.load_converter(cr, uid, converter, table=table, 
+                context=context)
 
         # ---------------------------------------------------------------------
-        # product.product >> account.analytic.account
+        # product.product >> account.analytic.account   (categoty = parent)
         # ---------------------------------------------------------------------
         table_o = 'product.product' 
         table_d = 'account.analytic.account' 
-        # TODO create parent cagtegory
+
+        self._converter['product.account'] = {}
+        converter = self._converter['product.account'] # for use same name
         if wiz_proxy.product:
             item_pool = self.pool.get(table_d)
             item_ids = sock.execute(
                 openerp.name, uid_old, openerp.password, table_o, 'search', [])
-            self._converter[table_o] = {}
-            converter = self._converter[table_o] # for use same name
             for item in sock.execute(openerp.name, uid_old,
                     openerp.password, table_o, 'read', item_ids):
                 try:
@@ -451,21 +460,21 @@ class SyncroXMLRPC(orm.Model):
                     print "#ERR", table_o, item['name'], sys.exc_info()
                 # NOTE No contact for this database
         else: # Load convert list form database
-            self.load_converter(cr, uid, table_d, context=context)
-
+            self.load_converter(cr, uid, converter, table=table_d, 
+                context=context)
 
         # ---------------------------------------------------------------------
         # account.analytic.account >> res.partner
         # ---------------------------------------------------------------------
         table_o = 'account.analytic.account' 
-        table_d = 'res.partner' 
+        table_d = 'res.partner'        
 
+        self._converter['account.partner'] = {} # used account.analytic.account
+        converter = self._converter['account.partner']
         if wiz_proxy.account:
             item_pool = self.pool.get(table_d)
             item_ids = sock.execute(
                 openerp.name, uid_old, openerp.password, table_o, 'search', [])
-            self._converter[table_d] = {} # used account.analytic.account
-            converter = self._converter[table_d] # for use same name
             for item in sock.execute(openerp.name, uid_old,
                     openerp.password, table_o, 'read', item_ids):
                 try:                    
@@ -513,8 +522,8 @@ class SyncroXMLRPC(orm.Model):
                 # NOTE No contact for this database
         else: # Load convert list form database
             self.load_converter(
-                cr, uid, table_d, field_id='migration_old_account_id', 
-                context=context)
+                cr, uid, converter, table='res.partner', 
+                field_id='migration_old_account_id', context=context)
 
         # ---------------------------------------------------------------------
         # hr.analytic.timesheet
@@ -523,34 +532,35 @@ class SyncroXMLRPC(orm.Model):
         if wiz_proxy.line:
             item_pool = self.pool.get(table)
             item_ids = sock.execute(
-                openerp.name, uid_old, openerp.password, table, 'search', [])
+                openerp.name, uid_old, openerp.password, table, 'search', [], 
+                limit=10)
             #self._converter[table] = {} # not used 
             #converter = self._converter[table] # for use same name
             for item in sock.execute(openerp.name, uid_old,
                     openerp.password, table, 'read', item_ids):
                 try:
                     # Find foreign keys:
-                    if user_id:
+                    if item['user_id']:
                         user_id = self._converter[
                            'res.users'].get(item['user_id'][0], False)
                     else:
                         user_id = False # error
                         
                     # product > search in account
-                    if product_id: # account_id
+                    if item['product_id']: # account_id
                         account_id = self._converter[
-                           'account.ana.ytic.account'].get(item[
+                           'product.account'].get(item[
                                'product_id'][0], False)
                     else:
                         account_id = False # error
                         
                     # account > search in partner
-                    if account_id: # res.partner
+                    if item['account_id']: # res.partner
                         ts_partner_id = self._converter[
-                           'res.partner'].get(item[
+                           'account.partner'].get(item[
                                'account_id'][0], False)
                     else:
-                        account_id = False # error
+                        ts_partner_id = False # error
                                 
                     # Create record to insert / update
                     data = {
@@ -560,9 +570,27 @@ class SyncroXMLRPC(orm.Model):
                         'account_id': account_id,
                         'unit_amount': item['unit_amount'],
                         'to_invoice': item['to_invoice'],
-                        'ts_partner_id': ts_partner_id,
-                        
+                        'ts_partner_id': ts_partner_id,                        
                         }
+
+                    # Add onchange information:
+                    import pdb; pdb.set_trace()
+                    extra = item_pool.on_change_user_id(
+                        cr, uid, 
+                        user_id, {})['value']    
+                    data.update(extra)
+                    extra = item_pool.on_change_account_id(
+                        cr, uid, 
+                        account_id, user_id, {})['value']    
+                    data.update(extra)
+                    extra = item_pool.on_change_unit_amount(
+                        cr, uid, 
+                        data['product_id'], 
+                        data['unit_amount'], 
+                        False, 
+                        data['product_uom_id'],
+                        data['journal_id'],
+                        {})
 
                     new_ids = item_pool.search(cr, uid, [
                         ('migration_old_id', '=', item['id'])],
@@ -585,8 +613,6 @@ class SyncroXMLRPC(orm.Model):
                 # NOTE No contact for this database
         #else: # Load convert list form database
         #    self.load_converter(cr, uid, table_d, context=context)
-
-
 
         return True
 
@@ -670,6 +696,15 @@ class AccountAnalyticAccount(orm.Model):
             'ID v.8', 
             help='Link to product.product'
             ),
+        }
+
+class HrAnalyticTimesheet(orm.Model):
+
+    _inherit = 'hr.analytic.timesheet'
+
+    _columns = {
+        'migration_old_id': fields.integer(
+            'ID v.8', ),
         }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
