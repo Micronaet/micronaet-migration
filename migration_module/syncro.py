@@ -624,7 +624,6 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # hr.holiday (firs hr.holiday.status)
         # ---------------------------------------------------------------------
-        import pdb; pdb.set_trace()
         # -------------------------
         table = 'hr.holidays.status'
         # -------------------------
@@ -651,6 +650,7 @@ class SyncroXMLRPC(orm.Model):
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
                         print "#INFO", table, "create:", item['name']
+                    converter[item['id']] = item_id
                 except:
                     print "#ERR", table, "jumped:", item['name']
                 # NOTE No contact for this database
@@ -666,9 +666,19 @@ class SyncroXMLRPC(orm.Model):
             for item in sock.execute(openerp.name, uid_old,
                     openerp.password, table, 'read', item_ids):
                 try:
+                    holiday_status_id = False # TODO
                     # Create record to insert / update
                     data = {
-                        'name': item['name']
+                        'name': item['name'],
+                        'holiday_status_id': self._converter[
+                            'hr.holidays.status'].get(
+                                item['holiday_status'][0], False),
+                        'date_from': item['date_from'],
+                        'date_to': item['date_to'],
+                        'employee_id': self._converter[
+                            'hr.employee'].get(item['employee_id'][0], False),
+                        #'department_it': False,
+                        'holiday_type': 'employee',
                         }
                         
                     new_ids = item_pool.search(cr, uid, [
@@ -689,7 +699,7 @@ class SyncroXMLRPC(orm.Model):
                         'migration_old_id': item['id'],
                         }, context=context)
                 except:
-                    print "#ERR", table, "jumped:", item['name']
+                    print "#ERR", table, "jump:", item['name'], sys.exc_info()
 
         return True
 
