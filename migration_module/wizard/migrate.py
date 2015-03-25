@@ -59,7 +59,10 @@ class SyncroMigrationWizard(orm.TransientModel):
         'partner': fields.boolean('Partner'),
         'employee': fields.boolean('Employee (2 times), Category'),
         'attendance': fields.boolean('Attendance'),
-        'product': fields.boolean('Product (Category < create parent)'),
-        'template': fields.boolean('Template'),
+        'product': fields.boolean(
+            'Product > Account (Category > create parent account)'),
+        #'template': fields.boolean('Template'),
+        'account': fields.boolean('Account > Partner'),
+        'line': fields.boolean('Account line'),
         }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

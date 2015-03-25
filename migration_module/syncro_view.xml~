@@ -6,13 +6,13 @@
             <field name="name">XMLRPC</field>
             <field name="model">syncro.xmlrpc</field>
             <field name="arch" type="xml">
-                <form string="Migrate">
+                <tree string="Migrate">
                    <field name="hostname" />
                    <field name="name" />
                    <field name="port" />
                    <field name="username" />
                    <field name="password" />
-                </form>
+                </tree>
             </field>
       </record>
 

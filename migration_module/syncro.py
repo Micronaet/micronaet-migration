@@ -455,6 +455,10 @@ class ResPartner(orm.Model):
 
     _columns = {
         'migration_old_id': fields.integer('ID v.8'),
+        'migration_old_account_id': fields.integer(
+            'ID account v.8',
+            help='Old account id that is new partner ID',
+            ),
         }
 
 class HrEmpoyee(orm.Model):
@@ -466,6 +470,8 @@ class HrEmpoyee(orm.Model):
         }
         
 class HrAttendance(orm.Model):
+    ''' Attendance sign in / sign out
+    '''
 
     _inherit = 'hr.attendance'
 
@@ -474,6 +480,8 @@ class HrAttendance(orm.Model):
         }
 
 class ProductProduct(orm.Model):
+    ''' Not used: product are account
+    '''
 
     _inherit = 'product.product'
 
@@ -482,11 +490,26 @@ class ProductProduct(orm.Model):
         }
 
 class ProductTemplate(orm.Model):
+    ''' Not used: product are account
+    '''
 
     _inherit = 'product.template'
 
     _columns = {
         'migration_old_id': fields.integer('ID v.8'),
+        }
+
+class AccountAnalyticAccount(orm.Model):
+    ''' product.product > account.analytic.account
+    '''
+
+    _inherit = 'account.analytic.account'
+
+    _columns = {
+        'migration_old_id': fields.integer(
+            'ID v.8', 
+            help='Link to product.product'
+            ),
         }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

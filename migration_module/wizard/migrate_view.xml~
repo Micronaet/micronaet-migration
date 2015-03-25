@@ -16,6 +16,7 @@
                        <field name="attendance" />
                        <field name="product" />
                        <!--<field name="template" />-->
+                       <field name="account" />
                    </group>
                 </form>
             </field>

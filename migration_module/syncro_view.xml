@@ -20,7 +20,7 @@
             <field name="name">XMLRPC</field>
             <field name="model">syncro.xmlrpc</field>
             <field name="arch" type="xml">
-                <form string="Migrate" version="7.0">
+                <form string="Migrate">
                    <group colspan="4" col="4">
                        <field name="hostname" />
                        <field name="name" />
