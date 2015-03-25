@@ -64,5 +64,6 @@ class SyncroMigrationWizard(orm.TransientModel):
         #'template': fields.boolean('Template'),
         'account': fields.boolean('Account > Partner'),
         'line': fields.boolean('Timesheet line'),
+        'holiday': fields.boolean('Holiday'),
         }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

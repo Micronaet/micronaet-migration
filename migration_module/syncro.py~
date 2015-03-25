@@ -324,8 +324,8 @@ class SyncroXMLRPC(orm.Model):
                         
                     if not item['user_id']:
                         print "#ERR no user ID", item['name']    
-                        #continue
-                        data['user_id'] = 19 # TODO Boniotti Clara
+                        continue
+                        #data['user_id'] = 19 # TODO Boniotti Clara
                     else:    
                         data['user_id'] = self._converter['res.users'][
                             item['user_id'][0]]
@@ -533,6 +533,8 @@ class SyncroXMLRPC(orm.Model):
         journal_id = 3 # TS
         to_invoice = 1 # Sì 100%
         table = 'hr.analytic.timesheet' 
+        
+        i = 0
         if wiz_proxy.line:
             item_pool = self.pool.get(table)
             item_ids = sock.execute(
@@ -541,6 +543,9 @@ class SyncroXMLRPC(orm.Model):
             #converter = self._converter[table] # for use same name
             for item in sock.execute(openerp.name, uid_old,
                     openerp.password, table, 'read', item_ids):
+                i += 1
+                if i > 50:
+                    break
                 try:
                     # Find foreign keys:
                     if item['user_id']:
@@ -603,7 +608,6 @@ class SyncroXMLRPC(orm.Model):
                     if 'value' in extra:
                         data.update(extra['value'])"""
 
-                    import pdb; pdb.set_trace()
                     new_ids = item_pool.search(cr, uid, [
                         ('migration_old_id', '=', item['id'])],
                             context=context)
@@ -625,6 +629,77 @@ class SyncroXMLRPC(orm.Model):
                 # NOTE No contact for this database
         #else: # Load convert list form database
         #    self.load_converter(cr, uid, table_d, context=context)
+
+
+        # ---------------------------------------------------------------------
+        # hr.holiday (firs hr.holiday.status)
+        # ---------------------------------------------------------------------
+        import pdb; pdb.set_trace()
+        # -------------------------
+        table = 'hr.holiday.status'
+        # -------------------------
+        self._converter[table] = {}
+        converter = self._converter[table] # for use same name
+        if wiz_proxy.holiday:
+            # Load table first:
+            item_pool = self.pool.get(table)
+            item_ids = sock.execute(
+                openerp.name, uid_old, openerp.password, table, 'search', [])
+            for item in sock.execute(openerp.name, uid_old,
+                    openerp.password, table, 'read', item_ids):
+                try:
+                    # Create record to insert / update
+                    data = {'name': item['name']}
+                    new_ids = item_pool.search(cr, uid, [
+                        ('name', '=', item['name'])], context=context)
+                    if new_ids:
+                        item_id = new_ids[0]
+                        item_pool.write(cr, uid, item_id, data,
+                            context=context)
+                        print "#INFO", table, "update:", item['name']
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO", table, "create:", item['name']
+                except:
+                    print "#ERR", table, "jumped:", item['name']
+                # NOTE No contact for this database
+        
+            # ------------------
+            table = 'hr.holidays'
+            # ------------------            
+            self._converter[table] = {} # TODO used
+            converter = self._converter[table] # for use same name
+            item_pool = self.pool.get(table)
+            item_ids = sock.execute(
+                openerp.name, uid_old, openerp.password, table, 'search', [])
+            for item in sock.execute(openerp.name, uid_old,
+                    openerp.password, table, 'read', item_ids):
+                try:
+                    # Create record to insert / update
+                    data = {
+                        'name': item['name']
+                        }
+                        
+                    new_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item['id'])],  # search name
+                            context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        item_pool.write(cr, uid, item_id, data,
+                            context=context)
+                        print "#INFO", table, "update:", item['name']
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO", table, "create:", item['name']
+
+                    # Write always the ID
+                    item_pool.write(cr, uid, item_id, {
+                        'migration_old_id': item['id'],
+                        }, context=context)
+                except:
+                    print "#ERR", table, "jumped:", item['name']
 
         return True
 
@@ -713,6 +788,15 @@ class AccountAnalyticAccount(orm.Model):
 class HrAnalyticTimesheet(orm.Model):
 
     _inherit = 'hr.analytic.timesheet'
+
+    _columns = {
+        'migration_old_id': fields.integer(
+            'ID v.8', ),
+        }
+
+class HrHolidays(orm.Model):
+
+    _inherit = 'hr.holidays'
 
     _columns = {
         'migration_old_id': fields.integer(

@@ -18,6 +18,7 @@
                        <!--<field name="template" />-->
                        <field name="account" />
                        <field name="line" />
+                       <field name="holiday" />
                    </group>
                 </form>
             </field>

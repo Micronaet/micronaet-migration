@@ -17,6 +17,7 @@
                        <field name="product" />
                        <!--<field name="template" />-->
                        <field name="account" />
+                       <field name="line" />
                    </group>
                 </form>
             </field>

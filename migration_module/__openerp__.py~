@@ -31,6 +31,7 @@
     'website': 'http://www.micronaet.it',
     'depends': [
         'base',
+        'l10n_it_fiscalcode',
         'hr',
         'report_aeroo',
         'contacts',
@@ -44,6 +45,8 @@
         #'hr_timesheet_sheet',
         'partner_addresses',
         #'analytic_contract_hr_expense',
+        'timesheet_partner_analytic',
+        'hr_holiday', 
         ],
     'init_xml': [], 
     'data': [

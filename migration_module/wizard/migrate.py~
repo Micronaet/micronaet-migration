@@ -63,6 +63,6 @@ class SyncroMigrationWizard(orm.TransientModel):
             'Product > Account (Category > create parent account)'),
         #'template': fields.boolean('Template'),
         'account': fields.boolean('Account > Partner'),
-        'line': fields.boolean('Account line'),
+        'line': fields.boolean('Timesheet line'),
         }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

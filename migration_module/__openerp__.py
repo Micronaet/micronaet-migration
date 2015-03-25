@@ -45,6 +45,8 @@
         #'hr_timesheet_sheet',
         'partner_addresses',
         #'analytic_contract_hr_expense',
+        'timesheet_partner_analytic',
+        'hr_holidays', 
         ],
     'init_xml': [], 
     'data': [
