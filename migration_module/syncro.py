@@ -528,6 +528,10 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # hr.analytic.timesheet
         # ---------------------------------------------------------------------
+        # TODO change:
+        product_service_id = 1 # Servizio
+        journal_id = 3 # TS
+        to_invoice = 1 # Sì 100%
         table = 'hr.analytic.timesheet' 
         if wiz_proxy.line:
             item_pool = self.pool.get(table)
@@ -568,28 +572,36 @@ class SyncroXMLRPC(orm.Model):
                         'date': item['date'],
                         'account_id': account_id,
                         'unit_amount': item['unit_amount'],
-                        'to_invoice': item['to_invoice'],
-                        'ts_partner_id': ts_partner_id,                        
+                        'amount': item['amount'],
+                        'to_invoice': to_invoice, #item['to_invoice'],
+                        'ts_partner_id': ts_partner_id,    
+                        'product_id': product_service_id,
+                        'journal_id': journal_id,                    
                         }
 
                     # Add onchange information:
-                    import pdb; pdb.set_trace()
-                    extra = item_pool.on_change_user_id(
-                        cr, uid, 
-                        user_id, {})['value']    
-                    data.update(extra)
+                    """extra = item_pool.on_change_user_id(
+                        cr, uid, False,
+                        user_id)
+                    if 'value' in extra:
+                        data.update(extra['value'])
+
                     extra = item_pool.on_change_account_id(
-                        cr, uid, 
-                        account_id, user_id, {})['value']    
-                    data.update(extra)
+                        cr, uid, False,
+                        account_id, user_id)
+                    if 'value' in extra:
+                        data.update(extra['value'])
+                        
                     extra = item_pool.on_change_unit_amount(
-                        cr, uid, 
+                        cr, uid, False,
                         data['product_id'], 
                         data['unit_amount'], 
                         False, 
                         data['product_uom_id'],
                         data['journal_id'],
-                        {})
+                        )
+                    if 'value' in extra:
+                        data.update(extra['value'])"""
 
                     new_ids = item_pool.search(cr, uid, [
                         ('migration_old_id', '=', item['id'])],
