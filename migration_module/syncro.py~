@@ -530,17 +530,9 @@ class SyncroXMLRPC(orm.Model):
         if wiz_proxy.line:
             item_pool = self.pool.get(table)
             item_ids = sock.execute(
-                openerp.name, uid_old, openerp.password, table, 'search', [
-                    ('date', '>=', '2015/01/01'),
-                    ('date', '<', '2016/01/01'),])
+                openerp.name, uid_old, openerp.password, table, 'search', [])
+            _logger.info("Total record to import: %s" % len(item_ids))
 
-            # load ad conversion:
-            #conversion_dict = {}
-            #for element in self.pool.get('hr.analytic.timesheet').browse(
-            #        cr, uid, item_ids, context=context):
-            #    if element.migration_old_id:
-            #        conversion_dict[element.migration_old_id] = element.id
-                
             i = 0
             for item in sock.execute(openerp.name, uid_old,
                     openerp.password, table, 'read', item_ids):
@@ -584,19 +576,19 @@ class SyncroXMLRPC(orm.Model):
                         'general_account_id': self.general_account_id,
                         }
 
-                    #new_ids = [conversion_dict.get(item['id'], False)]
-                    #new_ids = item_pool.search(cr, uid, [
-                    #    ('migration_old_id', '=', item['id'])],
-                    #        context=context)
-                    #if new_ids: # Modify
-                    #    item_id = new_ids[0]
-                    #    item_pool.write(cr, uid, item_id, data,
-                    #        context=context)
-                    #    print "#INFO", i, table, "update:", item['name']
-                    #else: # Create
-                    item_id = item_pool.create(cr, uid, data,
-                        context=context)
-                    print "#INFO", i, table, " create:", item['id']
+                    new_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item['id'])],
+                            context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        item_pool.write(cr, uid, item_id, data,
+                            context=context)
+                        print "#INFO", i, table, "update:", item['name']
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO", i, table, " create:", item['id']
+                        
                     item_pool.write(cr, uid, item_id, {
                         'migration_old_id': item['id'],
                         }, context=context)
