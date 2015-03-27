@@ -530,12 +530,22 @@ class SyncroXMLRPC(orm.Model):
         if wiz_proxy.line:
             item_pool = self.pool.get(table)
             item_ids = sock.execute(
-                openerp.name, uid_old, openerp.password, table, 'search', [])
-            #self._converter[table] = {} # not used 
-            #converter = self._converter[table] # for use same name
+                openerp.name, uid_old, openerp.password, table, 'search', [
+                    ('date', '>=', '2015/01/01'),
+                    ('date', '<', '2016/01/01'),])
+
+            # load ad conversion:
+            #conversion_dict = {}
+            #for element in self.pool.get('hr.analytic.timesheet').browse(
+            #        cr, uid, item_ids, context=context):
+            #    if element.migration_old_id:
+            #        conversion_dict[element.migration_old_id] = element.id
+                
+            i = 0
             for item in sock.execute(openerp.name, uid_old,
                     openerp.password, table, 'read', item_ids):
                 try:
+                    i += 1
                     # Find foreign keys:
                     if item['user_id']:
                         user_id = self._converter[
@@ -574,51 +584,25 @@ class SyncroXMLRPC(orm.Model):
                         'general_account_id': self.general_account_id,
                         }
 
-                    # Add onchange information:
-                    """extra = item_pool.on_change_user_id(
-                        cr, uid, False,
-                        user_id)
-                    if 'value' in extra:
-                        data.update(extra['value'])
-
-                    extra = item_pool.on_change_account_id(
-                        cr, uid, False,
-                        account_id, user_id)
-                    if 'value' in extra:
-                        data.update(extra['value'])
-                        
-                    extra = item_pool.on_change_unit_amount(
-                        cr, uid, False,
-                        data['product_id'], 
-                        data['unit_amount'], 
-                        False, 
-                        data['product_uom_id'],
-                        data['journal_id'],
-                        )
-                    if 'value' in extra:
-                        data.update(extra['value'])"""
-
-                    new_ids = item_pool.search(cr, uid, [
-                        ('migration_old_id', '=', item['id'])],
-                            context=context)
-                    if new_ids: # Modify
-                        item_id = new_ids[0]
-                        item_pool.write(cr, uid, item_id, data,
-                            context=context)
-                        print "#INFO ", table, "update:", item['name']
-                    else: # Create
-                        item_id = item_pool.create(cr, uid, data,
-                            context=context)
-                        print "#INFO", table, " create:", item['name']
-                        item_pool.write(cr, uid, item_id, {
-                            'migration_old_id': item['id'],
-                            }, context=context)
-                    #converter[item['id']] = item_id
+                    #new_ids = [conversion_dict.get(item['id'], False)]
+                    #new_ids = item_pool.search(cr, uid, [
+                    #    ('migration_old_id', '=', item['id'])],
+                    #        context=context)
+                    #if new_ids: # Modify
+                    #    item_id = new_ids[0]
+                    #    item_pool.write(cr, uid, item_id, data,
+                    #        context=context)
+                    #    print "#INFO", i, table, "update:", item['name']
+                    #else: # Create
+                    item_id = item_pool.create(cr, uid, data,
+                        context=context)
+                    print "#INFO", i, table, " create:", item['id']
+                    item_pool.write(cr, uid, item_id, {
+                        'migration_old_id': item['id'],
+                        }, context=context)
                 except:
                     print "#ERR", table, item['name'], sys.exc_info()
                 # NOTE No contact for this database
-        #else: # Load convert list form database
-        #    self.load_converter(cr, uid, table, context=context)
 
 
         # ---------------------------------------------------------------------
