@@ -19,6 +19,7 @@
                        <field name="account" />
                        <field name="line" />
                        <field name="holiday" />
+                       <field name="calendar" />
                    </group>
                 </form>
             </field>

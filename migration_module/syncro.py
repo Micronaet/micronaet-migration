@@ -677,6 +677,106 @@ class SyncroXMLRPC(orm.Model):
                 except:
                     print "#ERR", table, "jump:", item['name'], sys.exc_info()
 
+        # ---------------------------------------------------------------------
+        # crm.case (first crm.case.section > calendar.event)
+        # ---------------------------------------------------------------------
+        # -------------------------
+        table_o = 'crm.case.section'
+        table_d = 'calendar.event.type'
+        # -------------------------
+        self._converter[table_o] = {}
+        converter = self._converter[table_o]
+         
+        if wiz_proxy.calendar:
+            # Load table first:
+            item_pool = self.pool.get(table_d)
+            item_ids = sock.execute(
+                openerp.name, uid_old, openerp.password, table_o, 'search', [])
+            for item in sock.execute(openerp.name, uid_old,
+                    openerp.password, table_o, 'read', item_ids):
+                try:
+                    # Create record to insert / update
+                    data = {
+                        'name': item['name']
+                        }
+                    new_ids = item_pool.search(cr, uid, [
+                        ('name', '=', item['name'])], context=context)
+                    if new_ids:
+                        item_id = new_ids[0]
+                        item_pool.write(cr, uid, item_id, data,
+                            context=context)
+                        print "#INFO", table, "update:", item['name']
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO", table, "create:", item['name']
+                    converter[item['id']] = item_id
+                except:
+                    print "#ERR", table, "jumped:", item['name']
+                # NOTE No contact for this database
+        
+            # ------------------
+            table_o = 'crm.case'
+            table_d = 'calendar.event'            
+            # ------------------            
+            item_pool = self.pool.get(table_d)
+            item_ids = sock.execute(
+                openerp.name, uid_old, openerp.password, table_o, 'search', [])
+            for item in sock.execute(openerp.name, uid_old,
+                    openerp.password, table_o, 'read', item_ids):
+                try:
+                    # Create record to insert / update
+                    start_datetime = datetime.strptime(
+                            item['date'], DEFAULT_SERVER_DATETIME_FORMAT)
+                    start_datetime = start_datetime - timedelta(hours=1)  
+                            
+                    stop_datetime = start_datetime + timedelta(
+                        hours=item['duration'])
+                    
+                    data = {
+                        'name': item['name'],
+                        'start_datetime': datetime.strftime(
+                            start_datetime, DEFAULT_SERVER_DATETIME_FORMAT),
+                        'allday': False,
+                        #'duration': item['duration'],
+                        'stop_datetime': datetime.strftime(
+                            stop_datetime, DEFAULT_SERVER_DATETIME_FORMAT),                        
+                        'user_id': self._converter[
+                            'res.users'].get(
+                                item['user_id'][0], False),
+                        }
+                    if item['partner_id']:
+                        data['partner_id'] = self._converter[
+                            'res.partner'].get(
+                                item['partner_id'][0], False)
+                        
+                    if item['section_id']:
+                        section_id = self._converter[
+                            'crm.case.section'].get(
+                                item['section_id'][0], False)
+                        if section_id:         
+                            data['categ_ids'] = [(6, 0, [section_id, ])]
+                        
+                    new_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item['id'])],  # search name
+                            context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        item_pool.write(cr, uid, item_id, data,
+                            context=context)
+                        print "#INFO", table, "update:", item['name']
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO", table, "create:", item['name']
+
+                    # Write always the ID
+                    item_pool.write(cr, uid, item_id, {
+                        'migration_old_id': item['id'],
+                        }, context=context)
+                except:
+                    print "#ERR", table, "jump:", item['name'], sys.exc_info()
+
         return True
 
     _columns = {
@@ -766,8 +866,7 @@ class HrAnalyticTimesheet(orm.Model):
     _inherit = 'hr.analytic.timesheet'
 
     _columns = {
-        'migration_old_id': fields.integer(
-            'ID v.8', ),
+        'migration_old_id': fields.integer('ID v.8', ),
         }
 
 class HrHolidays(orm.Model):
@@ -775,8 +874,15 @@ class HrHolidays(orm.Model):
     _inherit = 'hr.holidays'
 
     _columns = {
-        'migration_old_id': fields.integer(
-            'ID v.8', ),
+        'migration_old_id': fields.integer('ID v.8', ),
+        }
+
+class CalendarEvent(orm.Model):
+
+    _inherit = 'calendar.event'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.8', ),
         }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

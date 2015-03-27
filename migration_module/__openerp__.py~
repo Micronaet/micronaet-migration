@@ -36,6 +36,7 @@
         'report_aeroo',
         'contacts',
         'calendar',
+        'crm',
         'analytic',
         #'account_analytic_analysis',
         'hr_attendance',
@@ -46,7 +47,7 @@
         'partner_addresses',
         #'analytic_contract_hr_expense',
         'timesheet_partner_analytic',
-        'hr_holiday', 
+        'hr_holidays', 
         ],
     'init_xml': [], 
     'data': [

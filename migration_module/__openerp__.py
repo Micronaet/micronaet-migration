@@ -36,6 +36,7 @@
         'report_aeroo',
         'contacts',
         'calendar',
+        #'crm',
         'analytic',
         #'account_analytic_analysis',
         'hr_attendance',
