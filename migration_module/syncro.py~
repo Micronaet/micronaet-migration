@@ -775,7 +775,8 @@ class SyncroXMLRPC(orm.Model):
                         'migration_old_id': item['id'],
                         }, context=context)
                 except:
-                    print "#ERR", table, "jump:", item['name'], sys.exc_info()
+                    print "#ERR", table, "jump:", item
+                    continue
 
         return True
 
