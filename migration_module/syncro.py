@@ -754,7 +754,7 @@ class SyncroXMLRPC(orm.Model):
                         section_id = self._converter[
                             'crm.case.section'].get(
                                 item['section_id'][0], False)
-                        if section_id:         
+                        if section_id:
                             data['categ_ids'] = [(6, 0, [section_id, ])]
                         
                     new_ids = item_pool.search(cr, uid, [
