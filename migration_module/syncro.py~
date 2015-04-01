@@ -687,6 +687,7 @@ class SyncroXMLRPC(orm.Model):
         self._converter[table_o] = {}
         converter = self._converter[table_o]
          
+        #i = 0 
         if wiz_proxy.calendar:
             # Load table first:
             item_pool = self.pool.get(table_d)
@@ -695,6 +696,8 @@ class SyncroXMLRPC(orm.Model):
             for item in sock.execute(openerp.name, uid_old,
                     openerp.password, table_o, 'read', item_ids):
                 try:
+                    #i += 1
+                    #print "Calendar appointment:", i
                     # Create record to insert / update
                     data = {
                         'name': item['name']
@@ -754,7 +757,7 @@ class SyncroXMLRPC(orm.Model):
                         section_id = self._converter[
                             'crm.case.section'].get(
                                 item['section_id'][0], False)
-                        if section_id:         
+                        if section_id:
                             data['categ_ids'] = [(6, 0, [section_id, ])]
                         
                     new_ids = item_pool.search(cr, uid, [
