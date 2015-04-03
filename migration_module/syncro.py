@@ -593,7 +593,7 @@ class SyncroXMLRPC(orm.Model):
                         'migration_old_id': item['id'],
                         }, context=context)
                 except:
-                    print "#ERR", table, item['name'], sys.exc_info()
+                    print "#ERR", table, sys.exc_info() #item['name'],
                 # NOTE No contact for this database
 
 
@@ -675,7 +675,7 @@ class SyncroXMLRPC(orm.Model):
                         'migration_old_id': item['id'],
                         }, context=context)
                 except:
-                    print "#ERR", table, "jump:", item['name'], sys.exc_info()
+                    print "#ERR", table, "jump:", sys.exc_info()#item['name'], 
 
         # ---------------------------------------------------------------------
         # crm.case (first crm.case.section > calendar.event)
@@ -715,7 +715,7 @@ class SyncroXMLRPC(orm.Model):
                         print "#INFO", table, "create:", item['name']
                     converter[item['id']] = item_id
                 except:
-                    print "#ERR", table, "jumped:", item['name']
+                    print "#ERR", table, "jumped:"#, item['name']
                 # NOTE No contact for this database
             
             # -----------------------------------
