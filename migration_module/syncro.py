@@ -298,7 +298,7 @@ class SyncroXMLRPC(orm.Model):
                         # TODO create other addresses: (here not present)
 
                 except:
-                    print "#ERR", table, "jumped:", item['name']
+                    print "#ERR", table, "jumped:"#, item['name']
                 # NOTE No contact for this database
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, table=table, 
