@@ -368,7 +368,7 @@ class SyncroXMLRPC(orm.Model):
                         }, context=context)
                     converter[item['id']] = item_id
                 except:
-                    print "#ERR", table, item['name'], sys.exc_info()
+                    print "#ERR", table, sys.exc_info() #, item['name']
                 # NOTE No contact for this database
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, table=table, 
@@ -418,7 +418,7 @@ class SyncroXMLRPC(orm.Model):
                         }, context=context)
                     converter[item['id']] = item_id
                 except:
-                    print "#ERR", table, item['name'], sys.exc_info()
+                    print "#ERR", table, sys.exc_info() #, item['name']
                 # NOTE No contact for this database
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, table=table, 
@@ -469,7 +469,7 @@ class SyncroXMLRPC(orm.Model):
                             }, context=context)
                     converter[item['id']] = item_id
                 except:
-                    print "#ERR", table, item['name'], sys.exc_info()
+                    print "#ERR", sys.exc_info() #table, item['name'], 
                 # NOTE No contact for this database
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, table=table, 
@@ -517,7 +517,7 @@ class SyncroXMLRPC(orm.Model):
                                     
                     converter[item['id']] = item_id
                 except:
-                    print "#ERR", table, item['name'], sys.exc_info()
+                    print "#ERR", table, sys.exc_info() #, item['name']
         else: # Load convert list form database
             self.load_converter(
                 cr, uid, converter, table=table, context=context)
@@ -628,7 +628,7 @@ class SyncroXMLRPC(orm.Model):
                         print "#INFO", table, "create:", item['name']
                     converter[item['id']] = item_id
                 except:
-                    print "#ERR", table, "jumped:", item['name']
+                    print "#ERR", table, "jumped:" #, item['name']
                 # NOTE No contact for this database
         
             # ------------------

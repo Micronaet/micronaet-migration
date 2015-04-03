@@ -208,6 +208,7 @@ class SyncroXMLRPC(orm.Model):
                     converter[item['id']] = item_id
                 except:
                     print "#ERR", table, "jumped:", item['name']
+                    continue 
                 # NOTE No contact for this database
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, table=table, 
@@ -299,6 +300,7 @@ class SyncroXMLRPC(orm.Model):
 
                 except:
                     print "#ERR", table, "jumped:"#, item['name']
+                    continue 
                 # NOTE No contact for this database
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, table=table, 
@@ -369,6 +371,7 @@ class SyncroXMLRPC(orm.Model):
                     converter[item['id']] = item_id
                 except:
                     print "#ERR", table, sys.exc_info() #, item['name']
+                    continue 
                 # NOTE No contact for this database
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, table=table, 
@@ -419,6 +422,7 @@ class SyncroXMLRPC(orm.Model):
                     converter[item['id']] = item_id
                 except:
                     print "#ERR", table, sys.exc_info() #, item['name']
+                    continue 
                 # NOTE No contact for this database
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, table=table, 
@@ -470,6 +474,7 @@ class SyncroXMLRPC(orm.Model):
                     converter[item['id']] = item_id
                 except:
                     print "#ERR", sys.exc_info() #table, item['name'], 
+                    continue 
                 # NOTE No contact for this database
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, table=table, 
@@ -518,6 +523,7 @@ class SyncroXMLRPC(orm.Model):
                     converter[item['id']] = item_id
                 except:
                     print "#ERR", table, sys.exc_info() #, item['name']
+                    continue 
         else: # Load convert list form database
             self.load_converter(
                 cr, uid, converter, table=table, context=context)
@@ -629,6 +635,7 @@ class SyncroXMLRPC(orm.Model):
                     converter[item['id']] = item_id
                 except:
                     print "#ERR", table, "jumped:" #, item['name']
+                    continue 
                 # NOTE No contact for this database
         
             # ------------------
@@ -675,7 +682,8 @@ class SyncroXMLRPC(orm.Model):
                         'migration_old_id': item['id'],
                         }, context=context)
                 except:
-                    print "#ERR", table, "jump:", sys.exc_info()#item['name'], 
+                    print "#ERR", table, "jump:", sys.exc_info()#item['name'],
+                    continue 
 
         # ---------------------------------------------------------------------
         # crm.case (first crm.case.section > calendar.event)
@@ -716,6 +724,7 @@ class SyncroXMLRPC(orm.Model):
                     converter[item['id']] = item_id
                 except:
                     print "#ERR", table, "jumped:"#, item['name']
+                    continue 
                 # NOTE No contact for this database
             
             # -----------------------------------
