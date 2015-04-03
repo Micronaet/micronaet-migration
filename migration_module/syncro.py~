@@ -679,7 +679,7 @@ class SyncroXMLRPC(orm.Model):
 
         # ---------------------------------------------------------------------
         # crm.case (first crm.case.section > calendar.event)
-        # ---------------------------------------------------------------------
+        # ---------------------------------------------------------------------        
         # -------------------------
         table_o = 'crm.case.section'
         table_d = 'calendar.event.type'
@@ -717,14 +717,32 @@ class SyncroXMLRPC(orm.Model):
                 except:
                     print "#ERR", table, "jumped:", item['name']
                 # NOTE No contact for this database
-        
-            # ------------------
+            
+            # -----------------------------------
+            # Load user_id - partner_id converter
+            # -----------------------------------
+            user_ids = self.pool.get('res.users').search(
+                cr, uid, [], context=context)
+            user_partner = {}
+            for item in self.pool.get('res.users').browse(
+                    cr, uid, user_ids, context=context):
+                user_partner[item.id] = item.partner_id.id
+                # Update mail
+                self.pool.get('res.partner').write(
+                    cr, uid, [item.partner_id.id], {
+                        'email': "%s@gfconsulting.it" % 
+                             item.name.lower().replace(" ", "."),
+                        })
+
+                
+            # ------------------------
             table_o = 'crm.case'
             table_d = 'calendar.event'            
-            # ------------------            
+            # ------------------------      
             item_pool = self.pool.get(table_d)
             item_ids = sock.execute(
                 openerp.name, uid_old, openerp.password, table_o, 'search', [])
+
             for item in sock.execute(openerp.name, uid_old,
                     openerp.password, table_o, 'read', item_ids):
                 try:
@@ -735,7 +753,10 @@ class SyncroXMLRPC(orm.Model):
                             
                     stop_datetime = start_datetime + timedelta(
                         hours=item['duration'])
-                    
+                    user_id = self._converter[
+                        'res.users'].get(
+                            item['user_id'][0], False)
+                    partner_id = user_partner[user_id]
                     data = {
                         'name': item['name'],
                         'start_datetime': datetime.strftime(
@@ -744,10 +765,11 @@ class SyncroXMLRPC(orm.Model):
                         #'duration': item['duration'],
                         'stop_datetime': datetime.strftime(
                             stop_datetime, DEFAULT_SERVER_DATETIME_FORMAT),                        
-                        'user_id': self._converter[
-                            'res.users'].get(
-                                item['user_id'][0], False),
+                        'user_id': user_id,
                         }
+                    if partner_id:
+                        data['partner_ids'] = [(6, 0, [partner_id])]
+
                     if item['partner_id']:
                         data['partner_id'] = self._converter[
                             'res.partner'].get(
