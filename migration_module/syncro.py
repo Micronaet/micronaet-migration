@@ -163,6 +163,9 @@ class SyncroXMLRPC(orm.Model):
                 openerp.hostname,
                 openerp.port,
                 ), allow_none=True)
+        
+        from_date = wiz_proxy.from_date or False        
+        to_date = wiz_proxy.to_date or False
 
         # ---------------------------------------------------------------------
         # res.users
@@ -533,10 +536,19 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         table = 'hr.analytic.timesheet' 
         
+        import pdb; pdb.set_trace()
+        # Check date:
+        domain = []
+        if from_date:
+            domain.append(('date', '>=', from_date))
+        if to_date:
+            domain.append(('date', '<', to_date))
+            
         if wiz_proxy.line:
             item_pool = self.pool.get(table)
             item_ids = sock.execute(
-                openerp.name, uid_old, openerp.password, table, 'search', [])
+                openerp.name, uid_old, openerp.password, table, 
+                'search', domain)
             _logger.info("Total record to import: %s" % len(item_ids))
 
             i = 0

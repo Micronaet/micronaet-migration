@@ -10,6 +10,9 @@
                    <group colspan="4" col="2">
                        <button name="migrate_database" string="Syncro / Migrate" type="object" icon="gtk-jump-to" class="oe_highlight" />
                        <newline />
+                       <field name="from_date" />
+                       <field name="to_date" />                       
+
                        <field name="user" />
                        <field name="partner" />
                        <field name="employee" />
@@ -19,6 +22,7 @@
                        <field name="account" />
                        <field name="line" />
                        <field name="holiday" />
+                       <field name="calendar" />
                    </group>
                 </form>
             </field>
