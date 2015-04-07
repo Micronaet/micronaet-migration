@@ -536,7 +536,6 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         table = 'hr.analytic.timesheet' 
         
-        import pdb; pdb.set_trace()
         # Check date:
         domain = []
         if from_date:

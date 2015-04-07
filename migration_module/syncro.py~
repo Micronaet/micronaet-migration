@@ -542,7 +542,7 @@ class SyncroXMLRPC(orm.Model):
         if from_date:
             domain.append(('date', '>=', from_date))
         if to_date:
-            domain.append(('date', '>=', to_date))
+            domain.append(('date', '<', to_date))
             
         if wiz_proxy.line:
             item_pool = self.pool.get(table)
