@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+       <!-- syncro.migration.wizard -->
+       <record id="syncro_xmlrpc_tree_view" model="ir.ui.view">
+            <field name="name">XMLRPC</field>
+            <field name="model">syncro.xmlrpc</field>
+            <field name="arch" type="xml">
+                <tree string="Migrate">
+                   <field name="hostname" />
+                   <field name="name" />
+                   <field name="port" />
+                   <field name="username" />
+                   <field name="password" />
+                </tree>
+            </field>
+      </record>
+
+       <record id="syncro_xmlrpc_form_view" model="ir.ui.view">
+            <field name="name">XMLRPC</field>
+            <field name="model">syncro.xmlrpc</field>
+            <field name="arch" type="xml">
+                <form string="Migrate">
+                   <group colspan="4" col="4">
+                       <field name="hostname" />
+                       <field name="name" />
+                       <field name="port" />
+                       <field name="username" />
+                       <field name="password" />
+                   </group>
+                </form>
+            </field>
+      </record>
+
+    <record model="ir.actions.act_window" id="action_syncro_xmlrpc_view">
+        <field name="name">Migration wizard</field>
+        <field name="res_model">syncro.xmlrpc</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="syncro_xmlrpc_tree_view"/>        
+    </record>
+
+    <!--MENUITEM:-->
+   <menuitem name="Configuration"
+          parent="base.menu_action_res_company_form" 
+          id="menu_syncro_xmlrpc_view" 
+          action="action_syncro_xmlrpc_view" 
+          sequence="20" />
+    </data>
+</openerp>

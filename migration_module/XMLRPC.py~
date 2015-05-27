@@ -22,7 +22,7 @@
 import xmlrpclib
 
 # Launch import from 7.0
-db = 'Barc'
+db = 'Barcore'
 server = 'localhost'
 user = 'admin'
 password = 'admin'

@@ -19,33 +19,8 @@
 #
 ###############################################################################
 
-import xmlrpclib
 
-# Launch import from 7.0
-db = 'Barc'
-server = 'localhost'
-user = 'admin'
-password = 'admin'
-port = 8069
+from . import assign_production
+from . import create_production
 
-sock = xmlrpclib.ServerProxy(
-    'http://%s:%s/xmlrpc/common' % (
-        server, 
-        port, 
-        ), allow_none=True)
-                
-uid = sock.login(
-    db, 
-    user, 
-    password, )
-    
-sock = xmlrpclib.ServerProxy(
-    'http://%s:%s/xmlrpc/object' % (
-        server, 
-        port,
-        ), allow_none=True)
-        
-sock.execute(
-    db, uid, 'syncro.partner', 'syncro_partner')
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
