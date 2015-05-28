@@ -193,7 +193,7 @@ class SyncroXMLRPC(orm.Model):
         converter = self._converter[table] # for use same name
         if wiz_proxy.campaign: # TODO
             item_pool = self.pool.get(table)
-            erp_pool = erp_pool.CrmCaseCateg
+            erp_pool = erp.CrmCaseCateg
             item_ids = erp_pool.search([])
             for item in erp_pool.browse(item_ids):
                 try:
@@ -229,8 +229,8 @@ class SyncroXMLRPC(orm.Model):
         self._converter[table] = {}
         converter = self._converter[table]
         if wiz_proxy.product:
-            erp_pool = erp.CrmCaseCateg
             item_pool = self.pool.get(table)
+            erp_pool = erp.CrmCaseCateg
             item_ids = erp_pool.search([])
             i = 0
             for item in erp_pool.browse(item_ids):
@@ -292,7 +292,6 @@ class SyncroXMLRPC(orm.Model):
             item_pool = self.pool.get(table)
             erp_pool = erp.ResPartner
             item_ids = erp_pool.search([])
-            import pdb; pdb.set_trace()
             i = 0
             for item in erp_pool.browse(item_ids):
                 try:
@@ -351,8 +350,7 @@ class SyncroXMLRPC(orm.Model):
             # -----------------------------------------------------------------
             item_pool = self.pool.get('res.partner')
             erp_pool = erp.ResPartnerAddress
-            item_ids = erp_pool.search([])
-            
+            item_ids = erp_pool.search([])            
             for item in []:# erp_pool.browse(item_ids): # TODO stopped!!! 
                 try:
                     partner_id = converter[item.id] # TODO test error
@@ -440,7 +438,15 @@ class ResUsers(orm.Model):
     _inherit = 'res.users'
 
     _columns = {
-        'migration_old_id': fields.integer('ID v.8'),
+        'migration_old_id': fields.integer('ID v.6'),
+        }
+
+class CrmTrackingCampaign(orm.Model):
+
+    _inherit = 'crm.tracking.campaign'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.6'),
         }
 
 class ResPartner(orm.Model):

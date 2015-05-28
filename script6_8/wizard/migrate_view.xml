@@ -16,8 +16,10 @@
 
                        <field name="user" />
                        <field name="campaign" />
-                       <field name="partner" />
                        <field name="product" />
+                       <field name="bom" />
+                       <field name="pricelist" />
+                       <field name="partner" />
                        <field name="sale" />
                    </group>
                 </form>
