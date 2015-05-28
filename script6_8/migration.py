@@ -129,17 +129,6 @@ class SyncroXMLRPC(orm.Model):
 
         openerp = self.browse(cr, uid, item_ids[0], context=context)
 
-        # XMLRPX SOCK (TODO remove!!):
-        sock = xmlrpclib.ServerProxy(
-            'http://%s:%s/xmlrpc/common' % (
-                openerp.hostname,
-                openerp.port,
-                ), allow_none=True)
-        uid_old = sock.login(openerp.name, openerp.username, openerp.password)
-        sock = xmlrpclib.ServerProxy(
-            'http://%s:%s/xmlrpc/object' % (
-                openerp.hostname, openerp.port), allow_none=True)
-
         # ERPPEEK CLIENT:
         erp = erppeek.Client(
             'http://%s:%s' % (openerp.hostname, openerp.port),
@@ -158,39 +147,38 @@ class SyncroXMLRPC(orm.Model):
         self._converter[table] = {}
         converter = self._converter[table] # for use same name
         if wiz_proxy.user:
+            erp_pool = erp.ResUsers        
             item_pool = self.pool.get(table)
-            item_ids = sock.execute(
-                openerp.name, uid_old, openerp.password, table, 'search', [])
-            for item in sock.execute(openerp.name, uid_old,
-                    openerp.password, table, 'read', item_ids):
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
                 try:
                     # Create record to insert / update
                     data = {
-                        'name': item['name'],
-                        'login': item['login'],
-                        'active': item['active'],
-                        'signature': item['signature'],
-                        'migration_old_id': item['id'],
+                        'name': item.name,
+                        'login': item.login,
+                        'active': item.active,
+                        'signature': item.signature,
+                        'migration_old_id': item.id,
                         }
-                    if 'admin' != item['login']:
-                        data['password'] = item['password']
+                    if 'admin' != item.login:
+                        data['password'] = item.password
 
                     new_ids = item_pool.search(cr, uid, [
-                        ('login', '=', item['login'])],  # search login
+                        ('login', '=', item.login)],  # search login
                             context=context)
                     if new_ids: # Modify
                         item_id = new_ids[0]
                         item_pool.write(cr, uid, item_id, data,
                             context=context)
-                        print "#INFO", table, "update:", item['name']
+                        print "#INFO", table, "update:", item.name
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        print "#INFO", table, "create:", item['name']
+                        print "#INFO", table, "create:", item.name
 
-                    converter[item['id']] = item_id
+                    converter[item.id] = item_id
                 except:
-                    print "#ERR", table, "jumped:", item['name']
+                    print "#ERR", table, "jumped:", item.name
                     continue 
                 # NOTE No contact for this database
         else: # Load convert list form database
@@ -205,7 +193,7 @@ class SyncroXMLRPC(orm.Model):
         converter = self._converter[table] # for use same name
         if wiz_proxy.campaign: # TODO
             item_pool = self.pool.get(table)
-            erp_pool = erp.CrmCaseCateg
+            erp_pool = erp_pool.CrmCaseCateg
             item_ids = erp_pool.search([])
             for item in erp_pool.browse(item_ids):
                 try:
@@ -241,46 +229,46 @@ class SyncroXMLRPC(orm.Model):
         self._converter[table] = {}
         converter = self._converter[table]
         if wiz_proxy.product:
+            erp_pool = erp.CrmCaseCateg
             item_pool = self.pool.get(table)
-            item_ids = sock.execute(
-                openerp.name, uid_old, openerp.password, table, 'search', [])
-            for item in sock.execute(openerp.name, uid_old,
-                    openerp.password, table, 'read', item_ids):
+            item_ids = erp_pool.search([])
+            i = 0
+            for item in erp_pool.browse(item_ids):
                 try:
                     # PARENT analytic account:
+                    i += 1
                     categ_id = get_product_category(
-                        self, cr, uid, item[
-                            'categ_id'], context=context)
+                        self, cr, uid, item.categ_id, context=context)
                             
                     # Create record to insert / update
                     data = {
-                        'name': item['name'],
-                        'default_code': item['default_code'],
+                        'name': item.name,
+                        'default_code': item.default_code,
                         'categ_id': categ_id,                        
                         'type': 'service',
                         'standard_price': 1.0,
                         'list_price': 1.0,
-                        'migration_old_id': item['id'],
+                        'migration_old_id': item.id,
                         }
 
                     new_ids = item_pool.search(cr, uid, [
-                        ('migration_old_id', '=', item['id'])],
+                        ('migration_old_id', '=', item.id)],
                             context=context)
                     if new_ids: # Modify
                         item_id = new_ids[0]
                         if wiz_proxy.update:
                             item_pool.write(cr, uid, item_id, data,
                                 context=context)
-                            print "#INFO ", table, "update:", item['name']
+                            print i, "#INFO ", table, "update:", item.name
                         else:    
-                            print "#INFO ", table, "jumped:", item['name']
+                            print i, "#INFO ", table, "jumped:", item.name
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        print "#INFO", table, " create:", item['name']
-                    converter[item['id']] = item_id
+                        print i, "#INFO", table, " create:", item.name
+                    converter[item.id] = item_id
                 except:
-                    print "#ERR", sys.exc_info() #table, item['name'], 
+                    print i, "#ERR", sys.exc_info()
                     continue 
                 # NOTE No contact for this database
         else: # Load convert list form database
@@ -365,7 +353,7 @@ class SyncroXMLRPC(orm.Model):
             erp_pool = erp.ResPartnerAddress
             item_ids = erp_pool.search([])
             
-            for item in []:# erp_pool.browse(item_ids):
+            for item in []:# erp_pool.browse(item_ids): # TODO stopped!!! 
                 try:
                     partner_id = converter[item.id] # TODO test error
                     name = item.name.strip()
