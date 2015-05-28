@@ -193,7 +193,7 @@ class SyncroXMLRPC(orm.Model):
         converter = self._converter[table] # for use same name
         if wiz_proxy.campaign: # TODO
             item_pool = self.pool.get(table)
-            erp_pool = erp.CrmCaseCateg
+            erp_pool = erp.CrmCaseResourceType #TODO CrmCaseCateg
             item_ids = erp_pool.search([])
             for item in erp_pool.browse(item_ids):
                 try:
@@ -221,6 +221,41 @@ class SyncroXMLRPC(orm.Model):
             self.load_converter(cr, uid, converter, table=table, 
                 context=context)
 
+        # ---------------------------------------------------------------------
+        # res.partner.category
+        # ---------------------------------------------------------------------
+        table = 'res.partner.category'
+        self._converter[table] = {}
+        converter = self._converter[table] # for use same name
+        if wiz_proxy.category: # TODO
+            item_pool = self.pool.get(table)
+            erp_pool = erp.CrmCaseCateg
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try:
+                    # Create record to insert/update
+                    name = item.name 
+                    data = {'name': name}
+                    new_ids = item_pool.search(cr, uid, [
+                        ('name', '=', name)], context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        item_pool.write(cr, uid, item_id, data,
+                            context=context)
+                        print "#INFO", table, "update:", name
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO", table, "create:", name
+
+                    converter[item.id] = item_id
+                except:
+                    print "#ERR", table, "jumped:", name
+                    continue 
+                # NOTE No contact for this database
+        else: # Load convert list form database
+            self.load_converter(cr, uid, converter, table=table, 
+                context=context)
 
         # ---------------------------------------------------------------------
         # product.product

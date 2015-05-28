@@ -16,6 +16,7 @@
 
                        <field name="user" />
                        <field name="campaign" />
+                       <field name="category" />
                        <field name="product" />
                        <field name="bom" />
                        <field name="pricelist" />

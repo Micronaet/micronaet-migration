@@ -61,6 +61,7 @@ class SyncroMigrationWizard(orm.TransientModel):
 
         'user': fields.boolean('User'),
         'campaign': fields.boolean('Campaign'),
+        'category': fields.boolean('Partner category'),
         'product': fields.boolean(
             'Product > Account (Category > create parent account)'),
         'bom': fields.boolean('BOM'), # TODO
