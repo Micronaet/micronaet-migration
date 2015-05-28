@@ -12,6 +12,7 @@
                        <newline />
                        <field name="from_date" />
                        <field name="to_date" />                       
+                       <field name="update" />
 
                        <field name="user" />
                        <field name="partner" />

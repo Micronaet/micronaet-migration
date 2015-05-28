@@ -62,5 +62,10 @@ class SyncroMigrationWizard(orm.TransientModel):
         'sale': fields.boolean('Sale > Sale order line'),
         'from_date': fields.datetime('From date'),
         'to_date': fields.datetime('To date'),
+        'update': fields.boolean('Update if present'),
         }
+        
+    _defaults = {
+        'update': lambda *x: False,
+        }    
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

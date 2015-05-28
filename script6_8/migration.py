@@ -162,6 +162,7 @@ class SyncroXMLRPC(orm.Model):
                         'login': item['login'],
                         'active': item['active'],
                         'signature': item['signature'],
+                        'migration_old_id': item['id'],
                         }
                     if 'admin' != item['login']:
                         data['password'] = item['password']
@@ -179,10 +180,6 @@ class SyncroXMLRPC(orm.Model):
                             context=context)
                         print "#INFO", table, "create:", item['name']
 
-                    # Write always the ID
-                    item_pool.write(cr, uid, item_id, {
-                        'migration_old_id': item['id'],
-                        }, context=context)
                     converter[item['id']] = item_id
                 except:
                     print "#ERR", table, "jumped:", item['name']
@@ -218,6 +215,7 @@ class SyncroXMLRPC(orm.Model):
                         'type': 'service',
                         'standard_price': 1.0,
                         'list_price': 1.0,
+                        'migration_old_id': item['id'],
                         }
 
                     new_ids = item_pool.search(cr, uid, [
@@ -225,16 +223,16 @@ class SyncroXMLRPC(orm.Model):
                             context=context)
                     if new_ids: # Modify
                         item_id = new_ids[0]
-                        item_pool.write(cr, uid, item_id, data,
-                            context=context)
-                        print "#INFO ", table, "update:", item['name']
+                        if wiz_proxy.update:
+                            item_pool.write(cr, uid, item_id, data,
+                                context=context)
+                            print "#INFO ", table, "update:", item['name']
+                        else:    
+                            print "#INFO ", table, "jumped:", item['name']
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
                         print "#INFO", table, " create:", item['name']
-                        item_pool.write(cr, uid, item_id, {
-                            'migration_old_id': item['id'],
-                            }, context=context)
                     converter[item['id']] = item_id
                 except:
                     print "#ERR", sys.exc_info() #table, item['name'], 
@@ -302,11 +300,14 @@ class SyncroXMLRPC(orm.Model):
                         table, 'search', [
                             ('migration_old_id', '=', item['id']),
                             ])
-                    if partner_ids:         
+                    if partner_ids:
                         item_id = partner_ids[0]
-                        item_pool.write(cr, uid, item_id, data,
-                            context=context)
-                        print "#INFO", table ," update:", item['name']
+                        if wiz_proxy.update:
+                            item_pool.write(cr, uid, item_id, data,
+                                context=context)
+                            print "#INFO", table ," update:", item['name']
+                        else:    
+                            print "#INFO", table ," jumped:", item['name']
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
@@ -373,16 +374,16 @@ class SyncroXMLRPC(orm.Model):
                             ('migration_old_id', '=', item['id']),
                             ])
                     if address_ids:
-                        item_id = sock.execute(openerp.name, uid_old,
-                            openerp.password, table, 'write', address_ids,
-                            data, )
-                        print "#INFO", table ," (addr) update:", item['name']
+                        if wiz_proxy.update:
+                            item_id = sock.execute(openerp.name, uid_old,
+                                openerp.password, table, 'write', address_ids,
+                                data, )
+                            print "#INFO", table, " (addr) upd:", item['name']
+                        else:    
+                            print "#INFO", table, " (addr) jump:", item['name']
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        item_pool.write(cr, uid, item_id, {
-                            'migration_old_id': item['id'],
-                            }, context=context)
                         print "#INFO", table ," (addr) create:", item['name']
 
                     converter[item['id']] = item_id
