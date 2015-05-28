@@ -354,11 +354,22 @@ class SyncroXMLRPC(orm.Model):
                         'sql_customer_code': item.mexal_c,
                         'sql_supplier_code': item.mexal_s,
                         'migration_old_id': item.id,
+                        
+                        # Conversione of IDs
+                        'user_id': self._convert('res.users').get(
+                            item.user_id or 0, False)
+                        #'': self._convert(
+                        #    'crm.tracking.campaign').get(
+                        #        item.type_id, False),
                         }
                         # TODO pricelist
                         # TODO category
                         # TODO zone
                         # TODO mexal data
+                        # source / campaign
+                        # lang
+                        # user_id
+                        # easy label
 
                     # Pre SQL import:
                     partner_ids = item_pool.search(cr, uid, [
@@ -381,33 +392,69 @@ class SyncroXMLRPC(orm.Model):
                     continue 
 
             # -----------------------------------------------------------------
-            # A. Searching for partner address:
+            # B. Searching for partner address (default address):
             # -----------------------------------------------------------------
-            item_pool = self.pool.get('res.partner')
+            item_pool = self.pool.get('res.partner') #
             erp_pool = erp.ResPartnerAddress
-            item_ids = erp_pool.search([])            
+            # Destination address:
+            item_ids = erp_pool.search([
+                ('mexal_c', '=', False),('mexal_s', '=', False)])
             for item in []:# erp_pool.browse(item_ids): # TODO stopped!!! 
                 try:
                     partner_id = converter[item.id] # TODO test error
+                    # Create record to insert / update
+                    data = { # NOTE: partner are imported add only new data
+                        # function
+                        # type
+                        #'partner_id': partner_id,
+                        'street': address.street,
+                        'street2': address.street2,
+                        'fax': address.fax,
+                        'phone': address.phone,
+                        'mobile': address.mobile,
+                        # country!! state_id
+                        'city': address.city,
+                        'zip': address.zip,
+                        'email': address.email,
+                        #'birthdate': address.birthdate,
+                        #'title': address,
+                        #'migration_old_id': item.id,
+                        }
+
+                    # Read info from address related to this partner:                    
+                    partner_ids = item_pool.search(cr, uid, [
+                        ('id', '=', partner_id)])
+                    if partner_ids:
+                        if wiz_proxy.update:
+                            item_id = item_pool.write(cr, uid, partner_ids,
+                                data)
+                            print "#INFO", table, "partner addr upd:", item.name
+                    else: # Create
+                        print "#ERR", table ,"partner parent not found", item.name
+                    converter[item.id] = item_id
+
+                except:
+                    print "#ERR", table, "jumped:", item.name
+                    continue 
+                # NOTE No contact for this database
+
+            # -----------------------------------------------------------------
+            # C. Searching for partner address (destination):
+            # -----------------------------------------------------------------
+            item_pool = self.pool.get('res.partner') #
+            erp_pool = erp.ResPartnerAddress
+            # Destination address:
+            item_ids = erp_pool.search([
+                '|',('mexal_c','=',True),('mexal_s','=',True)])
+            for item in []:# erp_pool.browse(item_ids): # TODO stopped!!! 
+                try:
+                    partner_id = self._converter['res.partner'].get(
+                        item.id, False) # TODO test error
                     name = item.name.strip()
                     # Create record to insert / update
                     data = { # NOTE: partner are imported add only new data
-                        'name': name,
-                        'comment': item.comment,
-                        'ref': item.ref,
-                        'website': item.website,
-                        'customer': item.customer,
-                        'supplier': item.supplier,
-                        'is_company': True,
                         #TODO lang
-                        #'date': item.date,
-                        #'ean13': item.ean13,
-                        #'fiscalcode': item.x_fiscalcode,
                         # type parent_id category vat_subjected
-                        #'vat': item.vat,
-                        #'notify_email': item.nofify_email,
-                        #'opt_out': item.opt_out,
-
                         # function
                         # type
                         'partner_id': partner_id,
@@ -439,13 +486,13 @@ class SyncroXMLRPC(orm.Model):
                         if wiz_proxy.update:
                             item_id = item_pool.write(cr, uid, address_ids,
                                 data, )
-                            print "#INFO", table, " (addr) upd:", item.name
+                            print "#INFO", table, "(addr) upd:", item.name
                         else:    
-                            print "#INFO", table, " (addr) jump:", item.name
+                            print "#INFO", table, "(addr) jump:", item.name
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        print "#INFO", table ," (addr) create:", item.name
+                        print "#INFO", table ,"(addr) create:", item.name
                     converter[item.id] = item_id
 
                 except:
