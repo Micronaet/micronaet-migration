@@ -252,7 +252,8 @@ class SyncroXMLRPC(orm.Model):
         # res.partner and res.partner.address
         # ---------------------------------------------------------------------
         table = 'res.partner'
-
+        import pdb; pdb.set_trace()
+        
         self._converter[table] = {}
         converter = self._converter[table] # for use same name
         if wiz_proxy.partner:
@@ -286,66 +287,105 @@ class SyncroXMLRPC(orm.Model):
                         'is_address': False,
                         'active': item['active'],
                         #TODO lang
-                        #'sql_customer_code': item['mexal_c'],
-                        #'sql_supplier_code': item['mexal_s'],
+                        'sql_customer_code': item['mexal_c'],
+                        'sql_supplier_code': item['mexal_s'],
+                        'migration_old_id': item['id'],
                         }
                         # TODO pricelist
                         # TODO category
                         # TODO zone
                         # TODO mexal data
 
-                    if # TODO qui||||||||||||||||||||||||||||||||||||||||||||||
-
-
+                    # Pre SQL import:
+                    partner_ids = sock.execute(
+                        openerp.name, uid_old, openerp.password,
+                        table, 'search', [
+                            ('migration_old_id', '=', item['id']),
+                            ])
+                    if partner_ids:         
+                        item_id = partner_ids[0]
+                        item_pool.write(cr, uid, item_id, data,
+                            context=context)
+                        print "#INFO", table ," update:", item['name']
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO",table ,"create:", item['name']
                     converter[item['id']] = item_id
 
+            # -----------------------------------------------------------------
+            # A. Searching for partner address:
+            # -----------------------------------------------------------------
+            item_ids = sock.execute(
+                openerp.name, uid_old, openerp.password, table, 'search', [
+                    ('is_address', '=', True)])
+            for item in sock.execute(openerp.name, uid_old,
+                    openerp.password, table, 'read', item_ids):
+                try:
+                    partner_id = converter[item['id']] # TODO test error
+                    name = item['name'].strip()
+                    # Create record to insert / update
+                    data = { # NOTE: partner are imported add only new data
+                        'name': name,
+                        'comment': item['comment'],
+                        'ref': item['ref'],
+                        'website': item['website'],
+                        'customer': item['customer'],
+                        'supplier': item['supplier'],
+                        'is_company': True,
+                        #TODO lang
+                        #'date': item['date'],
+                        #'ean13': item['ean13'],
+                        #'fiscalcode': item['x_fiscalcode'],
+                        # type parent_id category vat_subjected
+                        #'vat': item['vat'],
+                        #'notify_email': item.nofify_email,
+                        #'opt_out': item.opt_out,
+
+                        # function
+                        # type
+                        'partner_id': partner:_id,
+                        'is_address': True,
+                        'active': item['active'],
+                        'sql_destination_code': item['mexal_d'],
+                        'street': address['street'],
+                        'street2': address['street2'],
+                        'fax': address['fax'],
+                        'phone': address['phone'],
+                        'mobile': address['mobile'],
+                        # country!! state_id
+                        'city': address['city'],
+                        'zip': address['zip'],
+                        'email': address['email'],
+                        'birthdate': address['birthdate'],
+                        #'title': address,
+                        'migration_old_id': item['id'],
+                        }
+                        # TODO pricelist
+                        # TODO category
+                        # TODO zone
+                        # TODO mexal data
 
                     # Read info from address related to this partner:                    
                     address_ids = sock.execute(
                         openerp.name, uid_old, openerp.password,
-                        table, 'search', [('partner_id', '=', item['id'])])
+                        table, 'search', [
+                            ('migration_old_id', '=', item['id']),
+                            ])
                     if address_ids:
-                        address_read = sock.execute(openerp.name, uid_old,
-                            openerp.password, table2, 'read', address_ids)
-                        address = address_read[0]
-                        data.update({
-                            # function
-                            # type
-                            'street': address['street'],
-                            'street2': address['street2'],
-                            'fax': address['fax'],
-                            'phone': address['phone'],
-                            'mobile': address['mobile'],
-                            # country!! state_id
-                            'city': address['city'],
-                            'zip': address['zip'],
-                            'email': address['email'],
-                            'birthdate': address['birthdate'],
-                            #'title': address,
-                            })
-
-                    new_ids = item_pool.search(cr, uid, [
-                        ('migration_old_id', '=', item['id'])],
-                            context=context)
-                    if new_ids: # Modify
-                        item_id = new_ids[0]
-                        item_pool.write(cr, uid, item_id, data,
-                            context=context)
-                        print "#INFO",table ," update:", item['name']
+                        item_id = sock.execute(openerp.name, uid_old,
+                            openerp.password, table, 'write', address_ids,
+                            data, )
+                        print "#INFO", table ," (addr) update:", item['name']
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
                         item_pool.write(cr, uid, item_id, {
                             'migration_old_id': item['id'],
                             }, context=context)
-                        print "#INFO",table ,"create:", item['name']
+                        print "#INFO", table ," (addr) create:", item['name']
 
                     converter[item['id']] = item_id
-
-                    # Teste if there's more than one address
-                    if len(address_ids) > 1:
-                        print "+ Address:", item['name'], len(address_ids)
-                        # TODO create other addresses: (here not present)
 
                 except:
                     print "#ERR", table, "jumped:"#, item['name']
@@ -354,7 +394,6 @@ class SyncroXMLRPC(orm.Model):
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, table=table, 
                 context=context)
-  
         return True
 
     _columns = {
