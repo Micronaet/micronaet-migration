@@ -235,7 +235,10 @@ class SyncroXMLRPC(orm.Model):
                 try:
                     # Create record to insert/update
                     name = item.name 
-                    data = {'name': name}
+                    data = {
+                        'name': name,
+                        'migration_old_id': item.id,
+                        }
                     new_ids = item_pool.search(cr, uid, [
                         ('name', '=', name)], context=context)
                     if new_ids: # Modify
@@ -251,7 +254,7 @@ class SyncroXMLRPC(orm.Model):
                     converter[item.id] = item_id
                 except:
                     print "#ERR", table, "jumped:", name
-                    continue 
+                    continue
                 # NOTE No contact for this database
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, table=table, 
@@ -326,7 +329,7 @@ class SyncroXMLRPC(orm.Model):
             # -----------------------------------------------------------------
             item_pool = self.pool.get(table)
             erp_pool = erp.ResPartner
-            item_ids = erp_pool.search([])
+            item_ids = erp_pool.search([])#[:10]            
             i = 0
             for item in erp_pool.browse(item_ids):
                 try:
@@ -350,13 +353,14 @@ class SyncroXMLRPC(orm.Model):
                         #'opt_out': item.opt_out,
                         'is_address': False,
                         'active': item.active,
+                        
                         #TODO lang
                         'sql_customer_code': item.mexal_c,
                         'sql_supplier_code': item.mexal_s,
                         'migration_old_id': item.id,
                         
                         # Conversione of IDs
-                        'user_id': self._convert('res.users').get(
+                        'user_id': self._converter['res.users'].get(
                             item.user_id or 0, False)
                         #'': self._convert(
                         #    'crm.tracking.campaign').get(
@@ -394,12 +398,12 @@ class SyncroXMLRPC(orm.Model):
             # -----------------------------------------------------------------
             # B. Searching for partner address (default address):
             # -----------------------------------------------------------------
-            item_pool = self.pool.get('res.partner') #
+            item_pool = self.pool.get('res.partner')
             erp_pool = erp.ResPartnerAddress
             # Destination address:
             item_ids = erp_pool.search([
                 ('mexal_c', '=', False),('mexal_s', '=', False)])
-            for item in []:# erp_pool.browse(item_ids): # TODO stopped!!! 
+            for item in erp_pool.browse(item_ids): # TODO stopped!!! 
                 try:
                     partner_id = converter[item.id] # TODO test error
                     # Create record to insert / update
@@ -516,7 +520,6 @@ class SyncroXMLRPC(orm.Model):
 # Add reference for future update of migration / sync
 # -----------------------------------------------------------------------------
 class ResUsers(orm.Model):
-
     _inherit = 'res.users'
 
     _columns = {
@@ -524,7 +527,6 @@ class ResUsers(orm.Model):
         }
 
 class CrmTrackingCampaign(orm.Model):
-
     _inherit = 'crm.tracking.campaign'
 
     _columns = {
@@ -532,7 +534,6 @@ class CrmTrackingCampaign(orm.Model):
         }
 
 class ResPartner(orm.Model):
-
     _inherit = 'res.partner'
 
     _columns = {
@@ -541,7 +542,6 @@ class ResPartner(orm.Model):
         }
 
 class ProductProduct(orm.Model):
-
     _inherit = 'product.product'
 
     _columns = {
@@ -549,8 +549,14 @@ class ProductProduct(orm.Model):
         }
 
 class ProductTemplate(orm.Model):
-
     _inherit = 'product.template'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.6'),
+        }
+
+class ResPartnerCategory(orm.Model):
+    _inherit = 'res.partner.category'
 
     _columns = {
         'migration_old_id': fields.integer('ID v.6'),

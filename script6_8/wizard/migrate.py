@@ -59,15 +59,14 @@ class SyncroMigrationWizard(orm.TransientModel):
         'to_date': fields.datetime('To date'),
         'update': fields.boolean('Update if present'),
 
-        'user': fields.boolean('User'),
-        'campaign': fields.boolean('Campaign'),
-        'category': fields.boolean('Partner category'),
-        'product': fields.boolean(
-            'Product > Account (Category > create parent account)'),
-        'bom': fields.boolean('BOM'), # TODO
-        'pricelist': fields.boolean('Pricelist'), # TODO
-        'partner': fields.boolean('Partner'),
-        'sale': fields.boolean('Sale > Sale order line'),        
+        'user': fields.boolean('A. User'),
+        'campaign': fields.boolean('A. Campaign'),
+        'category': fields.boolean('A. Partner category'),
+        'product': fields.boolean('B. Product'),
+        'bom': fields.boolean('B. BOM'), # TODO
+        'pricelist': fields.boolean('B. Pricelist'), # TODO
+        'partner': fields.boolean('B. Partner'),
+        'sale': fields.boolean('C. Sale > Sale order line'),        
         }
         
     _defaults = {

@@ -33,6 +33,7 @@
         'product',
         'sale',
         'crm',
+        'auto_backup',
         ],
     'init_xml': [], 
     'data': [
