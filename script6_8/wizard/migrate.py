@@ -56,10 +56,11 @@ class SyncroMigrationWizard(orm.TransientModel):
 
     _columns = {
         'user': fields.boolean('User'),
+        'campaign': fields.boolean('Campaign'),
         'partner': fields.boolean('Partner'),
         'product': fields.boolean(
             'Product > Account (Category > create parent account)'),
-        'sale': fields.boolean('Sale > Sale order line'),
+        'sale': fields.boolean('Sale > Sale order line'),        
         'from_date': fields.datetime('From date'),
         'to_date': fields.datetime('To date'),
         'update': fields.boolean('Update if present'),

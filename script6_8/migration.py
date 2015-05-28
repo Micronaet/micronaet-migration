@@ -128,7 +128,7 @@ class SyncroXMLRPC(orm.Model):
            return False
 
         openerp = self.browse(cr, uid, item_ids[0], context=context)
-    
+
         # XMLRPX SOCK (TODO remove!!):
         sock = xmlrpclib.ServerProxy(
             'http://%s:%s/xmlrpc/common' % (
@@ -198,6 +198,43 @@ class SyncroXMLRPC(orm.Model):
                 context=context)
 
         # ---------------------------------------------------------------------
+        # crm.tracking.campaign
+        # ---------------------------------------------------------------------
+        table = 'crm.tracking.campaign'
+        self._converter[table] = {}
+        converter = self._converter[table] # for use same name
+        if wiz_proxy.campaign: # TODO
+            item_pool = self.pool.get(table)
+            erp_pool = erp.CrmCaseCateg
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try:
+                    # Create record to insert/update
+                    name = item.name 
+                    data = {'name': name}
+                    new_ids = item_pool.search(cr, uid, [
+                        ('name', '=', name)], context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        item_pool.write(cr, uid, item_id, data,
+                            context=context)
+                        print "#INFO", table, "update:", name
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO", table, "create:", name
+
+                    converter[item.id] = item_id
+                except:
+                    print "#ERR", table, "jumped:", name
+                    continue 
+                # NOTE No contact for this database
+        else: # Load convert list form database
+            self.load_converter(cr, uid, converter, table=table, 
+                context=context)
+
+
+        # ---------------------------------------------------------------------
         # product.product
         # ---------------------------------------------------------------------
         table = 'product.product' # template??
@@ -257,17 +294,21 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # res.partner and res.partner.address
         # ---------------------------------------------------------------------
+        table = 'res.partner'
         self._converter[table] = {}
         converter = self._converter[table] # for use same name
         if wiz_proxy.partner:
             # -----------------------------------------------------------------
             # A. Searching for partner (master):
             # -----------------------------------------------------------------
-            item_pool = erp.ResPartner
-            item_ids = item_pool.search([])
+            item_pool = self.pool.get(table)
+            erp_pool = erp.ResPartner
+            item_ids = erp_pool.search([])
             import pdb; pdb.set_trace()
-            for item in item_pool.browse(item_ids):
+            i = 0
+            for item in erp_pool.browse(item_ids):
                 try:
+                    i += 1
                     name = item.name.strip()
                     # Create record to insert / update
                     data = { # NOTE: partner are imported add only new data
@@ -305,24 +346,26 @@ class SyncroXMLRPC(orm.Model):
                         if wiz_proxy.update:
                             item_pool.write(cr, uid, item_id, data,
                                 context=context)
-                            print "#INFO", table ," update:", item['name']
-                        else:    
-                            print "#INFO", table ," jumped:", item['name']
+                            print i, "#INFO", table, "update:", item.name
+                        else:
+                            print i, "#INFO", table, "jumped:", item.name
                     else: # Create
-                        item_id = item_pool.create(cr, uid, data,
-                            context=context)
-                        print "#INFO", table, "create:", item['name']
-                    converter[item['id']] = item_id
+                        item_id = item_pool.create(
+                            cr, uid, data, context=context)
+                        print i, "#INFO", table, "create:", item.name
+                    converter[item.id] = item_id
                 except:
-                    print "#ERR", table, "jumped:"#, item['name']
+                    print i, "#ERR", table, "jumped:", item.name
                     continue 
 
             # -----------------------------------------------------------------
             # A. Searching for partner address:
             # -----------------------------------------------------------------
-            item_pool = erp.ResPartnerAddress
-            item_ids = item_pool.search([])
-            for item in item_pool.browse(item_ids):
+            item_pool = self.pool.get('res.partner')
+            erp_pool = erp.ResPartnerAddress
+            item_ids = erp_pool.search([])
+            
+            for item in []:# erp_pool.browse(item_ids):
                 try:
                     partner_id = converter[item.id] # TODO test error
                     name = item.name.strip()
@@ -370,22 +413,22 @@ class SyncroXMLRPC(orm.Model):
 
                     # Read info from address related to this partner:                    
                     address_ids = item_pool.search(cr, uid, [
-                        ('migration_old_id', '=', item['id']), ])
+                        ('migration_old_id', '=', item.id), ])
                     if address_ids:
                         if wiz_proxy.update:
                             item_id = item_pool.write(cr, uid, address_ids,
                                 data, )
-                            print "#INFO", table, " (addr) upd:", item['name']
+                            print "#INFO", table, " (addr) upd:", item.name
                         else:    
-                            print "#INFO", table, " (addr) jump:", item['name']
+                            print "#INFO", table, " (addr) jump:", item.name
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        print "#INFO", table ," (addr) create:", item['name']
-                    converter[item['id']] = item_id
+                        print "#INFO", table ," (addr) create:", item.name
+                    converter[item.id] = item_id
 
                 except:
-                    print "#ERR", table, "jumped:"#, item['name']
+                    print "#ERR", table, "jumped:", item.name
                     continue 
                 # NOTE No contact for this database
         else: # Load convert list form database
@@ -417,7 +460,8 @@ class ResPartner(orm.Model):
     _inherit = 'res.partner'
 
     _columns = {
-        'migration_old_id': fields.integer('ID v.7'),
+        'migration_old_id': fields.integer('ID v.6'),
+        'migration_old_address_id': fields.integer('ID v.6'),
         }
 
 class ProductProduct(orm.Model):
@@ -425,7 +469,7 @@ class ProductProduct(orm.Model):
     _inherit = 'product.product'
 
     _columns = {
-        'migration_old_id': fields.integer('ID v.7'),
+        'migration_old_id': fields.integer('ID v.6'),
         }
 
 class ProductTemplate(orm.Model):
@@ -433,6 +477,6 @@ class ProductTemplate(orm.Model):
     _inherit = 'product.template'
 
     _columns = {
-        'migration_old_id': fields.integer('ID v.7'),
+        'migration_old_id': fields.integer('ID v.6'),
         }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

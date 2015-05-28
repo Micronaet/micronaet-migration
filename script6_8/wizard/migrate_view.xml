@@ -15,6 +15,7 @@
                        <field name="update" />
 
                        <field name="user" />
+                       <field name="campaign" />
                        <field name="partner" />
                        <field name="product" />
                        <field name="sale" />
