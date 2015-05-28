@@ -32,6 +32,7 @@
         'partner_addresses',
         'product',
         'sale',
+        'crm',
         ],
     'init_xml': [], 
     'data': [

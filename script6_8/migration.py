@@ -26,6 +26,7 @@ import openerp
 import openerp.netsvc as netsvc
 import openerp.addons.decimal_precision as dp
 import xmlrpclib
+import erppeek
 from openerp.osv import fields, osv, expression, orm
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
@@ -127,18 +128,25 @@ class SyncroXMLRPC(orm.Model):
            return False
 
         openerp = self.browse(cr, uid, item_ids[0], context=context)
-
+    
+        # XMLRPX SOCK (TODO remove!!):
         sock = xmlrpclib.ServerProxy(
             'http://%s:%s/xmlrpc/common' % (
                 openerp.hostname,
                 openerp.port,
                 ), allow_none=True)
-
         uid_old = sock.login(openerp.name, openerp.username, openerp.password)
-
         sock = xmlrpclib.ServerProxy(
             'http://%s:%s/xmlrpc/object' % (
                 openerp.hostname, openerp.port), allow_none=True)
+
+        # ERPPEEK CLIENT:
+        erp = erppeek.Client(
+            'http://%s:%s' % (openerp.hostname, openerp.port),
+            db=openerp.name,
+            user=openerp.username,
+            password=openerp.password,
+            )
         
         from_date = wiz_proxy.from_date or False        
         to_date = wiz_proxy.to_date or False
@@ -249,45 +257,40 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # res.partner and res.partner.address
         # ---------------------------------------------------------------------
-        table = 'res.partner'
-        import pdb; pdb.set_trace()
-        
         self._converter[table] = {}
         converter = self._converter[table] # for use same name
         if wiz_proxy.partner:
             # -----------------------------------------------------------------
             # A. Searching for partner (master):
             # -----------------------------------------------------------------
-            item_pool = self.pool.get(table)
-            item_ids = sock.execute(
-                openerp.name, uid_old, openerp.password, table, 'search', [
-                    ('is_address', '=', False)])
-            for item in sock.execute(openerp.name, uid_old,
-                    openerp.password, table, 'read', item_ids):
+            item_pool = erp.ResPartner
+            item_ids = item_pool.search([])
+            import pdb; pdb.set_trace()
+            for item in item_pool.browse(item_ids):
                 try:
-                    name = item['name'].strip()
+                    name = item.name.strip()
                     # Create record to insert / update
                     data = { # NOTE: partner are imported add only new data
                         'name': name,
-                        #'date': item['date'],
-                        'comment': item['comment'],
-                        #'ean13': item['ean13'],
-                        'ref': item['ref'],
-                        'website': item['website'],
-                        'customer': item['customer'],
-                        'supplier': item['supplier'],
+                        #'date': item.date,
+                        'comment': item.comment,
+                        #'ean13': item.ean13,
+                        'ref': item.ref,
+                        'website': item.website,
+                        'customer': item.customer,
+                        'supplier': item.supplier,
                         'is_company': True,
-                        #'fiscalcode': item['x_fiscalcode'],
+                        #'fiscalcode': item.x_fiscalcode,
                         # type parent_id category vat_subjected
-                        #'vat': item['vat'],
+                        #'vat': item.vat,
                         #'notify_email': item.nofify_email,
                         #'opt_out': item.opt_out,
                         'is_address': False,
-                        'active': item['active'],
+                        'active': item.active,
                         #TODO lang
-                        'sql_customer_code': item['mexal_c'],
-                        'sql_supplier_code': item['mexal_s'],
-                        'migration_old_id': item['id'],
+                        'sql_customer_code': item.mexal_c,
+                        'sql_supplier_code': item.mexal_s,
+                        'migration_old_id': item.id,
                         }
                         # TODO pricelist
                         # TODO category
@@ -295,11 +298,8 @@ class SyncroXMLRPC(orm.Model):
                         # TODO mexal data
 
                     # Pre SQL import:
-                    partner_ids = sock.execute(
-                        openerp.name, uid_old, openerp.password,
-                        table, 'search', [
-                            ('migration_old_id', '=', item['id']),
-                            ])
+                    partner_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item.id)])
                     if partner_ids:
                         item_id = partner_ids[0]
                         if wiz_proxy.update:
@@ -311,56 +311,57 @@ class SyncroXMLRPC(orm.Model):
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        print "#INFO",table ,"create:", item['name']
+                        print "#INFO", table, "create:", item['name']
                     converter[item['id']] = item_id
+                except:
+                    print "#ERR", table, "jumped:"#, item['name']
+                    continue 
 
             # -----------------------------------------------------------------
             # A. Searching for partner address:
             # -----------------------------------------------------------------
-            item_ids = sock.execute(
-                openerp.name, uid_old, openerp.password, table, 'search', [
-                    ('is_address', '=', True)])
-            for item in sock.execute(openerp.name, uid_old,
-                    openerp.password, table, 'read', item_ids):
+            item_pool = erp.ResPartnerAddress
+            item_ids = item_pool.search([])
+            for item in item_pool.browse(item_ids):
                 try:
-                    partner_id = converter[item['id']] # TODO test error
-                    name = item['name'].strip()
+                    partner_id = converter[item.id] # TODO test error
+                    name = item.name.strip()
                     # Create record to insert / update
                     data = { # NOTE: partner are imported add only new data
                         'name': name,
-                        'comment': item['comment'],
-                        'ref': item['ref'],
-                        'website': item['website'],
-                        'customer': item['customer'],
-                        'supplier': item['supplier'],
+                        'comment': item.comment,
+                        'ref': item.ref,
+                        'website': item.website,
+                        'customer': item.customer,
+                        'supplier': item.supplier,
                         'is_company': True,
                         #TODO lang
-                        #'date': item['date'],
-                        #'ean13': item['ean13'],
-                        #'fiscalcode': item['x_fiscalcode'],
+                        #'date': item.date,
+                        #'ean13': item.ean13,
+                        #'fiscalcode': item.x_fiscalcode,
                         # type parent_id category vat_subjected
-                        #'vat': item['vat'],
+                        #'vat': item.vat,
                         #'notify_email': item.nofify_email,
                         #'opt_out': item.opt_out,
 
                         # function
                         # type
-                        'partner_id': partner:_id,
+                        'partner_id': partner_id,
                         'is_address': True,
-                        'active': item['active'],
-                        'sql_destination_code': item['mexal_d'],
-                        'street': address['street'],
-                        'street2': address['street2'],
-                        'fax': address['fax'],
-                        'phone': address['phone'],
-                        'mobile': address['mobile'],
+                        'active': item.active,
+                        'sql_destination_code': item.mexal_d,
+                        'street': address.street,
+                        'street2': address.street2,
+                        'fax': address.fax,
+                        'phone': address.phone,
+                        'mobile': address.mobile,
                         # country!! state_id
-                        'city': address['city'],
-                        'zip': address['zip'],
-                        'email': address['email'],
-                        'birthdate': address['birthdate'],
+                        'city': address.city,
+                        'zip': address.zip,
+                        'email': address.email,
+                        'birthdate': address.birthdate,
                         #'title': address,
-                        'migration_old_id': item['id'],
+                        'migration_old_id': item.id,
                         }
                         # TODO pricelist
                         # TODO category
@@ -368,15 +369,11 @@ class SyncroXMLRPC(orm.Model):
                         # TODO mexal data
 
                     # Read info from address related to this partner:                    
-                    address_ids = sock.execute(
-                        openerp.name, uid_old, openerp.password,
-                        table, 'search', [
-                            ('migration_old_id', '=', item['id']),
-                            ])
+                    address_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item['id']), ])
                     if address_ids:
                         if wiz_proxy.update:
-                            item_id = sock.execute(openerp.name, uid_old,
-                                openerp.password, table, 'write', address_ids,
+                            item_id = item_pool.write(cr, uid, address_ids,
                                 data, )
                             print "#INFO", table, " (addr) upd:", item['name']
                         else:    
@@ -385,7 +382,6 @@ class SyncroXMLRPC(orm.Model):
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
                         print "#INFO", table ," (addr) create:", item['name']
-
                     converter[item['id']] = item_id
 
                 except:
