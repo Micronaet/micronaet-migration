@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+<data>
+    <!-- MENU AGGIUNTIVI PRINCIPALI: -->
+    <menuitem
+        id="menu_base_config_categorization"
+        groups="base.group_extended"
+        parent="base.menu_base_config"
+        name="CRM Categorization"
+        />
+
+    <!-- INHERITED VIEWS: -->
+      <!-- RES.PARTNER -->
+    <record id='res_partner_crm_categorization_fields' model='ir.ui.view'>
+        <field name='name'>Partner categorization</field>
+        <field name='model'>res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name='type'>form</field>
+        <field name='arch' type='xml'>
+              <xpath expr="/form/group/group/field[@name='lang']" position="after">
+                  <field name='partner_color' attrs="{'readonly':[('import','=',True)]}" /><!--TODO DEBUG-->
+                  <field name='partner_importance_id' attrs="{'readonly': [('import','=',True)]}" />
+                  <field name="last_activity" attrs="{'readonly':[('import','=',True)]}" />                    
+              </xpath>
+        </field>
+    </record>
+
+    <!-- VIEWS: , red:partner_color==red, yellow:partner_color==yellow -->     
+    <record id="view_res_partner_color_filter" model="ir.ui.view">
+            <field name="name">Partner highlight search</field>
+            <field name="model">res.partner</field>
+            <field name="type">search</field>
+            <field eval="20" name="priority"/>
+            <field name="arch" type="xml">
+                <search string="Search Partner highlighted">
+                   <group col='10' colspan='4'>
+                        <filter string="Customers" name="customer" icon="terp-personal" domain="[('customer','=',1)]" help="Customer Partners"/>                        
+                        <filter string="Suppliers" name="supplier" icon="terp-personal" domain="[('supplier','=',1)]" help="Supplier Partners"/>
+                        <separator orientation="vertical"/>
+                        <filter string="Interesting" name="partner_color_important" icon="terp-face-plain" domain="[('partner_color','!=','red')]" help="View only green or yellow partner"/>
+                        <filter string="Mexal" name="partner_mexal" icon="terp-face-plain" domain="[('import','=',True)]" help="Imported from Mexal"/>
+                        <separator orientation="vertical"/>
+                        <field name="mexal_c" select="1" string="ID mexal c." />
+                        <field name="name" select="1"/>
+                        <field name="country" select="1"/>
+                        <field name="category_id" select="1" groups="base.group_extended"/>
+                        <field name="user_id" select="1">
+                            <filter string="My Partners" icon="terp-personal+" domain="[('user_id','=',uid)]"/>
+                        </field>
+                        <field name="invoiced_current_year" groups="base.group_system" />
+                        <field name="partner_color" />
+                        <field name="invoice_trend" />
+                   </group>
+                   <newline />
+                   <group expand="0" string="Group By...">
+                       <filter string="Salesman" icon="terp-personal" domain="[]" context="{'group_by' : 'user_id'}" />
+                       <separator orientation="vertical"/>
+                       <filter string="Color" icon="terp-face-plain" domain="[]" context="{'group_by' : 'partner_color'}" />
+                       <filter string="Importance" icon="terp-face-plain" domain="[]" context="{'group_by' : 'partner_importance_id'}" />
+                       <separator orientation="vertical"/>                       
+                   </group>
+               </search>
+            </field>
+        </record>
+    <record id="view_partner_tree_color" model="ir.ui.view">
+            <field name="name">Partner highlighted</field>
+            <field name="model">res.partner</field>
+            <field name="type">tree</field>
+            <field eval="20" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Partners" colors="green:partner_color=='green';red:partner_color=='red';orange:partner_color=='yellow';">
+                    <field name="name"/>
+                    <field name="ref" groups="base.group_extended"/>
+                    <!--<field name="phone"/>
+                    <field name="email"/>-->
+                    <field name="city"/>
+                    <field name="country"/>
+                    <field name="user_id"/>
+                    <field name="partner_color" />
+                    <field name="partner_importance_id" />
+                    <field name="last_activity" />                    
+                    <field name="invoiced_current_year" groups="base.group_system" />
+                    <field name="invoice_trend" groups="base.group_system" />
+                    <field name="invoice_trend_perc" groups="base.group_system" />
+                </tree>
+            </field>
+        </record>
+        <record id="action_partner_color_form" model="ir.actions.act_window">
+            <field name="name">Customers analisys</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>            
+            <field name="view_mode">tree,form</field>            
+            <field name="view_id" ref="view_partner_tree_color"/>
+            <field name="search_view_id" ref="view_res_partner_color_filter"/>
+            <field name="context">{"search_default_partner_color_important":1, "search_default_customer":1, 'order_by':'partner_color'}</field> 
+            <field name="help">A customer is an entity you do business with, like a company or an organization. A customer can have several contacts or addresses which are the people working for this company. You can use the history tab, to follow all transactions related to a customer: sales order, emails, opportunities, claims, etc. If you use the email gateway, the Outlook or the Thunderbird plugin, don't forget to register emails to each contact so that the gateway will automatically attach incoming emails to the right partner.</field>
+        </record>
+        <menuitem
+            action="action_partner_color_form"
+            id="menu_partner_color_form"
+            parent="base.menu_partner_form"
+            sequence="3"/>
+       <!-- Replico il menu in vendite-->
+        <!--Metto il duplicato del menu' clienti-->
+        <menuitem
+            action="base.action_partner_form"
+            id="base_menu_partner_form"
+            parent="base.menu_sales"
+            string="Partner"
+            sequence="0"/>
+        <!--e il duplicato della categorizzazione clienti-->
+            <menuitem
+                action="action_partner_color_form"
+                id="menu_partner_color_form_bis"
+                parent="base_menu_partner_form"
+                sequence="1"/>
+            
+                    
+      <!--CRM.PARTNER.IMPORTANCE menu_address_book-->
+    <record id="crm_partner_importance_search" model="ir.ui.view">
+            <field name="name">CRM partner importance search</field>
+            <field name="model">crm.partner.importance</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="CRM partner importance search">
+                    <field name="name" select="1" />
+                </search>
+            </field>
+    </record>        
+    <record id="crm_partner_importance_tree" model="ir.ui.view">
+        <field name="name">CRM partner importance tree</field>
+        <field name="model">crm.partner.importance</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="CRM partner importance">
+                <field name="sequence" />
+                <field name="name" string="Simbolo"/>
+                <field name="symbol_description" string="Descrizione"/>
+                <field name="invoiced_over_than" />
+                <field name="note" />
+            </tree>
+        </field>
+    </record>
+    <record id="crm_partner_importance_form" model="ir.ui.view">
+        <field name="name">CRM partner importance form</field>
+        <field name="model">crm.partner.importance</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="CRM contact importance">
+               <field name="sequence" />
+               <field name="name" string="Simbolo"/>
+               <field name="symbol_description" string="Descrizione"/>
+               <field name="invoiced_over_than" />
+               <separator string="Note" colspan="4" /> 
+               <field name="note" colspan="4" nolabel="1" />
+            </form>
+        </field>
+    </record>
+     <record id="action_base_config_categorization_partner_importance" model="ir.actions.act_window">
+        <field name="name">CRM Partner importance</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">crm.partner.importance</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>        
+        <field name="search_view_id" ref="crm_partner_importance_search"/>
+        <field name="help">List of partner importance</field>
+     </record>
+     <menuitem
+        action="action_base_config_categorization_partner_importance"
+        id="menu_base_config_categorization_partner_importance"
+        groups="base.group_extended"
+        parent="menu_base_config_categorization"
+        sequence="15"/>
+        
+</data>
+</openerp>
+
