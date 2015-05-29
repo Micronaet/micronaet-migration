@@ -58,9 +58,9 @@ google_earth
 
 
 INSTALLARE: 
-base_fiam **  <<< MIGRATO (andrebbe splittato e messo meglio nei vari branch)
-base_fiam_pricelist ** <<< MIGRATO (spittare gestione immagini e vedere come dargli una forma)
-bom_fiam
+base_fiam ** base_accounting_program <<< MIGRATO (andrebbe splittato e messo meglio nei vari branch)
+base_fiam_pricelist ** custom_price_generation <<< MIGRATO (spittare gestione immagini e vedere come dargli una forma)
+bom_fiam ** bom_value_report <<< MIGRATO (vedere se non si sovrappone a i 2 moduli BOM di produzione)
     crm_partner_categorization  << VERIFICARE
 extra_search
 gpb_web

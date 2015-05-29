@@ -174,7 +174,7 @@ class PricelistPartnerinfoExtraFields(orm.Model):
                 "otherwise"),
         'supplier_id': fields.related(
             'suppinfo_id','name', type='many2one', relation='res.partner',
-            string='Supplier),
+            string='Supplier'),
         'product_id': fields.related(
             'suppinfo_id', 'product_id', type='many2one',
             relation='product.template', string='Desc. prod./comp.',

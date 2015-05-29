@@ -359,7 +359,10 @@ class ResPartnerExtraFields(orm.Model):
             _function_statistics_invoice, method=True, type='float',
             digits=(16,2), string='Invoice diff. %', store=True, readonly=True,
             multi='invoice_stat'),
-        'type_id': fields.many2one('crm.case.resource.type', 'Campaign'),
+        'type_id': fields.many2one(
+            'crm.tracking.campaign',
+            # NOTE ex: 'crm.case.resource.type', 
+            'Campaign'),
         }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

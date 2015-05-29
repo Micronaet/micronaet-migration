@@ -34,11 +34,12 @@
         'product',
         'sale',
         'crm',
-        'auto_backup',
+        #'auto_backup',
         'report_aeroo',
         ],
     'init_xml': [], 
     'data': [
+        'security/ir.model.access.csv',
         'syncro_view.xml',
         'wizard/migrate_view.xml',
         ],
