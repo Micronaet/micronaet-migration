@@ -20,7 +20,7 @@
 {
     'name': 'Label for Easylabel',
     'version': '1.0.0',
-    'category': 'Generic/Label',
+    'category': 'Generic / Label',
     'author': 'Micronaet s.r.l.',
     'website': 'http://www.micronaet.it',
     'depends': [
