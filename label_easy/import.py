@@ -1,28 +1,53 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
-# Modules ETL Partner Scuola
-# use: partner.py file_csv_to_import
+# -*- coding: utf-8 -*-
+###############################################################################
+#
+#    Copyright (C) 2001-2014 Micronaet SRL (<http://www.micronaet.it>).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as published
+#    by the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+###############################################################################
 
 # Modules required:
-import xmlrpclib, csv, sys, time, string, ConfigParser, os, pdb
+import xmlrpclib
+import csv
+import sys
+import time
+import string
+import ConfigParser
+import os
+#import pdb
+
 from mx.DateTime import now
 from mic_ETL import *
 from fiam import *
 
-# Set up parameters (for connection to Open ERP Database) ********************************************
+# Set up parameters (for connection to Open ERP Database) *********************
 config = ConfigParser.ConfigParser()
-config.read(['openerp.cfg']) # if file is in home dir add also: , os.path.expanduser('~/.openerp.cfg')])
-dbname=config.get('dbaccess','dbname')
-user=config.get('dbaccess','user')
-pwd=config.get('dbaccess','pwd')
-server=config.get('dbaccess','server')
-port=config.get('dbaccess','port')   # verify if it's necessary: getint
-separator=config.get('dbaccess','separator') # test
+config.read(['openerp.cfg']) # os.path.expanduser('~/.openerp.cfg')])
+dbname = config.get('dbaccess', 'dbname')
+user = config.get('dbaccess', 'user')
+pwd = config.get('dbaccess', 'pwd')
+server = config.get('dbaccess', 'server')
+port = config.get('dbaccess', 'port')   # verify if it's necessary: getint
+separator = config.get('dbaccess', 'separator') # test
 
 # TODO parametrize:
-taxd="20a"
-taxc="20b"
+taxd = "20a"
+taxc = "20b"
 
 header_lines=0 # non header on CSV file
 
@@ -30,46 +55,54 @@ header_lines=0 # non header on CSV file
 if len(sys.argv)!=2 :
    print """
          *** Syntax Error! ***
-         *  Use the command with this syntax: python ./articoli_ETL.py nome_file.csv 
+         *  Use with this syntax: python ./articoli_ETL.py nome_file.csv 
          *********************
          """ 
    sys.exit()
 
 # XMLRPC connection for autentication (UID) and proxy 
-sock = xmlrpclib.ServerProxy('http://' + server + ':' + port + '/xmlrpc/common', allow_none=True)
+sock = xmlrpclib.ServerProxy(
+    'http://' + server + ':' + port + '/xmlrpc/common', allow_none=True)
 uid = sock.login(dbname ,user ,pwd)
-sock = xmlrpclib.ServerProxy('http://' + server + ':' + port + '/xmlrpc/object', allow_none=True)
+sock = xmlrpclib.ServerProxy(
+    'http://' + server + ':' + port + '/xmlrpc/object', allow_none=True)
 
 # Create or get standard Items mandatory for program:
 #  Product:
-bug_start_value=1.0 # for problems in pricelist starting with cost price = 0 
-ID_uom_categ=getUomCateg(sock,dbname,uid,pwd,'Unit')    # Category Unit
-uom_nr=getUOM(sock,dbname,uid,pwd,'PCE',{'name': 'PCE', # Create new UOM PCE
-                                        'factor_inv': 1.0, 
-                                        'rounding': 1.0, 
-                                        'uom_type': 'reference', 
-                                        'factor': 1.0, 
-                                        'active': True, 
-                                        'category_id': ID_uom_categ,
-                                        })
+bug_start_value = 1.0 # for problems in pricelist starting with cost price = 0 
+ID_uom_categ = getUomCateg(sock, dbname, uid, pwd, 'Unit')    # Category Unit
+uom_nr = getUOM(sock, dbname, uid, pwd, 'PCE', {
+    'name': 'PCE', # Create new UOM PCE
+    'factor_inv': 1.0, 
+    'rounding': 1.0, 
+    'uom_type': 'reference', 
+    'factor': 1.0, 
+    'active': True, 
+    'category_id': ID_uom_categ,
+    })
 
-#  Pricelist
-pl_pricelist=[0,0,0,0,0,0,0,0,0,]   # Pricelist for Mexal 4 pricelist  ex. 0,0,0,0,
-pl_fiam=[0,0,0,0,0,0,0,0,0,]         # Version of price list (Mexal 4 pricelist) ex 0,0,0,0,
-CreateAllPricelist(sock, dbname, uid, pwd, ('1', '4', '5', '9','2','3','6','7','8',), ('EUR','EUR','CHF','EUR','EUR','EUR','EUR','EUR','EUR',), pl_pricelist, pl_fiam)
+# 4 std Pricelist ex. 0,0,0,0,
+pl_pricelist=[0, 0, 0, 0, 0, 0, 0, 0, 0] 
+# Pricelist version (4 pricelist) ex 0,0,0,0,
+pl_fiam = [0, 0, 0, 0, 0, 0, 0, 0, 0] 
+CreateAllPricelist(
+    sock, dbname, uid, pwd, 
+    ('1', '4', '5', '9', '2', '3', '6', '7', '8',), 
+    ('EUR','EUR','CHF','EUR','EUR','EUR','EUR','EUR','EUR'), 
+    pl_pricelist, pl_fiam)
 
 # Open CSV passed file (see arguments) mode: read / binary, delimiation char 
-FileInput=sys.argv[1]
-lines = csv.reader(open(FileInput,'rb'),delimiter=separator)
-counter={'tot':-header_lines,'new':0,'upd':0,} # tot negative (jump N lines)
+FileInput = sys.argv[1]
+lines = csv.reader(open(FileInput,'rb'), delimiter=separator)
+counter={'tot': -header_lines,'new': 0,'upd': 0,} # tot negative (jump N lines)
 
-iva_credito=getTaxID(sock,dbname,uid,pwd,taxc)
-iva_debito=getTaxID(sock,dbname,uid,pwd,taxd)
-errori_iva=[]
+iva_credito = getTaxID(sock,dbname,uid,pwd,taxc)
+iva_debito = getTaxID(sock,dbname,uid,pwd,taxd)
+errori_iva = []
 
 if not (iva_credito and iva_debito):
-   print "[ERROR] Non è stata trovata l'IVA credito o debito da applicare:", data
-error=''
+   print "[ERROR] Non è trovata l'IVA credito o debito da applicare:", data
+error = ''
 try:
     for line in lines:
         if counter['tot']<0:  # jump n lines of header 
@@ -78,37 +111,46 @@ try:
             if len(line): # jump empty lines
                counter['tot']+=1 
                error="Importing line" 
-               '''FIELDS: warranty ean13 supply_method uos_id list_price weight track_production incoming_qty standard_price variants active price_extra mes_type
-               uom_id code description_purchase default_code type name_template property_account_income qty_available location_id id uos_coeff 
-               property_stock_procurement virtual_available sale_ok purchase_ok product_manager track_outgoing company_id name product_tmpl_id state
-               loc_rack uom_po_id pricelist_id price_margin property_stock_account_input description
-               valuation price property_stock_production seller_qty supplier_taxes_id volume outgoing_qty loc_row
-               description_sale procure_method property_stock_inventory cost_method 
-               partner_ref track_incoming seller_delay weight_net packaging seller_id sale_delay loc_case property_stock_account_output
-               property_account_expense categ_id lst_price taxes_id produce_delay seller_ids rental
+               '''FIELDS: warranty ean13 supply_method uos_id list_price weight 
+               track_production incoming_qty standard_price variants active 
+               price_extra mes_type
+               uom_id code description_purchase default_code type name_template 
+               property_account_income qty_available location_id id uos_coeff 
+               property_stock_procurement virtual_available sale_ok purchase_ok 
+               product_manager track_outgoing company_id name product_tmpl_id state
+               loc_rack uom_po_id pricelist_id price_margin 
+               property_stock_account_input description
+               valuation price property_stock_production seller_qty 
+               supplier_taxes_id volume outgoing_qty loc_row
+               description_sale procure_method property_stock_inventory 
+               cost_method 
+               partner_ref track_incoming seller_delay weight_net packaging 
+               seller_id sale_delay loc_case property_stock_account_output
+               property_account_expense categ_id lst_price 
+               taxes_id produce_delay seller_ids rental
                '''
-               price=[0.0,0.0,0.0,0.0,]
-               csv_id=0
+               price = [0.0,0.0,0.0,0.0,]
+               csv_id = 0
                ref = Prepare(line[csv_id])
-               csv_id+=1
+               csv_id += 1
                name = Prepare(line[csv_id]).title()
-               csv_id+=1
+               csv_id += 1
                uom = Prepare(line[csv_id]).title()
-               csv_id+=1
+               csv_id += 1
                taxes_id = Prepare(line[csv_id])
-               csv_id+=1
+               csv_id += 1
                ref2 = Prepare(line[csv_id]) # TODO where put it?
-               csv_id+=1
+               csv_id += 1
                lot = Prepare(line[csv_id])  # Piece x box
-               csv_id+=1
+               csv_id += 1
                price[0] = PrepareFloat(line[csv_id])   # Price pricelist 1 EUR
-               csv_id+=1
+               csv_id += 1
                price[1] = PrepareFloat(line[csv_id])   # Price pricelist 4 EUR
-               csv_id+=1
+               csv_id += 1
                price[2] = PrepareFloat(line[csv_id])   # Price pricelist 5 CHF
-               csv_id+=1
+               csv_id += 1
                price[3] = PrepareFloat(line[csv_id])   # Price pricelist 9 EUR
-               csv_id+=1
+               csv_id += 1
                # Calculated field:
                #import pdb; pdb.set_trace()
                if type(lot) != type(1):
@@ -121,10 +163,10 @@ try:
                      'sale_ok':True,
                      'purchase_ok': True,
                      'default_code': ref,
-                     'uom_id': uom_nr,           # TODO test if it is NR
-                     'uom_po_id': uom_nr,        # TODO test if it is NR
-                     'type': 'product',          # TODO parametrize: product consu service
-                     'supply_method': 'produce', # TODO parametrize: produce buy
+                     'uom_id': uom_nr, # TODO test if it is NR
+                     'uom_po_id': uom_nr, # TODO test if it is NR
+                     'type': 'product', # TODO param.: product consu service
+                     'supply_method': 'produce', # TODO param.: produce buy
                      'standard_price': bug_start_value,
                      'list_price': 0.0,
                      'procure_method': 'make_to_order', 
@@ -144,7 +186,9 @@ try:
  
                # PRODUCT CREATION ***************
                error="Searching product with ref"
-               item = sock.execute(dbname, uid, pwd, 'product.product', 'search', [('mexal_id', '=', ref)])
+               item = sock.execute(
+                   dbname, uid, pwd, 'product.product', 'search', [
+                       ('mexal_id', '=', ref)])
                if item: # update
                   try:
                       modify_id = sock.execute(dbname, uid, pwd, 'product.product', 'write', item, data)

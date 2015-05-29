@@ -64,8 +64,8 @@ bom_fiam ** bom_value_report <<< MIGRATO (vedere se non si sovrappone a i 2 modu
 NO crm_partner_categorization <<< MIGRATO lo stesso anche se dovrebbe andare a perdere << VERIFICARE
 extra_search <<< MIGRATO 
 gpb_web  <<< __UNPORTED__ vedere se è necessario comporta un grosso lavoro
-import_log
-label_easy
+import_log <<< __UNPORTED__
+label_easy <<< Migrated (import.py file??)
 log_and_mail
 mexal_order_statistic
 product_extra_photo
