@@ -1,0 +1,8 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_base_fiam_pricelist_user","base.container.type","model_base_container_type","base.group_user",1,1,1,1
+"access_base_fiam_pricelist_product_product_history_cost_user","product.product.history.cost","model_product_product_history_cost","base.group_user",1,1,1,1
+"access_base_fiam_pricelist_base_product_exchange_user","base.product.exchange","model_base_product_exchange","base.group_user",1,1,1,1
+"access_base_fiam_pricelist_base_image_folder_user","base.image.folder","model_base_image_folder","base.group_user",1,1,1,1
+"access_base_fiam_pricelist_product_custom_duty_user","product.custom.duty","model_product_custom_duty","base.group_user",1,1,1,1
+"access_base_fiam_pricelist_product_custom_duty_tax_user","product.custom.duty.tax","model_product_custom_duty_tax","base.group_user",1,1,1,1
+

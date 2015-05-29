@@ -1,0 +1,397 @@
+<?xml version="1.0" ?>
+<openerp>
+<data>
+    <!-- INHERIT VIEW: -->
+    <!-- PRODUCT.SUPPLIERINFO -->
+    <record id='pdocut_supplierinfo_add_extra_base_fields' model='ir.ui.view'>
+        <field name='name'>USD quotation</field>
+        <field name='model'>product.supplierinfo</field>
+        <field name="inherit_id" ref="product.product_supplierinfo_form_view"/>
+        <field name='type'>form</field>
+        <field name='arch' type='xml'>
+            <field name="price" position="before">
+               <field name="price_usd" on_change="on_change_price_usd(price_usd)" />
+            </field>
+        </field>
+    </record>
+    
+    <!-- PRODUCT.PRODUCT (for image preview) -->    
+	<record id="base_product_image_preview_form" model="ir.ui.view">
+		<field name="name">product.product</field>
+		<field name="model">product.product</field>
+		<field name="priority" eval="30" />
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form string="Product images preview">
+			   <field name="name" readonly="1" />
+			   <field name="code" readonly="1" />
+			   <separator string="Preview (Only when saved)" colspan="4" />
+			   <field name="preview" colspan="4" nolabel="1" widget="picture" />
+			</form>
+		</field>
+	</record>
+   <!--     domain="[('id', '=', active_id),]"-->
+
+    <act_window name="Preview images"
+        domain="[('id', '=', active_id),]"
+        res_model="product.product"
+        src_model="product.product"
+        view_id="base_product_image_preview_form"
+        id="act_product_images_preview" />
+	
+    <!-- PRODUCT.PRODUCT -->    
+    <record id='product_search_form_view_inherit_for_pricelist' model='ir.ui.view'>
+        <field name='name'>Product search</field>
+        <field name='model'>product.product</field>
+        <field name="inherit_id" ref="product.product_search_form_view"/>
+        <field name='type'>tree</field>
+        <field name='arch' type='xml'>
+            <field name="default_code" position="before">
+               <field name="in_pricelist" string="List." />
+               <field name="error_import" />
+            </field>
+        </field>
+    </record>
+    
+    <record id='product_product_tree_view_inherit_for_pricelist' model='ir.ui.view'>
+        <field name='name'>Product tree</field>
+        <field name='model'>product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name='type'>tree</field>
+        <field name='arch' type='xml'>
+            <field name="default_code" position="before">
+               <field name="in_pricelist" string="List."/>
+            </field>
+            <field name="standard_price" position="after">
+               <field name="margin" groups="base.group_sale_salesman,base.group_sale_manager" />
+            </field>
+        </field>
+    </record>
+
+    <record id='product_normal_form_view_inherit_for_pricelist' model='ir.ui.view'>
+        <field name='name'>Product form</field>
+        <field name='model'>product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name='type'>form</field>
+        <field name='arch' type='xml'>
+            <!--<field name="weight_net" position="after">
+               <field digits="(14, 3)" name="weight_tare" attrs="{'readonly':[('type','=','service')]}"/>
+            </field>-->
+            <field name="name" position="before">
+               <field name="in_pricelist" />
+            </field>
+            <field name="list_price" position="after">
+               <field name="duty_id" />
+            </field>
+            <field name="description_purchase" position="after">
+               <separator string="Web Description" colspan="4"/>
+               <field colspan="4" name="description_web" nolabel="1"/>
+               <separator string="Colour" colspan="4"/>
+               <field name="colour" colspan="4" nolabel="1" />
+               <field name="fabric" />
+               <field name="type_of_material" />        
+            </field>                        
+            <xpath expr="/form/notebook/page[@string='Packaging']/field/form/separator[2]" position="replace"> 
+                <separator string="Dimensione pack" colspan="4" />
+            </xpath>           
+            <xpath expr="/form/notebook/page[@string='Packaging']/field/form/field[@name='length']" position="after">            
+                <newline />
+                <field name="pack_volume_manual" />
+                <field name="pack_volume" attrs="{'invisible':[('pack_volume_manual','=',False)]}" />
+                
+                <!--Eliminare quando corretti tutti! DA QUI:-->
+                <newline />
+                <separator string="Errore dimensione" colspan="4" />
+                <field name="error_dimension_pack" />                
+                <newline />
+                <field name="dimension_text" attrs="{'invisible':[('error_dimension_pack','=',False)]}" colspan="4" nolabel="1" />               
+                <!--Eliminare quando corretti tutti! A QUI!-->           
+                                      
+                <separator string="Container data" colspan="4" />
+                <field name="q_x_container" />
+                <field name="container_id" />
+                <field name="transport_cost" />                
+            </xpath>           
+            <xpath expr="/form/notebook/page[@string='Suppliers']" position="after">            
+               <page string="Pricelist computation">
+                   <separator string="Costs:" colspan="4"/>
+                       <field name="fob_cost_supplier_eur" readonly="1" />
+                       <field name="fob_cost_supplier" readonly="1" />
+                       <!--<newline />
+                       <button string="Calcola" name="copy_price_calculated" type="object" icon="gtk-ok" colspan="2" context="{'start_from_cost':0}" />-->
+                       <!--<field name="fob_cost" />
+                       <field name="fob_cost_eur" readonly="1" />-->
+                       <field name="dazi_eur" />
+                       <field name="dazi" /> 
+                   <separator string="Transport:" colspan="4"/>
+                       <field name="transport_packaging" />
+                       <field name="transport_packaging_usd" />
+                       <newline />
+                   <separator string="Total cost:" colspan="4"/>
+                       <field name="fob_cost_total_eur" />
+                       <field name="fob_cost_total" />
+                   <separator string="Pricelist:" colspan="4"/>
+                       <field name="fob_pricelist_compute_eur" />
+                       <field name="fob_pricelist_compute" />
+                       <group colspan="4" col="8">
+                           <field name="manual_pricelist" />
+                           <field name="fob_pricelist" attrs="{'readonly' : [('manual_pricelist', '=', False)]}" />
+                           <field name="margin" attrs="{'readonly' : [('manual_pricelist', '=', True)]}" /> 
+                           <field name="fixed_margin" attrs="{'readonly' : [('manual_pricelist', '=', True)]}" /> 
+                       </group>    
+                       <newline />
+                       <button name="button_dummy" string="Compute" type="object" icon="gtk-execute" />    
+                       <newline />
+                   <separator string="History:" colspan="4"/>
+                       <field name="history_cost_ids" colspan="4" nolabel="1">        
+                          <tree string="History">
+                             <field name="name" />                    
+                             <field name="date" />
+                             <field name="fob_cost" />
+                             <field name="fob_pricelist" />
+                          </tree>
+                       </field>
+               </page>
+            </xpath>
+            <group name="uom" position="before">
+                <group colspan="2" col="2" groups="base.group_extended" name="dimension">
+                    <separator string="Product dim." colspan="2"/> 
+                    <field digits="(14, 3)" name="height" attrs="{'readonly':[('type','=','service')]}"/>
+                    <field digits="(14, 3)" name="width" attrs="{'readonly':[('type','=','service')]}"/>
+                    <field digits="(14, 3)" name="length" attrs="{'readonly':[('type','=','service')]}"/>
+
+                    <!--Eliminare quando corretti tutti! DA QUI:-->
+                    <separator string="Errore dimensione" colspan="2"/>                     
+                    <field name="error_import" /><newline />
+                    <field name="error_dimension" />
+                    <field name="dimension_text" attrs="{'readonly':[('type','=','service')], 'invisible':[('error_dimension','=',False)]}" colspan="2" nolabel="1" />                    
+                    <!--Eliminare quando corretti tutti! A QUI!-->
+                    
+                </group>                
+            </group>            
+        </field>
+    </record>
+
+    <!--product.product (form alternativa)-->
+    <record id="product_product_with_preview_form" model="ir.ui.view">
+        <field name="name">Product with preview</field>
+        <field name="model">product.product</field>
+        <field name="type">form</field>
+        <field name="priority" eval="20" />
+        <field name="arch" type="xml">
+            <form string="Container type">
+                <group colspan="4" col="6">
+                   <field name="default_code" />
+                   <field name="name" />
+                   <field name="ean13" />
+                </group>   
+                <separator string="Description" />
+                <field name="description_sale" nolabel="1" colspan="4"/>
+                <separator string="Preview" />
+                <field name="preview" colspan="4" widget="image" nolabel="1" />                
+            </form>
+        </field>
+    </record>
+
+    <record id="product_product_with_preview_action" model="ir.actions.act_window">
+        <field name="name">Product with preview</field>
+        <field name="res_model">product.product</field>
+        <field name="view_type">form</field>        
+        <field name="view_mode">tree,form</field>   
+        <field name="context">{'form_view_ref' : 'base_fiam_pricelist.product_product_with_preview_form'}</field>     
+        <field name="help">Short form with product info and preview images</field>
+    </record>
+
+    <menuitem action="product_product_with_preview_action" 
+              id="product_product_with_preview_menu" 
+              parent="product.menu_products" 
+              sequence="1" />
+              
+    <!-- base.container.type: -->
+    <record id="base_container_type_tree_view" model="ir.ui.view">
+        <field name="name">Container type tree</field>
+        <field name="model">base.container.type</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Container type">
+                <field name="name" select="1" />
+                <field name="cost" />
+                <field name="date" />
+            </tree>
+        </field>
+    </record>            
+    <record id="base_container_type_form_view" model="ir.ui.view">
+        <field name="name">Container type form</field>
+        <field name="model">base.container.type</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Container type">
+                <field name="name" />
+                <field name="cost" />
+                <field name="date" />
+            </form>
+        </field>
+    </record>
+
+    <record id="base_container_type_action" model="ir.actions.act_window">
+        <field name="name">Container type</field>
+        <field name="res_model">base.container.type</field>
+        <field name="view_type">form</field>        
+        <field name="view_mode">tree,form</field>        
+        <field name="help">Type of container, to compute transport cost for each product</field>
+    </record>
+
+    <menuitem action="base_container_type_action" 
+              id="base_container_type_action_menu" 
+              parent="product.prod_config_main" 
+              sequence="3" />
+                
+    <!-- base.product.exchange: -->
+    <record id="base_product_exchange_tree_view" model="ir.ui.view">
+        <field name="name">Product exchange tree</field>
+        <field name="model">base.product.exchange</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Exchange">
+                <field name="name" select="1" />
+                <field name="exchange" />
+                <field name="date" />
+            </tree>
+        </field>
+    </record>            
+    <record id="base_product_exchange_form_view" model="ir.ui.view">
+        <field name="name">Product exchange form</field>
+        <field name="model">base.product.exchange</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Exchange">
+                <field name="name" />
+                <field name="exchange" />
+                <field name="date" />
+            </form>
+        </field>
+    </record>
+
+    <record id="base_product_exchange_action" model="ir.actions.act_window">
+        <field name="name">List of exchange</field>
+        <field name="res_model">base.product.exchange</field>
+        <field name="view_type">form</field>        
+        <field name="view_mode">tree,form</field>        
+        <field name="help">List of exchange used for convert price in product</field>
+    </record>
+
+    <menuitem action="base_product_exchange_action" 
+              id="base_product_exchange_action_menu" 
+              parent="product.prod_config_main" 
+              sequence="3" />     
+              
+    <!-- base.image.folder: -->
+    <record id="base_image_folder_tree_view" model="ir.ui.view">
+        <field name="name">Folder Image</field>
+        <field name="model">base.image.folder</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Image Folder">
+                <field name="default" />
+                <field name="name" select="1" />
+                <field name="folder_path" />
+                <field name="extension_image" />
+                <field name="height" />
+                <field name="width" />
+            </tree>
+        </field>
+    </record>            
+    <record id="base_image_folder_form_view" model="ir.ui.view">
+        <field name="name">Folder Image</field>
+        <field name="model">base.image.folder</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Image Folder">                
+                <group colspan="4" col="8">
+                    <field name="default" />
+                    <field name="name" select="1"/>
+                    <field name="extension_image" />
+                    <field name="empty_image" />
+                </group>
+                <field name="height" />
+                <field name="width" />    
+                <group colspan="4" col="6">
+                    <field name="addons" />                            
+                    <field name="root_path"  attrs="{'invisible':[('addons', '=', True)]}" />
+                    <field name="folder_path" />
+                </group>    
+            </form>
+        </field>
+    </record>
+
+    <record id="base_image_folder_action" model="ir.actions.act_window">
+        <field name="name">Folder Image</field>
+        <field name="res_model">base.image.folder</field>
+        <field name="view_type">form</field>        
+        <field name="view_mode">tree,form</field>        
+        <field name="help">List of folder used to store images</field>
+    </record>
+
+    <menuitem action="base_image_folder_action" 
+              id="base_image_folder_action_menu" 
+              parent="product.prod_config_main" 
+              sequence="4" />  
+                                     
+    <!-- product.custom.duty: -->
+    <record id='product_custom_duty_search' model='ir.ui.view'>
+        <field name='name'>Product custom duty search</field>
+        <field name='model'>product.custom.duty</field>
+        <field name='type'>search</field>
+        <field name='arch' type='xml'>
+            <search>
+               <field name="code" />
+               <field name="name" />
+            </search>
+        </field>
+    </record>
+    
+    <record id="product_custom_duty_tree" model="ir.ui.view">
+        <field name="name">Product custom duty tree</field>
+        <field name="model">product.custom.duty</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Product Custom duty">
+                <field name="code" />
+                <field name="name" />
+                <!--<field name="tax" />-->
+            </tree>
+        </field>
+    </record>         
+       
+    <record id="product_custom_duty_form" model="ir.ui.view">
+        <field name="name">Product custom duty form</field>
+        <field name="model">product.custom.duty</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Product custom duty">
+               <field name="code" />
+               <field name="name" />                  
+               <field name="tax_ids" colspan="4">
+                  <field name="tax" />
+                  <field name="country_id" />
+               </field>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_custom_duty_action" model="ir.actions.act_window">
+        <field name="name">Product custom duty</field>
+        <field name="res_model">product.custom.duty</field>
+        <field name="view_type">form</field>        
+        <field name="view_mode">tree,form</field>        
+        <field name="help">List of product custom duty</field>
+        <field name="search_view_id" ref="product_custom_duty_search"/>
+    </record>
+
+    <menuitem id="product_custom_duty_action_menu" 
+              parent="product.prod_config_main" 
+              action="product_custom_duty_action"
+              sequence="2" />                
+</data>
+</openerp>
+
