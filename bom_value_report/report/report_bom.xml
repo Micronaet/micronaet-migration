@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<openerp>
+<data noupdate="1">
+
+    <!-- Distinta dettagliata: -->
+    <record id="aeroo_fiam_bom_custom_no_cost" model="ir.actions.report.xml">
+        <field name="name">Distinta base (no costi)</field>
+        <field name="type">ir.actions.report.xml</field>
+        <field name="model">mrp.bom</field>
+        <field name="report_name">fiam_bom_custom_report_no_cost</field>
+        <field name="report_type">aeroo</field>
+        <field name="in_format">oo-odt</field>
+        <field name="parser_loc">bom_fiam/report/parser.py</field>
+        <field name="report_rml">bom_fiam/report/bom_no_cost.odt</field>
+        <field name="parser_state">loc</field>
+        <field name="tml_source">file</field>
+    </record>
+    
+    <ir_set>
+        <field eval="'action'" name="key"/>
+        <field eval="'client_print_multi'" name="key2"/>
+        <field eval="['mrp.bom']" name="models"/>
+        <field name="name">action_fiam_bom_report_no_cost</field>
+        <field eval="'ir.actions.report.xml,'+str(aeroo_fiam_bom_custom_no_cost)" name="value"/>
+        <field eval="True" name="isobject"/>
+        <field eval="True" name="replace"/>
+    </ir_set>
+
+    <!-- Distinta dettagliata: -->
+    <record id="aeroo_fiam_bom_custom" model="ir.actions.report.xml">
+        <field name="name">Distinta base</field>
+        <field name="type">ir.actions.report.xml</field>
+        <field name="model">mrp.bom</field>
+        <field name="report_name">fiam_bom_custom_report</field>
+        <field name="report_type">aeroo</field>
+        <field name="in_format">oo-odt</field>
+        <field name="parser_loc">bom_fiam/report/parser.py</field>
+        <field name="report_rml">bom_fiam/report/bom.odt</field>
+        <field name="parser_state">loc</field>
+        <field name="tml_source">file</field>
+    </record>
+    
+    <ir_set>
+        <field eval="'action'" name="key"/>
+        <field eval="'client_print_multi'" name="key2"/>
+        <field eval="['mrp.bom']" name="models"/>
+        <field name="name">action_fiam_bom_report</field>
+        <field eval="'ir.actions.report.xml,'+str(aeroo_fiam_bom_custom)" name="value"/>
+        <field eval="True" name="isobject"/>
+        <field eval="True" name="replace"/>
+    </ir_set>
+    
+    <!-- Elenco distinte: -->
+    <record id="aeroo_fiam_bom_list_custom" model="ir.actions.report.xml">
+        <field name="name">Fiam: Distinte totali</field>
+        <field name="type">ir.actions.report.xml</field>
+        <field name="model">mrp.bom</field>
+        <field name="report_name">fiam_bom_list_custom_report</field>
+        <field name="report_type">aeroo</field>
+        <field name="in_format">oo-odt</field>
+        <field name="parser_loc">bom_fiam/report/parser_list.py</field>
+        <field name="report_rml">bom_fiam/report/elenco.odt</field>
+        <field name="parser_state">loc</field>
+        <field name="tml_source">file</field>
+    </record>
+    
+    <ir_set>
+        <field eval="'action'" name="key"/>
+        <field eval="'client_print_multi'" name="key2"/>
+        <field eval="['mrp.bom']" name="models"/>
+        <field name="name">action_fiam_bom_list_report</field>
+        <field eval="'ir.actions.report.xml,'+str(aeroo_fiam_bom_list_custom)" name="value"/>
+        <field eval="True" name="isobject"/>
+        <field eval="True" name="replace"/>
+    </ir_set>    
+
+    <!-- Elenco con costi: -->
+    <record id="aeroo_fiam_bom_cost_list_custom" model="ir.actions.report.xml">
+        <field name="name">Fiam: Elenco completo costi</field>
+        <field name="type">ir.actions.report.xml</field>
+        <field name="model">mrp.bom</field>
+        <field name="report_name">fiam_bom_cost_list_custom_report</field>
+        <field name="report_type">aeroo</field>
+        <field name="in_format">oo-odt</field>
+        <field name="parser_loc">bom_fiam/report/parser_cost.py</field>
+        <field name="report_rml">bom_fiam/report/costi.odt</field>
+        <field name="parser_state">loc</field>
+        <field name="tml_source">file</field>
+    </record>
+    
+    <ir_set>
+        <field eval="'action'" name="key"/>
+        <field eval="'client_print_multi'" name="key2"/>
+        <field eval="['mrp.bom']" name="models"/>
+        <field name="name">action_fiam_bom_cost_list_report</field>
+        <field eval="'ir.actions.report.xml,'+str(aeroo_fiam_bom_cost_list_custom)" name="value"/>
+        <field eval="True" name="isobject"/>
+        <field eval="True" name="replace"/>
+    </ir_set>    
+
+</data>
+</openerp>
+

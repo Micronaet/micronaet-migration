@@ -1,0 +1,317 @@
+<?xml version="1.0" ?>
+<openerp>
+<data>
+    <!-- MENU AGGIUNTIVI -->
+    <menuitem id="menu_products_bom_componenti" parent="mrp.menu_mrp_bom" sequence="0" name="Gestione componenti" />
+    <menuitem action="product.product_normal_action" id="menu_products_bom" parent="menu_products_bom_componenti" sequence="10" groups="bom_fiam.group_bom_manager"/>
+    <!-- Overrided menu: -->
+    <menuitem
+          action="mrp.mrp_bom_form_action"
+          id="mrp.menu_mrp_bom_form_action"
+          parent="mrp.menu_mrp_bom"
+          sequence="10"
+          groups="mrp.group_mrp_manager"/>
+
+    <!-- PRODUCT.PRODUCT -->
+    <record id='product_product_tree_view_fiam_fields' model='ir.ui.view'>
+        <field name='name'>Fiam Product</field>
+        <field name='model'>product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name='type'>tree</field>
+        <field name='arch' type='xml'>
+           <field name='categ_id' position="after">   
+                <field name='first_supplier' />   
+                <field name='first_code' />   
+                <field name='bom_len' />   
+           </field>     
+        </field>
+    </record>
+
+    <record id='product_search_form_view_fiam_fields' model='ir.ui.view'>
+        <field name='name'>Fiam product search</field>
+        <field name='model'>product.product</field>
+        <field name="inherit_id" ref="product.product_search_form_view" />
+        <field name='type'>form</field>
+        <field name='arch' type='xml'>
+           <field name="default_code" position="before">
+           <filter string="Nessun componente" icon="terp-accessories-archiver" domain="[('bom_len','=',0)]"/>
+           <filter string="Non in Mexal" icon="terp-accessories-archiver" domain="[('import','=',False)]"/>
+           </field>
+           <field name='name' position="after">   
+                <field name='first_supplier' />   
+                <field name='first_code' />   
+                <field name='bom_len' />   
+           </field>     
+           
+        </field>
+    </record>
+    
+    <!-- PRODUCT.SUPPLIERINFO -->
+    <record id='bom_supplierinfo_add_fiam_fields' model='ir.ui.view'>
+        <field name='name'>Fiam Bom</field>
+        <field name='model'>product.supplierinfo</field>
+        <field name="inherit_id" ref="product.product_supplierinfo_form_view"/>
+        <field name='type'>form</field>
+        <field name='arch' type='xml'>
+              <xpath expr="/form/field[@name='pricelist_ids']/tree/field[@name='price']" position="after">
+                  <field name='date_quotation' />   
+              </xpath>
+              <!--TODO controllare se e' corretta-->
+              <xpath expr="/form/field[@name='pricelist_ids']/form/field[@name='price']" position="after">
+                  <field name='date_quotation' />   
+              </xpath>
+
+              <xpath expr="/form/field[@name='pricelist_ids']/tree/field[@name='min_quantity']" position="before">
+                  <field name='is_active' />   
+              </xpath>
+        </field>
+    </record>
+
+    <!-- MRP.BOM -->
+       <!-- Filter -->
+        <record id="view_mrp_bom_filter_component" model="ir.ui.view">
+            <field name="name">BOM component filter</field>
+            <field name="model">mrp.bom</field>
+            <field name="type">search</field>
+            <field name="priority" eval="20" />
+            <field name="arch" type="xml">
+                <search string="Search component">
+                    <group col='4' colspan='4'>
+                         <field name="name"/>
+                         <field name="code" string="Reference"/>
+                         <field name="product_id"/>
+                         <field name="obsolete"/>
+                         <field name="old_cost"/>
+                         <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                    <newline/>
+                    <group expand="0" string="Group By..." colspan="4" col="8" groups="base.group_extended">
+                        <filter string="Product" icon="terp-accessories-archiver" domain="[]" context="{'group_by':'product_id'}"/>
+                        <filter string='Default UOM' icon="terp-mrp" domain="[]" context="{'group_by' : 'product_uom'}" />
+                        <separator orientation="vertical"/>
+                        <filter string="Routing" icon="terp-stock_align_left_24" domain="[]" context="{'group_by':'routing_id'}"/>
+                        <filter string='Type' icon="terp-stock_symbol-selection" domain="[]" context="{'group_by' : 'type'}" />
+                        <separator orientation="vertical"/>
+                        <filter string="Date" icon="terp-go-month" domain="[]" context="{'group_by':'date_start'}" help="Starting Date"/>
+                   </group>
+                </search>
+            </field>
+        </record>
+
+       <!-- Tree -->
+    <record id='mrp_bom_component_tree_view_fiam_fields' model='ir.ui.view'>
+        <field name='name'>Fiam tree BOM</field>
+        <field name='model'>mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_component_tree_view"/>
+        <field name='type'>tree</field>
+        <field name='arch' type='xml'>
+            <field name="method" position="before">
+                <field name="tot_component" />
+            </field>               
+        </field>
+    </record>   
+
+    <record id="mrp_bom_component_tree_view_obsolete_color" model="ir.ui.view">
+            <field name="name">MRP BOM componenti obsoleti</field>
+            <field name="model">mrp.bom</field>
+            <field name="type">tree</field>
+            <field name="field_parent">child_complete_ids</field>
+            <field name="priority" eval="20" />
+            <field name="arch" type="xml">
+                <tree string="BoM Structure" colors="red:obsolete or old_cost">
+                    <field name="sequence" invisible="1"/>
+                    <field name="name" string="Component Name"/>
+                    <field name="code"/>
+                    <field name="product_id" string="Component Product"/>
+                    <field name="bom_id"/>
+                    <field name="product_qty"/>
+                    <field name="product_uom"/>
+                    <field name="type"/>
+                    <field name="method" groups="base.group_extended"/>
+                    <field name="routing_id" groups="base.group_extended"/>
+                    <field name="date_start" groups="base.group_extended"/>
+                    <field name="date_stop" groups="base.group_extended"/>
+                    <field name="obsolete"/>
+                    <field name="old_cost"/>
+                </tree>
+            </field>
+        </record>
+        <record id="mrp_bom_form_action_obsolete" model="ir.actions.act_window">
+            <field name="name">Lista componenti obsoleti</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.bom</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="mrp_bom_component_tree_view_obsolete_color"/>
+            <field name="search_view_id" ref="view_mrp_bom_filter_component" /> 
+            <field name="domain">[('bom_id','!=',False)]</field>
+            <field name="help">Componenti obsoleti abbinati alle distinte, dove presenti (impostato obsoleto oppure con prezzo oltre l'1/1 di 2 anni fa)</field>
+        </record>
+        <menuitem
+            action="mrp_bom_form_action_obsolete"
+            id="menu_mrp_bom_form_action_obsolete"
+            groups="base.group_extended"
+            parent="menu_products_bom_componenti"
+            sequence="20"/>
+       <!-- Form -->
+    <record id='mrp_bom_add_fiam_fields' model='ir.ui.view'>
+        <field name='name'>Fiam Bom extra fields</field>
+        <field name='model'>mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name='type'>form</field>
+        <field name='arch' type='xml'>
+              <!--<xpath expr="/form/notebook/page[@string='Components']/field/tree/field[@name='data_stop']" position="after">-->
+              <xpath expr="/form/notebook/page[@string='Components']/field[@name='bom_lines']/tree/field[@name='date_stop']" position="after">
+                  <field name='actual_price' />   
+                  <field name='actual_total' />   
+                  <field name='first_supplier' />   
+                  <field name='obsolete' />   
+                  <field name='old_cost' />
+              </xpath>
+              <xpath expr="/form/notebook/page[@string='Components']/field/form/group/field[@name='company_id']" position="after">
+                  <newline />
+                  <group colspan="4" col="6">
+                    <field name='actual_price' />   
+                    <field name='actual_total' />   
+                    <field name='first_supplier' />   
+                  </group>
+                  <newline />
+                  <field name='obsolete' />   
+                  <field name='old_cost' />
+              </xpath>
+              <!-- Attributi di colore -->
+              <xpath expr="/form/notebook/page[@string='Components']/field[@name='bom_lines']/tree" position="attributes">
+                  <attribute name='colors'>red:obsolete or old_cost</attribute>
+              </xpath>
+
+              <xpath expr="/form/notebook" position="after">
+                  <separator string='Note' colspan="4" />
+                  <field name='note' colspan="4" nolabel="1" />   
+              </xpath>
+        </field>
+    </record>
+       <!-- Search -->
+    <record id='view_mrp_bom_filter_fiam_fields' model='ir.ui.view'>
+        <field name='name'>Fiam search BOM</field>
+        <field name='model'>mrp.bom</field>
+        <field name="inherit_id" ref="mrp.view_mrp_bom_filter"/>
+        <field name='type'>form</field>
+        <field name='arch' type='xml'>
+            <field name="name" position="before">
+                <!--<field name="tot_component" />-->
+                <filter string="Ha componenti" icon="terp-stock_align_left_24" domain="[('tot_component','>',0)]" context="{}"/>                
+            </field>               
+        </field>
+    </record>
+    <!-- BOM Component -->
+
+    <!--<record id="mrp_bom_component_price_0" model="ir.actions.act_window">
+            <field name="name">Componenti a prezzo 0</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.bom</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="mrp_bom_component_0_tree_view"/>
+            <field name="domain">[('bom_id','!=',False)]</field>
+        </record>
+
+        <menuitem
+            action="mrp_bom_component_price_0"
+            id="menu_mrp_bom_component_price_0"
+            parent="menu_mrp_bom"
+            sequence="10"/>-->
+
+    <!-- CONTROLLO COSTI: -->            
+       <!-- Search -->
+    <record id='mrp_bom_component_costs_search' model='ir.ui.view'>
+        <field name='name'>Controllo costi search</field>
+        <field name='model'>pricelist.partnerinfo</field>
+        <field name="type">search</field>
+        <field name='arch' type='xml'>
+            <search string="Search">
+                <field name="product_name"/>
+                <field name="supplier_id"/>
+                <field name="product_supp_code"/>
+                <field name="product_supp_name"/>
+                <field name="min_quantity"/>
+            </search>
+        </field>
+    </record>        
+      <!-- Tree -->
+    <record id='mrp_bom_component_costs_tree' model='ir.ui.view'>
+        <field name='name'>Controllo costi (blu=ha distinta base)</field>
+        <field name='model'>pricelist.partnerinfo</field>
+        <field name="type">tree</field>
+        <field name="priority" eval="30" />
+        <field name="arch" type="xml">
+            <tree string="Controllo costi" colors="blue:has_bom">            
+                <field name="product_id"/>
+                <field name="supplier_id"/>
+                <field name="product_supp_code"/>
+                <field name="product_supp_name"/>
+                <field name="price"/>
+                <field name="date_quotation"/>
+                <field name="min_quantity"/>
+                <field name="uom_id"/>
+                <field name="has_bom" invisible="1" />
+            </tree>
+        </field>
+    </record>
+       <!-- Form -->
+    <record id='mrp_bom_component_costs_form' model='ir.ui.view'>
+        <field name='name'>Controllo costi</field>
+        <field name='model'>pricelist.partnerinfo</field>
+        <field name="type">form</field>        
+        <field name="priority" eval="30" />
+        <field name="arch" type="xml">
+            <form string="Controllo costi">
+                <field name="product_id" readonly="1" />
+                <field name="supplier_id" readonly="1" />
+                <field name="product_supp_code" readonly="1" />
+                <field name="product_supp_name" readonly="1" />
+                <group colspan="4" col="8">
+                  <field name="price"/>
+                  <field name="date_quotation"/>
+                  <field name="min_quantity"/>
+                  <field name="uom_id"/>
+                </group>  
+            </form>
+        </field>
+    </record>
+        <!-- Action -->
+    <record id="mrp_bom_component_costs_form_action" model="ir.actions.act_window">
+        <field name="name">Controllo costi</field>
+        <!--<field name="type">ir.actions.act_window</field>-->
+        <field name="res_model">pricelist.partnerinfo</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="mrp_bom_component_costs_search" />
+        <field name="view_id" ref="mrp_bom_component_costs_tree"/>
+        <field name="context">{'form_view_ref':'bom_fiam.mrp_bom_component_costs_form'}</field>
+        <!--<field name="domain">[('bom_id','!=',False)]</field>-->
+        <field name="help">Videata che facilita il controllo dei prezzi componenti all'arrivo delle fatture</field>
+    </record>
+    
+    <!--
+        <record id="action_picking_tree_out_view1_waiting" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_picking_out_tree"/>
+            <field name="act_window_id" ref="action_picking_tree"/>
+        </record>
+        <record id="action_picking_tree_out_view2_waiting" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_picking_out_form"/>
+            <field name="act_window_id" ref="action_picking_tree"/>
+        </record>
+
+    -->
+        <!-- Menu -->
+    <menuitem
+        action="mrp_bom_component_costs_form_action"
+        id="mrp_bom_component_costs_form_menu"
+        groups="base.group_extended"
+        parent="menu_products_bom_componenti"
+        sequence="20"/>
+</data>
+</openerp>
+

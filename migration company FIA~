@@ -59,7 +59,7 @@ google_earth
 
 INSTALLARE: 
 base_fiam **  <<< MIGRATO (andrebbe splittato e messo meglio nei vari branch)
-base_fiam_pricelist ** <<< MIGRATO (spittare gestione immagini e vedere come dargli una forma)
+base_fiam_pricelist
 bom_fiam
     crm_partner_categorization  << VERIFICARE
 extra_search
