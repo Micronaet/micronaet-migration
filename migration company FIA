@@ -1,0 +1,78 @@
+***************************   STANDARD   **************************************
+DA INSTALLARE:  
+account **
+account_chart **
+account_voucher **
+analytic **
+base **
+base_action_rule 
+base_calendar
+base_iban
+base_vat
+board
+crm **
+decimal_precision
+document
+knowledge ** 
+l10n_it **
+mrp
+mrp_jit
+process
+procurement
+product **
+project
+project_mrp
+purchase **
+report_aeroo **
+resource 
+sale **
+sale_crm
+stock
+    base_setup <<< ???
+auto_backup **
+
+
+NON INSTALLARE O NON PIU' PRESENTI:
+account_invoice_layout  
+base_contact           
+document_ftp
+document_webdav
+mail_gateway
+report_aeroo_ooo        <<<< INSTALLARE SOSTITUTO !!!
+sale_layout             <<<< VEDERE COME FARE
+outlook
+poweremail
+thunderbird
+web_livechat
+crm_caldav
+caldav
+
+
+***************************   CUSTOM   ****************************************
+NON INSTALLARE:
+amazon_product_merger
+amazon_product_merger_c1
+google_earth
+    todo_list  << VERIFICARE
+
+
+
+INSTALLARE: 
+base_fiam **  <<< MIGRATO (andrebbe splittato e messo meglio nei vari branch)
+base_fiam_pricelist
+bom_fiam
+    crm_partner_categorization  << VERIFICARE
+extra_search
+gpb_web
+import_log
+label_easy
+log_and_mail
+mexal_order_statistic
+product_extra_photo
+    purchase_extra_field   << VERIFICARE
+quotation_photo_fiam
+report_aeroo_fiam
+report_auto_stock_
+report_product_pricelist
+report_purchase_fiam
+report_store_value
