@@ -1,0 +1,31 @@
+PySamba description:
+PySamba is a Python library that provides a full wrapper for the Samba CLI library provided with samba-3.0.24.
+PySamba is a Python library that provides a full wrapper for the Samba CLI library provided with samba-3.0.24.
+PySamba is a full wrapper based in the work of Tim Potter. In fact, PySamba is built as a Python C extension
+over the cli library provided with samba-3.0.24 and a Python module that hides the complexity of the lower layer
+(smb) providing high-level commands like Mkdir or DiskAvail. At now, PySamba provides a fully functional samba
+wrapper, allowing the developer to interface any samba-capable device much like python’s ftplib does.
+PySamba has been written by Juan M. Casillas and released under GNU GPL public License.
+You need a gcc compiler, a python running environment (tested with 2.4.3) and the samba-3.0.24 sources. 
+PySamba Has been developed under an UNIX environment (HP-UX) and tested against native NT shares.
+
+Use:
+Simple & Easy
+from pysamba import * ... and go. Server login is encapsulated in the constructor, so just provide the require parameters, and start working with your favorite smb share. PySamba is easy to use, and easy to install.
+
+Installation:
+See the INSTALL file, but the installation process is the following:
+Get Samba-3.0.24 and uncompress it.
+copy py_smb.c and py_smb.h into samba-3.0.24/source/python replacing the existing files
+go to samba-3.0.24/source:
+configure --with-python=python
+Then:
+make 
+make install
+make python_ext
+make install 
+This will install python’s dynamic library.
+
+Note:
+Import pysamba from the directory where pysamba is, or copy it to any place under the PYTHONPATH
+

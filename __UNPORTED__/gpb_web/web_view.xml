@@ -1,0 +1,706 @@
+<?xml version="1.0" ?>
+<openerp>
+   <data>
+    <!-- INHERIT -->
+    <record model="ir.ui.view" id="view_product_extra_photo_search_inherit">
+            <field name="name">Web product data</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product_extra_photo.view_product_extra_photo_search"/>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+               <xpath expr="/search/field[@name='categ_id']" position='replace'>
+                   <field name="category_id" widget="selection"/>
+                   <field name="line_id" widget="selection" />
+                   <field name="tipology_id" widget="selection" />
+               </xpath>
+            </field>
+    </record>     
+
+    <record model="ir.ui.view" id="view_product_normal_tree_view_web_field_photo">
+            <field name="name">Web product data</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product_extra_photo.product_product_with_extra_photo_tree"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+               <xpath expr="/tree/field[@name='state']" position='before'>
+                   <field name="category_id" />
+                   <field name="line_id" />
+                   <field name="color_id" />
+                   <field name="tipology_id" />
+               </xpath>
+            </field>
+    </record>     
+         
+    <record model="ir.ui.view" id="view_product_normal_form_view_web_field_photo">
+            <field name="name">Web product data</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product_extra_photo.product_product_with_extra_photo_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+               <xpath expr="/form/group[@name='information']/field[@name='description_sale']" position='after'>
+                   <separator string="Large description for web" colspan="4" />
+                   <field name="large_description" colspan="4" nolabel="1"/>                  
+               </xpath>
+            
+               <xpath expr="/form/group[@name='extra']" position='after'>
+                    <separator string="Web information:" colspan="4" />
+                    <notebook colspan="4">
+                           <page string="General">
+                                <field name="web"/>
+                                <!--<field name="favourite" attrs="{'invisible':[('web','=',False)]}"/>-->
+                                
+                                <!--<field name="k2_image_format" readonly="1"/>-->
+                                <field name="k2_all_product" attrs="{'invisible':[('k2_image_format','=',False)]}"/>
+                                <newline />
+                                
+                                <field name="k2_gallery_id" attrs="{'invisible':[('k2_image_format','=',False)]}"/>
+
+                                <group attrs="{'invisible':[('k2_image_format','=',True)]}" colspan="4" col="6">
+                                   <field name="category_id" widget="selection" on_change="on_change_category(category_id, line_id)"/>
+                                   <field name="line_id" attrs="{'invisible':[('category_id','=',False)]}" on_change="on_change_line(line_id, color_id)"/>
+                                   <field name="color_id" attrs="{'invisible':[('line_id','=',False)]}"/>
+                                </group>  
+                                
+                                <group attrs="{'invisible':[('k2_image_format','=',True)]}" colspan="4">
+                                   <field name="tipology_id" widget="selection" on_change="on_change_tipology(tipology_id, subtipology_ids)"/>
+                                   <newline />
+                                   <separator string="Sub tipology" colspan="4" />
+                                   <field name="subtipology_ids" colspan="4" nolabel="1" domain="[('tipology_id','=',tipology_id)]" attrs="{'invisible':[('tipology_id','=',False)]}"/>
+                                </group>
+                                
+                                <group attrs="{'invisible':[('k2_image_format','!=',True)]}" colspan="4">
+                                   <separator string="Category" colspan="4" />
+                                   <field name="k2_category_ids" colspan="4" nolabel="1">
+                                      <tree string="Category list" editable="bottom">
+                                          <field name="category_id" />
+                                      </tree>
+                                   </field>
+
+                                   <separator string="Extra fields" colspan="4" />
+                                   <field name="k2_subtipology_ids" colspan="4" nolabel="1">
+                                      <tree string="Extra fields list" editable="bottom">
+                                          <field name="tipology_id" />
+                                          <field name="name" />
+                                      </tree>
+                                   </field>
+
+                                   <separator string="Custom mod" colspan="4" />
+                                   <field name="k2_mod_custom_ids" colspan="4" nolabel="1">                                       
+                                      <tree string="custom modules">
+                                        <field name="name"/>
+                                     </tree>
+                                  </field>  
+                                </group>
+                           </page>
+                           <page string="Product link" attrs="{'invisible':[('k2_image_format','=',True)]}" >
+                                <separator string="List where product is parent" colspan="2"/>
+                                <separator string="List where product is child" colspan="2"/>
+                                
+                                <field name="parent_ids" nolabel="1" colspan="2">
+                                   <tree editable="bottom" string="list of product recomended when this product is selected">
+                                     <field name="sequence"/>
+                                     <field name="child_id" domain="[('web','=',True)]"/>
+                                   </tree>
+                                </field>                                  
+                                <field name="child_ids" nolabel="1" colspan="2">
+                                   <tree editable="bottom" string="list of product that has this product as recomended">
+                                     <field name="parent_id" domain="[('web','=',True)]"/>
+                                   </tree>
+                                </field>                                  
+                           </page>
+                           <page string="Description">
+                               <group colspan="2" col="2">
+                                 <separator string="Name" />
+                                 <field name="vm_name" nolabel="1" colspan="2" />
+                               </group>
+                               <group colspan="2" col="2" attrs="{'invisible':[('k2_image_format','=',True)]}">
+                                 <separator string="Short name" />
+                                 <field name="vm_short" nolabel="1" colspan="2"/>
+                               </group>
+                               <separator string="VM Description" colspan="4"  attrs="{'invisible':[('k2_image_format','=',True)]}" />
+                               <field name="vm_description" colspan="4" nolabel="1"  attrs="{'invisible':[('k2_image_format','=',True)]}"/>
+                           </page>
+                           <page string="K2 extra fields">
+                                 <separator string="Extra field search" colspan="2" />
+                                 <separator string="Image caption" colspan="2" />
+                                 <field name="k2_extra_field_search" nolabel="1" colspan="2" />
+                                 <field name="k2_image_caption" nolabel="1" colspan="2" />
+                           </page>
+                    </notebook>
+               </xpath>
+            </field>
+    </record>            
+
+    <record model="ir.ui.view" id="view_product_normal_form_view_web_field">
+            <field name="name">Product web fields</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+               <xpath expr="/form/notebook/page[@string='Information']" position='after'>
+                   <page string="Web">                      
+                        <field name="web"/>
+                        <!--<field name="favourite" attrs="{'invisible':[('web','=',False)]}"/>-->
+                        
+                        <field name="k2_image_format" readonly="1"/>
+                        <field name="k2_all_product" attrs="{'invisible':[('k2_image_format','=',False)]}"/>
+                        <newline />
+                        <notebook colspan="4">
+                               <page string="General">
+                                    <field name="k2_gallery_id"  attrs="{'invisible':[('k2_image_format','=',False)]}"/>
+                                    <group attrs="{'invisible':[('k2_image_format','=',True)]}" colspan="4">
+                                       <field name="category_id" widget="selection" on_change="on_change_category(category_id, line_id)"/>                                    
+                                       <field name="line_id" attrs="{'invisible':[('category_id','=',False)]}"/>
+                                    </group>  
+                                    
+                                    <group attrs="{'invisible':[('k2_image_format','=',True)]}" colspan="4">
+                                       <field name="tipology_id" widget="selection" on_change="on_change_tipology(tipology_id, subtipology_ids)"/>
+                                       <newline />
+                                       <separator string="Sub tipology" colspan="4" />
+                                       <field name="subtipology_ids" colspan="4" nolabel="1" domain="[('tipology_id','=',tipology_id)]" attrs="{'invisible':[('tipology_id','=',False)]}"/>
+                                    </group>
+                                    
+                                    <group attrs="{'invisible':[('k2_image_format','!=',True)]}" colspan="4">
+                                       <separator string="Category" colspan="4" />
+                                       <field name="k2_category_ids" colspan="4" nolabel="1">
+                                          <tree string="Category list" editable="bottom">
+                                              <field name="category_id" />
+                                          </tree>
+                                       </field>
+
+                                       <separator string="Extra fields" colspan="4" />
+                                       <field name="k2_subtipology_ids" colspan="4" nolabel="1">
+                                          <tree string="Extra fields list" editable="bottom">
+                                              <field name="tipology_id" />
+                                              <field name="name" />
+                                          </tree>
+                                       </field>
+                                       
+                                       <separator string="Custom mod" colspan="4" />
+                                       <field name="k2_mod_custom_ids" colspan="4" nolabel="1">                                       
+                                           <tree string="custom modules">
+                                              <field name="name"/>
+                                           </tree>
+                                       </field>
+                                    </group>
+                               </page>
+                               <page string="Product link" attrs="{'invisible':[('k2_image_format','=',True)]}" >
+                                    <separator string="List where product is parent" colspan="2"/>
+                                    <separator string="List where product is child" colspan="2"/>
+                                    
+                                    <field name="parent_ids" nolabel="1" colspan="2">
+                                       <tree editable="bottom" string="list of product recomended when this product is selected">
+                                         <field name="sequence"/>
+                                         <field name="child_id" domain="[('web','=',True)]"/>
+                                       </tree>
+                                    </field>                                  
+                                    <field name="child_ids" nolabel="1" colspan="2">
+                                       <tree editable="bottom" string="list of product that has this product as recomended">
+                                         <field name="parent_id" domain="[('web','=',True)]"/>
+                                       </tree>
+                                    </field>                                  
+                               </page>
+                               <page string="Description">
+                                   <group colspan="2" col="2">
+                                     <separator string="Name" />
+                                     <field name="vm_name" nolabel="1" colspan="2" />
+                                   </group>
+                                   <group colspan="2" col="2"  attrs="{'invisible':[('k2_image_format','=',True)]}">
+                                     <separator string="Short name" />
+                                     <field name="vm_short" nolabel="1" colspan="2"/>
+                                   </group>
+                                   <separator string="VM Description" colspan="4"  attrs="{'invisible':[('k2_image_format','=',True)]}"/>
+                                   <field name="vm_description" colspan="4" nolabel="1" attrs="{'invisible':[('k2_image_format','=',True)]}"/>
+                               </page>
+                               <page string="K2 extra fields">
+                                  <!--<group colspan="4" col="6">-->
+                                     <!--<separator string="Params" colspan="2"/>-->
+                                     <separator string="Extra field search" colspan="2" />
+                                     <separator string="Image caption" colspan="2" />
+                                     <!--<field name="k2_params" nolabel="1" colspan="2" />-->
+                                     <field name="k2_extra_field_search" nolabel="1" colspan="2" />
+                                     <field name="k2_image_caption" nolabel="1" colspan="2" />
+                                     <!--<separator string="Extra fields" colspan="4" />-->
+                                     
+                                     <!--<field name="k2_extra_fields" nolabel="1" colspan="4" />-->
+                                     <!--
+                                     <separator string="Full text" colspan="2" />
+                                     <field name="k2_fulltext" nolabel="1" colspan="2" />-->
+                                 <!--</group>-->
+                                     <!--<separator string="Gallery" colspan="2" />
+                                     <field name="k2_gallery" nolabel="1" colspan="2" />
+                                     <separator string="Intro text" colspan="2" />
+                                     <field name="k2_introtext" nolabel="1" colspan="2" />-->
+                                  <!--<field name="k2_ordering" />-->
+                                  <!--<field name="k2_alias" />-->
+                                  <!--<field name="k2_extra_fields" nolabel="1" colspan="4" /> -->
+                               </page>
+                        </notebook>
+                   </page>
+               </xpath>
+            </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_product_search_form_view_web_field">
+            <field name="name">Product search web fields</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_search_form_view"/>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                   <field name="name" position="before">
+                        <field name="web"/>
+                   </field>
+            </field>
+    </record>
+
+<!-- web.wizard -->        
+        <record model="ir.ui.view" id="web_wizard_form_view">
+            <field name="name">Publish wizard</field>
+            <field name="model">web.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+               <form>
+                  <field name="force_image" />
+                  <newline />
+                  <button special="cancel" string="Cancel" icon="gtk-cancel" />
+                  <button name="publish_on_web" string="Publish" icon="gtk-go-forward" type="object" />
+               </form>
+            </field>
+        </record>
+            
+        <record model="ir.actions.act_window" id="web_wizard_form_appointment_wizard">
+            <field name="name">Publish</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">web.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <menuitem id="web_base_menu" parent="base.menu_base_config" sequence="20" name="Pubblicazione web"/>
+          <menuitem id="web_base_menu_k2" parent="web_base_menu" sequence="10" name="K2"/>
+          <menuitem id="web_base_menu_vm" parent="web_base_menu" sequence="20" name="VM"/>
+            <menuitem action="web_wizard_form_appointment_wizard" id="web_wizard_form_appointment_wizard_menu" parent="web_base_menu" sequence="1" />
+
+<!-- vetrina -->
+        <record id="view_web_vetrina_form" model="ir.ui.view">
+            <field name="name">Web product vetrina</field>
+            <field name="model">web.k2.vetrina</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Web product vetrina">
+                      <field name="k2_id" />
+                      <field name="name" />
+                      <field name="product_id" domain="[('web','=',True)]"/>
+                      <field name="badge" />
+                </form>
+            </field>
+        </record>
+        <record id="view_web_vetrina_list" model="ir.ui.view">
+            <field name="name">Vetrina product</field>
+            <field name="model">web.k2.vetrina</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Web product vetrina">
+                      <field name="k2_id" />
+                      <field name="name" />
+                      <field name="product_id" />
+                      <field name="badge" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_web_vetrina_form" model="ir.actions.act_window">
+            <field name="name">Web product vetrina</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">web.k2.vetrina</field>
+            <field name="view_type">form</field>
+        </record>
+
+        <menuitem action="action_web_vetrina_form" id="menu_web_vetrina_form" name="Web product vetrina" sequence="4" parent="web_base_menu_k2"/>
+
+<!-- Mod Custom -->
+        <record id="view_web_custom_search" model="ir.ui.view">
+            <field name="name">search product custom</field>
+            <field name="model">web.k2.mod.custom</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="search product custom">
+                      <field name="name" />
+                </search>
+            </field>
+        </record>
+        <record id="view_web_custom_form" model="ir.ui.view">
+            <field name="name">Web product custom</field>
+            <field name="model">web.k2.mod.custom</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Web product custom">
+                   <group colspan="4" col="6">
+                      <field name="has_title" />
+                      <field name="k2_id" />
+                      <field name="name" />
+                   </group>   
+                   <separator string="Custom mod text:" colspan="4" />
+                   <field name="text" colspan="4" nolabel="1"/>
+                </form>
+            </field>
+        </record>
+        <record id="view_web_custom_list" model="ir.ui.view">
+            <field name="name">Mod Custom product</field>
+            <field name="model">web.k2.mod.custom</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Web product vetrina">
+                      <field name="has_title" />
+                      <field name="k2_id" />
+                      <field name="name" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_web_custom_form" model="ir.actions.act_window">
+            <field name="name">Web product custom</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">web.k2.mod.custom</field>
+            <field name="search_view_id" ref="view_web_custom_search"/>
+            <field name="view_type">form</field>
+        </record>
+
+        <menuitem action="action_web_custom_form" id="menu_web_custom_form" name="Web product custom mod" sequence="5" parent="web_base_menu_k2"/>
+
+<!-- Product image gallery -->
+        <record id="view_web_gallery_search" model="ir.ui.view">
+            <field name="name">search product gallery</field>
+            <field name="model">web.k2.gallery</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="search product gallery">
+                      <field name="name" />
+                </search>
+            </field>
+        </record>
+        <record id="view_web_gallery_form" model="ir.ui.view">
+            <field name="name">Web product gallery</field>
+            <field name="model">web.k2.gallery</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Web product gallery">
+                      <field name="publish" />
+                      <field name="k2_id" />
+                      <field name="long_title" />
+                      <field name="name" />
+                      <field name="folder" />
+                </form>
+            </field>
+        </record>
+        <record id="view_web_gallery_list" model="ir.ui.view">
+            <field name="name">Mod Custom gallery</field>
+            <field name="model">web.k2.gallery</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Web product gallery">
+                      <field name="publish" />
+                      <field name="k2_id" />
+                      <field name="long_title" />
+                      <field name="name" />
+                      <field name="folder" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_web_gallery_form" model="ir.actions.act_window">
+            <field name="name">Web product gallery</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">web.k2.gallery</field>
+            <field name="search_view_id" ref="view_web_gallery_search"/>
+            <field name="view_type">form</field>
+        </record>
+
+        <menuitem action="action_web_gallery_form" id="menu_web_gallery_form" name="Web product gallery" sequence="6" parent="web_base_menu_k2"/>
+<!-- tipology -->
+        <record id="view_web_tipology_form" model="ir.ui.view">
+            <field name="name">Web product tipology</field>
+            <field name="model">web.tipology</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Web product tipology">
+                    <field name="sequence"/>
+                    <field name="k2_id"/>
+                    <field name="name" select="1"/>
+                </form>
+            </field>
+        </record>
+        <record id="view_web_tipology_list" model="ir.ui.view">
+            <field name="name">Partner tipology</field>
+            <field name="model">web.tipology</field>
+            <field name="type">tree</field>
+            <field eval="6" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Web product tipology">
+                    <field name="sequence"/>
+                    <field name="name" select="1" />
+                    <field name="subtipology_ids">
+                    <field name="name"/>
+                    <field name="tipology_id" widget="selection"/>
+                    <field name="custom_filter_id" />                                            
+                    </field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_web_tipology_form" model="ir.actions.act_window">
+            <field name="name">Web product tipology</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">web.tipology</field>
+            <field name="view_type">form</field>
+        </record>
+
+        <menuitem action="action_web_tipology_form" id="menu_web_tipology_form" name="Web product tipology" sequence="4" parent="web_base_menu_vm"/><!--VM-->
+        <menuitem action="action_web_tipology_form" id="menu_web_tipology_form_k2" name="Web product tipology" sequence="4" parent="web_base_menu_k2"/>
+
+<!-- subtipology -->
+        <record id="view_web_subtipology_form" model="ir.ui.view">
+            <field name="name">Web product subtipology</field>
+            <field name="model">web.subtipology</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Web product subtipology">
+                    <field name="name"/>
+                    <field name="tipology_id" widget="selection"/>
+                    <field name="custom_filter_id" />                    
+                </form>
+            </field>
+        </record>
+        <record id="view_web_subtipology_list" model="ir.ui.view">
+            <field name="name">Partner subtipology</field>
+            <field name="model">web.subtipology</field>
+            <field name="type">tree</field>
+            <field eval="6" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Web product subtipology">
+                    <field name="name" select="1" />
+                    <field name="tipology_id" />
+                    <field name="custom_filter_id" />                    
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_web_subtipology_form" model="ir.actions.act_window">
+            <field name="name">Web product subtipology</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">web.subtipology</field>
+            <field name="view_type">form</field>
+        </record>
+
+        <menuitem action="action_web_subtipology_form" id="menu_web_subtipology_form" name="Web product subtipology" sequence="4" parent="menu_web_tipology_form"/><!--only VM-->
+
+<!-- custom filter -->
+        <record id="view_web_custom_filter_form" model="ir.ui.view">
+            <field name="name">Custom filter</field>
+            <field name="model">web.custom.filter</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Web custom filter">
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="field_type"/>
+                </form>
+            </field>
+        </record>
+        <record id="view_web_custom_filter_list" model="ir.ui.view">
+            <field name="name">Custom filter</field>
+            <field name="model">web.custom.filter</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Web custom filter">
+                    <field name="sequence"/>
+                    <field name="name" select="1" />
+                    <field name="field_type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_web_custom_filter_form" model="ir.actions.act_window">
+            <field name="name">Web custom filter</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">web.custom.filter</field>
+            <field name="view_type">form</field>
+        </record>
+
+        <menuitem action="action_web_custom_filter_form" id="menu_web_custom_filter_form" name="Web custom filter" sequence="5" parent="web_base_menu_vm"/><!--only VM-->
+
+<!-- category -->
+        <record id="view_web_category_form" model="ir.ui.view">
+            <field name="name">Web product category</field>
+            <field name="model">web.category</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Web product category">
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="file_name" readonly="1"/>
+                    <separator string="Line" colspan="4"/>                    
+                    <field name="line_ids" nolabel="1" colspan="4"/>
+                </form>
+            </field>
+        </record>
+        <record id="view_web_category_list" model="ir.ui.view">
+            <field name="name">Product category</field>
+            <field name="model">web.category</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Web product category">
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="file_name" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_web_category_form" model="ir.actions.act_window">
+            <field name="name">Web product category</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">web.category</field>
+            <field name="view_type">form</field>
+        </record>
+
+        <menuitem action="action_web_category_form" id="menu_web_category_form" name="Web product category" sequence="4" parent="web_base_menu_vm"/>
+        <menuitem action="action_web_category_form" id="menu_web_category_form_k2" name="Web product category" sequence="4" parent="web_base_menu_k2"/>
+
+<!-- line -->
+        <record id="view_web_line_search" model="ir.ui.view">
+            <field name="name">Search Web product line</field>
+            <field name="model">web.line</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Web product line">
+                    <field name="name"/>
+                    <field name="category_id" widget="selection"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_web_line_form" model="ir.ui.view">
+            <field name="name">Web product line</field>
+            <field name="model">web.line</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Web product line">
+                        <field name="sequence"/>
+                        <field name="name"/>
+                        <field name="category_id" widget="selection"/>
+                        <field name="file_name" readonly="1"/>
+                    <separator string="Colors:" colspan="4"/>
+                    <field name="color_ids" colspan="4" nolabel="1">
+                        <tree editable="bottom">
+                           <field name="sequence"/>
+                           <field name="name"/>
+                           <field name="file_name" readonly="1"/>
+                        </tree>
+                    </field>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_web_line_list" model="ir.ui.view">
+            <field name="name">Product line</field>
+            <field name="model">web.line</field>
+            <field name="type">tree</field>
+            <field eval="6" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Web product line">
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="category_id"/>
+                    <field name="file_name" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_web_line_form" model="ir.actions.act_window">
+            <field name="name">Web product line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">web.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form,tree</field>
+            <field name="view_id" ref="view_web_line_list" />            
+            <field name="search_view_id" ref="view_web_line_search" />            
+        </record>
+
+        <menuitem action="action_web_line_form" id="menu_web_line_form" name="Web product line" sequence="4" parent="menu_web_category_form"/><!--Only VM-->
+
+<!-- Shop parameter -->
+        <record id="view_web_shop_parameter_search" model="ir.ui.view">
+            <field name="name">Search shop</field>
+            <field name="model">web.shop.parameter</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Web shop parameter">
+                    <field name="name" />
+                    <field name="company_id"/>                    
+                </search>
+            </field>
+        </record>
+        
+        <record id="view_web_shop_parameter_form" model="ir.ui.view">
+            <field name="name">Shop Parameter</field>
+            <field name="model">web.shop.parameter</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Web shop parameter">
+                    <separator string="Shop information:" colspan="4"/>
+                    <field name="name"/>
+                    <field name="company_id"/>                    
+                    <group colspan="4" col="6">
+                      <field name="k2_image_format" string="K2 Web site format" readonly="1"/>
+                      <field name="web_site"/>
+                      <field name="logfile_name"/>
+                    </group>  
+                    
+                    <separator string="MySQL Access:" colspan="4"/>
+                    <field name="mysql_username"/>
+                    <field name="mysql_password" />
+                    <field name="mysql_prefix_table"/>
+                    <field name="mysql_database"/>
+                    
+                    <separator string="FTP Access:" colspan="4"/>
+                    <field name="ftp_server"/>
+                    <field name="ftp_home" />
+                    <field name="ftp_username"/>
+                    <field name="ftp_password" />
+                    
+                    <separator string="Joomla Access:" colspan="4"/>
+                    <field name="joomla_username"/>
+                    <field name="joomla_password" />                    
+                </form>
+            </field>
+        </record>
+
+        <record id="view_web_shop_parameter_list" model="ir.ui.view">
+            <field name="name">Shop Parameter</field>
+            <field name="model">web.shop.parameter</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Web shop parameter">
+                    <field name="name" />
+                    <field name="company_id"/>                    
+                    <field name="web_site"/>                    
+                    <field name="mysql_database"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_web_shop_parameter" model="ir.actions.act_window">
+            <field name="name">Shop Parameter</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">web.shop.parameter</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_web_shop_parameter_search"/>
+        </record>
+
+        <menuitem action="action_web_shop_parameter" id="menu_web_shop_parameter" name="Shop parameter" sequence="99" parent="web_base_menu"/>
+        
+</data>
+</openerp>
+

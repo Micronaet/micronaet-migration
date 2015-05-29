@@ -1,0 +1,108 @@
+<?xml version="1.0" ?>
+<openerp>
+<data>
+    <record model="ir.ui.view" id="view_dashboard_import_log_form">
+        <field name="name">dashboard.import.log.form</field>
+        <field name="model">dashboard.import.log</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Import log">
+                <field name="name" />
+                <field name="visible" />
+                <field name="start" />
+                <field name="end" />
+                <field name="days_error" />
+                <field name="status" />
+                <notebook colspan="4">
+                    <page string="Note">
+                      <field name="note" nolabel="1" colspan="4"/>
+                    </page>
+                    <page string="Log OK">
+                      <field name="ok" nolabel="1" colspan="4"/>
+                    </page>
+                    <page string="Log Warning">
+                      <field name="warning" nolabel="1" colspan="4"/>
+                    </page>
+                    <page string="Log Error">
+                      <field name="error" nolabel="1" colspan="4"/>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_dashboard_import_log_tree">
+        <field name="name">dashboard.import.log.tree</field>
+        <field name="model">dashboard.import.log</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Import log">
+                <field name="visible" invisible="1"/>
+                <field name="name" />
+                <field name="start" />
+                <field name="end" />
+                <field name="status" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_dashboard_import_log">
+        <field name="name">Import log</field>
+        <field name="res_model">dashboard.import.log</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_dashboard_import_log_tree"/>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_dashboard_import_log_dashboard">
+        <field name="name">Import log for dashboard</field>
+        <field name="res_model">dashboard.import.log</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_dashboard_import_log_tree"/>
+        <field name="domain">[('visible','=',True)]</field>
+    </record>
+
+
+       <!-- Form Dashboard Customer Graph Analysis-->
+       <record id="board_dashboard_import_log_form" model="ir.ui.view">
+            <field name="name">dashboard.import.log.board</field>
+            <field name="model">board.board</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Import log">                
+                    <vpaned>
+                       <child4 colspan="4">
+                           <separator colspan="4" string="Import log info" />
+                           <action colspan="4" name="%(action_dashboard_import_log_dashboard)d" string="Import log"/>
+                       </child4>                                                 
+                    </vpaned>                    
+                </form>
+            </field>
+        </record>
+
+        <record id="action_board_dashboard_import_log" model="ir.actions.act_window">
+            <field name="name">Import log dashboard</field>
+            <field name="res_model">board.board</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="board_dashboard_import_log_form"/>
+        </record>
+
+    <menuitem 
+        parent="base.menu_ir_cron_act"
+        id="menu_action_dashboard_import_log" 
+        action="action_dashboard_import_log"
+        sequence = "10"
+        />
+
+    <menuitem 
+        parent="base.menu_ir_cron_act"
+        id="menu_action_dashboard_import_log_board" 
+        action="action_board_dashboard_import_log"
+        sequence = "20"
+        />
+
+</data>
+</openerp>
+

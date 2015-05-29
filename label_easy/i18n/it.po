@@ -1,0 +1,800 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* label_easy
+# <> <>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.0.2\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2011-05-09 11:06+0000\n"
+"PO-Revision-Date: 2011-05-09 13:14+0200\n"
+"Last-Translator: <> <>\n"
+"Language-Team:  <>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: label_easy
+#: help:easylabel.path,path:0
+msgid "Complete path of the root folder, ex.: c:\\easylabel\\label\\year2011"
+msgstr ""
+"Percorso completo della cartella base, es.: c:\\easylabel\\label\\year2011"
+
+#. module: label_easy
+#: help:easylabel.label,label_name:0
+msgid "Name of the label in Easylabel program"
+msgstr "Nome etichetta in Easylabel"
+
+#. module: label_easy
+#: help:easylabel.label,counter:0
+msgid "Has a parameter that write for each lot number / tot value"
+msgstr ""
+"Ha un parametro che deve essere scritto per ogni numero lotto / valore totale"
+
+#. module: label_easy
+#: view:product.product:0 view:res.partner:0
+msgid "Group By..."
+msgstr "Raggruppa per..."
+
+#. module: label_easy
+#: field:easylabel.batch.line,total:0
+msgid "Total of labels"
+msgstr "Numero totale etichette"
+
+#. module: label_easy
+#: view:res.partner:0
+msgid "Supplier"
+msgstr "Venditore"
+
+#. module: label_easy
+#: model:ir.ui.menu,name:label_easy.res_partner_tree_label_action_startup_menuitem
+msgid "Setup the system"
+msgstr "Setup del sistema"
+
+#. module: label_easy
+#: selection:easylabel.parameter,mode_type:0
+msgid "Order number"
+msgstr "Numero d'ordine"
+
+#. module: label_easy
+#: help:easylabel.easylabel,command:0
+msgid "File that launch the batch command, ex.: easy.exe"
+msgstr "File exe che lancia il comando nel batch, es.: easy.exe"
+
+#. module: label_easy
+#: field:easylabel.batch,week:0 field:easylabel.batch.wizard,week:0
+msgid "Actual week"
+msgstr "Settimana attuale"
+
+#. module: label_easy
+#: help:easylabel.path,name:0
+msgid "Short name to identify the folder"
+msgstr "Nome corto per identificare la cartella"
+
+#. module: label_easy
+#: view:easylabel.label:0
+msgid "Easylabel Label"
+msgstr "Etichetta Easylabel"
+
+#. module: label_easy
+#: selection:easylabel.parameter,mode_type:0
+msgid "Customer order number"
+msgstr "Numero d'ordine cliente"
+
+#. module: label_easy
+#: model:ir.model,name:label_easy.model_easylabel_path
+msgid "Root path of label's folder"
+msgstr "Percorso base per la cartella etichette"
+
+#. module: label_easy
+#: model:ir.actions.act_window,name:label_easy.easylabel_printer_action
+#: model:ir.ui.menu,name:label_easy.easylabel_printer_menuitem
+msgid "Easylabel printers"
+msgstr "Stampanti Easylabel"
+
+#. module: label_easy
+#: help:easylabel.printer,sequence:0
+msgid "Sequence order of priority"
+msgstr "Ordine della sequenza (priorità)"
+
+#. module: label_easy
+#: field:easylabel.easylabel,command:0
+msgid "EXE Command"
+msgstr "Comando EXE"
+
+#. module: label_easy
+#: field:easylabel.printer,type:0
+msgid "Default type"
+msgstr "Tipo standard"
+
+#. module: label_easy
+#: model:ir.actions.act_window,name:label_easy.res_partner_tree_label_action
+#: model:ir.ui.menu,name:label_easy.res_partner_tree_label_action_menuitem
+#: view:res.partner:0
+msgid "Partner with label"
+msgstr "Partner con etichetta"
+
+#. module: label_easy
+#: field:easylabel.batch.line,pack_label_id:0
+msgid "Partner package label"
+msgstr "Partner: etichetta collo"
+
+#. module: label_easy
+#: field:easylabel.particularity,article_label_id:0
+#: field:res.partner,article_label_id:0
+msgid "Article Label"
+msgstr "Etichetta interna"
+
+#. module: label_easy
+#: field:easylabel.label,folder:0
+msgid "Extra folder"
+msgstr "Cartella extra"
+
+#. module: label_easy
+#: view:res.partner:0
+msgid "Article label"
+msgstr "Etichetta articolo"
+
+#. module: label_easy
+#: model:ir.actions.act_window,name:label_easy.easylabel_label_action
+#: model:ir.ui.menu,name:label_easy.easylabel_label_menuitem
+msgid "Easylabel label"
+msgstr "Etichetta Easylabel"
+
+#. module: label_easy
+#: view:easylabel.label:0 view:easylabel.parameter:0
+msgid "Easylabel parameter"
+msgstr "Parametro Easylabel"
+
+#. module: label_easy
+#: field:easylabel.parameter,value:0
+msgid "Value"
+msgstr "Valore"
+
+#. module: label_easy
+#: help:easylabel.label,height:0
+msgid "Height of label in mm."
+msgstr "Altezza etichetta in mm."
+
+#. module: label_easy
+#: model:ir.actions.act_window,name:label_easy.product_product_tree_label_action
+#: model:ir.ui.menu,name:label_easy.product_product_tree_label_action_menuitem
+#: view:product.product:0
+msgid "Product for label"
+msgstr "Prodotto per etichetta"
+
+#. module: label_easy
+#: selection:easylabel.batch,state:0
+msgid "Cancelled"
+msgstr "Annullato"
+
+#. module: label_easy
+#: field:easylabel.batch.line,position:0
+msgid "Position"
+msgstr "Posizione"
+
+#. module: label_easy
+#: view:easylabel.batch.wizard:0
+msgid "NOTE: Use XLS macro for export CSV file before this operation!"
+msgstr ""
+"NOTE: Usare la macro di Excel per esportare il file CSV prima di questa "
+"operazione!"
+
+#. module: label_easy
+#: model:ir.actions.act_window,name:label_easy.batch_import_wizard_action
+#: model:ir.ui.menu,name:label_easy.batch_import_wizard_menuitem
+msgid "Import CSV file"
+msgstr "Importa file CSV"
+
+#. module: label_easy
+#: view:easylabel.batch:0 field:easylabel.batch,note:0
+#: field:easylabel.batch.wizard,note:0 field:easylabel.path,note:0
+#: view:easylabel.printer:0 field:easylabel.printer,note:0
+msgid "Note"
+msgstr "Note"
+
+#. module: label_easy
+#: field:easylabel.label,width:0
+msgid "Width"
+msgstr "Larghezza"
+
+#. module: label_easy
+#: selection:easylabel.parameter,mode_type:0
+msgid "Counter total"
+msgstr "Contatore totale"
+
+#. module: label_easy
+#: selection:easylabel.parameter,mode_type:0
+msgid "Product code"
+msgstr "Codice prodotto"
+
+#. module: label_easy
+#: help:easylabel.label,name:0
+msgid "Friendly name of the label"
+msgstr "Nome amichevole etichetta"
+
+#. module: label_easy
+#: field:easylabel.easylabel,name:0
+msgid "PC Name"
+msgstr "Nome PC"
+
+#. module: label_easy
+#: field:easylabel.batch.line,partner_id:0
+#: field:easylabel.particularity,partner_id:0
+#: model:ir.model,name:label_easy.model_res_partner
+msgid "Partner"
+msgstr "Partner"
+
+#. module: label_easy
+#: field:easylabel.batch.line,order_c:0
+msgid "Customer order"
+msgstr "Ordine cliente"
+
+#. module: label_easy
+#: view:res.partner:0
+msgid "Package label"
+msgstr "Etichetta imballo"
+
+#. module: label_easy
+#: selection:easylabel.parameter,mode_type:0
+msgid "Product description"
+msgstr "Descrizione prodotto"
+
+#. module: label_easy
+#: selection:easylabel.batch.wizard,state:0
+msgid "Create"
+msgstr "Crea"
+
+#. module: label_easy
+#: view:easylabel.label:0
+msgid "Parameter command file"
+msgstr "Parametri file di comando"
+
+#. module: label_easy
+#: field:easylabel.parameter,label_id:0
+msgid "Label"
+msgstr "Etichetta"
+
+#. module: label_easy
+#: field:easylabel.batch,state:0 field:easylabel.batch.wizard,state:0
+msgid "State"
+msgstr "Stato"
+
+#. module: label_easy
+#: field:easylabel.printer,name:0
+msgid "Printer name"
+msgstr "Nome stampante"
+
+#. module: label_easy
+#: help:easylabel.batch.line,total:0
+msgid "Total number of label to be printed for this element"
+msgstr ""
+"Numero totale etichette che devono essere stampante per questo elemento"
+
+#. module: label_easy
+#: field:easylabel.label,height:0
+msgid "Height"
+msgstr "Altezza"
+
+#. module: label_easy
+#: field:easylabel.label,parameter_ids:0 field:easylabel.parameter,name:0
+msgid "Parameter"
+msgstr "Parametro"
+
+#. module: label_easy
+#: field:easylabel.batch.line,printer_id:0
+msgid "Printer"
+msgstr "Stampante"
+
+#. module: label_easy
+#: field:easylabel.particularity,pack_label_id:0
+#: field:res.partner,pack_label_id:0
+msgid "Package Label"
+msgstr "Etichetta esterna"
+
+#. module: label_easy
+#: field:easylabel.particularity,pallet_label_id:0
+#: field:res.partner,pallet_label_id:0
+msgid "Pallet Label"
+msgstr "Etichetta bancale"
+
+#. module: label_easy
+#: field:easylabel.batch,date:0
+msgid "Load date"
+msgstr "Data caricamento"
+
+#. module: label_easy
+#: field:easylabel.batch.line,type:0 field:easylabel.label,type:0
+msgid "Type of label"
+msgstr "Tipo di etichetta"
+
+#. module: label_easy
+#: field:easylabel.batch,name:0
+msgid "Name of print queue"
+msgstr "Nome della coda di stampa"
+
+#. module: label_easy
+#: field:easylabel.batch.line,label_id:0
+msgid "Use label"
+msgstr "Usa l'etichetta..."
+
+#. module: label_easy
+#: help:easylabel.printer,name:0
+msgid "Better if is the same in Easylabel"
+msgstr "E' meglio se il nome è lo stesso anche in Easylabel"
+
+#. module: label_easy
+#: selection:easylabel.batch.line,type:0 selection:easylabel.label,type:0
+#: selection:easylabel.printer,type:0
+msgid "Article"
+msgstr "Articolo"
+
+#. module: label_easy
+#: model:ir.ui.menu,name:label_easy.easylabel_menu_configuration
+msgid "Configuration"
+msgstr "Configurazione"
+
+#. module: label_easy
+#: help:easylabel.parameter,mode_type:0
+msgid "If mode is Dynamic set up here the field automatic value"
+msgstr "Se la modalità è dinamica imposta qui il valore del campo automatico"
+
+#. module: label_easy
+#: model:ir.actions.act_window,name:label_easy.product_product_tree_label_0_action
+#: model:ir.ui.menu,name:label_easy.product_product_tree_label_0_action_menuitem
+msgid "Product without pack info"
+msgstr "Prodotto senza info imballaggio"
+
+#. module: label_easy
+#: help:easylabel.particularity,parent_name:0
+msgid "Begin of code, ex.:127 or whole code:127TX  BX"
+msgstr "Inizio del codice, es.:127 o codice completo, es.:127TX  BX"
+
+#. module: label_easy
+#: model:ir.model,name:label_easy.model_easylabel_batch_line
+msgid "Batch block lines of labels job"
+msgstr "Linea blocco etichette da stampare"
+
+#. module: label_easy
+#: selection:easylabel.parameter,mode_type:0
+msgid "Counter"
+msgstr "Contatore"
+
+#. module: label_easy
+#: field:easylabel.particularity,parent_name:0
+msgid "Parent code"
+msgstr "Codice padre"
+
+#. module: label_easy
+#: help:easylabel.label,folder:0
+msgid "Extra folder to added to root one."
+msgstr "Cartelle extra che va aggiunta a quella di base."
+
+#. module: label_easy
+#: view:easylabel.batch.wizard:0
+msgid "Cancel"
+msgstr "Annulla"
+
+#. module: label_easy
+#: field:easylabel.batch.line,shipment:0
+msgid "Shipment place"
+msgstr "Luogo consegna"
+
+#. module: label_easy
+#: help:easylabel.path,note:0
+msgid "A little explaination of what folder contains"
+msgstr "Una piccola indicazione di cosa contiene la cartella"
+
+#. module: label_easy
+#: field:easylabel.batch.wizard,printer_art_id:0
+msgid "Article Printer"
+msgstr "Stampante x articoli"
+
+#. module: label_easy
+#: field:easylabel.label,root_id:0
+msgid "Root folder"
+msgstr "Cartella base"
+
+#. module: label_easy
+#: help:easylabel.parameter,value:0
+msgid "Value for static text"
+msgstr "Valore per testo statico"
+
+#. module: label_easy
+#: field:easylabel.label,path_id:0
+msgid "Root path folder"
+msgstr "Percorso cartella base"
+
+#. module: label_easy
+#: model:ir.model,name:label_easy.model_easylabel_parameter
+msgid "Label command file parameter"
+msgstr "Parametri etichetta per file comandi"
+
+#. module: label_easy
+#: field:easylabel.batch.line,shipment_date:0
+msgid "Shipment date"
+msgstr "Data consegna"
+
+#. module: label_easy
+#: view:res.partner:0
+msgid "Partner label search"
+msgstr "Ricerca etichette partner"
+
+#. module: label_easy
+#: model:ir.actions.report.xml,name:label_easy.aeroo_sample_report_id
+msgid "List of labels to print"
+msgstr "Lista etichette da stampare"
+
+#. module: label_easy
+#: field:easylabel.easylabel,oerp_command:0
+msgid "Openerp network path"
+msgstr "Percorso di rete openerp"
+
+#. module: label_easy
+#: view:product.product:0
+msgid "Category"
+msgstr "Categoria"
+
+#. module: label_easy
+#: view:easylabel.batch:0
+msgid "Export to Easylabel"
+msgstr "Esporta a Easylabel"
+
+#. module: label_easy
+#: help:easylabel.easylabel,path:0
+msgid "Complete path of the root folder, ex.: c:\\programmi\\tharo\\easylabel"
+msgstr ""
+"Percorso completo della cartella programma, es.: c:\\programmi\\tharo"
+"\\easylabel"
+
+#. module: label_easy
+#: selection:easylabel.batch,state:0
+msgid "To be printed"
+msgstr "Da stampare"
+
+#. module: label_easy
+#: field:easylabel.label,counter:0
+msgid "Has counter"
+msgstr "Ha un contatore"
+
+#. module: label_easy
+#: model:ir.model,name:label_easy.model_easylabel_label
+msgid "List of label in Easylabel"
+msgstr "Lista etichette in Easylabel"
+
+#. module: label_easy
+#: view:easylabel.batch.wizard:0
+msgid "Additional note"
+msgstr "Note aggiuntive"
+
+#. module: label_easy
+#: field:easylabel.label,lot:0
+msgid "Lot"
+msgstr "Lotto"
+
+#. module: label_easy
+#: view:easylabel.batch.wizard:0 selection:easylabel.batch.wizard,state:0
+msgid "Import"
+msgstr "Importa"
+
+#. module: label_easy
+#: selection:easylabel.parameter,mode_type:0
+msgid "Place of shipment"
+msgstr "Luogo della consegna"
+
+#. module: label_easy
+#: selection:easylabel.parameter,mode_type:0
+msgid "Today week"
+msgstr "Settimana attuale"
+
+#. module: label_easy
+#: field:easylabel.label,label_name:0
+msgid "Label Name"
+msgstr "Nome etichetta"
+
+#. module: label_easy
+#: view:easylabel.batch:0 field:easylabel.batch,line_ids:0
+msgid "Elements"
+msgstr "Elementi"
+
+#. module: label_easy
+#: selection:easylabel.parameter,mode_type:0
+msgid "Today date"
+msgstr "Data odierna"
+
+#. module: label_easy
+#: view:res.partner:0
+msgid "Standard label in Easylabel"
+msgstr "Etichetta standard in Easylabel"
+
+#. module: label_easy
+#: view:easylabel.easylabel:0
+#: model:ir.model,name:label_easy.model_easylabel_easylabel
+#: model:ir.ui.menu,name:label_easy.easylabel_menu view:res.partner:0
+msgid "Easylabel"
+msgstr "Easylabel"
+
+#. module: label_easy
+#: field:easylabel.easylabel,path:0
+msgid "Easylabel Path"
+msgstr "Percorso easylabel"
+
+#. module: label_easy
+#: field:easylabel.batch.wizard,printer_pal_id:0
+msgid "Pallet Printer"
+msgstr "Stampante bancali"
+
+#. module: label_easy
+#: field:easylabel.batch,line:0 field:easylabel.batch.wizard,line:0
+#: selection:easylabel.parameter,mode_type:0
+msgid "Line of production"
+msgstr "Linea di produzione"
+
+#. module: label_easy
+#: help:easylabel.label,root_id:0
+msgid "Root folder zone"
+msgstr "Zona cartella base"
+
+#. module: label_easy
+#: help:easylabel.easylabel,name:0
+msgid "Name of the PC that have installed Easylabel"
+msgstr "Nome del PC che ha installato Easylabel"
+
+#. module: label_easy
+#: field:easylabel.path,path:0
+msgid "Path"
+msgstr "Percorso"
+
+#. module: label_easy
+#: help:easylabel.parameter,mode:0
+msgid ""
+"Static if text is always the same, dynamic if use some automatism: need "
+"compilation of 'mode type'!"
+msgstr ""
+"Il testo statico è scritto come appare, quello dinamico è basato su "
+"automatismi: richieda la compilazione del 'modo tipo'!"
+
+#. module: label_easy
+#: view:easylabel.printer:0
+msgid "Easylabel printer"
+msgstr "Stampante Easylabel"
+
+#. module: label_easy
+#: view:product.product:0
+msgid "Code"
+msgstr "Codice"
+
+#. module: label_easy
+#: view:res.partner:0
+msgid "Partner list with label"
+msgstr "Lista partner con etichette"
+
+#. module: label_easy
+#: field:easylabel.printer,number:0
+msgid "Number"
+msgstr "Numero"
+
+#. module: label_easy
+#: view:easylabel.batch:0
+msgid "List of batch jobs"
+msgstr "Lista lavori a lotti"
+
+#. module: label_easy
+#: selection:easylabel.batch.wizard,state:0
+msgid "Done"
+msgstr "Fatto"
+
+#. module: label_easy
+#: field:easylabel.batch.line,batch_id:0
+msgid "Batch block"
+msgstr "Blocco lotto"
+
+#. module: label_easy
+#: model:ir.model,name:label_easy.model_easylabel_batch
+msgid "Batch block of labels job"
+msgstr "Blocco/Lotto di etichette da stampare"
+
+#. module: label_easy
+#: help:easylabel.batch.line,position:0
+msgid "Position in excel file, es.: R1-C5"
+msgstr "Position in excel file, es.: R1-C5"
+
+#. module: label_easy
+#: model:ir.actions.act_window,name:label_easy.easylabel_easylabel_action
+#: model:ir.ui.menu,name:label_easy.easylabel_easylabel_menuitem
+msgid "Easylabel PC"
+msgstr "PC Easylabel"
+
+#. module: label_easy
+#: field:easylabel.batch.line,pallet_label_id:0
+msgid "Partner pallet label"
+msgstr "Partner: etichetta bancale"
+
+#. module: label_easy
+#: view:res.partner:0
+msgid "Pallet label"
+msgstr "Etichetta bancale"
+
+#. module: label_easy
+#: model:ir.model,name:label_easy.model_easylabel_printer
+msgid "Printers"
+msgstr "Stampanti"
+
+#. module: label_easy
+#: selection:easylabel.batch.line,type:0 selection:easylabel.label,type:0
+#: selection:easylabel.printer,type:0
+msgid "Pallet"
+msgstr "Bancale"
+
+#. module: label_easy
+#: view:easylabel.label:0
+msgid "Easylabel Labels"
+msgstr "Etichette Easylabel"
+
+#. module: label_easy
+#: help:easylabel.label,width:0
+msgid "Width of label in mm."
+msgstr "Larghezza etichetta in mm."
+
+#. module: label_easy
+#: help:easylabel.batch.line,type:0
+msgid "Type of label to be printed for this element"
+msgstr "Tipo di etichetta che deve essere stampante per questo elemento"
+
+#. module: label_easy
+#: view:product.product:0
+msgid "Product search"
+msgstr "Ricerca prodotto"
+
+#. module: label_easy
+#: field:easylabel.batch.line,product_id:0
+msgid "Product"
+msgstr "Prodotto"
+
+#. module: label_easy
+#: field:easylabel.particularity,name:0
+msgid "Description"
+msgstr "Descrizione"
+
+#. module: label_easy
+#: help:easylabel.printer,note:0
+msgid "Describe usual format loaded or the final use of the printer."
+msgstr ""
+"Descrive il formato caricato abitualmente o l'uso finale della stampante."
+
+#. module: label_easy
+#: help:easylabel.printer,type:0
+msgid "Choose the default type of label this printer is for"
+msgstr "Scegliere il tipo etichetta di default usato per questa stampante"
+
+#. module: label_easy
+#: selection:easylabel.parameter,mode:0
+msgid "Static"
+msgstr "Statico"
+
+#. module: label_easy
+#: field:easylabel.batch.line,article_label_id:0
+msgid "Partner article label"
+msgstr "Partner: etichetta articolo"
+
+#. module: label_easy
+#: selection:easylabel.label,type:0
+msgid "Placeholder"
+msgstr "Segnaposto"
+
+#. module: label_easy
+#: help:easylabel.batch.wizard,note:0
+msgid "Not mandatory, if present are append to new batch job imported!"
+msgstr ""
+"Non obbligatorio, se presente è aggiunto al nuovo lotto di lavori importato!"
+
+#. module: label_easy
+#: help:easylabel.easylabel,oerp_command:0
+msgid "\\\\192.168.100.181\\easylabel"
+msgstr "\\\\192.168.100.181\\easylabel"
+
+#. module: label_easy
+#: view:res.partner:0
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: label_easy
+#: field:easylabel.label,name:0 field:easylabel.path,name:0
+msgid "Name"
+msgstr "Nome"
+
+#. module: label_easy
+#: field:easylabel.batch.line,package_id:0
+#: selection:easylabel.batch.line,type:0 selection:easylabel.label,type:0
+#: selection:easylabel.printer,type:0
+msgid "Package"
+msgstr "Imballaggio"
+
+#. module: label_easy
+#: field:easylabel.batch.wizard,printer_pac_id:0
+msgid "Package Printer"
+msgstr "Stampante imballaggio"
+
+#. module: label_easy
+#: field:easylabel.batch.line,name:0
+msgid "Element"
+msgstr "Elemento"
+
+#. module: label_easy
+#: field:easylabel.parameter,mode:0 field:easylabel.parameter,mode_type:0
+msgid "Mode"
+msgstr "Modalità"
+
+#. module: label_easy
+#: selection:easylabel.parameter,mode_type:0
+msgid "Date of shipment"
+msgstr "Data spedizione"
+
+#. module: label_easy
+#: view:easylabel.batch:0
+msgid "List of input parameters"
+msgstr "Lista parametri ingresso"
+
+#. module: label_easy
+#: view:easylabel.batch:0
+#: model:ir.actions.act_window,name:label_easy.easylabel_batch_action
+#: model:ir.ui.menu,name:label_easy.easylabel_batch_menuitem
+msgid "Easylabel batch"
+msgstr "Lotti di stampa di Easylabel"
+
+#. module: label_easy
+#: field:easylabel.batch.line,order:0
+msgid "Order"
+msgstr "Ordine"
+
+#. module: label_easy
+#: view:easylabel.path:0
+#: model:ir.actions.act_window,name:label_easy.easylabel_path_action
+#: model:ir.ui.menu,name:label_easy.easylabel_path_menuitem
+msgid "Easylabel path"
+msgstr "Percorso easylabel"
+
+#. module: label_easy
+#: help:easylabel.printer,number:0
+msgid "Number in easylabel printers list"
+msgstr "ID stampante nella lista di Easylabel"
+
+#. module: label_easy
+#: selection:easylabel.batch,state:0
+msgid "Printed"
+msgstr "Stampato"
+
+#. module: label_easy
+#: view:easylabel.batch.wizard:0
+msgid "Import CSV data"
+msgstr "Importa dati CSV"
+
+#. module: label_easy
+#: field:easylabel.batch.line,sequence:0 field:easylabel.parameter,sequence:0
+#: field:easylabel.printer,sequence:0
+msgid "Sequence"
+msgstr "Sequenza"
+
+#. module: label_easy
+#: selection:easylabel.parameter,mode:0
+msgid "Dynamic"
+msgstr "Dinamico"
+
+#. module: label_easy
+#: model:ir.model,name:label_easy.model_easylabel_particularity
+#: view:res.partner:0 field:res.partner,particularity_ids:0
+msgid "Particularity"
+msgstr "Particolarità"
+
+#. module: label_easy
+#: help:easylabel.batch.line,label_id:0
+msgid "If present this label is used instead of the default partner label"
+msgstr ""
+"Se è presente questa etichetta è utilizzata al posto di quella default per "
+"il partner"
+
+#. module: label_easy
+#: model:ir.model,name:label_easy.model_easylabel_batch_wizard
+msgid "easylabel.batch.wizard"
+msgstr "Wizard lotto easylabel"

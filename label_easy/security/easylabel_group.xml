@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+   <data>
+        <!-- Easylabel Manager Group -->
+        <record id="group_easylabel_manager" model="res.groups">
+            <field name="name">Easylabel / Manager Group</field>
+        </record>
+   </data>
+</openerp>

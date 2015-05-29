@@ -1,0 +1,2018 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <database name="userfiam_fiam">
+        <!-- Tabella jos_modules -->
+        <table name="jos_modules">
+            <column name="id">94</column>
+            <column name="title">movida_dralon</column>
+            <column name="content"></column>
+            <column name="ordering">43</column>
+            <column name="position">right</column>
+            <column name="checked_out">63</column>
+            <column name="checked_out_time">2012-09-06 09:08:34</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/movida_dralon/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">93</column>
+            <column name="title">movida</column>
+            <column name="content"></column>
+            <column name="ordering">42</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/movida/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">98</column>
+            <column name="title">amida</column>
+            <column name="content"></column>
+            <column name="ordering">44</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/amida/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">99</column>
+            <column name="title">movida XL</column>
+            <column name="content"></column>
+            <column name="ordering">45</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/movida_XL/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">101</column>
+            <column name="title">Fiesta  027 - 127</column>
+            <column name="content"></column>
+            <column name="ordering">46</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/fiesta/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">105</column>
+            <column name="title">Fiesta Soft 127S</column>
+            <column name="content"></column>
+            <column name="ordering">47</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/fiesta_soft/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">107</column>
+            <column name="title">wheely 132</column>
+            <column name="content"></column>
+            <column name="ordering">48</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/wheely/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">110</column>
+            <column name="title">altea 840</column>
+            <column name="content"></column>
+            <column name="ordering">49</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/altea/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">111</column>
+            <column name="title">altea 841</column>
+            <column name="content"></column>
+            <column name="ordering">50</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/altea_braccioli/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">113</column>
+            <column name="title">marea 750</column>
+            <column name="content"></column>
+            <column name="ordering">52</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/marea/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">117</column>
+            <column name="title">samba</column>
+            <column name="content"></column>
+            <column name="ordering">51</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/samba/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">119</column>
+            <column name="title">river</column>
+            <column name="content"></column>
+            <column name="ordering">53</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/river/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">120</column>
+            <column name="title">fiesta eco</column>
+            <column name="content"></column>
+            <column name="ordering">54</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/fiesta_eco/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">123</column>
+            <column name="title">Fiesta SB</column>
+            <column name="content"></column>
+            <column name="ordering">55</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/fiesta_sb/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">124</column>
+            <column name="title">dondolina</column>
+            <column name="content"></column>
+            <column name="ordering">56</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/dondolina/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">127</column>
+            <column name="title">spaghetti</column>
+            <column name="content"></column>
+            <column name="ordering">57</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/spaghetti/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">130</column>
+            <column name="title">luna</column>
+            <column name="content"></column>
+            <column name="ordering">58</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/luna/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">131</column>
+            <column name="title">playa</column>
+            <column name="content"></column>
+            <column name="ordering">59</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/playa/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">133</column>
+            <column name="title">atena</column>
+            <column name="content"></column>
+            <column name="ordering">40</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/atena/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">134</column>
+            <column name="title">atena con braccioli</column>
+            <column name="content"></column>
+            <column name="ordering">41</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/atena_braccioli/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">137</column>
+            <column name="title">mya</column>
+            <column name="content"></column>
+            <column name="ordering">24</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/mya/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">139</column>
+            <column name="title">lola</column>
+            <column name="content"></column>
+            <column name="ordering">39</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/lola/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">141</column>
+            <column name="title">regista</column>
+            <column name="content"></column>
+            <column name="ordering">38</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/regista/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">145</column>
+            <column name="title">Tango contract xl</column>
+            <column name="content"></column>
+            <column name="ordering">37</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/tango_contract_xl/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">147</column>
+            <column name="title">spring</column>
+            <column name="content"></column>
+            <column name="ordering">36</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/spring/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">149</column>
+            <column name="title">sirio</column>
+            <column name="content"></column>
+            <column name="ordering">35</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/sirio/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">152</column>
+            <column name="title">donatello</column>
+            <column name="content"></column>
+            <column name="ordering">34</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/Donatello/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">153</column>
+            <column name="title">jolly</column>
+            <column name="content"></column>
+            <column name="ordering">33</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/jolly/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">154</column>
+            <column name="title">bitter 161</column>
+            <column name="content"></column>
+            <column name="ordering">28</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/bitter_161/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">155</column>
+            <column name="title">bitter 162</column>
+            <column name="content"></column>
+            <column name="ordering">30</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/bitter_162/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">156</column>
+            <column name="title">bitter 163</column>
+            <column name="content"></column>
+            <column name="ordering">31</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/bitter_163/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">160</column>
+            <column name="title">ginger 164</column>
+            <column name="content"></column>
+            <column name="ordering">27</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/ginger_164/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">161</column>
+            <column name="title">ginger 165</column>
+            <column name="content"></column>
+            <column name="ordering">29</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/ginger_165/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">162</column>
+            <column name="title">ginger 166</column>
+            <column name="content"></column>
+            <column name="ordering">32</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/ginger_166/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">166</column>
+            <column name="title">Susy baby chair</column>
+            <column name="content"></column>
+            <column name="ordering">26</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/susy_baby/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">168</column>
+            <column name="title">casanoca extra large</column>
+            <column name="content"></column>
+            <column name="ordering">25</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/casanova_extra_large/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">170</column>
+            <column name="title">amigo xxl</column>
+            <column name="content"></column>
+            <column name="ordering">23</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/amigo_xxl/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">172</column>
+            <column name="title">amigo top</column>
+            <column name="content"></column>
+            <column name="ordering">20</column>
+            <column name="position">right</column>
+            <column name="checked_out">62</column>
+            <column name="checked_out_time">2012-09-06 07:20:16</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/amigo_top/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">174</column>
+            <column name="title">quick</column>
+            <column name="content"></column>
+            <column name="ordering">22</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/quick/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">176</column>
+            <column name="title">betty</column>
+            <column name="content"></column>
+            <column name="ordering">21</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/betty/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">178</column>
+            <column name="title">linda</column>
+            <column name="content"></column>
+            <column name="ordering">19</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/linda/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">179</column>
+            <column name="title">linda soft</column>
+            <column name="content"></column>
+            <column name="ordering">18</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/linda_soft/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">182</column>
+            <column name="title">regista woody</column>
+            <column name="content"></column>
+            <column name="ordering">17</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/regista_woody/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">184</column>
+            <column name="title">woody</column>
+            <column name="content"></column>
+            <column name="ordering">16</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/woody/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">186</column>
+            <column name="title">matty</column>
+            <column name="content"></column>
+            <column name="ordering">15</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/matty/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">188</column>
+            <column name="title">amigo</column>
+            <column name="content"></column>
+            <column name="ordering">14</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/amigo/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">191</column>
+            <column name="title">chico</column>
+            <column name="content"></column>
+            <column name="ordering">12</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/chico/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">193</column>
+            <column name="title">separe</column>
+            <column name="content"></column>
+            <column name="ordering">11</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/separe/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">205</column>
+            <column name="title">amigo 40+</column>
+            <column name="content"></column>
+            <column name="ordering">13</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/amigo40+/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">212</column>
+            <column name="title">club</column>
+            <column name="content"></column>
+            <column name="ordering">10</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/club/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">213</column>
+            <column name="title">pegaso 70x70 341</column>
+            <column name="content"></column>
+            <column name="ordering">9</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/pegaso341/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">217</column>
+            <column name="title">raffaello</column>
+            <column name="content"></column>
+            <column name="ordering">8</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/raffaello/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+        <table name="jos_modules">
+            <column name="id">221</column>
+            <column name="title">tris</column>
+            <column name="content"></column>
+            <column name="ordering">7</column>
+            <column name="position">right</column>
+            <column name="checked_out">0</column>
+            <column name="checked_out_time">0000-00-00 00:00:00</column>
+            <column name="published">1</column>
+            <column name="module">mod_yoo_gallery</column>
+            <column name="numnews">0</column>
+            <column name="access">0</column>
+            <column name="showtitle">0</column>
+            <column name="params">src=/images/stories/GALLERY/tris/
+style=lightbox
+effect=fade
+thumb=default
+order=asc
+spotlight=0
+width=170
+height=0
+resize=1
+count=0
+title=
+prefix=thumb_
+thumb_cache_dir=thumbs
+thumb_cache_time=1440
+load_lightbox=1
+rel=
+moduleclass_sfx=-blank
+cache=0
+cache_time=900
+
+</column>
+            <column name="iscore">0</column>
+            <column name="client_id">0</column>
+            <column name="control"></column>
+        </table>
+    </database>

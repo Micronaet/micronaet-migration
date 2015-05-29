@@ -61,9 +61,9 @@ INSTALLARE:
 base_fiam ** base_accounting_program <<< MIGRATO (andrebbe splittato e messo meglio nei vari branch)
 base_fiam_pricelist ** custom_price_generation <<< MIGRATO (spittare gestione immagini e vedere come dargli una forma)
 bom_fiam ** bom_value_report <<< MIGRATO (vedere se non si sovrappone a i 2 moduli BOM di produzione)
-    crm_partner_categorization  << VERIFICARE
-extra_search
-gpb_web
+NO crm_partner_categorization <<< MIGRATO lo stesso anche se dovrebbe andare a perdere << VERIFICARE
+extra_search <<< MIGRATO 
+gpb_web  <<< __UNPORTED__ vedere se è necessario comporta un grosso lavoro
 import_log
 label_easy
 log_and_mail

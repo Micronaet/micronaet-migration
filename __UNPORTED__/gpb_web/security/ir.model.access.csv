@@ -1,0 +1,15 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_web_tipology_user","web.tipology","model_web_tipology","base.group_user",1,1,1,1
+"access_web_subtipology_user","web.subtipology","model_web_subtipology","base.group_user",1,1,1,1
+"access_web_category_user","web.category","model_web_category","base.group_user",1,1,1,1
+"access_web_line_user","web.line","model_web_line","base.group_user",1,1,1,1
+"access_web_color_user","web.color","model_web_color","base.group_user",1,1,1,1
+"access_web_custom_filter_user","web.custom.filter","model_web_custom_filter","base.group_user",1,1,1,1
+"access_web_shop_parameter_user","web.shop.parameter","model_web_shop_parameter","base.group_user",1,1,1,1
+"access_web_k2_line_user","web.k2.line","model_web_k2_line","base.group_user",1,1,1,1
+"access_web_k2_subtipology_user","web.k2.subtipology","model_web_k2_subtipology","base.group_user",1,1,1,1
+"access_web_k2_vetrina_user","web.k2.vetrina","model_web_k2_vetrina","base.group_user",1,1,1,1
+"access_web_k2_mod_custom_user","web.k2.mod.custom","model_web_k2_mod_custom","base.group_user",1,1,1,1
+"access_web_k2_gallery_user","web.k2.gallery","model_web_k2_gallery","base.group_user",1,1,1,1
+"access_product_product_linked_rel_user","product.product.linked.rel","model_product_product_linked_rel","base.group_user",1,1,1,1
+

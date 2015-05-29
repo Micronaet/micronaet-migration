@@ -1,0 +1,1119 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* gpb_web
+# <> <>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.0.4\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2012-09-10 06:31+0000\n"
+"PO-Revision-Date: 2012-09-10 08:45+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: gpb_web
+#: view:product.product:0
+msgid "Web"
+msgstr "Web"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Lola"
+msgstr "Tris"
+
+#. module: gpb_web
+#: selection:web.k2.vetrina,badge:0
+msgid "Hot product"
+msgstr "Prodotto HOT"
+
+#. module: gpb_web
+#: help:web.shop.parameter,ftp_home:0
+msgid "FTP: Home directory, like /home/administrator"
+msgstr "FTP: Cartella home, come /home/administrator"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Raffaello"
+msgstr "Raffaello"
+
+#. module: gpb_web
+#: view:product.product:0
+msgid "list of product recomended when this product is selected"
+msgstr ""
+"Lista dei prodotti abbinati che compare quando questo prodotto viene "
+"selezionato"
+
+#. module: gpb_web
+#: field:web.k2.mod.custom,name:0
+msgid "Title"
+msgstr "Titolo"
+
+#. module: gpb_web
+#: view:product.product:0
+msgid "Short name"
+msgstr "Nome corto"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Altea"
+msgstr "Altea"
+
+#. module: gpb_web
+#: selection:web.custom.filter,field_type:0
+msgid "Radio button"
+msgstr "Bottone radio"
+
+#. module: gpb_web
+#: view:web.k2.mod.custom:0
+msgid "Custom mod text:"
+msgstr "Modulo testuale custom:"
+
+#. module: gpb_web
+#: help:web.shop.parameter,joomla_username:0
+msgid "Joomla!: Username"
+msgstr "Joomla!: Username"
+
+#. module: gpb_web
+#: field:product.product,parent_ids:0
+#: field:product.product.linked.rel,parent_id:0
+msgid "Parent"
+msgstr "Padre"
+
+#. module: gpb_web
+#: model:ir.ui.menu,name:gpb_web.menu_web_shop_parameter
+msgid "Shop parameter"
+msgstr "Parametri negozio on line"
+
+#. module: gpb_web
+#: model:ir.ui.menu,name:gpb_web.web_base_menu_vm
+msgid "VM"
+msgstr "VM"
+
+#. module: gpb_web
+#: model:ir.model,name:gpb_web.model_web_k2_gallery
+msgid "Web K2 Gallery"
+msgstr "Web K2 Gallery"
+
+#. module: gpb_web
+#: field:web.shop.parameter,company_id:0
+msgid "Company"
+msgstr "Azienda"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "49x54 h 88 51x110x17 100x219hxx122,5   "
+msgstr "56x87x46 53x95x71 95x192hx130 10 16 "
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "62,5x82xx98 62x132x25 132x226hx120  10 32 "
+msgstr "62,5x82xx98 62x132x25 132x226hx120  10 32 "
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Susy Baby Chair"
+msgstr "Susy Baby Chair"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "85x165 h 75 166,5x111x23 166,5x225hx120 3 10 "
+msgstr "85x165 h 75 166,5x111x23 166,5x225hx120 3 10 "
+
+#. module: gpb_web
+#: field:product.product,k2_image_caption:0
+msgid "K2 image caption"
+msgstr "(K2) didascalia immagine"
+
+#. module: gpb_web
+#: model:ir.actions.act_window,name:gpb_web.action_web_subtipology_form
+#: model:ir.ui.menu,name:gpb_web.menu_web_subtipology_form
+#: view:web.subtipology:0
+msgid "Web product subtipology"
+msgstr "Sottotipologia prodotto web"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "49x96x50 54x108x11,5 80x219hx120 "
+msgstr "49x96x50 54x108x11,5 80x219hx120 "
+
+#. module: gpb_web
+#: help:web.shop.parameter,mysql_prefix_table:0
+msgid "MySql: Table prefix, used in Joomla! ex. 'jos_'"
+msgstr "MySql: Prefisso tabella, usato in Joomla! es.: 'jos_'"
+
+#. module: gpb_web
+#: help:web.shop.parameter,mysql_username:0
+msgid "MySql: Username"
+msgstr "MySql: Username"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "115x67 h74 99x117x8 99x215hx120 8 25 "
+msgstr "115x67 h74 99x117x8 99x215hx120 8 25 "
+
+#. module: gpb_web
+#: view:product.product:0
+msgid "list of product that has this product as recomended"
+msgstr "lista dei prodotti che hanno questo come consigliato"
+
+#. module: gpb_web
+#: help:web.shop.parameter,company_id:0
+msgid "Company linked to this web shop"
+msgstr "Azienda collegata a questo negozio on line"
+
+#. module: gpb_web
+#: field:web.k2.gallery,folder:0
+msgid "Folder root path"
+msgstr "Percorso root cartella"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Atena con braccioli"
+msgstr "Atena con braccioli"
+
+#. module: gpb_web
+#: field:web.k2.gallery,long_title:0
+msgid "Title of gallery"
+msgstr "Titolo galleria"
+
+#. module: gpb_web
+#: view:product.product:0
+msgid "Product link"
+msgstr "Link prodotto"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "160/220x100 h75 164x103xx16 103x225hx164 4 13 "
+msgstr "160/220x100 h75 164x103xx16 103x225hx164 4 13 "
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Separè"
+msgstr "Separè"
+
+#. module: gpb_web
+#: field:web.custom.filter,field_type:0
+msgid "Field type"
+msgstr "Tipo di campo"
+
+#. module: gpb_web
+#: model:ir.model,name:gpb_web.model_web_category
+msgid "Web Category"
+msgstr "Categoria web"
+
+#. module: gpb_web
+#: field:web.shop.parameter,name:0
+msgid "Shop"
+msgstr "Negozio"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid ""
+"70x70 h73 18x74hx47 per le gambe | 73x73x4 piano  80 x h207 x 120 11 16 "
+msgstr ""
+"70x70 h73 18x74hx47 per le gambe | 73x73x4 piano  80 x h207 x 120 11 16 "
+
+#. module: gpb_web
+#: selection:web.custom.filter,field_type:0
+msgid "Checkbox"
+msgstr "Riquadro per spunta"
+
+#. module: gpb_web
+#: model:ir.model,name:gpb_web.model_web_wizard
+msgid "Web wizard publish"
+msgstr "Wizard pubblicazione web"
+
+#. module: gpb_web
+#: field:web.k2.mod.custom,text:0
+msgid "Text of article"
+msgstr "Testo dell'articolo"
+
+#. module: gpb_web
+#: model:ir.ui.menu,name:gpb_web.menu_web_custom_form
+msgid "Web product custom mod"
+msgstr "Modello custom prodotto"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Leonardo 160/220x100"
+msgstr "Leonardo 160/220x100"
+
+#. module: gpb_web
+#: field:product.product,k2_category_ids:0
+msgid "K2 Category"
+msgstr "(K2) Categoria"
+
+#. module: gpb_web
+#: help:product.product,k2_fulltext:0 help:product.product,k2_image_caption:0
+#: help:product.product,k2_introtext:0
+msgid "In K2 represent the description of the image"
+msgstr "In K2 rappresenta la descrizione dell'immagine"
+
+#. module: gpb_web
+#: help:web.shop.parameter,ftp_password:0
+msgid "FTP: Password"
+msgstr "FTP: Password"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Mya"
+msgstr "Mya"
+
+#. module: gpb_web
+#: help:web.shop.parameter,ftp_server:0
+msgid "FTP: Server name, ex. www.example.it"
+msgstr "FTP: Nome server, ex. www.example.it"
+
+#. module: gpb_web
+#: selection:web.custom.filter,field_type:0
+msgid "Select"
+msgstr "Elenco a discesa"
+
+#. module: gpb_web
+#: model:ir.model,name:gpb_web.model_web_k2_line
+msgid "Web K2 line"
+msgstr "K2 Linea web"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Pegaso Werzalit 70x70"
+msgstr "Pegaso Werzalit 70x70"
+
+#. module: gpb_web
+#: field:product.product.linked.rel,sequence:0 field:web.category,sequence:0
+#: field:web.custom.filter,sequence:0 field:web.line,sequence:0
+#: field:web.tipology,sequence:0
+msgid "seq"
+msgstr "ord."
+
+#. module: gpb_web
+#: field:product.product,k2_introtext:0
+msgid "K2 intro text"
+msgstr "(K2) Testo introduttivo"
+
+#. module: gpb_web
+#: field:web.k2.gallery,name:0
+msgid "Unique name"
+msgstr "Nome univoco"
+
+#. module: gpb_web
+#: field:product.product,vm_name:0
+msgid "VM Name"
+msgstr "VM Nome"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Set Amigo"
+msgstr "Set Amigo"
+
+#. module: gpb_web
+#: model:ir.actions.act_window,name:gpb_web.web_wizard_form_appointment_wizard
+#: model:ir.ui.menu,name:gpb_web.web_wizard_form_appointment_wizard_menu
+#: view:web.wizard:0
+msgid "Publish"
+msgstr "Pubblica su J25 VM20"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "60,5x94,5x195 78x168x9 80x213hx168 8 22 "
+msgstr "60,5x94,5x195 78x168x9 80x213hx168 8 22 "
+
+#. module: gpb_web
+#: view:product.product:0
+msgid "Params"
+msgstr "Parametri"
+
+#. module: gpb_web
+#: model:product.product,k2_image_caption:0
+msgid "Separè 550L GIRO"
+msgstr "Separè 550L GIRO"
+
+#. module: gpb_web
+#: help:product.product,k2_extra_fields:0
+msgid "In K2 represent formatted extra fields value"
+msgstr "In K2 rappresenta il formato del campo extra"
+
+#. module: gpb_web
+#: help:product.product,k2_all_product:0
+msgid "See in all product research, else only in accessory"
+msgstr ""
+"Si vede in tutte le ricerche prodotti, in caso contrario solo negli accessori"
+
+#. module: gpb_web
+#: view:product.product:0
+msgid "Extra fields"
+msgstr "Campo extra"
+
+#. module: gpb_web
+#: field:product.product,k2_mod_custom_ids:0
+msgid "Custom mod."
+msgstr "Modulo custom"
+
+#. module: gpb_web
+#: help:product.product,parent_ids:0
+msgid "List of product that have this product as a parent"
+msgstr "Lista dei prodotti che hanno questo prodotto come padre"
+
+#. module: gpb_web
+#: field:web.k2.vetrina,badge:0
+msgid "Badge"
+msgstr "Badge"
+
+#. module: gpb_web
+#: view:product.product:0 field:web.wizard,name:0
+msgid "Name"
+msgstr "Nome"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Cuscino Samba & Tango"
+msgstr "Cuscino Samba & Tango"
+
+#. module: gpb_web
+#: field:product.product,k2_params:0
+msgid "K2 params"
+msgstr "(K2) Parametri"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Marea"
+msgstr "Marea"
+
+#. module: gpb_web
+#: view:web.k2.gallery:0
+msgid "search product gallery"
+msgstr "Cerca galleria prodotto"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Donatello"
+msgstr "Donatello"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "56x87x46 50x82x29 82x215hx120 16 32 "
+msgstr "56x87x46 50x82x29 82x215hx120 16 32 "
+
+#. module: gpb_web
+#: selection:web.custom.filter,field_type:0
+msgid "Link"
+msgstr "Link"
+
+#. module: gpb_web
+#: help:product.product,child_ids:0
+msgid "List of product that have this product as a child"
+msgstr "Lista dei prodotti che hanno l'attuale come figlio"
+
+#. module: gpb_web
+#: field:product.product,line_id:0 view:web.category:0
+#: field:web.category,line_ids:0 field:web.line,name:0
+msgid "Line"
+msgstr "Linea"
+
+#. module: gpb_web
+#: help:web.k2.gallery,name:0
+msgid "This is also the name of the folder"
+msgstr "Questo è anche il nome della cartella"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "80x120 h75 122x107x23 122x120 h225 4 10 "
+msgstr "80x120 h75 122x107x23 122x120 h225 4 10 "
+
+#. module: gpb_web
+#: model:ir.actions.act_window,name:gpb_web.action_web_category_form
+#: model:ir.ui.menu,name:gpb_web.menu_web_category_form
+#: model:ir.ui.menu,name:gpb_web.menu_web_category_form_k2 view:web.category:0
+msgid "Web product category"
+msgstr "Categoria prodotto web"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "151x164 54x166x15 166xh204x120 14 50 "
+msgstr "151x164 54x166x15 166xh204x120 14 50 "
+
+#. module: gpb_web
+#: field:web.shop.parameter,ftp_server:0
+msgid "Server"
+msgstr "Server"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Bitter art 162"
+msgstr "Bitter art 162"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Bitter art 163"
+msgstr "Bitter art 163"
+
+#. module: gpb_web
+#: help:web.shop.parameter,joomla_password:0
+msgid "Joomla!: Password"
+msgstr "Joomla!: Password"
+
+#. module: gpb_web
+#: model:ir.model,name:gpb_web.model_web_k2_vetrina
+msgid "Web K2 Vetrina"
+msgstr "K2 Vetrina web (home)"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "49x82x50 49x100x15 100x225hx120 "
+msgstr "49x82x50 49x100x15 100x225hx120 "
+
+#. module: gpb_web
+#: view:web.shop.parameter:0
+msgid "Web shop parameter"
+msgstr "Parametri negozio on line"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Tango contract xl"
+msgstr "Tango contract xl"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "49x75x50 48x94x12 80x219hx120 "
+msgstr "49x75x50 48x94x12 80x219hx120 "
+
+#. module: gpb_web
+#: model:ir.model,name:gpb_web.model_web_k2_mod_custom
+msgid "Web K2 Mod custom"
+msgstr "K2 moduli custom web"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "44x62x54 44x83x50 101x230hx132 55 150 "
+msgstr "44x62x54 44x83x50 101x230hx132 55 150 "
+
+#. module: gpb_web
+#: model:ir.actions.act_window,name:gpb_web.action_web_gallery_form
+#: model:ir.ui.menu,name:gpb_web.menu_web_gallery_form view:web.k2.gallery:0
+msgid "Web product gallery"
+msgstr "Galleria prodotti web"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "44x48 h82 45x95x16 95x238hx120 "
+msgstr "44x48 h82 45x95x16 95x238hx120 "
+
+#. module: gpb_web
+#: help:web.shop.parameter,name:0
+msgid "Shop name linked to web site, ex. http://www.example.it/shop/"
+msgstr "Nome del negozio collegato al sito, es. http://www.example.it/shop/"
+
+#. module: gpb_web
+#: view:product.product:0
+msgid "Category list"
+msgstr "Lista categorie"
+
+#. module: gpb_web
+#: model:ir.model,name:gpb_web.model_web_k2_subtipology
+msgid "Web K2 subtipology"
+msgstr "Sottotipologie web K2"
+
+#. module: gpb_web
+#: model:ir.model,name:gpb_web.model_web_line
+msgid "Web Line"
+msgstr "Linea web"
+
+#. module: gpb_web
+#: model:ir.model,name:gpb_web.model_product_product_linked_rel
+msgid "Product linked relation"
+msgstr "Relazione collegamento prodotto"
+
+#. module: gpb_web
+#: view:web.shop.parameter:0
+msgid "FTP Access:"
+msgstr "Accesso FTP:"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Woody"
+msgstr "Woody"
+
+#. module: gpb_web
+#: field:web.k2.gallery,publish:0
+msgid "To publish"
+msgstr "Da pubblicare"
+
+#. module: gpb_web
+#: view:product.product:0 field:product.product,category_id:0
+#: field:web.category,name:0 field:web.k2.line,category_id:0
+#: field:web.line,category_id:0
+msgid "Category"
+msgstr "Categoria"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Samba"
+msgstr "Samba"
+
+#. module: gpb_web
+#: view:product.product:0
+msgid "custom modules"
+msgstr "moduli custom"
+
+#. module: gpb_web
+#: view:web.shop.parameter:0
+msgid "Shop information:"
+msgstr "Informazioni negozio"
+
+#. module: gpb_web
+#: help:product.product,k2_params:0
+msgid "In K2 represent some parameters to setup for item form "
+msgstr "In K2 rappresenta alcuni parametri di setup per il modulo articolo"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Set Movida"
+msgstr "Set Movida"
+
+#. module: gpb_web
+#: model:ir.ui.menu,name:gpb_web.web_base_menu_k2
+msgid "K2"
+msgstr "K2"
+
+#. module: gpb_web
+#: model:ir.actions.act_window,name:gpb_web.action_web_custom_form
+#: view:web.k2.mod.custom:0
+msgid "Web product custom"
+msgstr "Web prodotti custom"
+
+#. module: gpb_web
+#: field:web.k2.mod.custom,has_title:0
+msgid "Has title"
+msgstr "Has title"
+
+#. module: gpb_web
+#: field:product.product,web:0
+msgid "On Web"
+msgstr "Sul sito"
+
+#. module: gpb_web
+#: model:ir.actions.act_window,name:gpb_web.action_web_tipology_form
+#: model:ir.ui.menu,name:gpb_web.menu_web_tipology_form
+#: model:ir.ui.menu,name:gpb_web.menu_web_tipology_form_k2 view:web.tipology:0
+msgid "Web product tipology"
+msgstr "Tipologia prodotto web"
+
+#. module: gpb_web
+#: field:web.shop.parameter,k2_image_format:0
+msgid "K2 site format"
+msgstr "K2 site format"
+
+#. module: gpb_web
+#: help:product.product,vm_description:0
+msgid "VM=description text, in K2=full text formatted"
+msgstr "VM=description text, in K2=full text formatted"
+
+#. module: gpb_web
+#: view:product.product:0
+msgid "Sub tipology"
+msgstr "Sottotipologia"
+
+#. module: gpb_web
+#: view:product.product:0
+msgid "Image caption"
+msgstr "Didascalia immagine"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Tavoli Sirio"
+msgstr "Tavoli Sirio"
+
+#. module: gpb_web
+#: help:web.shop.parameter,ftp_username:0
+msgid "FTP: Username"
+msgstr "FTP: Username"
+
+#. module: gpb_web
+#: model:ir.ui.menu,name:gpb_web.web_base_menu
+msgid "Pubblicazione web"
+msgstr "Pubblicazione web"
+
+#. module: gpb_web
+#: view:product.product:0
+msgid "List where product is parent"
+msgstr "Lista dei prodotti dove l'attuale è padre"
+
+#. module: gpb_web
+#: field:web.tipology,name:0
+msgid "tipology"
+msgstr "tipologia"
+
+#. module: gpb_web
+#: field:product.product,k2_fulltext:0
+msgid "K2 full text"
+msgstr "K2 full text"
+
+#. module: gpb_web
+#: view:web.k2.mod.custom:0
+msgid "search product custom"
+msgstr "Cerca prodotto custom"
+
+#. module: gpb_web
+#: field:product.product,subtipology_ids:0 field:web.subtipology,name:0
+#: field:web.tipology,subtipology_ids:0
+msgid "Subtipology"
+msgstr "Sottotipologia"
+
+#. module: gpb_web
+#: field:product.product,child_ids:0
+#: field:product.product.linked.rel,child_id:0
+msgid "Child"
+msgstr "Figlio"
+
+#. module: gpb_web
+#: view:product.product:0
+msgid "Custom mod"
+msgstr "Modulo custom"
+
+#. module: gpb_web
+#: field:web.custom.filter,name:0 field:web.subtipology,custom_filter_id:0
+msgid "Custom filter"
+msgstr "Filtro custom"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "49x92x50 53x105x14 105x225hx120 "
+msgstr "49x92x50 53x105x14 105x225hx120 "
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "80x80 h75 82x105x22,5 82x225hx120 6 10 "
+msgstr "80x80 h75 82x105x22,5 82x225hx120 6 10 "
+
+#. module: gpb_web
+#: field:web.shop.parameter,mysql_database:0
+msgid "Database"
+msgstr "Database"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Bitter cod 161"
+msgstr "Bitter cod 161"
+
+#. module: gpb_web
+#: model:ir.model,name:gpb_web.model_web_tipology
+msgid "Web tipology"
+msgstr "Tipologia web"
+
+#. module: gpb_web
+#: view:product.product:0
+msgid "List where product is child"
+msgstr "Lista dei prodotti dove l'attuale è figlio"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "51x44 53,5x21x46 96x225hx120 200 400 "
+msgstr "51x44 53,5x21x46 96x225hx120 200 400 "
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "49x85x50 51x100x11,5 80x219hx120 "
+msgstr "49x85x50 51x100x11,5 80x219hx120 "
+
+#. module: gpb_web
+#: help:web.shop.parameter,mysql_database:0
+msgid "Database name"
+msgstr "Nome database"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "53x84x52 66x47x54 110x203hx132 26 64 "
+msgstr "53x84x52 66x47x54 110x203hx132 26 64 "
+
+#. module: gpb_web
+#: model:ir.actions.act_window,name:gpb_web.action_web_vetrina_form
+#: model:ir.ui.menu,name:gpb_web.menu_web_vetrina_form
+#: view:web.k2.mod.custom:0 view:web.k2.vetrina:0
+msgid "Web product vetrina"
+msgstr "Web vetrina prodotto"
+
+#. module: gpb_web
+#: model:ir.model,name:gpb_web.model_web_subtipology
+msgid "Web subtipology"
+msgstr "Sottotipologia web"
+
+#. module: gpb_web
+#: field:product.product,vm_short:0
+msgid "VM short name"
+msgstr "VM nome corto"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Atena"
+msgstr "Atena"
+
+#. module: gpb_web
+#: view:product.product:0
+msgid "General"
+msgstr "Generale"
+
+#. module: gpb_web
+#: help:web.k2.gallery,k2_id:0 help:web.k2.mod.custom,k2_id:0
+msgid "Automatically generation when import on site"
+msgstr "Generato automaticamente alla prima pubblicazione"
+
+#. module: gpb_web
+#: field:web.shop.parameter,web_site:0
+msgid "Web site"
+msgstr "Sito internet"
+
+#. module: gpb_web
+#: field:web.shop.parameter,ftp_home:0
+msgid "Home directory"
+msgstr "Directory principale"
+
+#. module: gpb_web
+#: view:web.wizard:0
+msgid "Cancel"
+msgstr "Annulla"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Parasole"
+msgstr "Parasole"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "160x90 h 75 165x95x14 195x165 h 225 5 15 "
+msgstr "160x90 h 75 165x95x14 195x165 h 225 5 15 "
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Cuscino per Movida"
+msgstr "Cuscino per Movida"
+
+#. module: gpb_web
+#: selection:web.k2.vetrina,badge:0
+msgid "New prodoct"
+msgstr "Nuovo prodotto"
+
+#. module: gpb_web
+#: help:product.product,vm_short:0
+msgid "VM=short text, in K2=introtext formatted"
+msgstr "VM=testo abbreviato, in K2=testo introduttivo"
+
+#. module: gpb_web
+#: help:web.shop.parameter,logfile_name:0
+msgid ""
+"Web log file where application save all importazion events, defaul = "
+"'micronaet.log'"
+msgstr "File di log dove sono salvati gli eventi, default = 'micronaet.log'"
+
+#. module: gpb_web
+#: field:product.product,tipology_id:0 field:web.k2.subtipology,tipology_id:0
+#: field:web.subtipology,tipology_id:0
+msgid "Tipology"
+msgstr "Tipologia"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Regista woody"
+msgstr "Regista woody"
+
+#. module: gpb_web
+#: field:web.k2.gallery,k2_id:0 field:web.k2.mod.custom,k2_id:0
+#: field:web.k2.vetrina,k2_id:0
+msgid "K2 ID on site"
+msgstr "K2 ID sul sito"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Leonardo 160x90"
+msgstr "Leonardo 160x90"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Linda"
+msgstr "Linda"
+
+#. module: gpb_web
+#: field:web.shop.parameter,mysql_prefix_table:0
+msgid "Table prefix"
+msgstr "Prefisso tabella"
+
+#. module: gpb_web
+#: view:product.product:0 field:product.product,k2_extra_fields:0
+msgid "K2 extra fields"
+msgstr "(K2) campi extra"
+
+#. module: gpb_web
+#: view:product.product:0
+msgid "Extra field search"
+msgstr "Ricerca campi extra"
+
+#. module: gpb_web
+#: field:web.k2.vetrina,name:0
+msgid "Vetrina name"
+msgstr "Nome vetrina"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Michelangelo"
+msgstr "Michelangelo"
+
+#. module: gpb_web
+#: view:web.shop.parameter:0
+msgid "MySQL Access:"
+msgstr "Accesso MySQL:"
+
+#. module: gpb_web
+#: view:product.product:0
+msgid "Description"
+msgstr "Descrizione"
+
+#. module: gpb_web
+#: field:product.product,k2_alias:0
+msgid "alias"
+msgstr "alias"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Club"
+msgstr "Club"
+
+#. module: gpb_web
+#: model:ir.actions.act_window,name:gpb_web.action_web_shop_parameter
+#: model:ir.model,name:gpb_web.model_web_shop_parameter
+msgid "Shop Parameter"
+msgstr "Parametri negozio on line"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Poggiatesta"
+msgstr "Poggiatesta"
+
+#. module: gpb_web
+#: field:product.product,k2_all_product:0
+msgid "K2 All product"
+msgstr "(K2) Tutti i prodotti"
+
+#. module: gpb_web
+#: model:ir.actions.act_window,name:gpb_web.action_web_line_form
+#: model:ir.ui.menu,name:gpb_web.menu_web_line_form view:web.line:0
+msgid "Web product line"
+msgstr "Linea prodotto web"
+
+#. module: gpb_web
+#: view:product.product:0
+msgid "Extra fields list"
+msgstr "Lista campi extra"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "56x87x46 59x95x71 95x192hx130 10 16 "
+msgstr "56x87x46 59x95x71 95x192hx130 10 16 "
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "53x63 h93 56x95x67 80x205hx120 11 16 "
+msgstr "53x63 h93 56x95x67 80x205hx120 11 16 "
+
+#. module: gpb_web
+#: field:web.shop.parameter,logfile_name:0
+msgid "Log file"
+msgstr "File di log"
+
+#. module: gpb_web
+#: field:web.shop.parameter,ftp_password:0
+#: field:web.shop.parameter,joomla_password:0
+#: field:web.shop.parameter,mysql_password:0
+msgid "Password"
+msgstr "Password"
+
+#. module: gpb_web
+#: field:product.product,k2_gallery_id:0
+msgid "Gallery"
+msgstr "Galleria"
+
+#. module: gpb_web
+#: view:web.shop.parameter:0
+msgid "K2 Web site format"
+msgstr "Formato sito internet K2"
+
+#. module: gpb_web
+#: help:web.shop.parameter,mysql_password:0
+msgid "MySql: Password"
+msgstr "MySql: Password"
+
+#. module: gpb_web
+#: field:web.shop.parameter,ftp_username:0
+#: field:web.shop.parameter,joomla_username:0
+#: field:web.shop.parameter,mysql_username:0
+msgid "Username"
+msgstr "Username"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "56,5x54 h90 59x110x17 111x220hx120   "
+msgstr "56,5x54 h90 59x110x17 111x220hx120   "
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Ginger art 166"
+msgstr "Ginger art 166"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "62,5x82xx98 62x132x25 132x226hx120 10 32 "
+msgstr "62,5x82xx98 62x132x25 132x226hx120 10 32 "
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Ginger art 164"
+msgstr "Ginger art 164"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Ginger art 165"
+msgstr "Ginger art 165"
+
+#. module: gpb_web
+#: view:web.shop.parameter:0
+msgid "Joomla Access:"
+msgstr "Joomla Access:"
+
+#. module: gpb_web
+#: model:ir.model,name:gpb_web.model_product_product
+#: field:web.k2.line,product_id:0 field:web.k2.subtipology,product_id:0
+#: field:web.k2.vetrina,product_id:0
+msgid "Product"
+msgstr "Prodotto"
+
+#. module: gpb_web
+#: help:product.product,k2_gallery:0
+msgid "In K2 represent formattation of gallery to reproduce"
+msgstr "In K2 rappresenta la formattazione galleria "
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "art 330 ø 67 h 70 | art 331 67x67x70 cm  69,5x101x10 80x225hx120 25 50 "
+msgstr ""
+"art 330 ø 67 h 70 | art 331 67x67x70 cm  69,5x101x10 80x225hx120 25 50 "
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "67x136x116 70x140x33 101,5x223hx140 4 9 "
+msgstr "67x136x116 70x140x33 101,5x223hx140 4 9 "
+
+#. module: gpb_web
+#: field:web.k2.subtipology,name:0
+msgid "Value"
+msgstr "Valore"
+
+#. module: gpb_web
+#: help:web.shop.parameter,web_site:0
+msgid ""
+"Web site address, like: http://www.example.it (used for link to XML-RCP "
+"service that need to installed before on Joomla! web)"
+msgstr ""
+"Indirizzo sito internet, come: http://www.example.it (Installare prima il "
+"protocollo XMLRPC per Joomla)"
+
+#. module: gpb_web
+#: field:product.product,k2_ordering:0
+msgid "Order"
+msgstr "Ordine"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Linda Soft"
+msgstr "Linda Soft"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "     "
+msgstr "     "
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "38,5x41x40,5 42x46hx45,5 92x242hx126 23 60 "
+msgstr "38,5x41x40,5 42x46hx45,5 92x242hx126 23 60 "
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "65x144x108 65x138x34 102x210hx138 7 20 "
+msgstr "65x144x108 65x138x34 102x210hx138 7 20 "
+
+#. module: gpb_web
+#: view:product.product:0 field:product.product,vm_description:0
+msgid "VM Description"
+msgstr "VM Descrizione"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Spring"
+msgstr "Spring"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "ø 55 h 50 57x75x10 80x 215h x120 46 80 "
+msgstr "ø 55 h 50 57x75x10 80x 215h x120 46 80 "
+
+#. module: gpb_web
+#: model:ir.actions.act_window,name:gpb_web.action_web_custom_filter_form
+#: model:ir.model,name:gpb_web.model_web_custom_filter
+#: model:ir.ui.menu,name:gpb_web.menu_web_custom_filter_form
+#: view:web.custom.filter:0
+msgid "Web custom filter"
+msgstr "Filtro custom web"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Altea (con braccioli)"
+msgstr "Altea (con braccioli)"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Matty"
+msgstr "Matty"
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "49x103x50 54x108x12 113x225hx120 "
+msgstr "49x103x50 54x108x12 113x225hx120 "
+
+#. module: gpb_web
+#: model:product.product,k2_extra_field_search:0
+msgid "56x87x46 53x95x71 95x192hx130 10 16 "
+msgstr "56x87x46 53x95x71 95x192hx130 10 16 "
+
+#. module: gpb_web
+#: constraint:product.product:0
+msgid "Error: Invalid ean code"
+msgstr "Errore: codice EAN non valido"
+
+#. module: gpb_web
+#: view:product.product:0
+msgid "Web information:"
+msgstr "Informazioni web:"
+
+#. module: gpb_web
+#: field:product.product,k2_extra_field_search:0
+#: field:product.product,k2_gallery:0
+msgid "K2 gallery"
+msgstr "(K2) galleria"
+
+#. module: gpb_web
+#: field:product.product,k2_subtipology_ids:0
+msgid "K2 Extra fields"
+msgstr "(K2) Campi extra"
+
+#. module: gpb_web
+#: help:product.product,k2_extra_field_search:0
+msgid "In K2 represent extra value for search component"
+msgstr "In K2 rappresenta i valori extra per ricerca componente"
+
+#. module: gpb_web
+#: model:product.product,vm_name:0
+msgid "Tris"
+msgstr "Tris"

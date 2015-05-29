@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+       <record id="search_database_wizard" model="ir.ui.view">
+            <field name="name">Wizard search database</field>
+            <field name="model">search.database.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Ricerca extra DB">
+                    <label colspan="4" string="Search string in partner name for this DB and DB selected in config set up" />
+                    <label colspan="4" string="Search string:" />
+                    <field name="name" colspan="4" nolabel="1"  default_focus="1" />
+                    <newline />  
+                    
+                    <separator string="Risultati:" colspan="4" />
+
+                    <separator string="Elementi trovati in altri DB:" />
+                    <field name="find" colspan="4" nolabel="1"  readonly="1" />
+                    <newline />
+
+                    <separator string="Attuale:" />
+                    <newline />
+                    <field name="current" nolabel="1" readonly="1" />
+
+                    <group colspan="4" col="6">
+                        <field name="state" />
+                        <button string="Annulla" special="cancel" icon="gtk-cancel" states="search" />
+                        <button string="Cerca" name="search_text_in_other_database" type="object" icon="gtk-ok" states="search" />
+                        <button string="Chiudi" special="cancel" icon="gtk-cancel" states="find" />
+                        <button string="Apri corrente" name="search_text_in_database" type="object" icon="gtk-ok" states="find" attrs="{'invisible' : [('current', '=', 0)]}" />
+                    </group>
+                </form>
+            </field>
+      </record>
+
+      <record id="search_database_wizard_action" model="ir.actions.act_window">
+        <field name="name">Extra search partner string</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">search.database.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+      </record>
+      
+      <menuitem name="Search wizard" parent="base.menu_config_address_book" id="menu_search_database_wizard" sequence="1" action="search_database_wizard_action" />
+      
+      <!--<act_window
+            id="search_database_wizard_action"
+            name="Extra search partner string"
+            src_model="res.partner"
+            res_model="search.database.wizard"
+            />-->
+    </data>
+</openerp>

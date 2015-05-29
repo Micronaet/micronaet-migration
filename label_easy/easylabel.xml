@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+       <!--BLOCCO: easylabel.easylabel:-->
+         <record model="ir.ui.view" id="easylabel_easylabel_tree">
+            <field name="name">Easylabel</field>
+            <field name="model">easylabel.easylabel</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Easylabel">
+                    <field name="name" select="1" />
+                    <field name="path" />
+                    <field name="command" />
+                </tree>
+            </field>
+         </record>
+         <record model="ir.ui.view" id="easylabel_easylabel_form">
+            <field name="name">Easylabel</field>
+            <field name="model">easylabel.easylabel</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Easylabel">
+                   <field name="name" />
+                   <field name="oerp_command" />
+                   <field name="path" />
+                   <field name="command" />
+                </form>
+            </field>
+         </record>
+       <record id="easylabel_easylabel_action" model="ir.actions.act_window">
+            <field name="name">Easylabel PC</field>
+            <field name="res_model">easylabel.easylabel</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record> 
+        <menuitem action="easylabel_easylabel_action" 
+                  id="easylabel_easylabel_menuitem" 
+                  sequence="10"
+                  parent="easylabel_menu_configuration"
+                  icon="STOCK_PRINT" />
+
+       <!--BLOCCO: easylabel.label:-->
+         <record model="ir.ui.view" id="easylabel_label_tree">
+            <field name="name">Easylabel label list</field>
+            <field name="model">easylabel.label</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Easylabel Labels">
+                    <field name="name" select="1" />
+                    <field name="type" select="1" />
+                    <field name="width" />
+                    <field name="height" />
+                    <field name="lot" />
+                    <field name="root_id" />
+                    <field name="folder" />
+                </tree>
+            </field>
+         </record>
+         <record model="ir.ui.view" id="easylabel_label_form">
+            <field name="name">Easylabel label</field>
+            <field name="model">easylabel.label</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Easylabel Label">
+                    <field name="name" />
+                    <field name="type" />
+                    <newline />
+                    <group col="8" colspan="4">
+                      <field name="width" />
+                      <field name="height" />
+                      <field name="lot" />
+                      <field name="counter" />
+                    </group>
+                    <newline />
+                    <field name="root_id" />
+                    <field name="path_id" readonly="1" />
+                    <field name='folder' />  
+                    <field name='label_name' />  
+                    <separator string="Parameter command file" colspan="4" />
+                    <field name="parameter_ids" colspan="4" nolabel="1">
+                         <tree string="Easylabel parameter">
+                            <field name="sequence" />
+                            <field name="name" select="1" />
+                            <field name="mode" />
+                            <field name="mode_type" />
+                            <field name="value" />
+                        </tree>
+                        <form string="Easylabel parameter">
+                            <field name="sequence" />
+                            <field name="name" />
+                            <field name="mode" />
+                            <group col="4" colspan="2">
+                              <field name="mode_type" attrs="{'invisible':[('mode','!=','dynamic')]}" />
+                              <field name="value" attrs="{'invisible':[('mode','!=','static')]}" />                           
+                            </group>
+                        </form>
+                    </field>
+                </form>
+            </field>
+         </record>
+       <record id="easylabel_label_action" model="ir.actions.act_window">
+            <field name="name">Easylabel label</field>
+            <field name="res_model">easylabel.label</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record> 
+        
+        <menuitem id="easylabel_menu" parent="base.menu_sales" sequence="0" name="Easylabel" groups="label_easy.group_easylabel_manager"/>
+        <menuitem action="easylabel_label_action" 
+                  id="easylabel_label_menuitem" 
+                  sequence="10"
+                  parent="easylabel_menu"
+                  icon="STOCK_PRINT" />
+
+       <!--BLOCCO: easylabel.label:-->
+         <record model="ir.ui.view" id="easylabel_parameter_tree">
+            <field name="name">Easylabel parameter list</field>
+            <field name="model">easylabel.parameter</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Easylabel parameter">
+                    <field name="sequence" />
+                    <field name="name" select="1" />
+                    <field name="value" />
+                </tree>
+            </field>
+         </record>
+         <record model="ir.ui.view" id="easylabel_parameter_form">
+            <field name="name">Easylabel parameter</field>
+            <field name="model">easylabel.parameter</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Easylabel parameter">
+                    <group col="6" colspan="4">
+                        <field name="sequence" />
+                        <field name="name" />
+                        <field name="value" />
+                    </group>
+                </form>
+            </field>
+         </record>
+
+       <!--BLOCCO: inherit res.partner:-->
+        <record model="ir.ui.view" id="view_partner_form_inherit_easylabel">
+            <field name="name">Partner Easylabel</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Easylabel" groups="label_easy.group_easylabel_manager">
+                        <separator string="Standard label in Easylabel" colspan="4" />
+                        <field name="article_label_id" domain="[('type','=','article')]" /><newline />   
+                        <field name="pack_label_id" domain="[('type','=','package')]" /><newline />   
+                        <field name="pallet_label_id" domain="[('type','=','pallet')]" /><newline />   
+                        <separator string="Particularity" colspan="4" />
+                        <field name="particularity_ids" colspan="4" nolabel="1" >
+                               <tree>
+                                    <field name='name' />
+                                    <field name='article_label_id' />
+                                    <field name='pack_label_id' />
+                                    <field name='pallet_label_id' />
+                                    <field name='parent_name' />
+                               </tree>
+                               <form>
+                                    <field name='name' />
+                                    <field name='article_label_id' />
+                                    <field name='pack_label_id' />
+                                    <field name='pallet_label_id' />
+                                    <field name='parent_name' />
+                               </form>  
+                        </field> 
+                    </page>
+                </notebook>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_partner_tree_inherit_easylabel">
+            <field name="name">Partner Easylabel</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                      <field name="article_label_id" groups="label_easy.group_easylabel_manager" />
+                      <!--<field name="pack_label_id" />
+                      <field name="pallet_label_id" />-->                      
+                </field>             
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_res_partner_tree_filter_easylabel">
+                <field name="name">Partner filter Easylabel</field>
+                <field name="model">res.partner</field>
+                <field name="inherit_id" ref="base.view_res_partner_filter"/>
+                <field name="type">search</field>
+                <field name="arch" type="xml">
+                       <field name="user_id" position="after">
+                              <field name="article_label_id" groups="label_easy.group_easylabel_manager" />
+                              <!--<field name="pack_label_id" />
+                              <field name="pallet_label_id" />-->                      
+                       </field>
+                </field>
+        </record>
+
+       <!--BLOCCO: easylabel.printer:-->
+         <record model="ir.ui.view" id="easylabel_printer_tree">
+            <field name="name">Easylabel printer list</field>
+            <field name="model">easylabel.printer</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Easylabel printer">
+                    <field name="sequence" />
+                    <field name="number" />
+                    <field name="name" select="1" />
+                    <field name="type" />
+                    <field name="note" />
+                </tree>
+            </field>
+         </record>
+         <record model="ir.ui.view" id="easylabel_printer_form">
+            <field name="name">Easylabel printer</field>
+            <field name="model">easylabel.printer</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Easylabel printer">
+                   <field name="sequence" />
+                   <field name="number" />
+                   <field name="name" />
+                   <field name="type" />
+                   <separator string="Note" />
+                   <field name="note" colspan="4" nolabel="1" />
+                </form>
+            </field>
+         </record>
+       <record id="easylabel_printer_action" model="ir.actions.act_window">
+            <field name="name">Easylabel printers</field>
+            <field name="res_model">easylabel.printer</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record> 
+        <menuitem id="easylabel_menu_configuration" parent="easylabel_menu" sequence="0" name="Configuration" />
+        <menuitem action="easylabel_printer_action" 
+                  id="easylabel_printer_menuitem" 
+                  sequence="10"
+                  parent="easylabel_menu_configuration"
+                  icon="STOCK_PRINT" />
+
+       <!--BLOCCO: easylabel.batch:-->
+         <record model="ir.ui.view" id="easylabel_batch_tree">
+            <field name="name">Easylabel batch queue</field>
+            <field name="model">easylabel.batch</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Easylabel batch">
+                    <field name="name" select="1" />
+                    <field name="date" select="1" />
+                    <field name="state" select="1" />
+                </tree>
+            </field>
+         </record>
+         <record model="ir.ui.view" id="easylabel_batch_form">
+            <field name="name">Easylabel batch</field>
+            <field name="model">easylabel.batch</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Easylabel batch">
+                  <field name="name" />
+                  <field name="date" />
+                  <separator string="List of input parameters" colspan="4" />
+                  <field name="week" />
+                  <field name="line" />
+                  <separator string="Note" colspan="4" />
+                  <field name="note" colspan="4" nolabel="1" />
+                  <button name="export_command_file" string="Export to Easylabel" type="object"/> 
+                  <field name="state" />
+                  <separator string="List of batch jobs" colspan="4" />
+                  <field name="line_ids" colspan="4" nolabel="1" string="Elements">
+                       <tree>
+                          <field name="sequence" />
+                          <field name="position" />
+                          <field name="name" select="1" />
+                          <field name="partner_id" select="1" />
+                          <field name="product_id" select="1" />
+                          <field name='package_id' select="1" />
+                          <field name="printer_id" select="1" />
+                          <field name="total" />
+                          <field name="type" select="1" />
+                          <field name="label_id" />
+                       </tree>
+                       <form>
+                          <field name="sequence" />
+                          <field name="position" />
+                          <field name="name" />
+                          <field name="partner_id" />
+                          <field name="product_id" />
+                          <field name='package_id' />
+                          <field name="printer_id" />
+                          <field name="total" />
+                          <field name="type" />
+                          <field name="label_id" />
+                       </form>      
+                  </field>
+              </form>
+          </field>
+         </record>
+       <record id="easylabel_batch_action" model="ir.actions.act_window">
+            <field name="name">Easylabel batch</field>
+            <field name="res_model">easylabel.batch</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record> 
+        <menuitem action="easylabel_batch_action" 
+                  id="easylabel_batch_menuitem" 
+                  sequence="10"
+                  parent="easylabel_menu"
+                  icon="STOCK_PRINT" />
+
+       <!--BLOCCO: easylabel.path:-->
+         <record model="ir.ui.view" id="easylabel_path_tree">
+            <field name="name">Easylabel path list</field>
+            <field name="model">easylabel.path</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Easylabel path">
+                    <field name="name" select="1" />
+                    <field name="path" select="1" />
+                    <field name="note" select="2" />
+                </tree>
+            </field>
+         </record>
+         <record model="ir.ui.view" id="easylabel_path_form">
+            <field name="name">Easylabel path</field>
+            <field name="model">easylabel.path</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Easylabel path">
+                    <field name="name" />
+                    <field name="path" />
+                    <field name="note" colspan="4" />
+                </form>
+            </field>
+         </record>
+       <record id="easylabel_path_action" model="ir.actions.act_window">
+            <field name="name">Easylabel path</field>
+            <field name="res_model">easylabel.path</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record> 
+        <menuitem action="easylabel_path_action" 
+                  id="easylabel_path_menuitem" 
+                  sequence="10"
+                  parent="easylabel_menu_configuration"
+                  icon="STOCK_DIRECTORY" />
+
+       <!--BLOCCO: res.partner: (extra view for test label insert) -->
+        <record id="res_partner_search_label" model="ir.ui.view">
+            <field name="name">Partner label search</field>
+            <field name="model">res.partner</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Partner label search">
+                    <group>
+                        <filter string="Customer" name="customer" icon="terp-personal" domain="[('customer','=','1')]" />
+                        <filter string="Supplier" name="supplier"  icon="terp-personal" domain="[('supplier','=','1')]" />
+                        <separator orientation="vertical"/>
+                        <field name="mexal_c" />
+                        <field name="name" />
+                        <field name="country" />
+                        <separator orientation="vertical"/>
+                        <field name="article_label_id" />
+                        <field name="pack_label_id" />
+                        <field name="pallet_label_id" />
+                    </group>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                       <filter string="Article label" icon="terp-personal" domain="[]" context="{'group_by' : 'article_label_id'}" />
+                       <filter string="Package label" icon="terp-personal" domain="[]" context="{'group_by' : 'pack_label_id'}" />
+                       <filter string="Pallet label" icon="terp-personal" domain="[]" context="{'group_by' : 'pallet_label_id'}" />
+                   </group>
+                 </search>
+            </field>
+        </record>
+         <record model="ir.ui.view" id="res_partner_tree_label">
+            <field name="name">Partner list with label</field>
+            <field name="model">res.partner</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="60" />
+            <field name="arch" type="xml">
+                <tree string="Partner list with label">
+                    <field name="name" />
+                    <field name="mexal_c" />
+                    <field name="country" />
+                    <field name="article_label_id" />
+                    <field name="pack_label_id" />
+                    <field name="pallet_label_id" />
+                </tree>
+            </field>
+         </record>
+         <record model="ir.ui.view" id="res_partner_form_label">
+            <field name="name">Partner with label</field>
+            <field name="model">res.partner</field>
+            <field name="type">form</field>
+            <field name="priority" eval="60" />
+            <field name="arch" type="xml">
+                <form string="Partner with label">
+                    <field name="name" readonly="1" />
+                    <field name="mexal_c" readonly="1" />
+                    <field name="country" readonly="1" />
+                    <group colspan="4" col="6">
+                        <field name="article_label_id" />
+                        <field name="pack_label_id" />
+                        <field name="pallet_label_id" />
+                    </group> 
+                    <newline />
+                    <separator string="Particularity" colspan="4" />
+                    <field name="particularity_ids" colspan="4" nolabel="1" >
+                       <tree>
+                            <field name='name' />
+                            <field name='article_label_id' />
+                            <field name='pack_label_id' />
+                            <field name='pallet_label_id' />
+                            <field name='parent_name' />
+                       </tree>
+                       <form>
+                            <field name='name' />
+                            <field name='article_label_id' />
+                            <field name='pack_label_id' />
+                            <field name='pallet_label_id' />
+                            <field name='parent_name' />
+                       </form>  
+                    </field>
+                </form>
+            </field>
+         </record>
+       <record id="res_partner_tree_label_action" model="ir.actions.act_window">
+            <field name="name">Partner with label</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="res_partner_search_label"/>
+            <field name="view_id" ref="res_partner_tree_label"/>
+            <field name="context">{'form_view_ref': 'label_easy.res_partner_form_label'}</field>
+       </record> 
+       <menuitem id="res_partner_tree_label_action_startup_menuitem" 
+                 name="Setup the system" 
+                 sequence="0"
+                 parent="easylabel_menu_configuration" />
+       <menuitem action="res_partner_tree_label_action" 
+                 id="res_partner_tree_label_action_menuitem" 
+                 sequence="20"
+                 parent="res_partner_tree_label_action_startup_menuitem"
+                 icon="terp-camera_test" />
+
+       <!--BLOCCO: product.product: (extra view for test stock) -->
+        <record id="product_product_search_label" model="ir.ui.view">
+            <field name="name">Product for label search</field>
+            <field name="model">product.product</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Product search">
+                    <group>
+                        <!--<filter string="Customer" name="customer" icon="terp-personal" domain="[('customer','=','1')]" />
+                        <filter string="Supplier" name="supplier"  icon="terp-personal" domain="[('supplier','=','1')]" />
+                        <separator orientation="vertical"/>-->
+                        <field name="code" string="Code"/>
+                        <field name="name" />
+                        <field name="q_x_pack" />
+                        <field name="categ_id" />
+                        <!--<separator orientation="vertical"/>
+                        <field name="article_label_id" />
+                        <field name="pack_label_id" />
+                        <field name="pallet_label_id" />-->
+                    </group>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                       <filter string="Category" icon="terp-personal" domain="[]" context="{'group_by' : 'categ_id'}" />
+                       <!--<filter string="Q x pack" icon="terp-personal" domain="[]" context="{'group_by' : 'q_x_pack'}" />-->
+                   </group>
+                 </search>
+            </field>
+        </record>
+         <record model="ir.ui.view" id="product_product_tree_label">
+            <field name="name">Product for label</field>
+            <field name="model">product.product</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="60" />
+            <field name="arch" type="xml">
+                <tree string="Product for label">
+                    <field name="code" />
+                    <field name="name" />
+                    <field name="q_x_pack" />
+                    <field name="ean13" />
+                    <field name="categ_id" />
+                </tree>
+            </field>
+         </record>
+         <record model="ir.ui.view" id="product_product_form_label">
+            <field name="name">Product for label</field>
+            <field name="model">product.product</field>
+            <field name="type">form</field>
+            <field name="priority" eval="60" />
+            <field name="arch" type="xml">
+                <form string="Product for label">
+                    <field name="code" readonly="1" />
+                    <field name="name" readonly="1" />
+                    <field name="q_x_pack" readonly="1" />
+                    <field name="ean13" />
+                    <field name="categ_id" readonly="1" />
+                </form>
+            </field>
+         </record>
+       <record id="product_product_tree_label_action" model="ir.actions.act_window">
+            <field name="name">Product for label</field>
+            <field name="res_model">product.product</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="product_product_search_label"/>
+            <field name="view_id" ref="product_product_tree_label"/>
+            <field name="context">{'form_view_ref': 'label_easy.product_product_form_label'}</field>
+       </record> 
+       <record id="product_product_tree_label_0_action" model="ir.actions.act_window">
+            <field name="name">Product without pack info</field>
+            <field name="res_model">product.product</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="product_product_search_label"/>
+            <field name="view_id" ref="product_product_tree_label"/>
+            <field name="domain">[('q_x_pack','=',0)]</field>
+            <field name="context">{'form_view_ref': 'label_easy.product_product_form_label'}</field>
+       </record> 
+       <menuitem action="product_product_tree_label_action" 
+                 id="product_product_tree_label_action_menuitem" 
+                 sequence="30"
+                 parent="res_partner_tree_label_action_startup_menuitem"
+                 icon="terp-camera_test" />
+       <menuitem action="product_product_tree_label_0_action" 
+                 id="product_product_tree_label_0_action_menuitem" 
+                 sequence="30"
+                 parent="product_product_tree_label_action_menuitem"
+                 icon="terp-camera_test" />
+    </data>
+</openerp>

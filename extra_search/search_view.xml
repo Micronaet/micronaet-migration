@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    <!-- search.database -->
+
+       <!-- Form -->
+    <record model="ir.ui.view" id="view_search_database_form">
+        <field name="name">search.database.form</field>
+        <field name="model">search.database</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Search database form">
+                <field name="name" />
+                <field name="search" />
+            </form>
+        </field>
+    </record>
+
+       <!-- Tree -->
+    <record model="ir.ui.view" id="view_search_database_tree">
+        <field name="name">search.database.tree</field>
+        <field name="model">search.database</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Search database tree">
+                <field name="name" />
+                <field name="search" />
+            </tree>
+        </field>
+    </record>
+    
+       <!-- Action -->
+    <record model="ir.actions.act_window" id="action_search_database">
+        <field name="name">Search database</field>
+        <field name="res_model">search.database</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+       <!-- Menu -->
+        <menuitem name="Search extra database" parent="base.menu_config_address_book" id="menu_search_database" sequence="1" action="action_search_database" />
+
+    </data>
+</openerp>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+       <record id="batch_import_wizard" model="ir.ui.view">
+            <field name="name">Wizard import CSV</field>
+            <field name="model">easylabel.batch.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Import CSV data">
+                    <label colspan="4" string="NOTE: Use XLS macro for export CSV file before this operation!" />
+                    <separator string="Additional note" colspan="4" />
+                    <field name="week" />
+                    <field name="line" />
+                    <group col="6" colspan="4">
+                          <field name='printer_art_id' />
+                          <field name='printer_pac_id' />
+                          <field name='printer_pal_id' />
+                    </group>
+                    <field name="note" colspan="4" nolabel="1" />
+                    <group colspan="4">
+                        <button string="Cancel" special="cancel" icon="gtk-cancel"/>
+                        <button string="Import" name="import_csv" type="object" icon="gtk-ok"/>
+                    </group>
+                </form>
+            </field>
+      </record>
+
+      <record id="batch_import_wizard_action" model="ir.actions.act_window">
+        <field name="name">Import CSV file</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">easylabel.batch.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+      </record>
+      <menuitem action="batch_import_wizard_action" 
+                id="batch_import_wizard_menuitem" 
+                sequence="11"
+                parent="easylabel_menu"
+                icon="STOCK_EXECUTE" />
+    </data>
+</openerp>
