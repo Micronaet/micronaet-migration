@@ -21,28 +21,30 @@
 ##############################################################################
 
 {
-    'name': 'Syncro module for partner 6.0 > 8.0',
+    'name': 'Extra fields',
     'version': '0.0.1',
-    'category': 'Syncro Migration',
+    'category': 'Generic Modules / Customization',
     'author': 'Micronaet s.r.l.',
     'website': 'http://www.micronaet.it',
     'depends': [
-        # All this module are necessary for basic installation of ODOO
         'base',
-        'report_aeroo',
-        'partner_addresses',
-        'product',
-        'sale',
+        #'base_contact',
+        #'product',
         'crm',
-        'auto_backup',
-        'report_aeroo',
+        #'auto_backup',
+        #'project',
+        'sale',
+        #'sale_layout',
         ],
     'init_xml': [], 
-    'data': [
-        'syncro_view.xml',
-        'wizard/migrate_view.xml',
+    'update_xml': [
+        # TODO check view after do importation
+        #'security/fiam_group.xml',
+        'security/ir.model.access.csv',
+        #'partner_views.xml',
+        #'sale_views.xml',
         ],
     'demo_xml': [],
     'active': False, 
     'installable': True, 
-    }
+}

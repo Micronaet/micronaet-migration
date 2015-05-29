@@ -1,0 +1,210 @@
+<?xml version="1.0" ?>
+<openerp>
+<data>
+    <!-- VIEW: -->  
+       <!-- sale.product.return -->      
+    <record id='view_sale_product_return_search' model='ir.ui.view'>
+        <field name='name'>Product return</field>
+        <field name='model'>sale.product.return</field>
+        <field name='type'>search</field>
+        <field name='arch' type='xml'>
+           <search>
+              <field name="name" />
+           </search>
+        </field>
+    </record>
+    <record id='view_sale_product_return_form' model='ir.ui.view'>
+        <field name='name'>Product return</field>
+        <field name='model'>sale.product.return</field>
+        <field name='type'>form</field>
+        <field name='arch' type='xml'>
+           <form>
+              <field name="name" />
+              <newline />
+              <separator string="Text" colspan="4" />
+              <field name="text" colspan="4" nolabel="1" />
+           </form>
+        </field>
+    </record>
+    <record id='view_sale_product_return_tree' model='ir.ui.view'>
+        <field name='name'>Product return</field>
+        <field name='model'>sale.product.return</field>
+        <field name='type'>tree</field>
+        <field name='arch' type='xml'>
+           <tree>
+              <field name="name" />
+              <field name="text" />
+           </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_sale_product_return">
+        <field name="name">Product return</field>
+        <field name="res_model">sale.product.return</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_sale_product_return_tree"/>
+        <field name="search_view_id" ref="view_sale_product_return_search"/>
+    </record>
+    <menuitem 
+        parent="base.menu_sale_config_sales" 
+        id="menu_action_sale_product_return" 
+        action="action_sale_product_return"
+        />
+    
+    <!-- INHERIT VIEW: -->  
+    <!-- Da sale in sale.order --> 
+    <record id='view_sale_order_add_fiam_fields' model='ir.ui.view'>
+        <field name='name'>Quotation sale</field>
+        <field name='model'>sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name='type'>form</field>
+        <field name='arch' type='xml'>
+              <xpath expr="/form/notebook/page[@string='Sales Order']/field[@name='project_id']" position="after">
+                  <newline />
+                  <group colspan="4" col="6">     
+                       <field name='print_only_prices' />
+                       <field name='print_address' />
+                       <field name='has_master_header' />
+                  </group>
+              </xpath>
+        </field>
+    </record>
+    <!-- Da sale_layout in sale.order --> 
+    <record id='view_sale_layout_order_add_fiam_fields' model='ir.ui.view'>
+        <field name='name'>Quotation sale layout</field>
+        <field name='model'>sale.order</field>
+        <field name="inherit_id" ref="sale_layout.view_order_form_inherit_1"/>
+        <field name='type'>form</field>
+        <field name='arch' type='xml'>
+              <xpath expr="/form/notebook/page/field[@name='abstract_line_ids']/tree/field[@name='discount']" position="before">
+                  <field string="Scala sconti" name='multi_discount_rates' />             
+              </xpath>
+              <xpath expr="/form/notebook/page/field[@name='abstract_line_ids']/form/notebook/page[@string='Order Line']/field[@name='product_uom']" position="after">
+                  <newline />
+                  <field string="Scala sconti" name='multi_discount_rates' on_change='on_change_multi_discount(multi_discount_rates)' context="{'partner_id':parent.partner_id}" />             
+                  <newline />
+                  <field name="price_use_manual" />
+                  <field name="price_unit_manual" />
+              </xpath>
+              <!-- Attributo per inserire il contesto (per il calcolo default) -->
+              <xpath expr="/form/notebook/page/field[@name='abstract_line_ids']" position="attributes">
+                  <attribute name='context'>{'partner_id':partner_id,}</attribute>
+              </xpath>
+              <field name="payment_term" position="after">
+                 <field name="return_id" widget="selection" />
+              </field>
+              <field name="payment_term" position="after">
+                 <newline />
+                 <field name="bank_id" />              
+              </field>           
+              <!--<xpath expr="/form/notebook/page/field[@name='abstract_line_ids']/form//field[@name='product_id']" position="attributes">
+                 <attribute name= "on_change">product_id_change(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, 'lang' in context and context['lang'], True, parent.date_order, product_packaging, parent.fiscal_position, False, multi_discount_rates)</attribute>
+              </xpath>-->
+              
+              <!--
+              <xpath expr="/form/notebook/page[@name='']/field[@name='origin']">
+                  <field name="return_id" />
+              </xpath>-->
+              <!--<xpath expr="/form/notebook/page/field[@name='abstract_line_ids']/form/notebook/page[@string='Order Line']/field[@name='product_id']" position="after">
+                  <field string="Con link a immagine" name="image_http" />
+                  <field string="Nome alternativo immagine" 
+                         name="image_replace_name" 
+                         attrs="{'invisible' : [('image_http' , '=', False)]}"/>
+                  <newline />
+              </xpath>-->
+        </field>
+    </record>
+    
+    <record id='product_normal_form_view_inherit_extra_field' model='ir.ui.view'>
+        <field name='name'>Product extra</field>
+        <field name='model'>product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name='type'>form</field>
+        <field name='arch' type='xml'>
+            <field name="description_purchase" position="after">
+               <separator string="Web Large Description" colspan="4"/>
+               <field colspan="4" name="large_description" nolabel="1"/>    
+            </field>             
+            <field name="default_code" position="after">
+               <field colspan="4" name="mexal_id" groups="base_fiam.group_sales_import_manager"/>
+            </field> 
+       </field>     
+    </record>
+    
+    <!--sale.order.bank-->
+    <record model="ir.ui.view" id="view_sale_order_bank">
+        <field name="name">Bank account</field>
+        <field name="model">sale.order.bank</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Conto bancario">
+               <field name="name"/>
+               <newline />
+               <separator string="Informazioni:" colspan="4" />
+               <field name="information" colspan="4" nolabel="1" />               
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_sale_order_bank_tree">
+        <field name="name">Bank account</field>
+        <field name="model">sale.order.bank</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Conto bancario">
+               <field name="name" />
+               <field name="information" />               
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_view_sale_order_bank">
+        <field name="name">Conto bancario</field>
+        <field name="res_model">sale.order.bank</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form,tree</field>
+        <field name="view_id" ref="view_sale_order_bank_tree"/>
+    </record> 
+    
+    <record id='view_sales_order_filter_add_cancel_button' model='ir.ui.view'>
+        <field name='name'>Sale filter with cancel</field>
+        <field name='model'>sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter" />
+        <field name='type'>search</field>
+        <field name='arch' type='xml'>
+              <filter string="Quotations" position="before">
+                  <filter string="Non annullato" name="not_cancel" domain="[('state','!=','cancel')]" icon="STOCK_CANCEL" default="1" />
+              </filter>
+               <xpath expr='/search/filter[@string="Quotations"]' position="attributes">
+                   <attribute name="name">is_quotation</attribute>  
+              </xpath>
+        </field>
+    </record>
+
+    <record id="action_order_form_no_agent" model="ir.actions.act_window">
+        <field name="name">Offerte e ordini</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,calendar,graph</field>
+        <field name="search_view_id" ref="sale.view_sales_order_filter" />
+        <field name="context">{'search_default_is_quotation':1,'search_default_not_cancel':1}</field>
+        <field name="help">Offerte e Ordini senza filtro di commerciale</field>
+    </record> 
+       
+    <menuitem 
+        parent="base.menu_sale_config_sales" 
+        id="menu_view_sale_order_bank" 
+        action="action_view_sale_order_bank"/>
+
+    <menuitem 
+        parent="base.menu_sales" 
+        id="sale.menu_sale_order" 
+        sequence="3"
+        action="action_order_form_no_agent"
+        groups="base.group_sale_salesman,base.group_sale_manager"
+        />
+
+</data>
+</openerp>
+

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data noupdate="1">
+    <!-- res.partner -->
+    <!--<record model="ir.rule" id="base_fiam_salesman_partner_rule">
+        <field name="name">Salesman access only to his partner</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="domain_force">[('user_id','=',user.id)]</field>
+        <field name="groups" eval="[(4,ref('base.group_sale_salesman'))]"/> 
+    </record>-->
+    <!--'security/fiam_security.xml',                    -->
+        <record model="ir.rule" id="base_fiam_cei_partner_italian_rule">
+        <field name="name">Salesman CEI as italian</field>
+        <field name="model_id" ref="base.model_res_partner"/> <!-- Table -->
+        <!--<field name="global" eval="False"/>-->
+        <field name="domain_force">[('type_cei','=', 'i')]</field>
+        <field name="groups" eval="[(4,ref('base.group_sale_salesman'))]"/> <!-- Group -->
+    </record>
+    <!-- res.partner.contact 
+    <record model="ir.rule" id="base_fiam_salesman_contact_rule">
+        <field name="name">Salesman access only to his contact</field>
+        <field name="model_id" ref="base_contact.model_res_partner_contact"/>  
+        <field name="domain_force">[('user_id','=',user.id)]</field>
+        <field name="groups" eval="[(4,ref('base.group_sale_salesman'))]"/>  
+    </record>-->
+</data>
+</openerp>
+
