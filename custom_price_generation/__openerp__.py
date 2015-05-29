@@ -38,7 +38,6 @@
         #'base_fiam',
         'sale',
         #'report_aeroo',
-        'custom_price_generation',
         ],
     'init_xml': [], 
     'update_xml': [

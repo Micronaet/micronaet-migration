@@ -236,7 +236,7 @@ class ProductProductExtra(orm.Model):
         for pricelist in product.seller_ids[0].pricelist_ids:
             if pricelist.is_active:
                 return pricelist.price or 0.0
-        if product.seller_ids[0].pricelist_ids
+        if product.seller_ids[0].pricelist_ids:
             return product.seller_ids[0].pricelist_ids[0].price
         else:
             return 0.0
@@ -380,7 +380,7 @@ class ProductProductExtra(orm.Model):
                     img = ''
         return img
 
-    def _get_image(self, cr, uid, ids, field_name, arg, context=context):
+    def _get_image(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
         for item in ids:
             res[item] = self.get_image(cr, uid, item)
