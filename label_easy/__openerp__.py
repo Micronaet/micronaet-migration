@@ -35,8 +35,8 @@
         'report_aeroo',
         ],
     "data": [
-        #'security/easylabel_group.xml', 
-        #'security/ir.model.access.csv',
+        'security/easylabel_group.xml', 
+        'security/ir.model.access.csv',
         #'easylabel.xml',
         #'wizard/view_wizard.xml',
         'report/report_easylabel.xml',
