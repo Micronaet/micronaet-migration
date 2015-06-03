@@ -53,7 +53,7 @@
     
     <!-- INHERIT VIEW: -->  
     <!-- sale.order --> 
-    <record id='view_sale_order_add_fiam_fields' model='ir.ui.view'>
+    <!--TODO Vedere se serve (forse no)<record id='view_sale_order_add_fiam_fields' model='ir.ui.view'>
         <field name='name'>Quotation sale</field>
         <field name='model'>sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
@@ -68,10 +68,10 @@
                   </group>
               </xpath>
         </field>
-    </record>
+    </record>-->
     
     <!-- sale.order --> 
-    <!--TODO <record id='view_sale_layout_order_add_fiam_fields' model='ir.ui.view'>
+    <!--TODO finire <record id='view_sale_layout_order_add_fiam_fields' model='ir.ui.view'>
         <field name='name'>Quotation sale layout</field>
         <field name='model'>sale.order</field>
         <field name="inherit_id" ref="sale_layout.view_order_form_inherit_1"/>
@@ -80,14 +80,14 @@
               <xpath expr="/form/notebook/page/field[@name='order_line']/tree/field[@name='discount']" position="before">
                   <field string="Scala sconti" name='multi_discount_rates' />             
               </xpath>
-              <xpath expr="/form/notebook/page/field[@name='abstract_line_ids']/form/notebook/page[@string='Order Line']/field[@name='product_uom']" position="after">
+              <xpath expr="/form/notebook/page/field[@name='order_line']/form/notebook/page[@string='Order Line']/field[@name='product_uom']" position="after">
                   <newline />
                   <field string="Scala sconti" name='multi_discount_rates' on_change='on_change_multi_discount(multi_discount_rates)' context="{'partner_id':parent.partner_id}" />             
                   <newline />
                   <field name="price_use_manual" />
                   <field name="price_unit_manual" />
               </xpath>
-              <xpath expr="/form/notebook/page/field[@name='abstract_line_ids']" position="attributes">
+              <xpath expr="/form/notebook/page/field[@name='order_line']" position="attributes">
                   <attribute name='context'>{'partner_id':partner_id,}</attribute>
               </xpath>
               <field name="payment_term" position="after">

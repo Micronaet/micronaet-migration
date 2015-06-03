@@ -35,11 +35,11 @@
         'sale',
         ],
     'init_xml': [], 
-    'update_xml': [
+    'data': [
         'security/accounting_group.xml',
         'security/ir.model.access.csv',
-        #'partner_views.xml',
-        #'sale_views.xml',
+        'partner_views.xml',
+        'sale_views.xml',
         ],
     'demo_xml': [],
     'active': False, 
