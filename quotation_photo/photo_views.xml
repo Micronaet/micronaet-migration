@@ -1,0 +1,108 @@
+<?xml version="1.0" ?>
+<openerp>
+<data>
+    <!-- INHERIT VIEW: -->
+    <!-- PRODUCT.PRODUCT (for image preview) -->    
+	<record id="base_product_image_preview_form" model="ir.ui.view">
+		<field name="name">product.product</field>
+		<field name="model">product.product</field>
+		<field name="priority" eval="30" />
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form string="Product images preview">
+			   <field name="name" readonly="1" />
+			   <field name="code" readonly="1" />
+			   <separator string="Preview (Only when saved)" colspan="4" />
+			   <field name="default_photo" colspan="4" nolabel="1" widget="picture" />
+			</form>
+		</field>
+	</record>
+
+    <!--product.product (form alternativa)-->
+    <record id="product_product_with_preview_form" model="ir.ui.view">
+        <field name="name">Product with preview</field>
+        <field name="model">product.product</field>
+        <field name="type">form</field>
+        <field name="priority" eval="20" />
+        <field name="arch" type="xml">
+            <form string="Container type">
+                <group colspan="4" col="6">
+                   <field name="default_code" />
+                   <field name="name" />
+                </group>   
+                <separator string="Description" />
+                <field name="description_sale" nolabel="1" colspan="4"/>
+                <separator string="Preview" />
+                <field name="default_photo" colspan="4" widget="image" nolabel="1" />                
+            </form>
+        </field>
+    </record>
+
+    <record id="product_product_with_preview_action" model="ir.actions.act_window">
+        <field name="name">Product with preview</field>
+        <field name="res_model">product.product</field>
+        <field name="view_type">form</field>        
+        <field name="view_mode">tree,form</field>   
+        <field name="context">{'form_view_ref' : 'quotation_photo_fiam.product_product_with_preview_form'}</field>     
+        <field name="help">Short form with product info and preview images</field>
+    </record>
+
+    <menuitem action="product_product_with_preview_action" 
+              id="product_product_with_preview_menu" 
+              parent="product.menu_products" 
+              sequence="1" />
+              
+    <!-- product.quotation.folder: -->
+    <record id="product_quotation_folder_tree_view" model="ir.ui.view">
+        <field name="name">Cartelle immagini</field>
+        <field name="model">product.quotation.folder</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Image Folder">
+                <field name="default" />
+                <field name="name" select="1" />
+                <field name="folder_path" />
+                <field name="extension_image" />
+                <field name="height" />
+                <field name="width" />
+            </tree>
+        </field>
+    </record>            
+    <record id="product_quotation_folder_form_view" model="ir.ui.view">
+        <field name="name">Cartelle immagini</field>
+        <field name="model">product.quotation.folder</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Image Folder">                
+                <group colspan="4" col="8">
+                    <field name="default" />
+                    <field name="name" select="1"/>
+                    <field name="extension_image" />
+                    <field name="empty_image" />
+                </group>
+                <field name="height" />
+                <field name="width" />    
+                <group colspan="4" col="6">
+                    <field name="addons" />                            
+                    <field name="root_path"  attrs="{'invisible':[('addons', '=', True)]}" />
+                    <field name="folder_path" />
+                </group>    
+            </form>
+        </field>
+    </record>
+
+    <record id="product_quotation_folder_action" model="ir.actions.act_window">
+        <field name="name">Cartella immagini</field>
+        <field name="res_model">product.quotation.folder</field>
+        <field name="view_type">form</field>        
+        <field name="view_mode">tree,form</field>        
+        <field name="help">Lista delle cartelle per mettere le immagini</field>
+    </record>
+
+    <menuitem action="product_quotation_folder_action" 
+              id="product_quotation_folder_action_menu" 
+              parent="product.prod_config_main" 
+              sequence="4" />                                     
+</data>
+</openerp>
+
