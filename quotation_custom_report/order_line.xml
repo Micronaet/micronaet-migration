@@ -1,0 +1,65 @@
+<?xml version="1.0" ?>
+<openerp>
+<data>
+    <!-- INHERIT VIEW: -->  
+    <!-- Da sale_layout in sale.order --> 
+    <record id='view_sale_layout_order_add_print_fiam_fields' model='ir.ui.view'>
+        <field name='name'>Quotation sale layout</field>
+        <field name='model'>sale.order</field>
+        <field name="inherit_id" ref="sale_layout.view_order_form_inherit_1"/>
+        <field name='type'>form</field>
+        <field name='arch' type='xml'>
+              <xpath expr="/form/notebook/page/field[@name='abstract_line_ids']/tree/field[@name='name']" position="before">
+                  <field name='repeat_header_line' />
+              </xpath>
+              <xpath expr="/form/notebook/page/field[@name='abstract_line_ids']/form/notebook/page[@string='Order Line']/field[@name='layout_type']" position="after">
+                  <field name='repeat_header_line' />
+              </xpath>
+              <xpath expr="/form/notebook/page/field[@name='abstract_line_ids']/form/notebook/page[@string='Order Line']/field[@name='sequence']" position="after">
+                  <field name='insert_photo' />                  
+                  <field name='use_amazon_description' />
+                  <field name='show_notes' />
+              </xpath>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="view_order_form_extra_fields">
+        <field name="name">sale.order.extra</field>
+        <field name="model">sale.order</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+           <field name="shipped" position="after">
+              <newline />
+              <field name="quotation_model" />              
+           </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_product_product_extra_fields">
+        <field name="name">product.product.extra</field>
+        <field name="model">product.product</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="account.product_normal_form_view" />
+        <field name="arch" type="xml">
+           <xpath expr="/form/notebook/page[@string='Accounting']" position="after">
+               <page string="Vendita">
+                  <group colspan="4" col="8">
+                     <field name="telaio" />              
+                     <field name="pipe_diameter" />              
+                     <field name="weight_packaging" />              
+                     <newline />
+                     <field name="item_per_box" />              
+                     <field name="item_per_pallet" />              
+                     <field name="item_per_mq" />              
+                     <field name="item_per_camion" />              
+                  </group>
+                  <separator string="Descrizione extra" />
+                  <field name="extra_description" nolabel="1" colspan="4"/>
+               </page>
+           </xpath>
+        </field>
+    </record>    
+  </data>
+</openerp>
+

@@ -49,9 +49,7 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
     float_compare)
 
 
-
 _logger = logging.getLogger(__name__)
-
 
 class ProductQuotationFolder(osv.osv):
     _name = 'product.quotation.folder'

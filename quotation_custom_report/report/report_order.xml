@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<openerp>
+<data noupdate="1">
+    <record id="aeroo_order_fiam_report_id" model="ir.actions.report.xml">
+        <field name="name">Fiam: Stampa documento</field>
+        <field name="type">ir.actions.report.xml</field>
+        <field name="model">sale.order</field>
+        <field name="report_name">fiam_order_report</field>
+        <field name="report_type">aeroo</field>
+        <field name="in_format">oo-odt</field>
+        <field name="parser_loc">report_aeroo_fiam/report/parser.py</field>
+        <field name="report_rml">report_aeroo_fiam/report/order.odt</field>
+        <field name="parser_state">loc</field>
+        <field name="tml_source">file</field>
+        <field name="out_format" eval="ref('report_aeroo_ooo.report_mimetypes_pdf_odt')"></field>
+    </record>
+    
+    <ir_set>
+        <field eval="'action'" name="key"/>
+        <field eval="'client_print_multi'" name="key2"/>
+        <field eval="['sale.order']" name="models"/>
+        <field name="name">fiam_report</field>
+        <field eval="'ir.actions.report.xml,'+str(aeroo_order_fiam_report_id)" name="value"/>
+        <field eval="True" name="isobject"/>
+        <field eval="True" name="replace"/>
+    </ir_set>
+</data>
+</openerp>
+
