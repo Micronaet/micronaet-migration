@@ -52,7 +52,7 @@
         />
     
     <!-- INHERIT VIEW: -->  
-    <!-- Da sale in sale.order --> 
+    <!-- sale.order --> 
     <record id='view_sale_order_add_fiam_fields' model='ir.ui.view'>
         <field name='name'>Quotation sale</field>
         <field name='model'>sale.order</field>
@@ -69,14 +69,15 @@
               </xpath>
         </field>
     </record>
-    <!-- Da sale_layout in sale.order --> 
-    <record id='view_sale_layout_order_add_fiam_fields' model='ir.ui.view'>
+    
+    <!-- sale.order --> 
+    <!--TODO <record id='view_sale_layout_order_add_fiam_fields' model='ir.ui.view'>
         <field name='name'>Quotation sale layout</field>
         <field name='model'>sale.order</field>
         <field name="inherit_id" ref="sale_layout.view_order_form_inherit_1"/>
         <field name='type'>form</field>
         <field name='arch' type='xml'>
-              <xpath expr="/form/notebook/page/field[@name='abstract_line_ids']/tree/field[@name='discount']" position="before">
+              <xpath expr="/form/notebook/page/field[@name='order_line']/tree/field[@name='discount']" position="before">
                   <field string="Scala sconti" name='multi_discount_rates' />             
               </xpath>
               <xpath expr="/form/notebook/page/field[@name='abstract_line_ids']/form/notebook/page[@string='Order Line']/field[@name='product_uom']" position="after">
@@ -86,7 +87,6 @@
                   <field name="price_use_manual" />
                   <field name="price_unit_manual" />
               </xpath>
-              <!-- Attributo per inserire il contesto (per il calcolo default) -->
               <xpath expr="/form/notebook/page/field[@name='abstract_line_ids']" position="attributes">
                   <attribute name='context'>{'partner_id':partner_id,}</attribute>
               </xpath>
@@ -97,23 +97,8 @@
                  <newline />
                  <field name="bank_id" />              
               </field>           
-              <!--<xpath expr="/form/notebook/page/field[@name='abstract_line_ids']/form//field[@name='product_id']" position="attributes">
-                 <attribute name= "on_change">product_id_change(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, 'lang' in context and context['lang'], True, parent.date_order, product_packaging, parent.fiscal_position, False, multi_discount_rates)</attribute>
-              </xpath>-->
-              
-              <!--
-              <xpath expr="/form/notebook/page[@name='']/field[@name='origin']">
-                  <field name="return_id" />
-              </xpath>-->
-              <!--<xpath expr="/form/notebook/page/field[@name='abstract_line_ids']/form/notebook/page[@string='Order Line']/field[@name='product_id']" position="after">
-                  <field string="Con link a immagine" name="image_http" />
-                  <field string="Nome alternativo immagine" 
-                         name="image_replace_name" 
-                         attrs="{'invisible' : [('image_http' , '=', False)]}"/>
-                  <newline />
-              </xpath>-->
         </field>
-    </record>
+    </record>-->
     
     <record id='product_normal_form_view_inherit_extra_field' model='ir.ui.view'>
         <field name='name'>Product extra</field>

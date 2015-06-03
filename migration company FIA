@@ -68,7 +68,7 @@ INSTALLARE:
 *log_and_mail
 
 NON MIGRARE:
-*crm_partner_categorization                    << MIGRATO lo stesso anche se dovrebbe andare a perdere << VERIFICARE
+*crm_partner_categorization                       << MIGRATO lo stesso anche se dovrebbe andare a perdere << VERIFICARE
 NO todo_list
 NO amazon_product_merger
 NO amazon_product_merger_c1
@@ -83,15 +83,19 @@ MIGRATI CON VISTE:
 ******************
 
 * quotation_custom_report:
-  - Vedere se serve il multi-indirizzo <<< NON USATO
+  - Vedere se serve il multi-indirizzo           << NON USATO
   - Vedere scontistica cliente
   - Importazione dati da fare
   - Vedere template invio mail
   - Foto prodotti
-  - Traduzioni
-  - Campi extra utilizzati in offerta (dettagli prodotto)
+  - Traduzioni (anche in importazioni)
+  - Campi extra utilizzati in offerta (dettagli prodotto), sono visibili?
   - Manage amazon description for sale.order.line product
+  - Test report with photo
+  - TODO finire di mettere le spunte 
+  - TODO attivare editable top (spunte)
   - TODO attivare discount_per_so_line parameter sotto configuration / sale
   - TODO attivare group_sale_pricelist parameter sotto configuration / sale
-  
+
+
 

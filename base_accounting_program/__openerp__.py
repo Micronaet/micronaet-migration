@@ -28,18 +28,15 @@
     'website': 'http://www.micronaet.it',
     'depends': [
         'base',
-        #'base_contact',
         #'product',
         'crm',
         #'auto_backup',
         #'project',
         'sale',
-        #'sale_layout',
         ],
     'init_xml': [], 
     'update_xml': [
-        # TODO check view after do importation
-        #'security/fiam_group.xml',
+        'security/accounting_group.xml',
         'security/ir.model.access.csv',
         #'partner_views.xml',
         #'sale_views.xml',

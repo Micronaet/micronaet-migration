@@ -8,6 +8,7 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="arch" type="xml">
+        
            <xpath expr="/form/sheet/notebook" position="before">
               <group name="extra_parameters" colspan="4" col="4"> 
                   <field name="quotation_model" />              
@@ -30,11 +31,16 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="view_order_line_tree_extra_fields">
-        <field name="name">sale.order.line.extra</field>
+    <!--TODO non funziona !!!!! -->
+    <record model="ir.ui.view" id="view_order_line_tree_quotation">
+        <field name="name">sale.order.line.quotation</field>
         <field name="model">sale.order.line</field>
         <field name="inherit_id" ref="sale.view_order_line_tree" />
         <field name="arch" type="xml">
+           <xpath expr="/tree" position="attributes">
+               <attribute name="editable">top</attribute>               
+           </xpath>
+
            <field name="name" position="attributes">
                <attribute name="invisible">1</attribute>
            </field>
