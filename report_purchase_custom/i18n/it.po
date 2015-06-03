@@ -1,0 +1,48 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* report_purchase_gpb
+# <> <>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.0.4\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2013-03-15 12:08+0000\n"
+"PO-Revision-Date: 2013-03-15 13:09+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: report_purchase_gpb
+#: model:ir.model,name:report_purchase_gpb.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Riga Ordine d'Acquisto"
+
+#. module: report_purchase_gpb
+#: field:purchase.order.line,q_x_pack:0
+msgid "Package"
+msgstr "Pz. per imballo"
+
+#. module: report_purchase_gpb
+#: field:purchase.order.line,colour:0
+msgid "Color"
+msgstr "Colore"
+
+#. module: report_purchase_gpb
+#: model:ir.actions.report.xml,name:report_purchase_gpb.aeroo_purchase_gpb_report_id
+msgid "G.P.B.: Stampa documento"
+msgstr "G.P.B.: Stampa documento"
+
+#. module: report_purchase_gpb
+#: report:ir.actions.report.xml:report_purchase_gpb.aeroo_purchase_gpb_report_id
+#: report:ir.actions.report.xml,Date:report_purchase_gpb.aeroo_purchase_gpb_report_id
+msgid "Date"
+msgstr "Data"
+
+#. module: report_purchase_gpb
+#: model:ir.actions.report.xml,name:report_purchase_gpb.aeroo_purchase_gpb_report_id_ods
+msgid "G.P.B.: Stampa ODS"
+msgstr "G.P.B.: Stampa ODS"

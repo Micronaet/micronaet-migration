@@ -26,15 +26,15 @@
 #
 ##############################################################################
 
-from report import report_sxw
-from report.report_sxw import rml_parse
+from openerp.report import report_sxw
+from openerp.report.report_sxw import rml_parse
 
 class Parser(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):
         super(Parser, self).__init__(cr, uid, name, context)
         self.localcontext.update({
-            'clean_description':self.clean_description,
-            'get_telaio':self.get_telaio,
+            'clean_description': self.clean_description,
+            'get_telaio': self.get_telaio,
             'get_fabric': self.get_fabric,
         })
 
@@ -85,15 +85,17 @@ class Parser(report_sxw.rml_parse):
             return "/"        
 
     def get_telaio(self, name, lingua):
-        #import pdb; pdb.set_trace()
         if name:
             name=name.strip()
-            if name=="STEEL":
-               name="ACCIAIO"
-            ita2eng={"ALLUMINIO":"ALUMINIUM", "LEGNO":"WOOD", "ACCIAIO":"STEEL"}
-            if lingua!='it_IT':
+            if name == "STEEL":
+               name = "ACCIAIO"
+            ita2eng = {
+               "ALLUMINIO": "ALUMINIUM", 
+               "LEGNO": "WOOD", 
+               "ACCIAIO": "STEEL"}
+            if lingua != 'it_IT':
                return ita2eng[name] if name in ita2eng else "?"
             else:
                return name
         else:       
-            return "" 
+            return ""

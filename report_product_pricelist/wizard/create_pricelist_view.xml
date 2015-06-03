@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    <!-- Generator View  -->
+      <record id="product_pricelist_generator_view" model="ir.ui.view">
+        <field name="name">product.pricelist.generator.form</field>
+        <field name="model">product.pricelist.generator</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Create / Update pricelist version">
+               <field name="pricelist_org_id" domain="[('type','=','sale')]" />
+               <field name="new" />
+               <field name="new_name" attrs="{'invisible':[('new', '=', False)]}" colspan="4"/>
+               <field name="pricelist_des_id" attrs="{'invisible':[('new', '=', True)]}" domain="[('type','=','sale')]" colspan="4"/>
+               <separator string="" colspan="4" />
+               <group colspan="4" col="6">
+                    <button  icon="gtk-cancel" special="cancel" string="Cancel"/>
+                    <button  icon="gtk-ok" name="do_create_update" string="Create / Update" type="object"/>
+               </group>
+           </form>
+        </field>
+    </record>
+
+    <act_window
+          id="product_pricelist_generator_right_action"
+          name="Create / Update pricelist"
+          res_model="product.pricelist.generator"
+          src_model="product.pricelist"
+          view_mode="form"
+          target="new"
+          view_type="form"
+          context="{'default_pricelist_org_id':active_id}"
+          />
+    
+    <!-- Add particularity on partner custom pricelist:  -->
+    <record id="product_pricelist_customer_view" model="ir.ui.view">
+        <field name="name">product.pricelist.customer.form</field>
+        <field name="model">product.pricelist.customer</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Add custom price for partner">
+                 <field name="partner_id" on_change="onchange_partner_pricelist(partner_id, pricelist_id, product_id)"/>
+                 <field name="product_id" on_change="onchange_partner_pricelist_product(partner_id, pricelist_id, product_id, pricelist_model_history_id, pricelist_model_id)" />
+
+                 <field name="pricelist_id" domain="[('type','=','sale')]" on_change="onchange_pricelist(pricelist_id, product_id)"  string="Listino attuale" />
+                 <field name="price" />
+
+                 <field name="pricelist_model_history_id" readonly="1" />
+                 <field name="price_model_history" readonly="1" />
+
+                 <field name="pricelist_model_id" readonly="1" />
+                 <field name="price_model" readonly="1" />
+               
+               <separator string="Prezzi storici" colspan="4" />
+               <field name="price_history" colspan="4" readonly="1" nolabel="1" />
+
+               <separator string="Prezzi storici fatturati" colspan="4" />
+               <field name="price_invoice_history" colspan="4" readonly="1" nolabel="1" />
+
+               <separator string="" colspan="4" />
+               <group colspan="4" col="6">
+                    <button  icon="gtk-cancel" special="cancel" string="Cancel" />
+                    <button  icon="gtk-ok" name="do_insert_quotation" string="Insert / Update" type="object" />
+               </group>
+           </form>
+        </field>
+    </record>
+
+    <record id="product_pricelist_customer_action" model="ir.actions.act_window">
+        <field name="name">Create / Update custom partner price</field>
+        <field name="res_model">product.pricelist.customer</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="product_pricelist_customer_view"/>
+        <field name="target">new</field>
+    </record>  
+
+    <menuitem action="product_pricelist_customer_action" 
+                id="product_pricelist_customer_menuitem" 
+                sequence="12"
+                parent="base.menu_base_config"
+                icon="STOCK_EXECUTE" />    
+    </data>
+</openerp>

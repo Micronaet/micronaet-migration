@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<openerp>
+<data noupdate="1">
+    <record id="aeroo_pricelist_codebar_report" model="ir.actions.report.xml">
+        <field name="name">Elenco (codice a barre)</field>
+        <field name="type">ir.actions.report.xml</field>
+        <field name="model">product.product</field>
+        <field name="report_name">aeroo_pricelist_codebar_report</field>
+        <field name="report_type">aeroo</field>
+        <field name="in_format">oo-odt</field>
+        <field name="parser_loc">report_product_pricelist/report/parser.py</field>
+        <field name="report_rml">report_product_pricelist/report/pricelist.odt</field>
+        <field name="parser_state">loc</field>
+        <field name="tml_source">file</field>
+    </record>
+    <ir_set>
+        <field eval="'action'" name="key"/>
+        <field eval="'client_print_multi'" name="key2"/>
+        <field eval="['product.product']" name="models"/>
+        <field name="name">aeroo_pricelist_codebar_report_action</field>
+        <field eval="'ir.actions.report.xml,'+str(aeroo_pricelist_codebar_report)" name="value"/>
+        <field eval="True" name="isobject"/>
+        <field eval="True" name="replace"/>
+    </ir_set>
+    <record id="aeroo_pricelist_codebar_report_ods" model="ir.actions.report.xml">
+        <field name="name">Excel (codice a barre)</field>
+        <field name="type">ir.actions.report.xml</field>
+        <field name="model">product.product</field>
+        <field name="report_name">aeroo_pricelist_codebar_report_ods</field>
+        <field name="report_type">aeroo</field>
+        <field name="in_format">oo-ods</field>
+        <field name="parser_loc">report_product_pricelist/report/parser.py</field>
+        <field name="report_rml">report_product_pricelist/report/pricelist.ods</field>
+        <field name="parser_state">loc</field>
+        <field name="tml_source">file</field>
+    </record>
+    <ir_set>
+        <field eval="'action'" name="key"/>
+        <field eval="'client_print_multi'" name="key2"/>
+        <field eval="['product.product']" name="models"/>
+        <field name="name">aeroo_pricelist_codebar_report_ods_action</field>
+        <field eval="'ir.actions.report.xml,'+str(aeroo_pricelist_codebar_report_ods)" name="value"/>
+        <field eval="True" name="isobject"/>
+        <field eval="True" name="replace"/>
+    </ir_set>
+</data>
+</openerp>
+

@@ -1,0 +1,4 @@
+Script for import
+
+openerp.cfg is an example of configuration file that need to be configure
+and copied in ~/etl/purchase folder as product.csv file
