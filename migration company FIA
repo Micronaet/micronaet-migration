@@ -68,9 +68,9 @@ import_log <<< __UNPORTED__
 label_easy <<< MIGRATO (import.py file??)
 log_and_mail
 mexal_order_statistic
-product_extra_photo
-purchase_extra_field   << MIGRATO
-quotation_photo_fiam
+product_extra_photo 
+purchase_extra_field   << MIGRATO  (stesso nome)
+quotation_photo_fiam   << MIGRATO  quotation_photo
 report_aeroo_fiam
 report_auto_stock_
 report_product_pricelist
