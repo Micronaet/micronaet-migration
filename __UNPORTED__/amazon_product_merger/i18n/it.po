@@ -1,0 +1,464 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* amazon_product_merger
+# <> <>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.0.4\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2012-09-24 11:47+0000\n"
+"PO-Revision-Date: 2012-09-24 13:54+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: amazon_product_merger
+#: field:amazon.product.category,name:0
+msgid "Category"
+msgstr "Categoria"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_weight:0
+msgid "Amazon Weight"
+msgstr "Altezza Amazon"
+
+#. module: amazon_product_merger
+#: model:ir.actions.act_window,name:amazon_product_merger.action_amazon_product_category_wizard
+#: model:ir.ui.menu,name:amazon_product_merger.amazon_product_category_wizard_menu
+msgid "Import Amazon category"
+msgstr "Importa categorie Amazon"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_category1_id:0
+msgid "Amazon category 1"
+msgstr "Amazon: categoria 1"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_category2_id:0
+msgid "Amazon category 2"
+msgstr "Amazon: categoria 2"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_min_level:0
+msgid "Re-order level"
+msgstr "Livello di riordino"
+
+#. module: amazon_product_merger
+#: view:product.product:0
+msgid "Migrate"
+msgstr "Migra"
+
+#. module: amazon_product_merger
+#: view:product.product:0
+msgid "Visibility:"
+msgstr "Visibilita':"
+
+#. module: amazon_product_merger
+#: model:ir.model,name:amazon_product_merger.model_amazon_product_category
+msgid "Amazon Category"
+msgstr "Amazon: Categoria"
+
+#. module: amazon_product_merger
+#: constraint:res.company:0
+msgid "Error! You can not create recursive companies."
+msgstr "Errore! Non si possono creare aziende ricorsive."
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_image_publish:0
+msgid "Force image publish"
+msgstr "Forza pubblicazione immagini"
+
+#. module: amazon_product_merger
+#: view:product.product:0
+msgid "Publish"
+msgstr "Pubblica"
+
+#. module: amazon_product_merger
+#: field:amazon.product.category,parent_id:0
+#: field:amazon.product.category.wizard,name:0
+msgid "Label"
+msgstr "Etichetta"
+
+#. module: amazon_product_merger
+#: help:product.product,amazon_mig_destination_code:0
+msgid ""
+"Product code that is create on the Company that publish on Amazon, elsewhere "
+"is the default"
+msgstr ""
+"Codice prodotto creato dall'azienda che pubblica su Amazon, altrimenti e' il "
+"default"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_discount_end:0
+msgid "End discount price"
+msgstr "Fine prezzo scontato"
+
+#. module: amazon_product_merger
+#: field:res.company,amazon_destination_db_user:0
+msgid "DB username"
+msgstr "Nome utente DB"
+
+#. module: amazon_product_merger
+#: view:product.product:0
+msgid "Price:"
+msgstr "Prezzo:"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_description:0
+msgid "Amazon description"
+msgstr "Amazon: descrizione"
+
+#. module: amazon_product_merger
+#: view:amazon.product.category.wizard:0
+msgid "Import"
+msgstr "Importa"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_discount_price:0
+msgid "Amazon discount price"
+msgstr "Amazon: prezzo scontato"
+
+#. module: amazon_product_merger
+#: model:ir.model,name:amazon_product_merger.model_amazon_product_category_wizard
+msgid "amazon.product.category.wizard"
+msgstr "amazon.product.category.wizard"
+
+#. module: amazon_product_merger
+#: field:res.company,amazon_destination_db:0
+msgid "DB migration amazon"
+msgstr "Amazon DB migrazione"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_brand:0
+msgid "Amazon brand"
+msgstr "Amazon: marchio"
+
+#. module: amazon_product_merger
+#: field:amazon.product.category,code:0
+msgid "Amazon code"
+msgstr "Amazon: codice"
+
+#. module: amazon_product_merger
+#: help:product.product,amazon_mig_image_publish:0
+msgid "Force FTP of image for publishing on Amazon (feed after)"
+msgstr "Forza pubblicazione immagini FTP su Amazon (prima dei feed)"
+
+#. module: amazon_product_merger
+#: model:ir.model,name:amazon_product_merger.model_product_product
+#: view:product.product:0
+msgid "Product"
+msgstr "Prodotto"
+
+#. module: amazon_product_merger
+#: view:product.product:0
+msgid "Migrate all"
+msgstr "Migra tutti i prodotti"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_length:0
+msgid "Amazon Length"
+msgstr "Amazon: Lunghezza"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_q_x_pack:0
+msgid "Q. x pack"
+msgstr "Q. x pacco"
+
+#. module: amazon_product_merger
+#: help:res.company,amazon_destination_db:0
+msgid "Database destination for migrate product"
+msgstr "DB di destinazione per la migrazione"
+
+#. module: amazon_product_merger
+#: view:amazon.product.category:0
+msgid "Amazon parameter"
+msgstr "Amazon: Parametri"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_material:0
+msgid "Material"
+msgstr "Materiale"
+
+#. module: amazon_product_merger
+#: help:product.product,amazon_mig_title:0
+msgid "Leave empty for take name of the product in OpenERP"
+msgstr "Lasciare vuoto per prendere il nome del prodotto di OpenERP"
+
+#. module: amazon_product_merger
+#: view:product.product:0
+msgid "Dimension"
+msgstr "Dimensione"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_weight_um:0
+msgid "Weight UM"
+msgstr "UM Peso"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_manufacturer:0
+msgid "Amazon manufacturer"
+msgstr "Amazon: Produttore"
+
+#. module: amazon_product_merger
+#: help:product.product,amazon_mig_description:0
+msgid "Leave empty if you want take sale description instead of this text"
+msgstr "Lasciare vuoto se volete prendere la descrizione di vendita"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_destination_code:0
+msgid "Destination code"
+msgstr "Codice destinazione"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_manage_days:0
+msgid "Amazon Manage days"
+msgstr "Amazon: giorni di gestione"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_inventory:0
+msgid "Company inventory"
+msgstr "Inventario azienda"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_function:0
+msgid "Principal function"
+msgstr "Funzione principale"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_gift:0
+msgid "Amazon gift"
+msgstr "Amazon: regalo"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_height:0
+msgid "Amazon Height"
+msgstr "Amazon: Altezza"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_dimension_um:0
+msgid "Dimension UM"
+msgstr "UM Dimensioni"
+
+#. module: amazon_product_merger
+#: view:product.product:0
+msgid "Migration information:"
+msgstr "Informazioni migrazione:"
+
+#. module: amazon_product_merger
+#: help:product.product,amazon_mig_migration:0
+msgid ""
+"Migrate on Amazon company, there is set up effetvtively publication on MWS"
+msgstr ""
+"Migrate on Amazon company, there is set up effetvtively publication on MWS"
+
+#. module: amazon_product_merger
+#: model:ir.ui.menu,name:amazon_product_merger.menu_amazon_product_category
+msgid "Amazon product category"
+msgstr "Amazon: categorie prodotti"
+
+#. module: amazon_product_merger
+#: view:product.product:0
+msgid "Function:"
+msgstr "Funzione:"
+
+#. module: amazon_product_merger
+#: model:ir.model,name:amazon_product_merger.model_res_company
+msgid "Companies"
+msgstr "Aziende"
+
+#. module: amazon_product_merger
+#: help:product.product,amazon_mig_inventory:0
+msgid ""
+"Product in stock available (inventory from account program, batch imported)"
+msgstr ""
+"Product in stock available (inventory from account program, batch imported)"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_publish:0
+msgid "Published on Amazon company"
+msgstr "Pubblicato sull'azienda in Amazon"
+
+#. module: amazon_product_merger
+#: field:amazon.product.category,active:0
+msgid "Active"
+msgstr "Attivo"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_migration:0
+msgid "Migrate on Amazon company"
+msgstr "Migra sull'azienda su Amazon"
+
+#. module: amazon_product_merger
+#: help:product.product,amazon_mig_category1_id:0
+#: help:product.product,amazon_mig_category2_id:0
+msgid "Also called Browse Node in Amazon"
+msgstr "Chiamato anche browse node in Amazon"
+
+#. module: amazon_product_merger
+#: help:product.product,amazon_mig_min_level:0
+msgid ""
+"Quantity considered as minumum level of availability, used for highlight "
+"product or produce action"
+msgstr ""
+"Quantity considered as minumum level of availability, used for highlight "
+"product or produce action"
+
+#. module: amazon_product_merger
+#: model:ir.actions.act_window,name:amazon_product_merger.product_product_amazon_action
+#: model:ir.ui.menu,name:amazon_product_merger.product_product_amazon_menu
+msgid "Product (Amazon migration)"
+msgstr "Prodotto (Migrazione su Amazon)"
+
+#. module: amazon_product_merger
+#: view:product.product:0
+msgid "Long description:"
+msgstr "Descrizione lunga:"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_out:0
+msgid "Amazon out of production"
+msgstr "Amazon: fuori produzione"
+
+#. module: amazon_product_merger
+#: field:res.company,amazon_destination_db_password:0
+msgid "DB password"
+msgstr "password DB"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_security_level:0
+msgid "Security level"
+msgstr "Livello di sicurezza"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_sale_start:0
+msgid "Amazon sale start date"
+msgstr "Amazon: data inizio vendita"
+
+#. module: amazon_product_merger
+#: help:product.product,amazon_mig_q_x_pack:0
+msgid "Quantity per pack"
+msgstr "Quantita' per pacco"
+
+#. module: amazon_product_merger
+#: view:product.product:0
+msgid "Keywords:"
+msgstr "Keywords:"
+
+#. module: amazon_product_merger
+#: view:product.product:0
+msgid "Inventory:"
+msgstr "Inventario:"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_price:0
+msgid "Amazon price"
+msgstr "Amazon: prezzo"
+
+#. module: amazon_product_merger
+#: model:ir.actions.act_window,help:amazon_product_merger.product_product_amazon_action
+msgid "Alternative form to manage Amazon migration and publication product"
+msgstr "Alternative form to manage Amazon migration and publication product"
+
+#. module: amazon_product_merger
+#: help:product.product,amazon_mig_publish:0
+msgid "Published on Amazon"
+msgstr "Pubblicato su Amazon"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_title:0
+msgid "Amazon title"
+msgstr "Amazon: Titolo"
+
+#. module: amazon_product_merger
+#: view:amazon.product.category:0
+#: model:ir.actions.act_window,name:amazon_product_merger.action_amazon_product_category
+msgid "Amazon category"
+msgstr "Amazon: Categoria"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_width:0
+msgid "Amazon Width"
+msgstr "Amazon: Larghezza"
+
+#. module: amazon_product_merger
+#: help:product.product,amazon_mig_security_level:0
+msgid ""
+"Every real disponibility are decremented for security level so, Amazon has "
+"less that real stock products (Amazon=Company-Security)"
+msgstr ""
+"Every real disponibility are decremented for security level so, Amazon has "
+"less that real stock products (Amazon=Company-Security)"
+
+#. module: amazon_product_merger
+#: view:product.product:0
+msgid "General"
+msgstr "Generale"
+
+#. module: amazon_product_merger
+#: help:product.product,amazon_mig_manage_days:0
+msgid "Important for spedition of product, usually 2 days"
+msgstr "Important for spedition of product, usually 2 days"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_color:0
+msgid "Color"
+msgstr "Colore"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_sale_end:0
+msgid "Amazon sale end date"
+msgstr "Amazon: data fine vendita"
+
+#. module: amazon_product_merger
+#: constraint:product.product:0
+msgid "Error: Invalid ean code"
+msgstr "Errore: codice EAN non valido"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_discount_start:0
+msgid "Start discount price"
+msgstr "Start discount price"
+
+#. module: amazon_product_merger
+#: view:amazon.product.category.wizard:0
+msgid "Import category"
+msgstr "Import category"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_keywords:0
+msgid "Keywords"
+msgstr "Keywords"
+
+#. module: amazon_product_merger
+#: view:product.product:0
+msgid "Product (Amazon information)"
+msgstr "Product (Amazon information)"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_country_id:0
+msgid "Amazon origin (country)"
+msgstr "Amazon origin (country)"
+
+#. module: amazon_product_merger
+#: field:amazon.product.category,destination_id:0
+msgid "Destination ID"
+msgstr "Destination ID"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_volume_um:0
+msgid "Volume UM"
+msgstr "Volume UM"
+
+#. module: amazon_product_merger
+#: view:product.product:0
+msgid "Market"
+msgstr "Market"
+
+#. module: amazon_product_merger
+#: field:product.product,amazon_mig_volume:0
+msgid "Amazon Volume"
+msgstr "Amazon Volume"

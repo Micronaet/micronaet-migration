@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    <!-- INHERIT -->
+    <record model="ir.ui.view" id="view_company_form_extra_field">
+            <field name="name">Company extra fields</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+               <field name="parent_id" position="after">
+                  <field name="k2_image_format" />
+               </field>
+            </field>
+    </record>
+    <!-- product.extra.photo.type -->
+       <!-- Search -->
+    <record model="ir.ui.view" id="view_product_extra_photo_type_search">
+        <field name="name">Extra photo search</field>
+        <field name="model">product.extra.photo.type</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Search extra photo type">
+                <field name="name" />
+            </search>
+        </field>
+    </record>
+       <!-- Form -->
+    <record model="ir.ui.view" id="view_product_extra_photo_type_form">
+        <field name="name">Extra photo form</field>
+        <field name="model">product.extra.photo.type</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Extra photo type">
+                <field name="name" />
+                <field name="char" />
+                <field name="path" colspan="4" />
+            </form>
+        </field>
+    </record>
+
+       <!-- Tree -->
+    <record model="ir.ui.view" id="view_product_extra_photo_type_tree">
+        <field name="name">Extra photo tree</field>
+        <field name="model">product.extra.photo.type</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Extra photo type">
+                <field name="name" />
+                <field name="char" />
+            </tree>
+        </field>
+    </record>    
+    
+       <!-- Action -->
+       <record model="ir.actions.act_window" id="action_product_extra_photo_type">
+           <field name="name">Type of extra photo</field>
+           <field name="res_model">product.extra.photo.type</field>
+           <field name="view_type">form</field>
+           <field name="view_mode">tree,form</field>
+           <field name="view_id" ref="view_product_extra_photo_type_tree"/>
+           <field name="search_view_id" ref="view_product_extra_photo_type_search" />
+       </record>
+
+       <!-- Menu -->
+       <menuitem name="Extra photo" parent="product.prod_config_main" id="menu_product_extra_photo" sequence="1" />
+       <menuitem name="Types" parent="menu_product_extra_photo" id="menu_product_extra_photo_type" sequence="1" action="action_product_extra_photo_type" />
+
+    <!--product.product (form alternativa per le extra foto)-->
+    <record id="product_product_with_extra_photo_tree" model="ir.ui.view">
+        <field name="name">Product with extra foto preview</field>
+        <field name="model">product.product</field>
+        <field name="type">tree</field>
+        <field name="priority" eval="30" />
+        <field name="arch" type="xml">
+           <tree string="Products">
+                <field name="default_code"/>
+                <field name="name"/>
+                <field name="first_code"/>   
+                <field name="uom_id" string="UoM"/>
+                <field name="type"/>
+                <field name="price" invisible="not context.get('pricelist',False)"/>
+                <field name="standard_price"/>
+                <field name="state"/>
+           </tree>
+        </field>
+    </record>
+    
+    <record id="product_product_with_extra_photo_form" model="ir.ui.view">
+        <field name="name">Product with extra foto preview</field>
+        <field name="model">product.product</field>
+        <field name="type">form</field>
+        <field name="priority" eval="30" />
+        <field name="arch" type="xml">
+            <form string="Product (extra photo)">                
+              <group colspan="2" col="2" name="information">
+                   <separator string="Product information:"  colspan="4"/>
+                   <field name="default_code" />
+                   <field name="name" />
+                   <field name="ean13" />
+                   <separator string="Description:"  colspan="4"/>
+                   <field name="description_sale" nolabel="1" colspan="4"/>
+                   <separator string="Photo data:"  colspan="4"/>
+                   <field name="web_image_update" readonly="1"/>
+                   <field name="web_image_create_time" readonly="1"/>
+                   <field name="company_id" readonly="1"/>
+                   <field name="k2_image_format" readonly="1"/>
+              </group>   
+              <group colspan="2" col="2" name="preview">
+                   <field name="web_image_preview" widget="image" colspan="4" nolabel="1" string="Preview" img_width="450"  width="450" />
+              </group>   
+
+                 <group attrs="{'invisible':[('k2_image_format','=',True)]}" colspan="4" name="extra" >
+                    <separator string="Extra foto preview"  colspan="4"/>
+                    <field name="extra_photo_ids" nolabel="1" colspan="4" readonly="1">  <!--TODO not tree and after form but works prima era mode="form,tree"-->
+                       <tree string="Extra photo" colors="red:update==True;black:update!=False">
+                          <field name="update" />
+                          <field name="name" readonly="1" />
+                          <field name="type_id" widget="selection" readonly="1" />
+                          <field name="size" readonly="1" />
+                          <field name="dimension" readonly="1" />
+                       </tree>
+                       <form string="Extra photo" >
+                          <group colspan="4" col="6">
+                             <field name="update" />
+                             <field name="name" readonly="1" />
+                             <field name="type_id" widget="selection" readonly="1" />
+
+                             <field name="create_time" readonly="1" />
+                             <field name="size" readonly="1" />
+                             <field name="dimension" readonly="1" />
+                          </group>                         
+                          <separator string="Preview" colspan="4" />                      
+                          <field name="preview" widget="image" colspan="4" nolabel="1" string="Preview" img_width="450" width="450" />
+                       </form>
+                    </field>
+                 </group>     
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_product_extra_photo_search">
+        <field name="name">Extra photo search</field>
+        <field name="model">product.product</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Product">
+               <filter string="On web" icon="terp-accessories-archiver-minus" domain="[('web','=',True)]"/>
+               <!--<filter string="Extra image" icon="terp-accessories-archiver-minus" domain="[('extra_photo_ids','not in',(0)]"/>-->
+               <separator orientation="vertical"/>
+   
+               <field name="default_code"/>
+               <field name="name"/>
+               <field name="categ_id" widget="selection" operator="child_of"/>
+            </search>
+        </field>
+    </record>    
+
+    <record id="product_product_with_extra_photo_action" model="ir.actions.act_window">
+        <field name="name">Product with extra photo preview</field>
+        <field name="res_model">product.product</field>
+        <field name="view_type">form</field>        
+        <field name="view_mode">tree,form</field>           
+        <field name="view_id" ref="product_product_with_extra_photo_tree" />
+        <field name="search_view_id" ref="view_product_extra_photo_search" />
+        <field name="context">{'form_view_ref' : 'product_extra_photo.product_product_with_extra_photo_form'}</field>     
+        <field name="help">Short form with product info and extra photo preview images</field>
+    </record>
+
+    <menuitem action="product_product_with_extra_photo_action" 
+              id="product_product_with_extra_photo_menu" 
+              parent="product.menu_products" 
+              sequence="1" />
+    </data>
+</openerp>

@@ -61,22 +61,31 @@ INSTALLARE:
 base_fiam ** base_accounting_program             << MIGRATO (andrebbe splittato e messo meglio nei vari branch)
 base_fiam_pricelist ** custom_price_generation   << MIGRATO (spittare gestione immagini e vedere come dargli una forma)
 bom_fiam ** bom_value_report                     << MIGRATO (vedere se non si sovrappone a i 2 moduli BOM di produzione)
-NO crm_partner_categorization                    << MIGRATO lo stesso anche se dovrebbe andare a perdere << VERIFICARE
 extra_search                                     << MIGRATO 
-gpb_web                                          << __UNPORTED__ vedere se è necessario comporta un grosso lavoro
+gpb_web                                          << __UNPORTED__ vedere se è necessario comporta un grosso lavoro    (alcuni campi potrebbero esser usati)
 import_log                                       << __UNPORTED__
 label_easy                                       << MIGRATO (import.py file??)
-log_and_mail
-mexal_order_statistic
-product_extra_photo 
 purchase_extra_field                             << MIGRATO  (stesso nome)
 quotation_photo_fiam                             << MIGRATO  quotation_photo
 report_aeroo_fiam                                << MIGRATO quotation_custom_report
 report_aeroo_gpb                                 << __UNPORTED__
-report_auto_stock_
-report_product_pricelist
-report_purchase_fiam
+report_product_pricelist                         << MIGRATO (stesso nome)
+report_purchase_fiam                             << MIGRATO (report_purchase_custom)
+product_extra_photo                              << MIGRATO 
 report_store_value
+report_auto_stock_
+log_and_mail
+mexal_order_statistic TODO complesso!!!!
+
+report_aeroo_pricelist ??
+
+NON MIGRARE:
+NO todo_list
+NO crm_partner_categorization                    << MIGRATO lo stesso anche se dovrebbe andare a perdere << VERIFICARE
+NO amazon_product_merger
+NO amazon_product_merger_c1
+
+gpb_web <<<<<<<< installato in fiam
 
 
 

@@ -1,0 +1,6 @@
+Use import.py file to import CSV file coming from Mexal with order data
+openerp.cfg is a setup file to connect
+(copy this two files anywhere for set up and not loose config parameter with
+other bzr pull sync)
+Schedule night operation of ETL
+Micronaet s.r.l.

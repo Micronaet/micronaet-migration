@@ -1,0 +1,263 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* product_extra_photo
+# <> <>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.0.4\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2012-09-07 16:32+0000\n"
+"PO-Revision-Date: 2012-09-07 18:40+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: product_extra_photo
+#: help:product.extra.photo.type,char:0
+msgid ""
+"Extra char after code, like: 'code_product.extra_char.ext', must be unique!"
+msgstr ""
+"Carattere extra oltre il codice, esL 'codice_prodotto.carattere_extra.est', "
+"deve essere unico!"
+
+#. module: product_extra_photo
+#: view:product.extra.photo.type:0
+msgid "Extra photo type"
+msgstr "Tipo extra foto"
+
+#. module: product_extra_photo
+#: constraint:res.company:0
+msgid "Error! You can not create recursive companies."
+msgstr "Errore! Non si possono creare aziende ricorsive."
+
+#. module: product_extra_photo
+#: model:ir.ui.menu,name:product_extra_photo.menu_product_extra_photo_wizard
+msgid "Syncro images"
+msgstr "Sincronizza immagini"
+
+#. module: product_extra_photo
+#: field:product.extra.photo,delete:0
+msgid "To delete"
+msgstr "Da cancellare"
+
+#. module: product_extra_photo
+#: field:product.extra.photo,size:0
+msgid "Size image"
+msgstr "Dimensione immagine"
+
+#. module: product_extra_photo
+#: view:product.product:0
+msgid "Product information:"
+msgstr "Informazioni prodotto:"
+
+#. module: product_extra_photo
+#: model:ir.ui.menu,name:product_extra_photo.menu_product_extra_photo
+#: view:product.product:0 field:product.product,extra_photo_ids:0
+msgid "Extra photo"
+msgstr "Foto extra"
+
+#. module: product_extra_photo
+#: view:product.extra.photo.wizard:0
+msgid "Import"
+msgstr "Importa"
+
+#. module: product_extra_photo
+#: view:product.product:0
+msgid "Preview"
+msgstr "Anteprima"
+
+#. module: product_extra_photo
+#: view:product.product:0
+msgid "Photo data:"
+msgstr "Data foto:"
+
+#. module: product_extra_photo
+#: field:product.extra.photo.wizard,name:0
+msgid "Desription"
+msgstr "Descrizione"
+
+#. module: product_extra_photo
+#: model:ir.model,name:product_extra_photo.model_product_product
+#: field:product.extra.photo,product_id:0 view:product.product:0
+msgid "Product"
+msgstr "Prodotto"
+
+#. module: product_extra_photo
+#: view:product.product:0
+msgid "On web"
+msgstr "Sul web"
+
+#. module: product_extra_photo
+#: field:product.extra.photo,preview:0
+#: field:product.product,web_image_preview:0
+msgid "unknown"
+msgstr "sconosciuto"
+
+#. module: product_extra_photo
+#: sql_constraint:product.extra.photo.type:0
+msgid "Char reference must be unique!"
+msgstr "Il carattere di riferimento deve essere unico!"
+
+#. module: product_extra_photo
+#: model:ir.actions.act_window,name:product_extra_photo.action_product_extra_photo_type
+msgid "Type of extra photo"
+msgstr "Tipo foto extra"
+
+#. module: product_extra_photo
+#: help:product.extra.photo,update:0 help:product.product,web_image_update:0
+msgid ""
+"When import images, this field highlight if image is modified (used for "
+"operation like publish on web for only new/modify importation)"
+msgstr ""
+"Quando si importano immagini, questo campo segnala se l'immagine è stata "
+"modificata (usato per operazioni come la pubblicazione via web, in modo da "
+"pubblicare solo le nuove immagini)"
+
+#. module: product_extra_photo
+#: help:product.product,web_image_create_time:0
+msgid ""
+"Only default image is saved for test timestamp, so: resized publishing "
+"depend on default image"
+msgstr ""
+"Solo l'immagine di default è salvata con il time stamp, cosi' facendo la "
+"pubblicazione delle foto thumb dipende dall'immagine principale"
+
+#. module: product_extra_photo
+#: view:product.product:0
+msgid "Description:"
+msgstr "Descrizione:"
+
+#. module: product_extra_photo
+#: model:ir.ui.menu,name:product_extra_photo.menu_product_extra_photo_type
+msgid "Types"
+msgstr "Tipi"
+
+#. module: product_extra_photo
+#: field:product.extra.photo.type,path:0
+msgid "Path folder"
+msgstr "Percorso cartella"
+
+#. module: product_extra_photo
+#: field:product.extra.photo,name:0 field:product.extra.photo.type,name:0
+msgid "Name"
+msgstr "Nome"
+
+#. module: product_extra_photo
+#: view:product.product:0
+msgid "Product (extra photo)"
+msgstr "Prodotto (extra foto)"
+
+#. module: product_extra_photo
+#: model:ir.model,name:product_extra_photo.model_res_company
+msgid "Companies"
+msgstr "Aziende"
+
+#. module: product_extra_photo
+#: help:product.extra.photo,delete:0
+msgid ""
+"When import all images are set up for delete, only update and new are "
+"correct this value"
+msgstr ""
+"Quando si importano tutte le immagini vengono prima impostate per la "
+"cancellazione, cosi' facendo solo le nuove da aggiornare hanno il corretto "
+"valore"
+
+#. module: product_extra_photo
+#: model:ir.actions.act_window,name:product_extra_photo.action_product_extra_photo_wizard
+msgid "Import photo"
+msgstr "Importa foto"
+
+#. module: product_extra_photo
+#: view:product.extra.photo.type:0
+msgid "Search extra photo type"
+msgstr "Cerca il tipo di foto extra"
+
+#. module: product_extra_photo
+#: field:product.extra.photo,dimension:0
+msgid "Dimension"
+msgstr "Dimensione"
+
+#. module: product_extra_photo
+#: field:product.extra.photo,create_time:0
+#: field:product.product,web_image_create_time:0
+msgid "Create time ID"
+msgstr "ID ora di creazione"
+
+#. module: product_extra_photo
+#: model:ir.actions.act_window,help:product_extra_photo.product_product_with_extra_photo_action
+msgid "Short form with product info and extra photo preview images"
+msgstr "Scheda breve con extra info prodotto e anteprima immagini"
+
+#. module: product_extra_photo
+#: view:product.product:0
+msgid "Extra foto preview"
+msgstr "Anteprima extra foto"
+
+#. module: product_extra_photo
+#: model:ir.model,name:product_extra_photo.model_product_extra_photo
+msgid "product.extra.photo"
+msgstr "product.extra.photo"
+
+#. module: product_extra_photo
+#: field:product.extra.photo,update:0 field:product.product,web_image_update:0
+msgid "To update"
+msgstr "Da aggiornare"
+
+#. module: product_extra_photo
+#: help:product.extra.photo,dimension:0
+msgid ""
+"Usually width of image, used also for folder name that contains this "
+"particular image"
+msgstr ""
+"Di solito la larghezza dell'immagine, usata anche per il nome cartella che "
+"contiene particolari immagini"
+
+#. module: product_extra_photo
+#: field:product.extra.photo.type,char:0
+msgid "Char"
+msgstr "Carattere"
+
+#. module: product_extra_photo
+#: constraint:product.product:0
+msgid "Error: Invalid ean code"
+msgstr "Errore: codice EAN non valido"
+
+#. module: product_extra_photo
+#: view:product.extra.photo.wizard:0
+msgid "Import extra photo"
+msgstr "Importa extra foto"
+
+#. module: product_extra_photo
+#: model:ir.actions.act_window,name:product_extra_photo.product_product_with_extra_photo_action
+#: model:ir.ui.menu,name:product_extra_photo.product_product_with_extra_photo_menu
+msgid "Product with extra photo preview"
+msgstr "Prodotti con immagini (per web)"
+
+#. module: product_extra_photo
+#: model:ir.model,name:product_extra_photo.model_product_extra_photo_type
+#: field:product.extra.photo,type_id:0
+msgid "Type of photo"
+msgstr "Tipo di foto"
+
+#. module: product_extra_photo
+#: help:product.extra.photo.type,path:0
+msgid ""
+"Default path where photo are stored, use something like: /home/administrator/"
+"photo/"
+msgstr ""
+"Percorso di default dove le foto sono salvate, di solito: /home/"
+"administrator/photo/"
+
+#. module: product_extra_photo
+#: field:product.product,k2_image_format:0 field:res.company,k2_image_format:0
+msgid "K2 Image format"
+msgstr "Immagini in formato K2"
+
+#. module: product_extra_photo
+#: model:ir.model,name:product_extra_photo.model_product_extra_photo_wizard
+msgid "Import extra photo wizard"
+msgstr "Wizard importazione extra foto"

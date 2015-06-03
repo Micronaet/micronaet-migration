@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<openerp>
+  <data>
+    <!-- INHERIT -->
+    <record model="ir.ui.view" id="view_product_product_amazon_substitution_form">
+            <field name="name">Amazon product substitution</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="amazon_product_merger.view_product_product_amazon_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+               <!--<field name="amazon_mig_color" position="replace">
+                   <field name="colour" string="Color"/>
+               </field>-->
+               <!--<field name="amazon_mig_material" position="replace">
+                   <field name="fabric" string="Fabric" />
+               </field>-->
+               <!--<field name="amazon_mig_description" position="replace">
+                   <field name="description_sale" colspan="4" nolabel="1" />
+               </field>-->
+               <field name="amazon_mig_length" position="replace">
+                   <field name="length" />
+               </field>
+               <field name="amazon_mig_width" position="replace">
+                   <field name="width" />
+               </field>
+               <field name="amazon_mig_height" position="replace">
+                   <field name="height" />
+               </field>
+               <field name="amazon_mig_volume" position="replace">
+                   <field name="volume" />
+               </field>
+               <field name="amazon_mig_weight" position="replace">
+                   <field name="weight_net" />
+               </field>               
+               <!--<group name="preview" position="inside">
+                    <separator string="Preview:"/>
+                    <field name="web_image_preview" widget="image" colspan="4" nolabel="1" string="Preview" img_width="300"  width="300" />
+               </group>-->
+            </field>
+    </record>
+  </data>
+</openerp>

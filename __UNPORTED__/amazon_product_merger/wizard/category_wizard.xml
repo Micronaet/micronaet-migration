@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<openerp>
+<data>
+    <!-- VIEWS -->
+    <!-- amazon.product.category.wizard -->
+    <record model="ir.ui.view" id="view_amazon_product_category_wizard">
+        <field name="name">Wizard: Import category</field>
+        <field name="model">amazon.product.category.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Import category">
+                <!--<field name="name" />-->
+                <button name="import_button" string="Import" type="object" />
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_amazon_product_category_wizard">
+        <field name="name">Import Amazon category</field>
+        <field name="res_model">amazon.product.category.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>        
+        <field name="view_id" ref="view_amazon_product_category_wizard"/>
+    </record>
+
+    <menuitem action="action_amazon_product_category_wizard" 
+              id="amazon_product_category_wizard_menu" 
+              parent="product_product_amazon_menu" 
+              sequence="10" />
+</data>
+</openerp>
+

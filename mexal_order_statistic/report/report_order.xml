@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<openerp>
+<data noupdate="1">
+
+    <record id="aeroo_order_report_id" model="ir.actions.report.xml">
+        <field name="name">Approntamento consegna (reset selez.)</field>
+        <field name="type">ir.actions.report.xml</field>
+        <field name="model">statistic.header</field>
+        <field name="report_name">order_report</field>
+        <field name="report_type">aeroo</field>
+        <field name="in_format">oo-odt</field>
+        <field name="parser_loc">mexal_order_statistic/report/parser.py</field>
+        <field name="report_rml">mexal_order_statistic/report/order.odt</field>
+        <field name="parser_state">loc</field>
+        <field name="tml_source">file</field>
+        <field name="out_format" eval="ref('report_aeroo_ooo.report_mimetypes_pdf_odt')"></field>
+    </record>
+
+    <ir_set>
+        <field eval="'action'" name="key"/>
+        <field eval="'client_print_multi'" name="key2"/>
+        <field eval="['statistic.header']" name="models"/>
+        <field name="name">order_report</field>
+        <field eval="'ir.actions.report.xml,'+str(aeroo_order_report_id)" name="value"/>
+        <field eval="True" name="isobject"/>
+        <field eval="True" name="replace"/>
+    </ir_set>
+    
+    <record id="aeroo_order_report_summary_id" model="ir.actions.report.xml">
+        <field name="name">Sommario consegna (prima)</field>
+        <field name="type">ir.actions.report.xml</field>
+        <field name="model">statistic.header</field>
+        <field name="report_name">order_report_summary</field>
+        <field name="report_type">aeroo</field>
+        <field name="in_format">oo-odt</field>
+        <field name="parser_loc">mexal_order_statistic/report/parser.py</field>
+        <field name="report_rml">mexal_order_statistic/report/summary.odt</field>
+        <field name="parser_state">loc</field>
+        <field name="tml_source">file</field>
+        <field name="out_format" eval="ref('report_aeroo_ooo.report_mimetypes_pdf_odt')"></field>
+    </record>
+
+    <ir_set>
+        <field eval="'action'" name="key"/>
+        <field eval="'client_print_multi'" name="key2"/>
+        <field eval="['statistic.header']" name="models"/>
+        <field name="name">order_report_summary</field>
+        <field eval="'ir.actions.report.xml,'+str(aeroo_order_report_summary_id)" name="value"/>
+        <field eval="True" name="isobject"/>
+        <field eval="True" name="replace"/>
+    </ir_set>    
+</data>
+</openerp>
+

@@ -1,0 +1,1523 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* mexal_order_statistic
+# <> <>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.0.4\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2013-04-19 05:30+0000\n"
+"PO-Revision-Date: 2013-04-19 07:38+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid ""
+"Estero: FT+OC+BC (stag= 09-anno attuale > 08-anno prossimo) solo controp. "
+"segnalate"
+msgstr ""
+"Estero: FT+OC+BC (stag= 09-anno attuale > 08-anno prossimo) solo controp. "
+"segnalate"
+
+#. module: mexal_order_statistic
+#: view:statistic.header:0 view:statistic.order:0
+msgid "Order by deadline"
+msgstr "Ordinato per scadenza"
+
+#. module: mexal_order_statistic
+#: view:statistic.invoice:0
+msgid "Totale -1"
+msgstr "Totale -1"
+
+#. module: mexal_order_statistic
+#: view:statistic.header:0 field:statistic.header,print:0
+msgid "To print"
+msgstr "Da stampare"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "Ordini mese +6"
+msgstr "Ordini mese +6"
+
+#. module: mexal_order_statistic
+#: selection:statistic.invoice,month:0
+#: selection:statistic.invoice.product,month:0
+msgid "Mese 01: Settembre"
+msgstr "Mese 01: Settembre"
+
+#. module: mexal_order_statistic
+#: field:statistic.order,total_volume:0
+msgid "Total volume"
+msgstr "Volume totale"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_order_6_dashboard
+msgid "Dettaglio oridini totali (mese +6)"
+msgstr "Dettaglio oridini totali (mese +6)"
+
+#. module: mexal_order_statistic
+#: view:statistic.deadline:0 view:statistic.header:0 view:statistic.invoice:0
+#: view:statistic.order:0 view:statistic.trend:0 view:statistic.trendoc:0
+msgid "Group By..."
+msgstr "Raggruppa per..."
+
+#. module: mexal_order_statistic
+#: view:statistic.header:0 view:statistic.invoice:0 view:statistic.trend:0
+#: view:statistic.trendoc:0
+msgid "Totale"
+msgstr "Totale"
+
+#. module: mexal_order_statistic
+#: field:statistic.deadline,property_account_position:0
+#: field:statistic.header,property_account_position:0
+#: field:statistic.order,property_account_position:0
+msgid "Fiscal position"
+msgstr "Posizione fiscale"
+
+#. module: mexal_order_statistic
+#: view:statistic.header:0
+msgid "Posizione"
+msgstr "Posizione"
+
+#. module: mexal_order_statistic
+#: view:statistic.order:0
+msgid "Peso tot."
+msgstr "Peso tot."
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "Partner con pagamenti aperti (italia)"
+msgstr "Partner con pagamenti aperti (italia)"
+
+#. module: mexal_order_statistic
+#: view:statistic.trendoc:0
+msgid "Fatturato (FT + BC + OC) anno prec."
+msgstr "Fatturato (FT + BC + OC) anno prec."
+
+#. module: mexal_order_statistic
+#: field:res.partner,ddt_e_oc_s:0
+msgid "Saldo fornitore OC+DDT aperti"
+msgstr "Saldo fornitore OC+DDT aperti"
+
+#. module: mexal_order_statistic
+#: view:statistic.header:0
+msgid "Num. ord."
+msgstr "Num. ord."
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_all_quotation_sale_crm
+msgid "Quotations"
+msgstr "Preventivi"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.report.xml,name:mexal_order_statistic.aeroo_order_report_summary_id
+msgid "Sommario consegna (prima)"
+msgstr "Sommario consegna (prima)"
+
+#. module: mexal_order_statistic
+#: field:statistic.header,name:0
+msgid "Numero ordine"
+msgstr "Numero ordine"
+
+#. module: mexal_order_statistic
+#: selection:statistic.invoice,month:0
+#: selection:statistic.invoice.product,month:0
+msgid "Mese 03: Novembre"
+msgstr "Mese 03: Novembre"
+
+#. module: mexal_order_statistic
+#: model:ir.ui.menu,name:mexal_order_statistic.menu_action_board_mexal_form
+msgid "Mexal default"
+msgstr "Mexal standard"
+
+#. module: mexal_order_statistic
+#: field:statistic.header,destination:0
+msgid "Destination "
+msgstr "Destinazione"
+
+#. module: mexal_order_statistic
+#: view:statistic.order:0
+msgid "m/l tot."
+msgstr "m/l tot."
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_board_mexal_agent_graph_form
+msgid "Analisi Vendite Agenti (agg. alla sera precedente)"
+msgstr "Analisi Vendite Agenti (agg. alla sera precedente)"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "Ordini mese attuale"
+msgstr "Ordini mese attuale"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_invoice_product_stagione_dashboard
+msgid "FT+BC+OC (>0.5) per fam. prodotto (sul totale di tre stagioni)"
+msgstr "FT+BC+OC (>0.5) per fam. prodotto (sul totale di tre stagioni)"
+
+#. module: mexal_order_statistic
+#: field:statistic.header,total_volume_ready:0
+msgid "Volume (pronto)"
+msgstr "Volume (pronto)"
+
+#. module: mexal_order_statistic
+#: field:statistic.order,type:0
+msgid "Type of line"
+msgstr "Tipo di voce"
+
+#. module: mexal_order_statistic
+#: selection:statistic.deadline,type:0
+msgid "RIBA"
+msgstr "RIBA"
+
+#. module: mexal_order_statistic
+#: view:statistic.trend:0
+msgid "Statistiche fatturato per categoria statistica (senza OC)"
+msgstr "Statistiche fatturato per categoria statistica (senza OC)"
+
+#. module: mexal_order_statistic
+#: model:ir.model,name:mexal_order_statistic.model_statistic_invoice_agent
+#: field:res.partner,invoice_agent_id:0
+msgid "Invoice Agent"
+msgstr "Agente fattura"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid ""
+"Estero (no agente): FT+OC+BC (stag= 09-anno attuale > 08-anno prossimo) solo "
+"controp. segnalate"
+msgstr ""
+"Estero (no agente): FT+OC+BC (stag= 09-anno attuale > 08-anno prossimo) solo "
+"controp. segnalate"
+
+#. module: mexal_order_statistic
+#: field:res.partner,trend_category:0 field:statistic.trend,trend_category:0
+#: field:statistic.trendoc,trend_category:0
+msgid "Categoria trend"
+msgstr "Categoria trend"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "Ordini mese +11"
+msgstr "Ordini mese +11"
+
+#. module: mexal_order_statistic
+#: field:res.partner,saldo_s:0
+msgid "Saldo fornitore"
+msgstr "Saldo fornitore"
+
+#. module: mexal_order_statistic
+#: selection:statistic.invoice,type_document:0
+#: selection:statistic.invoice.product,type_document:0
+#: selection:statistic.trend,type_document:0
+#: selection:statistic.trendoc,type_document:0
+msgid "Ordine"
+msgstr "Ordine"
+
+#. module: mexal_order_statistic
+#: view:statistic.invoice.product:0
+msgid "trend by product"
+msgstr "Trend per prodotto"
+
+#. module: mexal_order_statistic
+#: field:statistic.header,line_ids:0
+msgid "Linee dettaglio"
+msgstr "Linee dettaglio"
+
+#. module: mexal_order_statistic
+#: view:statistic.trendoc:0
+msgid "Statistiche fatturato per categoria statistica"
+msgstr "Statistiche fatturato per categoria statistica"
+
+#. module: mexal_order_statistic
+#: field:statistic.invoice,name:0 selection:statistic.order,line_type:0
+msgid "Descrizione"
+msgstr "Descrizione"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_board_order_form
+msgid "Ordini (agg. alla sera precedente)"
+msgstr "Ordini (agg. alla sera precedente)"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "Dashboard Ordini semestre successivo"
+msgstr "Dashboard Ordini semestre successivo"
+
+#. module: mexal_order_statistic
+#: selection:statistic.deadline,type:0
+msgid "Rimessa diretta"
+msgstr "Rimessa diretta"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_order_5_dashboard
+msgid "Dettaglio oridini totali (mese +5)"
+msgstr "Dettaglio oridini totali (mese +5)"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "Preventivi"
+msgstr "Preventivi"
+
+#. module: mexal_order_statistic
+#: field:statistic.header,total_linear_meter_ready:0
+msgid "Mt. lineari (pronti)"
+msgstr "Mt. lineari (pronti)"
+
+#. module: mexal_order_statistic
+#: selection:statistic.deadline,type:0
+msgid "Rimessa diretta X"
+msgstr "Rimessa diretta X"
+
+#. module: mexal_order_statistic
+#: field:statistic.invoice,invoice_agent_id:0
+msgid "Invoice agent"
+msgstr "Invoice agent"
+
+#. module: mexal_order_statistic
+#: field:statistic.trend,total_last_last:0
+#: field:statistic.trendoc,total_last_last:0
+msgid "Tot. stag. -2"
+msgstr "Tot. stag. -2"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_deadline_passed_dashboard
+msgid "Pagamenti scaduti diviso per cliente con scoperto"
+msgstr "Pagamenti scaduti diviso per cliente con scoperto"
+
+#. module: mexal_order_statistic
+#: field:statistic.invoice,total_last:0
+#: field:statistic.invoice.product,total_last:0
+msgid "Stag. -1"
+msgstr "Stag. -1"
+
+#. module: mexal_order_statistic
+#: field:statistic.invoice,total_last_last:0
+#: field:statistic.invoice.product,total_last_last:0
+msgid "Stag. -2"
+msgstr "Stag. -2"
+
+#. module: mexal_order_statistic
+#: selection:statistic.deadline,type:0
+msgid "MAV"
+msgstr "MAV"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "Dashboard Agent"
+msgstr "Dashboard Agente"
+
+#. module: mexal_order_statistic
+#: view:statistic.trendoc:0
+msgid "Cerca fatturato + OC"
+msgstr "Cerca fatturato + OC"
+
+#. module: mexal_order_statistic
+#: selection:statistic.invoice,month:0
+#: selection:statistic.invoice.product,month:0
+msgid "Mese 07*: Marzo"
+msgstr "Mese 07*: Marzo"
+
+#. module: mexal_order_statistic
+#: field:statistic.invoice.agent,name:0
+msgid "Agent"
+msgstr "Agente"
+
+#. module: mexal_order_statistic
+#: field:statistic.trend,worst:0 field:statistic.trendoc,worst:0
+msgid "Worst trend"
+msgstr "Trend peggiori"
+
+#. module: mexal_order_statistic
+#: field:res.partner,trend:0 field:statistic.category,trend:0
+msgid "Trend"
+msgstr "Trend"
+
+#. module: mexal_order_statistic
+#: view:res.partner:0
+msgid "Ricerca partner"
+msgstr "Ricerca partner"
+
+#. module: mexal_order_statistic
+#: field:statistic.trend,total_last:0 field:statistic.trendoc,total_last:0
+msgid "Tot. stag. -1"
+msgstr "Tot. stag. -1"
+
+#. module: mexal_order_statistic
+#: view:statistic.deadline:0 field:statistic.deadline,name:0
+#: view:statistic.header:0 view:statistic.order:0
+msgid "Deadline"
+msgstr "Scadenza"
+
+#. module: mexal_order_statistic
+#: model:ir.model,name:mexal_order_statistic.model_statistic_invoice
+#: model:ir.model,name:mexal_order_statistic.model_statistic_invoice_product
+#: view:statistic.invoice:0
+msgid "Statistic invoice"
+msgstr "Statistiche fatturato"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "Ordini Italia (pros. 30 gg.)"
+msgstr "Ordini Italia (pros. 30 gg.)"
+
+#. module: mexal_order_statistic
+#: selection:statistic.deadline,type:0
+msgid "Contanti"
+msgstr "Contanti"
+
+#. module: mexal_order_statistic
+#: model:ir.model,name:mexal_order_statistic.model_res_partner
+#: view:statistic.deadline:0 field:statistic.deadline,partner_id:0
+#: view:statistic.header:0 field:statistic.header,partner_id:0
+#: view:statistic.invoice:0 field:statistic.invoice,partner_id:0
+#: view:statistic.order:0 field:statistic.order,partner_id:0
+#: view:statistic.trend:0 field:statistic.trend,partner_id:0
+#: view:statistic.trendoc:0 field:statistic.trendoc,partner_id:0
+msgid "Partner"
+msgstr "Partner"
+
+#. module: mexal_order_statistic
+#: view:statistic.deadline:0
+msgid "Scoperti"
+msgstr "Scoperti"
+
+#. module: mexal_order_statistic
+#: model:ir.model,name:mexal_order_statistic.model_statistic_header_print_wizard
+msgid "Print order wizard"
+msgstr "Wizard stampa ordine"
+
+#. module: mexal_order_statistic
+#: view:statistic.deadline:0 view:statistic.header:0 view:statistic.order:0
+msgid "Estero"
+msgstr "Estero"
+
+#. module: mexal_order_statistic
+#: view:statistic.header:0 view:statistic.order:0
+msgid "Totali"
+msgstr "Totali"
+
+#. module: mexal_order_statistic
+#: field:statistic.trend,total:0 field:statistic.trendoc,total:0
+msgid "Tot. stag. attuale"
+msgstr "Tot. stag. attuale"
+
+#. module: mexal_order_statistic
+#: view:statistic.header:0
+msgid "Statistic Order header Form"
+msgstr "Statistica testate ordine"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_invoice_product
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_invoice_product_dashboard
+msgid "Statistiche prodotto (fatture+OC) divisi per mese"
+msgstr "Statistiche prodotto (fatture+OC) divisi per mese"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_order_10_dashboard
+msgid "Dettaglio oridini totali (mese +10)"
+msgstr "Dettaglio oridini totali (mese +10)"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "FT+OC+BC categ. statistiche importanti (spunta Trend)"
+msgstr "FT+OC+BC categ. statistiche importanti (spunta Trend)"
+
+#. module: mexal_order_statistic
+#: view:statistic.header:0
+msgid "Zone"
+msgstr "Zone"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "Ordini mese +5"
+msgstr "Ordini mese +5"
+
+#. module: mexal_order_statistic
+#: view:statistic.order:0
+msgid "Art. tot."
+msgstr "Art. tot."
+
+#. module: mexal_order_statistic
+#: field:statistic.invoice,total:0 field:statistic.invoice.product,total:0
+msgid "Stag. attuale"
+msgstr "Stag. attuale"
+
+#. module: mexal_order_statistic
+#: field:statistic.invoice,trend:0 field:statistic.trend,trend:0
+#: field:statistic.trendoc,trend:0
+msgid "Important partner"
+msgstr "Partner importante"
+
+#. module: mexal_order_statistic
+#: view:statistic.header:0
+msgid "Statistic order header"
+msgstr "Statistica testate ordine"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "FT+OC+BC stag. -1 (perc. > 1, solo contropartite segnalate)"
+msgstr "FT+OC+BC stag. -1 (perc. > 1, solo contropartite segnalate)"
+
+#. module: mexal_order_statistic
+#: model:ir.model,name:mexal_order_statistic.model_statistic_header
+msgid "statistic.header"
+msgstr "statistic.header"
+
+#. module: mexal_order_statistic
+#: view:statistic.deadline:0 view:statistic.header:0 view:statistic.order:0
+msgid "Italia"
+msgstr "Italia"
+
+#. module: mexal_order_statistic
+#: view:statistic.deadline:0
+msgid "Pagamenti scaduti (verde=saldo cliente + saldo fornitore>0)"
+msgstr "Pagamenti scaduti (verde=saldo cliente + saldo fornitore>0)"
+
+#. module: mexal_order_statistic
+#: field:statistic.invoice.product,percentage_last_last:0
+#: field:statistic.trend,percentage_last_last:0
+#: field:statistic.trendoc,percentage_last_last:0
+msgid "% sul fatt. stag. -2"
+msgstr "% sul fatt. stag. -2"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_view_statistic_trend_last_best_graph
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_view_statistic_trendoc_last_best_graph
+msgid "Last Invoiced"
+msgstr "Ultimo fatturato"
+
+#. module: mexal_order_statistic
+#: field:statistic.invoice.product,percentage_last:0
+#: field:statistic.trend,percentage_last:0
+#: field:statistic.trendoc,percentage_last:0
+msgid "% sul fatt. stag. -1"
+msgstr "% sul fatt. stag. -1"
+
+#. module: mexal_order_statistic
+#: model:ir.model,name:mexal_order_statistic.model_statistic_category
+#: field:res.partner,statistic_category_id:0
+msgid "Categoria statistica"
+msgstr "Categoria statistica"
+
+#. module: mexal_order_statistic
+#: field:res.partner,open_payment_ids:0
+msgid "Pagamenti aperti"
+msgstr "Pagamenti aperti"
+
+#. module: mexal_order_statistic
+#: view:statistic.header:0 field:statistic.header,total_weight:0
+msgid "Peso"
+msgstr "Peso"
+
+#. module: mexal_order_statistic
+#: view:statistic.invoice:0
+msgid "trend by date"
+msgstr "Trend per data"
+
+#. module: mexal_order_statistic
+#: view:statistic.trend:0
+msgid "Statistiche fatturato anno attuale (senza OC) "
+msgstr "Statistiche fatturato anno attuale (senza OC) "
+
+#. module: mexal_order_statistic
+#: model:ir.ui.menu,name:mexal_order_statistic.menu_action_board_mexal_graph_form
+msgid "Analisi vendite clienti (grafici)"
+msgstr "Analisi vendite clienti (grafici)"
+
+#. module: mexal_order_statistic
+#: field:statistic.deadline,ddt_e_oc_c:0
+msgid "DDT + OC aperti (cliente)"
+msgstr "DDT + OC aperti (cliente)"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_order_4_dashboard
+msgid "Dettaglio oridini totali (mese +4)"
+msgstr "Dettaglio oridini totali (mese +4)"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid ""
+"Italia (no agente): FT+OC+BC (stag= 09-anno attuale > 08-anno prossimo) solo "
+"controp. segnalate"
+msgstr ""
+"Italia (no agente): FT+OC+BC (stag= 09-anno attuale > 08-anno prossimo) solo "
+"controp. segnalate"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_category
+#: view:statistic.category:0
+msgid "Statistic category"
+msgstr "Categorie statistiche"
+
+#. module: mexal_order_statistic
+#: selection:statistic.order,line_type:0
+msgid "Articolo"
+msgstr "Articolo"
+
+#. module: mexal_order_statistic
+#: model:ir.ui.menu,name:mexal_order_statistic.menu_base_mexal_configuration
+msgid "Configurazione"
+msgstr "Configurazione"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_invoice_agent_i_False_dashboard
+msgid "Fatture Agente Italia (no agente)"
+msgstr "Fatture Agente Italia (no agente)"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "Ordini mese +10"
+msgstr "Ordini mese +10"
+
+#. module: mexal_order_statistic
+#: selection:statistic.order,type:0
+msgid "Annullato"
+msgstr "Annullato"
+
+#. module: mexal_order_statistic
+#: field:statistic.order,article:0
+msgid "Article"
+msgstr "Articolo"
+
+#. module: mexal_order_statistic
+#: selection:statistic.invoice,month:0
+#: selection:statistic.invoice.product,month:0
+msgid "Mese 10*: Giugno"
+msgstr "Mese 10*: Giugno"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_view_statistic_trendoc_last_last_best_graph
+msgid "Invoiced -2"
+msgstr "Fatturato -2"
+
+#. module: mexal_order_statistic
+#: field:statistic.header,destination_country:0
+msgid "destination country"
+msgstr "Nazione destinazione"
+
+#. module: mexal_order_statistic
+#: help:res.partner,trend_category:0
+msgid "Indica se la gategoria viene rappresentata nel grafico del trend"
+msgstr "Indica se la gategoria viene rappresentata nel grafico del trend"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "Ordini mese +4"
+msgstr "Ordini mese +4"
+
+#. module: mexal_order_statistic
+#: field:statistic.deadline,deadline:0
+msgid "Dead line"
+msgstr "Scadenza"
+
+#. module: mexal_order_statistic
+#: field:statistic.invoice,type_cei:0
+msgid "C E I"
+msgstr "C E I"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "Ordini mese +7"
+msgstr "Ordini mese +7"
+
+#. module: mexal_order_statistic
+#: selection:statistic.invoice,month:0
+#: selection:statistic.invoice.product,month:0
+msgid "Mese 12*: Agosto"
+msgstr "Mese 12*: Agosto"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "Ordini mese +1"
+msgstr "Ordini mese +1"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "Ordini mese +2"
+msgstr "Ordini mese +2"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "Ordini mese +3"
+msgstr "Ordini mese +3"
+
+#. module: mexal_order_statistic
+#: view:statistic.order:0
+msgid "Statistic Order Form"
+msgstr "Form Statistiche ordine"
+
+#. module: mexal_order_statistic
+#: model:ir.ui.menu,name:mexal_order_statistic.menu_action_statistic_header_deadline
+msgid "Ordini (testate)"
+msgstr "Ordini (testate)"
+
+#. module: mexal_order_statistic
+#: view:statistic.deadline:0 field:statistic.deadline,in:0
+msgid "Entrate"
+msgstr "Entrate"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "Ordini mese +8"
+msgstr "Ordini mese +8"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "Ordini mese +9"
+msgstr "Ordini mese +9"
+
+#. module: mexal_order_statistic
+#: view:statistic.order:0
+msgid "Statistic Order Tree"
+msgstr "Lista Statistiche ordine"
+
+#. module: mexal_order_statistic
+#: view:statistic.header:0
+msgid "Cancel print"
+msgstr "Annulla stampa"
+
+#. module: mexal_order_statistic
+#: model:ir.ui.menu,name:mexal_order_statistic.menu_base_mexal_analisi
+msgid "Analisi"
+msgstr "Analisi"
+
+#. module: mexal_order_statistic
+#: view:statistic.trendoc:0
+msgid "Fatturato (FT + BC + OC) anno attuale"
+msgstr "Fatturato (FT + BC + OC) anno attuale"
+
+#. module: mexal_order_statistic
+#: field:statistic.header,deadline:0 field:statistic.order,deadline:0
+msgid "Scadenza"
+msgstr "Scadenza"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_invoice_dashboard_best
+msgid "Statistic invoice Date (best customers)"
+msgstr "Statistiche fatturato per data (clienti migliori)"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_header_deadline
+msgid "Statistic Order header Deadline"
+msgstr "Statistica testate ordine (scadenza)"
+
+#. module: mexal_order_statistic
+#: view:statistic.order:0 field:statistic.order,quantity_ok:0
+msgid "Prodotti"
+msgstr "Prodotti"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_order_11_dashboard
+msgid "Dettaglio oridini totali (mese +11)"
+msgstr "Dettaglio oridini totali (mese +11)"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_view_res_partner_payment_estero
+msgid "Pagamenti partner estero"
+msgstr "Pagamenti partner estero"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_deadline
+msgid "Scadenze ordini"
+msgstr "Scadenze ordini"
+
+#. module: mexal_order_statistic
+#: selection:statistic.invoice,month:0
+#: selection:statistic.invoice.product,month:0
+msgid "Mese 11*: Luglio"
+msgstr "Mese 11*: Luglio"
+
+#. module: mexal_order_statistic
+#: field:statistic.header,destination_address:0
+msgid "Destination address "
+msgstr "Indirizzo destinazione"
+
+#. module: mexal_order_statistic
+#: selection:statistic.order,type:0
+msgid "Prodotto"
+msgstr "Prodotto"
+
+#. module: mexal_order_statistic
+#: field:statistic.header,registration_date:0
+msgid "Registration date"
+msgstr "Data registrazione"
+
+#. module: mexal_order_statistic
+#: selection:statistic.invoice,type_document:0
+#: selection:statistic.invoice.product,type_document:0
+#: selection:statistic.trend,type_document:0
+#: selection:statistic.trendoc,type_document:0
+msgid "DDT"
+msgstr "DDT"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_order_3_dashboard
+msgid "Dettaglio oridini totali (mese +3)"
+msgstr "Dettaglio oridini totali (mese +3)"
+
+#. module: mexal_order_statistic
+#: field:statistic.deadline,visible:0 field:statistic.header,visible:0
+#: field:statistic.invoice,visible:0 field:statistic.invoice.product,visible:0
+#: field:statistic.order,visible:0 field:statistic.trend,visible:0
+#: field:statistic.trendoc,visible:0
+msgid "Visible"
+msgstr "Visible"
+
+#. module: mexal_order_statistic
+#: view:statistic.trend:0
+msgid "Statistiche fatturato (senza OC)"
+msgstr "Statistiche fatturato (senza OC)"
+
+#. module: mexal_order_statistic
+#: selection:statistic.header,port_code:0
+msgid "Assegnato"
+msgstr "Assegnato"
+
+#. module: mexal_order_statistic
+#: view:statistic.deadline:0 field:statistic.deadline,saldo_c:0
+msgid "Saldo (cliente)"
+msgstr "Saldo (cliente)"
+
+#. module: mexal_order_statistic
+#: view:statistic.header:0
+msgid "Statistic Order header tree"
+msgstr "Statistica testate ordine"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "Ordini Estero (pros. 30 gg.)"
+msgstr "Ordini Estero (pros. 30 gg.)"
+
+#. module: mexal_order_statistic
+#: view:statistic.trendoc:0
+msgid "Statistiche fatturato (FT + BC + OC)"
+msgstr "Statistiche fatturato (FT + BC + OC)"
+
+#. module: mexal_order_statistic
+#: field:statistic.header,total_item:0
+msgid "N. art."
+msgstr "N. art."
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_trend
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_trend_dashboard
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_trendoc_dashboard
+msgid "Statistic trend Date"
+msgstr "Trend per data"
+
+#. module: mexal_order_statistic
+#: model:ir.ui.menu,name:mexal_order_statistic.menu_action_board_order_b_form
+msgid "Gestione ordini semestre successivo"
+msgstr "Gestione ordini semestre successivo"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_view_res_partner_payment
+msgid "Pagamenti partner italia"
+msgstr "Pagamenti partner italia"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_order_dashboard
+msgid "Dett. ordini Italia"
+msgstr "Dett. ordini Italia"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_invoice_agent_i_True_dashboard
+msgid "Fatture Agente Italia"
+msgstr "Fatture Agente Italia"
+
+#. module: mexal_order_statistic
+#: model:ir.ui.menu,name:mexal_order_statistic.menu_statistic_statistic_trend
+msgid "Trend fatturato (stagionale)"
+msgstr "Trend fatturato (stagionale)"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_deadline_passed_dashboard_italia
+msgid "Pagamenti scaduti diviso per cliente con scoperto italia"
+msgstr "Pagamenti scaduti diviso per cliente con scoperto italia"
+
+#. module: mexal_order_statistic
+#: view:statistic.header:0 field:statistic.header,note:0
+#: field:statistic.order,note:0
+msgid "Note"
+msgstr "Note"
+
+#. module: mexal_order_statistic
+#: selection:statistic.invoice,month:0
+#: selection:statistic.invoice.product,month:0
+msgid "Mese 09*: Maggio"
+msgstr "Mese 09*: Maggio"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "FT+OC+BC stag. attuale (perc. > 1, solo contropartite segnalate)"
+msgstr "FT+OC+BC stag. attuale (perc. > 1, solo contropartite segnalate)"
+
+#. module: mexal_order_statistic
+#: field:statistic.order,header_id:0
+msgid "Dettagli"
+msgstr "Dettagli"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_order_deadline
+msgid "Statistic Order Deadline"
+msgstr "Statistiche ordine per scadenza"
+
+#. module: mexal_order_statistic
+#: field:statistic.deadline,ddt_e_oc_s:0
+msgid "DDT + OC aperti (fornitore)"
+msgstr "DDT + OC aperti (fornitore)"
+
+#. module: mexal_order_statistic
+#: view:statistic.header:0
+msgid "m/l"
+msgstr "m/l"
+
+#. module: mexal_order_statistic
+#: selection:statistic.invoice,type_document:0
+#: selection:statistic.invoice.product,type_document:0
+#: selection:statistic.trend,type_document:0
+#: selection:statistic.trendoc,type_document:0
+msgid "Fattura"
+msgstr "Fattura"
+
+#. module: mexal_order_statistic
+#: field:statistic.header,destination_prov:0
+msgid "destination province"
+msgstr "provincia destinazione"
+
+#. module: mexal_order_statistic
+#: selection:statistic.invoice,month:0
+#: selection:statistic.invoice.product,month:0
+msgid "Mese 02: Ottobre"
+msgstr "Mese 02: Ottobre"
+
+#. module: mexal_order_statistic
+#: selection:statistic.header,port_code:0
+msgid "Franco"
+msgstr "Franco"
+
+#. module: mexal_order_statistic
+#: field:statistic.invoice.product,percentage:0
+msgid "% sul fatt. stag. corrente"
+msgstr "% sul fatt. stag. corrente"
+
+#. module: mexal_order_statistic
+#: field:statistic.invoice.product,name:0
+msgid "Famiglia prodotto"
+msgstr "Famiglia prodotto"
+
+#. module: mexal_order_statistic
+#: selection:statistic.deadline,type:0
+msgid "Bonifico"
+msgstr "Bonifico"
+
+#. module: mexal_order_statistic
+#: view:statistic.deadline:0 field:statistic.deadline,saldo_s:0
+msgid "Saldo (fornitore)"
+msgstr "Saldo (fornitore)"
+
+#. module: mexal_order_statistic
+#: view:statistic.invoice:0
+msgid "Statistic invoice Tree"
+msgstr "Statistiche fatture"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_order_2_dashboard
+msgid "Dettaglio oridini totali (mese +2)"
+msgstr "Dettaglio oridini totali (mese +2)"
+
+#. module: mexal_order_statistic
+#: help:res.partner,trend:0
+msgid ""
+"Insert in trend statistic, used for get only interesting partner in "
+"statistic graph"
+msgstr "Inserisce il partner nella videata dettaglio trend"
+
+#. module: mexal_order_statistic
+#: model:ir.ui.menu,name:mexal_order_statistic.menu_action_board_order_form
+msgid "Gestione ordini"
+msgstr "Gestione ordini"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid ""
+"Variazioni perc. (>1) migliori clienti ultime 2 stagioni (solo controp. "
+"segnalate)"
+msgstr ""
+"Variazioni perc. (>1) migliori clienti ultime 2 stagioni (solo controp. "
+"segnalate)"
+
+#. module: mexal_order_statistic
+#: field:statistic.order,line_type:0
+msgid "Line type"
+msgstr "Tipo linea"
+
+#. module: mexal_order_statistic
+#: view:statistic.invoice:0
+msgid "Totale -2"
+msgstr "Totale -2"
+
+#. module: mexal_order_statistic
+#: selection:statistic.invoice,month:0
+#: selection:statistic.invoice.product,month:0
+msgid "Mese 04: Dicembre"
+msgstr "Mese 04: Dicembre"
+
+#. module: mexal_order_statistic
+#: field:statistic.order,total_linear_meter:0
+msgid "Total m/l"
+msgstr "Total m/l"
+
+#. module: mexal_order_statistic
+#: field:statistic.header,date:0 field:statistic.order,date:0
+msgid "Date"
+msgstr "Date"
+
+#. module: mexal_order_statistic
+#: view:statistic.order:0
+msgid "Statistic Order"
+msgstr "Statistiche ordine"
+
+#. module: mexal_order_statistic
+#: field:statistic.invoice,month:0 field:statistic.invoice.product,month:0
+msgid "Mese"
+msgstr "Mese"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_board_mexal_form
+msgid "Default (agg. alla sera precedente)"
+msgstr "Default (agg. alla sera precedente)"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "Todo deadlined"
+msgstr "Da fare scadute"
+
+#. module: mexal_order_statistic
+#: selection:statistic.deadline,type:0
+msgid "Tratta"
+msgstr "Tratta"
+
+#. module: mexal_order_statistic
+#: selection:statistic.deadline,type:0
+msgid "Rimessa diretta Z"
+msgstr "Rimessa diretta Z"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "Partner con pagamenti aperti (estero)"
+msgstr "Partner con pagamenti aperti (estero)"
+
+#. module: mexal_order_statistic
+#: field:statistic.deadline,fido_ko:0
+msgid "Fido concesso"
+msgstr "Fido concesso"
+
+#. module: mexal_order_statistic
+#: model:ir.ui.menu,name:mexal_order_statistic.menu_action_statistic_invoice_product_stagione_dashboard
+msgid "per stagione"
+msgstr "per stagione"
+
+#. module: mexal_order_statistic
+#: model:ir.ui.menu,name:mexal_order_statistic.menu_action_board_mexal_agent_graph_form
+msgid "Analisi vendite agenti (grafici)"
+msgstr "Analisi vendite agenti (grafici)"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid ""
+"Italia: FT+OC+BC (stag= 09-anno attuale > 08-anno prossimo) solo controp. "
+"segnalate"
+msgstr ""
+"Italia: FT+OC+BC (stag= 09-anno attuale > 08-anno prossimo) solo controp. "
+"segnalate"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+#: model:ir.ui.menu,name:mexal_order_statistic.menu_base_mexal
+#: model:ir.ui.menu,name:mexal_order_statistic.menu_base_mexal_dashboard
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#. module: mexal_order_statistic
+#: view:statistic.invoice.product:0
+msgid "Statistic invoice product"
+msgstr "Statistiche fatturato prodotto"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_order_9_dashboard
+msgid "Dettaglio oridini totali (mese +9)"
+msgstr "Dettaglio oridini totali (mese +9)"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_view_statistic_trend_current_best_graph
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_view_statistic_trend_current_best_graph_bar
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_view_statistic_trendoc_current_best_graph
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_view_statistic_trendoc_current_best_graph_bar
+msgid "Current Invoiced"
+msgstr "Fatturato corrente"
+
+#. module: mexal_order_statistic
+#: view:res.partner:0
+msgid "Elenco pagamenti attivi:"
+msgstr "Elenco pagamenti attivi:"
+
+#. module: mexal_order_statistic
+#: model:ir.model,name:mexal_order_statistic.model_statistic_order
+msgid "Statistic order"
+msgstr "Statistiche Ordini"
+
+#. module: mexal_order_statistic
+#: field:statistic.order,total_weight:0
+msgid "Total weight"
+msgstr "Peso totale"
+
+#. module: mexal_order_statistic
+#: field:statistic.order,quantity:0
+msgid "Quantity"
+msgstr "Quantità"
+
+#. module: mexal_order_statistic
+#: field:statistic.header,total_linear_meter:0
+msgid "Mt. lineari"
+msgstr "Mt. lineari"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_order_1_dashboard
+msgid "Dettaglio oridini totali (mese +1)"
+msgstr "Dettaglio oridini totali (mese +1)"
+
+#. module: mexal_order_statistic
+#: view:statistic.deadline:0 field:statistic.deadline,type:0
+msgid "Type"
+msgstr "Tipo"
+
+#. module: mexal_order_statistic
+#: field:statistic.invoice.agent,ref:0 field:statistic.order,code:0
+msgid "Code"
+msgstr "Codice"
+
+#. module: mexal_order_statistic
+#: view:statistic.deadline:0
+msgid "Statistic deadline Form"
+msgstr "Scadenze (form)"
+
+#. module: mexal_order_statistic
+#: field:statistic.deadline,c_o_s:0
+msgid "Cl. o For."
+msgstr "Cl. o For."
+
+#. module: mexal_order_statistic
+#: field:statistic.order,sequence:0
+msgid "Sequence"
+msgstr "Sequenza"
+
+#. module: mexal_order_statistic
+#: view:statistic.header:0
+msgid "mt. lin."
+msgstr "mt. lin."
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "Dashboard Ordini"
+msgstr "Dashboard Ordini"
+
+#. module: mexal_order_statistic
+#: model:ir.ui.menu,name:mexal_order_statistic.menu_base_mexal_statistic_configuration
+msgid "Categorie statistiche"
+msgstr "Categorie statistiche"
+
+#. module: mexal_order_statistic
+#: field:statistic.deadline,fido_date:0
+msgid "Data fido"
+msgstr "Data fido"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_deadline_passed_dashboard_estero
+msgid "Pagamenti scaduti diviso per cliente con scoperto estero"
+msgstr "Pagamenti scaduti diviso per cliente con scoperto estero"
+
+#. module: mexal_order_statistic
+#: view:statistic.deadline:0
+msgid "Importo"
+msgstr "Importo"
+
+#. module: mexal_order_statistic
+#: selection:statistic.invoice,month:0
+#: selection:statistic.invoice.product,month:0
+msgid "00 Non trovato"
+msgstr "00 Non trovato"
+
+#. module: mexal_order_statistic
+#: view:statistic.deadline:0
+msgid "Dati scheda cliente"
+msgstr "Dati scheda cliente"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid ""
+"Comparazione FT+OC+BC migliori clienti stagione attuale, -1, -2 (perc. > 1, "
+"solo controp. segnalate)"
+msgstr ""
+"Comparazione FT+OC+BC migliori clienti stagione attuale, -1, -2 (perc. > 1, "
+"solo controp. segnalate)"
+
+#. module: mexal_order_statistic
+#: view:statistic.deadline:0
+msgid "Order by date"
+msgstr "Ordini per data"
+
+#. module: mexal_order_statistic
+#: view:res.partner:0
+msgid "Lista pagamenti partner"
+msgstr "Lista pagamenti partner"
+
+#. module: mexal_order_statistic
+#: model:ir.ui.menu,name:mexal_order_statistic.menu_statistic_statistic_order_deadline_analysis
+msgid "Ordini (righe dettaglio)"
+msgstr "Ordini (righe dettaglio)"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_board_order_b_form
+msgid "Ordini prossimo semestre (dati agg. alla sera precedente)"
+msgstr "Ordini prossimo semestre (dati agg. alla sera precedente)"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_invoice
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_invoice_dashboard
+msgid "Statistic invoice Date"
+msgstr "Statistiche fatture (data)"
+
+#. module: mexal_order_statistic
+#: report:ir.actions.report.xml:mexal_order_statistic.aeroo_order_report_id
+msgid "2011-11-07"
+msgstr "2011-11-07"
+
+#. module: mexal_order_statistic
+#: field:statistic.deadline,fido_total:0
+msgid "Importo fido"
+msgstr "Importo fido"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_deadline_passed_tree_dashboard
+#: model:ir.ui.menu,name:mexal_order_statistic.menu_action_statistic_deadline_passed_dashboard
+msgid "Pagamenti scaduti"
+msgstr "Pagamenti scaduti"
+
+#. module: mexal_order_statistic
+#: field:statistic.header,destination_cap:0
+msgid "Destination cap"
+msgstr "CAP destinazione"
+
+#. module: mexal_order_statistic
+#: field:statistic.trend,statistic_category_id:0
+#: field:statistic.trendoc,statistic_category_id:0
+msgid "Categoria statistica partner"
+msgstr "Categoria statistica partner"
+
+#. module: mexal_order_statistic
+#: field:statistic.order,colli:0
+msgid "Colli"
+msgstr "Colli"
+
+#. module: mexal_order_statistic
+#: view:statistic.header:0
+msgid "m/l (pronti)"
+msgstr "m/l (pronti)"
+
+#. module: mexal_order_statistic
+#: selection:statistic.invoice,month:0
+#: selection:statistic.invoice.product,month:0
+msgid "Mese 05*: Gennaio"
+msgstr "Mese 05*: Gennaio"
+
+#. module: mexal_order_statistic
+#: view:res.partner:0
+msgid "Saldi da gestionale"
+msgstr "Saldi da gestionale"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "Fatturato + OC per prodotto (anno precedente e anno attuale)"
+msgstr "Fatturato + OC per prodotto (anno precedente e anno attuale)"
+
+#. module: mexal_order_statistic
+#: field:statistic.header,agent_description:0
+msgid "Agent description"
+msgstr "Descrizione agente"
+
+#. module: mexal_order_statistic
+#: field:statistic.deadline,out:0
+msgid "Uscite"
+msgstr "Uscite"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_order_8_dashboard
+msgid "Dettaglio oridini totali (mese +8)"
+msgstr "Dettaglio oridini totali (mese +8)"
+
+#. module: mexal_order_statistic
+#: selection:statistic.deadline,type:0
+msgid "Rimessa diretta Y"
+msgstr "Rimessa diretta Y"
+
+#. module: mexal_order_statistic
+#: view:statistic.deadline:0
+msgid "Fornitori"
+msgstr "Fornitori"
+
+#. module: mexal_order_statistic
+#: field:statistic.category,name:0 field:statistic.order,name:0
+#: field:statistic.trend,name:0 field:statistic.trendoc,name:0
+msgid "Description"
+msgstr "Descrizione"
+
+#. module: mexal_order_statistic
+#: view:statistic.header:0
+msgid "Completi"
+msgstr "Completi"
+
+#. module: mexal_order_statistic
+#: selection:statistic.header,port_code:0
+msgid "Addebito"
+msgstr "Addebito"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_order_0_dashboard
+msgid "Dettaglio oridini totali (mese attuale)"
+msgstr "Dettaglio oridini totali (mese attuale)"
+
+#. module: mexal_order_statistic
+#: field:statistic.header,complete:0
+msgid "Completo"
+msgstr "Completo"
+
+#. module: mexal_order_statistic
+#: view:statistic.header:0 field:statistic.header,total_volume:0
+msgid "Volume"
+msgstr "Volume"
+
+#. module: mexal_order_statistic
+#: view:statistic.invoice:0
+msgid "Fatturato agente Italia"
+msgstr "Fatturato agente Italia"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_dashboard_board_mexal_invoice_product_form
+msgid "Trend fatturato"
+msgstr "Trend fatturato"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid ""
+"Trend FT+OC+BC mensile (stag. da sett. attuale ad ago. anno prossimo) solo "
+"controp. segnalate"
+msgstr ""
+"Trend FT+OC+BC mensile (stag. da sett. attuale ad ago. anno prossimo) solo "
+"controp. segnalate"
+
+#. module: mexal_order_statistic
+#: help:res.partner,statistic_category_id:0
+msgid "Valore di categoria statistica acquisito dal gestionale"
+msgstr "Valore di categoria statistica acquisito dal gestionale"
+
+#. module: mexal_order_statistic
+#: field:statistic.header,port_description:0
+msgid "Port description"
+msgstr "Descrizione porto"
+
+#. module: mexal_order_statistic
+#: field:res.partner,saldo_c:0
+msgid "Saldo cliente"
+msgstr "Saldo cliente"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_invoice_agent_e_False_dashboard
+msgid "Fatture Agente Estero (no agente)"
+msgstr "Fatture Agente Estero (no agente)"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_order_dashboard_estero
+msgid "Dett. ordini Estero"
+msgstr "Dett. ordini Estero"
+
+#. module: mexal_order_statistic
+#: selection:statistic.invoice,month:0
+#: selection:statistic.invoice.product,month:0
+msgid "Mese 06*: Febbraio"
+msgstr "Mese 06*: Febbraio"
+
+#. module: mexal_order_statistic
+#: field:statistic.invoice,type_document:0
+#: field:statistic.invoice.product,type_document:0
+#: field:statistic.trend,type_document:0
+#: field:statistic.trendoc,type_document:0
+msgid "Tipo doc."
+msgstr "Tipo doc."
+
+#. module: mexal_order_statistic
+#: field:statistic.trend,best:0 field:statistic.trendoc,best:0
+msgid "Best trend"
+msgstr "Trend migliore"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_deadline_dashboard
+msgid "Entrate prossima settimana"
+msgstr "Entrate prossima settimana"
+
+#. module: mexal_order_statistic
+#: field:statistic.deadline,scoperto_c:0
+msgid "Scoperto cliente"
+msgstr "Scoperto cliente"
+
+#. module: mexal_order_statistic
+#: field:statistic.header,country_id:0 field:statistic.order,country_id:0
+msgid "Country"
+msgstr "Nazione"
+
+#. module: mexal_order_statistic
+#: view:statistic.deadline:0
+msgid "Dati scrittura contabile"
+msgstr "Dati scrittura contabile"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.report.xml,name:mexal_order_statistic.aeroo_order_report_id
+msgid "Approntamento consegna (reset selez.)"
+msgstr "Approntamento consegna (reset selez.)"
+
+#. module: mexal_order_statistic
+#: view:statistic.trend:0
+msgid "Importanti"
+msgstr "Importanti"
+
+#. module: mexal_order_statistic
+#: model:ir.ui.menu,name:mexal_order_statistic.menu_action_statistic_invoice_product_dashboard
+msgid "FT+BC+OC su fam. prodotto (per mese)"
+msgstr "FT+BC+OC su fam. prodotto (per mese)"
+
+#. module: mexal_order_statistic
+#: model:ir.model,name:mexal_order_statistic.model_statistic_deadline
+#: view:statistic.deadline:0
+msgid "Statistic deadline"
+msgstr "Scadenze"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_order_7_dashboard
+msgid "Dettaglio oridini totali (mese +7)"
+msgstr "Dettaglio oridini totali (mese +7)"
+
+#. module: mexal_order_statistic
+#: view:statistic.trend:0
+msgid "Statistiche fatturato anno precedente (senza OC)"
+msgstr "Statistiche fatturato anno precedente (senza OC)"
+
+#. module: mexal_order_statistic
+#: field:statistic.header,zone_id:0 field:statistic.order,zone_id:0
+msgid "Zona"
+msgstr "Zona"
+
+#. module: mexal_order_statistic
+#: view:board.board:0
+msgid "FT+OC+BC stag. -2 (perc. > 1, solo contropartite segnalate)"
+msgstr "FT+OC+BC stag. -2 (perc. > 1, solo contropartite segnalate)"
+
+#. module: mexal_order_statistic
+#: field:statistic.header,total_item_complete:0
+msgid "N. Art. (pronti)"
+msgstr "N. Art. (pronti)"
+
+#. module: mexal_order_statistic
+#: field:statistic.deadline,scoperto_s:0
+msgid "Scoperto fornitore"
+msgstr "Scoperto fornitore"
+
+#. module: mexal_order_statistic
+#: view:statistic.invoice:0
+msgid "Statistic invoice Form"
+msgstr "Statistiche fatture"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_statistic_invoice_agent_e_True_dashboard
+msgid "Fatture Agente Estero"
+msgstr "Fatture Agente Estero"
+
+#. module: mexal_order_statistic
+#: view:statistic.deadline:0 view:statistic.header:0 view:statistic.order:0
+#: view:statistic.trend:0
+msgid "Order"
+msgstr "Ordine"
+
+#. module: mexal_order_statistic
+#: field:statistic.trend,percentage:0 field:statistic.trendoc,percentage:0
+msgid "% sul fatt. attuale"
+msgstr "% sul fatt. attuale"
+
+#. module: mexal_order_statistic
+#: field:statistic.header,extra_note:0
+msgid "Extra Note"
+msgstr "Extra Note"
+
+#. module: mexal_order_statistic
+#: view:statistic.trendoc:0
+msgid "Statistiche fatturato"
+msgstr "Statistiche fatturato"
+
+#. module: mexal_order_statistic
+#: field:statistic.deadline,total:0 field:statistic.header,total:0
+#: field:statistic.order,total:0
+msgid "Total"
+msgstr "Totale"
+
+#. module: mexal_order_statistic
+#: model:ir.model,name:mexal_order_statistic.model_statistic_order_line
+msgid "Statistic order line"
+msgstr "Righe ordine"
+
+#. module: mexal_order_statistic
+#: view:statistic.order:0
+msgid "Vol. tot."
+msgstr "Vol. tot."
+
+#. module: mexal_order_statistic
+#: view:statistic.header:0
+msgid "Volume (pronti)"
+msgstr "Volume (pronti)"
+
+#. module: mexal_order_statistic
+#: view:statistic.deadline:0
+msgid "Clienti"
+msgstr "Clienti"
+
+#. module: mexal_order_statistic
+#: field:res.partner,ddt_e_oc_c:0
+msgid "Saldo cliente OC+DDT aperti"
+msgstr "Saldo cliente OC+DDT aperti"
+
+#. module: mexal_order_statistic
+#: model:ir.model,name:mexal_order_statistic.model_statistic_trend
+#: model:ir.model,name:mexal_order_statistic.model_statistic_trendoc
+msgid "Statistic Trend"
+msgstr "Trend"
+
+#. module: mexal_order_statistic
+#: selection:statistic.invoice,month:0
+#: selection:statistic.invoice.product,month:0
+msgid "Mese 08*: Aprile"
+msgstr "Mese 08*: Aprile"
+
+#. module: mexal_order_statistic
+#: field:statistic.header,port_code:0
+msgid "Port"
+msgstr "Porto"
+
+#. module: mexal_order_statistic
+#: model:ir.actions.act_window,name:mexal_order_statistic.action_board_mexal_graph_form
+msgid "Analisi Vendite (agg. alla sera precedente)"
+msgstr "Analisi Vendite (agg. alla sera precedente)"

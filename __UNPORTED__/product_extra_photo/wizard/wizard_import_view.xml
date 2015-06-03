@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    <!-- product.extra.photo.wizard -->
+       <!-- Form -->
+    <record model="ir.ui.view" id="view_product_extra_photo_wizard">
+        <field name="name">Extra photo import</field>
+        <field name="model">product.extra.photo.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Import extra photo">
+                <field name="name" />
+                <button name="import_button" string="Import" type="object" />
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record model="ir.actions.act_window" id="action_product_extra_photo_wizard">
+        <field name="name">Import photo</field>
+        <field name="res_model">product.extra.photo.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_product_extra_photo_wizard"/>
+    </record>
+
+    <!-- Menu -->
+    <menuitem name="Syncro images" parent="menu_product_extra_photo" id="menu_product_extra_photo_wizard" sequence="99" action="action_product_extra_photo_wizard" />
+    </data>
+</openerp>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+    <record model="ir.ui.view" id="view_purchase_order_form_extra">
+        <field name="name">purchase.order</field>
+        <field name="model">purchase.order</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="/form/notebook/page/field[@name='order_line']/tree/field[@name='product_qty']" position="after">
+               <field name="q_x_pack" />
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_purchase_order_line_form_extra">
+        <field name="name">purchase.order.line</field>
+        <field name="model">purchase.order.line</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="purchase.purchase_order_line_form" />
+        <field name="arch" type="xml">
+            <xpath expr="/form/notebook/page/field[@name='product_uom']" position="after">
+               <field name="q_x_pack" readonly="1" />
+               <field name="colour" readonly="1" />
+            </xpath>
+        </field>
+    </record>
+</data>
+</openerp>
+

@@ -1,0 +1,297 @@
+<?xml version="1.0" ?>
+<openerp>
+<data>
+    <!-- INHERIT -->
+    <record model="ir.ui.view" id="view_res_company_amazon">
+            <field name="name">Company Amazon field</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+               <field name="parent_id" position="after">
+                  <newline />
+                  <field name="amazon_destination_db" />
+                  <field name="amazon_destination_db_user" />
+                  <field name="amazon_destination_db_password" />
+                  <field name="amazon_security_inventory" />
+                  <field name="amazon_log_mail" />                  
+               </field>
+            </field>
+    </record>
+    
+    <!-- VIEWS -->
+        <!-- etl.scheduler.parameter 
+    <record model="ir.ui.view" id="view_etl_scheduler_parameter_search">
+        <field name="name">ETL parameter</field>
+        <field name="model">etl.scheduler.parameter</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="ETL parameter">
+                <field name="name" />
+                <field name="company_id" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_etl_scheduler_parameter_form">
+        <field name="name">ETL parameter</field>
+        <field name="model">etl.scheduler.parameter</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="ETL parameter">
+                <separator string="General:" colspan="4" /> 
+                <field name="name" />
+                <field name="company_id" />
+                <field name="inventory_file" />
+                <field name="inventory_path" />
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_etl_scheduler_parameter_tree">
+        <field name="name">ETL parameter</field>
+        <field name="model">etl.scheduler.parameter</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="ETL parameter">
+                <field name="name" />
+                <field name="company_id" />
+                <field name="inventory_file" />
+            </tree>
+        </field>
+    </record>    
+    
+       <record model="ir.actions.act_window" id="action_etl_scheduler_parameter">
+        <field name="name">ETL parameter</field>
+           <field name="res_model">etl.scheduler.parameter</field>
+           <field name="view_type">form</field>
+           <field name="view_mode">tree,form</field>
+           <field name="view_id" ref="view_etl_scheduler_parameter_tree"/>
+           <field name="search_view_id" ref="view_etl_scheduler_parameter_search" />
+       </record>
+
+       <menuitem name="ETL parameters" 
+                 parent="product.prod_config_main" 
+                 id="menu_etl_scheduler_parameter" 
+                 sequence="10" 
+                 action="action_etl_scheduler_parameter" /> -->
+    
+    <!--product.product (Alternative form for Amazon)-->
+    <record id="view_product_product_amazon_form" model="ir.ui.view">
+        <field name="name">Product for Amazon</field>
+        <field name="model">product.product</field>
+        <field name="type">form</field>
+        <field name="priority" eval="30" />
+        <field name="arch" type="xml">
+            <form string="Product (Amazon information)">  
+               <separator string="Migration information:" colspan="4"/>
+               <group colspan="4" col="8">
+                  <field name="amazon_mig_migration" /> <!--on_change="onchange_migrate_test_mandatory_element(amazon_mig_migration,amazon_mig_publish,ean13)" />-->
+                  <field name="amazon_mig_publish" /> <!--on_change="onchange_migrate_test_mandatory_element(amazon_mig_migration,amazon_mig_publish,ean13)"  />-->
+                  <field name="amazon_mig_destination_code" />
+                  <field name="amazon_mig_image_publish" />
+                  
+                  <field name="amazon_mig_category1_id" />
+                  <field name="amazon_mig_category2_id" />
+
+                  <field name="default_code" required="1" />
+                  <field name="name" readonly="1" />
+                  <field name="ean13" attrs="{'required':[('amazon_mig_publish','=',True)]}" /> <!--on_change="onchange_migrate_test_mandatory_element(amazon_mig_migration,amazon_mig_publish,ean13)" />-->
+               </group> 
+               <group colspan="2">             
+                 <notebook>
+                   <page string="General">
+                       <field name="amazon_mig_gift" />
+                       <field name="amazon_mig_out" />
+                       <field name="amazon_mig_title" />
+                       <field name="amazon_mig_country_id" />
+                       <field name="amazon_mig_brand" />
+                       <field name="amazon_mig_manufacturer" />
+                       <field name="amazon_mig_color" />              <!--replaced C2 -->
+                       <field name="amazon_mig_material" />           <!--replaced C2 -->
+                       <separator string="Long description:" colspan="4" />                       
+                       <field name="amazon_mig_description" colspan="4" nolabel="1" /> <!--replaced C1 e C2 -->
+                   </page>
+                   
+                   <page string="Dimension">
+                       <group colspan="4" col="8">
+                           <field name="amazon_mig_length" />                        <!--replaced C2 -->
+                           <field name="amazon_mig_width" />                         <!--replaced C2 --> 
+                           <field name="amazon_mig_height" />                        <!--replaced C2 -->
+                           <field name="amazon_mig_dimension_um" />
+                           <field name="amazon_mig_volume" />                        <!--replaced C1 C2 -->
+                           <field name="amazon_mig_volume_um" />
+                           <field name="amazon_mig_weight" />                        <!--replaced C1 C2 -->
+                           <field name="amazon_mig_weight_um" />
+                       </group>                   
+                   </page>
+                   
+                   <page string="Market">
+                       <separator string="Visibility:" colspan="4" />                       
+                       <field name="amazon_mig_sale_start" />
+                       <field name="amazon_mig_sale_end" />
+
+                       <separator string="Price:" colspan="4" />
+                       <field name="list_price" readonly="1"/>
+                       <field name="amazon_mig_price" />
+                       <group colspan="4" col="6">
+                           <field name="amazon_mig_discount_price" />
+                           <field name="amazon_mig_discount_start" />
+                           <field name="amazon_mig_discount_end" />
+                       </group>
+
+                       <separator string="Inventory:"  colspan="4"/>
+                       <group colspan="4" col="6">
+                         <field name="amazon_mig_inventory" readonly="1"/>
+                         <field name="amazon_mig_security_level" />
+                         <field name="amazon_mig_min_level" />   
+                         <!-- Amazon Inventory Quantity? -->
+
+                         <field name="amazon_mig_q_x_pack" />                          <!--replaced C1 -->
+                         <field name="amazon_mig_manage_days" />
+                         <field name="amazon_mig_warranty" />
+                       </group>
+                       
+                       <separator string="Function:" colspan="4"/>
+                       <field name="amazon_mig_function" colspan="4" nolabel="1" />
+
+                       <separator string="Keywords:"  colspan="4"/>       
+                       <field name="amazon_mig_keywords"  colspan="4" nolabel="1"/>  <!--replaced C1 -->                 
+                   </page>
+                 </notebook>
+               </group>
+               <group colspan="2" name="preview">      <!--Filled with image-->
+                   <separator string="Preview:"/>
+                   <field name="amazon_mig_image" widget="image" colspan="4" nolabel="1" string="Preview" img_width="300"  width="300" />
+               </group>
+               <button name="migrate_product_button" string="Migrate all" type="object" />
+            </form>
+        </field>
+    </record>
+
+    <record id="view_product_product_amazon_tree" model="ir.ui.view">
+        <field name="name">Amazon product tree</field>
+        <field name="model">product.product</field>
+        <field name="type">tree</field>
+        <field name="priority" eval="30" />
+        <field name="arch" type="xml">
+            <tree string="Products">
+               <field name="amazon_mig_migration" />
+               <field name="amazon_mig_publish" />
+               <field name="amazon_mig_image_publish" string="Force img pub."/>
+               <field name="amazon_mig_is_image" string="Image find"/>
+               <field name="default_code" />
+               <field name="name" />
+               <field name="amazon_mig_category1_id" />
+               <field name="amazon_mig_category2_id" />
+               <field name="amazon_mig_title" />
+               <field name="amazon_mig_color" />
+               <field name="amazon_mig_material" />
+               <field name="amazon_mig_dimension_um" />
+               <field name="amazon_mig_q_x_pack" />
+               <field name="amazon_mig_min_level" />
+               <field name="amazon_mig_inventory" />               
+               <field name="amazon_mig_manage_days" />               
+               <field name="amazon_mig_price" />
+               <field name="amazon_mig_sale_start" />
+               <field name="amazon_mig_sale_end" />
+            </tree>
+       </field>
+    </record>
+    
+    <record model="ir.ui.view" id="view_product_product_amazon_search">
+        <field name="name">Product amazon search</field>
+        <field name="model">product.product</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Product">
+               <filter string="Migrate" icon="terp-accessories-archiver-minus" domain="[('amazon_mig_migration','=',True)]"/>
+               <filter string="Publish" icon="terp-accessories-archiver-minus" domain="[('amazon_mig_publish','=',True)]"/>
+               <filter string="Publish image" icon="terp-accessories-archiver-minus" domain="[('amazon_mig_image_publish','=',True)]"/>
+               <separator orientation="vertical"/>
+               <field name="default_code"/>
+               <field name="name"/>
+               <field name="amazon_mig_title"/>
+            </search>
+        </field>
+    </record>    
+
+    <record id="product_product_amazon_action" model="ir.actions.act_window">
+        <field name="name">Product (Amazon migration)</field>
+        <field name="res_model">product.product</field>
+        <field name="view_type">form</field>        
+        <field name="view_mode">tree,form</field>    
+        <field name="view_id" ref="view_product_product_amazon_tree" />       
+        <field name="search_view_id" ref="view_product_product_amazon_search" />
+        <field name="context">{"form_view_ref" : "amazon_product_merger.view_product_product_amazon_form"}</field>     
+        <field name="help">Alternative form to manage Amazon migration and publication product</field>
+    </record>
+
+    <menuitem action="product_product_amazon_action" 
+              id="product_product_amazon_menu" 
+              parent="product.menu_products" 
+              sequence="10" />
+              
+    <!-- amazon.product.category -->
+       <!-- Search -->
+    <record model="ir.ui.view" id="view_amazon_product_category_search">
+        <field name="name">Amazon category</field>
+        <field name="model">amazon.product.category</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Amazon category">
+                <field name="parent_id" />
+                <field name="name" />
+            </search>
+        </field>
+    </record>
+    
+       <!-- Form -->
+    <record model="ir.ui.view" id="view_amazon_product_category_form">
+        <field name="name">Amazon category</field>
+        <field name="model">amazon.product.category</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Amazon parameter">
+                 <group colspan="4" col="6">
+                    <field name="name" />
+                    <field name="code" />
+                    <field name="parent_id" />
+                 </group> 
+            </form>
+        </field>
+    </record>
+
+       <!-- Tree -->
+    <record model="ir.ui.view" id="view_amazon_product_category_tree">
+        <field name="name">Amazon category</field>
+        <field name="model">amazon.product.category</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Amazon parameter">
+                    <field name="name" />
+                    <field name="code" />
+                    <field name="parent_id" />
+            </tree>
+        </field>
+    </record>    
+    
+       <!-- Action -->
+       <record model="ir.actions.act_window" id="action_amazon_product_category">
+        <field name="name">Amazon category</field>
+           <field name="res_model">amazon.product.category</field>
+           <field name="view_type">form</field>
+           <field name="view_mode">tree,form</field>
+           <field name="view_id" ref="view_amazon_product_category_tree"/>
+           <field name="search_view_id" ref="view_amazon_product_category_search" />
+       </record>
+
+       <!-- Menu -->
+       <menuitem name="Amazon product category" 
+                 parent="product_product_amazon_menu" 
+                 id="menu_amazon_product_category" 
+                 sequence="5" 
+                 action="action_amazon_product_category" />
+</data>
+</openerp>
+
