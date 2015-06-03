@@ -73,9 +73,10 @@ report_product_pricelist                         << MIGRATO (stesso nome)
 report_purchase_fiam                             << MIGRATO (report_purchase_custom)
 product_extra_photo                              << __UNPORTED__ (iniziato ma sembra di K2)
 report_store_value
-report_auto_stock_
 log_and_mail
 mexal_order_statistic TODO complesso!!!!
+report_auto_stock_ TODO complesso!!!!
+
 
 report_aeroo_pricelist ??
 
@@ -86,6 +87,10 @@ NO amazon_product_merger
 NO amazon_product_merger_c1
 
 gpb_web <<<<<<<< installato in fiam
+
+NON FIAM:
+product_image_in_file
+
 
 
 

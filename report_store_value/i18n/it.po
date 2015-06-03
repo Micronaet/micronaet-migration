@@ -1,0 +1,118 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* report_store_value
+# <> <>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.0.3\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2012-01-23 12:30+0000\n"
+"PO-Revision-Date: 2012-01-24 14:22+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: report_store_value
+#: model:ir.actions.act_window,name:report_store_value.action_statistic_store
+#: view:statistic.store:0
+msgid "Statistic store"
+msgstr "Statistiche di magazzino"
+
+#. module: report_store_value
+#: field:statistic.store,product_um2:0
+msgid "UM2"
+msgstr "UM2"
+
+#. module: report_store_value
+#: selection:statistic.store,company:0
+msgid "G.P.B."
+msgstr "G.P.B."
+
+#. module: report_store_value
+#: field:statistic.store,product_code:0
+msgid "Product code"
+msgstr "Codice prodotto"
+
+#. module: report_store_value
+#: field:statistic.store,supplier_order:0
+msgid "OF"
+msgstr "OF"
+
+#. module: report_store_value
+#: field:statistic.store,company:0
+msgid "Company"
+msgstr "Compagnia"
+
+#. module: report_store_value
+#: model:ir.ui.menu,name:report_store_value.menu_base_mexal_report
+msgid "Report"
+msgstr "Report"
+
+#. module: report_store_value
+#: field:statistic.store,product_description:0
+msgid "Product description"
+msgstr "Descrizione prodotto"
+
+#. module: report_store_value
+#: field:statistic.store,customer_order_suspended:0
+msgid "OC suspended"
+msgstr "OC sospesi"
+
+#. module: report_store_value
+#: field:statistic.store,customer_order:0
+msgid "OC imp."
+msgstr "OC impieg."
+
+#. module: report_store_value
+#: model:ir.model,name:report_store_value.model_statistic_store
+msgid "Store info"
+msgstr "Info magazzino"
+
+#. module: report_store_value
+#: model:ir.ui.menu,name:report_store_value.menu_statistic_statistic_store
+msgid "Report product balance"
+msgstr "Stampa bilancio prodotti"
+
+#. module: report_store_value
+#: field:statistic.store,customer_order_auto:0
+msgid "OC automatic in prod."
+msgstr "OC automat. in prod."
+
+#. module: report_store_value
+#: field:statistic.store,in:0
+msgid "In"
+msgstr "Carico"
+
+#. module: report_store_value
+#: field:statistic.store,balance:0
+msgid "Existent"
+msgstr "Esistenza"
+
+#. module: report_store_value
+#: selection:statistic.store,company:0
+msgid "Fiam"
+msgstr "Fiam"
+
+#. module: report_store_value
+#: field:statistic.store,inventary:0
+msgid "Inventary"
+msgstr "Inventario"
+
+#. module: report_store_value
+#: field:statistic.store,disponibility:0
+msgid "Dispo lord"
+msgstr "Dispon. lorda"
+
+#. module: report_store_value
+#: field:statistic.store,product_um:0
+msgid "UOM"
+msgstr "UM"
+
+#. module: report_store_value
+#: field:statistic.store,out:0
+msgid "Out"
+msgstr "Scarico"

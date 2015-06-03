@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+    <!-- Statistic Category: statistic.store *****************************-->
+       <!-- Search -->
+    <record model="ir.ui.view" id="view_statistic_store_search">
+        <field name="name">statistic.store.search</field>
+        <field name="model">statistic.store</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Statistic store">
+                    <field name="company" />
+                    <field name="supplier" />
+                    <field name="product_code" />
+                    <field name="product_description" />
+                    <field name="both" />
+            </search>
+        </field>
+    </record>
+
+       <!-- Form -->
+    <record model="ir.ui.view" id="view_statistic_store_form">
+        <field name="name">statistic.store.form</field>
+        <field name="model">statistic.store</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Statistic store">
+                    <field name="company" />
+                    <field name="product_code" />
+                    <field name="mexal_s" />
+                    <field name="supplier" />
+                    <field name="product_description" />
+                    <field name="product_um" />
+                    <field name="q_x_pack" />
+                    <field name="inventary" />
+                    <field name="q_in" />
+                    <field name="q_out" />
+                    <field name="balance" />
+                    <field name="supplier_order" />
+                    <field name="customer_order" />
+                    <field name="customer_order_auto" />
+                    <field name="customer_order_suspended" />
+                    <field name="disponibility" />
+                    <field name="product_um2" />
+                    <field name="inventary_last" />
+                    <field name="both" />
+            </form>
+        </field>
+    </record>
+
+       <!-- Tree -->
+    <record model="ir.ui.view" id="view_statistic_store_tree">
+        <field name="name">statistic.store.tree</field>
+        <field name="model">statistic.store</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Statistic store" colors="blue:both==True">
+                    <field name="company" />
+                    <field name="supplier" />
+                    <field name="product_code" />
+                    <field name="product_description" />
+                    <field name="product_um" />
+                    <field name="q_x_pack" />
+                    <field name="inventary" />
+                    <field name="q_in" />
+                    <field name="q_out" />
+                    <field name="balance" />
+                    <field name="supplier_order" />
+                    <field name="customer_order" />
+                    <field name="customer_order_auto" />
+                    <field name="customer_order_suspended" />
+                    <field name="disponibility" />
+                    <field name="product_um2" />
+                    <field name="inventary_last" />
+                    <field name="both" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+    
+       <!-- Action -->
+    <record model="ir.actions.act_window" id="action_statistic_store">
+        <field name="name">Stampa progressivi di magazzino</field>
+        <field name="res_model">statistic.store</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_statistic_store_search"/>
+    </record>
+
+       <!-- Menu -->
+       <menuitem name="Report" parent="mexal_order_statistic.menu_base_mexal" id="menu_base_mexal_report" sequence="3" />
+          <menuitem name="Report product balance" parent="menu_base_mexal_report" id="menu_statistic_statistic_store" sequence="1" action="action_statistic_store" />
+  </data>
+</openerp>

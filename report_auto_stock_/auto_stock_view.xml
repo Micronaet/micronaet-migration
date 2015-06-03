@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    <!--auto.stock.supplier-->
+    <record model="ir.ui.view" id="view_auto_stock_supplier_search">
+        <field name="name">auto.stock.supplier.search</field>
+        <field name="model">auto.stock.supplier</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Search partner">
+                <field name="name" />
+            </search>
+        </field>
+    </record>
+        
+    <record model="ir.ui.view" id="view_auto_stock_supplier_tree">
+        <field name="name">auto.stock.supplier.tree</field>
+        <field name="model">auto.stock.supplier</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Partner list" editable="bottom" >
+                 <field name="suspended" />
+                 <field name="name" />
+                   <!--<field name="partner_id" />-->
+            </tree>
+        </field>
+    </record>    
+    
+    <record model="ir.ui.view" id="view_auto_stock_supplier_form">
+        <field name="name">auto.stock.supplier.form</field>
+        <field name="model">auto.stock.supplier</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Partner list">
+               <group colspan="4" col="6">            
+                   <field name="suspended" />
+                   <field name="name" />
+                   <!--<field name="partner_id" />-->
+               </group>
+            </form>
+        </field>
+    </record>
+    
+    <record id="auto_stock_supplier_action" model="ir.actions.act_window">
+        <field name="name">Stock report configuration</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">auto.stock.supplier</field>
+        <field name="view_type">form</field>            
+        <field name="view_mode">tree,form</field>            
+        <field name="view_id" ref="view_auto_stock_supplier_tree"/>
+        <field name="search_view_id" ref="view_auto_stock_supplier_search"/>
+        <field name="help">List of supplier for elaboration of stock list report</field>
+    </record>
+    
+    <menuitem
+        action="auto_stock_supplier_action"
+        id="auto_stock_supplier_menu"
+        parent="mexal_order_statistic.menu_base_mexal_configuration"
+        string="Stock report configuration"
+        sequence="10" />
+
+    </data>
+</openerp>
