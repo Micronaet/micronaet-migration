@@ -35,11 +35,8 @@ class Parser(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):
         super(Parser, self).__init__(cr, uid, name, context)
         self.localcontext.update({
-            'lorem':lorem.do_lorem,
-            'random':random,
-            'hello_world':self.hello_world,
         })
 
-    def hello_world(self, name):
-        return "Hello, %s!" % name
+    '''def hello_world(self, name):
+        return "Hello, %s!" % name'''
 

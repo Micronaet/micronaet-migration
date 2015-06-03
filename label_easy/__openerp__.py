@@ -19,18 +19,18 @@
 ###############################################################################
 {
     'name': 'Label for Easylabel',
-    'version': '1.0.0',
+    'version': '0.0.1',
     'category': 'Generic / Label',
     'author': 'Micronaet s.r.l.',
     'website': 'http://www.micronaet.it',
     'depends': [
         'base', 
-        'sale', 
         'product', 
+        'sale', 
         'report_aeroo'
         ],
     'init_xml': [], 
-    'update_xml': [
+    'data': [
         #'security/easylabel_group.xml', 
         #'security/ir.model.access.csv',
         #'easylabel.xml',
