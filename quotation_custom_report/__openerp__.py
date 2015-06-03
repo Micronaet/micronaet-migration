@@ -38,7 +38,8 @@
     'website': "http://www.micronaet.it",
 	"depends": [
 	    "base",
-        "account",
+        "account", # TODO needed?
+        "product",
         "sale",
         "report_aeroo",
         #"report_aeroo_ooo",
@@ -48,8 +49,8 @@
 	"category": "Generic Modules/Aeroo Reporting",
 	"init_xml": [],
 	"demo_xml": [],
-	"update_xml": [
-	    #"order_line.xml",
+	"data": [
+	    "order_line.xml",
 	    "report/report_order.xml",
 	    ],
 	"installable": True

@@ -232,7 +232,7 @@ class SaleOrderLineExtraFields(orm.Model):
     def _discount_value_get(self, cr, uid, context=None):
         if context is None:
             context = {}
-        if context['partner_id']:
+        if context.get('partner_id', False):
            cr.execute("""
                SELECT discount_value, id
                FROM res_partner
@@ -246,7 +246,7 @@ class SaleOrderLineExtraFields(orm.Model):
            return False
 
     _columns = {
-        'multi_discount_rates':fields.char('Discount scale', size=30),
+        'multi_discount_rates': fields.char('Discount scale', size=30),
         'price_use_manual': fields.boolean('Use manual net price',
             help="If specificed use manual net price instead of "
                 "lord price - discount"),

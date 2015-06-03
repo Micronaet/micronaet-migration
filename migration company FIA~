@@ -28,9 +28,8 @@ resource
 sale **
 sale_crm
 stock
-    base_setup <<< ???
+base_setup
 auto_backup **
-
 
 NON INSTALLARE O NON PIU' PRESENTI:
 account_invoice_layout  
@@ -38,7 +37,7 @@ base_contact
 document_ftp
 document_webdav
 mail_gateway
-report_aeroo_ooo        <<<< INSTALLARE SOSTITUTO !!!
+report_aeroo_ooo        <<<< INSTALLARE SOSTITUTO !!!!!
 sale_layout             <<<< VEDERE COME FARE
 outlook
 poweremail
@@ -47,50 +46,52 @@ web_livechat
 crm_caldav
 caldav
 
-
 ***************************   CUSTOM   ****************************************
-NON INSTALLARE:
-amazon_product_merger
-amazon_product_merger_c1
-google_earth
-    todo_list  << VERIFICARE
-
-
-
 INSTALLARE: 
-base_fiam ** base_accounting_program             << MIGRATO (andrebbe splittato e messo meglio nei vari branch)
-base_fiam_pricelist ** custom_price_generation   << MIGRATO (spittare gestione immagini e vedere come dargli una forma)
-bom_fiam ** bom_value_report                     << MIGRATO (vedere se non si sovrappone a i 2 moduli BOM di produzione)
-extra_search                                     << MIGRATO 
-gpb_web                                          << __UNPORTED__ vedere se è necessario comporta un grosso lavoro    (alcuni campi potrebbero esser usati)
-import_log                                       << __UNPORTED__
-label_easy                                       << MIGRATO (import.py file??)
-purchase_extra_field                             << MIGRATO  (stesso nome)
-quotation_photo_fiam                             << MIGRATO  quotation_photo
-report_aeroo_fiam                                << MIGRATO quotation_custom_report
-report_aeroo_gpb                                 << __UNPORTED__
-report_product_pricelist                         << MIGRATO (stesso nome)
-report_purchase_fiam                             << MIGRATO (report_purchase_custom)
-product_extra_photo                              << __UNPORTED__ (iniziato ma sembra di K2)
-report_store_value
-log_and_mail
-mexal_order_statistic TODO complesso!!!!
-report_auto_stock_ TODO complesso!!!!
-
-
-report_aeroo_pricelist ??
+*base_fiam ** base_accounting_program             << MIGRATO (andrebbe splittato e messo meglio nei vari branch)
+*base_fiam_pricelist ** custom_price_generation   << MIGRATO (spittare gestione immagini e vedere come dargli una forma)
+*bom_fiam ** bom_value_report                     << MIGRATO (vedere se non si sovrappone a i 2 moduli BOM di produzione)
+*extra_search                                     << MIGRATO 
+*label_easy                                       << MIGRATO (import.py file??)
+*purchase_extra_field                             << MIGRATO  (stesso nome)
+*quotation_photo_fiam                             << MIGRATO  quotation_photo
+*report_aeroo_fiam                                << MIGRATO quotation_custom_report
+*report_product_pricelist                         << MIGRATO (stesso nome)
+*report_purchase_fiam                             << MIGRATO (report_purchase_custom)
+*report_store_value                               << MIGRATO dipende da mexal_order_statistic
+*mexal_order_statistic                            << MIGRATO
+*report_auto_stock_                               << MIGRATO (ex: report_auto_stock_)
+*gpb_web                                          << __UNPORTED__ vedere se è necessario comporta un grosso lavoro    (alcuni campi potrebbero esser usati)
+*import_log                                       << __UNPORTED__
+*report_aeroo_gpb                                 << __UNPORTED__
+*product_extra_photo                              << __UNPORTED__ (iniziato ma sembra di K2)
+*log_and_mail
 
 NON MIGRARE:
+*crm_partner_categorization                    << MIGRATO lo stesso anche se dovrebbe andare a perdere << VERIFICARE
 NO todo_list
-NO crm_partner_categorization                    << MIGRATO lo stesso anche se dovrebbe andare a perdere << VERIFICARE
 NO amazon_product_merger
 NO amazon_product_merger_c1
-
-gpb_web <<<<<<<< installato in fiam
+NO google_earth
 
 NON FIAM:
 product_image_in_file
+report_aeroo_pricelist ??
 
+******************
+MIGRATI CON VISTE:
+******************
 
-
+* quotation_custom_report:
+  - Vedere se serve il multiindirizzo <<< NON USATO
+  - Vedere scontistica cliente
+  - Importazione dati da fare
+  - Vedere template invio mail
+  - Foto prodotti
+  - Traduzioni
+  - Campi extra utilizzati in offerta (dettagli prodotto)
+  - Manage amazon description for sale.order.line product
+  - TODO attivare discount_per_so_line parameter sotto configuration / sale
+  - TODO attivare group_sale_pricelist parameter sotto configuration / sale
+  
 

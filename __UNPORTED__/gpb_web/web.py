@@ -140,7 +140,7 @@ class web_line(osv.osv):
     '''    
     _name = 'web.line'
     _description = 'Web Line'
-    _order="sequence,name"
+    _order = 'sequence,name'
     
     # fields function:
     def _get_file_name(self, cr, uid, ids, field, params, context=None):
@@ -152,8 +152,8 @@ class web_line(osv.osv):
         return res
         
     _columns = {
-        'name':fields.char('Line', size=80, required=True, readonly=False, translate=True),
-        'category_id':fields.many2one('web.category', 'Category', required=True),
+        'name': fields.char('Line', size=80, required=True, readonly=False, translate=True),
+        'category_id': fields.many2one('web.category', 'Category', required=True),
         'sequence': fields.integer('seq'),
         'file_name': fields.function(_get_file_name, method=True, type="char", size=80, string="Image File name", store=False,),
     }

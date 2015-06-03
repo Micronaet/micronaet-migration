@@ -17,6 +17,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
+
 import os
 import sys
 import logging
@@ -101,16 +102,16 @@ class EasylabelLabel(orm.Model):
         'lot': fields.integer('Lot'),
         'folder': fields.char('Extra folder', size=128,
             help="Extra folder to added to root one."),
-        'root_id':fields.many2one('easylabel.path', 'Root folder',
+        'root_id': fields.many2one('easylabel.path', 'Root folder',
             help="Root folder zone"),
         'path_id': fields.related('root_id','path', type='char', size=128,
             string='Root path folder'),
-        'type':fields.selection([
+        'type': fields.selection([
             ('article','Article'),
             ('package','Package'),
             ('pallet','Pallet'),
             ('placeholder', 'Placeholder')],'Type of label', select=True),
-        'counter':fields.boolean('Has counter',
+        'counter': fields.boolean('Has counter',
             help='Has a parameter that write for each lot number / tot value'),
         }
 
@@ -155,7 +156,7 @@ class EasylabelParameter(orm.Model):
             ],
             string="Mode",
             help="If mode is Dynamic set up here the field automatic value"),
-        'value':fields.char('Value', size=32, help="Value for static text"),
+        'value': fields.char('Value', size=32, help="Value for static text"),
         }
 
     _defaults = {
@@ -539,7 +540,7 @@ class EasylabelBatchLine(orm.Model):
             'easylabel.printer', 'Printer'),
         'partner_id': fields.many2one('res.partner', 'Partner'),
         'product_id': fields.many2one('product.product', 'Product'),
-        'package_id' : fields.related(
+        'package_id': fields.related(
             'product_id','q_x_pack', type='integer', string='Package'),
         'total': fields.integer(
             'Total of labels',
