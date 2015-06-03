@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #
-#    OpenERP, Open Source Management Solution    
+#    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
 #    d$
 #
@@ -33,9 +33,9 @@ from openerp import SUPERUSER_ID, api
 from openerp import tools
 from openerp.tools.translate import _
 from openerp.tools.float_utils import float_round as round
-from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
-    DEFAULT_SERVER_DATETIME_FORMAT, 
-    DATETIME_FORMATS_MAP, 
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
+    DEFAULT_SERVER_DATETIME_FORMAT,
+    DATETIME_FORMATS_MAP,
     float_compare)
 
 
@@ -50,7 +50,7 @@ class StatisticInvoiceAgent(orm.Model):
         'name': fields.char('Agent', size=64, required=True),
         'ref': fields.char('Code', size=10),
         'hide_statistic': fields.boolean('Nascondi statistica'),
-    }    
+    }
 
 class StatisticCategory(orm.Model):
     _name = 'statistic.category'
@@ -59,7 +59,7 @@ class StatisticCategory(orm.Model):
     _columns = {
         'name': fields.char('Description', size=64),
         'trend': fields.boolean('Trend'),
-    }    
+    }
 
     _defaults = {
         'trend': lambda *a: False,
@@ -68,25 +68,25 @@ class StatisticCategory(orm.Model):
 class ResPartnerStatistic(orm.Model):
     """ res_partner_extra_fields
     """
-    
+
     _inherit = 'res.partner'
-    
+
     _columns = {
         'invoice_agent_id': fields.many2one(
             'statistic.invoice.agent', 'Invoice Agent'),
         'trend': fields.boolean(
-            'Trend', 
+            'Trend',
             help="Insert in trend statistic, used for get only interesting "
                 "partner in statistic graph"),
 
         'open_payment_ids': fields.one2many(
             'statistic.deadline', 'partner_id', 'Pagamenti aperti'),
         'statistic_category_id': fields.many2one(
-            'statistic.category', 'Categoria statistica', 
+            'statistic.category', 'Categoria statistica',
             help='Valore di categoria statistica acquisito dal gestionale'),
         'trend_category': fields.related(
-            'statistic_category_id','trend', type='boolean', 
-            string='Categoria trend', 
+            'statistic_category_id','trend', type='boolean',
+            string='Categoria trend',
             help='Indica se la categoria è rappresentata nel grafico trend',
             readonly=True),
 
@@ -108,7 +108,7 @@ class StatisticOrder(orm.Model):
     '''
     _name = 'statistic.order'
     _description = 'Statistic order'
-    
+
     _order='sequence'
 
     _columns = {
@@ -116,18 +116,18 @@ class StatisticOrder(orm.Model):
         'visible': fields.boolean('Visible',),
         'sequence': fields.integer('Sequence'),
         'partner_id': fields.many2one('res.partner', 'Partner'),
-        'property_account_position': fields.related('partner_id', 
-            'property_account_position', type='many2one', 
-            relation='account.fiscal.position', store=True, 
+        'property_account_position': fields.related('partner_id',
+            'property_account_position', type='many2one',
+            relation='account.fiscal.position', store=True,
             string='Fiscal position'),
         'date': fields.date('Date'),
         'deadline': fields.date('Scadenza'),
         'total': fields.float('Total', digits=(16, 2)),
         'country_id': fields.related(
-            'partner_id', 'country', type='many2one', 
+            'partner_id', 'country', type='many2one',
             relation='res.country', string='Country', store=True),
         'zone_id': fields.related(
-            'partner_id', 'zone_id', type='many2one', 
+            'partner_id', 'zone_id', type='many2one',
             relation='res.partner.zone', string='Zona', store=True),
         # Parte delle righe dettaglio:
         'code': fields.char('Code', size=24),
@@ -143,14 +143,14 @@ class StatisticOrder(orm.Model):
             ('a','Articolo'),
             ('d','Descrizione'),
             ], 'Line type'),
-            
+
         # Parte calcolata da visualizzare per prodotto:
         'total_linear_meter': fields.float('Total m/l', digits=(16, 2)),
         'total_volume': fields.float('Total volume', digits=(16, 2)),
         'total_weight': fields.float('Total weight', digits=(16, 2)),
         'note': fields.char('Note', size=64),
 
-        'header_id': fields.many2one('statistic.header', 'Dettagli'),        
+        'header_id': fields.many2one('statistic.header', 'Dettagli'),
         }
 
 class StatisticHeader(orm.Model):
@@ -160,22 +160,22 @@ class StatisticHeader(orm.Model):
     _description = 'Testate ordini'
 
     def to_print(self, cr, uid, ids, context=None):
-        header_mod=self.write(cr, uid, ids, {'print': True}, context=context)                
+        header_mod=self.write(cr, uid, ids, {'print': True}, context=context)
         return True
 
     def no_print(self, cr, uid, ids, context = None):
-        header_mod=self.write(cr, uid, ids, {'print': False}, context=context)                
+        header_mod=self.write(cr, uid, ids, {'print': False}, context=context)
         return True
-        
+
     def _function_order_header_statistic(
             self, cr, uid, ids, field_name, arg, context=None):
         """ Calcola i campi statistici nell'ordine
         """
         if context is None:
            context = {}
-           
-        res = {}   
-        for header in self.browse(cr, uid, ids, context=context):                               
+
+        res = {}
+        for header in self.browse(cr, uid, ids, context=context):
             res[header.id] = {}
             res[header.id]['complete'] = True # initial value
             res[header.id]['total_item'] = 0.0
@@ -195,11 +195,11 @@ class StatisticHeader(orm.Model):
                     'total_volume'] += line.total_volume or 0.0
                 res[header.id][
                     'total_weight'] += line.total_weight or 0.0
-                    
+
                 # test only A(rticle) line
-                if line.line_type=='a' and not line.type=='b': 
+                if line.line_type=='a' and not line.type=='b':
                     res[header.id]['complete'] = False
-                    
+
                 if line.type=='b':
                    res[header.id][
                        'total_linear_meter_ready'] += line.total_linear_meter \
@@ -207,8 +207,8 @@ class StatisticHeader(orm.Model):
                    res[header.id][
                        'total_volume_ready'] += line.total_volume or 0.0
         return res
-    
-    
+
+
     _columns = {
         'name': fields.char('Numero ordine', size=16),
         'visible': fields.boolean('Visible',),
@@ -216,57 +216,57 @@ class StatisticHeader(orm.Model):
         'date': fields.date('Date'),
         'deadline': fields.date('Scadenza'),
         'total': fields.float('Total', digits=(16, 2)), # TODO calcolato
-        'note': fields.char('Note', size=64),        
+        'note': fields.char('Note', size=64),
         'print': fields.boolean('To print'),
 
         'registration_date': fields.date('Registration date'),
         'extra_note': fields.char('Extra Note', size=64),
 
-        'agent_description': fields.char('Agent description', size=36),        
-        
+        'agent_description': fields.char('Agent description', size=36),
+
         'property_account_position': fields.related(
-            'partner_id', 'property_account_position', type='many2one', 
-            relation='account.fiscal.position', store=True, 
+            'partner_id', 'property_account_position', type='many2one',
+            relation='account.fiscal.position', store=True,
             string='Fiscal position'),
         'country_id': fields.related(
-            'partner_id', 'country', type='many2one', relation='res.country', 
+            'partner_id', 'country', type='many2one', relation='res.country',
             string='Country', store=True),
         'zone_id': fields.related(
-            'partner_id', 'zone_id', type='many2one', 
+            'partner_id', 'zone_id', type='many2one',
             relation='res.partner.zone', string='Zona', store=True),
-        
+
         'line_ids': fields.one2many(
             'statistic.order', 'header_id', 'Linee dettaglio'),
 
         # Campi funzione:
         'complete': fields.function(
-            _function_order_header_statistic, method=True, type='boolean', 
+            _function_order_header_statistic, method=True, type='boolean',
             string='Completo', multi="statistiche", store=False),
         'total_item': fields.function(
-            _function_order_header_statistic, method=True, type='float', 
-            digits=(16, 2), string='N. art.', multi="statistiche", 
+            _function_order_header_statistic, method=True, type='float',
+            digits=(16, 2), string='N. art.', multi="statistiche",
             store=False),
         'total_item_complete': fields.function(
-            _function_order_header_statistic, method=True, type='float', 
-            digits=(16, 2), string='N. Art. (pronti)', multi="statistiche", 
+            _function_order_header_statistic, method=True, type='float',
+            digits=(16, 2), string='N. Art. (pronti)', multi="statistiche",
             store=False),
         'total_linear_meter': fields.function(
-            _function_order_header_statistic, method=True, type='float', 
-            digits=(16, 2), string='Mt. lineari', multi="statistiche", 
+            _function_order_header_statistic, method=True, type='float',
+            digits=(16, 2), string='Mt. lineari', multi="statistiche",
             store=False),
         'total_linear_meter_ready': fields.function(
-            _function_order_header_statistic, method=True, type='float', 
-            digits=(16, 2), string='Mt. lineari (pronti)', multi="statistiche", 
+            _function_order_header_statistic, method=True, type='float',
+            digits=(16, 2), string='Mt. lineari (pronti)', multi="statistiche",
             store=False),
         'total_volume': fields.function(
-            _function_order_header_statistic, method=True, type='float', 
+            _function_order_header_statistic, method=True, type='float',
             digits=(16, 2), string='Volume', multi="statistiche", store=False),
         'total_volume_ready': fields.function(
-            _function_order_header_statistic, method=True, type='float', 
-            digits=(16, 2), string='Volume (pronto)', multi="statistiche", 
+            _function_order_header_statistic, method=True, type='float',
+            digits=(16, 2), string='Volume (pronto)', multi="statistiche",
             store=False),
         'total_weight': fields.function(
-            _function_order_header_statistic, method=True, type='float', 
+            _function_order_header_statistic, method=True, type='float',
             digits=(16, 2), string='Peso', multi="statistiche", store=False),
 
         'port_code': fields.selection([
@@ -286,15 +286,15 @@ class statistic_deadline(orm.Model):
     _name = 'statistic.deadline'
     _description = 'Statistic deadline'
     _order='name,deadline' # name is loaded with partner name during import
-    
+
     _columns = {
         'name': fields.char('Deadline', size=64),
         'visible': fields.boolean('Visible',),
 
         'partner_id': fields.many2one('res.partner', 'Partner'),
         'property_account_position': fields.related(
-            'partner_id', 'property_account_position', type='many2one', 
-            relation='account.fiscal.position', store=True, 
+            'partner_id', 'property_account_position', type='many2one',
+            relation='account.fiscal.position', store=True,
             string='Fiscal position'),
         'c_o_s': fields.char('Cl. o For.', size=1),
         'deadline': fields.date('Dead line'),
@@ -304,9 +304,9 @@ class statistic_deadline(orm.Model):
         'fido_ko': fields.related(
             'partner_id', 'fido_ko', type="boolean", string="Fido concesso"),
         'fido_total': fields.related(
-            'partner_id', 'fido_total',  type="float", digits=(16, 2), 
+            'partner_id', 'fido_total',  type="float", digits=(16, 2),
             string="Importo fido"),
-        
+
         'total': fields.float('Total', digits=(16, 2)),
         'in': fields.float('Entrate', digits=(16, 2)),
         'out': fields.float('Uscite', digits=(16, 2)),
@@ -316,30 +316,30 @@ class statistic_deadline(orm.Model):
         'scoperto_s':  fields.float('Scoperto fornitore', digits=(16, 2)),
 
         'saldo_c': fields.related(
-            'partner_id', 'saldo_c', type='float', digits=(16, 2), 
+            'partner_id', 'saldo_c', type='float', digits=(16, 2),
             string='Saldo (cliente)'),
         'saldo_s': fields.related(
-            'partner_id', 'saldo_s', type='float', digits=(16, 2), 
+            'partner_id', 'saldo_s', type='float', digits=(16, 2),
             string='Saldo (fornitore)'),
 
         'ddt_e_oc_c': fields.related(
-            'partner_id', 'ddt_e_oc_c', type='float', digits=(16, 2), 
+            'partner_id', 'ddt_e_oc_c', type='float', digits=(16, 2),
             string='DDT + OC aperti (cliente)'),
         'ddt_e_oc_s': fields.related(
-            'partner_id', 'ddt_e_oc_s', type='float', digits=(16, 2), 
+            'partner_id', 'ddt_e_oc_s', type='float', digits=(16, 2),
             string='DDT + OC aperti (fornitore)'),
 
         'type': fields.selection([
-            ('b','Bonifico'),            
-            ('c','Contanti'),            
-            ('r','RIBA'),            
-            ('t','Tratta'),            
-            ('m','Rimessa diretta'),            
+            ('b','Bonifico'),
+            ('c','Contanti'),
+            ('r','RIBA'),
+            ('t','Tratta'),
+            ('m','Rimessa diretta'),
             ('x','Rimessa diretta X'),
-            ('y','Rimessa diretta Y'),            
-            ('z','Rimessa diretta Z'),            
-            ('v','MAV'),            
-        ], 'Type', select=True),   
+            ('y','Rimessa diretta Y'),
+            ('z','Rimessa diretta Z'),
+            ('v','MAV'),
+        ], 'Type', select=True),
     }
     _defaults = {
         'total': lambda *a: 0,
@@ -352,15 +352,15 @@ class statistic_deadline(orm.Model):
 class StatisticTrend(orm.Model):
     _name = 'statistic.trend'
     _description = 'Statistic Trend'
-    
-    def _function_index_increment(self, cr, uid, ids, field_name=None, 
+
+    def _function_index_increment(self, cr, uid, ids, field_name=None,
             arg=False, context=None):
-        """ Calcola il migliore e il peggiore incremento rispetto 
+        """ Calcola il migliore e il peggiore incremento rispetto
             l'anno precedente
         """
         if context is None:
            context = {}
-           
+
         result = {}
         for item in self.browse(cr, uid, ids, context=context):
             result[item.id]={}
@@ -368,15 +368,15 @@ class StatisticTrend(orm.Model):
             if increment > 0: #increment (best)
                result[item.id]['best']=increment or 0.0
                result[item.id]['worst']= 0.0
-            else: # decrement (worst)    
+            else: # decrement (worst)
                result[item.id]['worst']=-increment or 0.0
                result[item.id]['best']= 0.0
         return result
-            
+
     _columns = {
         'name': fields.char('Description', size=64),
         'visible': fields.boolean('Visible',),
-        
+
         'partner_id': fields.many2one('res.partner', 'Partner'),
 
         'percentage': fields.float(
@@ -387,18 +387,18 @@ class StatisticTrend(orm.Model):
             '% sul fatt. stag. -2', digits=(16, 5)),
 
         'total': fields.float('Tot. stag. attuale', digits=(16, 2)),
-        'total_last': fields.float('Tot. stag. -1', digits=(16, 2)),        
-        'total_last_last': fields.float('Tot. stag. -2', digits=(16, 2)),        
+        'total_last': fields.float('Tot. stag. -1', digits=(16, 2)),
+        'total_last_last': fields.float('Tot. stag. -2', digits=(16, 2)),
 
         'trend_category': fields.related(
-            'partner_id', 'trend_category', type='boolean', readonly=True, 
+            'partner_id', 'trend_category', type='boolean', readonly=True,
             string='Categoria trend'),
         'statistic_category_id': fields.related(
-            'partner_id', 'statistic_category_id', type='many2one', 
-            relation="statistic.category", readonly=True, 
+            'partner_id', 'statistic_category_id', type='many2one',
+            relation="statistic.category", readonly=True,
             string='Categoria statistica partner'),
         'trend': fields.related(
-            'partner_id', 'trend', type='boolean', readonly=True, 
+            'partner_id', 'trend', type='boolean', readonly=True,
             string='Important partner'),
 
         'type_document': fields.selection([
@@ -408,15 +408,15 @@ class StatisticTrend(orm.Model):
             ], 'Tipo doc.', select=True),
 
         'best': fields.function(
-            _function_index_increment, method=True, type='float', 
+            _function_index_increment, method=True, type='float',
             string='Best trend', multi='indici', store=True,),
         'worst': fields.function(
-            _function_index_increment, method=True, type='float', 
+            _function_index_increment, method=True, type='float',
             string='Worst trend', multi='indici', store=True,),
     }
 
 class StatisticTrendoc(orm.Model):
-    '''Creato stesso oggetto che conterrà pero il fatturato e gli ordini in 
+    '''Creato stesso oggetto che conterrà pero il fatturato e gli ordini in
        scadenza per il mese
     '''
     _inherit = 'statistic.trend'
@@ -425,25 +425,25 @@ class StatisticInvoice(orm.Model):
     _name = 'statistic.invoice'
     _description = 'Statistic invoice'
     _order = 'month, name'
-    
+
     _columns = {
         'name': fields.char('Descrizione', size=64),
-        'visible': fields.boolean('Visible',),        
+        'visible': fields.boolean('Visible',),
         'partner_id': fields.many2one('res.partner', 'Partner'),
-        'invoice_agent_id': fields.related('partner_id','invoice_agent_id', 
-            type='many2one', relation='statistic.invoice.agent', 
+        'invoice_agent_id': fields.related('partner_id','invoice_agent_id',
+            type='many2one', relation='statistic.invoice.agent',
             string='Invoice agent'),
-        'hide_statistic': fields.related('invoice_agent_id','hide_statistic', 
+        'hide_statistic': fields.related('invoice_agent_id','hide_statistic',
             type='boolean', string='Nascondi statistica'),
-        'type_cei': fields.related('partner_id','type_cei', type='char', 
+        'type_cei': fields.related('partner_id','type_cei', type='char',
             size=1, string='C E I'),
         'total': fields.float('Stag. attuale', digits=(16, 2)),
-        'total_last': fields.float('Stag. -1', digits=(16, 2)),        
-        'total_last_last': fields.float('Stag. -2', digits=(16, 2)),        
-        'total_last_last_last': fields.float('Stag. -3', digits=(16, 2)),        
+        'total_last': fields.float('Stag. -1', digits=(16, 2)),
+        'total_last_last': fields.float('Stag. -2', digits=(16, 2)),
+        'total_last_last_last': fields.float('Stag. -3', digits=(16, 2)),
         'total_last_last_last_last': fields.float('Stag. -4', digits=(16, 2)),
         'season_total': fields.char(
-            'Totale', size=15, 
+            'Totale', size=15,
             help='Only a field for group in graph total invoice'),
         'type_document': fields.selection([
             ('ft', 'Fattura'),
@@ -462,23 +462,23 @@ class StatisticInvoice(orm.Model):
             (8, 'Mese 12*: Agosto'),
             (9, 'Mese 01: Settembre'),
             (10, 'Mese 02: Ottobre'),
-            (11, 'Mese 03: Novembre'),            
-            (12, 'Mese 04: Dicembre'),            
-            ],'Mese', select=True),  
-        'trend': fields.related('partner_id', 'trend', type='boolean', 
+            (11, 'Mese 03: Novembre'),
+            (12, 'Mese 04: Dicembre'),
+            ],'Mese', select=True),
+        'trend': fields.related('partner_id', 'trend', type='boolean',
             readonly=True, string='Important partner'),
 
         # Extra info for filter graph:
-        'zone_id': fields.related('partner_id','zone_id', type='many2one', 
+        'zone_id': fields.related('partner_id','zone_id', type='many2one',
             relation='res.partner.zone', string='Zone', store=True),
-        'zone_type': fields.related('zone_id','type', type='selection', 
+        'zone_type': fields.related('zone_id','type', type='selection',
             selection=[
                 ('region', 'Region'), ('state', 'State'), ('area', 'Area'),
                 ], string='Tipo', store=True),
-        'country_id': fields.related('partner_id','country', type='many2one', 
+        'country_id': fields.related('partner_id','country', type='many2one',
             relation='res.country', string='Country', store=True),
         }
-    
+
     _defaults = {
         'total': lambda *a: 0.0,
         'total_last': lambda *a: 0.0,
@@ -493,13 +493,13 @@ class StatisticInvoiceProduct(orm.Model):
     _name = 'statistic.invoice.product'
     _description = 'Statistic invoice'
     _order = 'month, name'
-    
+
     _columns = {
-        'name': fields.char('Famiglia prodotto', size=64),        
+        'name': fields.char('Famiglia prodotto', size=64),
         'visible': fields.boolean('Visible',), ## used!
         'total': fields.float('Stag. attuale', digits=(16, 2)),
-        'total_last': fields.float('Stag. -1', digits=(16, 2)),        
-        'total_last_last': fields.float('Stag. -2', digits=(16, 2)),        
+        'total_last': fields.float('Stag. -1', digits=(16, 2)),
+        'total_last_last': fields.float('Stag. -2', digits=(16, 2)),
 
         'percentage': fields.float(
             '% sul fatt. stag. corrente', digits=(16, 5)),
@@ -509,7 +509,7 @@ class StatisticInvoiceProduct(orm.Model):
             '% sul fatt. stag. -2', digits=(16, 5)),
 
         'type_document': fields.selection([
-            ('ft','Fattura'),   
+            ('ft','Fattura'),
             ('oc','Ordine'),
             ('bc','DDT'),
             ], 'Tipo doc.', select=True), # togliere?
@@ -525,9 +525,9 @@ class StatisticInvoiceProduct(orm.Model):
             (8, 'Mese 12*: Agosto'),
             (9, 'Mese 01: Settembre'),
             (10, 'Mese 02: Ottobre'),
-            (11, 'Mese 03: Novembre'),            
-            (12, 'Mese 04: Dicembre'),            
-        ],'Mese', select=True),  
+            (11, 'Mese 03: Novembre'),
+            (12, 'Mese 04: Dicembre'),
+        ],'Mese', select=True),
     }
 
     _defaults = {
@@ -542,9 +542,9 @@ class StatisticInvoiceProductRemoved(orm.Model):
     '''
     _name = 'statistic.invoice.product.removed'
     _description = 'Statistic Product to remove'
-    
+
     _columns = {
         'name': fields.char(
             'Famiglia', size = 64, required=True),
-    }    
+    }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

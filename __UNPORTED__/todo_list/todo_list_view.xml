@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    <!-- res.partner -->
+       <!-- Form -->
+    <record model="ir.ui.view" id="view_res_partner_add_todo_list_form">
+        <field name="name">res.partner.todo.form</field>
+        <field name="model">res.partner</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+           <xpath expr="/form/notebook/page[@string='Notes']" position="after">
+              <page string="Todo list">
+                 <button name="dummy_action_refresh" string="Refresh" type="object" />
+                 <newline />
+                 <field name="todo_ids" nolabel="1">                     
+                      <tree colors="grey:complete==True;blue:complete==False">
+                         <field name="complete" />
+                         <field name="date" />
+                         <field name="deadline" />
+                         <field name="name" />
+                         <field name="note" />
+                      </tree>
+                      <form>
+                         <group colspan="4" col="6">
+                           <field name="complete" />
+                           <field name="date" />
+                           <field name="deadline" />
+                         </group>  
+                         <separator string="Descrizione" colspan="4"/>
+                         <field name="name" colspan="4" nolabel="1" />
+                         <separator string="Note" colspan="4"/>
+                         <field name="note" nolabel="1" colspan="4" />
+                      </form>
+                 </field>                  
+              </page>
+           </xpath>
+        </field>
+    </record>
+    <!--res.partner.todo-->
+    <record model="ir.ui.view" id="view_res_partner_todo_search">
+        <field name="name">res.partner.todo.search</field>
+        <field name="model">res.partner.todo</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Search Todo list">
+                <filter string="Open" name="opened" icon="terp-personal" domain="[('complete','!=',1)]" help="Show only open elements"/>                        
+                <separator orientation="vertical"/>
+                <filter string="Deadlined" name="deadlined" icon="terp-personal" domain="[('deadline','&lt;=',time.strftime('%%Y-%%m-%%d 00:00:00'))]" help="Element is deadlined"/>                        
+                <filter string="Not fixed" name="deadlined" icon="terp-personal" domain="[('deadline','=',False)]" help="Deadline not fixed"/> 
+                <separator orientation="vertical"/>
+                <field name="complete" />
+                <field name="partner_id" />
+                <field name="date" />
+                <field name="deadline" />
+                <field name="name" />
+            </search>
+        </field>
+    </record>
+        
+    <record model="ir.ui.view" id="view_res_partner_todo_tree">
+        <field name="name">res.partner.todo.tree</field>
+        <field name="model">res.partner.todo</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Todo list" editable="bottom" >
+                 <field name="complete" />
+                 <field name="partner_id" />
+                 <field name="date" />
+                 <field name="deadline" />
+                 <field name="name" />
+                 <field name="note" />
+                 <button name="complete_todo" string="Complete" type="object" icon="gtk-ok" />                
+            </tree>
+        </field>
+    </record>    
+    <record model="ir.ui.view" id="view_res_partner_todo_form">
+        <field name="name">res.partner.todo.form</field>
+        <field name="model">res.partner.todo</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Todo list">
+                 <group colspan="4" col="8">
+                   <field name="complete" />
+                   <field name="partner_id" />
+                   <field name="date" />
+                   <field name="deadline" />
+                 </group>  
+                 <separator string="Descrizione" colspan="4"/>
+                 <field name="name" colspan="4" nolabel="1" />
+                 <separator string="Note" colspan="4"/>
+                 <field name="note" nolabel="1" colspan="4" />
+            </form>
+        </field>
+    </record>
+    <record id="res_partner_todo_action" model="ir.actions.act_window">
+        <field name="name">Todo list</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner.todo</field>
+        <field name="view_type">form</field>            
+        <field name="view_mode">tree,form</field>            
+        <field name="view_id" ref="view_res_partner_todo_tree"/>
+        <field name="search_view_id" ref="view_res_partner_todo_search"/>
+        <field name="context">{"search_default_opened":1,}</field>
+        <field name="help">List of todo activities per costumers</field>
+    </record>
+    <!--<menuitem
+        action="action_partner_color_form"
+        id="menu_partner_color_form"
+        parent="base.menu_partner_form"
+        sequence="3"/>-->
+    <menuitem
+        action="res_partner_todo_action"
+        id="res_partner_todo_menu"
+        parent="base.menu_partner_form"
+        string="Partner todo list"
+        sequence="10" />
+
+    <record model="ir.actions.act_window" id="res_partner_todo_action_dashboard">
+        <field name="name">Todo list deadlined</field>
+        <field name="res_model">res.partner.todo</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <!--<field name="search_view_id" ref="view_statistic_invoice_product_search"/>-->
+        <field name="domain">[('deadline','&lt;=',time.strftime('%Y-%m-%d 00:00:00')),('complete','=',False)]</field>                        
+    </record>
+
+    <!--<menuitem
+        action="res_partner_todo_action_dashboard"
+        id="res_partner_todo_dashboard_menu"
+        parent="base.menu_partner_form"
+        string="Partner todo list deadlined"
+        sequence="11" />-->
+
+    <!--<action colspan="4" name="%(res_partner_todo_action_dashboard)d" string="Todo deadlined" width="3200" />-->
+
+    </data>
+</openerp>

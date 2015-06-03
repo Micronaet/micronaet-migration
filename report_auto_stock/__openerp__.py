@@ -28,30 +28,28 @@
 ##############################################################################
 
 {
-    'name' : 'Auto stock report',
-    'version' : '0.1',
-    'category' : 'Customization',
-    'description' : """ Auto sending report for stock information for particular
-                        suppliers
-                    """,
-    'author' : 'Micronaet s.r.l.',
-    'website' : 'http://www.micronaet.it',
-    'license' : 'AGPL-3',
-    'depends' : ['base',
-                 'base_fiam',
-                 'mexal_order_statistic',
-                 'report_aeroo',
-                 'report_aeroo_ooo',
-                 ],
-    'init_xml' : [],
-    'demo_xml' : [],
-    'update_xml' : [
-                    'security/ir.model.access.csv',
-                    'auto_stock_view.xml',
-                    'report/report.xml',
-                    ],
+    'name': 'Auto stock report',
+    'version': '0.1',
+    'category': 'Customization',
+    'author': 'Micronaet s.r.l.',
+    'website': 'http://www.micronaet.it',
+    'license': 'AGPL-3',
+    'depends': [
+        'base',
+        'base_accounting_program',
+        'mexal_order_statistic',
+        'report_aeroo',
+        #'report_aeroo_ooo',
+        ],
+    'init_xml': [],
+    'demo_xml': [],
+    'data': [
+        'security/ir.model.access.csv',
+        #'auto_stock_view.xml',
+        'report/report.xml',
+        ],
     'active': False,
     'installable': True,
-}
+    }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

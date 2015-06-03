@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2008-2010 SIA "KN dati". (http://kndati.lv) All Rights Reserved.
-#                    General contacts <info@kndati.lv>
+# Copyright (c) 2009-2011 company (http://sitename) All Rights Reserved.
+#                    General contacts <author.name@company.com>
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -26,4 +27,28 @@
 #
 ##############################################################################
 
-import parser
+{
+    'name' : 'Log and mail',
+    'version' : '0.1',
+    'category' : 'Log',
+    'description' : """ Little log list of events that can send, with internal
+                        configuration of SMTP mail server, mail to particular
+                        user to warn on events
+                    """,
+    'author' : 'Micronaet s.r.l.',
+    'website' : 'http://www.micronaet.it',
+    'license' : 'AGPL-3',
+    'depends' : ['base',],
+    'init_xml' : [],
+    'demo_xml' : [],
+    'update_xml' : [
+                    'security/group.xml',                     
+                    'security/ir.model.access.csv',                     
+                    'log_view.xml',
+                    'scheduler.xml',
+                    ],
+    'active': False,
+    'installable': True,
+}
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

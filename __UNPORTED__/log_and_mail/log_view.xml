@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    <!-- Normal view: -->
+     <!-- logmail.log -->
+       <!-- Search -->
+    <record model="ir.ui.view" id="view_logmail_log_search">
+        <field name="name">Log and mail search</field>
+        <field name="model">logmail.log</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Log and mail">
+                    <field name="name" />
+                    <field name="create" />
+            </search>
+        </field>
+    </record>
+
+       <!-- Form -->
+    <record model="ir.ui.view" id="view_logmail_log_form">
+        <field name="name">Log and mail form</field>
+        <field name="model">logmail.log</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Log and mail">
+                <group colspan="4" col="6">
+                   <field name="create" readonly="1" />
+                   <field name="name" readonly="1" />
+                   <field name="type" readonly="1" />
+                   
+                   <field name="mail" readonly="1" />
+                   <field name="from" readonly="1" />
+                   <field name="email" readonly="1" />
+                   <field name="mail_send" readonly="1" />
+                   <field name="error" readonly="1" attrs="{'invisible': [('mail_send','=',True)]}"/>
+               </group>    
+               <separator string="Log text" colspan="4" />
+               <field name="log_text" colspan="4" nolabel="1" readonly="1" />
+               <separator string="Attachment file list" colspan="4" />
+               <field name="attachment" colspan="4" nolabel="1" readonly="1" />
+            </form>
+        </field>
+    </record>
+
+       <!-- Tree -->
+    <record model="ir.ui.view" id="view_logmail_log_tree">
+        <field name="name">Log and mail tree</field>
+        <field name="model">logmail.log</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Log and mail" colors="grey:type=='info';green:mail_send==True;blue:mail_send==False and mail==True;orange:type=='warning';red:type=='error'">
+                <field name="mail" />
+                <field name="create" />
+                <field name="name" />
+                <field name="type" />
+                <field name="mail_send" />
+                <field name="from" />
+                <field name="email" />
+                <field name="error" />
+            </tree>
+        </field>
+    </record>
+    
+       <!-- Action -->
+    <record model="ir.actions.act_window" id="action_logmail_log">
+        <field name="name">Log and mail</field>
+        <field name="res_model">logmail.log</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_logmail_log_tree"/>
+        <field name="search_view_id" ref="view_logmail_log_search"/>
+    </record>
+
+
+     <!-- logmail.smtp -->
+       <!-- Search -->
+    <record model="ir.ui.view" id="view_logmail_smtp_search">
+        <field name="name">SMTP server</field>
+        <field name="model">logmail.smtp</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Log and mail">
+                    <field name="name" />
+            </search>
+        </field>
+    </record>
+
+       <!-- Form -->
+    <record model="ir.ui.view" id="view_logmail_smtp_form">
+        <field name="name">SMTP server</field>
+        <field name="model">logmail.smtp</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Log and mail">
+                <field name="name" />
+                <field name="address" />
+                <field name="port" />
+                <field name="mail_from" />
+
+                <group colspan="4" col="6">
+                    <field name="require_user" />
+                    <field name="user" attrs="{'invisible': [('require_user','=',False)]}"/>
+                    <field name="password" attrs="{'invisible': [('require_user','=',False)]}" />
+               </group>    
+            </form>
+        </field>
+    </record>
+
+       <!-- Tree -->
+    <record model="ir.ui.view" id="view_logmail_smtp_tree">
+        <field name="name">SMTP server</field>
+        <field name="model">logmail.smtp</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Log and mail">
+                <field name="name" />
+                <field name="address" />
+                <field name="require_user" />
+                <field name="user" />
+                <field name="port" />
+            </tree>
+        </field>
+    </record>
+    
+       <!-- Action -->
+    <record model="ir.actions.act_window" id="action_logmail_smtp">
+        <field name="name">SMTP server</field>
+        <field name="res_model">logmail.smtp</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_logmail_log_tree"/>
+        <field name="search_view_id" ref="view_logmail_log_search"/>
+    </record>
+
+       <!-- Menuitems -->
+    <menuitem name="Log and mail" id="menu_logmail" sequence="40" />
+       <menuitem name="Log activity" parent="menu_logmail" id="menu_logmail_log" sequence="10"/>
+          <menuitem name="Logs" parent="menu_logmail_log" id="menu_logmail_log_log" sequence="10" action="action_logmail_log" />
+       <menuitem name="Configuration" parent="menu_logmail" id="menu_logmail_configuration" sequence="99" />
+           <menuitem name="SMTP server" parent="menu_logmail_configuration" id="menu_logmail_smtp" sequence="10" action="action_logmail_smtp" />
+  </data>
+</openerp>

@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <openerp>
 <data noupdate="1">
-
     <record id="aeroo_store_auto_report_id" model="ir.actions.report.xml">
         <field name="name">Auto report store supplier</field>
         <field name="type">ir.actions.report.xml</field>
@@ -9,11 +8,11 @@
         <field name="report_name">store_auto_report</field>
         <field name="report_type">aeroo</field>
         <field name="in_format">oo-odt</field>
-        <field name="parser_loc">report_auto_stock_/report/parser.py</field>
-        <field name="report_rml">report_auto_stock_/report/store.odt</field>
+        <field name="parser_loc">report_auto_stock/report/parser.py</field>
+        <field name="report_rml">report_auto_stock/report/store.odt</field>
         <field name="parser_state">loc</field>
         <field name="tml_source">file</field>
-        <field name="out_format" eval="ref('report_aeroo_ooo.report_mimetypes_pdf_odt')"></field>
+        <!--<field name="out_format" eval="ref('report_aeroo_ooo.report_mimetypes_pdf_odt')"></field>-->
     </record>
 
     <ir_set>
