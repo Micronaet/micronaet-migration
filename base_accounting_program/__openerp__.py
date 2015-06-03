@@ -28,11 +28,8 @@
     'website': 'http://www.micronaet.it',
     'depends': [
         'base',
-        #'product',
-        'crm',
-        #'auto_backup',
-        #'project',
         'sale',
+        'crm',
         ],
     'init_xml': [], 
     'data': [
