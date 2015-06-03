@@ -32,7 +32,7 @@
 	"init_xml": [],
 	"demo_xml": [],
 	"update_xml": [
-        "purchase_view.xml",
+        #"purchase_view.xml", # TODO
         ],
 	"installable": True
     }
