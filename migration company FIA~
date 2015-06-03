@@ -97,5 +97,10 @@ MIGRATI CON VISTE:
   - TODO attivare discount_per_so_line parameter sotto configuration / sale
   - TODO attivare group_sale_pricelist parameter sotto configuration / sale
 
-
+* base_accounting_program
+  - TODO finire migrazione viste commentate (per righe ordine)
+  
+* label_easy:
+  - Dovrebbe essere fatta tutta 
+  - Migrare tutti i dati presenti nella vecchia versione  
 
