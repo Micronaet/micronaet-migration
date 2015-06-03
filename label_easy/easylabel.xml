@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
-       <!--BLOCCO: easylabel.easylabel:-->
+        <menuitem id="easylabel_menu" parent="base.menu_sales" sequence="0" name="Easylabel" groups="label_easy.group_easylabel_manager"/>
+            <menuitem id="easylabel_menu_configuration" parent="easylabel_menu" sequence="0" name="Configuration" />
+
+       <!--easylabel.easylabel:-->
          <record model="ir.ui.view" id="easylabel_easylabel_tree">
             <field name="name">Easylabel</field>
             <field name="model">easylabel.easylabel</field>
@@ -39,7 +42,7 @@
                   parent="easylabel_menu_configuration"
                   icon="STOCK_PRINT" />
 
-       <!--BLOCCO: easylabel.label:-->
+       <!--easylabel.label:-->
          <record model="ir.ui.view" id="easylabel_label_tree">
             <field name="name">Easylabel label list</field>
             <field name="model">easylabel.label</field>
@@ -105,14 +108,13 @@
             <field name="view_mode">tree,form</field>
         </record> 
         
-        <menuitem id="easylabel_menu" parent="base.menu_sales" sequence="0" name="Easylabel" groups="label_easy.group_easylabel_manager"/>
         <menuitem action="easylabel_label_action" 
                   id="easylabel_label_menuitem" 
                   sequence="10"
                   parent="easylabel_menu"
                   icon="STOCK_PRINT" />
 
-       <!--BLOCCO: easylabel.label:-->
+       <!--easylabel.label:-->
          <record model="ir.ui.view" id="easylabel_parameter_tree">
             <field name="name">Easylabel parameter list</field>
             <field name="model">easylabel.parameter</field>
@@ -140,14 +142,14 @@
             </field>
          </record>
 
-       <!--BLOCCO: inherit res.partner:-->
+       <!--inherit res.partner:-->
         <record model="ir.ui.view" id="view_partner_form_inherit_easylabel">
             <field name="name">Partner Easylabel</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <notebook position="inside">
+                <xpath expr="/form/sheet/notebook" position="inside">
                     <page string="Easylabel" groups="label_easy.group_easylabel_manager">
                         <separator string="Standard label in Easylabel" colspan="4" />
                         <field name="article_label_id" domain="[('type','=','article')]" /><newline />   
@@ -171,7 +173,7 @@
                                </form>  
                         </field> 
                     </page>
-                </notebook>
+                </xpath>
             </field>
         </record>
         <record model="ir.ui.view" id="view_partner_tree_inherit_easylabel">
@@ -182,8 +184,6 @@
             <field name="arch" type="xml">
                 <field name="user_id" position="after">
                       <field name="article_label_id" groups="label_easy.group_easylabel_manager" />
-                      <!--<field name="pack_label_id" />
-                      <field name="pallet_label_id" />-->                      
                 </field>             
             </field>
         </record>
@@ -195,13 +195,11 @@
                 <field name="arch" type="xml">
                        <field name="user_id" position="after">
                               <field name="article_label_id" groups="label_easy.group_easylabel_manager" />
-                              <!--<field name="pack_label_id" />
-                              <field name="pallet_label_id" />-->                      
                        </field>
                 </field>
         </record>
 
-       <!--BLOCCO: easylabel.printer:-->
+       <!--easylabel.printer:-->
          <record model="ir.ui.view" id="easylabel_printer_tree">
             <field name="name">Easylabel printer list</field>
             <field name="model">easylabel.printer</field>
@@ -237,14 +235,13 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record> 
-        <menuitem id="easylabel_menu_configuration" parent="easylabel_menu" sequence="0" name="Configuration" />
         <menuitem action="easylabel_printer_action" 
                   id="easylabel_printer_menuitem" 
                   sequence="10"
                   parent="easylabel_menu_configuration"
                   icon="STOCK_PRINT" />
 
-       <!--BLOCCO: easylabel.batch:-->
+       <!--easylabel.batch:-->
          <record model="ir.ui.view" id="easylabel_batch_tree">
             <field name="name">Easylabel batch queue</field>
             <field name="model">easylabel.batch</field>
@@ -314,7 +311,7 @@
                   parent="easylabel_menu"
                   icon="STOCK_PRINT" />
 
-       <!--BLOCCO: easylabel.path:-->
+       <!--easylabel.path:-->
          <record model="ir.ui.view" id="easylabel_path_tree">
             <field name="name">Easylabel path list</field>
             <field name="model">easylabel.path</field>
@@ -351,7 +348,7 @@
                   parent="easylabel_menu_configuration"
                   icon="STOCK_DIRECTORY" />
 
-       <!--BLOCCO: res.partner: (extra view for test label insert) -->
+       <!--res.partner: (extra view for test label insert) -->
         <record id="res_partner_search_label" model="ir.ui.view">
             <field name="name">Partner label search</field>
             <field name="model">res.partner</field>
@@ -364,7 +361,7 @@
                         <separator orientation="vertical"/>
                         <field name="mexal_c" />
                         <field name="name" />
-                        <field name="country" />
+                        <field name="country_id" />
                         <separator orientation="vertical"/>
                         <field name="article_label_id" />
                         <field name="pack_label_id" />
@@ -388,7 +385,7 @@
                 <tree string="Partner list with label">
                     <field name="name" />
                     <field name="mexal_c" />
-                    <field name="country" />
+                    <field name="country_id" />
                     <field name="article_label_id" />
                     <field name="pack_label_id" />
                     <field name="pallet_label_id" />
@@ -404,7 +401,7 @@
                 <form string="Partner with label">
                     <field name="name" readonly="1" />
                     <field name="mexal_c" readonly="1" />
-                    <field name="country" readonly="1" />
+                    <field name="country_id" readonly="1" />
                     <group colspan="4" col="6">
                         <field name="article_label_id" />
                         <field name="pack_label_id" />
@@ -450,7 +447,7 @@
                  parent="res_partner_tree_label_action_startup_menuitem"
                  icon="terp-camera_test" />
 
-       <!--BLOCCO: product.product: (extra view for test stock) -->
+       <!--product.product: (extra view for test stock) -->
         <record id="product_product_search_label" model="ir.ui.view">
             <field name="name">Product for label search</field>
             <field name="model">product.product</field>
@@ -458,22 +455,14 @@
             <field name="arch" type="xml">
                 <search string="Product search">
                     <group>
-                        <!--<filter string="Customer" name="customer" icon="terp-personal" domain="[('customer','=','1')]" />
-                        <filter string="Supplier" name="supplier"  icon="terp-personal" domain="[('supplier','=','1')]" />
-                        <separator orientation="vertical"/>-->
                         <field name="code" string="Code"/>
                         <field name="name" />
                         <field name="q_x_pack" />
                         <field name="categ_id" />
-                        <!--<separator orientation="vertical"/>
-                        <field name="article_label_id" />
-                        <field name="pack_label_id" />
-                        <field name="pallet_label_id" />-->
                     </group>
                     <newline/>
                     <group expand="0" string="Group By...">
                        <filter string="Category" icon="terp-personal" domain="[]" context="{'group_by' : 'categ_id'}" />
-                       <!--<filter string="Q x pack" icon="terp-personal" domain="[]" context="{'group_by' : 'q_x_pack'}" />-->
                    </group>
                  </search>
             </field>
