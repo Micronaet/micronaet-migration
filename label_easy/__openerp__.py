@@ -38,7 +38,7 @@
         'security/easylabel_group.xml', 
         'security/ir.model.access.csv',
         'easylabel.xml',
-        #'wizard/view_wizard.xml',
+        'wizard/view_wizard.xml',
         'report/report_easylabel.xml',
         ],
     "qweb": [],

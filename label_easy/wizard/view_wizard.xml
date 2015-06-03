@@ -4,23 +4,28 @@
        <record id="batch_import_wizard" model="ir.ui.view">
             <field name="name">Wizard import CSV</field>
             <field name="model">easylabel.batch.wizard</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Import CSV data">
-                    <label colspan="4" string="NOTE: Use XLS macro for export CSV file before this operation!" />
-                    <separator string="Additional note" colspan="4" />
-                    <field name="week" />
-                    <field name="line" />
-                    <group col="6" colspan="4">
-                          <field name='printer_art_id' />
-                          <field name='printer_pac_id' />
-                          <field name='printer_pal_id' />
-                    </group>
-                    <field name="note" colspan="4" nolabel="1" />
-                    <group colspan="4">
+                <form string="Import CSV data" version="7.0">
+                    <head>
                         <button string="Cancel" special="cancel" icon="gtk-cancel"/>
                         <button string="Import" name="import_csv" type="object" icon="gtk-ok"/>
-                    </group>
+                    </head>
+                    <sheet>
+                        <group col="4" colspan="4">
+                            <label colspan="4" string="NOTE: Use XLS macro for export CSV file before this operation!" />
+                            <separator string="Additional note" colspan="4" />
+                            <field name="week" />
+                            <field name="line" />                            
+                        </group>
+                        <group col="6" colspan="4">
+                              <field name='printer_art_id' />
+                              <field name='printer_pac_id' />
+                              <field name='printer_pal_id' />
+                        </group>
+                        <group colspan="4">
+                            <field name="note" colspan="4" nolabel="1" />
+                        </group>
+                    </sheet>
                 </form>
             </field>
       </record>

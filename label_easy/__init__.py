@@ -18,7 +18,7 @@
 #
 ###############################################################################
 from . import easylabel
-#from . import wizard
+from . import wizard
 from . import report
 
 
