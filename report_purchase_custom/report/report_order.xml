@@ -8,8 +8,8 @@
         <field name="report_name">purchase_order_report</field>
         <field name="report_type">aeroo</field>
         <field name="in_format">oo-odt</field>
-        <field name="parser_loc">report_purchase_fiam/report/parser.py</field>
-        <field name="report_rml">report_purchase_fiam/report/purchase.odt</field>
+        <field name="parser_loc">report_purchase_custom/report/parser.py</field>
+        <field name="report_rml">report_purchase_custom/report/purchase.odt</field>
         <field name="parser_state">loc</field>
         <field name="tml_source">file</field>
         <!--<field name="out_format" eval="ref('report_aeroo_ooo.report_mimetypes_pdf_odt')"></field>-->
@@ -32,8 +32,8 @@
         <field name="report_name">purchase_order_report_ods</field>
         <field name="report_type">aeroo</field>
         <field name="in_format">oo-ods</field>
-        <field name="parser_loc">report_purchase_fiam/report/parser.py</field>
-        <field name="report_rml">report_purchase_fiam/report/purchase.ods</field>
+        <field name="parser_loc">report_purchase_custom/report/parser.py</field>
+        <field name="report_rml">report_purchase_custom/report/purchase.ods</field>
         <field name="parser_state">loc</field>
         <field name="tml_source">file</field>
         <!--<field name="out_format" eval="ref('report_aeroo.report_mimetypes_pdf_odt')"></field>-->
@@ -56,8 +56,8 @@
         <field name="report_name">purchase_order_report_label</field>
         <field name="report_type">aeroo</field>
         <field name="in_format">oo-ods</field>
-        <field name="parser_loc">report_purchase_fiam/report/parser.py</field>
-        <field name="report_rml">report_purchase_fiam/report/label.odt</field>
+        <field name="parser_loc">report_purchase_custom/report/parser.py</field>
+        <field name="report_rml">report_purchase_custom/report/label.odt</field>
         <field name="parser_state">loc</field>
         <field name="tml_source">file</field>
         <!--<field name="out_format" eval="ref('report_aeroo.report_mimetypes_pdf_odt')"></field>-->
