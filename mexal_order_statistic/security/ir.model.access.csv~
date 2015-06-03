@@ -3,6 +3,7 @@
 "access_statistic_order_manager","statistic.order","model_statistic_order","base.group_sale_manager",1,1,1,1
 "access_statistic_deadline_manager","statistic.deadline","model_statistic_deadline","base.group_sale_manager",1,1,1,1
 "access_statistic_trend_manager","statistic.trend","model_statistic_trend","base.group_sale_manager",1,1,1,1
+"access_statistic_trendoc_manager","statistic.trendoc","model_statistic_trendoc","base.group_sale_manager",1,1,1,1
 "access_statistic_invoice_manager","statistic.invoice","model_statistic_invoice","base.group_sale_manager",1,1,1,1
 "access_statistic_invoice_agent_manager","statistic.invoice.agent","model_statistic_invoice_agent","base.group_sale_manager",1,1,1,1
 "access_statistic_category_manager","statistic.category","model_statistic_category","base.group_sale_manager",1,1,1,1

@@ -34,7 +34,7 @@
         ],
     'init_xml': [],
     'demo_xml': [],
-    'update_xml': [
+    'data': [
         'security/ir.model.access.csv',                     
         #'store.xml',
         'report/report_store.xml',
