@@ -14,17 +14,30 @@
               </group>    
            </xpath>
 
-           <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='sequence']" position="after">
+           <!-- TODO: remove: <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='sequence']" position="after">
               <field name='repeat_header_line' />
            </xpath>
-           <!--TODO <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/form/notebook/page[@string='Order Line']/field[@name='layout_type']" position="after">
+           -->
+           <!--TODO: remove: <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/form/notebook/page[@string='Order Line']/field[@name='layout_type']" position="after">
               <field name='repeat_header_line' />
            </xpath>
+           
            <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/form/notebook/page[@string='Order Line']/field[@name='sequence']" position="after">
               <field name='insert_photo' />                  
               <field name='use_amazon_description' />
               <field name='show_notes' />
            </xpath>-->
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_order_line_tree_extra_fields">
+        <field name="name">sale.order.line.extra</field>
+        <field name="model">sale.order.line</field>
+        <field name="inherit_id" ref="sale.view_order_line_tree" />
+        <field name="arch" type="xml">
+           <field name="name" position="attributes">
+               <attribute name="invisible">1</attribute>
+           </field>
         </field>
     </record>
 

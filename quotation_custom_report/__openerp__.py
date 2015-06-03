@@ -38,7 +38,7 @@
     'website': "http://www.micronaet.it",
 	"depends": [
 	    "base",
-        "account", # TODO needed?
+        #"account", # TODO needed?
         "product",
         "sale",
         "report_aeroo",
