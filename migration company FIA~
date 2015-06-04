@@ -111,7 +111,9 @@ MIGRATI CON VISTE:
     calcolati ma non risultano attivi nelle viste)  
 
 * crm_partner_categorization
-  - 
+  - Tolta vista perchè non si aggancia correttamente alla precedente
+  
+  
 *******************************************************************************  
                                   RICORDA
 *******************************************************************************  
@@ -119,4 +121,5 @@ Migrazione completa dei dati
 Migrazione procedure di importazione
 Creare procedure di verifica importazione con alert
 Prova importazione per verificare gli aggiornamenti  
+Fare tutte le traduzioni
 

@@ -11,6 +11,7 @@
         
            <xpath expr="/form/sheet/notebook" position="before">
               <group name="extra_parameters" colspan="4" col="4"> 
+                  <field name="destination_partner_id" domain="[('parent_id', '=', partner_id)]"/>
                   <field name="quotation_model" />              
               </group>    
            </xpath>
@@ -19,6 +20,7 @@
               <field name='repeat_header_line' />
            </xpath>
            -->
+           
            <!--TODO: remove: <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/form/notebook/page[@string='Order Line']/field[@name='layout_type']" position="after">
               <field name='repeat_header_line' />
            </xpath>

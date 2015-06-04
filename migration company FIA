@@ -96,6 +96,7 @@ MIGRATI CON VISTE:
   - TODO attivare editable top (spunte)
   - TODO attivare discount_per_so_line parameter sotto configuration / sale
   - TODO attivare group_sale_pricelist parameter sotto configuration / sale
+  - TODO override print_quotation action for print correct report
 
 * base_accounting_program
   - TODO finire migrazione viste commentate (per righe ordine)
@@ -121,4 +122,5 @@ Migrazione completa dei dati
 Migrazione procedure di importazione
 Creare procedure di verifica importazione con alert
 Prova importazione per verificare gli aggiornamenti  
+Fare tutte le traduzioni
 

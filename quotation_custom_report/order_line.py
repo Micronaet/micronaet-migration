@@ -74,6 +74,8 @@ class SaleOrderQuotation(orm.Model):
             (1, 'Offerta dettagliata (q.-sconto-subtotali)'),
             (2, 'Offerta breve (solo q.)'),
             ], 'Model'),
+        'destination_partner_id': fields.many2one(
+            'res.partner', 'Destination'),     
         }
     _defaults = {
         'quotation_model': lambda *x: 2, # short
