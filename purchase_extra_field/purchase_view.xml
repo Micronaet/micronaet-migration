@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <openerp>
 <data>
+
     <record model="ir.ui.view" id="view_purchase_order_form_note">
         <field name="name">Extra fields</field>
         <field name="model">purchase.order</field>
@@ -15,6 +16,7 @@
             </field>
         </field>
     </record>
+    
 </data>
 </openerp>
 

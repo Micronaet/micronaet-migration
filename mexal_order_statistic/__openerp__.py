@@ -37,7 +37,7 @@
     'init_xml': [],
     'demo_xml': [],
     'data': [
-        #'security/order.xml',
+        'security/order.xml',
         'security/ir.model.access.csv',                     
         #'order.xml',
         'report/report_order.xml',

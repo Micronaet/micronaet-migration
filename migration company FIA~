@@ -116,7 +116,14 @@ MIGRATI CON VISTE:
   - Tolta vista perchè non si aggancia correttamente alla precedente
   
 * quotation_photo:
+  - Provare con le foto
+
+* purchase_extra_field
+    
+* report_auto_stock:
+  - Attivare la voce di menu appen installato mexal_order_statistic
   
+
 
 *******************************************************************************  
                                   RICORDA
@@ -126,4 +133,6 @@ Migrazione procedure di importazione
 Creare procedure di verifica importazione con alert
 Prova importazione per verificare gli aggiornamenti  
 Fare tutte le traduzioni
+Installare motore headless ooo
+
 

@@ -36,16 +36,15 @@
     'license': 'AGPL-3',
     'depends': [
         'base',
-        'base_accounting_program',
         'mexal_order_statistic',
+        'base_accounting_program',
         'report_aeroo',
-        #'report_aeroo_ooo',
         ],
     'init_xml': [],
     'demo_xml': [],
     'data': [
         'security/ir.model.access.csv',
-        #'auto_stock_view.xml',
+        'auto_stock_view.xml',
         'report/report.xml',
         ],
     'active': False,

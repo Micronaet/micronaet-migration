@@ -31,8 +31,8 @@
 	"category": "Generic Modules/Aeroo Reporting",
 	"init_xml": [],
 	"demo_xml": [],
-	"update_xml": [
-        #"purchase_view.xml", # TODO
+	"data": [
+        "purchase_view.xml",
         ],
 	"installable": True
     }
