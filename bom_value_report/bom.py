@@ -43,14 +43,14 @@ class MrpBomExtraFields(orm.Model):
     _order = 'name,code'
 
     def get_bom_element_price(self, cr, uid, bom_id, context=None):
-        ''' Procedura ricorsiva per calcolo prezzo distinta base
+        ''' Recursive procedure for get total cost
             return total of sub bom_lines (recursive)
         '''
         browse_bom_id = self.browse(cr, uid, bom_id, context=context)
         if browse_bom_id:
-           if browse_bom_id.bom_lines:
+           if browse_bom_id.bom_line_ids:
               total = 0.0
-              for item_bom_id in browse_bom_id.bom_lines:
+              for item_bom_id in browse_bom_id.bom_line_ids:
                   total += self.get_bom_element_price(
                       cr, uid, item_bom_id.id, context=context) or 0.0
               return total
@@ -73,7 +73,7 @@ class MrpBomExtraFields(orm.Model):
             datetime.now(),"%Y"))-2) + "-01-01"
         for item in self.browse(cr, uid, ids, context=context):
             res[item.id] = {}
-            res[item.id]['tot_component'] = len(item.bom_lines)
+            res[item.id]['tot_component'] = len(item.bom_line_ids)
             res[item.id]['old_cost'] = False
             res[item.id]['actual_price'] = 0.0
             res[item.id]['first_supplier'] = False
@@ -125,7 +125,7 @@ class MrpBomExtraFields(orm.Model):
             string="Old price", store=True, multi=True),
         'actual_price': fields.function(
             _get_fields_component, method=True, type='float',
-            string="Price", digits=(8,5), store=False, multi = True,),
+            string="Price", digits=(8,5), store=False, multi=True,),
         'actual_total': fields.function(
             _get_fields_component, method=True, type='float',
             string="Subtotal", digits=(8,5), store=False, multi=True),
@@ -221,7 +221,8 @@ class ProductProductExtraFields(orm.Model):
                res[product.id]['first_supplier'] = False
         return res
 
-    def _get_best_cost_funct(self, cr, uid, ids, args, field_list, context=None):
+    def _get_best_cost_funct(
+            self, cr, uid, ids, args, field_list, context=None):
         res = dict.fromkeys(ids, 0)
         for product in self.browse(cr, uid, ids, context=context):
             price = []
