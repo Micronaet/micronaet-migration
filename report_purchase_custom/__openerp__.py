@@ -29,15 +29,14 @@
 	    "base", 
         "base_accounting_program", 
         "report_aeroo", 
-        #"report_aeroo_ooo",
         "purchase",
         "purchase_extra_field",
         ],
 	"category": "Generic Modules/Aeroo Reporting",
 	"init_xml": [],
 	"demo_xml": [],
-	"update_xml": [
-        #"purchase_view.xml",
+	"data": [
+        "purchase_view.xml",
         "report/report_order.xml",
         ],
 	"installable": True

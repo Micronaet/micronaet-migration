@@ -109,6 +109,9 @@ MIGRATI CON VISTE:
   - Disattivato tutte le viste e sdoppiato per creare gli XML
   - RICREARE TUTTE LE STATISTICHE
     
+* purchase_extra_field: 
+  - OK
+    
 * quotation_custom_report:
   - Vedere se serve il multi-indirizzo           << NON USATO
   - Vedere scontistica cliente
@@ -129,12 +132,14 @@ MIGRATI CON VISTE:
 * quotation_photo:
   - Provare con le foto
 
-* purchase_extra_field: 
-  - OK
-    
 * report_auto_stock:
   - OK
 
+* report_product_pricelist
+  - OK
+  
+* report_purchase_custom:
+  - Spostate videate a caso, vedere nei prodotti se sono corretti
 * report_store_value:
   - Attivare il menù appena installato mexal_order_statistic
 
