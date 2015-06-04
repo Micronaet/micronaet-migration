@@ -1,28 +1,46 @@
-# -*- encoding: utf-8 -*-
-##############################################################################
+# -*- coding: utf-8 -*-
+###############################################################################
 #
-#    OpenERP, Open Source Management Solution	
-#    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    $Id$
+# ODOO (ex OpenERP) 
+# Open Source Management Solution
+# Copyright (C) 2001-2015 Micronaet S.r.l. (<http://www.micronaet.it>)
+# Developer: Nicola Riolini @thebrush (<https://it.linkedin.com/in/thebrush>)
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
 #
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+# See the GNU Affero General Public License for more details.
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+# You should have received a copy of the GNU Affero General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+###############################################################################
 
-from osv import fields,osv
+import os
+import sys
+import logging
+import openerp
+import xmlrpclib
+import openerp.netsvc as netsvc
+import openerp.addons.decimal_precision as dp
+from openerp.osv import fields, osv, expression, orm
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
+from openerp import SUPERUSER_ID, api
+from openerp import tools
+from openerp.tools.translate import _
+from openerp.tools.float_utils import float_round as round
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
+    DEFAULT_SERVER_DATETIME_FORMAT, DATETIME_FORMATS_MAP, float_compare)
 
-class search_database_wizard(osv.osv_memory):
+
+_logger = logging.getLogger(__name__)
+
+class SearchDatabaseWizard(orm.TransientModel):
     """ Search a string in database setting up un listed database and return
         result and the possibility to go in search in actual DB (res.partner)
     """
@@ -42,28 +60,27 @@ class search_database_wizard(osv.osv_memory):
             'domain': str([('id', 'in', res_id)]),
             }
 
-    def search_text_in_other_database(self,cr, uid, ids, context=None):
+    def search_text_in_other_database(self, cr, uid, ids, context=None):
         ''' Search button in wizard windows, search in other DB list and
             comunicate existence in other DB res.partner finded in list box
         '''
-        import xmlrpclib
 
         # TODO parametrizzare:
-        server='localhost'
-        port='8069'
-        user='admin'
-        pwd='password'
+        server = 'localhost'
+        port = '8069'
+        user = 'admin'
+        pwd = 'password'
 
         if context is None:
            context = {}
 
         # Read data in wizard form:
-        wiz_proxy=self.browse(cr, uid, ids, context=context)
-        search_string=wiz_proxy[0].name
+        wiz_proxy = self.browse(cr, uid, ids, context=context)
+        search_string = wiz_proxy[0].name
 
         db_ids = self.pool.get('search.database').search(cr, uid, [
             ('search','=', True)], context=context)
-        finded_result=""
+        finded_result = ""
         if db_ids: # if there is some DB in list:
            for db in self.pool.get('search.database').browse(
                    cr, uid, db_ids, context=context):
@@ -71,7 +88,7 @@ class search_database_wizard(osv.osv_memory):
                sock = xmlrpclib.ServerProxy(
                    'http://' + server + ':' + port + '/xmlrpc/common',
                    allow_none=True)
-               uid_extra = sock.login(dbname ,user ,pwd)
+               uid_extra = sock.login(dbname, user, pwd)
                sock = xmlrpclib.ServerProxy(
                    'http://' + server + ':' + port + '/xmlrpc/object',
                    allow_none=True)
@@ -91,8 +108,9 @@ class search_database_wizard(osv.osv_memory):
 
         partner_current_ids = len(self.pool.get('res.partner').search(
             cr, uid, [('name', 'ilike', search_string)], context=context))
+            
         # Change fields (status) of the wizard:
-        wiz_result=self.write(cr, uid, ids, {
+        wiz_result = self.write(cr, uid, ids, {
             'state': 'find',
             'find': finded_result,
             'current': partner_current_ids,
@@ -118,19 +136,17 @@ class search_database_wizard(osv.osv_memory):
         return self.return_view(cr, uid, '', partner_ids)
 
     _columns = {
-                'name': fields.char('Text to search', size=60, required=True),
-                'find': fields.text('Finded in other DB'),
-                'current': fields.integer('Find current DB'),
-                'state': fields.selection([
-                    ('search','Search'),
-                    ('find','Find in other DB'),
-                ],'State', select=True, readonly=True),
-               }
+        'name': fields.char('Text to search', size=60, required=True),
+        'find': fields.text('Finded in other DB'),
+        'current': fields.integer('Find current DB'),
+        'state': fields.selection([
+            ('search','Search'),
+            ('find','Find in other DB'),
+            ],'State', select=True, readonly=True),
+        }
 
     _defaults = {
-       'state': lambda *a: 'search',
-       'current': lambda *a: 0,
-                }
-
+        'state': lambda *a: 'search',
+        'current': lambda *a: 0,
+        }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

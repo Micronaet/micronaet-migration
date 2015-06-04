@@ -30,10 +30,11 @@
         ],
     'init_xml': [],
     'demo_xml': [],
-    'update_xml': [
+    'data': [
         'security/ir.model.access.csv',
-        #'search_view.xml',
-        #'wizard/search_wizard.xml',],
+        'search_view.xml',
+        'wizard/search_wizard.xml',
+        ],
     'active': False,
     'installable': True,
     }

@@ -82,7 +82,7 @@
                <field name="fabric" />
                <field name="type_of_material" />        
             </field>                        
-            <!--<xpath expr="/form/sheet/notebook/page[@string='Packaging']/field/form/separator[2]" position="replace"> 
+            <!--TODO RIATTIVARE: <xpath expr="/form/sheet/notebook/page[@string='Packaging']/field/form/separator[2]" position="replace"> 
                 <separator string="Dimensione pack" colspan="4" />
             </xpath>
             <xpath expr="/form/sheet/notebook/page[@string='Packaging']/field/form/field[@name='length']" position="after">            

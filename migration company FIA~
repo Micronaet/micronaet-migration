@@ -97,6 +97,9 @@ MIGRATI CON VISTE:
   - Testare le varie videate per i campi di posizione (prodotti)
   - Vedere se è stato abilitato tutte le parti (alcune erano disattivate in XML) 
     
+* extra_search:
+  - 
+      
 * label_easy:
   - Dovrebbe essere fatta tutta 
   - Migrare tutti i dati presenti nella vecchia versione  
