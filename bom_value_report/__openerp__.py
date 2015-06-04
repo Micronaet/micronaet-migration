@@ -29,9 +29,9 @@
         'report_aeroo',
         ],
     'init_xml': [], 
-    'update_xml': [
-        #"security/bom_group.xml",
-        #"report/report_bom.xml", 
+    'data': [
+        "security/bom_group.xml",
+        "report/report_bom.xml", 
         #"fiam_bom.xml",
         #"wizard/duplicate_view.xml", 
         ],

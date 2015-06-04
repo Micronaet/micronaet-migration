@@ -105,10 +105,12 @@ MIGRATI CON VISTE:
   - Migrare tutti i dati presenti nella vecchia versione  
   - Gestire cose aggiuntive (macro excel, connessione smb e script presenti)
   
-  
-  
-RICORDA:
+
+*******************************************************************************  
+                                  RICORDA
+*******************************************************************************  
 Migrazione completa dei dati
 Migrazione procedure di importazione
+Creare procedure di verifica importazione con alert
 Prova importazione per verificare gli aggiornamenti  
 

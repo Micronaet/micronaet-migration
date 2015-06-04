@@ -10,8 +10,8 @@
         <field name="report_name">fiam_bom_custom_report_no_cost</field>
         <field name="report_type">aeroo</field>
         <field name="in_format">oo-odt</field>
-        <field name="parser_loc">bom_fiam/report/parser.py</field>
-        <field name="report_rml">bom_fiam/report/bom_no_cost.odt</field>
+        <field name="parser_loc">bom_value_report/report/parser.py</field>
+        <field name="report_rml">bom_value_report/report/bom_no_cost.odt</field>
         <field name="parser_state">loc</field>
         <field name="tml_source">file</field>
     </record>
@@ -34,8 +34,8 @@
         <field name="report_name">fiam_bom_custom_report</field>
         <field name="report_type">aeroo</field>
         <field name="in_format">oo-odt</field>
-        <field name="parser_loc">bom_fiam/report/parser.py</field>
-        <field name="report_rml">bom_fiam/report/bom.odt</field>
+        <field name="parser_loc">bom_value_report/report/parser.py</field>
+        <field name="report_rml">bom_value_report/report/bom.odt</field>
         <field name="parser_state">loc</field>
         <field name="tml_source">file</field>
     </record>
@@ -58,8 +58,8 @@
         <field name="report_name">fiam_bom_list_custom_report</field>
         <field name="report_type">aeroo</field>
         <field name="in_format">oo-odt</field>
-        <field name="parser_loc">bom_fiam/report/parser_list.py</field>
-        <field name="report_rml">bom_fiam/report/elenco.odt</field>
+        <field name="parser_loc">bom_value_report/report/parser_list.py</field>
+        <field name="report_rml">bom_value_report/report/elenco.odt</field>
         <field name="parser_state">loc</field>
         <field name="tml_source">file</field>
     </record>
@@ -82,8 +82,8 @@
         <field name="report_name">fiam_bom_cost_list_custom_report</field>
         <field name="report_type">aeroo</field>
         <field name="in_format">oo-odt</field>
-        <field name="parser_loc">bom_fiam/report/parser_cost.py</field>
-        <field name="report_rml">bom_fiam/report/costi.odt</field>
+        <field name="parser_loc">bom_value_report/report/parser_cost.py</field>
+        <field name="report_rml">bom_value_report/report/costi.odt</field>
         <field name="parser_state">loc</field>
         <field name="tml_source">file</field>
     </record>
