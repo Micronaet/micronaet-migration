@@ -161,4 +161,3 @@ class DuplicateBomWizard(orm.TransientModel):
         return self.return_view(cr, uid, 'mrp_bom_form', to_bom_id)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

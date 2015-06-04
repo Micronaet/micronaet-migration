@@ -32,8 +32,8 @@
     'data': [
         "security/bom_group.xml",
         "report/report_bom.xml", 
-        #"fiam_bom.xml",
-        #"wizard/duplicate_view.xml", 
+        "bom_view.xml",
+        "wizard/duplicate_view.xml", 
         ],
     'demo_xml' : [],
     'active' : False, 
