@@ -39,7 +39,7 @@ _logger = logging.getLogger(__name__)
 
 
 class MrpBomExtraFields(orm.Model):
-    _inherit ='mrp.bom'
+    _inherit = 'mrp.bom'
     _order = 'name,code'
 
     def get_bom_element_price(self, cr, uid, bom_id, context=None):

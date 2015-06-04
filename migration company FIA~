@@ -105,6 +105,8 @@ MIGRATI CON VISTE:
   - Migrare tutti i dati presenti nella vecchia versione  
   - Gestire cose aggiuntive (macro excel, connessione smb e script presenti)
   
+* bom_value_report:
+  - Ripristinare alcune parti di videata tolte per errore di caricamento  
 
 *******************************************************************************  
                                   RICORDA
