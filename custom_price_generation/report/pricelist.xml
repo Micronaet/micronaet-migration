@@ -9,8 +9,8 @@
         <field name="report_name">base_aeroo_pricelist_version_report</field>
         <field name="report_type">aeroo</field>
         <field name="in_format">oo-odt</field>
-        <field name="parser_loc">base_fiam_pricelist/report/parser.py</field>
-        <field name="report_rml">base_fiam_pricelist/report/pricelist.odt</field>
+        <field name="parser_loc">custom_price_generation/report/parser.py</field>
+        <field name="report_rml">custom_price_generation/report/pricelist.odt</field>
         <field name="parser_state">loc</field>
         <field name="tml_source">file</field>
     </record>
@@ -31,8 +31,8 @@
         <field name="report_name">base_aeroo_scheda_version_report</field>
         <field name="report_type">aeroo</field>
         <field name="in_format">oo-odt</field>
-        <field name="parser_loc">base_fiam_pricelist/report/parser.py</field>
-        <field name="report_rml">base_fiam_pricelist/report/scheda.odt</field>
+        <field name="parser_loc">custom_price_generation/report/parser.py</field>
+        <field name="report_rml">custom_price_generation/report/scheda.odt</field>
         <field name="parser_state">loc</field>
         <field name="tml_source">file</field>
     </record>

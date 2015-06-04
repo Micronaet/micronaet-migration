@@ -36,7 +36,7 @@
     'demo_xml': [],
     'data': [
         'security/ir.model.access.csv',                     
-        #'store.xml',
+        'store.xml',
         'report/report_store.xml',
         ],
     'active': False,

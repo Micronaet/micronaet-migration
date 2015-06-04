@@ -82,6 +82,26 @@ report_aeroo_pricelist ??
 MIGRATI CON VISTE:
 ******************
 
+* base_accounting_program
+  - TODO finire migrazione viste commentate (per righe ordine)
+  
+* bom_value_report:
+  - Ripristinare alcune parti di videata tolte per errore di caricamento
+  - Sembra esserci un problema con i campi inseriti nei figli (bom_id e quelli
+    calcolati ma non risultano attivi nelle viste)  <<<<<<<
+
+* crm_partner_categorization:
+  - Tolta vista perchè non si aggancia correttamente alla precedente
+
+* custom_price_generation:
+  - Testare le varie videate per i campi di posizione (prodotti)
+  - Vedere se è stato abilitato tutte le parti (alcune erano disattivate in XML) 
+    
+* label_easy:
+  - Dovrebbe essere fatta tutta 
+  - Migrare tutti i dati presenti nella vecchia versione  
+  - Gestire cose aggiuntive (macro excel, connessione smb e script presenti)
+  
 * quotation_custom_report:
   - Vedere se serve il multi-indirizzo           << NON USATO
   - Vedere scontistica cliente
@@ -99,22 +119,6 @@ MIGRATI CON VISTE:
   - TODO override print_quotation action for print correct report
   - TODO attivare proprietà sulle righe ordine (per fare aprire il popup)
 
-* base_accounting_program
-  - TODO finire migrazione viste commentate (per righe ordine)
-  
-* label_easy:
-  - Dovrebbe essere fatta tutta 
-  - Migrare tutti i dati presenti nella vecchia versione  
-  - Gestire cose aggiuntive (macro excel, connessione smb e script presenti)
-  
-* bom_value_report:
-  - Ripristinare alcune parti di videata tolte per errore di caricamento
-  - Sembra esserci un problema con i campi inseriti nei figli (bom_id e quelli
-    calcolati ma non risultano attivi nelle viste)  
-
-* crm_partner_categorization:
-  - Tolta vista perchè non si aggancia correttamente alla precedente
-  
 * quotation_photo:
   - Provare con le foto
 
@@ -124,6 +128,9 @@ MIGRATI CON VISTE:
 * report_auto_stock:
   - Attivare la voce di menu appen installato mexal_order_statistic
   
+
+* report_store_value:
+  - Attivare il menù appena installato mexal_order_statistic
 
 
 *******************************************************************************  

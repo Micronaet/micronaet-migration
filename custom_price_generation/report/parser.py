@@ -26,8 +26,8 @@
 #
 ##############################################################################
 
-from report import report_sxw
-from report.report_sxw import rml_parse
+from openerp.report import report_sxw
+from openerp.report.report_sxw import rml_parse
 
 class Parser(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):
@@ -40,8 +40,8 @@ class Parser(report_sxw.rml_parse):
     def obj_product(self):
         '''Return only in_pricelist product for print a pricelist
         '''
-        #import pdb; pdb.set_trace()
-        product_ids=self.pool.get('product.product').search(self.cr, self.uid, [('in_pricelist', '=', True),])
-        #product_proxy=self.pool.get('product.product').read(self.cr, self.uid, product_ids, ['id', 'name', 'code',])
-        product_proxy=self.pool.get('product.product').browse(self.cr, self.uid, product_ids)        
+        product_ids = self.pool.get('product.product').search(
+            self.cr, self.uid, [('in_pricelist', '=', True),])
+        product_proxy=self.pool.get('product.product').browse(
+            self.cr, self.uid, product_ids)        
         return product_proxy
