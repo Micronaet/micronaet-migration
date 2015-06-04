@@ -691,19 +691,13 @@
         <field name="type">tree</field>  
         <field name="arch" type="xml">
             <tree string="Pagamenti scaduti (verde=saldo cliente + saldo fornitore>0)" colors="green:saldo_c+saldo_s&gt;=0;">
-                <!--<field name="name" />-->
                 <field name="partner_id"/>
                 <field name="deadline"/>
                 <field name="in" sum="Entrate" string="Importo"  />
-                <!--<field name="out" sum="Uscite" string="Uscite" />-->
-                <!--<field name="total" sum="Totale" />-->
                 <field name="saldo_c" />
                 <field name="saldo_s" />
                 
                 <field name="scoperto_c" />
-                <!--<field name="fido_ko" />
-                <field name="fido_date" />
-                <field name="fido_total" />-->
                 
                 <field name="type"/>
                 <field name="property_account_position"/>
@@ -760,7 +754,6 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,calendar,graph,form</field>
         <field name="search_view_id" ref="view_statistic_deadline_search"/>
-        <!--<field name="context">{'search_default_deadline': time.strftime('%Y-%m-01')}</field>-->
     </record>
 
       <!--Statistic Trend: statistic.trendoc ********************************* -->
@@ -1124,7 +1117,7 @@
         <field name="priority" eval="40"/>
         <field name="arch" type="xml">
             <graph string="Fatturato zone" type="bar">
-                <field name="zone_id"/> <!--also zone_id-->
+                <field name="zone_id"/>
                 <field name="total_last_last" operator="+" />
                 <field name="total_last" operator="+" />
                 <field name="total" operator="+" />
@@ -1458,7 +1451,7 @@
     
       <!-- Azioni dashboard Ordini-->
     <record model="ir.actions.act_window" id="action_statistic_order_0_dashboard">
-        <field name="name">Dettaglio oridini totali (mese attuale)</field>
+        <field name="name">Dettaglio ordini totali (mese attuale)</field>
         <field name="res_model">statistic.order</field>
         <field name="view_type">form</field>
         <field name="view_mode">graph,tree,form</field>
@@ -1467,7 +1460,7 @@
         <!--<field name="domain">[('deadline','&gt;=',datetime.datetime.today().strftime('%Y-%m-01')),('deadline','&lt;',(datetime.datetime.today()+datetime.relativedelta(months=+1,)).strftime("%Y-%m-01"))]</field>-->
     </record>
     <record model="ir.actions.act_window" id="action_statistic_order_1_dashboard">
-        <field name="name">Dettaglio oridini totali (mese +1)</field>
+        <field name="name">Dettaglio ordini totali (mese +1)</field>
         <field name="res_model">statistic.order</field>
         <field name="view_type">form</field>
         <field name="view_mode">graph,tree,form</field>
@@ -1475,7 +1468,7 @@
         <field name="domain">[('deadline','&gt;=',(datetime.date.today()+relativedelta(months=1)).strftime('%Y-%m-01')),('deadline','&lt;',(datetime.date.today()+relativedelta(months=2)).strftime('%Y-%m-01'))]</field>
     </record>
     <record model="ir.actions.act_window" id="action_statistic_order_2_dashboard">
-        <field name="name">Dettaglio oridini totali (mese +2)</field>
+        <field name="name">Dettaglio ordini totali (mese +2)</field>
         <field name="res_model">statistic.order</field>
         <field name="view_type">form</field>
         <field name="view_mode">graph,tree,form</field>
@@ -1483,7 +1476,7 @@
         <field name="domain">[('deadline','&gt;=',(datetime.date.today()+relativedelta(months=2)).strftime('%Y-%m-01')),('deadline','&lt;',(datetime.date.today()+relativedelta(months=3)).strftime('%Y-%m-01'))]</field>
     </record>
     <record model="ir.actions.act_window" id="action_statistic_order_3_dashboard">
-        <field name="name">Dettaglio oridini totali (mese +3)</field>
+        <field name="name">Dettaglio ordini totali (mese +3)</field>
         <field name="res_model">statistic.order</field>
         <field name="view_type">form</field>
         <field name="view_mode">graph,tree,form</field>
@@ -1491,7 +1484,7 @@
         <field name="domain">[('deadline','&gt;=',(datetime.date.today()+relativedelta(months=3)).strftime('%Y-%m-01')),('deadline','&lt;',(datetime.date.today()+relativedelta(months=4)).strftime('%Y-%m-01'))]</field>
     </record>
     <record model="ir.actions.act_window" id="action_statistic_order_4_dashboard">
-        <field name="name">Dettaglio oridini totali (mese +4)</field>
+        <field name="name">Dettaglio ordini totali (mese +4)</field>
         <field name="res_model">statistic.order</field>
         <field name="view_type">form</field>
         <field name="view_mode">graph,tree,form</field>
@@ -1507,7 +1500,7 @@
         <field name="domain">[('deadline','&gt;=',(datetime.date.today()+relativedelta(months=5)).strftime('%Y-%m-01')),('deadline','&lt;',(datetime.date.today()+relativedelta(months=6)).strftime('%Y-%m-01'))]</field>
     </record>
     <record model="ir.actions.act_window" id="action_statistic_order_6_dashboard">
-        <field name="name">Dettaglio oridini totali (mese +6)</field>
+        <field name="name">Dettaglio ordini totali (mese +6)</field>
         <field name="res_model">statistic.order</field>
         <field name="view_type">form</field>
         <field name="view_mode">graph,tree,form</field>
@@ -1515,7 +1508,7 @@
         <field name="domain">[('deadline','&gt;=',(datetime.date.today()+relativedelta(months=6)).strftime('%Y-%m-01')),('deadline','&lt;',(datetime.date.today()+relativedelta(months=7)).strftime('%Y-%m-01'))]</field>
     </record>
     <record model="ir.actions.act_window" id="action_statistic_order_7_dashboard">
-        <field name="name">Dettaglio oridini totali (mese +7)</field>
+        <field name="name">Dettaglio ordini totali (mese +7)</field>
         <field name="res_model">statistic.order</field>
         <field name="view_type">form</field>
         <field name="view_mode">graph,tree,form</field>
@@ -1523,7 +1516,7 @@
         <field name="domain">[('deadline','&gt;=',(datetime.date.today()+relativedelta(months=7)).strftime('%Y-%m-01')),('deadline','&lt;',(datetime.date.today()+relativedelta(months=8)).strftime('%Y-%m-01'))]</field>
     </record>
     <record model="ir.actions.act_window" id="action_statistic_order_8_dashboard">
-        <field name="name">Dettaglio oridini totali (mese +8)</field>
+        <field name="name">Dettaglio ordini totali (mese +8)</field>
         <field name="res_model">statistic.order</field>
         <field name="view_type">form</field>
         <field name="view_mode">graph,tree,form</field>
@@ -1531,7 +1524,7 @@
         <field name="domain">[('deadline','&gt;=',(datetime.date.today()+relativedelta(months=8)).strftime('%Y-%m-01')),('deadline','&lt;',(datetime.date.today()+relativedelta(months=9)).strftime('%Y-%m-01'))]</field>
     </record>
     <record model="ir.actions.act_window" id="action_statistic_order_9_dashboard">
-        <field name="name">Dettaglio oridini totali (mese +9)</field>
+        <field name="name">Dettaglio ordini totali (mese +9)</field>
         <field name="res_model">statistic.order</field>
         <field name="view_type">form</field>
         <field name="view_mode">graph,tree,form</field>
@@ -1539,7 +1532,7 @@
         <field name="domain">[('deadline','&gt;=',(datetime.date.today()+relativedelta(months=9)).strftime('%Y-%m-01')),('deadline','&lt;',(datetime.date.today()+relativedelta(months=10)).strftime('%Y-%m-01'))]</field>
     </record>
     <record model="ir.actions.act_window" id="action_statistic_order_10_dashboard">
-        <field name="name">Dettaglio oridini totali (mese +10)</field>
+        <field name="name">Dettaglio ordini totali (mese +10)</field>
         <field name="res_model">statistic.order</field>
         <field name="view_type">form</field>
         <field name="view_mode">graph,tree,form</field>
@@ -1547,7 +1540,7 @@
         <field name="domain">[('deadline','&gt;=',(datetime.date.today()+relativedelta(months=10)).strftime('%Y-%m-01')),('deadline','&lt;',(datetime.date.today()+relativedelta(months=11)).strftime('%Y-%m-01'))]</field>
     </record>
     <record model="ir.actions.act_window" id="action_statistic_order_11_dashboard">
-        <field name="name">Dettaglio oridini totali (mese +11)</field>
+        <field name="name">Dettaglio ordini totali (mese +11)</field>
         <field name="res_model">statistic.order</field>
         <field name="view_type">form</field>
         <field name="view_mode">graph,tree,form</field>
@@ -1583,34 +1576,6 @@
                             <action colspan="4" name="%(action_view_res_partner_payment)d" string="Partner con pagamenti aperti (italia)" height="100" groups="mexal_order_statistic.group_sale_OC_Italia" /> 
                             <action colspan="4" name="%(action_view_res_partner_payment_estero)d" string="Partner con pagamenti aperti (estero)" height="100" groups="mexal_order_statistic.group_sale_OC_Estero" />
                         </child2>
-                        <!--
-                        <group name="admin_dashboard_data" colspan="4" groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero">
-                            <child3 colspan="4" groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero">
-                              <vpaned> 
-                                <child1>
-                                     <action colspan="4" name="%(action_statistic_invoice_dashboard)d" string="Trend FT+OC+BC mensile (stag. da sett. attuale ad ago. anno prossimo) solo controp. segnalate" groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero"/>
-                                </child1>
-                                <child2>
-                                    <action colspan="4" name="%(action_statistic_trendoc_dashboard)d" string="FT+OC+BC categ. statistiche importanti (spunta Trend)" groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero"/>
-                                </child2>
-                              </vpaned> 
-                              <hpaned> 
-                                <child1>
-                                    <action colspan="4" name="%(action_view_statistic_trendoc_last_last_best_graph)d" string="FT+OC+BC stag. -2 (perc. > 1, solo contropartite segnalate)" groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero"/>
-                                </child1>
-                                <child1>
-                                    <action colspan="4" name="%(action_view_statistic_trendoc_last_best_graph)d" string="FT+OC+BC stag. -1 (perc. > 1, solo contropartite segnalate)" groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero"/>
-                                </child1>
-                                <child2>
-                                    <action colspan="4" name="%(action_view_statistic_trendoc_current_best_graph)d" string="FT+OC+BC stag. attuale (perc. > 1, solo contropartite segnalate)" groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero"/>
-                                </child2>
-                              </hpaned> 
-                            </child3>
-                            <child4 colspan="4" groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero">
-                                 <separator colspan="4" string="Comparazione FT+OC+BC migliori clienti stagione attuale, -1, -2 (perc. > 1, solo controp. segnalate)" groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero"/>
-                                 <action colspan="4" name="%(action_view_statistic_trendoc_current_best_graph_bar)d" string="Variazioni perc. (>1) migliori clienti ultime 2 stagioni (solo controp. segnalate)" groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero"/>
-                            </child4>                                                 
-                        </group>-->
                     </vpaned>                    
                 </form>
             </field>
@@ -1693,7 +1658,6 @@
                               </vpaned>                              
                             </child2>
 
-
                             <child3 colspan="4" groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero">
                               <hpaned> 
                                 <!-- Estero Nessun agente -->
@@ -1761,7 +1725,6 @@
                 </form>
             </field>
         </record>
-
 
        <record id="board_order_form" model="ir.ui.view">
             <field name="name">board.mexal.form</field>
@@ -1842,7 +1805,6 @@
             <field name="view_id" ref="board_mexal_agent_graph_form"/>
         </record>
 
-
         <record id="action_board_mexal_nation_graph_form" model="ir.actions.act_window">
             <field name="name">Analisi Vendite Nazione (agg. alla sera precedente)</field>
             <field name="res_model">board.board</field>
@@ -1850,7 +1812,6 @@
             <field name="view_mode">form</field>
             <field name="view_id" ref="board_mexal_nation_graph_form"/>
         </record>
-
 
         <record id="action_board_order_form" model="ir.actions.act_window">
             <field name="name">Ordini (agg. alla sera precedente)</field>
@@ -1873,88 +1834,5 @@
             <field name="view_mode">form</field>
             <field name="view_id" ref="board_mexal_invoice_product_form"/>
         </record>
-
-       <!-- Menu -->
-    <menuitem name="Dashboard" 
-              id="menu_base_mexal" 
-              sequence="5" 
-              web_icon="images/menu.png" 
-              web_icon_hover="images/menu_hover.png" 
-              action="action_board_mexal_form" /> 
-              
-       <menuitem name="Analisi" parent="menu_base_mexal" id="menu_base_mexal_analisi" sequence="1" />
-       
-          <menuitem name="Pagamenti scaduti" parent="menu_base_mexal_analisi" id="menu_action_statistic_deadline_passed_dashboard" sequence="1" action="action_statistic_deadline_passed_tree_dashboard" />
-
-          <menuitem name="Ordini (testate)" parent="menu_base_mexal_analisi" id="menu_action_statistic_header_deadline" sequence="2" action="action_statistic_header_deadline" />
-
-          <menuitem name="Ordini (righe dettaglio)" parent="menu_action_statistic_header_deadline" id="menu_statistic_statistic_order_deadline_analysis" sequence="1" action="action_statistic_order_deadline" />
-
-          <menuitem name="Trend fatturato (stagionale)" 
-                    parent="menu_base_mexal_analisi" 
-                    id="menu_statistic_statistic_trend" 
-                    sequence="4" 
-                    action="action_statistic_trend" 
-                    groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero"
-                    />
-
-       <menuitem name="Dashboard" parent="menu_base_mexal" id="menu_base_mexal_dashboard" sequence="2" />
-       
-          <menuitem name="Mexal default" 
-                    parent="menu_base_mexal_dashboard" 
-                    id="menu_action_board_mexal_form" 
-                    sequence="10" 
-                    action="action_board_mexal_form" 
-                    groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero"
-                    />
-
-          <menuitem name="Analisi vendite clienti (grafici)" 
-                    parent="menu_base_mexal_dashboard" 
-                    id="menu_action_board_mexal_graph_form" 
-                    sequence="20" 
-                    action="action_board_mexal_graph_form" 
-                    groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero"
-                    />
-
-          <menuitem name="Analisi vendite agenti (grafici)" 
-                    parent="menu_base_mexal_dashboard" 
-                    id="menu_action_board_mexal_agent_graph_form" 
-                    sequence="25" 
-                    action="action_board_mexal_agent_graph_form" 
-                    groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero"
-                    />
-                    
-          <menuitem name="Analisi vendite nazioni (grafici)" 
-                    parent="menu_base_mexal_dashboard" 
-                    id="menu_action_board_mexal_nation_graph_form" 
-                    sequence="25" 
-                    action="action_board_mexal_nation_graph_form" 
-                    groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero"
-                    />
-
-          <!--<menuitem name="Gestione ordini" parent="menu_base_mexal_dashboard" id="menu_action_board_order_form" sequence="30" action="action_board_order_form" />
-          <menuitem name="Gestione ordini semestre successivo" parent="menu_action_board_order_form" id="menu_action_board_order_b_form" sequence="1" action="action_board_order_b_form" />-->
-          
-          <menuitem name="FT+BC+OC su fam. prodotto (per mese)" 
-                    parent="menu_base_mexal_dashboard" 
-                    id="menu_action_statistic_invoice_product_dashboard" 
-                    sequence="50" 
-                    action="action_statistic_invoice_product_dashboard" 
-                    groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero"
-                    />
-             <menuitem name="Per stagione (&gt; 0.5)" parent="menu_action_statistic_invoice_product_dashboard" id="menu_action_statistic_invoice_product_stagione_dashboard" sequence="6" action="action_statistic_invoice_product_stagione_dashboard" />
-             <menuitem name="Per stagione (&lt;=0.5 Bl.1)" parent="menu_action_statistic_invoice_product_dashboard" id="menu_action_statistic_invoice_product_stagione_less_dashboard" sequence="10" action="action_statistic_invoice_product_stagione_less_dashboard" />
-             <menuitem name="Per stagione (&lt;=0.5 Bl.2)" parent="menu_action_statistic_invoice_product_dashboard" id="menu_action_statistic_invoice_product_stagione_less1_dashboard" sequence="20" action="action_statistic_invoice_product_stagione_less1_dashboard" />
-             <menuitem name="Per stagione (&lt;=0.5 Bl.3)" parent="menu_action_statistic_invoice_product_dashboard" id="menu_action_statistic_invoice_product_stagione_less2_dashboard" sequence="30" action="action_statistic_invoice_product_stagione_less2_dashboard" />
-             <menuitem name="Per stagione (&lt;=0.5 Bl.4)" parent="menu_action_statistic_invoice_product_dashboard" id="menu_action_statistic_invoice_product_stagione_less3_dashboard" sequence="40" action="action_statistic_invoice_product_stagione_less3_dashboard" />
-             <menuitem name="Per stagione (&lt;=0.5 Bl.5)" parent="menu_action_statistic_invoice_product_dashboard" id="menu_action_statistic_invoice_product_stagione_less4_dashboard" sequence="50" action="action_statistic_invoice_product_stagione_less4_dashboard" />
-             <menuitem name="Per stagione (&lt;=0.5 Bl.6)" parent="menu_action_statistic_invoice_product_dashboard" id="menu_action_statistic_invoice_product_stagione_less5_dashboard" sequence="60" action="action_statistic_invoice_product_stagione_less5_dashboard" />
-             <menuitem name="Per stagione (&lt;=0.5 Bl.7)" parent="menu_action_statistic_invoice_product_dashboard" id="menu_action_statistic_invoice_product_stagione_less6_dashboard" sequence="70" action="action_statistic_invoice_product_stagione_less6_dashboard" />
-             <menuitem name="Per stagione (&lt;=0.5 Bl.8)" parent="menu_action_statistic_invoice_product_dashboard" id="menu_action_statistic_invoice_product_stagione_less7_dashboard" sequence="80" action="action_statistic_invoice_product_stagione_less7_dashboard" />
-
-       <menuitem name="Configurazione" parent="menu_base_mexal" id="menu_base_mexal_configuration" sequence="3" />          
-          <menuitem name="Categorie statistiche" parent="menu_base_mexal_configuration" id="menu_base_mexal_statistic_configuration" sequence="10" action="action_statistic_category" />
-          <menuitem name="Agenti statistiche" parent="menu_base_mexal_configuration" id="menu_base_mexal_statistic_agent_configuration" sequence="20" action="action_statistic_agents_configuration" />
-          <menuitem name="Famiglie escluse" parent="menu_base_mexal_configuration" id="menu_statistic_invoice_product_removed" sequence="30" action="action_statistic_invoice_product_removed" />
   </data>
 </openerp>

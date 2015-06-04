@@ -40,6 +40,7 @@
         'security/order.xml',
         'security/ir.model.access.csv',                     
         #'order.xml',
+        'menuitem.xml',
         'report/report_order.xml',
         ],
     'active': False,
