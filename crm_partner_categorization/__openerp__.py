@@ -29,9 +29,9 @@
         'base_accounting_program',
         ],
     'init_xml': [], 
-    'update_xml': [
+    'data': [
         'security/ir.model.access.csv',
-        #'categorization_view.xml',
+        'categorization_view.xml',
         ],
     'demo_xml': [],
     'active': False, 

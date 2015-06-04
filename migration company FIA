@@ -110,6 +110,10 @@ MIGRATI CON VISTE:
   - Sembra esserci un problema con i campi inseriti nei figli (bom_id e quelli
     calcolati ma non risultano attivi nelle viste)  
 
+* crm_partner_categorization
+  - Tolta vista perchè non si aggancia correttamente alla precedente
+  
+  
 *******************************************************************************  
                                   RICORDA
 *******************************************************************************  

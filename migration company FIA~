@@ -106,8 +106,12 @@ MIGRATI CON VISTE:
   - Gestire cose aggiuntive (macro excel, connessione smb e script presenti)
   
 * bom_value_report:
-  - Ripristinare alcune parti di videata tolte per errore di caricamento  
+  - Ripristinare alcune parti di videata tolte per errore di caricamento
+  - Sembra esserci un problema con i campi inseriti nei figli (bom_id e quelli
+    calcolati ma non risultano attivi nelle viste)  
 
+* crm_partner_categorization
+  - 
 *******************************************************************************  
                                   RICORDA
 *******************************************************************************  
