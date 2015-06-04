@@ -76,9 +76,9 @@
     </record>  
 
     <menuitem action="product_pricelist_customer_action" 
-                id="product_pricelist_customer_menuitem" 
-                sequence="12"
-                parent="base.menu_base_config"
-                icon="STOCK_EXECUTE" />    
+        id="product_pricelist_customer_menuitem" 
+        sequence="12"
+        parent="base.menu_base_config"
+        icon="STOCK_EXECUTE" />    
     </data>
 </openerp>
