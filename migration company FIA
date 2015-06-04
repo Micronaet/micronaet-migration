@@ -105,6 +105,10 @@ MIGRATI CON VISTE:
   - Migrare tutti i dati presenti nella vecchia versione  
   - Gestire cose aggiuntive (macro excel, connessione smb e script presenti)
   
+* mexal_order_statistic:
+  - Disattivato tutte le viste e sdoppiato per creare gli XML
+  - RICREARE TUTTE LE STATISTICHE
+    
 * quotation_custom_report:
   - Vedere se serve il multi-indirizzo           << NON USATO
   - Vedere scontistica cliente
@@ -129,7 +133,7 @@ MIGRATI CON VISTE:
   - OK
     
 * report_auto_stock:
-  - Attivare la voce di menu appen installato mexal_order_statistic
+  - OK
   
 
 * report_store_value:

@@ -98,13 +98,17 @@ MIGRATI CON VISTE:
   - Vedere se è stato abilitato tutte le parti (alcune erano disattivate in XML) 
     
 * extra_search:
-  - 
+  - Vedere la password nel codice per toglierla
       
 * label_easy:
   - Dovrebbe essere fatta tutta 
   - Migrare tutti i dati presenti nella vecchia versione  
   - Gestire cose aggiuntive (macro excel, connessione smb e script presenti)
   
+* mexal_oder_statistic:
+  - Disattivato tutte le viste e sdoppiato per creare gli XML
+  - RICREARE TUTTE LE STATISTICHE
+    
 * quotation_custom_report:
   - Vedere se serve il multi-indirizzo           << NON USATO
   - Vedere scontistica cliente

@@ -88,7 +88,7 @@
     </record>
 
        <!-- Menu -->
-       <!--<menuitem name="Report" parent="mexal_order_statistic.menu_base_mexal" id="menu_base_mexal_report" sequence="3" />
-          <menuitem name="Report product balance" parent="menu_base_mexal_report" id="menu_statistic_statistic_store" sequence="1" action="action_statistic_store" />-->
+       <menuitem name="Report" parent="mexal_order_statistic.menu_base_mexal" id="menu_base_mexal_report" sequence="3" />
+          <menuitem name="Report product balance" parent="menu_base_mexal_report" id="menu_statistic_statistic_store" sequence="1" action="action_statistic_store" />
   </data>
 </openerp>
