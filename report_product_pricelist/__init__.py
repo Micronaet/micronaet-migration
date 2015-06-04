@@ -21,4 +21,4 @@
 ###############################################################################
 
 from report import parser
-#import wizard
+from . import wizard

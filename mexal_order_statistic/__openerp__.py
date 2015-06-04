@@ -39,7 +39,7 @@
     'data': [
         'security/order.xml',
         'security/ir.model.access.csv',                     
-        #'order.xml',
+        #'order.xml', # TODO rewrite statistic
         'menuitem.xml',
         'report/report_order.xml',
         ],

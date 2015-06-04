@@ -59,8 +59,8 @@
 
                <separator string="" colspan="4" />
                <group colspan="4" col="6">
-                    <button  icon="gtk-cancel" special="cancel" string="Cancel" />
-                    <button  icon="gtk-ok" name="do_insert_quotation" string="Insert / Update" type="object" />
+                    <button icon="gtk-cancel" special="cancel" string="Cancel" />
+                    <button icon="gtk-ok" name="do_insert_quotation" string="Insert / Update" type="object" />
                </group>
            </form>
         </field>
