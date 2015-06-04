@@ -70,7 +70,7 @@ class MrpBomExtraFields(orm.Model):
         '''
         res = {}
         riferimento = str(int(datetime.strftime(
-            datetime.now(),"%Y"))-2) + "-01-01"
+            datetime.now(), "%Y"))-2) + "-01-01"
         for item in self.browse(cr, uid, ids, context=context):
             res[item.id] = {}
             res[item.id]['tot_component'] = len(item.bom_line_ids)

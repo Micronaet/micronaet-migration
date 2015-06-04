@@ -4,7 +4,6 @@
        <record id="duplicate_bom_wizard_form" model="ir.ui.view">
             <field name="name">Duplicazione BOM</field>
             <field name="model">duplicate.bom.wizard</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Duplicazione distinta base">
                     <field name="duplicate_to" domain="[('id','!=',active_id)]" />

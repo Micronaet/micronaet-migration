@@ -19,7 +19,7 @@
         <field name='model'>product.product</field>
         <field name="inherit_id" ref="product.product_product_tree_view"/>
         <field name='arch' type='xml'>
-           <field name='categ_id' position="after">   
+           <field name='state' position="before">
                 <field name='first_supplier' />   
                 <field name='first_code' />   
                 <field name='bom_len' />   
@@ -32,14 +32,12 @@
         <field name='model'>product.product</field>
         <field name="inherit_id" ref="product.product_search_form_view" />
         <field name='arch' type='xml'>
-           <field name="default_code" position="before">
-           <filter string="Nessun componente" icon="terp-accessories-archiver" domain="[('bom_len','=',0)]"/>
-           <filter string="Non in Mexal" icon="terp-accessories-archiver" domain="[('import','=',False)]"/>
-           </field>
            <field name='name' position="after">   
                 <field name='first_supplier' />   
                 <field name='first_code' />   
                 <field name='bom_len' />   
+               <filter string="Nessun componente" icon="terp-accessories-archiver" domain="[('bom_len','=',0)]"/>
+               <filter string="Non in Mexal" icon="terp-accessories-archiver" domain="[('import','=',False)]"/>
            </field>     
            
         </field>
@@ -55,7 +53,7 @@
                   <field name='date_quotation' />   
               </xpath>
               <!--TODO controllare se e' corretta-->
-              <xpath expr="/form/field[@name='pricelist_ids']/form/field[@name='price']" position="after">
+              <xpath expr="/form/field[@name='pricelist_ids']/form/group/field[@name='price']" position="after">
                   <field name='date_quotation' />   
               </xpath>
 
@@ -83,7 +81,7 @@
                          <field name="company_id" groups="base.group_multi_company"/>
                     </group>
                     <newline/>
-                    <group expand="0" string="Group By..." colspan="4" col="8" groups="base.group_extended">
+                    <group expand="0" string="Group By..." colspan="4" col="8" ><!--groups="base.group_extended"-->
                         <filter string="Product" icon="terp-accessories-archiver" domain="[]" context="{'group_by':'product_id'}"/>
                         <filter string='Default UOM' icon="terp-mrp" domain="[]" context="{'group_by' : 'product_uom'}" />
                         <separator orientation="vertical"/>
@@ -97,16 +95,16 @@
         </record>
 
        <!-- Tree -->
-    <record id='mrp_bom_component_tree_view_fiam_fields' model='ir.ui.view'>
+    <!--<record id='mrp_bom_component_tree_view_fiam_fields' model='ir.ui.view'>
         <field name='name'>Fiam tree BOM</field>
         <field name='model'>mrp.bom</field>
         <field name="inherit_id" ref="mrp.mrp_bom_component_tree_view"/>
         <field name='arch' type='xml'>
-            <field name="method" position="before">
+            <field name="routing_id" position="before">
                 <field name="tot_component" />
             </field>               
         </field>
-    </record>   
+    </record> -->
 
     <record id="mrp_bom_component_tree_view_obsolete_color" model="ir.ui.view">
             <field name="name">MRP BOM componenti obsoleti</field>
@@ -120,14 +118,14 @@
                     <field name="name" string="Component Name"/>
                     <field name="code"/>
                     <field name="product_id" string="Component Product"/>
-                    <field name="bom_id"/>
+                    <!--<field name="bom_id"/>-->
                     <field name="product_qty"/>
                     <field name="product_uom"/>
                     <field name="type"/>
-                    <field name="method" groups="base.group_extended"/>
-                    <field name="routing_id" groups="base.group_extended"/>
-                    <field name="date_start" groups="base.group_extended"/>
-                    <field name="date_stop" groups="base.group_extended"/>
+                    <!--<field name="method" groups="base.group_extended"/> removed base.group_extended-->
+                    <field name="routing_id" />
+                    <field name="date_start" />
+                    <field name="date_stop" />
                     <field name="obsolete"/>
                     <field name="old_cost"/>
                 </tree>
@@ -145,24 +143,23 @@
         </record>
         <menuitem
             action="mrp_bom_form_action_obsolete"
-            id="menu_mrp_bom_form_action_obsolete"
-            groups="base.group_extended"
+            id="menu_mrp_bom_form_action_obsolete"            
             parent="menu_products_bom_componenti"
-            sequence="20"/>
+            sequence="20"/> <!--groups="base.group_extended"-->
        <!-- Form -->
     <record id='mrp_bom_add_fiam_fields' model='ir.ui.view'>
         <field name='name'>Fiam Bom extra fields</field>
         <field name='model'>mrp.bom</field>
         <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
         <field name='arch' type='xml'>
-              <xpath expr="/form/notebook/page[@string='Components']/field[@name='bom_line_ids']/tree/field[@name='date_stop']" position="after">
+              <!--TODO <xpath expr="/form/notebook/page[@string='Components']/field[@name='bom_line_ids']/tree/field[@name='date_stop']" position="after">
                   <field name='actual_price' />   
                   <field name='actual_total' />   
                   <field name='first_supplier' />   
                   <field name='obsolete' />   
                   <field name='old_cost' />
-              </xpath>
-              <xpath expr="/form/notebook/page[@string='Components']/field/form/group/field[@name='company_id']" position="after">
+              </xpath>-->
+              <!--TODO moved in a new view<xpath expr="/form/notebook/page[@string='Components']/field/form/group/field[@name='company_id']" position="after">
                   <newline />
                   <group colspan="4" col="6">
                     <field name='actual_price' />   
@@ -172,7 +169,7 @@
                   <newline />
                   <field name='obsolete' />   
                   <field name='old_cost' />
-              </xpath>
+              </xpath>-->
               <!-- Attributi di colore -->
               <xpath expr="/form/notebook/page[@string='Components']/field[@name='bom_line_ids']/tree" position="attributes">
                   <attribute name='colors'>red:obsolete or old_cost</attribute>
@@ -265,10 +262,9 @@
     
     <menuitem
         action="mrp_bom_component_costs_form_action"
-        id="mrp_bom_component_costs_form_menu"
-        groups="base.group_extended"
+        id="mrp_bom_component_costs_form_menu"        
         parent="menu_products_bom_componenti"
-        sequence="20"/>
+        sequence="20"/> <!--groups="base.group_extended"-->
 </data>
 </openerp>
 
