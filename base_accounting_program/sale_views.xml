@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <openerp>
 <data>
-    <!-- VIEW: -->  
-       <!-- sale.product.return -->      
+    <!-- VIEW: -->
+       <!-- sale.product.return -->
     <record id='view_sale_product_return_search' model='ir.ui.view'>
         <field name='name'>Product return</field>
         <field name='model'>sale.product.return</field>
@@ -45,14 +45,14 @@
         <field name="view_id" ref="view_sale_product_return_tree"/>
         <field name="search_view_id" ref="view_sale_product_return_search"/>
     </record>
-    <menuitem 
-        parent="base.menu_sale_config_sales" 
-        id="menu_action_sale_product_return" 
+    <menuitem
+        parent="base.menu_sale_config_sales"
+        id="menu_action_sale_product_return"
         action="action_sale_product_return"
         />
-    
-    <!-- INHERIT VIEW: -->  
-    <!-- sale.order --> 
+
+    <!-- INHERIT VIEW: -->
+    <!-- sale.order -->
     <!--TODO Vedere se serve (forse no)<record id='view_sale_order_add_fiam_fields' model='ir.ui.view'>
         <field name='name'>Quotation sale</field>
         <field name='model'>sale.order</field>
@@ -61,7 +61,7 @@
         <field name='arch' type='xml'>
               <xpath expr="/form/notebook/page[@string='Sales Order']/field[@name='project_id']" position="after">
                   <newline />
-                  <group colspan="4" col="6">     
+                  <group colspan="4" col="6">
                        <field name='print_only_prices' />
                        <field name='print_address' />
                        <field name='has_master_header' />
@@ -69,37 +69,36 @@
               </xpath>
         </field>
     </record>-->
-    
-    <!-- sale.order --> 
-    <!--TODO finire <record id='view_sale_layout_order_add_fiam_fields' model='ir.ui.view'>
-        <field name='name'>Quotation sale layout</field>
-        <field name='model'>sale.order</field>
-        <field name="inherit_id" ref="sale_layout.view_order_form_inherit_1"/>
-        <field name='type'>form</field>
+
+    <!-- sale.order -->
+    <record id='view_order_line_form2_discount' model='ir.ui.view'>
+        <field name='name'>Quotation sale discount</field>
+        <field name='model'>sale.order.line</field>
+        <field name="inherit_id" ref="sale.view_order_line_form2"/>
         <field name='arch' type='xml'>
-              <xpath expr="/form/notebook/page/field[@name='order_line']/tree/field[@name='discount']" position="before">
-                  <field string="Scala sconti" name='multi_discount_rates' />             
-              </xpath>
-              <xpath expr="/form/notebook/page/field[@name='order_line']/form/notebook/page[@string='Order Line']/field[@name='product_uom']" position="after">
+              <!--<xpath expr="/form/sheetnotebook/page/field[@name='order_line']/tree/field[@name='discount']" position="before">
+                  <field string="Scala sconti" name='multi_discount_rates' />
+              </xpath>-->
+              <xpath expr="/form/sheet/group/group/field[@name='price_unit']" position="after">
                   <newline />
-                  <field string="Scala sconti" name='multi_discount_rates' on_change='on_change_multi_discount(multi_discount_rates)' context="{'partner_id':parent.partner_id}" />             
+                  <field string="Scala sconti" name='multi_discount_rates' on_change='on_change_multi_discount(multi_discount_rates)' context="{'partner_id':parent.partner_id}" />
                   <newline />
                   <field name="price_use_manual" />
                   <field name="price_unit_manual" />
               </xpath>
-              <xpath expr="/form/notebook/page/field[@name='order_line']" position="attributes">
-                  <attribute name='context'>{'partner_id':partner_id,}</attribute>
+              <!--<xpath expr="/form/notebook/page/field[@name='order_line']" position="attributes">
+                  <attribute name='context'>{'partner_id':partner_id}</attribute>
               </xpath>
               <field name="payment_term" position="after">
                  <field name="return_id" widget="selection" />
               </field>
               <field name="payment_term" position="after">
                  <newline />
-                 <field name="bank_id" />              
-              </field>           
+                 <field name="bank_id" />
+              </field>-->
         </field>
-    </record>-->
-    
+    </record>
+
     <record id='product_normal_form_view_inherit_extra_field' model='ir.ui.view'>
         <field name='name'>Product extra</field>
         <field name='model'>product.product</field>
@@ -108,14 +107,14 @@
         <field name='arch' type='xml'>
             <field name="description_purchase" position="after">
                <separator string="Web Large Description" colspan="4"/>
-               <field colspan="4" name="large_description" nolabel="1"/>    
-            </field>             
+               <field colspan="4" name="large_description" nolabel="1"/>
+            </field>
             <field name="default_code" position="after">
                <field colspan="4" name="mexal_id" groups="base_fiam.group_sales_import_manager"/>
-            </field> 
-       </field>     
+            </field>
+       </field>
     </record>
-    
+
     <!--sale.order.bank-->
     <record model="ir.ui.view" id="view_sale_order_bank">
         <field name="name">Bank account</field>
@@ -126,7 +125,7 @@
                <field name="name"/>
                <newline />
                <separator string="Informazioni:" colspan="4" />
-               <field name="information" colspan="4" nolabel="1" />               
+               <field name="information" colspan="4" nolabel="1" />
             </form>
         </field>
     </record>
@@ -138,7 +137,7 @@
         <field name="arch" type="xml">
             <tree string="Conto bancario">
                <field name="name" />
-               <field name="information" />               
+               <field name="information" />
             </tree>
         </field>
     </record>
@@ -149,8 +148,8 @@
         <field name="view_type">form</field>
         <field name="view_mode">form,tree</field>
         <field name="view_id" ref="view_sale_order_bank_tree"/>
-    </record> 
-    
+    </record>
+
     <record id='view_sales_order_filter_add_cancel_button' model='ir.ui.view'>
         <field name='name'>Sale filter with cancel</field>
         <field name='model'>sale.order</field>
@@ -161,7 +160,7 @@
                   <filter string="Non annullato" name="not_cancel" domain="[('state','!=','cancel')]" icon="STOCK_CANCEL" default="1" />
               </filter>
                <xpath expr='/search/filter[@string="Quotations"]' position="attributes">
-                   <attribute name="name">is_quotation</attribute>  
+                   <attribute name="name">is_quotation</attribute>
               </xpath>
         </field>
     </record>
@@ -175,16 +174,16 @@
         <field name="search_view_id" ref="sale.view_sales_order_filter" />
         <field name="context">{'search_default_is_quotation':1,'search_default_not_cancel':1}</field>
         <field name="help">Offerte e Ordini senza filtro di commerciale</field>
-    </record> 
-       
-    <menuitem 
-        parent="base.menu_sale_config_sales" 
-        id="menu_view_sale_order_bank" 
+    </record>
+
+    <menuitem
+        parent="base.menu_sale_config_sales"
+        id="menu_view_sale_order_bank"
         action="action_view_sale_order_bank"/>
 
-    <menuitem 
-        parent="base.menu_sales" 
-        id="sale.menu_sale_order" 
+    <menuitem
+        parent="base.menu_sales"
+        id="sale.menu_sale_order"
         sequence="3"
         action="action_order_form_no_agent"
         groups="base.group_sale_salesman,base.group_sale_manager"
