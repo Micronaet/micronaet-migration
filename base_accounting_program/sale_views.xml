@@ -185,7 +185,5 @@
         action="action_order_form_no_agent"
         groups="base.group_sale_salesman,base.group_sale_manager"
         />
-
 </data>
 </openerp>
-
