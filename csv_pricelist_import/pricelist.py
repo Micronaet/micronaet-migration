@@ -43,7 +43,9 @@ class ProductPricelist(orm.Model):
     '''
     _inherit = 'product.pricelist'
     
-    def schedule_csv_pricelist_import(self, cr, uid, context=None):
+    def schedule_csv_pricelist_import(self, cr, uid, 
+            input_file="~/ETL/pricelist.csv", delimiter=";", 
+            header_line = 0, context=None):
         ''' Import pricelist and setup particular price for partners
             (the partners are imported with SQL methods)
         '''
@@ -61,6 +63,67 @@ class ProductPricelist(orm.Model):
         # First 10 are standard pricelist
         #pricelist_ids = self.search(cr, uid, [('id','>','10')], context=context)        
         #self.unlink(cr, uid, pricelist_ids, context=context)
-        return True
+        
+        # NOTE: There's another procedure that delete only partner imported 
+        # pricelist, see if it's better do this
+
+        # ---------------------------------------------------------------------
+        # Start pricelist importation from price exception in partner:
+        # ---------------------------------------------------------------------
+        # TODO check: 
+        type_ids = self.pool.get('product.pricelist.type').search(cr, uid, [
+            ('key', '=', 'sale')], context=context)
+            
+        #TODO cur_EUR=getCurrency(sock,dbname,uid,pwd,'EUR')
+        #cur_CHF=getCurrency(sock,dbname,uid,pwd,'CHF')
+
+        csv_file = open(os.path.expanduser(input_file), 'rb')
+        lines = csv.reader(csv_file, delimiter=separator)
+        counter = {
+            'tot': -header_lines,
+            'new': 0,
+            'upd': 0,
+            } 
+
+        try:
+            for line in lines:
+                if counter['tot'] < 0:  # jump n lines of header 
+                   counter['tot'] += 1
+                else:
+                    if len(line): # jump empty lines
+                       counter['tot'] += 1 
+                       default_code = Prepare(line[0]) # TODO migrate prepare function in a module csv_base
+         
+                       data = {
+                           'name': name,
+                           'mexal_id': default_code,
+                           }
+                       
+                       item_ids = self.pool.get('product.product').search(
+                           cr, uid, [('default_code', '=', default_code)])
+                       # TODO arrivato qui! ***********************************    
+                       if item_ids: # update
+                          try:
+                              article_mod = sock.execute(dbname, uid, pwd, 'product.product', 'write', item, data) 
+                          except:
+                              print "[ERROR] Modify product, current record:", data
+                              raise 
+                          print "[INFO]", counter['tot'], "Already exist: ", ref, name
+                       else:           
+                          counter['new'] += 1  
+                          error="Creating product"
+                          try:
+                              article_new=sock.execute(dbname, uid, pwd, 'product.product', 'create', data) 
+                          except:
+                              print "[ERROR] Create product, current record:", data
+                              raise                
+                          print "[INFO]",counter['tot'], "Insert: ", ref, name
+              
+        except:
+            print '>>> [ERROR] Error importing articles!'
+            raise #Exception("Errore di importazione!") # Scrivo l'errore per debug
+
+        print "[INFO]","Articles:", "Total: ",counter['tot']," (imported: ",counter['new'],") (updated: ", counter['upd'], ")"        
+                return True
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

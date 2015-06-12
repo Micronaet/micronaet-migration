@@ -11,7 +11,7 @@
 			<field eval="5" name="priority"/>
 			<field eval="0" name="doall"/>
 			<field eval="1" name="active"/>
-			<field name="args">()</field>
+			<field name="args">('~/ETL/pricelist.csv', ';', 0)</field>
 			<field eval="1" name="interval_number"/>
 			<field eval="&quot;&quot;&quot;product.pricelist&quot;&quot;&quot;" name="model"/>
 		</record>
