@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #
-# ODOO (ex OpenERP) 
+# ODOO (ex OpenERP)
 # Open Source Management Solution
 # Copyright (C) 2001-2015 Micronaet S.r.l. (<http://www.micronaet.it>)
 # Developer: Nicola Riolini @thebrush (<https://it.linkedin.com/in/thebrush>)
@@ -12,7 +12,7 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU Affero General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
@@ -44,14 +44,14 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 _logger = logging.getLogger(__name__)
 
 class SyncroXMLRPC(orm.Model):
-    ''' Function for migration (and setup parameters for XMLRPC) 
+    ''' Function for migration (and setup parameters for XMLRPC)
         So no file .cfg to setup
     '''
     _name = 'syncro.xmlrpc'
 
     _converter = {}
 
-    def load_converter(self, cr, uid, converter, table, 
+    def load_converter(self, cr, uid, converter, table,
             field_id='migration_old_id', context=None):
         ''' Load coverter if not present
         '''
@@ -70,7 +70,7 @@ class SyncroXMLRPC(orm.Model):
     # -------------------------------------------------------------------------
     def migrate_database(self, cr, uid, wiz_proxy, context=None):
         ''' Module for syncro partner from one DB to another
-            This method implement some utility function 
+            This method implement some utility function
             and all the selectable function that could be lauched from wizard
         '''
 
@@ -88,16 +88,16 @@ class SyncroXMLRPC(orm.Model):
                 if category_ids:
                     # TODO remove
                     category_pool.write(cr, uid, category_ids, {
-                        'parent_id': self.categ_all, 
+                        'parent_id': self.categ_all,
                         }, context=context)
-                    return category_ids[0]    
+                    return category_ids[0]
                 return category_pool.create(cr, uid, {
-                    'name': name, 
+                    'name': name,
                     'parent_id': self.categ_all,
-                    }, context=context)    
+                    }, context=context)
             except:
                print "#ERR Create employee category:", sys.exc_info()
-               return False    
+               return False
 
         """def get_product_category_account(self, cr, uid, item, context=context):
             ''' Search category or create if not present (version correct not
@@ -111,11 +111,11 @@ class SyncroXMLRPC(orm.Model):
                     ('type', '=', 'view'),
                     ], context=context)
                 if category_ids:
-                    return category_ids[0]    
+                    return category_ids[0]
                 return category_pool.create(cr, uid, {
-                    'name': name, 
+                    'name': name,
                     'type': 'view',
-                    }, context=context)    
+                    }, context=context)
             except:
                print "#ERR Create employee category (account):", sys.exc_info()
                return False"""
@@ -137,8 +137,8 @@ class SyncroXMLRPC(orm.Model):
             user=openerp.username,
             password=openerp.password,
             )
-        
-        from_date = wiz_proxy.from_date or False        
+
+        from_date = wiz_proxy.from_date or False
         to_date = wiz_proxy.to_date or False
 
         # ---------------------------------------------------------------------
@@ -148,7 +148,7 @@ class SyncroXMLRPC(orm.Model):
         self._converter[table] = {}
         converter = self._converter[table] # for use same name
         if wiz_proxy.user:
-            erp_pool = erp.ResUsers        
+            erp_pool = erp.ResUsers
             item_pool = self.pool.get(table)
             item_ids = erp_pool.search([])
             for item in erp_pool.browse(item_ids):
@@ -180,10 +180,10 @@ class SyncroXMLRPC(orm.Model):
                     converter[item.id] = item_id
                 except:
                     print "#ERR", table, "jumped:", item.name
-                    continue 
+                    continue
                 # NOTE No contact for this database
         else: # Load convert list form database
-            self.load_converter(cr, uid, converter, table=table, 
+            self.load_converter(cr, uid, converter, table=table,
                 context=context)
 
         # ---------------------------------------------------------------------
@@ -199,7 +199,7 @@ class SyncroXMLRPC(orm.Model):
             for item in erp_pool.browse(item_ids):
                 try:
                     # Create record to insert/update
-                    name = item.name 
+                    name = item.name
                     data = {'name': name}
                     new_ids = item_pool.search(cr, uid, [
                         ('name', '=', name)], context=context)
@@ -216,16 +216,16 @@ class SyncroXMLRPC(orm.Model):
                     converter[item.id] = item_id
                 except:
                     print "#ERR", table, "jumped:", name
-                    continue 
+                    continue
                 # NOTE No contact for this database
         else: # Load convert list form database
-            self.load_converter(cr, uid, converter, table=table, 
+            self.load_converter(cr, uid, converter, table=table,
                 context=context)
 
         # ---------------------------------------------------------------------
         # res.partner.category
         # ---------------------------------------------------------------------
-        table = 'res.partner.category'
+        table = 'res.partner.category' # Tags partner
         self._converter[table] = {}
         converter = self._converter[table] # for use same name
         if wiz_proxy.category: # TODO
@@ -235,7 +235,7 @@ class SyncroXMLRPC(orm.Model):
             for item in erp_pool.browse(item_ids):
                 try:
                     # Create record to insert/update
-                    name = item.name 
+                    name = item.name
                     data = {
                         'name': name,
                         'migration_old_id': item.id,
@@ -258,7 +258,7 @@ class SyncroXMLRPC(orm.Model):
                     continue
                 # NOTE No contact for this database
         else: # Load convert list form database
-            self.load_converter(cr, uid, converter, table=table, 
+            self.load_converter(cr, uid, converter, table=table,
                 context=context)
 
         # ---------------------------------------------------------------------
@@ -278,12 +278,12 @@ class SyncroXMLRPC(orm.Model):
                     i += 1
                     categ_id = get_product_category(
                         self, cr, uid, item.categ_id, context=context)
-                            
+
                     # Create record to insert / update
                     data = {
                         'name': item.name,
                         'default_code': item.default_code,
-                        'categ_id': categ_id,                        
+                        'categ_id': categ_id,
                         'type': 'service',
                         'standard_price': 1.0,
                         'list_price': 1.0,
@@ -299,7 +299,7 @@ class SyncroXMLRPC(orm.Model):
                             item_pool.write(cr, uid, item_id, data,
                                 context=context)
                             print i, "#INFO ", table, "update:", item.name
-                        else:    
+                        else:
                             print i, "#INFO ", table, "jumped:", item.name
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
@@ -308,10 +308,10 @@ class SyncroXMLRPC(orm.Model):
                     converter[item.id] = item_id
                 except:
                     print i, "#ERR", sys.exc_info()
-                    continue 
+                    continue
                 # NOTE No contact for this database
         else: # Load convert list form database
-            self.load_converter(cr, uid, converter, table=table, 
+            self.load_converter(cr, uid, converter, table=table,
                 context=context)
 
         # ---------------------------------------------------------------------
@@ -330,7 +330,7 @@ class SyncroXMLRPC(orm.Model):
             # -----------------------------------------------------------------
             item_pool = self.pool.get(table)
             erp_pool = erp.ResPartner
-            item_ids = erp_pool.search([])#[:10]            
+            item_ids = erp_pool.search([])#[:10]
             i = 0
             for item in erp_pool.browse(item_ids):
                 try:
@@ -338,43 +338,91 @@ class SyncroXMLRPC(orm.Model):
                     name = item.name.strip()
                     # Create record to insert / update
                     data = { # NOTE: partner are imported add only new data
-                        'name': name,
-                        #'date': item.date,
-                        'comment': item.comment,
-                        #'ean13': item.ean13,
-                        'ref': item.ref,
-                        'website': item.website,
-                        'customer': item.customer,
-                        'supplier': item.supplier,
-                        'is_company': True,
-                        #'fiscalcode': item.x_fiscalcode,
-                        # type parent_id category vat_subjected
-                        #'vat': item.vat,
-                        #'notify_email': item.nofify_email,
-                        #'opt_out': item.opt_out,
-                        'is_address': False,
                         'active': item.active,
-                        
-                        #TODO lang
+                        # No: (address)
+                        #article_label_id > easylabel.label
+                        'city': item.city,
+                        'comment': item.comment,
+                        ##company_id
+                        #country
+                        #credit_limit
+                        'customer': item.customer,
+                        'date': item.date,
+                        'date_last_ddt': item.date_last_ddt,
+                        'day_left_ddt': item.day_left_ddt,
+                        'ddt_e_oc_c': item.ddt_e_oc_c,
+                        'ddt_e_oc_s': item.ddt_e_oc_s,
+                        'debit_limit': item.debit_limit,
+                        'discount_rates': item.discount_rates,
+                        'discount_value': item.discount_value,
+                        'ean13': item.ean13,
+                        'email': item.email,
+                        #employee bool
+                        'fido_date': item.fido_date,
+                        'fido_ko': item.fido_ko,
+                        'fido_total': item.fido_total,
+                        #fiscal_id_code
+                        #import
+                        #invoice_agent_id
+                        #invoiced_current_year
+                        #invoice_last_year
+                        #lang
+                        #last_reconviliation_date
+                        'mexal_note': item.mexal_note,
+                        'mexal_c': item.mexal_c,
+                        'mexal_s': item.mexal_s,
+                        'mobile': item.mobile,
+                        'name': name,
+                        #order_current_year
+                        #order_last_year
+                        #pack_label_id easylabel.label
+                        #pallet_label_id easylabel.label
+                        ##parent_id
+                        #partner_color
+                        #partner_importante_id
+                        'phone': phone,
+                        #private
+                        #property_account_position
+                        #property_payment_term
+                        #property_product_pricelist # TODO pricelist
+                        #property_product_pricelist_purchase
+                        #property_stock_customer
+                        #property_stock_supplier
+                        'ref': item.ref,
+                        #saldo_c
+                        #saldo_s
+                        #section_id crm.case.section # TODO source / campaign
+                        #statistic_category_id statistic.category # TODO category
+                        'supplier': item.supplier,
+                        #title
+                        'trend': item.trend,
+                        'trend_category': item.trend_category,
+                        'type_cei': item.type_cei,
+                        #type_id  crm.case.resource.type
+                        'user_id': self._converter['res.users'].get(
+                            item.user_id or 0, False)
+                        'vat': item.vat,
+                        #vat_subject
+                        'website': item.website,
+                        #zone_id  res.partner.zone # TODO zone
+
+                        # New fieds:
+                        'is_company': True,
+                        'is_address': False,
                         'sql_customer_code': item.mexal_c,
                         'sql_supplier_code': item.mexal_s,
                         'migration_old_id': item.id,
-                        
+                        # ??
+                        #'notify_email': item.nofify_email,
+                        #'opt_out': item.opt_out,
+
                         # Conversione of IDs
-                        'user_id': self._converter['res.users'].get(
-                            item.user_id or 0, False)
                         #'': self._convert(
                         #    'crm.tracking.campaign').get(
                         #        item.type_id, False),
                         }
-                        # TODO pricelist
-                        # TODO category
-                        # TODO zone
-                        # TODO mexal data
-                        # source / campaign
-                        # lang
-                        # user_id
-                        # easy label
+
+                        # TODO mexal data di creazione da importare
 
                     # Pre SQL import:
                     partner_ids = item_pool.search(cr, uid, [
@@ -394,7 +442,7 @@ class SyncroXMLRPC(orm.Model):
                     converter[item.id] = item_id
                 except:
                     print i, "#ERR", table, "jumped:", item.name
-                    continue 
+                    continue
 
             # -----------------------------------------------------------------
             # B. Searching for partner address (default address):
@@ -404,7 +452,7 @@ class SyncroXMLRPC(orm.Model):
             # Destination address:
             item_ids = erp_pool.search([
                 ('mexal_c', '=', False),('mexal_s', '=', False)])
-            for item in erp_pool.browse(item_ids): # TODO stopped!!! 
+            for item in erp_pool.browse(item_ids): # TODO stopped!!!
                 try:
                     partner_id = converter[item.id] # TODO test error
                     # Create record to insert / update
@@ -426,7 +474,7 @@ class SyncroXMLRPC(orm.Model):
                         #'migration_old_id': item.id,
                         }
 
-                    # Read info from address related to this partner:                    
+                    # Read info from address related to this partner:
                     partner_ids = item_pool.search(cr, uid, [
                         ('id', '=', partner_id)])
                     if partner_ids:
@@ -440,7 +488,7 @@ class SyncroXMLRPC(orm.Model):
 
                 except:
                     print "#ERR", table, "jumped:", item.name
-                    continue 
+                    continue
                 # NOTE No contact for this database
 
             # -----------------------------------------------------------------
@@ -451,7 +499,7 @@ class SyncroXMLRPC(orm.Model):
             # Destination address:
             item_ids = erp_pool.search([
                 '|',('mexal_c','=',True),('mexal_s','=',True)])
-            for item in []:# erp_pool.browse(item_ids): # TODO stopped!!! 
+            for item in []:# erp_pool.browse(item_ids): # TODO stopped!!!
                 try:
                     partner_id = self._converter['res.partner'].get(
                         item.id, False) # TODO test error
@@ -484,7 +532,7 @@ class SyncroXMLRPC(orm.Model):
                         # TODO zone
                         # TODO mexal data
 
-                    # Read info from address related to this partner:                    
+                    # Read info from address related to this partner:
                     address_ids = item_pool.search(cr, uid, [
                         ('migration_old_id', '=', item.id), ])
                     if address_ids:
@@ -492,7 +540,7 @@ class SyncroXMLRPC(orm.Model):
                             item_id = item_pool.write(cr, uid, address_ids,
                                 data, )
                             print "#INFO", table, "(addr) upd:", item.name
-                        else:    
+                        else:
                             print "#INFO", table, "(addr) jump:", item.name
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
@@ -502,10 +550,10 @@ class SyncroXMLRPC(orm.Model):
 
                 except:
                     print "#ERR", table, "jumped:", item.name
-                    continue 
+                    continue
                 # NOTE No contact for this database
         else: # Load convert list form database
-            self.load_converter(cr, uid, converter, table=table, 
+            self.load_converter(cr, uid, converter, table=table,
                 context=context)
         return True
 
