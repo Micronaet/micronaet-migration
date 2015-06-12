@@ -261,7 +261,8 @@ class SyncroXMLRPC(orm.Model):
             self.load_converter(cr, uid, converter, table=table,
                 context=context)
 
-        # before: web.category, web.color, product.custom.duty, web.line, web.tipology
+        # before: web.category, web.color, product.custom.duty, 
+        # web.line, web.tipology
         # ---------------------------------------------------------------------
         # product.product
         # ---------------------------------------------------------------------
@@ -270,7 +271,7 @@ class SyncroXMLRPC(orm.Model):
         converter = self._converter[table]
         if wiz_proxy.product:
             item_pool = self.pool.get(table)
-            erp_pool = erp.CrmCaseCateg
+            erp_pool = erp.ProductProduct
             item_ids = erp_pool.search([])
             i = 0
             for item in erp_pool.browse(item_ids):
@@ -281,11 +282,57 @@ class SyncroXMLRPC(orm.Model):
                         self, cr, uid, item.categ_id, context=context)
 
                     # Create record to insert / update
+                    import pdb; pdb.set_trace()
+                    """
+                    'amazon_mig_brand', 'amazon_mig_category1_id', 
+                    'amazon_mig_category2_id', 'amazon_mig_color', 
+                    'amazon_mig_country_id', 
+                    'amazon_mig_description', 'amazon_mig_destination_code', 
+                    'amazon_mig_dimension_um', 'amazon_mig_discount_end', 
+                    'amazon_mig_discount_price', 'amazon_mig_discount_start', 
+                    'amazon_mig_function', 'amazon_mig_gift', 
+                    'amazon_mig_height', 
+                    'amazon_mig_image', 'amazon_mig_image_publish', 
+                    'amazon_mig_inventory', 'amazon_mig_is_image', 
+                    'amazon_mig_keywords', 'amazon_mig_length', 
+                    'amazon_mig_manage_days', 'amazon_mig_manufacturer', 
+                    'amazon_mig_material', 'amazon_mig_migration', 
+                    'amazon_mig_min_level', 'amazon_mig_out', 
+                    'amazon_mig_price', 'amazon_mig_publish', 
+                    'amazon_mig_q_x_pack', 'amazon_mig_sale_end', 
+                    'amazon_mig_sale_start', 
+                    'amazon_mig_security_level', 'amazon_mig_title', 
+                    'amazon_mig_volume', 'amazon_mig_volume_um', 
+                    'amazon_mig_warranty', 'amazon_mig_weight', 
+                    'amazon_mig_weight_um', 'amazon_mig_width', 
+                    'bom_len', 'company_id', 'copy', 'cost_method', 
+                    'k2_alias', 'k2_all_product', 'k2_category_ids', 
+                    'k2_extra_field_search', 'k2_extra_fields', 'k2_fulltext', 
+                    'k2_gallery', 'k2_gallery_id', 'k2_image_caption', 
+                    'k2_image_format', 'k2_introtext', 
+                    'k2_mod_custom_ids', 'k2_ordering', 'k2_params', 
+                    'k2_subtipology_ids', 
+                    'loc_case', 'loc_rack', 'loc_row', 'mes_type', 
+                    'packaging', 
+                    'procure_method', 'produce_delay', 'product_manager', 
+                    'property_account_expense', 'property_account_income', 
+                    'property_stock_account_input', 
+                    'property_stock_account_output', 
+                    'property_stock_inventory', 
+                    'property_stock_procurement', 'property_stock_production', 
+                    'purchase_ok', 'read', 'refresh', 'rental', 'sale_delay', 
+                    'sale_ok', 'seller_delay', 'seller_id', 'seller_qty', 
+                    'standard_price', 'state', 'supplier_taxes_id', 
+                    'supply_method', 'taxes_id', 'unlink', 'uom_id', 
+                    'uom_po_id', 
+                    'uos_coeff', 'uos_id', 'volume', 'warranty', 'weight', 
+                    'width', 'write'
+                    """
                     data = {                        
                         #'best_cost': item.best_cost,
                         #category_id > web.category
                         'categ_id': categ_id,
-                        #'code': item.code,
+                        ##'code': item.code,
                         'colls': item.colls,
                         'colls_number': item.colls_number,
                         #'color_id': item.color_id, > web.color
@@ -296,6 +343,10 @@ class SyncroXMLRPC(orm.Model):
                         'default_code': item.default_code,
                         #'default_photo': item.default_photo,
                         #'default_supplier': item.default_supplier, # no!?!
+                        #'default_supplier_code': item.default_supplier_code,
+                        'description': item.description,
+                        'description_sale': item.description_sale,
+                        'description_purchase': item.description_purchase,
                         'description_web': item.description_web,
                         'dim_article': item.dim_article,
                         'dimension_text': item.dimension_text,
@@ -316,9 +367,10 @@ class SyncroXMLRPC(orm.Model):
                         'fob_cost_total_eur': item.fob_cost_total_eur,
                         'fob_pricelist': item.fob_pricelist,
                         'fob_pricelist_compute': item.fob_pricelist_compute,
-                        'fob_pricelist_compute_eur': item.fob_pricelist_compute_eur,
+                        'fob_pricelist_compute_eur': 
+                            item.fob_pricelist_compute_eur,
                         'height': item.height,
-                        'H_pack': item.H_pack,
+                        ##'H_pack': item.H_pack,
                         #'import': item.import,
                         #'incoming_qty': item.incoming_qty,
                         'in_pricelist': item.in_pricelist,
@@ -330,10 +382,10 @@ class SyncroXMLRPC(orm.Model):
                         'length': item.length,
                         'linear_length': item.linear_length,
                         #'line_id > web.line
-                        ##'list_price': ': item.list_price,
+                        ##'lst_price': ': item.lst_price,
                         #'location_id': item.location_id,
-                        'L_pack': item.L_pack,
-                        #'list_price': item.lst_price,
+                        ##'L_pack': item.L_pack,
+                        #'list_price': item.list_price,
                         'manual_price': item.manual_price,
                         'margin': item.margin,
                         'mexal_id': item.mexal_id,
@@ -345,7 +397,7 @@ class SyncroXMLRPC(orm.Model):
                         'pack_p': item.pack_p,
                         #'partner_ref': item.partner_ref,
                         'pipe_diameter': item.pipe_diameter,
-                        'P_pack': item.P_pack,
+                        ##'P_pack': item.P_pack,
                         #'preview': item.preview,
                         'price': item.price,
                         'price_extra': item.price_extra,
@@ -363,7 +415,8 @@ class SyncroXMLRPC(orm.Model):
                         #'track_outgoing': item.track_outgoing,
                         #'track_production': item.track_production,
                         'transport_packaging': item.transport_packaging,
-                        'transpost_packaging_usd': item.transpost_packaging_usd,
+                        'transpost_packaging_usd': 
+                            item.transpost_packaging_usd,
                         ##'type': 'service',
                         #'type_of_material': item.type_of_material,
                         ##'standard_price': 1.0,
@@ -377,6 +430,7 @@ class SyncroXMLRPC(orm.Model):
                         #'web_image_create_time': item.web_image_create_time,
                         #'web_image_preview': item.web_image_preview,
                         #'web_image_update': item.web_image_update,
+                        'weight_net': item.weight_net,
                         'weight_packaging': item.weight_packaging,
                         'width': item.width,
                         
@@ -428,7 +482,7 @@ class SyncroXMLRPC(orm.Model):
             erp_pool = erp.ResPartner
             item_ids = erp_pool.search([])#[:10]
             i = 0
-
+            
             for item in erp_pool.browse(item_ids):
                 try:
                     i += 1
