@@ -253,6 +253,7 @@ class SyncroXMLRPC(orm.Model):
                 try:
                     # PARENT analytic account:
                     i += 1
+                    name = item.name.split("] ")[-1]
                     categ_id = get_product_category(
                         self, cr, uid, item.categ_id.name, context=context)
 
@@ -363,7 +364,7 @@ class SyncroXMLRPC(orm.Model):
                         ##ERR'manual_price': item.manual_price,
                         'margin': item.margin,
                         'mexal_id': item.mexal_id,
-                        'name': item.name,
+                        'name': name,
                         ##name_template
                         #'outoing_qty': item.outoing_qty,
                         'pack_h': item.pack_h,
@@ -413,24 +414,26 @@ class SyncroXMLRPC(orm.Model):
                         # Extra fields:
                         'migration_old_id': item.id,
                         }
-                    print data
-                    import pdb; pdb.set_trace()
 
+                    # Note: search by code (default_code is the key)
                     new_ids = item_pool.search(cr, uid, [
-                        ('migration_old_id', '=', item.id)],
+                        ('default_code', '=', item.default_code)],
                             context=context)
                     if new_ids: # Modify
                         item_id = new_ids[0]
                         if wiz_proxy.update:
                             item_pool.write(cr, uid, item_id, data,
                                 context=context)
-                            print i, "#INFO ", table, "update:", item.name
+                            print i, "#INFO ", table, "update:", \
+                                item.default_code
                         else:
-                            print i, "#INFO ", table, "jumped:", item.name
+                            print i, "#INFO ", table, "jumped:", \
+                                item.default_code
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        print i, "#INFO", table, " create:", item.name
+                        print i, "#INFO", table, " create:", item.default_code
+
                     converter[item.id] = item_id
                 except:
                     print i, "#ERR", sys.exc_info()
