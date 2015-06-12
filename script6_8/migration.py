@@ -94,27 +94,6 @@ class SyncroXMLRPC(orm.Model):
                print "#ERR Create employee category:", sys.exc_info()
                return False
 
-        """def get_product_category_account(self, cr, uid, item, context=context):
-            ''' Search category or create if not present (version correct not
-                used)
-            '''
-            try:
-                name = item[1]
-                category_pool = self.pool.get('account.analytic.account')
-                category_ids = category_pool.search(cr, uid, [
-                    ('name', '=', name),
-                    ('type', '=', 'view'),
-                    ], context=context)
-                if category_ids:
-                    return category_ids[0]
-                return category_pool.create(cr, uid, {
-                    'name': name,
-                    'type': 'view',
-                    }, context=context)
-            except:
-               print "#ERR Create employee category (account):", sys.exc_info()
-               return False"""
-
         # ---------------------------------------------------------------------
         # Common part: connection to old database using ERPEEK
         # ---------------------------------------------------------------------
@@ -257,7 +236,8 @@ class SyncroXMLRPC(orm.Model):
                 context=context)
 
         # before: web.category, web.color, product.custom.duty, 
-        # web.line, web.tipology
+        # web.line, web.tipology, 
+        # TODO uom!!!
         # ---------------------------------------------------------------------
         # product.product
         # ---------------------------------------------------------------------
@@ -272,9 +252,9 @@ class SyncroXMLRPC(orm.Model):
             for item in erp_pool.browse(item_ids):
                 try:
                     # PARENT analytic account:
-                    i += 1                    
+                    i += 1
                     categ_id = get_product_category(
-                        self, cr, uid, item.categ_id.id, context=context)
+                        self, cr, uid, item.categ_id.name, context=context)
 
                     # Create record to insert / update
                     """
