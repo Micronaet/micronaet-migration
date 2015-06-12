@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+   <data>
+        <!-- Sales CEI: Italian-->
+        <record id="group_sales_cei_italian" model="res.groups">
+            <field name="name">Sales / CEI as Italian</field>
+        </record>
+        <!-- Manager importations -->
+        <record id="group_sales_import_manager" model="res.groups">
+            <field name="name">Sales / Import manager</field>
+        </record>
+   </data>
+</openerp>
