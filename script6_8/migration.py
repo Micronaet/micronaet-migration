@@ -261,6 +261,7 @@ class SyncroXMLRPC(orm.Model):
             self.load_converter(cr, uid, converter, table=table,
                 context=context)
 
+        # before: web.category, web.color, product.custom.duty, web.line, web.tipology
         # ---------------------------------------------------------------------
         # product.product
         # ---------------------------------------------------------------------
@@ -280,13 +281,108 @@ class SyncroXMLRPC(orm.Model):
                         self, cr, uid, item.categ_id, context=context)
 
                     # Create record to insert / update
-                    data = {
-                        'name': item.name,
-                        'default_code': item.default_code,
+                    data = {                        
+                        #'best_cost': item.best_cost,
+                        #category_id > web.category
                         'categ_id': categ_id,
-                        'type': 'service',
-                        'standard_price': 1.0,
-                        'list_price': 1.0,
+                        #'code': item.code,
+                        'colls': item.colls,
+                        'colls_number': item.colls_number,
+                        #'color_id': item.color_id, > web.color
+                        'colour': item.colour,
+                        'colour_code': item.colour_code,
+                        'dazi': item.dazi,
+                        'dazi_eur': item.dazi_eur,
+                        'default_code': item.default_code,
+                        #'default_photo': item.default_photo,
+                        #'default_supplier': item.default_supplier, # no!?!
+                        'description_web': item.description_web,
+                        'dim_article': item.dim_article,
+                        'dimension_text': item.dimension_text,
+                        'dim_pack': item.dim_pack,
+                        'dim_pallet': item.dim_pallet,
+                        #'duty_id > product_custom_duty
+                        'ean13': item.ean13,
+                        'error_dimension': item.error_dimension,
+                        'error_import': item.error_import,
+                        'extra_description': item.extra_description,
+                        'fabric': item.fabric,
+                        #'first_code': item.first_code,
+                        #'first_supplier': item.first_supplier,
+                        #'fixed_margin': item.fixed_margin,
+                        'fob_cost_supplier': item.fob_cost_supplier,
+                        'fob_cost_supplier_eur': item.fob_cost_supplier_eur,
+                        'fob_cost_total': item.fob_cost_total,
+                        'fob_cost_total_eur': item.fob_cost_total_eur,
+                        'fob_pricelist': item.fob_pricelist,
+                        'fob_pricelist_compute': item.fob_pricelist_compute,
+                        'fob_pricelist_compute_eur': item.fob_pricelist_compute_eur,
+                        'height': item.height,
+                        'H_pack': item.H_pack,
+                        #'import': item.import,
+                        #'incoming_qty': item.incoming_qty,
+                        'in_pricelist': item.in_pricelist,
+                        'item_per_box': item.item_per_box,
+                        'item_per_camion': item.item_per_camion,
+                        'item_per_mq': item.item_per_mq,
+                        'item_per_pallet': item.item_per_pallet,
+                        'large_description': item.large_description,
+                        'length': item.length,
+                        'linear_length': item.linear_length,
+                        #'line_id > web.line
+                        ##'list_price': ': item.list_price,
+                        #'location_id': item.location_id,
+                        'L_pack': item.L_pack,
+                        #'list_price': item.lst_price,
+                        'manual_price': item.manual_price,
+                        'margin': item.margin,
+                        'mexal_id': item.mexal_id,
+                        'name': item.name,
+                        ##name_template
+                        #'outoing_qty': item.outoing_qty,
+                        'pack_h': item.pack_h,
+                        'pack_l': item.pack_l,
+                        'pack_p': item.pack_p,
+                        #'partner_ref': item.partner_ref,
+                        'pipe_diameter': item.pipe_diameter,
+                        'P_pack': item.P_pack,
+                        #'preview': item.preview,
+                        'price': item.price,
+                        'price_extra': item.price_extra,
+                        #'pricelist_id': item.pricelist_id,
+                        'price_margin': item.price_margin,
+                        ##product_tmpl_id
+                        ##'project_id': item.project_id,
+                        #'qty_available': item.qty_available,
+                        'quantity_x_pack': item.quantity_x_pack,
+                        #'quotation_photo': item.quotation_photo,
+                        'q_x_pack': item.q_x_pack,
+                        'telaio': item.telaio,
+                        #'tipology_id > web.tipology
+                        #'track_incoming': item.track_incoming,
+                        #'track_outgoing': item.track_outgoing,
+                        #'track_production': item.track_production,
+                        'transport_packaging': item.transport_packaging,
+                        'transpost_packaging_usd': item.transpost_packaging_usd,
+                        ##'type': 'service',
+                        #'type_of_material': item.type_of_material,
+                        ##'standard_price': 1.0,
+                        #'valuation': item.valuation,
+                        #'variants': item.variants,
+                        #'virtual_available': item.virtual_available,
+                        'vm_description': item.vm_description,
+                        'vm_name': item.vm_name,
+                        'vm_short': item.vm_short,
+                        'web': item.web,
+                        #'web_image_create_time': item.web_image_create_time,
+                        #'web_image_preview': item.web_image_preview,
+                        #'web_image_update': item.web_image_update,
+                        'weight_packaging': item.weight_packaging,
+                        'width': item.width,
+                        
+                        # No Amazon, no K2 fields                        
+
+                        # Extra fields:
                         'migration_old_id': item.id,
                         }
 
