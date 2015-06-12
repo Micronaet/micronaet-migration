@@ -148,11 +148,18 @@ MIGRATI CON VISTE:
 *******************************************************************************  
                                   RICORDA
 *******************************************************************************  
-Migrazione completa dei dati
+Migrazione completa dei dati:
+ PRODOTTI:
+     migrare prima uom
+     migrare dopo i listini supplier
+     
+ PARTNER:     
+     
 Migrazione procedure di importazione
 Creare procedure di verifica importazione con alert
 Prova importazione per verificare gli aggiornamenti  
 Fare tutte le traduzioni <<<
 Installare motore headless ooo
+Installare pricelist supplier per product (Scheda purchase: Gestisce prezzi fornitore)
 
 
