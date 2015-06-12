@@ -77,23 +77,18 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # Utility:
         # ---------------------------------------------------------------------
-        def get_product_category(self, cr, uid, item, context=context):
+        def get_product_category(self, cr, uid, name, context=context):
             ''' Search category or create if not present
             '''
             try:
-                name = item[1]
                 category_pool = self.pool.get('product.category')
                 category_ids = category_pool.search(cr, uid, [
                     ('name', '=', name)], context=context)
                 if category_ids:
-                    # TODO remove
-                    category_pool.write(cr, uid, category_ids, {
-                        'parent_id': self.categ_all,
-                        }, context=context)
                     return category_ids[0]
                 return category_pool.create(cr, uid, {
                     'name': name,
-                    'parent_id': self.categ_all,
+                    #'parent_id': self.categ_all, # TODO setup parent category
                     }, context=context)
             except:
                print "#ERR Create employee category:", sys.exc_info()
@@ -277,12 +272,11 @@ class SyncroXMLRPC(orm.Model):
             for item in erp_pool.browse(item_ids):
                 try:
                     # PARENT analytic account:
-                    i += 1
+                    i += 1                    
                     categ_id = get_product_category(
-                        self, cr, uid, item.categ_id, context=context)
+                        self, cr, uid, item.categ_id.id, context=context)
 
                     # Create record to insert / update
-                    import pdb; pdb.set_trace()
                     """
                     'amazon_mig_brand', 'amazon_mig_category1_id', 
                     'amazon_mig_category2_id', 'amazon_mig_color', 
@@ -331,7 +325,7 @@ class SyncroXMLRPC(orm.Model):
                     data = {                        
                         #'best_cost': item.best_cost,
                         #category_id > web.category
-                        'categ_id': categ_id,
+                        'categ_id': categ_id, # NOTE: mandatory
                         ##'code': item.code,
                         'colls': item.colls,
                         'colls_number': item.colls_number,
@@ -370,7 +364,7 @@ class SyncroXMLRPC(orm.Model):
                         'fob_pricelist_compute_eur': 
                             item.fob_pricelist_compute_eur,
                         'height': item.height,
-                        ##'H_pack': item.H_pack,
+                        ##ERR'H_pack': item.H_pack,
                         #'import': item.import,
                         #'incoming_qty': item.incoming_qty,
                         'in_pricelist': item.in_pricelist,
@@ -384,9 +378,9 @@ class SyncroXMLRPC(orm.Model):
                         #'line_id > web.line
                         ##'lst_price': ': item.lst_price,
                         #'location_id': item.location_id,
-                        ##'L_pack': item.L_pack,
+                        ##ERR'L_pack': item.L_pack,
                         #'list_price': item.list_price,
-                        'manual_price': item.manual_price,
+                        ##ERR'manual_price': item.manual_price,
                         'margin': item.margin,
                         'mexal_id': item.mexal_id,
                         'name': item.name,
@@ -397,12 +391,12 @@ class SyncroXMLRPC(orm.Model):
                         'pack_p': item.pack_p,
                         #'partner_ref': item.partner_ref,
                         'pipe_diameter': item.pipe_diameter,
-                        ##'P_pack': item.P_pack,
+                        ##ERR'P_pack': item.P_pack,
                         #'preview': item.preview,
                         'price': item.price,
                         'price_extra': item.price_extra,
                         #'pricelist_id': item.pricelist_id,
-                        'price_margin': item.price_margin,
+                        ##ERR NON PRES'price_margin': item.price_margin,
                         ##product_tmpl_id
                         ##'project_id': item.project_id,
                         #'qty_available': item.qty_available,
@@ -415,18 +409,18 @@ class SyncroXMLRPC(orm.Model):
                         #'track_outgoing': item.track_outgoing,
                         #'track_production': item.track_production,
                         'transport_packaging': item.transport_packaging,
-                        'transpost_packaging_usd': 
-                            item.transpost_packaging_usd,
+                        ##ERR'transpost_packaging_usd': 
+                        ##    item.transpost_packaging_usd,
                         ##'type': 'service',
                         #'type_of_material': item.type_of_material,
                         ##'standard_price': 1.0,
                         #'valuation': item.valuation,
                         #'variants': item.variants,
                         #'virtual_available': item.virtual_available,
-                        'vm_description': item.vm_description,
-                        'vm_name': item.vm_name,
-                        'vm_short': item.vm_short,
-                        'web': item.web,
+                        ##ERR NON PRES'vm_description': item.vm_description,
+                        ##ERR NON PRES'vm_name': item.vm_name,
+                        ##ERR NON PRES'vm_short': item.vm_short,
+                        ##ERR NON PRES'web': item.web,
                         #'web_image_create_time': item.web_image_create_time,
                         #'web_image_preview': item.web_image_preview,
                         #'web_image_update': item.web_image_update,
@@ -439,6 +433,8 @@ class SyncroXMLRPC(orm.Model):
                         # Extra fields:
                         'migration_old_id': item.id,
                         }
+                    print data
+                    import pdb; pdb.set_trace()
 
                     new_ids = item_pool.search(cr, uid, [
                         ('migration_old_id', '=', item.id)],
