@@ -332,6 +332,7 @@ class SyncroXMLRPC(orm.Model):
             erp_pool = erp.ResPartner
             item_ids = erp_pool.search([])#[:10]
             i = 0
+
             for item in erp_pool.browse(item_ids):
                 try:
                     i += 1
@@ -380,7 +381,7 @@ class SyncroXMLRPC(orm.Model):
                         ##parent_id
                         #partner_color
                         #partner_importante_id
-                        'phone': phone,
+                        'phone': item.phone,
                         #private
                         #property_account_position
                         #property_payment_term
@@ -400,7 +401,7 @@ class SyncroXMLRPC(orm.Model):
                         'type_cei': item.type_cei,
                         #type_id  crm.case.resource.type
                         'user_id': self._converter['res.users'].get(
-                            item.user_id or 0, False)
+                            item.user_id or 0, False),
                         'vat': item.vat,
                         #vat_subject
                         'website': item.website,
@@ -441,7 +442,8 @@ class SyncroXMLRPC(orm.Model):
                         print i, "#INFO", table, "create:", item.name
                     converter[item.id] = item_id
                 except:
-                    print i, "#ERR", table, "jumped:", item.name
+                    print data
+                    print i, "#ERR", table, "jump:", item.name, sys.exc_info()
                     continue
 
             # -----------------------------------------------------------------
@@ -449,9 +451,11 @@ class SyncroXMLRPC(orm.Model):
             # -----------------------------------------------------------------
             item_pool = self.pool.get('res.partner')
             erp_pool = erp.ResPartnerAddress
+
             # Destination address:
             item_ids = erp_pool.search([
-                ('mexal_c', '=', False),('mexal_s', '=', False)])
+                ('mexal_c', '=', False), ('mexal_s', '=', False)])
+
             for item in erp_pool.browse(item_ids): # TODO stopped!!!
                 try:
                     partner_id = converter[item.id] # TODO test error
@@ -481,13 +485,13 @@ class SyncroXMLRPC(orm.Model):
                         if wiz_proxy.update:
                             item_id = item_pool.write(cr, uid, partner_ids,
                                 data)
-                            print "#INFO", table, "partner addr upd:", item.name
+                            print "#INFO", table, "partner-addr upd:", item.partner_id.name
                     else: # Create
-                        print "#ERR", table ,"partner parent not found", item.name
+                        print "#ERR", table ,"partner-addr not found", item.partner_id.name
                     converter[item.id] = item_id
 
                 except:
-                    print "#ERR", table, "jumped:", item.name
+                    print "#ERR", table, "jumped:", item.partner_id.name
                     continue
                 # NOTE No contact for this database
 
@@ -498,7 +502,7 @@ class SyncroXMLRPC(orm.Model):
             erp_pool = erp.ResPartnerAddress
             # Destination address:
             item_ids = erp_pool.search([
-                '|',('mexal_c','=',True),('mexal_s','=',True)])
+                '|',('mexal_c','=',True), ('mexal_s','=',True)])
             for item in []:# erp_pool.browse(item_ids): # TODO stopped!!!
                 try:
                     partner_id = self._converter['res.partner'].get(
@@ -506,7 +510,6 @@ class SyncroXMLRPC(orm.Model):
                     name = item.name.strip()
                     # Create record to insert / update
                     data = { # NOTE: partner are imported add only new data
-                        #TODO lang
                         # type parent_id category vat_subjected
                         # function
                         # type
@@ -527,10 +530,6 @@ class SyncroXMLRPC(orm.Model):
                         #'title': address,
                         'migration_old_id': item.id,
                         }
-                        # TODO pricelist
-                        # TODO category
-                        # TODO zone
-                        # TODO mexal data
 
                     # Read info from address related to this partner:
                     address_ids = item_pool.search(cr, uid, [
@@ -539,17 +538,17 @@ class SyncroXMLRPC(orm.Model):
                         if wiz_proxy.update:
                             item_id = item_pool.write(cr, uid, address_ids,
                                 data, )
-                            print "#INFO", table, "(addr) upd:", item.name
+                            print "#INFO", table, "(dest) upd:", item.name
                         else:
-                            print "#INFO", table, "(addr) jump:", item.name
+                            print "#INFO", table, "(dest) jump:", item.name
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        print "#INFO", table ,"(addr) create:", item.name
+                        print "#INFO", table ,"(dest) create:", item.name
                     converter[item.id] = item_id
 
                 except:
-                    print "#ERR", table, "jumped:", item.name
+                    print "#ERR", table, "(dest) jumped:", item.name
                     continue
                 # NOTE No contact for this database
         else: # Load convert list form database
