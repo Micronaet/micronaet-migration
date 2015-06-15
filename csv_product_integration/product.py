@@ -31,9 +31,9 @@ from openerp import SUPERUSER_ID, api
 from openerp import tools
 from openerp.tools.translate import _
 from openerp.tools.float_utils import float_round as round
-from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
-    DEFAULT_SERVER_DATETIME_FORMAT, 
-    DATETIME_FORMATS_MAP, 
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
+    DEFAULT_SERVER_DATETIME_FORMAT,
+    DATETIME_FORMATS_MAP,
     float_compare)
 
 
@@ -43,13 +43,13 @@ class ProductProduct(orm.Model):
     ''' Add scheduled operations
     '''
     _inherit = 'product.product'
-            
-    def schedule_csv_product_integration(self, cr, uid, 
+
+    def schedule_csv_product_integration(self, cr, uid,
             input_file="~/ETL/artioerp.csv", delimiter=";", header_line=0,
             verbose=100, context=None):
         ''' Import product extra fields, this operation override sql schedule
             for add extra fields that could not be reached fast
-        '''       
+        '''
         _logger.info("Start product integration")
 
         csv_pool = self.pool.get('csv.base')
@@ -58,21 +58,21 @@ class ProductProduct(orm.Model):
         language = {}
         for line in csv.reader(csv_file, delimiter=delimiter):
             try:
-                if counter < 0:  # jump n lines of header 
+                if counter < 0:  # jump n lines of header
                     counter += 1
                     continue
-                   
+
                 if not len(line): # jump empty lines
                     continue
 
                 if verbose and counter % verbose == 0:
                     _logger.info("Product integrated: %s" % counter)
                 counter += 1
-                
+
                 # CSV fields:
                 default_code = csv_pool.decode_string(line[0])
-                
-                
+
+
                 import pdb; pdb.set_trace()
                 # Language:
                 language['it_IT'] = csv_pool.decode_string(line[1]).title()
@@ -80,12 +80,12 @@ class ProductProduct(orm.Model):
                 language['1'] = csv_pool.decode_string(line[11]).title()
                 language['2'] = csv_pool.decode_string(line[12]).title()
                 language['3'] = csv_pool.decode_string(line[13]).title()
-                
+
                 if language['it_IT']:
                     name = language['it_IT']
-                else:    
+                else:
                     name = language['en_US']
-                
+
                 try:
                    lot = eval(csv_pool.decode_string(
                        line[5]).replace(',', '.'))
@@ -95,7 +95,7 @@ class ProductProduct(orm.Model):
                 linear_length = csv_pool.decode_float(line[14])
                 volume = csv_pool.decode_float(line[15])
                 weight = csv_pool.decode_float(line[16])
-                
+
                 # Sometimes not present:
                 if len(line)>18:
                     colour = csv_pool.decode_string(line[18])
@@ -103,7 +103,7 @@ class ProductProduct(orm.Model):
                     colour = ""
 
                 product_ids = self.search(cr, uid, [
-                    ('default_code', '=', default_code)]) #, context=context)                    
+                    ('default_code', '=', default_code)]) #, context=context)
                 data = {
                     'linear_length': linear_length,
                     'weight': weight,
@@ -113,40 +113,40 @@ class ProductProduct(orm.Model):
                     'description_sale': name, # TODO lang
                     'name_template': name, # TODO langs
                     #'name': name,
-                    
+
                     #'active': active,
                     #'mexal_id': ref,
                     #'import': True,
                     #'sale_ok': True,
                     #'purchase_ok': True,
                     #'default_code': ref,
-                    #'uom_id': uom_id,   
+                    #'uom_id': uom_id,
                     #'uom_po_id': uom_id,
-                    #'type': 'product',  
+                    #'type': 'product',
                     #'supply_method': 'produce',
                     #'standard_price': bug_start_value,
                     #'list_price': 0.0,
-                    #'procure_method': 'make_to_order', 
+                    #'procure_method': 'make_to_order',
                     ##'description': description,
                     ##'description_spurchase'
-                    ##'lst_price' 
-                    ##'seller_qty'   
-                    }    
+                    ##'lst_price'
+                    ##'seller_qty'
+                    }
                 if product_ids: # only update
-                    
+
                     self.write(cr, uid, product_ids, data, context={
                         'lang': 'en_US', })
-                        
+
                     # Update language
                     for lang in language:
                         if lang:
                             self.write(cr, uid, product_ids, {
                                 'name': language[lang],
                                 }, context={'lang': lang})
-                        
+
                 else:
-                    _logger.error("Product not present: %s" % default_code) 
-                    
+                    _logger.error("Product not present: %s" % default_code)
+
             except:
                 _logger.error("Product integration %s" % (sys.exc_info(), ))
                 continue
