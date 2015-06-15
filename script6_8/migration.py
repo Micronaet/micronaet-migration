@@ -455,7 +455,25 @@ class SyncroXMLRPC(orm.Model):
                     continue
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
-                context=context)
+                context=context)                
+        # 2nd loop: Category set parent_id:
+        if wiz_proxy.product:
+            item_ids = erp_pool.search([('parent_id', '!=', False)])
+            for item in erp_pool.browse(item_ids):
+                try:
+                    parent_id = converter.get(
+                        item.parent_id.id, False)
+                    data = {'parent_id': parent_id, }
+                    new_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item.id)], context=context)
+                    if new_ids: # Modify
+                        item_pool.write(cr, uid, new_ids[0], data,
+                            context=context)
+                        print "#INFO", obj, "update:", item.name
+                except:
+                    print "#ERR", obj, "jumped:", item.name
+                    continue
+        return True
         # before: web.category, web.color, product.custom.duty, 
         # web.line, web.tipology, 
         # TODO uom!!!
