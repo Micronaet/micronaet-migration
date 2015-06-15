@@ -116,6 +116,99 @@ class SyncroXMLRPC(orm.Model):
         to_date = wiz_proxy.to_date or False
 
         # ---------------------------------------------------------------------
+        # START WITH STANDARD ANAGRAPHIC
+        # ---------------------------------------------------------------------
+        # Load and create extra product.uom.categ
+        categ_pool = self.pool.get('product.uom.categ')
+        self._converter['product.uom.categ'] = {}    
+        categ_ids = categ_pool.search(cr, uid, [], context=context)
+        for item in categ_pool.browse(cr, uid, categ_ids, context=context):
+            self._converter['product.uom.categ'][item.name] = item.id
+        for name in ('Area', 'Capacity', 'Electric Power', 'Volume'):
+            if name not in self._converter['product.uom.categ']:
+                self._converter['product.uom.categ'][
+                    name] = categ_pool.create(cr, uid, {
+                        'name': name,
+                        }, context=context)
+        
+        # Load and create extra UOM:
+        uom_pool = self.pool.get('product.uom')        
+        self._converter['product.uom'] = {}    
+        uom_ids = uom_pool.search(cr, uid, [], context=context)
+        for item in uom_pool.browse(cr, uid, uom_ids, context=context):
+            self._converter['product.uom'][item.name] = item.id
+            
+        for record in (
+                {
+                    'name': 'M2', 
+                    'factor_inv': 1.0, 
+                    'rounding': 0.01, 
+                    'uom_type': 'reference', 
+                    'factor': 1.0, 
+                    'active': True, 
+                    'category_id': self._converter['product.uom']['Area'],
+                    },
+                {
+                    'name': 'LT', 
+                    'factor_inv': 1.0, 
+                    'rounding': 0.01, 
+                    'uom_type': 'reference', 
+                    'factor': 1.0, 
+                    'active': True, 
+                    'category_id': self._converter['product.uom']['Capacity'],
+                    },
+                {
+                    'name': 'PK', 
+                    'factor_inv': 1000.0, 
+                    'rounding': 1.0, 
+                    'uom_type': 'bigger', 
+                    'factor': 0.001, 
+                    'active': True, 
+                    'category_id': self._converter['product.uom']['Unit'],
+                    },
+                {
+                    'name': 'P2', # Paia
+                    'factor_inv': 2.0, 
+                    'rounding': 1.0, 
+                    'uom_type': 'bigger', 
+                    'factor': 0.5, 
+                    'active': True, 
+                    'category_id': self._converter['product.uom']['Unit'],
+                    },
+                {
+                    'name': 'P10', # Decine
+                    'factor_inv': 10.0, 
+                    'rounding': 1.0, 
+                    'uom_type': 'bigger', 
+                    'factor': 0.1, 
+                    'active': True, 
+                    'category_id': self._converter['product.uom']['Unit'],
+                    },
+                {
+                    'name': 'KW', 
+                    'factor_inv': 1.0, 
+                    'rounding': 0.01, 
+                    'uom_type': 'reference', 
+                    'factor': 1.0, 
+                    'active': True, 
+                    'category_id': self._converter['product.uom'][
+                        'Electric Power'],
+                    },                                        
+                {
+                    'name': 'M3', 
+                    'factor_inv': 1.0, 
+                    'rounding': 0.01, 
+                    'uom_type': 'reference', 
+                    'factor': 1.0, 
+                    'active': True, 
+                    'category_id': self._converter['product.uom']['Volume'],
+                    }):
+            if record['name'] not in self._converter['product.uom']:
+                self._converter['product.uom'][
+                    record['name']] = uom_pool.create(
+                        cr, uid, record, context=context)
+        
+        # ---------------------------------------------------------------------
         # res.users
         # ---------------------------------------------------------------------
         table = 'res.users'

@@ -92,7 +92,8 @@ class ProductPricelist(orm.Model):
                 else:
                     if len(line): # jump empty lines
                        counter['tot'] += 1 
-                       default_code = Prepare(line[0]) # TODO migrate prepare function in a module csv_base
+                       default_code = Prepare(line[0]) 
+                       # TODO migrate prepare function in a module csv_base
          
                        data = {
                            'name': name,
