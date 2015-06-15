@@ -116,9 +116,13 @@ class SyncroXMLRPC(orm.Model):
         to_date = wiz_proxy.to_date or False
 
         # ---------------------------------------------------------------------
-        # START WITH STANDARD ANAGRAPHIC
+        # SIMPLE OBJECT (LOAD OR CREATE)  << ALWAYS RUN
         # ---------------------------------------------------------------------
-        # Load and create extra product.uom.categ
+        
+        # -----------------
+        # product.uom.categ
+        # -----------------
+        #Load and create extra 
         categ_pool = self.pool.get('product.uom.categ')
         self._converter['product.uom.categ'] = {}    
         categ_ids = categ_pool.search(cr, uid, [], context=context)
@@ -131,7 +135,10 @@ class SyncroXMLRPC(orm.Model):
                         'name': name,
                         }, context=context)
         
-        # Load and create extra UOM:
+        # -----------
+        # product.uom
+        # -----------
+        #Load and create extra UOM
         uom_pool = self.pool.get('product.uom')        
         self._converter['product.uom'] = {}    
         uom_ids = uom_pool.search(cr, uid, [], context=context)
@@ -207,6 +214,16 @@ class SyncroXMLRPC(orm.Model):
                 self._converter['product.uom'][
                     record['name']] = uom_pool.create(
                         cr, uid, record, context=context)
+        
+        # ------------
+        # res.currency
+        # ------------
+        currency_pool = self.pool.get('res.currency')
+        self._converter['res.currency'] = {}
+        currency_ids = currency_pool.search(cr, uid, [], context=context)        
+        for item for currency_pool.browse(
+                cr, uid, currency_ids, context=context):
+            self._converter['res.currency'][item.name] = item.id
         
         # ---------------------------------------------------------------------
         # res.users
