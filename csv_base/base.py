@@ -44,17 +44,17 @@ class CsvBase(orm.Model):
     _name = 'csv.base'
     _description = 'Base function'
     
-    def decode_string(valore):  
+    def decode_string(self, valore):  
         # For problems: input win output ubuntu; trim extra spaces
         valore = valore.decode('cp1252')
         valore = valore.encode('utf-8')
         return valore.strip()
 
-    def decode_date(valore):
+    def decode_date(self, valore):
         # yet correct
         return valore
 
-    def decode_foat(valore):
+    def decode_foat(self, valore):
         valore = valore.strip() 
         if valore: 
            return float(valore.replace(",", "."))

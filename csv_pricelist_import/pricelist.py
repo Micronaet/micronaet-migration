@@ -23,6 +23,7 @@ import logging
 import openerp
 import openerp.netsvc as netsvc
 import openerp.addons.decimal_precision as dp
+import csv
 from openerp.osv import fields, osv, expression, orm
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
@@ -55,6 +56,7 @@ class ProductPricelist(orm.Model):
             
             Note: pricelist yet present here (only item are unlink / create)
         '''
+        import pdb; pdb.set_trace()
         csv_pool = self.pool.get('csv.base')
         item_pool = self.pool.get('product.pricelist.item')
         version_pool = self.pool.get('product.pricelist.version')
@@ -74,27 +76,26 @@ class ProductPricelist(orm.Model):
             versions[item.mexal_id] = item.id
 
         csv_file = open(os.path.expanduser(input_file), 'rb')
-        lines = csv.reader(csv_file, delimiter=separator)
         counter = -header_line
-
         price_list = {} # dict for save product prices
         try:
-            for line in lines:
-                if counter['tot'] < 0:  # jump n lines of header 
-                   counter['tot'] += 1
-                else:
-                    if not len(line): # jump empty lines
-                        continue
-                        
-                    counter['tot'] += 1
-                    default_code = csv_pool.decode_string(line[0])
-                    name = csv_pool.decode_string(line[1]).title()                     
+            for line in csv.reader(csv_file, delimiter=delimiter):
+                if counter < 0:  # jump n lines of header 
+                    counter += 1
+                    continue
+                   
+                if not len(line): # jump empty lines
+                    continue
                     
-                    # NOTE: load only this pricelist (not all 10)
-                    price_list[1] = csv_pool.decode_float(line[6])
-                    price_list[4] = csv_pool.decode_float(line[7])
-                    price_list[5] = csv_pool.decode_float(line[8])
-                    price_list[6] = csv_pool.decode_float(line[9])
+                counter += 1
+                default_code = csv_pool.decode_string(line[0])
+                name = csv_pool.decode_string(line[1]).title()                     
+                
+                # NOTE: load only this pricelist (not all 10)
+                price_list[1] = csv_pool.decode_float(line[6])
+                price_list[4] = csv_pool.decode_float(line[7])
+                price_list[5] = csv_pool.decode_float(line[8])
+                price_list[6] = csv_pool.decode_float(line[9])
                     
                 product_ids = product_pool.search(cr, uid, [
                     ('default_code', '=', default_code)], context=context)
