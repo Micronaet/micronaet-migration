@@ -125,8 +125,8 @@ class SyncroXMLRPC(orm.Model):
         #Load and create extra 
         categ_pool = self.pool.get('product.uom.categ')
         self._converter['product.uom.categ'] = {}    
-        categ_ids = categ_pool.search(cr, uid, [], context=context)
-        for item in categ_pool.browse(cr, uid, categ_ids, context=context):
+        categ_ids = categ_pool.search(cr, uid, [], )#context=context)
+        for item in categ_pool.browse(cr, uid, categ_ids, ):#context=context):
             self._converter['product.uom.categ'][item.name] = item.id
         for name in ('Area', 'Capacity', 'Electric Power', 'Volume'):
             if name not in self._converter['product.uom.categ']:
@@ -141,8 +141,8 @@ class SyncroXMLRPC(orm.Model):
         #Load and create extra UOM
         uom_pool = self.pool.get('product.uom')        
         self._converter['product.uom'] = {}    
-        uom_ids = uom_pool.search(cr, uid, [], context=context)
-        for item in uom_pool.browse(cr, uid, uom_ids, context=context):
+        uom_ids = uom_pool.search(cr, uid, [], )#context=context)
+        for item in uom_pool.browse(cr, uid, uom_ids, ):#context=context):
             self._converter['product.uom'][item.name] = item.id
             
         for record in (
@@ -153,7 +153,8 @@ class SyncroXMLRPC(orm.Model):
                     'uom_type': 'reference', 
                     'factor': 1.0, 
                     'active': True, 
-                    'category_id': self._converter['product.uom']['Area'],
+                    'category_id': self._converter['product.uom.categ'][
+                        'Area'],
                     },
                 {
                     'name': 'LT', 
@@ -162,7 +163,8 @@ class SyncroXMLRPC(orm.Model):
                     'uom_type': 'reference', 
                     'factor': 1.0, 
                     'active': True, 
-                    'category_id': self._converter['product.uom']['Capacity'],
+                    'category_id': self._converter['product.uom.categ'][
+                        'Capacity'],
                     },
                 {
                     'name': 'PK', 
@@ -171,7 +173,8 @@ class SyncroXMLRPC(orm.Model):
                     'uom_type': 'bigger', 
                     'factor': 0.001, 
                     'active': True, 
-                    'category_id': self._converter['product.uom']['Unit'],
+                    'category_id': self._converter['product.uom.categ'][
+                        'Unit'],
                     },
                 {
                     'name': 'P2', # Paia
@@ -180,7 +183,8 @@ class SyncroXMLRPC(orm.Model):
                     'uom_type': 'bigger', 
                     'factor': 0.5, 
                     'active': True, 
-                    'category_id': self._converter['product.uom']['Unit'],
+                    'category_id': self._converter['product.uom.categ'][
+                        'Unit'],
                     },
                 {
                     'name': 'P10', # Decine
@@ -189,7 +193,8 @@ class SyncroXMLRPC(orm.Model):
                     'uom_type': 'bigger', 
                     'factor': 0.1, 
                     'active': True, 
-                    'category_id': self._converter['product.uom']['Unit'],
+                    'category_id': self._converter['product.uom.categ'][
+                        'Unit'],
                     },
                 {
                     'name': 'KW', 
@@ -198,7 +203,7 @@ class SyncroXMLRPC(orm.Model):
                     'uom_type': 'reference', 
                     'factor': 1.0, 
                     'active': True, 
-                    'category_id': self._converter['product.uom'][
+                    'category_id': self._converter['product.uom.categ'][
                         'Electric Power'],
                     },                                        
                 {
@@ -208,7 +213,8 @@ class SyncroXMLRPC(orm.Model):
                     'uom_type': 'reference', 
                     'factor': 1.0, 
                     'active': True, 
-                    'category_id': self._converter['product.uom']['Volume'],
+                    'category_id': self._converter['product.uom.categ'][
+                        'Volume'],
                     }):
             if record['name'] not in self._converter['product.uom']:
                 self._converter['product.uom'][
@@ -220,8 +226,8 @@ class SyncroXMLRPC(orm.Model):
         # ------------
         currency_pool = self.pool.get('res.currency')
         self._converter['res.currency'] = {}
-        currency_ids = currency_pool.search(cr, uid, [], context=context)        
-        for item for currency_pool.browse(
+        currency_ids = currency_pool.search(cr, uid, [], context=context)
+        for item in currency_pool.browse(
                 cr, uid, currency_ids, context=context):
             self._converter['res.currency'][item.name] = item.id
         
