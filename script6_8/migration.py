@@ -260,7 +260,7 @@ class SyncroXMLRPC(orm.Model):
         # Load current
         for item in obj_pool.browse(
                 cr, uid, obj_ids, context=context):
-            self._converter[obj][mexal_id] = item.id
+            self._converter[obj][item.mexal_id] = item.id
         
         # Create first 9 pricelist >> save in converter[number] = id 
         for item in range(1, 10):
@@ -286,7 +286,7 @@ class SyncroXMLRPC(orm.Model):
         # Load current
         for item in obj_pool.browse(
                 cr, uid, obj_ids, context=context):
-            self._converter[obj][mexal_id] = item.id
+            self._converter[obj][item.mexal_id] = item.id
         
         # Create first 9 version >> save in converter[number] = id 
         for item in range(1, 10):
@@ -415,6 +415,44 @@ class SyncroXMLRPC(orm.Model):
                     print "#ERR", obj, "jumped:", name
                     continue
                 # NOTE No contact for this database
+        else: # Load convert list form database
+            self.load_converter(cr, uid, converter, obj=obj,
+                context=context)
+
+        # ---------------------------------------------------------------------
+        # product.category
+        # ---------------------------------------------------------------------
+        obj = 'product.category'
+        self._converter[obj] = {}
+        converter = self._converter[obj] # for use same name
+        if wiz_proxy.product:
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.ProductCategory
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try:
+                    # Create record to insert/update
+                    name = item.name
+                    data = {
+                        'name': name,
+                        #'migration_old_id': item.id,
+                        }
+                    new_ids = item_pool.search(cr, uid, [
+                        ('name', '=', name)], context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        item_pool.write(cr, uid, item_id, data,
+                            context=context)
+                        print "#INFO", obj, "update:", name
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO", obj, "create:", name
+
+                    converter[item.id] = item_id
+                except:
+                    print "#ERR", obj, "jumped:", name
+                    continue
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
                 context=context)
