@@ -95,7 +95,7 @@ class SyncroXMLRPC(orm.Model):
                return False
 
         # ---------------------------------------------------------------------
-        # Common part: connection to old database using ERPEEK
+        #        Common part: connection to old database using ERPEEK
         # ---------------------------------------------------------------------
         # First record only
         item_ids = self.search(cr, uid, [], context=context)
@@ -116,7 +116,7 @@ class SyncroXMLRPC(orm.Model):
         to_date = wiz_proxy.to_date or False
 
         # ---------------------------------------------------------------------
-        # SIMPLE OBJECT (LOAD OR CREATE)  << ALWAYS RUN
+        #          SIMPLE OBJECT (LOAD OR CREATE)  << ALWAYS RUN
         # ---------------------------------------------------------------------
         
         # -----------------
@@ -240,13 +240,64 @@ class SyncroXMLRPC(orm.Model):
         # ----------------------
         # product.pricelist.type
         # ----------------------
-        obj = product.pricelist.type
+        """obj = 'product.pricelist.type'
         obj_pool = self.pool.get(obj)
         self._converter[obj] = {}
         obj_ids = obj_pool.search(cr, uid, [], context=context)
         for item in obj_pool.browse(
                 cr, uid, obj_ids, context=context):
-            self._converter[obj][item.name] = item.id
+            self._converter[obj][item.name] = item.id"""
+
+        # --------------------------------------
+        # product.pricelist (first 10 pricelist)
+        # --------------------------------------
+        obj = 'product.pricelist'
+        obj_pool = self.pool.get(obj)
+        self._converter[obj] = {}
+        obj_ids = obj_pool.search(cr, uid, [
+            ('import', '=', True)], context=context)
+
+        # Load current
+        for item in obj_pool.browse(
+                cr, uid, obj_ids, context=context):
+            self._converter[obj][mexal_id] = item.id
+        
+        # Create first 9 pricelist >> save in converter[number] = id 
+        for item in range(1, 10):
+            name = "Listino Mexal n. %s" % item
+            if item not in self._converter[obj]:
+                self._converter[obj][item] = obj_pool.create(cr, uid, {
+                    'name': name,
+                    'currency_id': self._converter['res.currency']['EUR'],
+                    'type': 'sale',
+                    'import': True,
+                    'mexal_id': item,                    
+                    }, context=context)
+
+        # ----------------------------------------------
+        # product.pricelist.version (first 10 pricelist)
+        # ----------------------------------------------
+        obj = 'product.pricelist.version'
+        obj_pool = self.pool.get(obj)
+        self._converter[obj] = {}
+        obj_ids = obj_pool.search(cr, uid, [
+            ('import', '=', True)], context=context)
+
+        # Load current
+        for item in obj_pool.browse(
+                cr, uid, obj_ids, context=context):
+            self._converter[obj][mexal_id] = item.id
+        
+        # Create first 9 version >> save in converter[number] = id 
+        for item in range(1, 10):
+            name = "Versione base n. %s" % item
+            if item not in self._converter[obj]:
+                self._converter[obj][item] = obj_pool.create(cr, uid, {
+                    'name': name,
+                    'pricelist_id': self._converter['product.pricelist'][item], 
+                    'import': True,
+                    'mexal_id': item,                    
+                    }, context=context)            
         
         # ---------------------------------------------------------------------
         # res.users
