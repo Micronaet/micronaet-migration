@@ -153,7 +153,7 @@ Migrazione completa dei dati:
      migrare prima uom
      migrare dopo i listini supplier
      
- PARTNER:     
+ PARTNER:  
      
 Migrazione procedure di importazione
 Creare procedure di verifica importazione con alert
@@ -161,6 +161,8 @@ Prova importazione per verificare gli aggiornamenti
 Fare tutte le traduzioni <<<
 Installare motore headless ooo
 Installare pricelist supplier per product (Scheda purchase: Gestisce prezzi fornitore)
+Abilita: Configurazione / Contabilità / multi valuta
+Controllo importazione listini e versioni (sia partner che 10 standard)
 
 PRICELIST: 
    >> deciso di importarli al posto di migrarli (settano già il link al partner

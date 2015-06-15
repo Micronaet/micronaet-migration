@@ -119,9 +119,9 @@ class ProductPricelist(orm.Model):
 
         csv_file = open(os.path.expanduser(input_file), 'rb')
         counter = -header_line
-        price_list = {} # dict for save product prices
+        price_list = {} # dict for save product prices        
         try:
-            for line in csv.reader(csv_file, delimiter=delimiter):
+            for line in []:# csv.reader(csv_file, delimiter=delimiter):
                 if counter < 0:  # jump n lines of header 
                     counter += 1
                     continue
@@ -152,19 +152,16 @@ class ProductPricelist(orm.Model):
                 for pl in price_list:
                     if price_list[pl]: 
                         item_pool.create(cr, uid, {
-                            'price_version_id': versions[pl],
+                            'price_version_id': versions[str(pl)],
                             'sequence': 10,
                             'name': default_code,
                             'base': 2, # 1 pl 2 cost
                             'min_quantity': 1,
                             'product_id': product_ids[0],
                             'price_discount': -1,
-                            'price_surcharge': price_list[str(pl)],
+                            'price_surcharge': price_list[pl],
                             'price_round': 0.01,                          
                             }, context=context)
-        except:
-            _logger.error("Pricelist import %s" % (sys.exc_info(), ))
-            return False
         except:
             _logger.error("Pricelist import %s" % (sys.exc_info(), ))
             return False
@@ -175,8 +172,9 @@ class ProductPricelist(orm.Model):
         _logger.info("Start pricelist partner particular importation")
         csv_file = open(os.path.expanduser(input_file_part), 'rb')
         counter = -header_line_part
+        import pdb; pdb.set_trace()
         try:
-            for line in csv.reader(csv_file, delimiter=delimiter):
+            for line in csv.reader(csv_file, delimiter=delimiter_part):
                 if counter < 0:  # jump n lines of header 
                     counter += 1
                     continue
@@ -218,7 +216,7 @@ class ProductPricelist(orm.Model):
                     'min_quantity': 1,
                     'product_id': product_ids[0],
                     'price_discount': -1,
-                    'price_surcharge': price_list[str(pl)],
+                    'price_surcharge': price_list,
                     'price_round': 0.01,                          
                     }, context=context)
         except:
