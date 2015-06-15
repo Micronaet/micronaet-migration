@@ -73,17 +73,15 @@ class ProductProduct(orm.Model):
                 default_code = csv_pool.decode_string(line[0])
 
                 # Language:
-                language['it_IT'] = csv_pool.decode_string(line[1]).title()
+                #language['it_IT']:
+                name = csv_pool.decode_string(line[1]).title()
                 language['en_US'] = csv_pool.decode_string(line[10]).title()
                 # TODO: activate language
                 #language['1'] = csv_pool.decode_string(line[11]).title()
                 #language['2'] = csv_pool.decode_string(line[12]).title()
                 #language['3'] = csv_pool.decode_string(line[13]).title()
 
-                if language['en_US']:
-                    name = language['en_US']
-                else:
-                    name = language['it_IT']
+                name = language['it_IT']
 
                 try:
                    lot = eval(csv_pool.decode_string(
@@ -96,7 +94,7 @@ class ProductProduct(orm.Model):
                 weight = csv_pool.decode_float(line[16])
 
                 # Sometimes not present:
-                if len(line)>18:
+                if len(line) > 18:
                     colour = csv_pool.decode_string(line[18])
                 else:
                     colour = ""
@@ -133,10 +131,10 @@ class ProductProduct(orm.Model):
                     }
                 if product_ids: # only update
                     self.write(cr, uid, product_ids, data, context={
-                        'lang': 'en_US', })
+                        'lang': 'it_IT',})
 
                     # Update language
-                    for lang in language:
+                    for lang in language: # extra language
                         name = language.get(lang, False)
                         if name:
                             self.write(cr, uid, product_ids, {
