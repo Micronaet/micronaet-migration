@@ -149,7 +149,7 @@ class ProductPricelist(orm.Model):
         counter = -header_line
         price_list = {} # dict for save product prices        
         try:
-            for line in []:# csv.reader(csv_file, delimiter=delimiter):
+            for line in csv.reader(csv_file, delimiter=delimiter):
                 if counter < 0:  # jump n lines of header 
                     counter += 1
                     continue
@@ -200,7 +200,6 @@ class ProductPricelist(orm.Model):
         _logger.info("Start pricelist partner particular importation")
         csv_file = open(os.path.expanduser(input_file_part), 'rb')
         counter = -header_line_part
-        import pdb; pdb.set_trace()
         try:
             for line in csv.reader(csv_file, delimiter=delimiter_part):
                 if counter < 0:  # jump n lines of header 
