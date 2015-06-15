@@ -425,7 +425,7 @@ class SyncroXMLRPC(orm.Model):
         obj = 'product.category'
         self._converter[obj] = {}
         converter = self._converter[obj] # for use same name
-        if wiz_proxy.product:
+        if wiz_proxy.category:
             item_pool = self.pool.get(obj)
             erp_pool = erp.ProductCategory
             item_ids = erp_pool.search([])
@@ -457,7 +457,7 @@ class SyncroXMLRPC(orm.Model):
             self.load_converter(cr, uid, converter, obj=obj,
                 context=context)                
         # 2nd loop: Category set parent_id:
-        if wiz_proxy.product:
+        if wiz_proxy.category:
             item_ids = erp_pool.search([('parent_id', '!=', False)])
             for item in erp_pool.browse(item_ids):
                 try:
