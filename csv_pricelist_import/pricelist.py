@@ -46,7 +46,7 @@ class ProductPricelist(orm.Model):
     
     def schedule_csv_pricelist_import(self, cr, uid, 
             input_file="~/ETL/artioerp.csv", delimiter=";", 
-            header_line=0, context=None):
+            header_line=0, verbose=100, context=None):
         ''' Import pricelist and setup particular price for partners
             (the partners are imported with SQL methods)
             
@@ -56,7 +56,6 @@ class ProductPricelist(orm.Model):
             
             Note: pricelist yet present here (only item are unlink / create)
         '''
-        import pdb; pdb.set_trace()
         csv_pool = self.pool.get('csv.base')
         item_pool = self.pool.get('product.pricelist.item')
         version_pool = self.pool.get('product.pricelist.version')
@@ -71,9 +70,11 @@ class ProductPricelist(orm.Model):
         # Load standard pricelist version:
         versions = {}
         version_ids = version_pool.search(cr, uid, [
-            ('mexal_id', 'in', range(1, 10))], context=context)            
+            ('mexal_id', 'in', 
+                ('1', '2', '3', '4', '5', '6', '7', '8', '9')
+            )], context=context)            
         for item in version_pool.browse(cr, uid, version_ids, context=context):
-            versions[item.mexal_id] = item.id
+            versions[int(item.mexal_id)] = item.id
 
         csv_file = open(os.path.expanduser(input_file), 'rb')
         counter = -header_line
@@ -86,7 +87,8 @@ class ProductPricelist(orm.Model):
                    
                 if not len(line): # jump empty lines
                     continue
-                    
+                if verbose and counter % verbose == 0:
+                    _logger.info("Pricelist item created/update: %s" % counter)
                 counter += 1
                 default_code = csv_pool.decode_string(line[0])
                 name = csv_pool.decode_string(line[1]).title()                     
@@ -111,7 +113,7 @@ class ProductPricelist(orm.Model):
                         item_pool.create(cr, uid, {
                             'price_version_id': versions[pl],
                             'sequence': 10,
-                            'name': '%s [%s]' % (name, ref),
+                            'name': '%s [%s]' % (name, default_code),
                             'base': 2, #1 pl 2 cost
                             'min_quantity': 1,
                             'product_id': product_ids[0],
@@ -125,7 +127,7 @@ class ProductPricelist(orm.Model):
             return False
 
         _logger.info(
-            "Pricelist imported [%(tot)s] - new %(new)s upd %(upd)s" % counter)
+            "Pricelist imported [records: %s]" % counter)
         return True
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

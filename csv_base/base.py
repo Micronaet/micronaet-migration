@@ -54,7 +54,7 @@ class CsvBase(orm.Model):
         # yet correct
         return valore
 
-    def decode_foat(self, valore):
+    def decode_float(self, valore):
         valore = valore.strip() 
         if valore: 
            return float(valore.replace(",", "."))
