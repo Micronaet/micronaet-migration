@@ -473,7 +473,7 @@ class SyncroXMLRPC(orm.Model):
                 except:
                     print "#ERR", obj, "jumped:", item.name
                     continue
-        return True
+
         # before: web.category, web.color, product.custom.duty, 
         # web.line, web.tipology, 
         # TODO uom!!!
@@ -492,9 +492,9 @@ class SyncroXMLRPC(orm.Model):
                 try:
                     # PARENT analytic account:
                     i += 1
-                    name = item.name.split("] ")[-1]
-                    categ_id = get_product_category(
-                        self, cr, uid, item.categ_id.name, context=context)
+                    name = item.name.split("] ")[-1]                    
+                    categ_id = self._converter['product.category'].get(
+                        item.categ_id.id, False)
 
                     # Create record to insert / update
                     """
