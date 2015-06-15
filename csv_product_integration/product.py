@@ -81,8 +81,6 @@ class ProductProduct(orm.Model):
                 #language['2'] = csv_pool.decode_string(line[12]).title()
                 #language['3'] = csv_pool.decode_string(line[13]).title()
 
-                name = language['it_IT']
-
                 try:
                    lot = eval(csv_pool.decode_string(
                        line[5]).replace(',', '.'))
@@ -107,7 +105,7 @@ class ProductProduct(orm.Model):
                     'volume': volume,
                     'colour': colour,
                     'q_x_pack': lot,
-                    'description_sale': name, # TODO lang
+                    'description_sale': name,
                     'name_template': name, # TODO langs
                     #'name': name,
 
@@ -131,14 +129,17 @@ class ProductProduct(orm.Model):
                     }
                 if product_ids: # only update
                     self.write(cr, uid, product_ids, data, context={
-                        'lang': 'it_IT',})
+                        'lang': 'it_IT'})
 
                     # Update language
                     for lang in language: # extra language
                         name = language.get(lang, False)
                         if name:
                             self.write(cr, uid, product_ids, {
-                                'name': name}, context={
+                                'name': name,
+                                'description_sale': name,
+                                #'name_template': name,                                
+                                }, context={
                                     'lang': lang})
 
                 else:
