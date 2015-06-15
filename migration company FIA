@@ -159,6 +159,7 @@ Migrazione completa dei dati:
  PRODOTTI:
      migrare prima uom
      migrare dopo i listini supplier
+     controllare la struttura della categorie (importazione corretta?)
      
      >> fare prima la importazione sql poi quella supplementare per i campi 
         passati con i csv che si fa fatica a leggere dal database

@@ -150,6 +150,7 @@ NUOVI MODULI PER IMPRORTAZIONI
 * csv_pricelist_import
   Controllare la prima importazione come si comporta nei nomi dei vari partner
   > qui c'è una creazione rapida del partner (name, sql_customer_code)
+  decidere se attivare le altre lingue e poi attivare la parte di codice che le importa
 
 *******************************************************************************  
                                   RICORDA

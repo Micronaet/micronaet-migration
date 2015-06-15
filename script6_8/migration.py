@@ -435,10 +435,10 @@ class SyncroXMLRPC(orm.Model):
                     name = item.name
                     data = {
                         'name': name,
-                        #'migration_old_id': item.id,
+                        'migration_old_id': item.id,
                         }
                     new_ids = item_pool.search(cr, uid, [
-                        ('name', '=', name)], context=context)
+                        ('name', '=', name)], context=context) # Search name
                     if new_ids: # Modify
                         item_id = new_ids[0]
                         item_pool.write(cr, uid, item_id, data,
@@ -456,7 +456,6 @@ class SyncroXMLRPC(orm.Model):
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
                 context=context)
-
         # before: web.category, web.color, product.custom.duty, 
         # web.line, web.tipology, 
         # TODO uom!!!
@@ -947,6 +946,13 @@ class ResPartner(orm.Model):
 
 class ProductProduct(orm.Model):
     _inherit = 'product.product'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.6'),
+        }
+
+class ProductCategory(orm.Model):
+    _inherit = 'product.category'
 
     _columns = {
         'migration_old_id': fields.integer('ID v.6'),
