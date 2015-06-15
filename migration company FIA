@@ -148,6 +148,8 @@ NUOVI MODULI PER IMPRORTAZIONI
 * csv_base
 
 * csv_pricelist_import
+  Controllare la prima importazione come si comporta nei nomi dei vari partner
+  > qui c'è una creazione rapida del partner (name, sql_customer_code)
 
 *******************************************************************************  
                                   RICORDA
@@ -156,6 +158,9 @@ Migrazione completa dei dati:
  PRODOTTI:
      migrare prima uom
      migrare dopo i listini supplier
+     
+     >> fare prima la importazione sql poi quella supplementare per i campi 
+        passati con i csv che si fa fatica a leggere dal database
      
  PARTNER:  
      Vedere come associare i listini standard ai partner che non hanno le 

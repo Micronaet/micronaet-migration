@@ -596,6 +596,7 @@ class SyncroXMLRPC(orm.Model):
                         # No Amazon, no K2 fields                        
 
                         # Extra fields:
+                        'sql_import': item.mexal_id, # for sync purpose
                         'migration_old_id': item.id,
                         }
 
