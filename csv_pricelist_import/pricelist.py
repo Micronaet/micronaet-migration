@@ -44,9 +44,46 @@ class ProductPricelist(orm.Model):
     '''
     _inherit = 'product.pricelist'
     
+    def get_partner_pricelist(self, cr, uid, partner_code, context=None):
+        ''' Search or Create a pricelist and a pricelist version 
+            return version ID
+        '''
+        # 1. case: version present (so pricelist and partner)
+        version_pool = self.pool.get('product.pricelist.version')
+        version_ids = version_pool.search(cr, uid, [
+            ('mexal_id', '=', partner_code)], context=context)
+        if version_ids:
+            return version_ids[0]
+        
+        # 2. case: version present (so pricelist and partner)
+        pricelist_ids = self.search(cr, uid, [
+            ('mexal_id', '=', partner_code)], context=context)
+        if pricelist_ids:
+            pricelist_id = pricelist_ids
+        else:
+            # Create pricelist:
+            currency_ids = self.pool.get('res.currency').search(cr, uid, [
+                ('name', '=', 'EUR')], context=context)
+            pricelist_id = self.create(cr, uid, {
+                'name': "Listino partner [%s]" % partner_code,
+                'currency_id': currency_ids[0] if currency_ids else False, # TODO
+                'type': 'sale',
+                'import': True,
+                'mexal_id': partner_code,
+                }, context=context)
+
+        # Create version:        
+        return version_pool.create(cr, uid, {
+            'name': "Versione base partner [%s]" % partner_code,
+            'pricelist_id': pricelist_id, 
+            'import': True,
+            'mexal_id': partner_code,         
+            }, context=context)             
+        
     def schedule_csv_pricelist_import(self, cr, uid, 
-            input_file="~/ETL/artioerp.csv", delimiter=";", 
-            header_line=0, verbose=100, context=None):
+            input_file="~/ETL/artioerp.csv", delimiter=";", header_line=0,
+            input_file_part="~/ETL/partioerp.csv", delimiter_part=";",             
+            header_line_part=0, verbose=100, context=None):
         ''' Import pricelist and setup particular price for partners
             (the partners are imported with SQL methods)
             
@@ -56,25 +93,29 @@ class ProductPricelist(orm.Model):
             
             Note: pricelist yet present here (only item are unlink / create)
         '''
+        
+        # ---------------------------------------------------------------------
+        #                            Common part
+        # ---------------------------------------------------------------------
         csv_pool = self.pool.get('csv.base')
         item_pool = self.pool.get('product.pricelist.item')
         version_pool = self.pool.get('product.pricelist.version')
         product_pool = self.pool.get('product.product')
 
-        _logger.info("Start pricelist standard importation")
-                
         # Erase all pricelist item (only) before import:
         item_ids = item_pool.search(cr, uid, [], context=context)
         item_pool.unlink(cr, uid, item_ids, context=context)
 
-        # Load standard pricelist version:
-        versions = {}
+        # ---------------------------------------------------------------------
+        #                  Load standard pricelist version:
+        # ---------------------------------------------------------------------
+        _logger.info("Start pricelist standard importation")
+        versions = {} # dict of pricelist (mexal_id: odoo id)
+        # Delete all version pricelist:
         version_ids = version_pool.search(cr, uid, [
-            ('mexal_id', 'in', 
-                ('1', '2', '3', '4', '5', '6', '7', '8', '9')
-            )], context=context)            
-        for item in version_pool.browse(cr, uid, version_ids, context=context):
-            versions[int(item.mexal_id)] = item.id
+            ('mexal_id', '!=', False)], context=context)            
+        for item in version_pool.browse(cr, uid, version_ids, context=context):            
+            versions[item.mexal_id] = item.id
 
         csv_file = open(os.path.expanduser(input_file), 'rb')
         counter = -header_line
@@ -88,7 +129,7 @@ class ProductPricelist(orm.Model):
                 if not len(line): # jump empty lines
                     continue
                 if verbose and counter % verbose == 0:
-                    _logger.info("Pricelist item created/update: %s" % counter)
+                    _logger.info("Pricelist item created: %s" % counter)
                 counter += 1
                 default_code = csv_pool.decode_string(line[0])
                 name = csv_pool.decode_string(line[1]).title()                     
@@ -118,16 +159,73 @@ class ProductPricelist(orm.Model):
                             'min_quantity': 1,
                             'product_id': product_ids[0],
                             'price_discount': -1,
-                            'price_surcharge': price_list[pl],
+                            'price_surcharge': price_list[str(pl)],
                             'price_round': 0.01,                          
                             }, context=context)
-                    
+        except:
+            _logger.error("Pricelist import %s" % (sys.exc_info(), ))
+            return False
         except:
             _logger.error("Pricelist import %s" % (sys.exc_info(), ))
             return False
 
-        _logger.info(
-            "Pricelist imported [records: %s]" % counter)
+        # ---------------------------------------------------------------------
+        #                Partner with particularity pricelist:
+        # ---------------------------------------------------------------------
+        _logger.info("Start pricelist partner particular importation")
+        csv_file = open(os.path.expanduser(input_file_part), 'rb')
+        counter = -header_line_part
+        try:
+            for line in csv.reader(csv_file, delimiter=delimiter):
+                if counter < 0:  # jump n lines of header 
+                    counter += 1
+                    continue
+                   
+                if not len(line): # jump empty lines
+                    continue
+                if verbose and counter % verbose == 0:
+                    _logger.info("Partner PL item created: %s" % counter)
+                counter += 1
+                default_code = csv_pool.decode_string(line[0])
+                partner_code = csv_pool.decode_string(line[1])
+                price_list = csv_pool.decode_float(line[2])
+                    
+                # Get product:    
+                product_ids = product_pool.search(cr, uid, [
+                    ('default_code', '=', default_code),
+                    ], context=context)
+                if not product_ids: 
+                    _logger.error("Product not found %s" % default_code)
+                    continue # jump (not created here)                    
+                elif len(product_ids) > 1: 
+                    _logger.warning("Multiple product %s" % default_code)
+                    continue # jump
+                
+                # Get pricelist version:
+                if not partner_code:
+                    _logger.error("Partner code not present!")
+                    continue                    
+                if partner_code not in versions:
+                    # Create a pricelist and create a version
+                    versions[partner_code] = self.get_partner_pricelist(
+                        cr, uid, partner_code, context=context)
+                    
+                item_pool.create(cr, uid, {
+                    'price_version_id': versions[partner_code],
+                    'sequence': 10,
+                    'name': default_code,
+                    'base': 2, # 1 pl 2 cost
+                    'min_quantity': 1,
+                    'product_id': product_ids[0],
+                    'price_discount': -1,
+                    'price_surcharge': price_list[str(pl)],
+                    'price_round': 0.01,                          
+                    }, context=context)
+        except:
+            _logger.error("Pricelist import %s" % (sys.exc_info(), ))
+            return False
+            
+        _logger.info("End pricelist import!")
         return True
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
