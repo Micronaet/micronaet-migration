@@ -113,8 +113,8 @@ class ProductPricelist(orm.Model):
                         item_pool.create(cr, uid, {
                             'price_version_id': versions[pl],
                             'sequence': 10,
-                            'name': '%s [%s]' % (name, default_code),
-                            'base': 2, #1 pl 2 cost
+                            'name': default_code,
+                            'base': 2, # 1 pl 2 cost
                             'min_quantity': 1,
                             'product_id': product_ids[0],
                             'price_discount': -1,
