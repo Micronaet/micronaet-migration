@@ -60,7 +60,8 @@ class ProductPricelist(orm.Model):
                 'name': "Partner %s" % partner_code,
                 'sql_customer_code': partner_code,
                 }, context=context)
-        partner_proxy = partner_browse(cr, uid, partner_id, context=context)                
+        partner_proxy = partner_pool.browse(
+            cr, uid, partner_id, context=context)                
 
         # 1. case: version present (so pricelist and partner)
         version_pool = self.pool.get('product.pricelist.version')
@@ -68,21 +69,20 @@ class ProductPricelist(orm.Model):
             ('mexal_id', '=', partner_code)], context=context)
         if version_ids:
             # update name:
-            version_pool.write(cr, uid, version_ids[0], {
-                'name': "Versione base partner [%s]" % partner_proxy.name,
-                }, context=context)                                 
+            #version_pool.write(cr, uid, version_ids[0], {
+            #    'name': "Versione base partner [%s]" % partner_proxy.name,
+            #    }, context=context)                                 
             return version_ids[0]
         
         # 2. case: version present (so pricelist and partner)
         pricelist_ids = self.search(cr, uid, [
             ('mexal_id', '=', partner_code)], context=context)
-
         # Check pricelist:        
         if pricelist_ids:
             pricelist_id = pricelist_ids
-            self.write(cr, uid, pricelist_id, {
-                'name': "Listino partner [%s]" % partner_proxy.name,
-                }, context=context)
+            #self.write(cr, uid, pricelist_id, {
+            #    'name': "Listino partner [%s]" % partner_proxy.name,
+            #    }, context=context)
         else:
             # TODO: Current always create in EUR
             currency_ids = self.pool.get('res.currency').search(cr, uid, [
@@ -96,7 +96,7 @@ class ProductPricelist(orm.Model):
                 }, context=context)                
 
         # Update pricelist for partner:     
-        partner_browse(cr, uid, partner_id, {
+        partner_pool.write(cr, uid, partner_id, {
             'property_product_pricelist': pricelist_id,
             }, context=context)
 
@@ -141,7 +141,10 @@ class ProductPricelist(orm.Model):
         versions = {} # dict of pricelist (mexal_id: odoo id)
         # Delete all version pricelist:
         version_ids = version_pool.search(cr, uid, [
-            ('mexal_id', '!=', False)], context=context)            
+            #('mexal_id', '!=', False), # for update operation non load all!
+            ('mexal_id', 'in', 
+                ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',))
+            ], context=context)            
         for item in version_pool.browse(cr, uid, version_ids, context=context):            
             versions[item.mexal_id] = item.id
 
