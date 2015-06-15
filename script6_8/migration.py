@@ -492,7 +492,7 @@ class SyncroXMLRPC(orm.Model):
                 try:
                     # PARENT analytic account:
                     i += 1
-                    name = item.name.split("] ")[-1]                    
+                    name = item.name.split("] ")[-1]
                     categ_id = self._converter['product.category'].get(
                         item.categ_id.id, False)
 
