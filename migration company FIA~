@@ -144,6 +144,10 @@ MIGRATI CON VISTE:
 * report_store_value:
   - Attivare il menù appena installato mexal_order_statistic
 
+NUOVI MODULI PER IMPRORTAZIONI 
+* csv_base
+
+* csv_pricelist_import
 
 *******************************************************************************  
                                   RICORDA
@@ -154,6 +158,7 @@ Migrazione completa dei dati:
      migrare dopo i listini supplier
      
  PARTNER:  
+     Vedere 
      
 Migrazione procedure di importazione
 Creare procedure di verifica importazione con alert

@@ -158,6 +158,8 @@ Migrazione completa dei dati:
      migrare dopo i listini supplier
      
  PARTNER:  
+     Vedere come associare i listini standard ai partner che non hanno le 
+     particolarità di prezzo
      
 Migrazione procedure di importazione
 Creare procedure di verifica importazione con alert

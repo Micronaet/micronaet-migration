@@ -47,34 +47,62 @@ class ProductPricelist(orm.Model):
     def get_partner_pricelist(self, cr, uid, partner_code, context=None):
         ''' Search or Create a pricelist and a pricelist version 
             return version ID
+            Set also as default pricelist for partner
         '''
+        # 0. Search for partner (associate pricelist after create)
+        partner_pool = self.pool.get('res.partner')
+        partner_ids = partner_pool.search(cr, uid, [
+            ('sql_customer_code', '=', partner_code)], context=context)
+        if partner_ids:
+            partner_id = partner_ids[0]    
+        else: # Fast creation
+            partner_id = partner_pool.create(cr, uid, {
+                'name': "Partner %s" % partner_code,
+                'sql_customer_code': partner_code,
+                }, context=context)
+        partner_proxy = partner_browse(cr, uid, partner_id, context=context)                
+
         # 1. case: version present (so pricelist and partner)
         version_pool = self.pool.get('product.pricelist.version')
         version_ids = version_pool.search(cr, uid, [
             ('mexal_id', '=', partner_code)], context=context)
         if version_ids:
+            # update name:
+            version_pool.write(cr, uid, version_ids[0], {
+                'name': "Versione base partner [%s]" % partner_proxy.name,
+                }, context=context)                                 
             return version_ids[0]
         
         # 2. case: version present (so pricelist and partner)
         pricelist_ids = self.search(cr, uid, [
             ('mexal_id', '=', partner_code)], context=context)
+
+        # Check pricelist:        
         if pricelist_ids:
             pricelist_id = pricelist_ids
+            self.write(cr, uid, pricelist_id, {
+                'name': "Listino partner [%s]" % partner_proxy.name,
+                }, context=context)
         else:
-            # Create pricelist:
+            # TODO: Current always create in EUR
             currency_ids = self.pool.get('res.currency').search(cr, uid, [
                 ('name', '=', 'EUR')], context=context)
             pricelist_id = self.create(cr, uid, {
-                'name': "Listino partner [%s]" % partner_code,
-                'currency_id': currency_ids[0] if currency_ids else False, # TODO
+                'name': "Listino partner [%s]" % partner_proxy.name,
+                'currency_id': currency_ids[0] if currency_ids else False,
                 'type': 'sale',
                 'import': True,
                 'mexal_id': partner_code,
-                }, context=context)
+                }, context=context)                
+
+        # Update pricelist for partner:     
+        partner_browse(cr, uid, partner_id, {
+            'property_product_pricelist': pricelist_id,
+            }, context=context)
 
         # Create version:        
         return version_pool.create(cr, uid, {
-            'name': "Versione base partner [%s]" % partner_code,
+            'name': "Versione base partner [%s]" % partner_proxy.name,
             'pricelist_id': pricelist_id, 
             'import': True,
             'mexal_id': partner_code,         
