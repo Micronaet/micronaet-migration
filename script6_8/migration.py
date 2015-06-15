@@ -147,7 +147,7 @@ class SyncroXMLRPC(orm.Model):
         obj_pool = self.pool.get(obj)        
         self._converter[obj] = {}    
         obj_ids = obj_pool.search(cr, uid, []) #context=context) # for lang
-        for item in obj_pool.browse(cr, uid, uom_ids): #context=context):
+        for item in obj_pool.browse(cr, uid, obj_ids): #context=context):
             self._converter[obj][item.name] = item.id
             
         for record in (
