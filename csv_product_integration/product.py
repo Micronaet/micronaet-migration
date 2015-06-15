@@ -65,26 +65,25 @@ class ProductProduct(orm.Model):
                 if not len(line): # jump empty lines
                     continue
 
-                if verbose and counter % verbose == 0:
+                if verbose and counter and counter % verbose == 0:
                     _logger.info("Product integrated: %s" % counter)
                 counter += 1
 
                 # CSV fields:
                 default_code = csv_pool.decode_string(line[0])
 
-
-                import pdb; pdb.set_trace()
                 # Language:
                 language['it_IT'] = csv_pool.decode_string(line[1]).title()
                 language['en_US'] = csv_pool.decode_string(line[10]).title()
-                language['1'] = csv_pool.decode_string(line[11]).title()
-                language['2'] = csv_pool.decode_string(line[12]).title()
-                language['3'] = csv_pool.decode_string(line[13]).title()
+                # TODO: activate language
+                #language['1'] = csv_pool.decode_string(line[11]).title()
+                #language['2'] = csv_pool.decode_string(line[12]).title()
+                #language['3'] = csv_pool.decode_string(line[13]).title()
 
-                if language['it_IT']:
-                    name = language['it_IT']
-                else:
+                if language['en_US']:
                     name = language['en_US']
+                else:
+                    name = language['it_IT']
 
                 try:
                    lot = eval(csv_pool.decode_string(
@@ -133,16 +132,16 @@ class ProductProduct(orm.Model):
                     ##'seller_qty'
                     }
                 if product_ids: # only update
-
                     self.write(cr, uid, product_ids, data, context={
                         'lang': 'en_US', })
 
                     # Update language
                     for lang in language:
-                        if lang:
+                        name = language.get(lang, False)
+                        if name:
                             self.write(cr, uid, product_ids, {
-                                'name': language[lang],
-                                }, context={'lang': lang})
+                                'name': name}, context={
+                                    'lang': lang})
 
                 else:
                     _logger.error("Product not present: %s" % default_code)
