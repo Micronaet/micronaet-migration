@@ -18,22 +18,18 @@
 ###############################################################################
 
 {
-    'name': 'CSV pricelist importation',
+    'name': 'CSV base importation',
     'version': '0.1',
-    'category': 'ETL/pricelist',
+    'category': 'ETL/csv',
     'author': 'Micronaet S.r.l. - Nicola Riolini',
     'website': 'http://www.micronaet.it',
     'license': 'AGPL-3',
     'depends': [
         'base',
-        'csv_base',
         ],
     'init_xml': [],
     'demo': [],
-    'data': [
-        #'security/ir.model.access.csv',    
-        'scheduler.xml',
-        ],
+    'data': [],
     'active': False,
     'installable': True,
     'auto_install': False,

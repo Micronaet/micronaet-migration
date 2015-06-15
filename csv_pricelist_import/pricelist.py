@@ -45,90 +45,85 @@ class ProductPricelist(orm.Model):
     
     def schedule_csv_pricelist_import(self, cr, uid, 
             input_file="~/ETL/artioerp.csv", delimiter=";", 
-            header_line = 0, context=None):
+            header_line=0, context=None):
         ''' Import pricelist and setup particular price for partners
             (the partners are imported with SQL methods)
+            
+            This importation is generated from product csv file for standard
+            pricelist, remember that there are also partner pricelist with
+            particular price (not imported here)
+            
+            Note: pricelist yet present here (only item are unlink / create)
         '''
-        # Erare all pricelist before import:
+        csv_pool = self.pool.get('csv.base')
         item_pool = self.pool.get('product.pricelist.item')
         version_pool = self.pool.get('product.pricelist.version')
-        
+        product_pool = self.pool.get('product.product')
+
+        _logger.info("Start pricelist standard importation")
+                
+        # Erase all pricelist item (only) before import:
         item_ids = item_pool.search(cr, uid, [], context=context)
-        item_pool.unlink(cr, uid, erase_ids, context=context)
+        item_pool.unlink(cr, uid, item_ids, context=context)
 
-        version_ids = version_pool.search(cr, uid, [], context=context)
-        version_pool.unlink(cr, uid, version_ids, context=context)
-        
-        # Not delete pricelist because of pricelist setup (TODO integrate)    
-        # First 10 are standard pricelist
-        #pricelist_ids = self.search(cr, uid, [('id','>','10')], context=context)        
-        #self.unlink(cr, uid, pricelist_ids, context=context)
-        
-        # NOTE: There's another procedure that delete only partner imported 
-        # pricelist, see if it's better do this
-
-        # ---------------------------------------------------------------------
-        # Start pricelist importation from price exception in partner:
-        # ---------------------------------------------------------------------
-        # TODO check: 
-        type_ids = self.pool.get('product.pricelist.type').search(cr, uid, [
-            ('key', '=', 'sale')], context=context)
-            
-        #TODO cur_EUR=getCurrency(sock,dbname,uid,pwd,'EUR')
-        #cur_CHF=getCurrency(sock,dbname,uid,pwd,'CHF')
+        # Load standard pricelist version:
+        versions = {}
+        version_ids = version_pool.search(cr, uid, [
+            ('mexal_id', 'in', range(1, 10))], context=context)            
+        for item in version_pool.browse(cr, uid, version_ids, context=context):
+            versions[item.mexal_id] = item.id
 
         csv_file = open(os.path.expanduser(input_file), 'rb')
         lines = csv.reader(csv_file, delimiter=separator)
-        counter = {
-            'tot': -header_lines,
-            'new': 0,
-            'upd': 0,
-            } 
+        counter = -header_line
 
-        # 1. Create first 10 pricelist reading information in product csv file
-        
-        # 2. Import custom pricelist form price particlularity
-        
+        price_list = {} # dict for save product prices
         try:
             for line in lines:
                 if counter['tot'] < 0:  # jump n lines of header 
                    counter['tot'] += 1
                 else:
-                    if len(line): # jump empty lines
-                       counter['tot'] += 1 
-                       default_code = Prepare(line[0]) 
-                       # TODO migrate prepare function in a module csv_base
-         
-                       data = {
-                           'name': name,
-                           'mexal_id': default_code,
-                           }
-                       
-                       item_ids = self.pool.get('product.product').search(
-                           cr, uid, [('default_code', '=', default_code)])
-                       # TODO arrivato qui! ***********************************    
-                       if item_ids: # update
-                          try:
-                              article_mod = sock.execute(dbname, uid, pwd, 'product.product', 'write', item, data) 
-                          except:
-                              print "[ERROR] Modify product, current record:", data
-                              raise 
-                          print "[INFO]", counter['tot'], "Already exist: ", ref, name
-                       else:           
-                          counter['new'] += 1  
-                          error="Creating product"
-                          try:
-                              article_new=sock.execute(dbname, uid, pwd, 'product.product', 'create', data) 
-                          except:
-                              print "[ERROR] Create product, current record:", data
-                              raise                
-                          print "[INFO]",counter['tot'], "Insert: ", ref, name
-              
+                    if not len(line): # jump empty lines
+                        continue
+                        
+                    counter['tot'] += 1
+                    default_code = csv_pool.decode_string(line[0])
+                    name = csv_pool.decode_string(line[1]).title()                     
+                    
+                    # NOTE: load only this pricelist (not all 10)
+                    price_list[1] = csv_pool.decode_float(line[6])
+                    price_list[4] = csv_pool.decode_float(line[7])
+                    price_list[5] = csv_pool.decode_float(line[8])
+                    price_list[6] = csv_pool.decode_float(line[9])
+                    
+                product_ids = product_pool.search(cr, uid, [
+                    ('default_code', '=', default_code)], context=context)
+                if not product_ids: 
+                    _logger.error("Product not found %s" % default_code)
+                    continue # jump (not created here)                    
+                elif len(product_ids) > 1: 
+                    _logger.warning("Multiple product %s" % default_code)
+                    continue # jump
+                    
+                for pl in price_list:
+                    if price_list[pl]: 
+                        item_pool.create(cr, uid, {
+                            'price_version_id': versions[pl],
+                            'sequence': 10,
+                            'name': '%s [%s]' % (name, ref),
+                            'base': 2, #1 pl 2 cost
+                            'min_quantity': 1,
+                            'price_surcharge': price_list[pl], # TODO remove: - bug_start_value
+                            'product_id': product_ids[0],
+                            'price_round': 0.01,                          
+                            }, context=context)
+                    
         except:
-            print '>>> [ERROR] Error importing articles!'
-            raise #Exception("Errore di importazione!") # Scrivo l'errore per debug
+            _logger.error("Pricelist import %s" % (sys.exc_info(), ))
+            return False
 
-        print "[INFO]","Articles:", "Total: ",counter['tot']," (imported: ",counter['new'],") (updated: ", counter['upd'], ")"        
-                return True
+        _logger.info(
+            "Pricelist imported [%(tot)s] - new %(new)s upd %(upd)s" % counter)
+        return True
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
