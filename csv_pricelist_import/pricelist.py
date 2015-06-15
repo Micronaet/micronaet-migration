@@ -44,7 +44,7 @@ class ProductPricelist(orm.Model):
     _inherit = 'product.pricelist'
     
     def schedule_csv_pricelist_import(self, cr, uid, 
-            input_file="~/ETL/pricelist.csv", delimiter=";", 
+            input_file="~/ETL/artioerp.csv", delimiter=";", 
             header_line = 0, context=None):
         ''' Import pricelist and setup particular price for partners
             (the partners are imported with SQL methods)
@@ -85,6 +85,10 @@ class ProductPricelist(orm.Model):
             'upd': 0,
             } 
 
+        # 1. Create first 10 pricelist reading information in product csv file
+        
+        # 2. Import custom pricelist form price particlularity
+        
         try:
             for line in lines:
                 if counter['tot'] < 0:  # jump n lines of header 

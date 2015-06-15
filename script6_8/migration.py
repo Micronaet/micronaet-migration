@@ -51,11 +51,11 @@ class SyncroXMLRPC(orm.Model):
 
     _converter = {}
 
-    def load_converter(self, cr, uid, converter, table,
+    def load_converter(self, cr, uid, converter, obj,
             field_id='migration_old_id', context=None):
         ''' Load coverter if not present
         '''
-        item_pool = self.pool.get(table)
+        item_pool = self.pool.get(obj)
         item_ids = item_pool.search(cr, uid, [
             (field_id, '!=', False),
             (field_id, '!=', 0),
@@ -122,16 +122,20 @@ class SyncroXMLRPC(orm.Model):
         # -----------------
         # product.uom.categ
         # -----------------
-        #Load and create extra 
-        categ_pool = self.pool.get('product.uom.categ')
-        self._converter['product.uom.categ'] = {}    
-        categ_ids = categ_pool.search(cr, uid, [], )#context=context)
-        for item in categ_pool.browse(cr, uid, categ_ids, ):#context=context):
-            self._converter['product.uom.categ'][item.name] = item.id
+        #Load and create extra
+        obj = 'product.uom.categ'
+        obj_pool = self.pool.get(obj)
+        self._converter[obj] = {}    
+        obj_ids = obj_pool.search(cr, uid, []) #context=context)
+        # Read currenct:
+        for item in obj_pool.browse(cr, uid, obj_ids): #context=context):
+            self._converter[obj][item.name] = item.id
+            
+        # Create extra:    
         for name in ('Area', 'Capacity', 'Electric Power', 'Volume'):
-            if name not in self._converter['product.uom.categ']:
-                self._converter['product.uom.categ'][
-                    name] = categ_pool.create(cr, uid, {
+            if name not in self._converter[obj]:
+                self._converter[obj][
+                    name] = obj_pool.create(cr, uid, {
                         'name': name,
                         }, context=context)
         
@@ -139,11 +143,12 @@ class SyncroXMLRPC(orm.Model):
         # product.uom
         # -----------
         #Load and create extra UOM
-        uom_pool = self.pool.get('product.uom')        
-        self._converter['product.uom'] = {}    
-        uom_ids = uom_pool.search(cr, uid, [], )#context=context)
-        for item in uom_pool.browse(cr, uid, uom_ids, ):#context=context):
-            self._converter['product.uom'][item.name] = item.id
+        obj = 'product.uom'
+        obj_pool = self.pool.get(obj)        
+        self._converter[obj] = {}    
+        obj_ids = obj_pool.search(cr, uid, []) #context=context) # for lang
+        for item in obj_pool.browse(cr, uid, uom_ids): #context=context):
+            self._converter[obj][item.name] = item.id
             
         for record in (
                 {
@@ -216,30 +221,42 @@ class SyncroXMLRPC(orm.Model):
                     'category_id': self._converter['product.uom.categ'][
                         'Volume'],
                     }):
-            if record['name'] not in self._converter['product.uom']:
-                self._converter['product.uom'][
-                    record['name']] = uom_pool.create(
+            if record['name'] not in self._converter[obj]:
+                self._converter[obj][
+                    record['name']] = obj_pool.create(
                         cr, uid, record, context=context)
         
         # ------------
         # res.currency
         # ------------
-        currency_pool = self.pool.get('res.currency')
-        self._converter['res.currency'] = {}
-        currency_ids = currency_pool.search(cr, uid, [], context=context)
-        for item in currency_pool.browse(
-                cr, uid, currency_ids, context=context):
-            self._converter['res.currency'][item.name] = item.id
+        obj = 'res.currency'
+        obj_pool = self.pool.get(obj)
+        self._converter[obj] = {}
+        obj_ids = obj_pool.search(cr, uid, [], context=context)
+        for item in obj_pool.browse(
+                cr, uid, obj_ids, context=context):
+            self._converter[obj][item.name] = item.id
+
+        # ----------------------
+        # product.pricelist.type
+        # ----------------------
+        obj = product.pricelist.type
+        obj_pool = self.pool.get(obj)
+        self._converter[obj] = {}
+        obj_ids = obj_pool.search(cr, uid, [], context=context)
+        for item in obj_pool.browse(
+                cr, uid, obj_ids, context=context):
+            self._converter[obj][item.name] = item.id
         
         # ---------------------------------------------------------------------
         # res.users
         # ---------------------------------------------------------------------
-        table = 'res.users'
-        self._converter[table] = {}
-        converter = self._converter[table] # for use same name
+        obj = 'res.users'
+        self._converter[obj] = {}
+        converter = self._converter[obj] # for use same name
         if wiz_proxy.user:
             erp_pool = erp.ResUsers
-            item_pool = self.pool.get(table)
+            item_pool = self.pool.get(obj)
             item_ids = erp_pool.search([])
             for item in erp_pool.browse(item_ids):
                 try:
@@ -261,29 +278,29 @@ class SyncroXMLRPC(orm.Model):
                         item_id = new_ids[0]
                         item_pool.write(cr, uid, item_id, data,
                             context=context)
-                        print "#INFO", table, "update:", item.name
+                        print "#INFO", obj, "update:", item.name
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        print "#INFO", table, "create:", item.name
+                        print "#INFO", obj, "create:", item.name
 
                     converter[item.id] = item_id
                 except:
-                    print "#ERR", table, "jumped:", item.name
+                    print "#ERR", obj, "jumped:", item.name
                     continue
                 # NOTE No contact for this database
         else: # Load convert list form database
-            self.load_converter(cr, uid, converter, table=table,
+            self.load_converter(cr, uid, converter, obj=obj,
                 context=context)
 
         # ---------------------------------------------------------------------
         # crm.tracking.campaign
         # ---------------------------------------------------------------------
-        table = 'crm.tracking.campaign'
-        self._converter[table] = {}
-        converter = self._converter[table] # for use same name
+        obj = 'crm.tracking.campaign'
+        self._converter[obj] = {}
+        converter = self._converter[obj] # for use same name
         if wiz_proxy.campaign: # TODO
-            item_pool = self.pool.get(table)
+            item_pool = self.pool.get(obj)
             erp_pool = erp.CrmCaseResourceType #TODO CrmCaseCateg
             item_ids = erp_pool.search([])
             for item in erp_pool.browse(item_ids):
@@ -297,29 +314,29 @@ class SyncroXMLRPC(orm.Model):
                         item_id = new_ids[0]
                         item_pool.write(cr, uid, item_id, data,
                             context=context)
-                        print "#INFO", table, "update:", name
+                        print "#INFO", obj, "update:", name
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        print "#INFO", table, "create:", name
+                        print "#INFO", obj, "create:", name
 
                     converter[item.id] = item_id
                 except:
-                    print "#ERR", table, "jumped:", name
+                    print "#ERR", obj, "jumped:", name
                     continue
                 # NOTE No contact for this database
         else: # Load convert list form database
-            self.load_converter(cr, uid, converter, table=table,
+            self.load_converter(cr, uid, converter, obj=obj,
                 context=context)
 
         # ---------------------------------------------------------------------
         # res.partner.category
         # ---------------------------------------------------------------------
-        table = 'res.partner.category' # Tags partner
-        self._converter[table] = {}
-        converter = self._converter[table] # for use same name
+        obj = 'res.partner.category' # Tags partner
+        self._converter[obj] = {}
+        converter = self._converter[obj] # for use same name
         if wiz_proxy.category: # TODO
-            item_pool = self.pool.get(table)
+            item_pool = self.pool.get(obj)
             erp_pool = erp.CrmCaseCateg
             item_ids = erp_pool.search([])
             for item in erp_pool.browse(item_ids):
@@ -336,19 +353,19 @@ class SyncroXMLRPC(orm.Model):
                         item_id = new_ids[0]
                         item_pool.write(cr, uid, item_id, data,
                             context=context)
-                        print "#INFO", table, "update:", name
+                        print "#INFO", obj, "update:", name
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        print "#INFO", table, "create:", name
+                        print "#INFO", obj, "create:", name
 
                     converter[item.id] = item_id
                 except:
-                    print "#ERR", table, "jumped:", name
+                    print "#ERR", obj, "jumped:", name
                     continue
                 # NOTE No contact for this database
         else: # Load convert list form database
-            self.load_converter(cr, uid, converter, table=table,
+            self.load_converter(cr, uid, converter, obj=obj,
                 context=context)
 
         # before: web.category, web.color, product.custom.duty, 
@@ -357,11 +374,11 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # product.product
         # ---------------------------------------------------------------------
-        table = 'product.product' # template??
-        self._converter[table] = {}
-        converter = self._converter[table]
+        obj = 'product.product' # template??
+        self._converter[obj] = {}
+        converter = self._converter[obj]
         if wiz_proxy.product:
-            item_pool = self.pool.get(table)
+            item_pool = self.pool.get(obj)
             erp_pool = erp.ProductProduct
             item_ids = erp_pool.search([])
             i = 0
@@ -540,15 +557,15 @@ class SyncroXMLRPC(orm.Model):
                         if wiz_proxy.update:
                             item_pool.write(cr, uid, item_id, data,
                                 context=context)
-                            print i, "#INFO ", table, "update:", \
+                            print i, "#INFO ", obj, "update:", \
                                 item.default_code
                         else:
-                            print i, "#INFO ", table, "jumped:", \
+                            print i, "#INFO ", obj, "jumped:", \
                                 item.default_code
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        print i, "#INFO", table, " create:", item.default_code
+                        print i, "#INFO", obj, " create:", item.default_code
 
                     converter[item.id] = item_id
                 except:
@@ -556,7 +573,7 @@ class SyncroXMLRPC(orm.Model):
                     continue
                 # NOTE No contact for this database
         else: # Load convert list form database
-            self.load_converter(cr, uid, converter, table=table,
+            self.load_converter(cr, uid, converter, obj=obj,
                 context=context)
 
         # ---------------------------------------------------------------------
@@ -570,14 +587,14 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # res.partner and res.partner.address
         # ---------------------------------------------------------------------
-        table = 'res.partner'
-        self._converter[table] = {}
-        converter = self._converter[table] # for use same name
+        obj = 'res.partner'
+        self._converter[obj] = {}
+        converter = self._converter[obj] # for use same name
         if wiz_proxy.partner:
             # -----------------------------------------------------------------
             # A. Searching for partner (master):
             # -----------------------------------------------------------------
-            item_pool = self.pool.get(table)
+            item_pool = self.pool.get(obj)
             erp_pool = erp.ResPartner
             item_ids = erp_pool.search([])#[:10]
             i = 0
@@ -682,17 +699,17 @@ class SyncroXMLRPC(orm.Model):
                         if wiz_proxy.update:
                             item_pool.write(cr, uid, item_id, data,
                                 context=context)
-                            print i, "#INFO", table, "update:", item.name
+                            print i, "#INFO", obj, "update:", item.name
                         else:
-                            print i, "#INFO", table, "jumped:", item.name
+                            print i, "#INFO", obj, "jumped:", item.name
                     else: # Create
                         item_id = item_pool.create(
                             cr, uid, data, context=context)
-                        print i, "#INFO", table, "create:", item.name
+                        print i, "#INFO", obj, "create:", item.name
                     converter[item.id] = item_id
                 except:
                     print data
-                    print i, "#ERR", table, "jump:", item.name, sys.exc_info()
+                    print i, "#ERR", obj, "jump:", item.name, sys.exc_info()
                     continue
 
             # -----------------------------------------------------------------
@@ -734,13 +751,13 @@ class SyncroXMLRPC(orm.Model):
                         if wiz_proxy.update:
                             item_id = item_pool.write(cr, uid, partner_ids,
                                 data)
-                            print "#INFO", table, "partner-addr upd:", item.partner_id.name
+                            print "#INFO", obj, "partner-addr upd:", item.partner_id.name
                     else: # Create
-                        print "#ERR", table ,"partner-addr not found", item.partner_id.name
+                        print "#ERR", obj ,"partner-addr not found", item.partner_id.name
                     converter[item.id] = item_id
 
                 except:
-                    print "#ERR", table, "jumped:", item.partner_id.name
+                    print "#ERR", obj, "jumped:", item.partner_id.name
                     continue
                 # NOTE No contact for this database
 
@@ -787,21 +804,21 @@ class SyncroXMLRPC(orm.Model):
                         if wiz_proxy.update:
                             item_id = item_pool.write(cr, uid, address_ids,
                                 data, )
-                            print "#INFO", table, "(dest) upd:", item.name
+                            print "#INFO", obj, "(dest) upd:", item.name
                         else:
-                            print "#INFO", table, "(dest) jump:", item.name
+                            print "#INFO", obj, "(dest) jump:", item.name
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        print "#INFO", table ,"(dest) create:", item.name
+                        print "#INFO", obj ,"(dest) create:", item.name
                     converter[item.id] = item_id
 
                 except:
-                    print "#ERR", table, "(dest) jumped:", item.name
+                    print "#ERR", obj, "(dest) jumped:", item.name
                     continue
                 # NOTE No contact for this database
         else: # Load convert list form database
-            self.load_converter(cr, uid, converter, table=table,
+            self.load_converter(cr, uid, converter, obj=obj,
                 context=context)
         return True
 

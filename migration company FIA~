@@ -166,5 +166,5 @@ PRICELIST:
    >> deciso di importarli al posto di migrarli (settano già il link al partner
    vedere come comportarsi per non cancellare il product.pricelist (altrimenti perdo il link nei preventivi
    >> vedere se occorre utilizzare la pulisci tutti o quella che pulisce cercando i partner importati
-   importare i listini con particolarita
+   importare i listini con particolarita.py
 
