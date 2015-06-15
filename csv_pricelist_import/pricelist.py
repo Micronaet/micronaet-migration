@@ -113,8 +113,9 @@ class ProductPricelist(orm.Model):
                             'name': '%s [%s]' % (name, ref),
                             'base': 2, #1 pl 2 cost
                             'min_quantity': 1,
-                            'price_surcharge': price_list[pl], # TODO remove: - bug_start_value
                             'product_id': product_ids[0],
+                            'price_discount': -1,
+                            'price_surcharge': price_list[pl],
                             'price_round': 0.01,                          
                             }, context=context)
                     

@@ -26,6 +26,7 @@
     'license': 'AGPL-3',
     'depends': [
         'base',
+        'product',
         'csv_base',
         ],
     'init_xml': [],
