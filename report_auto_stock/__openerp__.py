@@ -36,7 +36,7 @@
     'license': 'AGPL-3',
     'depends': [
         'base',
-        #'mexal_order_statistic',
+        'stock', # for menuitem
         'base_accounting_program',
         'report_aeroo',
         ],

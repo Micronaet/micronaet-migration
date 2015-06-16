@@ -1,12 +1,11 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
-       <!-- Menu -->
-    <menuitem name="Dashboard" 
-              id="menu_base_mexal" 
-              sequence="5" 
-              
-              /> <!--action="action_board_mexal_form" -->
+       <!-- Menu -->       
+    <menuitem name="Analysis" 
+        id="menu_base_mexal"
+        parent="base.menu_reporting"
+        sequence="1" /> <!--action="action_board_mexal_form" -->
               
        <menuitem name="Analisi" parent="menu_base_mexal" id="menu_base_mexal_analisi" sequence="1" />
        

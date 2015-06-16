@@ -33,6 +33,7 @@
     'init_xml': [],
     'demo_xml': [],
     'data': [
+        'security/ir.model.access.csv',
         'invoice_view.xml',
         ],
     'active': False,

@@ -21,23 +21,22 @@
 ###############################################################################
 
 {
-    'name': 'Report Store statistic',
+    'name': 'Accounting statistic: invoice',
     'version': '0.1',
     'category': 'Statistic',
     'author': 'Micronaet s.r.l.',
     'website': 'http://www.micronaet.it',
     'license': 'AGPL-3',
     'depends': [
-        'base', 
-        'stock',
+        'account_statistic_base',
         'report_aeroo',
         ],
     'init_xml': [],
     'demo_xml': [],
     'data': [
-        'security/ir.model.access.csv',                     
-        'store.xml',
-        'report/report_store.xml',
+        'security/ir.model.access.csv',
+        'invoice_view.xml',
+        'report/report_order.xml',
         ],
     'active': False,
     'installable': True,

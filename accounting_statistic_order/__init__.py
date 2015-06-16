@@ -20,27 +20,8 @@
 #
 ###############################################################################
 
-{
-    'name': 'Report Store statistic',
-    'version': '0.1',
-    'category': 'Statistic',
-    'author': 'Micronaet s.r.l.',
-    'website': 'http://www.micronaet.it',
-    'license': 'AGPL-3',
-    'depends': [
-        'base', 
-        'stock',
-        'report_aeroo',
-        ],
-    'init_xml': [],
-    'demo_xml': [],
-    'data': [
-        'security/ir.model.access.csv',                     
-        'store.xml',
-        'report/report_store.xml',
-        ],
-    'active': False,
-    'installable': True,
-    }
+from . import order
+from report import parser
+
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

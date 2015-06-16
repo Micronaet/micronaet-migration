@@ -87,8 +87,7 @@
         <field name="search_view_id" ref="view_statistic_store_search"/>
     </record>
 
-       <!-- Menu -->
-       <!--<menuitem name="Report" parent="mexal_order_statistic.menu_base_mexal" id="menu_base_mexal_report" sequence="3" />
-          <menuitem name="Report product balance" parent="menu_base_mexal_report" id="menu_statistic_statistic_store" sequence="1" action="action_statistic_store" />-->
+    <!-- Menu -->
+    <menuitem name="Report product balance" parent="stock.next_id_61" id="menu_statistic_statistic_store" sequence="40" action="action_statistic_store" />
   </data>
 </openerp>

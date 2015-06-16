@@ -30,16 +30,14 @@
         'base',
         'sale',
         'base_accounting_program',
-        'report_aeroo',
         ],
     'init_xml': [],
     'demo_xml': [],
     'data': [
         'security/order.xml',
-        #'security/ir.model.access.csv',
-        #'base_view.xml', # TODO rewrite statistic
-        #'menuitem.xml',
-        #'report/report_order.xml',
+        'security/ir.model.access.csv',
+        'base_view.xml', # TODO rewrite statistic
+        'menuitem.xml',
         ],
     'active': False,
     'installable': True,
