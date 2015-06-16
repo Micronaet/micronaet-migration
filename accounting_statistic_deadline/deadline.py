@@ -24,6 +24,7 @@ import os
 import sys
 import logging
 import openerp
+import csv
 import openerp.netsvc as netsvc
 import openerp.addons.decimal_precision as dp
 from openerp.osv import fields, osv, expression, orm
@@ -37,7 +38,6 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
     DEFAULT_SERVER_DATETIME_FORMAT,
     DATETIME_FORMATS_MAP,
     float_compare)
-
 
 _logger = logging.getLogger(__name__)
 
@@ -79,7 +79,8 @@ class statistic_deadline(orm.Model):
         #create_date = time.ctime(os.path.getctime(csv_file))    
 
         lines = csv.reader(
-            open(csv_file,'rb'), delimiter=delimiter)
+            open(os.path.expanduser(
+                csv_file), 'rb'), delimiter=delimiter)
         counter = -header
 
         # Delete all:
@@ -92,6 +93,7 @@ class statistic_deadline(orm.Model):
         # Load from CSV file:
         tot_col = 0
         account_balance = {}
+        import pdb; pdb.set_trace()
         for line in lines:
             try:
                 if tot_col == 0: # the first time (for tot col)
@@ -108,7 +110,7 @@ class statistic_deadline(orm.Model):
                                 counter, 
                                 tot_col, 
                                 len(line),
-                                )
+                                ))
                         continue                        
                     try:
                         mexal_id = csv_pool.decode_string(line[0])
@@ -139,8 +141,9 @@ class statistic_deadline(orm.Model):
                         
                         # Get partner information:  
                         partner_ids = partner_pool.search(cr, uid, [
-                            '|', ('mexal_c', '=', mexal_id),
-                            ('mexal_s', '=', mexal_id),
+                            ('is_company', '=', True),
+                            '|', ('sql_customer_code', '=', mexal_id),
+                            ('sql_supplier_code', '=', mexal_id),
                             ], context=context)
                         if not partner_ids:    
                             _logger.error(
