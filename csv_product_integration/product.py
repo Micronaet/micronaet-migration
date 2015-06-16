@@ -51,6 +51,16 @@ class ProductProduct(orm.Model):
             for add extra fields that could not be reached fast
         '''
         _logger.info("Start product integration")
+        
+        # Load UOM:
+        uoms = {}   
+        uom_failed = []                 
+        uom_pool = self.pool.get('product.uom')
+        uom_ids = uom_pool.search(cr, uid, []) # no context (english)
+        for uom in uom_pool.browse(
+                cr, uid, uom_ids, context=context):
+            uoms[uom.name] = uom.id
+        
 
         csv_pool = self.pool.get('csv.base')
         csv_file = open(os.path.expanduser(input_file), 'rb')
@@ -71,7 +81,8 @@ class ProductProduct(orm.Model):
 
                 # CSV fields:
                 default_code = csv_pool.decode_string(line[0])
-
+                uom = csv_pool.decode_string(line[2]).upper()
+                               
                 # Language:
                 #language['it_IT']:
                 name = csv_pool.decode_string(line[1]).title()
@@ -81,12 +92,13 @@ class ProductProduct(orm.Model):
                 #language['2'] = csv_pool.decode_string(line[12]).title()
                 #language['3'] = csv_pool.decode_string(line[13]).title()
 
-                try:
+                try: # sale lot of product
                    lot = eval(csv_pool.decode_string(
                        line[5]).replace(',', '.'))
                 except:
                    lot = 0
 
+                # Anagraphic fields:
                 linear_length = csv_pool.decode_float(line[14])
                 volume = csv_pool.decode_float(line[15])
                 weight = csv_pool.decode_float(line[16])
@@ -96,6 +108,37 @@ class ProductProduct(orm.Model):
                     colour = csv_pool.decode_string(line[18])
                 else:
                     colour = ""
+
+                # Get UOM depend on ref:
+                if uom in ['NR', 'N.', 'PZ', 'RT']: 
+                    uom_id = uoms.get("Unit(s)", False)
+                elif uom in ['M2', 'MQ']: 
+                    uom_id = uoms.get('M2', False)
+                elif uom in ['M', 'MT', 'ML',]: # NOTE: after M2!! 
+                    uom_id = uoms.get('m', False)
+                elif uom == 'HR': 
+                    uom_id = uoms.get('Hour(s)', False)
+                elif uom == 'KG': 
+                    uom_id = uoms.get('kg', False)
+                elif uom == 'LT': 
+                    uom_id = uoms.get('Liter(s)', False)
+                elif uom == 'KW': 
+                    uom_id = uoms.get('KW', False)
+                elif uom in ['M3', 'MC']: 
+                    uom_id = uoms.get('M3', False)
+                elif uom in ['PA', 'CO', 'CP']: 
+                    uom_id = uoms.get('P2', False) #pair
+                elif uom == 'PC': 
+                    uom_id = uoms.get('P10', False)
+                elif uom in ['', 'CN', 'MG', 'CM', 'CF', ]: # TODO ??
+                    uom_id = uoms.get("Unit(s)", False)
+                else: 
+                    if uom not in uom_failed:
+                        uom_failed.append(uom)
+                    uom_id = uoms.get("Unit(s)", False)
+
+                if not uom_id:
+                    uom_id = uoms.get("Unit(s)", False)
 
                 product_ids = self.search(cr, uid, [
                     ('default_code', '=', default_code)]) #, context=context)
@@ -115,8 +158,6 @@ class ProductProduct(orm.Model):
                     #'sale_ok': True,
                     #'purchase_ok': True,
                     #'default_code': ref,
-                    #'uom_id': uom_id,
-                    #'uom_po_id': uom_id,
                     #'type': 'product',
                     #'supply_method': 'produce',
                     #'standard_price': bug_start_value,
@@ -127,10 +168,33 @@ class ProductProduct(orm.Model):
                     ##'lst_price'
                     ##'seller_qty'
                     }
+                if uom_id: 
+                    data.update({
+                        #'uos_id': uom_id,
+                        'uom_id': uom_id,
+                        'uom_po_id': uom_id,
+                        })
+                        
                 if product_ids: # only update
-                    self.write(cr, uid, product_ids, data, context={
-                        'lang': 'it_IT'})
-
+                    try:
+                        self.write(cr, uid, product_ids, data, context={
+                            'lang': 'it_IT'})
+                    except: # update via SQL in case of error
+                        _logger.warning("Forced product %s uom %s" % (
+                            product_ids[0],
+                            uom_id,
+                            ))
+                        if uom_id: # update via SQL 
+                            cr.execute(""" 
+                                UPDATE product_template
+                                SET uom_id = %s, uom_po_id = %s 
+                                WHERE id in (
+                                    SELECT product_tmpl_id 
+                                    FROM product_product
+                                    WHERE id = %s);
+                            """, (uom_id, uom_id, product_ids[0]))
+                            
+                    
                     # Update language
                     for lang in language: # extra language
                         name = language.get(lang, False)
