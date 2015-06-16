@@ -59,7 +59,8 @@ class statistic_deadline(orm.Model):
             ''' Read partner and return credit limit
             '''
             if partner_id:
-               partner_proxy = self.browse(
+               partner_pool = self.pool.get('res.partner')
+               partner_proxy = partner_pool.browse(
                    cr, uid, partner_id, context=context)
                if partner_proxy.fido_ko: # No credit limit
                   return -(
@@ -93,7 +94,6 @@ class statistic_deadline(orm.Model):
         # Load from CSV file:
         tot_col = 0
         account_balance = {}
-        import pdb; pdb.set_trace()
         for line in lines:
             try:
                 if tot_col == 0: # the first time (for tot col)
@@ -114,7 +114,8 @@ class statistic_deadline(orm.Model):
                         continue                        
                     try:
                         mexal_id = csv_pool.decode_string(line[0])
-                        deadline = csv_pool.decode_date(line[1]) # YYYYMMDD
+                        deadline = csv_pool.decode_date(
+                            line[1], with_slash=False) # YYYYMMDD
                         total = csv_pool.decode_float(line[2]) # Amount
                         type_id = csv_pool.decode_string(line[3]).lower() #Type
                         
@@ -153,7 +154,7 @@ class statistic_deadline(orm.Model):
                         
                         # only customer (TODO supplier)
                         scoperto_c = get_partner_info(
-                            self, cr, uid, partner_id, context=context) 
+                            self, cr, uid, partner_ids[0], context=context) 
                         
                         # Import: statistic.order
                         name = "%s [%s]: %s (%s EUR)" % (
@@ -177,33 +178,37 @@ class statistic_deadline(orm.Model):
                             deadline_id = self.create(
                                 cr, uid, data, context=context)
                         except:
-                            _logger.error('Row: %s - Deadline %s (%s)' % (
-                                counter, deadline, name))
+                            _logger.error('Row: %s - Deadline %s (%s) [%s]' % (
+                                counter, deadline, name, sys.exc_info()))
                     except:
                         _logger.error('Row: %s - Import error [%s]' % (
-                            counter, sys.exc_file))
+                            counter, sys.exc_info()))
             except:
                 _logger.error('Error import deadline')
                 continue
                 
         _logger.info('Update partner information')
-        for mexal_id in account_balance.keys():
-            if mexal_id[:2] in ('06', '20'): # customer or supplier
-               if mexal_id[:2] == '06':
-                  cof = 'c'
-               else:
-                  cof = 's'   
-               item_ids = partner_pool.search(cr, uid, [
-                   ('mexal_' + cof, '=', mexal_id)], context=context) 
-                   
-               if item_ids:
-                   partner_pool.write(cr, uid,item_ids, {
-                       'saldo_' + cof: account_balance[mexal_id]
-                       })
-               else:
-                  _logger.error('Not found: %s' % mexal_id)
+        for mexal_id in account_balance:
+            if mexal_id.startswith('06'):
+               cof = 'c'
+            elif mexal_id.startswith('20'):
+               cof = 's'   
             else:
                 _logger.error('Not customer or supplier: %s' % mexal_id)
+                continue
+
+            item_ids = partner_pool.search(cr, uid, [
+                ('is_company', '=', True),
+                '|', ('sql_customer_code', '=', mexal_id),
+                ('sql_supplier_code', '=', mexal_id),
+                ], context=context) 
+                
+            if item_ids:
+                partner_pool.write(cr, uid,item_ids, {
+                    'saldo_' + cof: account_balance[mexal_id]
+                    }, context=context)
+            else:
+               _logger.error('Not partner found: %s' % mexal_id)
 
         _logger.info('Tot. deadline: %s' % counter)
         return True
@@ -253,15 +258,16 @@ class statistic_deadline(orm.Model):
             string='DDT + OC opened (supplier)'),
 
         'type': fields.selection([
-            ('b','Bank transfer'),
-            ('c','Cach'),
-            ('r','RIBA'),
-            ('t','Tratta'),
-            ('m','Rimessa diretta'),
-            ('x','Rimessa diretta X'),
-            ('y','Rimessa diretta Y'),
-            ('z','Rimessa diretta Z'),
-            ('v','MAV'),
+            ('a', 'Addebito'),
+            ('b', 'Bank transfer'),
+            ('c', 'Cach'),
+            ('r', 'RIBA'),
+            ('t', 'Tratta'),
+            ('m', 'Rimessa diretta'),
+            ('x', 'Rimessa diretta X'),
+            ('y', 'Rimessa diretta Y'),
+            ('z', 'Rimessa diretta Z'),
+            ('v', 'MAV'),
         ], 'Type', select=True),
     }
     

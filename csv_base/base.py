@@ -50,14 +50,20 @@ class CsvBase(orm.Model):
         valore = valore.encode('utf-8')
         return valore.strip()
 
-    def decode_date(self, valore):
-        #valore=valore.strip()
-        #   if len(valore)==8:
-        #      if valore: # TODO test correct date format
-        #         return valore[:4] + "/" + valore[4:6] + "/" + valore[6:8]
-
+    def decode_date(self, valore, with_slash=True):
         # yet correct
-        return valore
+        if with_slash: # yet correct YYYY/MM/DD
+            return valore
+        else: # YYYYMMDD
+            valore = valore.strip()
+            if len(valore) == 8:
+                return "%s/%s/%s" % (
+                    valore[:4],
+                    valore[4:6],
+                    valore[6:8],
+                    )
+        return False # when error                      
+
 
     def decode_float(self, valore):
         valore = valore.strip() 
