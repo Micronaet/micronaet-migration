@@ -28,7 +28,7 @@
     'website': 'http://www.micronaet.it',
     'license': 'AGPL-3',
     'depends': [
-        'account_statistic_base',
+        'accounting_statistic_base',
         ],
     'init_xml': [],
     'demo_xml': [],

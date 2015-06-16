@@ -59,7 +59,8 @@ class statistic_deadline(orm.Model):
             ''' Read partner and return credit limit
             '''
             if partner_id:
-               partner_proxy = self.browse(cr, uid, partner_id, context=context)
+               partner_proxy = self.browse(
+                   cr, uid, partner_id, context=context)
                if partner_proxy.fido_ko: # No credit limit
                   return -(
                       partner_proxy.saldo_c or 0.0) -(
@@ -260,6 +261,7 @@ class statistic_deadline(orm.Model):
             ('v','MAV'),
         ], 'Type', select=True),
     }
+    
     _defaults = {
         'total': lambda *a: 0,
         'in': lambda *a: 0,
@@ -271,12 +273,11 @@ class statistic_deadline(orm.Model):
 class ResPartnerStatistic(orm.Model):
     """ res_partner_extra_fields
     """
-
     _inherit = 'res.partner'
 
     _columns = {
         'open_payment_ids': fields.one2many(
-            'statistic.deadline', 'partner_id', 'Pagamenti aperti'),
+            'statistic.deadline', 'partner_id', 'Open payment'),
         }
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
