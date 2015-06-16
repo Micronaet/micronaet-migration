@@ -20,23 +20,6 @@
 #
 ###############################################################################
 
-{
-    'name': 'Accounting statistic: invoice',
-    'version': '0.1',
-    'category': 'Statistic',
-    'author': 'Micronaet s.r.l.',
-    'website': 'http://www.micronaet.it',
-    'license': 'AGPL-3',
-    'depends': [
-        'account_statistic_base',
-        ],
-    'init_xml': [],
-    'demo_xml': [],
-    'data': [
-        'invoice_view.xml',
-        ],
-    'active': False,
-    'installable': True,
-    }
+from . import deadline
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -33,7 +33,7 @@
     'init_xml': [],
     'demo_xml': [],
     'data': [
-        'invoice_view.xml',
+        'deadline_view.xml',
         ],
     'active': False,
     'installable': True,

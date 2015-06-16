@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp><data>
+    <record id="group_sale_OC_Italia" model="res.groups">
+        <field name="name">Sales / Resp. OC Italia</field>
+    </record>
+    <record id="group_sale_OC_Estero" model="res.groups">
+        <field name="name">Sales / Resp. OC Estero</field>
+    </record>    
+</data></openerp>

@@ -58,9 +58,9 @@ INSTALLARE:
 *report_aeroo_fiam                                << MIGRATO quotation_custom_report
 *report_product_pricelist                         << MIGRATO (stesso nome)
 *report_purchase_fiam                             << MIGRATO (report_purchase_custom)
-*report_store_value                               << MIGRATO dipende da mexal_order_statistic
+*report_store_value                               << MIGRATO dipende da mexal_order_statistic  TODO: spostare la voce del menù per aprire la videata
 *mexal_order_statistic                            << MIGRATO
-*report_auto_stock_                               << MIGRATO (ex: report_auto_stock_)
+*report_auto_stock_                               << MIGRATO (ex: report_auto_stock_)  TODO: spostare la voce del menù per aprire la videata
 *gpb_web                                          << __UNPORTED__ vedere se è necessario comporta un grosso lavoro    (alcuni campi potrebbero esser usati)
 *import_log                                       << __UNPORTED__
 *report_aeroo_gpb                                 << __UNPORTED__

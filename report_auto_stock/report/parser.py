@@ -40,7 +40,7 @@ class Parser(report_sxw.rml_parse):
         })
 
     def product_auto_list(self):
-        ''' Read all mexal code (to search required products)
+        ''' Read all accounting code (to search required products)
             Order and produce a pseudo objects with browse object
             for generate automatically PDF print
         '''
@@ -50,10 +50,11 @@ class Parser(report_sxw.rml_parse):
         supplier_code_ids = [item['name'] for item in self.pool.get(
             'auto.stock.supplier').read(self.cr, self.uid, supplier_ids)]
         
-        active_ids=self.pool.get('statistic.store').search(self.cr, self.uid, [
-            ('company','=','gpb'),
-            ('mexal_s', 'in', supplier_code_ids),
-            ], order='mexal_s,product_code')
+        active_ids = self.pool.get('statistic.store').search(
+            self.cr, self.uid, [
+                ('company','=','gpb'),
+                ('mexal_s', 'in', supplier_code_ids),
+                ], order='mexal_s,product_code')
         objects = self.pool.get('statistic.store').browse(
             self.cr, self.uid, active_ids)
         last = ""

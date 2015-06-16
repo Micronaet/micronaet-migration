@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+       <!-- Menu -->
+    <menuitem name="Dashboard" 
+              id="menu_base_mexal" 
+              sequence="5" 
+              
+              /> <!--action="action_board_mexal_form" -->
+              
+       <menuitem name="Analisi" parent="menu_base_mexal" id="menu_base_mexal_analisi" sequence="1" />
+       
+          <!--<menuitem name="Pagamenti scaduti" parent="menu_base_mexal_analisi" id="menu_action_statistic_deadline_passed_dashboard" sequence="1" action="action_statistic_deadline_passed_tree_dashboard" />
+
+          <menuitem name="Ordini (testate)" parent="menu_base_mexal_analisi" id="menu_action_statistic_header_deadline" sequence="2" action="action_statistic_header_deadline" />
+
+          <menuitem name="Ordini (righe dettaglio)" parent="menu_action_statistic_header_deadline" id="menu_statistic_statistic_order_deadline_analysis" sequence="1" action="action_statistic_order_deadline" />
+
+          <menuitem name="Trend fatturato (stagionale)" 
+                    parent="menu_base_mexal_analisi" 
+                    id="menu_statistic_statistic_trend" 
+                    sequence="4" 
+                    action="action_statistic_trend" 
+                    groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero"
+                    />-->
+
+       <menuitem name="Dashboard" parent="menu_base_mexal" id="menu_base_mexal_dashboard" sequence="2" />
+       
+          <!--<menuitem name="Mexal default" 
+                    parent="menu_base_mexal_dashboard" 
+                    id="menu_action_board_mexal_form" 
+                    sequence="10" 
+                    action="action_board_mexal_form" 
+                    groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero"
+                    />
+
+          <menuitem name="Analisi vendite clienti (grafici)" 
+                    parent="menu_base_mexal_dashboard" 
+                    id="menu_action_board_mexal_graph_form" 
+                    sequence="20" 
+                    action="action_board_mexal_graph_form" 
+                    groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero"
+                    />
+
+          <menuitem name="Analisi vendite agenti (grafici)" 
+                    parent="menu_base_mexal_dashboard" 
+                    id="menu_action_board_mexal_agent_graph_form" 
+                    sequence="25" 
+                    action="action_board_mexal_agent_graph_form" 
+                    groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero"
+                    />
+                    
+          <menuitem name="Analisi vendite nazioni (grafici)" 
+                    parent="menu_base_mexal_dashboard" 
+                    id="menu_action_board_mexal_nation_graph_form" 
+                    sequence="25" 
+                    action="action_board_mexal_nation_graph_form" 
+                    groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero"
+                    />
+
+          <menuitem name="FT+BC+OC su fam. prodotto (per mese)" 
+                    parent="menu_base_mexal_dashboard" 
+                    id="menu_action_statistic_invoice_product_dashboard" 
+                    sequence="50" 
+                    action="action_statistic_invoice_product_dashboard" 
+                    groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero"
+                    />
+             <menuitem name="Per stagione (&gt; 0.5)" parent="menu_action_statistic_invoice_product_dashboard" id="menu_action_statistic_invoice_product_stagione_dashboard" sequence="6" action="action_statistic_invoice_product_stagione_dashboard" />
+             <menuitem name="Per stagione (&lt;=0.5 Bl.1)" parent="menu_action_statistic_invoice_product_dashboard" id="menu_action_statistic_invoice_product_stagione_less_dashboard" sequence="10" action="action_statistic_invoice_product_stagione_less_dashboard" />
+             <menuitem name="Per stagione (&lt;=0.5 Bl.2)" parent="menu_action_statistic_invoice_product_dashboard" id="menu_action_statistic_invoice_product_stagione_less1_dashboard" sequence="20" action="action_statistic_invoice_product_stagione_less1_dashboard" />
+             <menuitem name="Per stagione (&lt;=0.5 Bl.3)" parent="menu_action_statistic_invoice_product_dashboard" id="menu_action_statistic_invoice_product_stagione_less2_dashboard" sequence="30" action="action_statistic_invoice_product_stagione_less2_dashboard" />
+             <menuitem name="Per stagione (&lt;=0.5 Bl.4)" parent="menu_action_statistic_invoice_product_dashboard" id="menu_action_statistic_invoice_product_stagione_less3_dashboard" sequence="40" action="action_statistic_invoice_product_stagione_less3_dashboard" />
+             <menuitem name="Per stagione (&lt;=0.5 Bl.5)" parent="menu_action_statistic_invoice_product_dashboard" id="menu_action_statistic_invoice_product_stagione_less4_dashboard" sequence="50" action="action_statistic_invoice_product_stagione_less4_dashboard" />
+             <menuitem name="Per stagione (&lt;=0.5 Bl.6)" parent="menu_action_statistic_invoice_product_dashboard" id="menu_action_statistic_invoice_product_stagione_less5_dashboard" sequence="60" action="action_statistic_invoice_product_stagione_less5_dashboard" />
+             <menuitem name="Per stagione (&lt;=0.5 Bl.7)" parent="menu_action_statistic_invoice_product_dashboard" id="menu_action_statistic_invoice_product_stagione_less6_dashboard" sequence="70" action="action_statistic_invoice_product_stagione_less6_dashboard" />
+             <menuitem name="Per stagione (&lt;=0.5 Bl.8)" parent="menu_action_statistic_invoice_product_dashboard" id="menu_action_statistic_invoice_product_stagione_less7_dashboard" sequence="80" action="action_statistic_invoice_product_stagione_less7_dashboard" />-->
+
+       <menuitem name="Configurazione" parent="menu_base_mexal" id="menu_base_mexal_configuration" sequence="3" />          
+          <!--<menuitem name="Categorie statistiche" parent="menu_base_mexal_configuration" id="menu_base_mexal_statistic_configuration" sequence="10" action="action_statistic_category" />
+          <menuitem name="Agenti statistiche" parent="menu_base_mexal_configuration" id="menu_base_mexal_statistic_agent_configuration" sequence="20" action="action_statistic_agents_configuration" />
+          <menuitem name="Famiglie escluse" parent="menu_base_mexal_configuration" id="menu_statistic_invoice_product_removed" sequence="30" action="action_statistic_invoice_product_removed" />-->
+  </data>
+</openerp>

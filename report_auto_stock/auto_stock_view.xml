@@ -52,11 +52,11 @@
         <field name="help">List of supplier for elaboration of stock list report</field>
     </record>
     
-    <menuitem
+    <!--<menuitem
         action="auto_stock_supplier_action"
         id="auto_stock_supplier_menu"
         parent="mexal_order_statistic.menu_base_mexal_configuration"
         string="Stock report configuration"
-        sequence="10" />
+        sequence="10" />-->
     </data>
 </openerp>
