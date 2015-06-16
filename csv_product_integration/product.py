@@ -44,6 +44,141 @@ class ProductProduct(orm.Model):
     '''
     _inherit = 'product.product'
 
+    def schedule_csv_group_force(self, cr, uid, context=None):
+        ''' Force group (custom for a particular client)        
+        '''
+        product_group = {
+            'Prodotti': {
+                "Amaca": ("Amaca","Amache",),
+                "Appendiabiti": ("Appendiabito", "Appendiabiti",),
+                "Bauli": ("Baule","Bauli",),
+                "Birrerie": ("Birreri",),
+                "Brandine": ("Brandin",),
+                "Cantinette": ("Cantinett", " Botte", " Botti","Botti ", "Botte "),
+                "Carrelli": ("Carrell",),
+                "Chaise Longue": ("Chaise Longue",),
+                "Cuscini": ("Cuscin", "Poggiatest",),
+                "Copriruota": ("Copriruota",),
+                "Divani": ("Divan",), # C'è dondolina che è una sdraio
+                "Dondoli": (" Dondol", "Dondolo", "Dondoli "), # dondolina=sdraio
+                "Fioriere": ("Fiorier",),
+                "Gazebo": ("Gazebo",),
+                "Lettini": ("Lettin",),
+                "Materassini": ("Materassin",),
+                "Ombrelloni": ("Ombrellon", "Ombr.",),
+                "Ottomane": ("Ottoman",),
+                "Panca": ("Panca","Panche", "Cassapanc",),
+                "Parasole": ("Parasole ", " Parasole"),
+                "Paraventi": ("Paravent", ),
+                "Pergole": ("Pergol",), # Pergole, Pergolina, Pergoline, Pergolato
+                "Porta-Cd": ("Porta-Cd",),
+                "Poltrone": ("Poltron",), # Poltrone, Poltroncina
+                "Prolunghe": ("Prolung",),
+                "Sofa'": ("Sofa'", ),
+                "Schienali": ("Schienal",),
+                "Sedie": ("Sedia", "Sedie", ),
+                "Sdraio": ("Sdraio", "Sedia Sdraio"),
+                "Sedili": ("Sedile", "Sedili", ),
+                "Separe'": ("Separe'", ),
+                "Sgabelli": ("Sgabell", "Poggiapied"),
+                "Spiaggine": ("Spiaggin", ),
+                "Strutture": ("Struttur", ),
+                "Tavoli": ("Tavol", ),
+                }, 
+            'Materie prime': {
+                "Accessori": ("Accessori", ),
+                "Aghi": ("Aghi", ),
+                "Angolari": ("Angolar", ),
+                "Aste": ("Aste", "Asta", "Astin", ),
+                "Barre": ("Barra","Barre", ),
+                "Banner": ("Banner", ),
+                "Blocchetti": ("Blocchett", ),
+                "Braccioli": ("Braccioli ", "Bracciolo "), # "Sedia con b."
+                "Bussoline": ("Bussolin",),
+                "Bobine": ("Bobina", "Bobine"),
+                "Bordini": ("Bordin", ),
+                "Bussole": ("Bussol", ),
+                "Cartoni": ("Carton", ),
+                "Cavalletti": ("Cavallett", ),
+                "Cavallotti": ("Cavallott", ),
+                "Cellophane": ("Cellophane", ),
+                "Cinghie": ("Cinghi", ),
+                "Confezioni": ("Confezion", ),
+                "Cremagliere": ("Cremaglier", ),
+                "Dadi": ("Dadi ","Dado "),
+                "Distanziali": ("Distanzial", ),
+                "Elastici": (" Elastic", "Elastico ", "Elastici "),
+                "Etichette": ("Etichett", ),
+                "Finta pelle": ("Finta pelle", ), 
+                "Fondelli": ("Fondell", ),
+                "Gambe": ("Gambe", "Gamba", "Gambetta"),
+                "Ganci": ("Ganci", ),
+                "Manopole": ("Manopole", "Manopola",),
+                "Molle": ("Molle","Molla",),
+                "Monoblocchi": ("Monoblocc",),
+                "Morsetti": ("Morsett",),
+                "Nastro": ("Nastro", "Nastri",),
+                "Perni": ("Perni", "Perno", ),
+                "Piastre": ("Piastr", ),
+                "Pinze": ("Pinze","Pinza"),
+                "Picchetti": ("Picchett", ),
+                "Piani": ("Piani ","Piano ", ),
+                "Piatti": ("Piatto ","Piatti ", ),
+                "Piedini": ("Piedin", ),
+                "Polistirolo": ("Polistirol", ),
+                "Polveri": ("Polver", ),
+                "Profili": ("Profil", ),
+                "Puntali": ("Puntali","Puntale",),
+                "Rettangoli": ("Rettangoli", "Rettangolo"),
+                "Ribattini": ("Ribattin", ),
+                "Rivetti": ("Rivett", ), 
+                "Rondelle": ("Rondell", ),
+                "Sacchi": ("Sacchi","Sacco",),
+                "Saldature": ("Saldatur",),
+                "Scatole": ("Scatol",),
+                "Snodi": ("Snodo","Snodi",),
+                "Spugne": ("Spugne", "Spugna",),
+                "Staffe": ("Staffe", "Staffa",),
+                "Supporti": ("Support",),
+                "Tappi": ("Tappi", "Tappo",),
+                "Telai": ("Telai", "Telaio",),
+                "Teli": ("Tela ","Teli ", "Tele ","Telo "),
+                "Tende": ("Tende", "Tendaggi",),
+                "Tessuti": ("Tessuti", "Tessuto", "Texplast", "Texfil", 
+                    "Canapone", "Juta",),
+                "Tondini": ("Tondin", ),
+                "Tovagliette": ("Tovagliett", ),
+                "Triangoli": ("Triangoli","Triangolo"),
+                "Tubi": ("Tubo", "Tubi", "Tubolar", "Tubett"),
+                "Vassoi": ("Vassoi", ),
+                "Velcri": ("Velcr", ),
+                "Verghe": ("Verga", "Verghe", ),
+                "Viti": ("Viti ","Vite "),
+                }, 
+            'Lavorazioni': {
+                "Cromature": ("Cromatur", ),
+                "Zincature": ("Zincatur", ),
+                "Saldature": ("Saldatur", ),
+                },
+            'Non classificati': False
+            }
+
+        group_pool = self.pool.get('product.group')
+        for group in product_group:            
+            for item in product_group[group]:
+                group_ids = group_pool.search(cr, uid, [
+                    ('name', '=', group)], context=context)
+                if not group_ids:
+                   continue # TODO error
+              
+                for kw in product_group[group][item]:
+                    product_ids = self.search(cr, uid, [
+                        ('name', 'ilike', kw)], context=context)
+                    self.write(cr, uid, product_ids, {
+                        'categ_id': group_ids[0],
+                        })  
+        return True
+ 
     def schedule_csv_product_integration(self, cr, uid,
             input_file="~/ETL/artioerp.csv", delimiter=";", header_line=0,
             verbose=100, context=None):

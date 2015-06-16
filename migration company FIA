@@ -153,7 +153,7 @@ NUOVI MODULI PER IMPRORTAZIONI
   decidere se attivare le altre lingue e poi attivare la parte di codice che le importa
 
 *******************************************************************************  
-                         SCRIPT MIGRAZIONE
+                         SCRIPT IMPORTAZIONI ETL
 *******************************************************************************  
 anagrafiche_ETL: Crea le regioni, non lanciato
 
@@ -164,7 +164,16 @@ articoli: *Migrato
     Crea listini standard (primi 10) da anagrafica articoli
     Importa gli articoli (reso nel modulo che aggiorna i dati SQL) >> anche per la parte delle lingue
     
+articoli_unlink:
+    Cancella tutti gli item del pricelist
+    
+batch_group_update.GPB    batch_group_update:
+    Cancella e riassocia tutti i gruppi (differenti per azienda)
 
+product_group: 
+    Funzioni per aggiornare i gruppi prodotti
+        
+    
 *******************************************************************************  
                                   RICORDA
 *******************************************************************************  
