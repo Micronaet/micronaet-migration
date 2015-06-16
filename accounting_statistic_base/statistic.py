@@ -38,11 +38,13 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
     DATETIME_FORMATS_MAP,
     float_compare)
 
-
 _logger = logging.getLogger(__name__)
 
 
 class StatisticCategory(orm.Model):
+    """ Statistic category 
+    """
+    
     _name = 'statistic.category'
     _description = 'Statistic category'
 
@@ -58,26 +60,25 @@ class StatisticCategory(orm.Model):
 class ResPartnerStatistic(orm.Model):
     """ res_partner_extra_fields
     """
-
     _inherit = 'res.partner'
 
     _columns = {
         'statistic_category_id': fields.many2one(
-            'statistic.category', 'Categoria statistica',
+            'statistic.category', 'Statistic category',
             help='Valore di categoria statistica acquisito dal gestionale'),
         'trend_category': fields.related(
             'statistic_category_id', 'trend', type='boolean',
-            string='Categoria trend',
+            string='Trend category',
             help='Indica se la categoria è rappresentata nel grafico trend',
             readonly=True),
 
-        'saldo_c': fields.float('Saldo cliente', digits=(16, 2)),
-        'saldo_s': fields.float('Saldo fornitore', digits=(16, 2)),
+        'saldo_c': fields.float('Customer balance', digits=(16, 2)),
+        'saldo_s': fields.float('Supplier balance', digits=(16, 2)),
 
         'ddt_e_oc_c': fields.float(
-            'Saldo cliente OC+DDT aperti', digits=(16, 2)),
+            'Customer balance OC+DDT opened', digits=(16, 2)),
         'ddt_e_oc_s': fields.float(
-            'Saldo fornitore OC+DDT aperti', digits=(16, 2)),
-    }
+            'Supplier balance OC+DDT opened', digits=(16, 2)),
+        }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
