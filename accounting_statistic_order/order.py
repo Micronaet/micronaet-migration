@@ -99,7 +99,7 @@ class StatisticOrder(orm.Model):
 class StatisticHeader(orm.Model):
     _inherit = 'statistic.header'
 
-    _order='deadline, name'
+    _order = 'deadline, name'
     _description = 'Testate ordini'
 
     def to_print(self, cr, uid, ids, context=None):
