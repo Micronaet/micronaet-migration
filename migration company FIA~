@@ -173,8 +173,9 @@ DASHBOARD MODULE
 
 * accounting_statistic_deadline:
   Piazzare alcune action non visualizzate 
-  Vedere se create una dashboard per fare vedere i pagamenti scaduti a
-  vari livelli
+  Vedere se create una dashboard per fare vedere i pagamenti scaduti a vari livelli
+  Fare una dashboard come prima?
+  Vedere come gestire il segno del pagamento "Addebito"
 
 * accounting_statistic_order:
 
@@ -311,10 +312,11 @@ Installare pricelist supplier per product (Scheda purchase: Gestisce prezzi forn
 Abilita: Configurazione / Contabilità / multi valuta
 Controllo importazione listini e versioni (sia partner che 10 standard)
 
-PRICELIST: 
+ PRICELIST: 
    >> deciso di importarli al posto di migrarli (settano già il link al partner
    vedere come comportarsi per non cancellare il product.pricelist (altrimenti perdo il link nei preventivi
    >> vedere se occorre utilizzare la pulisci tutti o quella che pulisce cercando i partner importati
    importare i listini con particolarita.py
 
-
+ REPORT:
+    Rimuovere i menu nascondendoli da configurazione per le parti non utilizzate (associare altro gruppo)

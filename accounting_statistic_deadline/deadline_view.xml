@@ -14,7 +14,7 @@
                     <filter string="Customer" name="clienti" icon="terp-personal" domain="[('c_o_s','=','c')]" help="Only customer"/>
                     <filter string="Supplier" name="fornitori" icon="terp-personal" domain="[('c_o_s','=','s')]" help="Only supplier"/>
                     <separator />
-                    <filter string="Uncodered" name="scoperti" icon="terp-personal" domain="[('scoperto_c', '&lt;', 0.0)]" help="Only over credit limit"/>
+                    <filter string="Uncovered" name="scoperti" icon="terp-personal" domain="[('scoperto_c', '&lt;', 0.0)]" help="Only over credit limit"/>
                     <field name="partner_id"/>
                     <field name="deadline"/>
                     <field name="type"/>
