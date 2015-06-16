@@ -38,7 +38,6 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
     DATETIME_FORMATS_MAP,
     float_compare)
 
-
 _logger = logging.getLogger(__name__)
 
 
@@ -49,7 +48,7 @@ class StatisticInvoiceAgent(orm.Model):
     _columns = {
         'name': fields.char('Agent', size=64, required=True),
         'ref': fields.char('Code', size=10),
-        'hide_statistic': fields.boolean('Nascondi statistica'),
+        'hide_statistic': fields.boolean('Hide statistic'),
     }
 
 class ResPartnerStatistic(orm.Model):
@@ -69,8 +68,7 @@ class StatisticTrend(orm.Model):
 
     def _function_index_increment(self, cr, uid, ids, field_name=None,
             arg=False, context=None):
-        """ Calcola il migliore e il peggiore incremento rispetto
-            l'anno precedente
+        """ Best increment on previous year
         """
         if context is None:
            context = {}
@@ -128,12 +126,6 @@ class StatisticTrend(orm.Model):
             _function_index_increment, method=True, type='float',
             string='Worst trend', multi='indici', store=True,),
     }
-
-#class StatisticTrendoc(orm.Model):
-#    ''' Creato stesso oggetto che conterrà pero il fatturato e gli ordini in
-#        scadenza per il mese
-#    '''
-#    _inherit = 'statistic.trend'
 
 class StatisticInvoice(orm.Model):
     _name = 'statistic.invoice'
