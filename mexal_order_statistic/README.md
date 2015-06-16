@@ -1,7 +1,6 @@
-Mexal Order Statistic
-======================================
+Accounting statistic: Invoice
+=============================
 
-Get some statistic information in ODOO
+Add view for manage invoice data imported from accounting program
 
-Same name in **OpenERP 6.0**
-
+**Replace the dashboard view in 6.0**

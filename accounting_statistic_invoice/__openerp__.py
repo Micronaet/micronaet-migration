@@ -21,27 +21,19 @@
 ###############################################################################
 
 {
-    'name': 'Mexal order statistic',
+    'name': 'Accounting statistic: invoice',
     'version': '0.1',
     'category': 'Statistic',
     'author': 'Micronaet s.r.l.',
     'website': 'http://www.micronaet.it',
     'license': 'AGPL-3',
     'depends': [
-        'base', 
-        'sale', 
-        'base_accounting_program', 
-        'report_aeroo',
-        #'todo_list',
+        'mexal_order_statistic',
         ],
     'init_xml': [],
     'demo_xml': [],
     'data': [
-        'security/order.xml',
-        'security/ir.model.access.csv',                     
-        #'order.xml', # TODO rewrite statistic
-        'menuitem.xml',
-        'report/report_order.xml',
+        'invoice_view.xml',
         ],
     'active': False,
     'installable': True,
