@@ -42,6 +42,27 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 _logger = logging.getLogger(__name__)
 
 
+class StatisticInvoiceAgent(orm.Model):
+    _name = 'statistic.invoice.agent'
+    _description = 'Invoice Agent'
+
+    _columns = {
+        'name': fields.char('Agent', size=64, required=True),
+        'ref': fields.char('Code', size=10),
+        'hide_statistic': fields.boolean('Nascondi statistica'),
+    }
+
+class ResPartnerStatistic(orm.Model):
+    """ res_partner_extra_fields
+    """
+
+    _inherit = 'res.partner'
+
+    _columns = {
+        'invoice_agent_id': fields.many2one(
+            'statistic.invoice.agent', 'Invoice Agent'),
+        }
+        
 class StatisticTrend(orm.Model):
     _name = 'statistic.trend'
     _description = 'Statistic Trend'
@@ -240,4 +261,17 @@ class StatisticInvoiceProductRemoved(orm.Model):
         'name': fields.char(
             'Famiglia', size = 64, required=True),
     }
+    
+class ResPartnerStatistic(orm.Model):
+    """ res_partner_extra_fields
+    """
+
+    _inherit = 'res.partner'
+
+    _columns = {
+        'trend': fields.boolean(
+            'Trend',
+            help="Insert in trend statistic, used for get only interesting "
+                "partner in statistic graph"),
+        }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

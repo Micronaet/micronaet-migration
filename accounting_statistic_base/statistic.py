@@ -42,19 +42,9 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 _logger = logging.getLogger(__name__)
 
 
-class StatisticInvoiceAgent(orm.Model):
-    _name = 'statistic.invoice.agent'
-    _description = 'Invoice Agent'
-
-    _columns = {
-        'name': fields.char('Agent', size=64, required=True),
-        'ref': fields.char('Code', size=10),
-        'hide_statistic': fields.boolean('Nascondi statistica'),
-    }
-
 class StatisticCategory(orm.Model):
     _name = 'statistic.category'
-    _description = 'Categoria statistica'
+    _description = 'Statistic category'
 
     _columns = {
         'name': fields.char('Description', size=64),
@@ -72,15 +62,6 @@ class ResPartnerStatistic(orm.Model):
     _inherit = 'res.partner'
 
     _columns = {
-        'invoice_agent_id': fields.many2one(
-            'statistic.invoice.agent', 'Invoice Agent'),
-        'trend': fields.boolean(
-            'Trend',
-            help="Insert in trend statistic, used for get only interesting "
-                "partner in statistic graph"),
-
-        'open_payment_ids': fields.one2many(
-            'statistic.deadline', 'partner_id', 'Pagamenti aperti'),
         'statistic_category_id': fields.many2one(
             'statistic.category', 'Categoria statistica',
             help='Valore di categoria statistica acquisito dal gestionale'),

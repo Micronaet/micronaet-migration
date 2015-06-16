@@ -113,4 +113,16 @@ class statistic_deadline(orm.Model):
         'scoperto_c': lambda *a: 0,
         'scoperto_s': lambda *a: 0,
     }
+    
+class ResPartnerStatistic(orm.Model):
+    """ res_partner_extra_fields
+    """
+
+    _inherit = 'res.partner'
+
+    _columns = {
+        'open_payment_ids': fields.one2many(
+            'statistic.deadline', 'partner_id', 'Pagamenti aperti'),
+        }
+    
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
