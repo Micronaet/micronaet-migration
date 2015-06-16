@@ -144,7 +144,13 @@ MIGRATI CON VISTE:
 * report_store_value:
   - Attivare il menù appena installato mexal_order_statistic
 
-NUOVI MODULI PER IMPRORTAZIONI 
+*******************************************************************************  
+                        NUOVI MODULI PER IMPORTAZIONI 
+*******************************************************************************  
+
+*************
+IMPORT MODULE
+*************
 * csv_base
 
 * csv_pricelist_import
@@ -155,6 +161,18 @@ NUOVI MODULI PER IMPRORTAZIONI
 * csv_product_integration  
   attivare la procedura schedulata per associare i gruppi
   attivare la procedure per l'importazione delle note nel partner (da testare)
+
+****************
+DASHBOARD MODULE  
+****************
+* accounting_statistic_invoice:
+
+
+* accounting_statistic_deadline:
+
+* accounting_statistic_order:
+
+  
   
 *******************************************************************************  
                          SCRIPT IMPORTAZIONI ETL
@@ -292,4 +310,5 @@ PRICELIST:
    vedere come comportarsi per non cancellare il product.pricelist (altrimenti perdo il link nei preventivi
    >> vedere se occorre utilizzare la pulisci tutti o quella che pulisce cercando i partner importati
    importare i listini con particolarita.py
+
 
