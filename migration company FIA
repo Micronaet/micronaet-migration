@@ -152,6 +152,9 @@ NUOVI MODULI PER IMPRORTAZIONI
   > qui c'è una creazione rapida del partner (name, sql_customer_code)
   decidere se attivare le altre lingue e poi attivare la parte di codice che le importa
 
+* csv_product_integration  
+  attivare la procedura schedulata per associare i gruppi
+
 *******************************************************************************  
                          SCRIPT IMPORTAZIONI ETL
 *******************************************************************************  

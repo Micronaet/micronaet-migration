@@ -167,8 +167,12 @@ articoli: *Migrato
 articoli_unlink:
     Cancella tutti gli item del pricelist
     
-batch_group_update.GPB batch_group_update:
+batch_group_update.GPB    batch_group_update:
     Cancella e riassocia tutti i gruppi (differenti per azienda)
+
+product_group: 
+    Funzioni per aggiornare i gruppi prodotti
+        
     
 *******************************************************************************  
                                   RICORDA
