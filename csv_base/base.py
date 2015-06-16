@@ -51,6 +51,11 @@ class CsvBase(orm.Model):
         return valore.strip()
 
     def decode_date(self, valore):
+        #valore=valore.strip()
+        #   if len(valore)==8:
+        #      if valore: # TODO test correct date format
+        #         return valore[:4] + "/" + valore[4:6] + "/" + valore[6:8]
+
         # yet correct
         return valore
 

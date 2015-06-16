@@ -50,6 +50,172 @@ class statistic_deadline(orm.Model):
     _description = 'Statistic deadline'
     _order = 'name,deadline' # name is loaded with partner name during import
 
+    def schedule_csv_statistic_deadline_import(self, cr, uid, csv_file, 
+            verbose=100, delimiter=';', header=0, context=None):
+        ''' Scheduled importation for deadline 
+        '''
+        # Functions:
+        def get_partner_id(sock, uid, pwd, mexal_id):
+            ''' Ricavo l'ID del partner dall'id di mexal
+                return: ID partner, Name partner
+            '''
+            if mexal_id[:2] == '06': # cliente
+                item_id = sock.execute(dbname, uid, pwd, 'res.partner', 'search', [('mexal_c', '=', mexal_id)]) # mexal_c
+            elif mexal_id[:2] == '20': # 20 fornitore                      
+                item_id = sock.execute(dbname, uid, pwd, 'res.partner', 'search', ['|', ('ref', '=', mexal_id), ('mexal_s', '=', mexal_id)])
+            else: # ne cliente ne fornitore
+               print "[ERR] Non trovato questo codice:", mexal_id
+               return False, "Non trovato"
+
+            if item_id:
+               item_read = sock.execute(dbname, uid, pwd, 'res.partner', 'read', item_id[0],)
+               return item_id[0], item_read['name']
+            return False, "Non trovato"
+
+        def get_partner_info(sock, uid, pwd, partner_id):
+            # TODO serve??
+            ''' Legge il partner e ritorna i dati relativi a:
+                valore scoperto
+            '''
+            if partner_id:
+               partner_read = sock.execute(dbname, uid, pwd, 'res.partner', 'read', partner_id) 
+               if partner_read['fido_ko']: # Fido non concesso
+                  return -(partner_read['saldo_c'] or 0.0) -(partner_read['ddt_e_oc_c'] or 0.0)    
+               else:
+                  return (partner_read['fido_total'] or 0.0) - (partner_read['saldo_c'] or 0.0) - (partner_read['ddt_e_oc_c'] or 0.0)
+            else:
+               return 0.0
+
+        _logger.info('Start import deadline on file: %s' % csv_file)
+        
+        # Ricavo la data del file per comunicarla
+        create_date = time.ctime(os.path.getctime(csv_file))    
+
+        lines = csv.reader(
+            open(csv_file,'rb'), delimiter=delimiter)
+        counter = -header
+
+        # Elimino tutti gli elementi della tabella prima di procedere all'importazione:
+        deadline_ids = self.search(cr, uid, [], context=context)
+        self.unlink(cr, uid, deadline_ids, context=context)
+        
+        partner_pool = self.pool.get('res.partner')
+        # Carico gli elementi da file CSV:
+        tot_col = 0
+        account_balance = {}
+        for line in lines:
+            try:
+                if tot_col == 0: # the first time (for tot col)
+                   tot_col = len(line)
+                   _logger.info('Total column %s' % tot_col)
+                   
+                if counter < 0:  # jump header line
+                    counter += 1
+                else:   
+                    counter += 1 
+                    if not(len(line) and (tot_col == len(line))):
+                        _logger.warning(
+                            'Riga: %s Empty line of col different [%s!=%s]' % (
+                                counter, 
+                                tot_col, 
+                                len(line),
+                                )
+                        continue                        
+                    try:
+                        mexal_id = prepare(line[0])
+                        deadline = prepare_date(line[1]) # Data: YYYYMMDD
+                        total = prepare_float(line[2]) # Amount
+                        type_id = prepare(line[3]).lower() # Type
+                        
+                        if mexal_id[:2] == "20": # Supplier TODO parametrize
+                           c_o_s = "s"
+                           commento = "Supplier"
+                           total = -total
+                        else:   
+                           c_o_s = "c"
+                           commento = "Customer"
+                           
+                        # Calculated field:               
+                        if total > 0:
+                           total_in = total
+                           total_out = 0.0
+                        else:
+                           total_in = 0.0
+                           total_out = -total
+ 
+                        if mexal_id in account_balance:
+                           account_balance[mexal_id] += total
+                        else:
+                           account_balance[mexal_id] = total
+                        
+                        # Get partner information:  
+                        partner_ids = partner_pool.search(cr, uid, [
+                            '|', ('mexal_c', '=', mexal_id),
+                            ('mexal_s', '=', mexal_id),
+                            ], context=context)
+                        if not partner_ids:    
+                            _logger.error(
+                                'Partner not found: %s' % mexal_id)
+                        partner_proxy = partner_pool.browse(
+                            cr, uid, partner_ids, context=context)[0]
+                        
+                        # only customer (TODO supplier)
+                        scoperto_c = get_partner_info(
+                            self, cr, uid, partner_id, context=context) 
+                        
+                        # Import: statistic.order
+                        name = "%s [%s]: %s (%s EUR)" % (
+                            partner_proxy.name, mexal_id, deadline, total)
+                        data = {
+                            'name': name,
+                            'partner_id': partner_proxy.id,
+                            'deadline': deadline,
+                            'total': total,
+                            'in': total_in,
+                            'out': total_out,
+                            'type': type_id,
+                            'c_o_s': c_o_s, 
+                            #'deadline_real': deadline_real,
+                            #'actualized': actualized,
+                            }
+                        if c_o_s == "c":
+                            data['scoperto_c'] = scoperto_c
+                           
+                        try:
+                            deadline_id = self.create(
+                                cr, uid, data, context=context)
+                        except:
+                            _logger.error('Row: %s - Deadline %s (%s)' % (
+                                counter, deadline, name))
+                    except:
+                        _logger.error('Row: %s - Import error [%s]' % (
+                            counter, sys.exc_file))
+            except:
+                _logger.error('Error import deadline')
+                continue
+                
+        _logger.info('Update partner information')
+        for mexal_id in account_balance.keys():
+            if mexal_id[:2] in ('06', '20'): # customer or supplier
+               if mexal_id[:2] == '06':
+                  cof = 'c'
+               else:
+                  cof = 's'   
+               item_ids = partner_pool.search(cr, uid, [
+                   ('mexal_' + cof, '=', mexal_id)], context=context) 
+                   
+               if item_ids:
+                   partner_pool.write(cr, uid,item_ids, {
+                       'saldo_' + cof: account_balance[mexal_id]
+                       })
+               else:
+                  _logger.error('Not found: %s' % mexal_id)
+            else:
+                _logger.error('Not customer or supplier: %s' % mexal_id)
+
+        _logger.info('Tot. deadline: %s' % counter)
+        return True
+         
     _columns = {
         'name': fields.char('Deadline', size=64),
         'visible': fields.boolean('Visible'),
@@ -77,8 +243,8 @@ class statistic_deadline(orm.Model):
         'out': fields.float('Expense', digits=(16, 2)),
 
         # Non fatto related ma calcolato al volo
-        'scoperto_c':  fields.float('Found out customer', digits=(16, 2)),
-        'scoperto_s':  fields.float('Found out supplier', digits=(16, 2)),
+        'scoperto_c': fields.float('Found out customer', digits=(16, 2)),
+        'scoperto_s': fields.float('Found out supplier', digits=(16, 2)),
 
         'saldo_c': fields.related(
             'partner_id', 'saldo_c', type='float', digits=(16, 2),
@@ -112,7 +278,7 @@ class statistic_deadline(orm.Model):
         'out': lambda *a: 0,
         'scoperto_c': lambda *a: 0,
         'scoperto_s': lambda *a: 0,
-    }
+        }
     
 class ResPartnerStatistic(orm.Model):
     """ res_partner_extra_fields
