@@ -164,8 +164,6 @@ articoli: *Migrato
     Crea listini standard (primi 10) da anagrafica articoli
     Importa gli articoli (reso nel modulo che aggiorna i dati SQL) >> anche per la parte delle lingue
     
-    
-    
 
 *******************************************************************************  
                                   RICORDA
@@ -175,6 +173,7 @@ Migrazione completa dei dati:
      migrare prima uom
      migrare dopo i listini supplier
      controllare la struttura della categorie (importazione corretta?)
+     attivare unità di misure extra in configurazione / magazzino
      
      >> fare prima la importazione sql poi quella supplementare per i campi 
         passati con i csv che si fa fatica a leggere dal database
