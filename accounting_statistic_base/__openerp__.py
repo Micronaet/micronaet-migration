@@ -38,6 +38,7 @@
         'security/ir.model.access.csv',
         'base_view.xml', # TODO rewrite statistic
         'menuitem.xml',
+        #'scheduler.xml',
         ],
     'active': False,
     'installable': True,

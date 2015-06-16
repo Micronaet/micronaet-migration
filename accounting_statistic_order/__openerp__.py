@@ -37,6 +37,7 @@
         'security/ir.model.access.csv',
         'invoice_view.xml',
         'report/report_order.xml',
+        #'scheduler.xml',
         ],
     'active': False,
     'installable': True,

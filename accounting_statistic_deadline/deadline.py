@@ -43,55 +43,60 @@ _logger = logging.getLogger(__name__)
 
 
 class statistic_deadline(orm.Model):
+    ''' Statistic tabled loaded only for manage deadline elements imported from
+        accounting program
+    '''
     _name = 'statistic.deadline'
     _description = 'Statistic deadline'
     _order = 'name,deadline' # name is loaded with partner name during import
 
     _columns = {
         'name': fields.char('Deadline', size=64),
-        'visible': fields.boolean('Visible',),
+        'visible': fields.boolean('Visible'),
 
         'partner_id': fields.many2one('res.partner', 'Partner'),
         'property_account_position': fields.related(
             'partner_id', 'property_account_position', type='many2one',
             relation='account.fiscal.position', store=True,
             string='Fiscal position'),
-        'c_o_s': fields.char('Cl. o For.', size=1),
+        'c_o_s': fields.char('Cust. or Supp.', size=1),
         'deadline': fields.date('Dead line'),
 
         'fido_date': fields.related(
-            'partner_id', 'fido_date', type="date", string="Data fido"),
+            'partner_id', 'fido_date', type="date", 
+            string="Credit limit date"),
         'fido_ko': fields.related(
-            'partner_id', 'fido_ko', type="boolean", string="Fido concesso"),
+            'partner_id', 'fido_ko', type="boolean", 
+            string="Credit limit granted"),
         'fido_total': fields.related(
             'partner_id', 'fido_total',  type="float", digits=(16, 2),
-            string="Importo fido"),
+            string="Credit limit amount"),
 
         'total': fields.float('Total', digits=(16, 2)),
-        'in': fields.float('Entrate', digits=(16, 2)),
-        'out': fields.float('Uscite', digits=(16, 2)),
+        'in': fields.float('Income', digits=(16, 2)),
+        'out': fields.float('Expense', digits=(16, 2)),
 
         # Non fatto related ma calcolato al volo
-        'scoperto_c':  fields.float('Scoperto cliente', digits=(16, 2)),
-        'scoperto_s':  fields.float('Scoperto fornitore', digits=(16, 2)),
+        'scoperto_c':  fields.float('Found out customer', digits=(16, 2)),
+        'scoperto_s':  fields.float('Found out supplier', digits=(16, 2)),
 
         'saldo_c': fields.related(
             'partner_id', 'saldo_c', type='float', digits=(16, 2),
-            string='Saldo (cliente)'),
+            string='Balance (customer)'),
         'saldo_s': fields.related(
             'partner_id', 'saldo_s', type='float', digits=(16, 2),
-            string='Saldo (fornitore)'),
+            string='Balance (customer)'),
 
         'ddt_e_oc_c': fields.related(
             'partner_id', 'ddt_e_oc_c', type='float', digits=(16, 2),
-            string='DDT + OC aperti (cliente)'),
+            string='DDT + OC opened (customer)'),
         'ddt_e_oc_s': fields.related(
             'partner_id', 'ddt_e_oc_s', type='float', digits=(16, 2),
-            string='DDT + OC aperti (fornitore)'),
+            string='DDT + OC opened (supplier)'),
 
         'type': fields.selection([
-            ('b','Bonifico'),
-            ('c','Contanti'),
+            ('b','Bank transfer'),
+            ('c','Cach'),
             ('r','RIBA'),
             ('t','Tratta'),
             ('m','Rimessa diretta'),
