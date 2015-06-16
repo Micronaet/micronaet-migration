@@ -55,52 +55,40 @@ class statistic_deadline(orm.Model):
         ''' Scheduled importation for deadline 
         '''
         # Functions:
-        def get_partner_id(sock, uid, pwd, mexal_id):
-            ''' Ricavo l'ID del partner dall'id di mexal
-                return: ID partner, Name partner
-            '''
-            if mexal_id[:2] == '06': # cliente
-                item_id = sock.execute(dbname, uid, pwd, 'res.partner', 'search', [('mexal_c', '=', mexal_id)]) # mexal_c
-            elif mexal_id[:2] == '20': # 20 fornitore                      
-                item_id = sock.execute(dbname, uid, pwd, 'res.partner', 'search', ['|', ('ref', '=', mexal_id), ('mexal_s', '=', mexal_id)])
-            else: # ne cliente ne fornitore
-               print "[ERR] Non trovato questo codice:", mexal_id
-               return False, "Non trovato"
-
-            if item_id:
-               item_read = sock.execute(dbname, uid, pwd, 'res.partner', 'read', item_id[0],)
-               return item_id[0], item_read['name']
-            return False, "Non trovato"
-
-        def get_partner_info(sock, uid, pwd, partner_id):
-            # TODO serve??
-            ''' Legge il partner e ritorna i dati relativi a:
-                valore scoperto
+        def get_partner_info(self, cr, uid, partner_id, context=None):
+            ''' Read partner and return credit limit
             '''
             if partner_id:
-               partner_read = sock.execute(dbname, uid, pwd, 'res.partner', 'read', partner_id) 
-               if partner_read['fido_ko']: # Fido non concesso
-                  return -(partner_read['saldo_c'] or 0.0) -(partner_read['ddt_e_oc_c'] or 0.0)    
+               partner_proxy = self.browse(cr, uid, partner_id, context=context)
+               if partner_proxy.fido_ko: # No credit limit
+                  return -(
+                      partner_proxy.saldo_c or 0.0) -(
+                      partner_proxy.ddt_e_oc_c or 0.0)
                else:
-                  return (partner_read['fido_total'] or 0.0) - (partner_read['saldo_c'] or 0.0) - (partner_read['ddt_e_oc_c'] or 0.0)
+                  return (
+                      partner_proxy.fido_total or 0.0) - (
+                      partner_proxy.saldo_c or 0.0) - (
+                      partner_proxy.ddt_e_oc_c or 0.0)
             else:
                return 0.0
 
         _logger.info('Start import deadline on file: %s' % csv_file)
         
-        # Ricavo la data del file per comunicarla
-        create_date = time.ctime(os.path.getctime(csv_file))    
+        # TODO Date file for log:
+        #create_date = time.ctime(os.path.getctime(csv_file))    
 
         lines = csv.reader(
             open(csv_file,'rb'), delimiter=delimiter)
         counter = -header
 
-        # Elimino tutti gli elementi della tabella prima di procedere all'importazione:
+        # Delete all:
         deadline_ids = self.search(cr, uid, [], context=context)
         self.unlink(cr, uid, deadline_ids, context=context)
         
         partner_pool = self.pool.get('res.partner')
-        # Carico gli elementi da file CSV:
+        csv_pool = self.pool.get('csv.base')
+        
+        # Load from CSV file:
         tot_col = 0
         account_balance = {}
         for line in lines:
@@ -122,10 +110,10 @@ class statistic_deadline(orm.Model):
                                 )
                         continue                        
                     try:
-                        mexal_id = prepare(line[0])
-                        deadline = prepare_date(line[1]) # Data: YYYYMMDD
-                        total = prepare_float(line[2]) # Amount
-                        type_id = prepare(line[3]).lower() # Type
+                        mexal_id = csv_pool.decode_string(line[0])
+                        deadline = csv_pool.decode_date(line[1]) # YYYYMMDD
+                        total = csv_pool.decode_float(line[2]) # Amount
+                        type_id = csv_pool.decode_string(line[3]).lower() #Type
                         
                         if mexal_id[:2] == "20": # Supplier TODO parametrize
                            c_o_s = "s"
