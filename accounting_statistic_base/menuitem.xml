@@ -3,11 +3,11 @@
     <data>
        <!-- Menu -->       
     <menuitem name="Analysis" 
-        id="menu_base_mexal"
+        id="menu_base_accounting"
         parent="base.menu_reporting"
         sequence="1" /> <!--action="action_board_mexal_form" -->
               
-       <menuitem name="Analisi" parent="menu_base_mexal" id="menu_base_mexal_analisi" sequence="1" />
+       <menuitem name="Analisi" parent="menu_base_accounting" id="menu_base_mexal_analisi" sequence="1" />
        
           <!--<menuitem name="Pagamenti scaduti" parent="menu_base_mexal_analisi" id="menu_action_statistic_deadline_passed_dashboard" sequence="1" action="action_statistic_deadline_passed_tree_dashboard" />
 
@@ -23,7 +23,7 @@
                     groups="mexal_order_statistic.group_sale_OC_Italia,mexal_order_statistic.group_sale_OC_Estero"
                     />-->
 
-       <menuitem name="Dashboard" parent="menu_base_mexal" id="menu_base_mexal_dashboard" sequence="2" />
+       <menuitem name="Dashboard" parent="menu_base_accounting" id="menu_base_mexal_dashboard" sequence="2" />
        
           <!--<menuitem name="Mexal default" 
                     parent="menu_base_mexal_dashboard" 
@@ -74,7 +74,7 @@
              <menuitem name="Per stagione (&lt;=0.5 Bl.7)" parent="menu_action_statistic_invoice_product_dashboard" id="menu_action_statistic_invoice_product_stagione_less6_dashboard" sequence="70" action="action_statistic_invoice_product_stagione_less6_dashboard" />
              <menuitem name="Per stagione (&lt;=0.5 Bl.8)" parent="menu_action_statistic_invoice_product_dashboard" id="menu_action_statistic_invoice_product_stagione_less7_dashboard" sequence="80" action="action_statistic_invoice_product_stagione_less7_dashboard" />-->
 
-       <menuitem name="Configurazione" parent="menu_base_mexal" id="menu_base_mexal_configuration" sequence="3" />          
+       <menuitem name="Configurazione" parent="menu_base_accounting" id="menu_base_mexal_configuration" sequence="3" />          
           <!--<menuitem name="Categorie statistiche" parent="menu_base_mexal_configuration" id="menu_base_mexal_statistic_configuration" sequence="10" action="action_statistic_category" />
           <menuitem name="Agenti statistiche" parent="menu_base_mexal_configuration" id="menu_base_mexal_statistic_agent_configuration" sequence="20" action="action_statistic_agents_configuration" />
           <menuitem name="Famiglie escluse" parent="menu_base_mexal_configuration" id="menu_statistic_invoice_product_removed" sequence="30" action="action_statistic_invoice_product_removed" />-->

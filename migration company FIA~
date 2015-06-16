@@ -172,6 +172,9 @@ DASHBOARD MODULE
 * accounting_statistic_invoice:
 
 * accounting_statistic_deadline:
+  Piazzare alcune action non visualizzate 
+  Vedere se create una dashboard per fare vedere i pagamenti scaduti a
+  vari livelli
 
 * accounting_statistic_order:
 
