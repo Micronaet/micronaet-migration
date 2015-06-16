@@ -152,27 +152,55 @@ NUOVI MODULI PER IMPRORTAZIONI
   > qui c'è una creazione rapida del partner (name, sql_customer_code)
   decidere se attivare le altre lingue e poi attivare la parte di codice che le importa
 
+* csv_product_integration  
+  attivare la procedura schedulata per associare i gruppi
+
 *******************************************************************************  
                          SCRIPT IMPORTAZIONI ETL
 *******************************************************************************  
-anagrafiche_ETL: Crea le regioni, non lanciato
+anagrafiche_ETL: 
+    Crea le regioni, non lanciato
 
-analisi: analisi totali clienti fornitori destinazioni
+analisi: * NON USARE
+    analisi totali clienti fornitori destinazioni
 
-articoli: *Migrato
+articoli: * MIGRATO
     Crea UM e gruppi di UM
     Crea listini standard (primi 10) da anagrafica articoli
     Importa gli articoli (reso nel modulo che aggiorna i dati SQL) >> anche per la parte delle lingue
     
-articoli_unlink:
+articoli_unlink: * NON USATA
     Cancella tutti gli item del pricelist
     
-batch_group_update.GPB    batch_group_update:
+batch_group_update.GPB    batch_group_update: * MIGRATA DA TESTARE
     Cancella e riassocia tutti i gruppi (differenti per azienda)
 
-product_group: 
-    Funzioni per aggiornare i gruppi prodotti
+product_group: * PORTATA NEL MODULO QUI SOPRA
+    Funzioni per aggiornare i gruppi prodotti * migrata sull modulo per aggiornare i prodotti (non attivata)
         
+crea_utenti: * NON USATA
+    Non usata        
+    
+ETL.micronaet.sh: * CONTROLLARE COMPLETEZZA
+    >> TODO controllare alla fine la lista
+    
+ETL_contact: * RECUPERARE LE FUNZIONI CHE SERVONO 
+    Utility per importazione contatti
+            
+fiam: * RECUPERARE LE FUNZIONI CHE SERVONO
+    Utiliy per operationi su database Fiam
+    
+field.gpb  e   field   field_prodotti    fields_get: * NON SERVONO 
+    Per leggere l'elenco dei campi di una tabella
+    
+forza_ultimo_prezzo:  >>> migrare
+    forza l'ultimo prezzo nel costo prodotto prendendolo da fornitore
+
+listini * FATTO
+    Crea listini partner da particolarità (integrato nel modulo)
+    
+    
+    
     
 *******************************************************************************  
                                   RICORDA

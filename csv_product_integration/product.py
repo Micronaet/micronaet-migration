@@ -44,23 +44,110 @@ class ProductProduct(orm.Model):
     '''
     _inherit = 'product.product'
 
+    def schedule_csv_import_note(self, cr, uid, input_file, context=None):
+        ''' Import note from mexal file:
+            format: NN.NNNNN lNNN
+        '''
+        def prepare(valore):  
+            
+            #valore = unicode(valore, 'ISO-8859-1')
+            # Windows-cp1252 ISO-8859-1
+            valore=valore.decode('cp1252')
+            valore=valore.encode('utf-8')
+            valore=valore.replace("   ","")
+            valore=valore.replace("\x00","")  
+            valore=valore.replace("-------","-")  
+            valore=valore.replace("*******","*")  
+            return valore.strip()
+
+        def is_correct_code(MexalCode, LenCode):
+            ''' Check format for code (TODO use re)
+            '''
+            try: 
+               numeri="0123456789"
+               lettere="abcdefghijklmnopqrstuvwxyz"  
+               if len(MexalCode)<>LenCode: 
+                  return False
+               else:
+                  #print "Testing: ", MexalCode  
+                  if (MexalCode[0] in numeri) and \
+                     (MexalCode[1] in numeri) and \
+                     (MexalCode[2] == ".") and \
+                     (MexalCode[3] in numeri) and \
+                     (MexalCode[4] in numeri) and \
+                     (MexalCode[5] in numeri) and \
+                     (MexalCode[6] in numeri) and \
+                     (MexalCode[7] in numeri) and \
+                     (MexalCode[8] == " ") and \
+                     (MexalCode[9].lower() in lettere) and \
+                     (MexalCode[10] in numeri) and \
+                     (MexalCode[11] in numeri) and \
+                     (MexalCode[12] in numeri):
+                     return True
+                  else:
+                     return False 
+            except: 
+               return False # in case of error test failed
+
+        f = open(input_file, 'r')
+        total = prepare(f.read())
+        note = {}
+        code_len = 13
+
+        old_code = ""
+        old_i = 0
+        for i in range(0, len(total) - cod_len):
+            if is_correct_code(total[i : (i + cod_len)], cod_len):
+                if old_code: # else is the first record, nothing to write
+                    if old_code[:8] in note.keys(): # TODO is present?
+                       note[old_code[:8]] = "%s\n%s) %s" % (
+                           note[old_code[:8]],
+                           old_code[8:],
+                           total[old_i:i].strip()
+                           )
+                    else:
+                       note[old_code[:8]] = "%s) %s" % (
+                           old_code[8:],
+                           total[old_i:i].strip()
+                           )
+                    old_code = total[i: (i + old_code)] # Actual begin old          
+                else:
+                    old_code = total[i: (i + old_code)]
+                    old_i = i
+                old_i = i + old_code # save actual i + len of code for value 
+                i += old_code # jump len code char
+
+        partner_pool = self.pool.get('res.partner')
+        for key in note.keys():            
+            partner_ids = partner_pool.search(cr, uid, [
+                ('sql_customer_code', '=', key[:8])])
+            if partner_ids:
+                partner_pool.write(cr, uid, partner_ids, {
+                    'mexal_note': '[Agg.: %s] %s' % (
+                        datetime.today().strftime('%Y-%m-%d'),
+                        note[key], )
+                    })
+            else:
+                _logger.error("Partner not found: %s" % key[8:])
+
     def schedule_csv_group_force(self, cr, uid, context=None):
         ''' Force group (custom for a particular client)        
         '''
         product_group = {
             'Prodotti': {
                 'Amaca': ('Amaca','Amache',),
-                'Appendiabiti': ('Appendiabito', 'Appendiabiti',),
+                'Appendiabiti': ('Appendiabito', 'Appendiabiti'),
                 'Bauli': ('Baule','Bauli',),
                 'Birrerie': ('Birreri',),
                 'Brandine': ('Brandin',),
-                'Cantinette': ('Cantinett', ' Botte', ' Botti','Botti ', 'Botte '),
+                'Cantinette': ('Cantinett', ' Botte', ' Botti', 'Botti ', 
+                    'Botte '),
                 'Carrelli': ('Carrell',),
                 'Chaise Longue': ('Chaise Longue',),
                 'Cuscini': ('Cuscin', 'Poggiatest',),
                 'Copriruota': ('Copriruota',),
                 'Divani': ('Divan',), # C'è dondolina che è una sdraio
-                'Dondoli': (' Dondol', 'Dondolo', 'Dondoli '), # dondolina=sdraio
+                'Dondoli': (' Dondol', 'Dondolo', 'Dondoli '),#dondolina=sdraio
                 'Fioriere': ('Fiorier',),
                 'Gazebo': ('Gazebo',),
                 'Lettini': ('Lettin',),
@@ -70,16 +157,16 @@ class ProductProduct(orm.Model):
                 'Panca': ('Panca','Panche', 'Cassapanc',),
                 'Parasole': ('Parasole ', ' Parasole'),
                 'Paraventi': ('Paravent', ),
-                'Pergole': ('Pergol',), # Pergole, Pergolina, Pergoline, Pergolato
+                'Pergole': ('Pergol',), # Pergole Pergolina Pergoline Pergolato
                 'Porta-Cd': ('Porta-Cd',),
                 'Poltrone': ('Poltron',), # Poltrone, Poltroncina
                 'Prolunghe': ('Prolung',),
-                'Sofa'': ("Sofa''", ),
+                'Sofa': ("Sofa'", ),
                 'Schienali': ('Schienal',),
                 'Sedie': ('Sedia', 'Sedie', ),
                 'Sdraio': ('Sdraio', 'Sedia Sdraio'),
                 'Sedili': ('Sedile', 'Sedili', ),
-                'Separe'': ("Separe'", ),
+                'Separe': ("Separe'", ),
                 'Sgabelli': ('Sgabell', 'Poggiapied'),
                 'Spiaggine': ('Spiaggin', ),
                 'Strutture': ('Struttur', ),
