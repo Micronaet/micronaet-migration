@@ -20,7 +20,7 @@
 #
 ###############################################################################
 {
-    'name': 'Mexal order statistic',
+    'name': 'Accounting statistic: Base',
     'version': '0.1',
     'category': 'Statistic',
     'author': 'Micronaet s.r.l.',

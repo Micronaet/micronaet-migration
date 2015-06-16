@@ -129,7 +129,7 @@
     
        <!-- Action -->
     <record model="ir.actions.act_window" id="action_statistic_deadline">
-        <field name="name">Deadlined payment</field>
+        <field name="name">Deadlined payment (green=customer balance + supplier balance &gt; 0 )</field>
         <field name="res_model">statistic.deadline</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,calendar,graph,form</field>
@@ -185,7 +185,7 @@
     <!--TODO action to put in menuitem or dashboard ^^^^^^^^^^^^^^^^^^^^^^^^-->
 
    <menuitem name="Payment statistic" 
-       parent="accounting_statistic_deadline.menu_base_accounting" 
+       parent="accounting_statistic_base.menu_base_accounting" 
        id="menu_accounting_deadline_root" 
        sequence="10" />
 
