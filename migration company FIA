@@ -154,7 +154,8 @@ NUOVI MODULI PER IMPRORTAZIONI
 
 * csv_product_integration  
   attivare la procedura schedulata per associare i gruppi
-
+  attivare la procedure per l'importazione delle note nel partner (da testare)
+  
 *******************************************************************************  
                          SCRIPT IMPORTAZIONI ETL
 *******************************************************************************  
@@ -196,13 +197,70 @@ field.gpb  e   field   field_prodotti    fields_get: * NON SERVONO
 forza_ultimo_prezzo:  >>> migrare
     forza l'ultimo prezzo nel costo prodotto prendendolo da fornitore
 
-listini * FATTO
+listini * FATTO ?? 
     Crea listini partner da particolarità (integrato nel modulo)
     
 note_ETL: * MIGRARE
     Importa il file di testo di Mexal nelle note del cliente     
     
+particolarita: * MIGRATO NEL MODULO
+    Importazione particolartià listino (partner)
     
+partner_delete_ETL: * NON SERVE
+    Cancellazione partner
+
+partner_ETL: * TODO (vedere se è il caso di fare un modulo come per prodotti che aggiorni le SQL)
+    Import partner     
+
+partner_label   e   partner_set_label: * NON MIGRATO VEDERE SE SERVE
+    Setta le etichette corrette nei partner 
+
+pickle_custom_pl * NON SERVE?
+    Setta solo i listini nei partner creati (o qulacosa del genere)        
+
+posta * NON SERVE (INTEGRARE NEL MODULO DI LOG)
+    Invio mail importazione
+    
+product_group: * FATTO NEL MODULO AGGIORNA PRODOTTI
+    Import product group
+
+pulisci_listini    e     pulisci_tutti_listini: * NON SERVE ?!?
+    Cancella listini
+
+README: * CONTROLLARE
+    batch procedure che di solito si fanno 
+    
+test    e    view_get: * NON SERVE
+     test fiels  
+
+*********
+CARTELLE:
+*********
+
+articoli  >> vedere importazioni gpb
+
+cerca * NIENTE
+
+componenti ?
+
+disponibilit ?
+
+etichette ?
+
+gpb ?
+
+maillist * NON USATO
+
+photo ? 
+
+statistiche * MIGRARE (se utilizza ancora le info extra cliente)
+
+tools 
+
+variazioni_batch (vedere per posizione fiscale)
+
+TODO cercare il modulo statische che caricata da solo (forse però non serve)
+
 *******************************************************************************  
                                   RICORDA
 *******************************************************************************  
