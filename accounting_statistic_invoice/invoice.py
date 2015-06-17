@@ -24,6 +24,7 @@ import os
 import sys
 import logging
 import openerp
+import csv
 import openerp.netsvc as netsvc
 import openerp.addons.decimal_precision as dp
 from openerp.osv import fields, osv, expression, orm
@@ -174,13 +175,13 @@ class StatisticInvoice(orm.Model):
         # ---------------------------------------------------------------------
         #                          COMMON PART
         # ---------------------------------------------------------------------
+        import pdb; pdb.set_trace()        
         _logger.info('Start invoice statistic importation (trend and trendoc)')
         
         # File CSV date for future log
-        create_date=time.ctime(os.path.getctime(FileInput))
+        #create_date=time.ctime(os.path.getctime(FileInput))
 
         header = 0
-                
         # Delete all record:
         trend_pool = self.pool.get('statistic.trend')
         trend_ids = trend_pool.search(cr, uid, [], context=context)
@@ -203,19 +204,23 @@ class StatisticInvoice(orm.Model):
                 '06.02209',
                 get_partner_id(self, cr, uid, '06.02209'),
                 get_partner_name(
-                    sock, uid, pwd, 
+                    self, cr, uid, 
                     get_partner_id(self, cr, uid, '06.02209')),
                 ), (
                 '06.01537',
                 get_partner_id(self, cr, uid, '06.01537'),
                 get_partner_name(
-                    sock, uid, pwd, 
+                    self, cr, uid, 
                     get_partner_id(self, cr, uid, '06.01537')),
                 ))}
 
         loop_steps = {
-            1: csv.reader(open(file_input1, 'rb'), delimiter=delimiter),
-            2: csv.reader(open(file_input2, 'rb'), delimiter=delimiter),
+            1: csv.reader(
+                open(os.path.expanduser(file_input1), 'rb'), 
+                delimiter=delimiter),
+            2: csv.reader(
+                open(os.path.expanduser(file_input2), 'rb'), 
+                delimiter=delimiter),
             }
 
         try:
@@ -292,7 +297,7 @@ class StatisticInvoice(orm.Model):
                                     
                                     _logger.warning(
                                         "%s: replace code: %s>06.03044" % (
-                                            counter, mexal_id)
+                                            counter, mexal_id))
                                     mexal_id = '06.03044'
 
                                 # Calculated field:
@@ -301,7 +306,7 @@ class StatisticInvoice(orm.Model):
                                 if not partner_id:
                                     _logger.error(
                                         "%s) Partner not found: %s" % (
-                                        counter, mexal_id)
+                                        counter, mexal_id))
                                     partner_name = "#ERR Partner code %s" % (
                                         mexal_id or "")
                                 else:
@@ -310,26 +315,26 @@ class StatisticInvoice(orm.Model):
 
                             if not total_invoice:
                                 _logger.warning("%s Amount not found [%s]" % (
-                                    counter, line)
-                                 continue # Could happen
+                                    counter, line))
+                                continue # Could happen
 
                             # Not classified (but imported)
                             if not (month or year): 
                                 _logger.error("%s Month/Year not found! %s" % (
-                                    counter, line)
+                                    counter, line))
 
                             # OC old = today
-                            if (type_document == 'oc') and (
-                                    "%s%02d" % (year, month) < \
-                                    datetime.datetime.now().strftime("%Y%m")):
+                            if (type_document == 'oc') and ("%s%02d" % (
+                                    year, month) < datetime.now().strftime(
+                                        "%Y%m")):
                                 _logger.warning(
                                     "%s) Old OC > today: %s%02d, cliente: %s, "
                                     "totale %s" % (
                                         counter, year, month, mexal_id, 
-                                        total_invoice)
-                                year = datetime.datetime.now().strftime("%Y")
+                                        total_invoice))
+                                year = datetime.now().strftime("%Y")
                                 month = int(
-                                    datetime.datetime.now().strftime("%m"))
+                                    datetime.now().strftime("%m"))
 
                             data = {
                                 "name": "%s [%s]" % (partner_name, mexal_id),
@@ -353,7 +358,7 @@ class StatisticInvoice(orm.Model):
                                 anno_riferimento = anno_attuale
                             else:
                                 _logger.error("%s) Month error not [1:12]" % (
-                                    counter
+                                    counter))
 
                             # september - current year >> agoust - next year
                             if anno_mese >= "%s09" % anno_riferimento and \
@@ -408,10 +413,10 @@ class StatisticInvoice(orm.Model):
                                         cr, uid, data, context=context)
                             except:
                                 _logger.error("%s Error create invoice: %s" % (
-                                    counter, mexal_id)
+                                    counter, mexal_id))
                         except:
                             _logger.error("%s Error import invoice: [%s]" % (
-                                counter, sys.exc_info())
+                                counter, sys.exc_info()))
                     
                 _logger.info("Statistic invoice import terminated")
 
@@ -421,7 +426,7 @@ class StatisticInvoice(orm.Model):
             # Common part:
             for documento in ('oc', 'ft', 'bc'):
                 # Invoice and OC + Invoice
-                _logger.info("Compute statistic.trend data" + documento 
+                _logger.info("Compute statistic.trend data" + documento)
                 if documento == "ft": # Solo fatture
                     invoice_ids = self.search(cr, uid, [
                         ('type_document','=','ft')], context=context)
@@ -500,7 +505,7 @@ class StatisticInvoice(orm.Model):
                               cr, uid, data, context=context)
                     except:
                         _logger.error("Error create order for partner: %s" % (
-                           elemento_id)
+                           elemento_id))
         except:
             _logger.error("Error import order")
 
@@ -608,7 +613,7 @@ class StatisticInvoiceProduct(orm.Model):
             (11, 'Mese 03: Novembre'),
             (12, 'Mese 04: Dicembre'),
         ],'Mese', select=True),
-    }
+        }
 
     _defaults = {
         'total': lambda *a: 0.0,
@@ -626,12 +631,11 @@ class StatisticInvoiceProductRemoved(orm.Model):
     _columns = {
         'name': fields.char(
             'Famiglia', size = 64, required=True),
-    }
+        }
     
 class ResPartnerStatistic(orm.Model):
     """ res_partner_extra_fields
     """
-
     _inherit = 'res.partner'
 
     _columns = {
