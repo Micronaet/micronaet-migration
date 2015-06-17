@@ -608,7 +608,7 @@ class StatisticInvoiceProduct(orm.Model):
 
                 if (len(line) and (tot_col==len(line))): #or (len(line)==5): # salto le righe vuote e le righe con colonne diverse
                     _logger.warning("%s) Empy line or column err [%s>%s]" % (
-                        counter, tot_col, len(line))
+                        counter, tot_col, len(line)))
                     counter += 1 
                     continue
                 try:                    
@@ -679,9 +679,9 @@ class StatisticInvoiceProduct(orm.Model):
                     _logger.error("%s) Error create record [%s]" % (
                        counter, sys.exc_info()))
                    
-            except:
-                _logger.error("%s) Error create record [%s]" % (
-                    counter, sys.exc_info()))
+        except:
+            _logger.error("%s) Error create record [%s]" % (
+                counter, sys.exc_info()))
         _logger.info(
             "End importation records, start totals for split elements")
 
@@ -713,7 +713,6 @@ class StatisticInvoiceProduct(orm.Model):
             product_updated_percentile = self.write(
                 cr, uid, product_item_to_show_ids, {
                     'visible': True}, context=context)
-
             _logger.info("Set top elements")
 
         except:
