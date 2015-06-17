@@ -135,10 +135,23 @@ class StatisticTrendOc(orm.Model):
     _description = 'Statistic Trend OC'
 
 class StatisticInvoice(orm.Model):
+    ''' Invoice analysis from accounting program
+    '''
     _name = 'statistic.invoice'
     _description = 'Statistic invoice'
     _order = 'month, name'
 
+    # ----------------------------------
+    # Importation procedure (scheduled):
+    # ----------------------------------
+    def schedule_csv_statistic_invoice_import(self, cr, uid, 
+            file_input='~/ETL/fatmeseoerp.csv', separator=';', header=0, 
+            verbose=100, context=None): 
+        ''' Import statistic data from CSV file
+        '''
+        # TODO 
+        return True
+        
     _columns = {
         'name': fields.char('Descrizione', size=64),
         'visible': fields.boolean('Visible',),

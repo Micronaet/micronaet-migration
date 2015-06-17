@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <openerp>
 	<data noupdate="1">
-		<record id="ir_cron_etl_csv_pricelist_import_0" model="ir.cron">
-			<field eval="&quot;&quot;&quot;schedule_csv_pricelist_import&quot;&quot;&quot;" name="function"/>
+		<record id="ir_cron_schedule_csv_statistic_invoice_import_0" model="ir.cron">
+			<field eval="&quot;&quot;&quot;schedule_csv_statistic_invoice_import&quot;&quot;&quot;" name="function"/>
 			<field eval="&quot;&quot;&quot;days&quot;&quot;&quot;" name="interval_type"/>
 			<field name="user_id" ref="base.user_root"/>
 			<field eval="&quot;&quot;&quot;CSV Import pricelist&quot;&quot;&quot;" name="name"/>
@@ -11,9 +11,9 @@
 			<field eval="5" name="priority"/>
 			<field eval="0" name="doall"/>
 			<field eval="1" name="active"/>
-			<field name="args">('~/ETL/artioerp.csv', ';', 0, '~/ETL/partioerp.csv', ';', 0, 100)</field>
+			<field name="args">('~/ETL/fatmeseoerp.csv', ';', 0, 100)</field>
 			<field eval="1" name="interval_number"/>
-			<field eval="&quot;&quot;&quot;product.pricelist&quot;&quot;&quot;" name="model"/>
+			<field eval="&quot;&quot;&quot;statistic.invoice&quot;&quot;&quot;" name="model"/>
 		</record>
 	</data>
 </openerp>
