@@ -5,10 +5,10 @@
 #python import.py ocdetoerp.GPB
 
 # DA ATTIVARE:
-python import_order.py ocdetoerp1.FIA
+python import_order.py ocdetoerp1.FIA  #<< non più ocdetoerp
 
 # Importazione scadenze:
-python import_scad.py scadoerp.FIA
+python import_scad.py scadoerp.FIA # << MOVED
 
 # Importazione Trend anno attuale e anno precedente:
 #python import_trend.py trendoerp1.FIA S
