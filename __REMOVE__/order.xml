@@ -91,39 +91,6 @@
         <field name="domain">[('open_payment_ids', '!=', False),('type_cei', '!=', 'i')]</field>
     </record>
 
-    <!--statistic.invoice.agent-->
-    <record model="ir.ui.view" id="view_statistic_agents_form">
-        <field name="name">statistic.invoice.agent.form</field>
-        <field name="model">statistic.invoice.agent</field>
-        <field name="type">form</field>
-        <field name="arch" type="xml">
-            <form string="Statistic tree">
-                <field name="hide_statistic"/>
-                <!--<field name="trend" />-->
-                <field name="name" />
-            </form>
-        </field>
-    </record>
-    <record model="ir.ui.view" id="view_statistic_agents_tree">
-        <field name="name">statistic.invoice.agent.tree</field>
-        <field name="model">statistic.invoice.agent</field>
-        <field name="type">tree</field>
-        <field name="arch" type="xml">
-            <tree string="Statistic tree">
-                <field name="hide_statistic"/>
-                <!--<field name="trend" />-->
-                <field name="name" />
-            </tree>
-        </field>
-    </record>
-    <record model="ir.actions.act_window" id="action_statistic_agents_configuration">
-        <field name="name">Agenti</field>
-        <field name="res_model">statistic.invoice.agent</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
-
     <!-- Statistic invoice product: statistic.invoice.product ************** -->
        <!-- Search -->
     <record model="ir.ui.view" id="view_statistic_invoice_product_search">
@@ -519,7 +486,6 @@
     <record model="ir.ui.view" id="view_statistic_order_deadline_tree">
         <field name="name">statistic.order.tree</field>
         <field name="model">statistic.order</field>
-        <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree string="Statistic Order Tree" colors="green:type!=False">
                 <field name="date" />
@@ -547,7 +513,6 @@
     <record model="ir.ui.view" id="view_statistic_order_deadline_graph">
         <field name="name">Statistic Order Graph deadline</field>
         <field name="model">statistic.order</field>
-        <field name="type">graph</field>
         <field name="arch" type="xml">
             <graph string="Order by deadline" type="bar">
                 <field name="deadline"/>
@@ -697,7 +662,6 @@
        <record id="board_mexal_form" model="ir.ui.view">
             <field name="name">board.mexal.form</field>
             <field name="model">board.board</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Dashboard">                
                     <vpaned>
@@ -720,7 +684,6 @@
        <record id="board_mexal_graph_form" model="ir.ui.view">
             <field name="name">board.mexal.form</field>
             <field name="model">board.board</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Dashboard">                
                     <vpaned>
@@ -770,7 +733,6 @@
        <record id="board_mexal_agent_graph_form" model="ir.ui.view">
             <field name="name">board.mexal.form</field>
             <field name="model">board.board</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Dashboard Agent">
                     <vpaned>
@@ -815,7 +777,6 @@
        <record id="board_mexal_nation_graph_form" model="ir.ui.view">
             <field name="name">board.mexal.form</field>
             <field name="model">board.board</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Dashboard Nation">
                     <vpaned>
@@ -864,7 +825,6 @@
        <record id="board_order_form" model="ir.ui.view">
             <field name="name">board.mexal.form</field>
             <field name="model">board.board</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Dashboard Ordini">
                     <hpaned position="200">
@@ -883,7 +843,6 @@
        <record id="board_order_b_form" model="ir.ui.view">
             <field name="name">board.mexal.form</field>
             <field name="model">board.board</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Dashboard Ordini semestre successivo">
                     <hpaned position="200">
@@ -903,7 +862,6 @@
        <record id="board_mexal_invoice_product_form" model="ir.ui.view">
             <field name="name">board.mexal.form</field>
             <field name="model">board.board</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Dashboard">
                     <vpaned>
