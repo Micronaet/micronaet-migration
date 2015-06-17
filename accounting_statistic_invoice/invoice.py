@@ -166,7 +166,7 @@ class StatisticInvoice(orm.Model):
         def get_partner_name(self, cr, uid, partner_id, context=None):
             ''' Partner ID from accounting code
             '''
-            if partner_id:
+            if not partner_id:
                 return False
             partner_proxy = self.pool.get('res.partner').browse(
                 cr, uid, partner_id, context=context)
@@ -181,7 +181,8 @@ class StatisticInvoice(orm.Model):
         # File CSV date for future log
         #create_date=time.ctime(os.path.getctime(FileInput))
 
-        header = 0
+        csv_base = self.pool.get('csv.base')
+
         # Delete all record:
         trend_pool = self.pool.get('statistic.trend')
         trend_ids = trend_pool.search(cr, uid, [], context=context)
@@ -242,11 +243,13 @@ class StatisticInvoice(orm.Model):
                             
                         counter += 1
                         try:
-                            mexal_id = prepare(line[0]) # Mexal ID (NNN.NNNNN)
-                            month = int(prepare(line[1]) or 0) 
-                            year = prepare(line[2])            
-                            total_invoice = prepare_float(line[3]) or 0.0 
-                            type_document = prepare(line[4]).lower() # oc/ft
+                            mexal_id = csv_base.decode_string(line[0]) # ID
+                            month = int(csv_base.decode_string(line[1])) or 0
+                            year = csv_base.decode_string(line[2])            
+                            total_invoice = csv_base.decode_float(
+                                line[3]) or 0.0
+                            type_document = csv_base.decode_string(
+                                line[4]).lower() # oc/ft
 
                             if step == 2: # 2nd loop is different:
                                 if mexal_id not in customer_replace:
@@ -293,7 +296,8 @@ class StatisticInvoice(orm.Model):
                                     '06.01764', '06.01797', '06.02081', 
                                     '06.02117', '06.02348', '06.02408',
                                     '06.02409', '06.02709', '06.02888', 
-                                    '06.03043', '06.03629', '06.03788', ):
+                                    '06.03043', '06.03629', '06.03788', 
+                                    ):
                                     
                                     _logger.warning(
                                         "%s: replace code: %s>06.03044" % (
@@ -347,9 +351,9 @@ class StatisticInvoice(orm.Model):
                             anno_mese = "%s%02d" % (year, month)
 
                             anno_attuale = int(
-                                datetime.datetime.now().strftime("%Y"))
+                                datetime.now().strftime("%Y"))
                             mese_attuale = int(
-                                datetime.datetime.now().strftime("%m"))
+                                datetime.now().strftime("%m"))
                                 
                             # Season 
                             if mese_attuale >= 1 and mese_attuale <= 8:
