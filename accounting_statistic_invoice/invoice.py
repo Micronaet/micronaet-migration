@@ -175,7 +175,6 @@ class StatisticInvoice(orm.Model):
         # ---------------------------------------------------------------------
         #                          COMMON PART
         # ---------------------------------------------------------------------
-        import pdb; pdb.set_trace()        
         _logger.info('Start invoice statistic importation (trend and trendoc)')
         
         # File CSV date for future log
@@ -564,8 +563,9 @@ class StatisticInvoice(orm.Model):
             selection=[
                 ('region', 'Region'), ('state', 'State'), ('area', 'Area'),
                 ], string='Tipo', store=True),
-        'country_id': fields.related('partner_id','country', type='many2one',
-            relation='res.country', string='Country', store=True),
+        'country_id': fields.related('partner_id', 'country_id', 
+            type='many2one', relation='res.country', string='Country', 
+            store=True),
         }
 
     _defaults = {
