@@ -324,3 +324,4 @@ Controllo importazione listini e versioni (sia partner che 10 standard)
 
  REPORT:
     Rimuovere i menu nascondendoli da configurazione per le parti non utilizzate (associare altro gruppo)
+    Vedere se le categorie statistiche, gruppi elenco agenti vanno importati (sì) oppure migrati

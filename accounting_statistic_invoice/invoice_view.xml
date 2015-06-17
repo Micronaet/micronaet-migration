@@ -1,6 +1,46 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
+    <!-- Statistic Order: statistic.invoice.product ************************ -->
+    <record model="ir.ui.view" id="view_statistic_invoice_product_removed_search">
+        <field name="name">statistic.invoice.product.search.removed</field>
+        <field name="model">statistic.invoice.product.removed</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Famiglie da rimuovere">
+                    <field name="name" />
+            </search>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_statistic_invoice_product_removed_form">
+        <field name="name">Prodotti da rimuovere</field>
+        <field name="model">statistic.invoice.product.removed</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Famiglie to remove">
+                <field name="name" />
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_statistic_invoice_product_removed_tree">
+        <field name="name">Prodotti da rimuovere</field>
+        <field name="model">statistic.invoice.product.removed</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Famiglie da rimuovere">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_statistic_invoice_product_removed">
+        <field name="name">Famiglie da rimuovere</field>
+        <field name="res_model">statistic.invoice.product.removed</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_statistic_invoice_product_removed_search"/>
+    </record>
+
+    
     <!--statistic.invoice.agent-->
     <record model="ir.ui.view" id="view_statistic_agents_form">
         <field name="name">statistic.invoice.agent.form</field>
@@ -645,6 +685,12 @@
            id="menu_base_mexal_statistic_agent_configuration" 
            sequence="20" 
            action="action_statistic_agents_configuration"/>
+
+      <menuitem name="Famiglie escluse" 
+           parent="accounting_statistic_base.menu_base_mexal_configuration" 
+           id="menu_statistic_invoice_product_removed" 
+           sequence="30" 
+           action="action_statistic_invoice_product_removed" />
                
   </data>
 </openerp>
