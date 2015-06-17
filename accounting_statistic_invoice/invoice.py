@@ -42,6 +42,16 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 _logger = logging.getLogger(__name__)
 
 
+# Utility: TODO move somewhere!
+def get_partner_name(self, cr, uid, partner_id, context=None):
+    ''' Partner ID from accounting code
+    '''
+    if not partner_id:
+        return False
+    partner_proxy = self.pool.get('res.partner').browse(
+        cr, uid, partner_id, context=context)
+    return partner_proxy.name or False
+
 class StatisticInvoiceAgent(orm.Model):
     _name = 'statistic.invoice.agent'
     _description = 'Invoice Agent'
@@ -159,15 +169,6 @@ class StatisticInvoice(orm.Model):
             verbose=100, context=None): 
         ''' Import statistic data from CSV file for invoice, trend, trendoc
         '''
-
-        def get_partner_name(self, cr, uid, partner_id, context=None):
-            ''' Partner ID from accounting code
-            '''
-            if not partner_id:
-                return False
-            partner_proxy = self.pool.get('res.partner').browse(
-                cr, uid, partner_id, context=context)
-            return partner_proxy.name or False
 
         # ---------------------------------------------------------------------
         #                          COMMON PART
@@ -571,10 +572,156 @@ class StatisticInvoice(orm.Model):
         }
 
 class StatisticInvoiceProduct(orm.Model):
+    ''' Statistic on product:
+        Partner - month - product = key
+    '''
     _name = 'statistic.invoice.product'
     _description = 'Statistic invoice'
     _order = 'month, name'
 
+    def schedule_csv_statistic_invoice_product_import(self, cr, uid, 
+            input_file, delimiter=';', header=0, verbose=100, context=None):
+        ''' Schedule procedure for import statistic.invoice.product
+        '''    
+        # TODO for log check:
+        #create_date=time.ctime(os.path.getctime(FileInput))    
+
+        _logger.info("Start importation product invoice stats: %s" % (
+            file_input))    
+        lines = csv.reader(open(input_file, 'rb'), delimiter=delimiter)
+        counter = -header
+
+        item_ids = self.search(cr, uid, [], context=context)
+        self.unlink(cr, uid, item_ids, context=context)
+
+        tot_col=0
+        totale_stagione = [0, 0, 0]
+        fatturato_elementi = {}
+        try:
+            for line in lines:
+                if tot_col==0: # memorizzo il numero colonne la prima volta
+                   tot_col=len(line)
+                   _logger.info("Total cols %s" % tot_col)
+                if counter < 0:
+                    counter += 1
+                    continue
+
+                if (len(line) and (tot_col==len(line))): #or (len(line)==5): # salto le righe vuote e le righe con colonne diverse
+                    _logger.warning("%s) Empy line or column err [%s>%s]" % (
+                        counter, tot_col, len(line))
+                    counter += 1 
+                    continue
+                try:                    
+                    name = prepare(line[0]) # Family
+                    month = int(prepare(line[1])) or 0
+                    year = prepare(line[2])
+                    total_invoice = prepare_float(line[3]) or 0.0
+                    type_document = prepare(line[4]).lower()
+                                                                  
+                    # Calculated field:
+                    if type_document not in ('ft', 'bc', 'oc'):
+                        _logger.warning("%s) Type of doc not correct: %s" % (
+                            counter, type_document)) 
+                        type_document = False
+                          
+                        data = {
+                            "name": name, 
+                            "month": month, 
+                            "type_document": type_document,
+                            }
+             
+                        # Which year
+                        if not (year or month): 
+                            _logger.error("%s) Year %s or month %s not found" % (
+                                counter, year, month)) 
+
+                        anno_mese = "%s%02d" % (year, month)                        
+                        anno_attuale = int(datetime.now().strftime("%Y"))
+                        mese_attuale = int(datetime.now().strftime("%m"))
+                       
+                        if mese_attuale >=1 and mese_attuale <=8:
+                            anno_riferimento = anno_attuale - 1
+                        elif mese_attuale >= 9 and mese_attuale <= 12:
+                            anno_riferimento = anno_attuale  
+                        else:
+                            _logger.error("%s) Month error" % counter) 
+
+                        # TODO: add also OC
+                        if anno_mese >= "%s09" % anno_riferimento and \
+                                anno_mese <= "%s08" % (anno_riferimento + 1):
+                            data['total'] = total_invoice
+                            totale_stagione[2] += total_invoice # Tot x season
+                        elif anno_mese >= "%s09" % (anno_riferimento -1) and \
+                               anno_mese <= "%s08" % anno_riferimento: # year-1
+                            data['total_last'] = total_invoice
+                            totale_stagione[1] += total_invoice # Tot x season
+                        elif anno_mese >= "%s09" % (anno_riferimento -2) and \
+                                anno_mese <= "%s08" % (anno_riferimento -1): #-2
+                           data['total_last_last'] = total_invoice
+                           totale_stagione[0] += total_invoice # Tot x season
+                        else:  
+                            _logger.warning("%s) Extra period %s-%s" % (
+                                counter, year, month)) 
+ 
+                        # Sum total for element
+                        if name not in fatturato_elementi:
+                            fatturato_elementi[name] = total_invoice
+                        else:    
+                            fatturato_elementi[name] += total_invoice
+                          
+                        try:                      
+                           invoice_id = self.create(
+                               cr, uid, data, context=context)
+                        except:
+                            _logger.error("%s) Error create record" % counter)
+
+                except:
+                    _logger.error("%s) Error create record [%s]" % (
+                       counter, sys.exc_info()))
+                   
+            except:
+                _logger.error("%s) Error create record [%s]" % (
+                    counter, sys.exc_info()))
+        _logger.info(
+            "End importation records, start totals for split elements")
+
+        try: # Split product depend on invoiced
+            totale_fatturato_tre_stagioni = (
+                totale_stagione[2] + 
+                totale_stagione[1] + 
+                totale_stagione[0])
+
+            # Remove some code:
+            remove_pool = self.pool.get('statistic.invoice.product.removed')
+            item_ids = remove_pool.search(cr, uid, item_ids, context=context)
+            product_removed = [
+                item.name for item in remove_pool.browse(cr, uid, item_ids, 
+                    context=context)]
+            
+            most_popular = []
+            for key_famiglia in fatturato_elementi.keys():
+                percentuale_fatturato = fatturato_elementi[
+                    key_famiglia] / totale_fatturato_tre_stagioni
+                if percentuale_fatturato >= 0.005: # 0,5% all 3 season
+                    # Write element
+                    if key_famiglia not in product_removed and key_famiglia \
+                            not in most_popular:
+                        most_popular.append(key_famiglia)
+                
+            product_item_to_show_ids = self.search(cr, uid, [
+                ('name', 'in', most_popular)], context=context)
+            product_updated_percentile = self.write(
+                cr, uid, product_item_to_show_ids, {
+                    'visible': True}, context=context)
+
+            _logger.info("Set top elements")
+
+        except:
+            _logger.error("%s) Error create record [%s]" % (
+                counter, sys.exc_info()))
+        
+        return True
+        
     _columns = {
         'name': fields.char('Famiglia prodotto', size=64),
         'visible': fields.boolean('Visible',), ## used!
