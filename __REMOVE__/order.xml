@@ -6,7 +6,6 @@
     <record model="ir.ui.view" id="view_res_partner_add_trend_form">
         <field name="name">res.partner.trend.form</field>
         <field name="model">res.partner</field>
-        <field name="type">form</field>
         <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
            <xpath expr="/form/notebook/page[@string='Notes']/field[@name='comment']" position="after">
@@ -24,7 +23,6 @@
     <record model="ir.ui.view" id="view_res_partner_payment_search">
         <field name="name">res.partner.payment.search</field>
         <field name="model">res.partner</field>
-        <field name="type">search</field>
         <field name="priority" eval="20" />
         <field name="arch" type="xml">
             <search string="Ricerca partner">
@@ -36,7 +34,6 @@
     <record model="ir.ui.view" id="view_res_partner_payment_form">
         <field name="name">res.partner.payment.form</field>
         <field name="model">res.partner</field>
-        <field name="type">form</field>
         <field name="priority" eval="20" />
         <field name="arch" type="xml">
             <form string="Lista pagamenti partner">
@@ -50,7 +47,6 @@
     <record model="ir.ui.view" id="view_res_partner_payment_tree">
         <field name="name">res.partner.payment.form</field>
         <field name="model">res.partner</field>
-        <field name="type">tree</field>
         <field name="priority" eval="20" />
         <field name="arch" type="xml">
             <tree string="Lista pagamenti partner">
@@ -91,184 +87,11 @@
         <field name="domain">[('open_payment_ids', '!=', False),('type_cei', '!=', 'i')]</field>
     </record>
 
-    <!-- Statistic invoice product: statistic.invoice.product ************** -->
-       <!-- Search -->
-    <record model="ir.ui.view" id="view_statistic_invoice_product_search">
-        <field name="name">statistic.invoice.product.search</field>
-        <field name="model">statistic.invoice.product</field>
-        <field name="type">search</field>
-        <field name="arch" type="xml">
-            <search string="Statistic invoice product">
-                    <field name="name" />
-            </search>
-        </field>
-    </record>
-
-       <!-- Form -->
-    <record model="ir.ui.view" id="view_statistic_invoice_product_form">
-        <field name="name">Statistiche prodotto (fatture+OC) divisi per mese</field>
-        <field name="model">statistic.invoice.product</field>
-        <field name="type">form</field>
-        <field name="arch" type="xml">
-            <form string="Statistic invoice product">
-                <field name="name" />
-                <field name="month" />
-                <!--<field name="total_last_last_last_last" />
-                <field name="total_last_last_last" />-->
-                <field name="total_last_last" />
-                <field name="total_last" />
-                <field name="total" />
-                <!--<field name="type_document" />-->
-            </form>
-        </field>
-    </record>
-
-       <!-- Tree -->
-    <record model="ir.ui.view" id="view_statistic_invoice_product_tree">
-        <field name="name">Statistiche prodotto (fatture+OC) divisi per mese</field>
-        <field name="model">statistic.invoice.product</field>
-        <field name="type">tree</field>
-        <field name="arch" type="xml">
-            <tree string="Statistic invoice product">
-                <field name="name" />
-                <field name="visible" invisible="1" />
-                <field name="month" />
-                <!--<field name="total_last_last_last_last" />
-                <field name="total_last_last_last" />-->
-                <field name="total_last_last" />
-                <field name="total_last" />
-                <field name="total" />
-                <!--<field name="type_document" />-->
-            </tree>
-        </field>
-    </record>
- 
-       <!-- Graph -->
-     <record model="ir.ui.view" id="view_statistic_invoice_product_graph">
-        <field name="name">Grafico statistiche prodotto (fatture+OC) divisi per mese</field>
-        <field name="model">statistic.invoice.product</field>
-        <field name="type">graph</field>
-        <field name="arch" type="xml">
-            <graph string="trend by product" type="bar">
-                <field name="month"/>
-                <field name="total_last_last" operator="+" />
-                <field name="total_last" operator="+" />
-                <field name="total" operator="+" />
-            </graph>
-        </field>
-    </record>
-     <record model="ir.ui.view" id="view_statistic_invoice_product_stagione_graph">
-        <field name="name">Grafico statistiche prodotto (fatture+OC) divisi per stagione</field>
-        <field name="model">statistic.invoice.product</field>
-        <field name="type">graph</field>
-        <field name="priority" eval="20" />
-        <field name="arch" type="xml">
-            <graph string="trend by product" type="bar">
-                <field name="name"/>
-                <field name="total_last_last" operator="+" />
-                <field name="total_last" operator="+" />
-                <field name="total" operator="+" />
-            </graph>
-        </field>
-    </record>
-   
-       <!-- Action -->
-    <record model="ir.actions.act_window" id="action_statistic_invoice_product">
-        <field name="name">Statistiche prodotto (fatture+OC) divisi per mese</field>
-        <field name="res_model">statistic.invoice.product</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="view_statistic_invoice_product_search"/>
-    </record>
-
-    <record model="ir.actions.act_window" id="action_statistic_invoice_product_dashboard">
-        <field name="name">Statistiche prodotto (fatture+OC) divisi per mese</field>
-        <field name="res_model">statistic.invoice.product</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">graph,tree,form</field>
-        <field name="search_view_id" ref="view_statistic_invoice_product_search"/>
-    </record>
-    <record model="ir.actions.act_window" id="action_statistic_invoice_product_stagione_dashboard">
-        <field name="name">FT+BC+OC (>0.5) per fam. prodotto (sul totale di tre stagioni)</field>
-        <field name="res_model">statistic.invoice.product</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">graph,tree,form</field>
-        <field name="domain">[('visible','=',True)]</field>
-        <!--<field name="domain">['|','|',('percentage','&gt;=',0.5),('percentage_last','&gt;=',0.5),('percentage_last_last','&gt;=',0.5)]</field>-->
-        <!--<field name="search_view_id" ref="view_statistic_invoice_product_search"/>-->
-        <field name="context">{'graph_view_ref': 'mexal_order_statistic.view_statistic_invoice_product_stagione_graph'}</field>
-    </record>
-    <record model="ir.actions.act_window" id="action_statistic_invoice_product_stagione_less_dashboard">
-        <field name="name">FT+BC+OC (&lt;=0.5) per fam. prodotto (sul totale di tre stagioni)</field>
-        <field name="res_model">statistic.invoice.product</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">graph,tree,form</field>
-        <field name="domain">[('visible','=',False),('name','&lt;','1')]</field>
-        <field name="context">{'graph_view_ref': 'mexal_order_statistic.view_statistic_invoice_product_stagione_graph'}</field>
-    </record>
-    <record model="ir.actions.act_window" id="action_statistic_invoice_product_stagione_less1_dashboard">
-        <field name="name">FT+BC+OC (&lt;=0.5) per fam. prodotto (sul totale di tre stagioni)</field>
-        <field name="res_model">statistic.invoice.product</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">graph,tree,form</field>
-        <field name="domain">[('visible','=',False),('name','&gt;=','1'),('name','&lt;','3')]</field>
-        <field name="context">{'graph_view_ref': 'mexal_order_statistic.view_statistic_invoice_product_stagione_graph'}</field>
-    </record>
-    <record model="ir.actions.act_window" id="action_statistic_invoice_product_stagione_less2_dashboard">
-        <field name="name">FT+BC+OC (&lt;=0.5) per fam. prodotto (sul totale di tre stagioni)</field>
-        <field name="res_model">statistic.invoice.product</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">graph,tree,form</field>
-        <field name="domain">[('visible','=',False),('name','&gt;=','3'),('name','&lt;','7')]</field>
-        <field name="context">{'graph_view_ref': 'mexal_order_statistic.view_statistic_invoice_product_stagione_graph'}</field>
-    </record>
-    <record model="ir.actions.act_window" id="action_statistic_invoice_product_stagione_less3_dashboard">
-        <field name="name">FT+BC+OC (&lt;=0.5) per fam. prodotto (sul totale di tre stagioni)</field>
-        <field name="res_model">statistic.invoice.product</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">graph,tree,form</field>
-        <field name="domain">[('visible','=',False),('name','&gt;=','7'),('name','&lt;','C')]</field>
-        <field name="context">{'graph_view_ref': 'mexal_order_statistic.view_statistic_invoice_product_stagione_graph'}</field>
-    </record>
-    <record model="ir.actions.act_window" id="action_statistic_invoice_product_stagione_less4_dashboard">
-        <field name="name">FT+BC+OC (&lt;=0.5) per fam. prodotto (sul totale di tre stagioni)</field>
-        <field name="res_model">statistic.invoice.product</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">graph,tree,form</field>
-        <field name="domain">[('visible','=',False),('name','&gt;=','C'),('name','&lt;','C6')]</field>
-        <field name="context">{'graph_view_ref': 'mexal_order_statistic.view_statistic_invoice_product_stagione_graph'}</field>
-    </record>
-    <record model="ir.actions.act_window" id="action_statistic_invoice_product_stagione_less5_dashboard">
-        <field name="name">FT+BC+OC (&lt;=0.5) per fam. prodotto (sul totale di tre stagioni)</field>
-        <field name="res_model">statistic.invoice.product</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">graph,tree,form</field>
-        <field name="domain">[('visible','=',False),('name','&gt;=','C6'),('name','&lt;','E')]</field>
-        <field name="context">{'graph_view_ref': 'mexal_order_statistic.view_statistic_invoice_product_stagione_graph'}</field>
-    </record>
-    <record model="ir.actions.act_window" id="action_statistic_invoice_product_stagione_less6_dashboard">
-        <field name="name">FT+BC+OC (&lt;=0.5) per fam. prodotto (sul totale di tre stagioni)</field>
-        <field name="res_model">statistic.invoice.product</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">graph,tree,form</field>
-        <field name="domain">[('visible','=',False),('name','&gt;=','E'),('name','&lt;','P')]</field>
-        <field name="context">{'graph_view_ref': 'mexal_order_statistic.view_statistic_invoice_product_stagione_graph'}</field>
-    </record>
-    <record model="ir.actions.act_window" id="action_statistic_invoice_product_stagione_less7_dashboard">
-        <field name="name">FT+BC+OC (&lt;=0.5) per fam. prodotto (sul totale di tre stagioni)</field>
-        <field name="res_model">statistic.invoice.product</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">graph,tree,form</field>
-        <field name="domain">[('visible','=',False),('name','&gt;=','P')]</field>
-        <field name="context">{'graph_view_ref': 'mexal_order_statistic.view_statistic_invoice_product_stagione_graph'}</field>
-    </record>
-
     <!-- Statistic Order: statistic.header ******************************** -->
        <!-- Search -->
     <record model="ir.ui.view" id="view_statistic_header_deadline_search">
         <field name="name">statistic.header.search</field>
         <field name="model">statistic.header</field>
-        <field name="type">search</field>
         <field name="arch" type="xml">
             <search string="Statistic order header">
                 <group col="11" colspan="4">
@@ -298,7 +121,6 @@
     <record model="ir.ui.view" id="view_statistic_header_deadline_form">
         <field name="name">statistic.header.form</field>
         <field name="model">statistic.header</field>
-        <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Statistic Order header Form">
                 <group colspan="4" col="8">
@@ -341,7 +163,6 @@
     <record model="ir.ui.view" id="view_statistic_header_deadline_tree">
         <field name="name">statistic.header.tree</field>
         <field name="model">statistic.header</field>
-        <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree string="Statistic Order header tree" colors="green:complete!=False">
                 <field name="deadline"/>
@@ -374,7 +195,6 @@
     <record model="ir.ui.view" id="view_statistic_header_deadline_graph">
         <field name="name">Statistic Order header Graph deadline</field>
         <field name="model">statistic.header</field>
-        <field name="type">graph</field>
         <field name="arch" type="xml">
             <graph string="Order by deadline" type="bar">
                 <field name="zone_id"/>
@@ -397,7 +217,6 @@
     <record model="ir.ui.view" id="view_statistic_order_deadline_search">
         <field name="name">statistic.order.search</field>
         <field name="model">statistic.order</field>
-        <field name="type">search</field>
         <field name="arch" type="xml">
             <search string="Statistic Order">
                 <group col="11" colspan="4">
@@ -423,7 +242,6 @@
     <record model="ir.ui.view" id="view_statistic_order_deadline_form">
         <field name="name">statistic.order.form</field>
         <field name="model">statistic.order</field>
-        <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Statistic Order Form">
                 <field name="date" />
