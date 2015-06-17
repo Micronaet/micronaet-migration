@@ -133,7 +133,6 @@
     <record model="ir.ui.view" id="view_statistic_trend_current_best_category_graph">
         <field name="name">Statistic trend category</field>
         <field name="model">statistic.trend</field>
-        <field name="type">graph</field>
         <field name="priority" eval="20" />
         <field name="arch" type="xml">
             <graph string="Statistiche fatturato per categoria statistica (senza OC)" type="bar">
@@ -161,7 +160,6 @@
         <record model="ir.ui.view" id="view_statistic_trendoc_search">
         <field name="name">statistic.trendoc.search</field>
         <field name="model">statistic.trendoc</field>
-        <field name="type">search</field>
         <field name="arch" type="xml">
             <search string="Cerca fatturato + OC">
                 <group col="10" colspan="4">
@@ -183,7 +181,6 @@
     <record model="ir.ui.view" id="view_statistic_trendoc_form">
         <field name="name">statistic.trendoc.form</field>
         <field name="model">statistic.trendoc</field>
-        <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Statistiche fatturato (FT + BC + OC)">
                 <field name="partner_id"/>
@@ -201,7 +198,6 @@
     <record model="ir.ui.view" id="view_statistic_trendoc_tree">
         <field name="name">statistic.trendoc.tree</field>
         <field name="model">statistic.trendoc</field>
-        <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree string="Statistiche fatturato (FT + BC + OC)">
                 <!--<field name="name" />-->
@@ -220,7 +216,6 @@
     <record model="ir.ui.view" id="view_statistic_trendoc_current_best_graph">
         <field name="name">Statistic trendoc current best</field>
         <field name="model">statistic.trendoc</field>
-        <field name="type">graph</field>
         <field name="priority" eval="20" />
         <field name="arch" type="xml">
             <graph string="Fatturato (FT + BC + OC) anno attuale" type="pie">
@@ -232,7 +227,6 @@
     <record model="ir.ui.view" id="view_statistic_trendoc_last_best_graph">
         <field name="name">Statistic trendoc last best</field>
         <field name="model">statistic.trendoc</field>
-        <field name="type">graph</field>
         <field name="priority" eval="20" />
         <field name="arch" type="xml">
             <graph string="Fatturato (FT + BC + OC) anno prec." type="pie">
@@ -244,7 +238,6 @@
     <record model="ir.ui.view" id="view_statistic_trendoc_last_last_best_graph">
         <field name="name">Statistic trendoc -2 best</field>
         <field name="model">statistic.trendoc</field>
-        <field name="type">graph</field>
         <field name="priority" eval="20" />
         <field name="arch" type="xml">
             <graph string="Fatturato (FT + BC + OC) anno prec." type="pie">
@@ -257,7 +250,6 @@
     <record model="ir.ui.view" id="view_statistic_trendoc_current_best_graph_bar">
         <field name="name">Statistic trend current best</field>
         <field name="model">statistic.trendoc</field>
-        <field name="type">graph</field>
         <field name="priority" eval="20" />
         <field name="arch" type="xml">
             <graph string="Statistiche fatturato" type="bar">
@@ -273,7 +265,6 @@
     <record model="ir.ui.view" id="view_statistic_trendoc_current_best_category_graph">
         <field name="name">Statistic trend category + OC</field>
         <field name="model">statistic.trendoc</field>
-        <field name="type">graph</field>
         <field name="priority" eval="20" />
         <field name="arch" type="xml">
             <graph string="Statistiche fatturato per categoria statistica" type="bar">
@@ -291,7 +282,7 @@
         <field name="name">Current Invoiced</field>
         <field name="res_model">statistic.trendoc</field>
         <field name="view_type">form</field>
-        <field name="view_mode">graph, tree, form</field>
+        <field name="view_mode">graph,tree,form</field>
         <field name="domain">['|','|',('percentage','&gt;=',1),('percentage_last','&gt;=',1),('percentage_last_last','&gt;=',1)]</field>
         <field name="context">{'graph_view_ref':'mexal_order_statistic.view_statistic_trendoc_current_best_graph'}</field>
     </record>
@@ -299,7 +290,7 @@
         <field name="name">Last Invoiced</field>
         <field name="res_model">statistic.trendoc</field>
         <field name="view_type">form</field>
-        <field name="view_mode">graph, tree, form</field>
+        <field name="view_mode">graph,tree,form</field>
         <field name="domain">['|','|',('percentage','&gt;=',1),('percentage_last','&gt;=',1),('percentage_last_last','&gt;=',1)]</field>
         <field name="context">{'graph_view_ref':'mexal_order_statistic.view_statistic_trendoc_last_best_graph'}</field>
     </record>
@@ -307,7 +298,7 @@
         <field name="name">Invoiced -2</field>
         <field name="res_model">statistic.trendoc</field>
         <field name="view_type">form</field>
-        <field name="view_mode">graph, tree, form</field>
+        <field name="view_mode">graph,tree,form</field>
         <field name="domain">['|','|',('percentage','&gt;=',1),('percentage_last','&gt;=',1),('percentage_last_last','&gt;=',1)]</field> 
         <field name="context">{'graph_view_ref':'mexal_order_statistic.view_statistic_trendoc_last_last_best_graph'}</field>
     </record>
@@ -316,7 +307,7 @@
         <field name="name">Current Invoiced</field>
         <field name="res_model">statistic.trendoc</field>
         <field name="view_type">form</field>
-        <field name="view_mode">graph, tree, form</field>
+        <field name="view_mode">graph,tree,form</field>
         <field name="domain">['|','|',('percentage','&gt;=',1),('percentage_last','&gt;=',1),('percentage_last_last','&gt;=',1)]</field> 
         <field name="context">{'graph_view_ref':'mexal_order_statistic.view_statistic_trendoc_current_best_graph_bar'}</field>
     </record>
