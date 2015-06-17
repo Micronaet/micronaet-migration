@@ -39,11 +39,34 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 _logger = logging.getLogger(__name__)
 
 class CsvBase(orm.Model):
-    ''' Add common function
+    ''' Add common function without fields/table
     '''
     _name = 'csv.base'
     _description = 'Base function'
     
+    def get_create_partner_lite(self, cr, uid, ref, record=None, customer=True, 
+            context=None):
+        ''' Search a partner with accounting code
+            If not present create one partner with a lite record
+        '''
+        partner_pool = self.pool.get('res.partner')
+        if customer:
+            key = 'sql_customer_code'
+        else:    
+            key = 'sql_supplier_code'            
+            
+        partner_ids = partner_pool.search(cr, uid, [
+            (key, '=', ref)], context=context)
+        if partner_ids:
+            return partner_ids[0]
+        if record is None:
+            record = {
+                'name': 'Partner %s' % ref,
+                key: ref,                
+                }          
+        _logger.warning("Create a lite partner: %s" % (record, ))
+        return partner_pool.create(cr, uid, record, context=context)        
+        
     def decode_string(self, valore):  
         # For problems: input win output ubuntu; trim extra spaces
         valore = valore.decode('cp1252')

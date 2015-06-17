@@ -160,16 +160,6 @@ class StatisticInvoice(orm.Model):
         ''' Import statistic data from CSV file for invoice, trend, trendoc
         '''
 
-        def get_partner_id(self, cr, uid, code, context=None):
-            ''' Partner ID from accounting code
-            '''
-            item_ids = self.pool.get('res.partner').search(cr, uid, [
-                ('sql_customer_code', '=', code)
-                ], context=context)
-            if item_ids:
-               return item_ids[0]
-            return False
-
         def get_partner_name(self, cr, uid, partner_id, context=None):
             ''' Partner ID from accounting code
             '''
@@ -201,25 +191,20 @@ class StatisticInvoice(orm.Model):
         # statistic.invoice:
         invoice_ids = self.search(cr, uid, [], context=context)
         self.unlink(cr, uid, invoice_ids, context=context)
-        
+                
         # ---------------------------------------------------------------------
         #                  STATISTIC.INVOICE IMPORT
         # ---------------------------------------------------------------------
         # TODO portare parametrizzandolo in OpenERP:
+        p1_id = csv_base.get_create_partner_lite(
+            cr, uid, '06.02209', context=context)
+        p2_id = csv_base.get_create_partner_lite(
+            cr, uid, '06.01537', context=context)            
         customer_replace = {
-            '06.40533': ((
-                '06.02209',
-                get_partner_id(self, cr, uid, '06.02209'),
-                get_partner_name(
-                    self, cr, uid, 
-                    get_partner_id(self, cr, uid, '06.02209')),
-                ), (
-                '06.01537',
-                get_partner_id(self, cr, uid, '06.01537'),
-                get_partner_name(
-                    self, cr, uid, 
-                    get_partner_id(self, cr, uid, '06.01537')),
-                ))}
+            '06.40533': (
+                ('06.02209', p1_id, get_partner_name(self, cr, uid, p1_id), ),
+                ('06.01537', p2_id, get_partner_name(self, cr, uid, p2_id), ),
+                )}
 
         loop_steps = {
             1: csv.reader(
@@ -251,7 +236,7 @@ class StatisticInvoice(orm.Model):
                         try:
                             mexal_id = csv_base.decode_string(line[0]) # ID
                             month = int(csv_base.decode_string(line[1])) or 0
-                            year = csv_base.decode_string(line[2])            
+                            year = csv_base.decode_string(line[2]) or '' 
                             total_invoice = csv_base.decode_float(
                                 line[3]) or 0.0
                             type_document = csv_base.decode_string(
@@ -311,8 +296,8 @@ class StatisticInvoice(orm.Model):
                                     mexal_id = '06.03044'
 
                                 # Calculated field:
-                                partner_id = get_partner_id(
-                                    self, cr, uid, mexal_id)
+                                partner_id = csv_base.get_create_partner_lite(
+                                    cr, uid, mexal_id, context=context)
                                 if not partner_id:
                                     _logger.error(
                                         "%s) Partner not found: %s" % (
@@ -328,7 +313,7 @@ class StatisticInvoice(orm.Model):
                                     counter, line))
                                 continue # Could happen
 
-                            # Not classified (but imported)
+                            # Not classified (TODO but imported, true?!?!)
                             if not (month or year): 
                                 _logger.error("%s Month/Year not found! %s" % (
                                     counter, line))

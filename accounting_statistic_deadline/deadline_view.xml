@@ -187,7 +187,7 @@
    <menuitem name="Payment statistic" 
        parent="accounting_statistic_base.menu_base_accounting" 
        id="menu_accounting_deadline_root" 
-       sequence="10" />
+       sequence="1" />
 
    <menuitem name="Payment deadlined" 
        parent="menu_accounting_deadline_root" 

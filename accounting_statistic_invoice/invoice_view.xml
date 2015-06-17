@@ -98,6 +98,7 @@
             </graph>
         </field>
     </record>
+
        <!-- Action -->
     <record model="ir.actions.act_window" id="action_statistic_trend">
         <field name="name">Statistic trend Date</field>
@@ -277,14 +278,14 @@
     </record>
 
     <!-- Fatturato con OC statistic.trendoc-->
-    <!-- TORTA -->   
+    <!-- PIE -->   
     <record model="ir.actions.act_window" id="action_view_statistic_trendoc_current_best_graph">
         <field name="name">Current Invoiced</field>
         <field name="res_model">statistic.trendoc</field>
         <field name="view_type">form</field>
         <field name="view_mode">graph,tree,form</field>
         <field name="domain">['|','|',('percentage','&gt;=',1),('percentage_last','&gt;=',1),('percentage_last_last','&gt;=',1)]</field>
-        <field name="context">{'graph_view_ref':'mexal_order_statistic.view_statistic_trendoc_current_best_graph'}</field>
+        <field name="context">{'graph_view_ref':'accounting_statistic_invoice.view_statistic_trendoc_current_best_graph'}</field>
     </record>
     <record model="ir.actions.act_window" id="action_view_statistic_trendoc_last_best_graph">
         <field name="name">Last Invoiced</field>
@@ -292,7 +293,7 @@
         <field name="view_type">form</field>
         <field name="view_mode">graph,tree,form</field>
         <field name="domain">['|','|',('percentage','&gt;=',1),('percentage_last','&gt;=',1),('percentage_last_last','&gt;=',1)]</field>
-        <field name="context">{'graph_view_ref':'mexal_order_statistic.view_statistic_trendoc_last_best_graph'}</field>
+        <field name="context">{'graph_view_ref':'accounting_statistic_invoice.view_statistic_trendoc_last_best_graph'}</field>
     </record>
     <record model="ir.actions.act_window" id="action_view_statistic_trendoc_last_last_best_graph">
         <field name="name">Invoiced -2</field>
@@ -300,7 +301,7 @@
         <field name="view_type">form</field>
         <field name="view_mode">graph,tree,form</field>
         <field name="domain">['|','|',('percentage','&gt;=',1),('percentage_last','&gt;=',1),('percentage_last_last','&gt;=',1)]</field> 
-        <field name="context">{'graph_view_ref':'mexal_order_statistic.view_statistic_trendoc_last_last_best_graph'}</field>
+        <field name="context">{'graph_view_ref':'accounting_statistic_invoice.view_statistic_trendoc_last_last_best_graph'}</field>
     </record>
     <!-- BARRE -->
     <record model="ir.actions.act_window" id="action_view_statistic_trendoc_current_best_graph_bar">
@@ -309,7 +310,7 @@
         <field name="view_type">form</field>
         <field name="view_mode">graph,tree,form</field>
         <field name="domain">['|','|',('percentage','&gt;=',1),('percentage_last','&gt;=',1),('percentage_last_last','&gt;=',1)]</field> 
-        <field name="context">{'graph_view_ref':'mexal_order_statistic.view_statistic_trendoc_current_best_graph_bar'}</field>
+        <field name="context">{'graph_view_ref':'accounting_statistic_invoice.view_statistic_trendoc_current_best_graph_bar'}</field>
     </record>
     
     <record model="ir.actions.act_window" id="action_statistic_trendoc_dashboard">
@@ -318,11 +319,27 @@
         <field name="view_type">form</field>
         <field name="view_mode">graph,tree,form</field>
         <!--<field name="domain">[('trend','=',1)]</field>-->
-        <field name="domain">[('trend_category','=',1)]</field>
+        <!--<field name="domain">[('trend_category','=',1)]</field>-->
         <field name="search_view_id" ref="view_statistic_trend_search"/>
-        <field name="context">{'graph_view_ref':'mexal_order_statistic.view_statistic_trendoc_current_best_category_graph'}</field><!--TODO-->
+        <field name="context">{'graph_view_ref':'accounting_statistic_invoice.view_statistic_trendoc_current_best_category_graph'}</field><!--TODO-->
     </record>
 
+   <menuitem name="Invoice statistic" 
+       parent="accounting_statistic_base.menu_base_accounting" 
+       id="menu_accounting_invoice_root" 
+       sequence="1" />
+
+       <menuitem name="Trend invoice" 
+           parent="menu_accounting_invoice_root" 
+           id="menu_accounting_invoice_trend"
+           sequence="10" 
+           action="action_statistic_trend" />
+
+       <menuitem name="Trend invoice order" 
+           parent="menu_accounting_invoice_root" 
+           id="menu_accounting_invoice_trendoc"
+           sequence="20" 
+           action="action_statistic_trendoc_dashboard" />
     
   </data>
 </openerp>
