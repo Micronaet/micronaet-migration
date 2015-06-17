@@ -1,6 +1,37 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
+    <!--statistic.invoice.agent-->
+    <record model="ir.ui.view" id="view_statistic_agents_form">
+        <field name="name">statistic.invoice.agent.form</field>
+        <field name="model">statistic.invoice.agent</field>
+        <field name="arch" type="xml">
+            <form string="Statistic tree">
+                <field name="hide_statistic"/>
+                <!--<field name="trend" />-->
+                <field name="name" />
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_statistic_agents_tree">
+        <field name="name">statistic.invoice.agent.tree</field>
+        <field name="model">statistic.invoice.agent</field>
+        <field name="arch" type="xml">
+            <tree string="Statistic tree">
+                <field name="hide_statistic"/>
+                <!--<field name="trend" />-->
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_statistic_agents_configuration">
+        <field name="name">Agenti</field>
+        <field name="res_model">statistic.invoice.agent</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    
       <!--Statistic invoice: statistic.invoice **************************** -->
         <record model="ir.ui.view" id="view_statistic_invoice_search">
         <field name="name">statistic.invoice.search</field>
