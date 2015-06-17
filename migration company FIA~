@@ -169,6 +169,9 @@ IMPORT MODULE
 ****************
 DASHBOARD MODULE  
 ****************
+* accounting_statistic_base:
+  Vengono importati i dati relativi ai partner ? 
+
 * accounting_statistic_invoice:
 
 * accounting_statistic_deadline:
@@ -176,6 +179,7 @@ DASHBOARD MODULE
   Vedere se create una dashboard per fare vedere i pagamenti scaduti a vari livelli
   Fare una dashboard come prima?
   Vedere come gestire il segno del pagamento "Addebito"
+  Vengono importati i dati relativi ai partner ? # DUPLICATO!
 
 * accounting_statistic_order:
 

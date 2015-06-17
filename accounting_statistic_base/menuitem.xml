@@ -75,8 +75,7 @@
              <menuitem name="Per stagione (&lt;=0.5 Bl.8)" parent="menu_action_statistic_invoice_product_dashboard" id="menu_action_statistic_invoice_product_stagione_less7_dashboard" sequence="80" action="action_statistic_invoice_product_stagione_less7_dashboard" />-->
 
        <menuitem name="Configurazione" parent="menu_base_accounting" id="menu_base_mexal_configuration" sequence="3" />          
-          <!--<menuitem name="Categorie statistiche" parent="menu_base_mexal_configuration" id="menu_base_mexal_statistic_configuration" sequence="10" action="action_statistic_category" />
-          <menuitem name="Agenti statistiche" parent="menu_base_mexal_configuration" id="menu_base_mexal_statistic_agent_configuration" sequence="20" action="action_statistic_agents_configuration" />
-          <menuitem name="Famiglie escluse" parent="menu_base_mexal_configuration" id="menu_statistic_invoice_product_removed" sequence="30" action="action_statistic_invoice_product_removed" />-->
+          <menuitem name="Categorie statistiche" parent="menu_base_mexal_configuration" id="menu_base_mexal_statistic_configuration" sequence="10" action="action_statistic_category" />
+          <!--<menuitem name="Famiglie escluse" parent="menu_base_mexal_configuration" id="menu_statistic_invoice_product_removed" sequence="30" action="action_statistic_invoice_product_removed" />-->
   </data>
 </openerp>

@@ -118,8 +118,6 @@
         <field name="arch" type="xml">
             <graph string="Fatturato nazioni" type="bar">
                 <field name="country_id"/> <!--also zone_id-->
-                <field name="total_last_last" operator="+" />
-                <field name="total_last" operator="+" />
                 <field name="total" operator="+" />
             </graph>
         </field>
@@ -131,8 +129,6 @@
         <field name="arch" type="xml">
             <graph string="Fatturato zone" type="bar">
                 <field name="zone_id"/>
-                <field name="total_last_last" operator="+" />
-                <field name="total_last" operator="+" />
                 <field name="total" operator="+" />
             </graph>
         </field>
@@ -144,10 +140,6 @@
         <field name="arch" type="xml">
             <graph string="Fatturato complessivo" type="bar">
                 <field name="season_total"/> 
-                <field name="total_last_last_last_last" operator="+" />
-                <field name="total_last_last_last" operator="+" />
-                <field name="total_last_last" operator="+" />
-                <field name="total_last" operator="+" />
                 <field name="total" operator="+" />
             </graph>
         </field>
@@ -161,8 +153,6 @@
         <field name="arch" type="xml">
             <graph string="Fatturato agente visibile Italia" type="bar">
                 <field name="invoice_agent_id"/>
-                <field name="total_last_last" operator="+" />
-                <field name="total_last" operator="+" />
                 <field name="total" operator="+" />
             </graph>
         </field>
@@ -175,8 +165,6 @@
         <field name="arch" type="xml">
             <graph string="Fatturato agente Italia" type="bar">
                 <field name="invoice_agent_id"/>
-                <field name="total_last_last" operator="+" />
-                <field name="total_last" operator="+" />
                 <field name="total" operator="+" />
             </graph>
         </field>
@@ -188,8 +176,6 @@
         <field name="arch" type="xml">
             <graph string="trend by date" type="bar">
                 <field name="month"/>
-                <field name="total_last_last" operator="+" />
-                <field name="total_last" operator="+" />
                 <field name="total" operator="+" />
             </graph>
         </field>
@@ -205,7 +191,8 @@
     </record>
 
        <!-- Dashboards: -->
-       <!-- AGENTI: -->   <!--PRECEDENTE AZIONE: view_invoice_agent_graph *************************************************************-->
+       <!-- AGENTI: -->   
+       <!--PRECEDENTE AZIONE: view_invoice_agent_graph *********************-->
        <record model="ir.actions.act_window" id="action_statistic_invoice_agent_i_True_dashboard">
             <field name="name">Fatture Agente Italia</field>
             <field name="res_model">statistic.invoice</field>
@@ -371,7 +358,6 @@
         <field name="arch" type="xml">
             <graph string="Statistiche fatturato (senza OC)" type="bar">
                 <field name="partner_id"/>
-                <field name="total_last" operator="+" />
                 <field name="total" operator="+" />
             </graph>
         </field>
@@ -383,7 +369,6 @@
         <field name="arch" type="xml">
             <graph string="Statistiche fatturato (senza OC)" type="bar">
                 <field name="partner_id"/>
-                <field name="total_last" operator="+" />
                 <field name="total" operator="+" />
             </graph>
         </field>
@@ -450,7 +435,6 @@
         <field name="arch" type="xml">
             <graph string="Statistiche fatturato per categoria statistica (senza OC)" type="bar">
                 <field name="statistic_category_id"/>
-                <field name="total_last" operator="+" />
                 <field name="total" operator="+" />
             </graph>
         </field>
@@ -567,8 +551,6 @@
         <field name="arch" type="xml">
             <graph string="Statistiche fatturato" type="bar">
                 <field name="partner_id"/>
-                <field name="total_last_last" operator="+" />
-                <field name="total_last" operator="+" />
                 <field name="total" operator="+" />
             </graph>
         </field>
@@ -582,8 +564,6 @@
         <field name="arch" type="xml">
             <graph string="Statistiche fatturato per categoria statistica" type="bar">
                 <field name="statistic_category_id"/>
-                <field name="total_last_last" operator="+" />
-                <field name="total_last" operator="+" />
                 <field name="total" operator="+" />
             </graph>
         </field>
@@ -659,6 +639,12 @@
            id="menu_accounting_invoice_trendoc"
            sequence="30" 
            action="action_statistic_trendoc_dashboard" />
-    
+
+       <menuitem name="Agenti statistiche" 
+           parent="accounting_statistic_base.menu_base_mexal_configuration" 
+           id="menu_base_mexal_statistic_agent_configuration" 
+           sequence="20" 
+           action="action_statistic_agents_configuration"/>
+               
   </data>
 </openerp>
