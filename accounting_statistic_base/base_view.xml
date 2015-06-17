@@ -1,5 +1,55 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
+    <!-- Statistic Category: statistic.category *****************************-->
+       <!-- Search -->
+    <record model="ir.ui.view" id="view_statistic_category_search">
+        <field name="name">statistic.category.search</field>
+        <field name="model">statistic.category</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Statistic category">
+                    <field name="trend" />
+                    <field name="name" />
+            </search>
+        </field>
+    </record>
+
+       <!-- Form -->
+    <record model="ir.ui.view" id="view_statistic_category_form">
+        <field name="name">statistic.category.form</field>
+        <field name="model">statistic.category</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Statistic category">
+                <field name="trend" />
+                <field name="name" />
+            </form>
+        </field>
+    </record>
+
+       <!-- Tree -->
+    <record model="ir.ui.view" id="view_statistic_category_tree">
+        <field name="name">statistic.category.tree</field>
+        <field name="model">statistic.category</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Statistic category">
+                <field name="trend" />
+                <field name="name" />
+                <!--<field name="mexal_id"/>-->
+            </tree>
+        </field>
+    </record>
+    
+       <!-- Action -->
+    <record model="ir.actions.act_window" id="action_statistic_category">
+        <field name="name">Statistic category</field>
+        <field name="res_model">statistic.category</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_statistic_category_search"/>
+    </record>
+
   </data>
 </openerp>
