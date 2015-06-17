@@ -171,6 +171,9 @@ class StatisticInvoice(orm.Model):
                 cr, uid, partner_id, context=context)
             return partner_proxy.name or False
 
+        # ---------------------------------------------------------------------
+        #                          COMMON PART
+        # ---------------------------------------------------------------------
         _logger.info('Start invoice statistic importation (trend and trendoc)')
         
         # File CSV date for future log
@@ -191,6 +194,9 @@ class StatisticInvoice(orm.Model):
         invoice_ids = self.search(cr, uid, [], context=context)
         self.unlink(cr, uid, invoice_ids, context=context)
         
+        # ---------------------------------------------------------------------
+        #                  STATISTIC.INVOICE IMPORT
+        # ---------------------------------------------------------------------
         # TODO portare parametrizzandolo in OpenERP:
         customer_replace = {
             '06.40533': ((
@@ -409,94 +415,95 @@ class StatisticInvoice(orm.Model):
                     
                 _logger.info("Statistic invoice import terminated")
 
-            # Parte comune fuori dal ciclo multi step:
-            for documento in ['oc', 'ft', 'bc',]:
-                print "Ricavo i dati per statistic.trend" + documento # Fatture e OC + Fatture
+            # -----------------------------------------------------------------
+            #                      STATISTIC.TREND IMPORT
+            # -----------------------------------------------------------------
+            # Common part:
+            for documento in ('oc', 'ft', 'bc'):
+                # Invoice and OC + Invoice
+                _logger.info("Compute statistic.trend data" + documento 
                 if documento == "ft": # Solo fatture
-                   invoice_ids = sock.execute(
-                       dbname, uid, pwd, 'statistic.invoice', 'search', [
-                           ('type_document','=','ft')])
-                else: # tutto oc + ft + bc
-                   invoice_ids = sock.execute(
-                       dbname, uid, pwd, 'statistic.invoice', 'search', [])
+                    invoice_ids = self.search(cr, uid, [
+                        ('type_document','=','ft')], context=context)
+                else: # all oc + ft + bc
+                    invoice_ids = self.search(cr, uid, [], context=context)
 
-                if invoice_ids: # Elimino precedenti
+                if invoice_ids: # Delete previous
                     if documento == "ft":
-                       trend_ids = sock.execute(dbname, uid, pwd, 'statistic.trend',
-                           'search', [])
-                       remove_trend = sock.execute(dbname, uid, pwd, 'statistic.trend',
-                           'unlink', trend_ids)
+                       trend_ids = trend_pool.search(
+                           cr, uid, [], context=context)
+                       trend_pool.unlink(cr, uid, trend_ids, context=context)
                     else:
-                       trend_ids = sock.execute(dbname, uid, pwd, 'statistic.trendoc',
-                           'search', [])
-                       remove_trend = sock.execute(dbname, uid, pwd, 'statistic.trendoc',
-                           'unlink', trend_ids)
+                       trendoc_ids = trendoc_pool.search(
+                           cr, uid, [], context=context)
+                       trendoc_pool.unlink(cr, uid, trendoc_ids, context=context)
 
-                    # Carico nella lista tutti i valori divisi per partner:
+                    # Load list value for all partner
                     item_list = {}
-                    # Causa aggiunte posteriori il pos 3 = anno -3, pos 4 = anno -4
-                    total_invoiced = [0.0, 0.0, 0.0, 0.0, 0.0] # -2, -1, 0 -4, -3,
-                    for item in sock.execute(dbname, uid, pwd, 'statistic.invoice', 'read', invoice_ids): # in funzione del documento
-                        partner_id = (item['partner_id'] and item['partner_id'][0]) or 0
+                    # NOTE: add after so no correct order: 
+                    total_invoiced = [0.0, 0.0, 0.0, 0.0, 0.0] # -2 -1 0 -4 -3
+                    for item in self.browse(
+                            cr, uid, invoice_ids, context=context):
+                        partner_id = item.partner_id and item.partner_id.id \
+                            or False
 
                         if partner_id not in item_list:
                             # stesso discorso per l'aggiunta a posteriori
-                            item_list[partner_id] = [0.0, 0.0, 0.0, 0.0, 0.0] # -2 -1 0 -4, -3,
+                            item_list[partner_id] = [0.0, 0.0, 0.0, 0.0, 0.0]
 
-                        if item['total']:                                  # anno attuale
-                            item_list[partner_id][2] += item['total']
-                            total_invoiced[2] += item['total']
-                        if item['total_last']:                             # anno -1
-                            item_list[partner_id][1] += item['total_last']
-                            total_invoiced[1] += item['total_last']
-                        if item['total_last_last']:                        # anno -2
-                            item_list[partner_id][0] += item['total_last_last']
-                            total_invoiced[0] += item['total_last_last']
-                        if item['total_last_last_last']:                   # anno -3
-                            item_list[partner_id][3] += item['total_last_last_last']
-                            total_invoiced[3] += item['total_last_last_last']
-                        if item['total_last_last_last_last']:              # anno -4
-                            item_list[partner_id][4] += item['total_last_last_last_last']
-                            total_invoiced[4] += item['total_last_last_last_last']
+                        if item.total: #current
+                            item_list[partner_id][2] += item.total
+                            total_invoiced[2] += item.total
+                        if item.total_last: # year -1
+                            item_list[partner_id][1] += item.total_last
+                            total_invoiced[1] += item.total_last
+                        if item.total_last_last: # year -2
+                            item_list[partner_id][0] += item.total_last_last
+                            total_invoiced[0] += item.total_last_last
+                        if item.total_last_last_last: # year -3
+                            item_list[partner_id][3] += \
+                                item.total_last_last_last
+                            total_invoiced[3] += item.total_last_last_last
+                        if item.total_last_last_last_last: # year -4
+                            item_list[partner_id][4] += \
+                                item.total_last_last_last_last
+                            total_invoiced[4] += item.total_last_last_last_last
 
-                print "Inserisco i dati nell'archivio statistico per " + documento
-                for elemento_id in item_list.keys(): # passo tutti gli elementi inserendoli in archivio col calcolo perc.
+                _logger.info("Add statistic archive for %s" % documento)
+                for elemento_id in item_list.keys(): # for % calculate
                     data = {
-                        'name': "cliente: %d" % (elemento_id,), #"%s [%d €]" % (number, total) ,
+                        'name': "cliente: %d" % elemento_id,
                         'partner_id': elemento_id,
                         'total': item_list[elemento_id][2],
                         'total_last': item_list[elemento_id][1],
                         'total_last_last': item_list[elemento_id][0],
                         'total_last_last_last': item_list[elemento_id][3],
                         'total_last_last_last_last': item_list[elemento_id][4],
-                        'percentage': (total_invoiced[2]) and (item_list[elemento_id][2] * 100 / (total_invoiced[2])), # current year
-                        'percentage_last': (total_invoiced[1]) and (item_list[elemento_id][1] * 100 / (total_invoiced[1])), # -1 year
-                        'percentage_last_last': (total_invoiced[0]) and (item_list[elemento_id][0] * 100 / (total_invoiced[0])), # -2 year
+                        'percentage': (total_invoiced[2]) and (
+                            item_list[elemento_id][2] * 100 / (
+                                total_invoiced[2])), # current year
+                        'percentage_last': (total_invoiced[1]) and (
+                            item_list[elemento_id][1] * 100 / (
+                                total_invoiced[1])), # -1 year
+                        'percentage_last_last': (total_invoiced[0]) and (
+                            item_list[elemento_id][0] * 100 / (
+                                total_invoiced[0])), # -2 year
                         # percentage_last_last_last
                         # percentage_last_last_last_last
                         }
                     try:
                        if documento=="ft":
-                          trend_id = sock.execute(dbname, uid, pwd, 'statistic.trend', 'create', data)
+                          trend_id = trend_pool.create(
+                              cr, uid, data, context=context)
                        else:
-                          trend_id = sock.execute(dbname, uid, pwd, 'statistic.trendoc', 'create', data)
-
+                          trend_id = trendoc_pool.create(
+                              cr, uid, data, context=context)
                     except:
-                       raise_error("[ERR] Errore creando ordine id_partner: %s" % (
-                           elemento_id,), out_file)
-                       errore_da_comunicare=True
-                    if verbose:
-                       raise_error("[INFO] Fatturato del partner %d inserito:" % (
-                           elemento_id,), out_file)
-
-                if debug:
-                   print item_list
-            out_file.close()
+                        _logger.error("Error create order for partner: %s" % (
+                           elemento_id)
         except:
-            print raise_error('[ERR] Errore importando gli ordini!', out_file)
+            _logger.error("Error import order")
 
-
-        
         return True
         
     _columns = {
