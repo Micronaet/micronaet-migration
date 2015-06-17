@@ -127,6 +127,13 @@ class StatisticTrend(orm.Model):
             string='Worst trend', multi='indici', store=True,),
     }
 
+class StatisticTrendOc(orm.Model):
+    ''' Prototipe for statistic that has OC in total amount 
+    '''
+    _name = 'statistic.trendoc'
+    _inherit = 'statistic.trend'
+    _description = 'Statistic Trend OC'
+
 class StatisticInvoice(orm.Model):
     _name = 'statistic.invoice'
     _description = 'Statistic invoice'

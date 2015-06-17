@@ -1,5 +1,6 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
 "access_statistic_trend_manager","statistic.trend","model_statistic_trend","base.group_sale_manager",1,1,1,1
+"access_statistic_trend_oc_manager","statistic.trendoc","model_statistic_trendoc","base.group_sale_manager",1,1,1,1
 "access_statistic_invoice_manager","statistic.invoice","model_statistic_invoice","base.group_sale_manager",1,1,1,1
 "access_statistic_invoice_product_manager","statistic.invoice.product","model_statistic_invoice_product","base.group_sale_manager",1,1,1,1
 "access_statistic_invoice_product_removed_manager","statistic.invoice.product.removed","model_statistic_invoice_product_removed","base.group_sale_manager",1,1,1,1
