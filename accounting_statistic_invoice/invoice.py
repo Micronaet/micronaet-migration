@@ -145,11 +145,358 @@ class StatisticInvoice(orm.Model):
     # Importation procedure (scheduled):
     # ----------------------------------
     def schedule_csv_statistic_invoice_import(self, cr, uid, 
-            file_input='~/ETL/fatmeseoerp.csv', separator=';', header=0, 
+            file_input1='~/ETL/fatmeseoerp1.csv', 
+            file_input2='~/ETL/fatmeseoerp2.csv', 
+            delimiter=';', header=0,
             verbose=100, context=None): 
-        ''' Import statistic data from CSV file
+        ''' Import statistic data from CSV file for invoice, trend, trendoc
         '''
-        # TODO 
+
+        def get_partner_id(self, cr, uid, code, context=None):
+            ''' Partner ID from accounting code
+            '''
+            item_ids = self.pool.get('res.partner').search(cr, uid, [
+                ('sql_customer_code', '=', code)
+                ], context=context)
+            if item_ids:
+               return item_ids[0]
+            return False
+
+        def get_partner_name(self, cr, uid, partner_id, context=None):
+            ''' Partner ID from accounting code
+            '''
+            if partner_id:
+                return False
+            partner_proxy = self.pool.get('res.partner').browse(
+                cr, uid, partner_id, context=context)
+            return partner_proxy.name or False
+
+        _logger.info('Start invoice statistic importation (trend and trendoc)')
+        
+        # File CSV date for future log
+        create_date=time.ctime(os.path.getctime(FileInput))
+
+        header = 0
+                
+        # Delete all record:
+        trend_pool = self.pool.get('statistic.trend')
+        trend_ids = trend_pool.search(cr, uid, [], context=context)
+        trend_pool.unlink(cr, uid, trend_ids, context=context)
+        
+        trendoc_pool = self.pool.get('statistic.trendoc')
+        trendoc_ids = trendoc_pool.search(cr, uid, [], context=context)
+        trendoc_pool.unlink(cr, uid, trendoc_ids, context=context)
+
+        # statistic.invoice:
+        invoice_ids = self.search(cr, uid, [], context=context)
+        self.unlink(cr, uid, invoice_ids, context=context)
+        
+        # TODO portare parametrizzandolo in OpenERP:
+        customer_replace = {
+            '06.40533': ((
+                '06.02209',
+                get_partner_id(self, cr, uid, '06.02209'),
+                get_partner_name(
+                    sock, uid, pwd, 
+                    get_partner_id(self, cr, uid, '06.02209')),
+                ), (
+                '06.01537',
+                get_partner_id(self, cr, uid, '06.01537'),
+                get_partner_name(
+                    sock, uid, pwd, 
+                    get_partner_id(self, cr, uid, '06.01537')),
+                ))}
+
+        loop_steps = {
+            1: csv.reader(open(file_input1, 'rb'), delimiter=delimiter),
+            2: csv.reader(open(file_input2, 'rb'), delimiter=delimiter),
+            }
+
+        try:
+            for step, lines in loop_steps.iteritems():
+                counter = -header
+                tot_col = 0
+                for line in lines:
+                    if tot_col == 0: # set cols (first time)
+                        tot_col = len(line)
+                        _logger.info('Total columns: %s' % tot_col)
+                    if counter < 0:
+                        counter += 1 # jump header line
+                    else:
+                        if not(len(line) and (tot_col == len(line))):
+                            _logger.warning(
+                               '%s) Empty or colums different [%s >> %s]' % (
+                                   counter, tot_col, len(line)))
+                            continue
+                            
+                        counter += 1
+                        try:
+                            mexal_id = prepare(line[0]) # Mexal ID (NNN.NNNNN)
+                            month = int(prepare(line[1]) or 0) 
+                            year = prepare(line[2])            
+                            total_invoice = prepare_float(line[3]) or 0.0 
+                            type_document = prepare(line[4]).lower() # oc/ft
+
+                            if step == 2: # 2nd loop is different:
+                                if mexal_id not in customer_replace:
+                                    continue # jump if not a replace partner
+
+                                # Alias customer for add the profit:
+                                old_mexal_id = mexal_id
+                                mexal_id = customer_replace[
+                                    old_mexal_id][0][0]
+                                partner_id = customer_replace[
+                                    old_mexal_id][0][1]
+                                partner_name = customer_replace[
+                                    old_mexal_id][0][2]
+
+                                # Agent with subtract loss
+                                mexal_id2 = customer_replace[
+                                    old_mexal_id][1][0]
+                                partner_id2 = customer_replace[
+                                    old_mexal_id][1][1]
+                                partner_name2 = customer_replace[
+                                    old_mexal_id][1][2]
+
+                            else: # 1st loop is different:
+                                # Problem Customer: M Business:
+                                if mexal_id in (
+                                    '06.00052', '06.00632', '06.01123', 
+                                    '06.01125', '06.01126', '06.01127', 
+                                    '06.01129', '06.01131', '06.01132', 
+                                    '06.01136', '06.01137', '06.01138', 
+                                    '06.01139', '06.01142', '06.01143', 
+                                    '06.01146', '06.01147', '06.01149', 
+                                    '06.01151', '06.01153', '06.01154', 
+                                    '06.01155', '06.01159', '06.01161',
+                                    '06.01163', '06.01164', '06.01165', 
+                                    '06.01166', '06.01167', '06.01168', 
+                                    '06.01170', '06.01171', '06.01175', 
+                                    '06.01177', '06.01178', '06.01179',
+                                    '06.01221', '06.01231', '06.01260', 
+                                    '06.01317', '06.01386', '06.01408', 
+                                    '06.01416', '06.01420', '06.01421', 
+                                    '06.01424', '06.01436', '06.01439',
+                                    '06.01481', '06.01501', '06.01532', 
+                                    '06.01538', '06.01580', '06.01609', 
+                                    '06.01764', '06.01797', '06.02081', 
+                                    '06.02117', '06.02348', '06.02408',
+                                    '06.02409', '06.02709', '06.02888', 
+                                    '06.03043', '06.03629', '06.03788', ):
+                                    
+                                    _logger.warning(
+                                        "%s: replace code: %s>06.03044" % (
+                                            counter, mexal_id)
+                                    mexal_id = '06.03044'
+
+                                # Calculated field:
+                                partner_id = get_partner_id(
+                                    self, cr, uid, mexal_id)
+                                if not partner_id:
+                                    _logger.error(
+                                        "%s) Partner not found: %s" % (
+                                        counter, mexal_id)
+                                    partner_name = "#ERR Partner code %s" % (
+                                        mexal_id or "")
+                                else:
+                                    partner_name = get_partner_name(
+                                        self, cr, uid, partner_id)
+
+                            if not total_invoice:
+                                _logger.warning("%s Amount not found [%s]" % (
+                                    counter, line)
+                                 continue # Could happen
+
+                            # Not classified (but imported)
+                            if not (month or year): 
+                                _logger.error("%s Month/Year not found! %s" % (
+                                    counter, line)
+
+                            # OC old = today
+                            if (type_document == 'oc') and (
+                                    "%s%02d" % (year, month) < \
+                                    datetime.datetime.now().strftime("%Y%m")):
+                                _logger.warning(
+                                    "%s) Old OC > today: %s%02d, cliente: %s, "
+                                    "totale %s" % (
+                                        counter, year, month, mexal_id, 
+                                        total_invoice)
+                                year = datetime.datetime.now().strftime("%Y")
+                                month = int(
+                                    datetime.datetime.now().strftime("%m"))
+
+                            data = {
+                                "name": "%s [%s]" % (partner_name, mexal_id),
+                                "partner_id": partner_id,
+                                "month": month,
+                                "type_document": type_document,
+                                }
+
+                            # Year to intert invoiced 
+                            anno_mese = "%s%02d" % (year, month)
+
+                            anno_attuale = int(
+                                datetime.datetime.now().strftime("%Y"))
+                            mese_attuale = int(
+                                datetime.datetime.now().strftime("%m"))
+                                
+                            # Season 
+                            if mese_attuale >= 1 and mese_attuale <= 8:
+                                anno_riferimento = anno_attuale - 1 
+                            elif mese_attuale >= 9 and mese_attuale <= 12:
+                                anno_riferimento = anno_attuale
+                            else:
+                                _logger.error("%s) Month error not [1:12]" % (
+                                    counter
+
+                            # september - current year >> agoust - next year
+                            if anno_mese >= "%s09" % anno_riferimento and \
+                                    anno_mese <= "%s08" % (
+                                        anno_riferimento + 1, ): # current
+                                data['total'] = total_invoice
+                            elif anno_mese >= "%s09" % (
+                                    anno_riferimento -1, ) and \
+                                    anno_mese <= "%s08" % (
+                                        anno_riferimento, ): # year -1
+                                data['total_last'] = total_invoice
+                            elif anno_mese >= "%s09" % (
+                                    anno_riferimento -2, ) and \
+                                    anno_mese <= "%s08" % (
+                                        anno_riferimento -1, ): # year -2
+                                data['total_last_last'] = total_invoice
+                            elif anno_mese >= "%s09" % (
+                                    anno_riferimento -3, ) and \
+                                    anno_mese <= "%s08" % (
+                                        anno_riferimento -2, ): # year -3
+                                data['total_last_last_last'] = total_invoice
+                            elif anno_mese >= "%s09" % (
+                                    anno_riferimento -4, ) and \
+                                    anno_mese <= "%s08" % (
+                                        anno_riferimento -3, ): # year -4
+                                data['total_last_last_last_last'] = \
+                                    total_invoice
+                            else:
+                                continue # jump
+
+                            try:
+                                # Common part (correct + amount)
+                                invoice_id = self.create(
+                                    cr, uid, data, context=context)
+                                if step == 2: # Second payment negative! 
+                                    # invert sign and setup agent
+                                    data['name'] = "%s [%s]" % (
+                                        partner_name2, mexal_id2)
+                                    data['partner_id'] = partner_id2
+                                    data['total'] = -data.get(
+                                        'total', 0.0)
+                                    data['total_last'] = -data.get(
+                                        'total_last', 0.0)
+                                    data['total_last_last'] = -data.get(
+                                        'total_last_last', 0.0)
+                                    data['total_last_last_last'] = -data.get(
+                                        'total_last_last_last', 0.0)
+                                    data['total_last_last_last_last'] = \
+                                        -data.get(
+                                            'total_last_last_last_last', 0.0)
+                                    invoice_id = self.create(
+                                        cr, uid, data, context=context)
+                            except:
+                                _logger.error("%s Error create invoice: %s" % (
+                                    counter, mexal_id)
+                        except:
+                            _logger.error("%s Error import invoice: [%s]" % (
+                                counter, sys.exc_info())
+                    
+                _logger.info("Statistic invoice import terminated")
+
+            # Parte comune fuori dal ciclo multi step:
+            for documento in ['oc', 'ft', 'bc',]:
+                print "Ricavo i dati per statistic.trend" + documento # Fatture e OC + Fatture
+                if documento == "ft": # Solo fatture
+                   invoice_ids = sock.execute(
+                       dbname, uid, pwd, 'statistic.invoice', 'search', [
+                           ('type_document','=','ft')])
+                else: # tutto oc + ft + bc
+                   invoice_ids = sock.execute(
+                       dbname, uid, pwd, 'statistic.invoice', 'search', [])
+
+                if invoice_ids: # Elimino precedenti
+                    if documento == "ft":
+                       trend_ids = sock.execute(dbname, uid, pwd, 'statistic.trend',
+                           'search', [])
+                       remove_trend = sock.execute(dbname, uid, pwd, 'statistic.trend',
+                           'unlink', trend_ids)
+                    else:
+                       trend_ids = sock.execute(dbname, uid, pwd, 'statistic.trendoc',
+                           'search', [])
+                       remove_trend = sock.execute(dbname, uid, pwd, 'statistic.trendoc',
+                           'unlink', trend_ids)
+
+                    # Carico nella lista tutti i valori divisi per partner:
+                    item_list = {}
+                    # Causa aggiunte posteriori il pos 3 = anno -3, pos 4 = anno -4
+                    total_invoiced = [0.0, 0.0, 0.0, 0.0, 0.0] # -2, -1, 0 -4, -3,
+                    for item in sock.execute(dbname, uid, pwd, 'statistic.invoice', 'read', invoice_ids): # in funzione del documento
+                        partner_id = (item['partner_id'] and item['partner_id'][0]) or 0
+
+                        if partner_id not in item_list:
+                            # stesso discorso per l'aggiunta a posteriori
+                            item_list[partner_id] = [0.0, 0.0, 0.0, 0.0, 0.0] # -2 -1 0 -4, -3,
+
+                        if item['total']:                                  # anno attuale
+                            item_list[partner_id][2] += item['total']
+                            total_invoiced[2] += item['total']
+                        if item['total_last']:                             # anno -1
+                            item_list[partner_id][1] += item['total_last']
+                            total_invoiced[1] += item['total_last']
+                        if item['total_last_last']:                        # anno -2
+                            item_list[partner_id][0] += item['total_last_last']
+                            total_invoiced[0] += item['total_last_last']
+                        if item['total_last_last_last']:                   # anno -3
+                            item_list[partner_id][3] += item['total_last_last_last']
+                            total_invoiced[3] += item['total_last_last_last']
+                        if item['total_last_last_last_last']:              # anno -4
+                            item_list[partner_id][4] += item['total_last_last_last_last']
+                            total_invoiced[4] += item['total_last_last_last_last']
+
+                print "Inserisco i dati nell'archivio statistico per " + documento
+                for elemento_id in item_list.keys(): # passo tutti gli elementi inserendoli in archivio col calcolo perc.
+                    data = {
+                        'name': "cliente: %d" % (elemento_id,), #"%s [%d €]" % (number, total) ,
+                        'partner_id': elemento_id,
+                        'total': item_list[elemento_id][2],
+                        'total_last': item_list[elemento_id][1],
+                        'total_last_last': item_list[elemento_id][0],
+                        'total_last_last_last': item_list[elemento_id][3],
+                        'total_last_last_last_last': item_list[elemento_id][4],
+                        'percentage': (total_invoiced[2]) and (item_list[elemento_id][2] * 100 / (total_invoiced[2])), # current year
+                        'percentage_last': (total_invoiced[1]) and (item_list[elemento_id][1] * 100 / (total_invoiced[1])), # -1 year
+                        'percentage_last_last': (total_invoiced[0]) and (item_list[elemento_id][0] * 100 / (total_invoiced[0])), # -2 year
+                        # percentage_last_last_last
+                        # percentage_last_last_last_last
+                        }
+                    try:
+                       if documento=="ft":
+                          trend_id = sock.execute(dbname, uid, pwd, 'statistic.trend', 'create', data)
+                       else:
+                          trend_id = sock.execute(dbname, uid, pwd, 'statistic.trendoc', 'create', data)
+
+                    except:
+                       raise_error("[ERR] Errore creando ordine id_partner: %s" % (
+                           elemento_id,), out_file)
+                       errore_da_comunicare=True
+                    if verbose:
+                       raise_error("[INFO] Fatturato del partner %d inserito:" % (
+                           elemento_id,), out_file)
+
+                if debug:
+                   print item_list
+            out_file.close()
+        except:
+            print raise_error('[ERR] Errore importando gli ordini!', out_file)
+
+
+        
         return True
         
     _columns = {
