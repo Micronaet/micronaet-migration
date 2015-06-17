@@ -29,7 +29,9 @@
         ],
     'init_xml': [],
     'demo': [],
-    'data': [],
+    'data': [
+        'security/ir.model.access.csv'
+        ],
     'active': False,
     'installable': True,
     'auto_install': False,

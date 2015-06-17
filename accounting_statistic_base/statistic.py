@@ -80,5 +80,4 @@ class ResPartnerStatistic(orm.Model):
         'ddt_e_oc_s': fields.float(
             'Supplier balance OC+DDT opened', digits=(16, 2)),
         }
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
