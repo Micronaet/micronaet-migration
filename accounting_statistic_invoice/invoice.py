@@ -98,10 +98,17 @@ class StatisticTrend(orm.Model):
             '% sul fatt. stag. -1', digits=(16, 5)),
         'percentage_last_last': fields.float(
             '% sul fatt. stag. -2', digits=(16, 5)),
+        'percentage_last_last_last': fields.float(
+            '% sul fatt. stag. -5', digits=(16, 5)),
+        'percentage_last_last_last_last': fields.float(
+            '% sul fatt. stag. -4', digits=(16, 5)),
 
         'total': fields.float('Tot. stag. attuale', digits=(16, 2)),
         'total_last': fields.float('Tot. stag. -1', digits=(16, 2)),
         'total_last_last': fields.float('Tot. stag. -2', digits=(16, 2)),
+        'total_last_last_last': fields.float('Tot. stag. -3', digits=(16, 2)),
+        'total_last_last_last_last': fields.float('Tot. stag. -4', 
+            digits=(16, 2)),
 
         'trend_category': fields.related(
             'partner_id', 'trend_category', type='boolean', readonly=True,
@@ -126,7 +133,7 @@ class StatisticTrend(orm.Model):
         'worst': fields.function(
             _function_index_increment, method=True, type='float',
             string='Worst trend', multi='indici', store=True,),
-    }
+        }
 
 class StatisticTrendOc(orm.Model):
     ''' Prototipe for statistic that has OC in total amount 
@@ -422,14 +429,13 @@ class StatisticInvoice(orm.Model):
                                 counter, sys.exc_info()))
                     
                 _logger.info("Statistic invoice import terminated")
-
             # -----------------------------------------------------------------
             #                      STATISTIC.TREND IMPORT
             # -----------------------------------------------------------------
             # Common part:
             for documento in ('oc', 'ft', 'bc'):
                 # Invoice and OC + Invoice
-                _logger.info("Compute statistic.trend data" + documento)
+                _logger.info("Compute statistic.trend %s" % documento)
                 if documento == "ft": # Solo fatture
                     invoice_ids = self.search(cr, uid, [
                         ('type_document','=','ft')], context=context)
@@ -444,7 +450,8 @@ class StatisticInvoice(orm.Model):
                     else:
                        trendoc_ids = trendoc_pool.search(
                            cr, uid, [], context=context)
-                       trendoc_pool.unlink(cr, uid, trendoc_ids, context=context)
+                       trendoc_pool.unlink(
+                           cr, uid, trendoc_ids, context=context)
 
                     # Load list value for all partner
                     item_list = {}
@@ -500,7 +507,7 @@ class StatisticInvoice(orm.Model):
                         # percentage_last_last_last_last
                         }
                     try:
-                       if documento=="ft":
+                       if documento == "ft":
                           trend_id = trend_pool.create(
                               cr, uid, data, context=context)
                        else:
@@ -623,6 +630,8 @@ class StatisticInvoiceProduct(orm.Model):
         'total': lambda *a: 0.0,
         'total_last': lambda *a: 0.0,
         'total_last_last': lambda *a: 0.0,
+        #'total_last_last_last': lambda *a: 0.0,
+        #'total_last_last_last_last': lambda *a: 0.0,
         'visible': lambda *a: False,
     }
 
