@@ -585,9 +585,9 @@ class StatisticInvoiceProduct(orm.Model):
         '''    
         # TODO for log check:
         #create_date=time.ctime(os.path.getctime(FileInput))    
-
+        import pdb; pdb.set_trace()
         _logger.info("Start importation product invoice stats: %s" % (
-            file_input))    
+            input_file))    
         lines = csv.reader(open(input_file, 'rb'), delimiter=delimiter)
         counter = -header
 
