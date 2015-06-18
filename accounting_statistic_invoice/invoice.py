@@ -340,46 +340,46 @@ class StatisticInvoice(orm.Model):
                                 }
 
                             # Year to intert invoiced 
-                            anno_mese = "%s%02d" % (year, month)
+                            year_month = "%s%02d" % (year, month)
 
-                            anno_attuale = int(
+                            current_year = int(
                                 datetime.now().strftime("%Y"))
-                            mese_attuale = int(
+                            current_month = int(
                                 datetime.now().strftime("%m"))
                                 
                             # Season 
-                            if mese_attuale >= 1 and mese_attuale <= 8:
-                                anno_riferimento = anno_attuale - 1 
-                            elif mese_attuale >= 9 and mese_attuale <= 12:
-                                anno_riferimento = anno_attuale
+                            if current_month >= 1 and current_month <= 8:
+                                ref_year = current_year - 1 
+                            elif current_month >= 9 and current_month <= 12:
+                                ref_year = current_year
                             else:
                                 _logger.error("%s) Month error not [1:12]" % (
                                     counter))
 
                             # september - current year >> agoust - next year
-                            if anno_mese >= "%s09" % anno_riferimento and \
-                                    anno_mese <= "%s08" % (
-                                        anno_riferimento + 1, ): # current
+                            if year_month >= "%s09" % ref_year and \
+                                    year_month <= "%s08" % (
+                                        ref_year + 1, ): # current
                                 data['total'] = total_invoice
-                            elif anno_mese >= "%s09" % (
-                                    anno_riferimento -1, ) and \
-                                    anno_mese <= "%s08" % (
-                                        anno_riferimento, ): # year -1
+                            elif year_month >= "%s09" % (
+                                    ref_year -1, ) and \
+                                    year_month <= "%s08" % (
+                                        ref_year, ): # year -1
                                 data['total_last'] = total_invoice
-                            elif anno_mese >= "%s09" % (
-                                    anno_riferimento -2, ) and \
-                                    anno_mese <= "%s08" % (
-                                        anno_riferimento -1, ): # year -2
+                            elif year_month >= "%s09" % (
+                                    ref_year -2, ) and \
+                                    year_month <= "%s08" % (
+                                        ref_year -1, ): # year -2
                                 data['total_last_last'] = total_invoice
-                            elif anno_mese >= "%s09" % (
-                                    anno_riferimento -3, ) and \
-                                    anno_mese <= "%s08" % (
-                                        anno_riferimento -2, ): # year -3
+                            elif year_month >= "%s09" % (
+                                    ref_year -3, ) and \
+                                    year_month <= "%s08" % (
+                                        ref_year -2, ): # year -3
                                 data['total_last_last_last'] = total_invoice
-                            elif anno_mese >= "%s09" % (
-                                    anno_riferimento -4, ) and \
-                                    anno_mese <= "%s08" % (
-                                        anno_riferimento -3, ): # year -4
+                            elif year_month >= "%s09" % (
+                                    ref_year -4, ) and \
+                                    year_month <= "%s08" % (
+                                        ref_year -3, ): # year -4
                                 data['total_last_last_last_last'] = \
                                     total_invoice
                             else:
@@ -595,28 +595,28 @@ class StatisticInvoiceProduct(orm.Model):
         self.unlink(cr, uid, item_ids, context=context)
 
         tot_col=0
-        totale_stagione = [0, 0, 0]
-        fatturato_elementi = {}
+        season_total = 0 
+        item_invoice = {}
         try:
             for line in lines:
-                if tot_col==0: # memorizzo il numero colonne la prima volta
-                   tot_col=len(line)
+                if tot_col == 0: # save total cols
+                   tot_col = len(line)
                    _logger.info("Total cols %s" % tot_col)
                 if counter < 0:
                     counter += 1
                     continue
 
-                if (len(line) and (tot_col==len(line))): #or (len(line)==5): # salto le righe vuote e le righe con colonne diverse
-                    _logger.warning("%s) Empy line or column err [%s>%s]" % (
+                if (len(line) and (tot_col == len(line))): 
+                    _logger.warning("%s) Empty line or column err [%s>%s]" % (
                         counter, tot_col, len(line)))
-                    counter += 1 
+                    counter += 1
                     continue
                 try:                    
-                    name = prepare(line[0]) # Family
-                    month = int(prepare(line[1])) or 0
-                    year = prepare(line[2])
-                    total_invoice = prepare_float(line[3]) or 0.0
-                    type_document = prepare(line[4]).lower()
+                    name = csv_base.decode_string(line[0]) # Family
+                    month = int(csv_base.decode_string(line[1])) or 0
+                    year = csv_base.decode_string(line[2])
+                    total_invoice = csv_base.decode_float(line[3]) or 0.0
+                    type_document = csv_base.decode_string(line[4]).lower()
                                                                   
                     # Calculated field:
                     if type_document not in ('ft', 'bc', 'oc'):
@@ -635,39 +635,37 @@ class StatisticInvoiceProduct(orm.Model):
                             _logger.error("%s) Year %s or month %s not found" % (
                                 counter, year, month)) 
 
-                        anno_mese = "%s%02d" % (year, month)                        
-                        anno_attuale = int(datetime.now().strftime("%Y"))
-                        mese_attuale = int(datetime.now().strftime("%m"))
+                        year_month = "%s%02d" % (year, month)                        
+                        current_year = int(datetime.now().strftime("%Y"))
+                        current_month = int(datetime.now().strftime("%m"))
                        
-                        if mese_attuale >=1 and mese_attuale <=8:
-                            anno_riferimento = anno_attuale - 1
-                        elif mese_attuale >= 9 and mese_attuale <= 12:
-                            anno_riferimento = anno_attuale  
+                        if current_month >=1 and current_month <=8:
+                            ref_year = current_year - 1
+                        elif current_month >= 9 and current_month <= 12:
+                            ref_year = current_year  
                         else:
                             _logger.error("%s) Month error" % counter) 
 
                         # TODO: add also OC
-                        if anno_mese >= "%s09" % anno_riferimento and \
-                                anno_mese <= "%s08" % (anno_riferimento + 1):
+                        if year_month >= "%s09" % ref_year and \
+                                year_month <= "%s08" % (ref_year + 1):
                             data['total'] = total_invoice
-                            totale_stagione[2] += total_invoice # Tot x season
-                        elif anno_mese >= "%s09" % (anno_riferimento -1) and \
-                               anno_mese <= "%s08" % anno_riferimento: # year-1
+                        elif year_month >= "%s09" % (ref_year -1) and \
+                               year_month <= "%s08" % ref_year: # year-1
                             data['total_last'] = total_invoice
-                            totale_stagione[1] += total_invoice # Tot x season
-                        elif anno_mese >= "%s09" % (anno_riferimento -2) and \
-                                anno_mese <= "%s08" % (anno_riferimento -1): #-2
+                        elif year_month >= "%s09" % (ref_year -2) and \
+                                year_month <= "%s08" % (ref_year -1): #-2
                            data['total_last_last'] = total_invoice
-                           totale_stagione[0] += total_invoice # Tot x season
                         else:  
                             _logger.warning("%s) Extra period %s-%s" % (
                                 counter, year, month)) 
+                        season_total += total_invoice
  
                         # Sum total for element
-                        if name not in fatturato_elementi:
-                            fatturato_elementi[name] = total_invoice
+                        if name not in item_invoice:
+                            item_invoice[name] = total_invoice
                         else:    
-                            fatturato_elementi[name] += total_invoice
+                            item_invoice[name] += total_invoice
                           
                         try:                      
                            invoice_id = self.create(
@@ -686,11 +684,6 @@ class StatisticInvoiceProduct(orm.Model):
             "End importation records, start totals for split elements")
 
         try: # Split product depend on invoiced
-            totale_fatturato_tre_stagioni = (
-                totale_stagione[2] + 
-                totale_stagione[1] + 
-                totale_stagione[0])
-
             # Remove some code:
             remove_pool = self.pool.get('statistic.invoice.product.removed')
             item_ids = remove_pool.search(cr, uid, item_ids, context=context)
@@ -699,14 +692,14 @@ class StatisticInvoiceProduct(orm.Model):
                     context=context)]
             
             most_popular = []
-            for key_famiglia in fatturato_elementi.keys():
-                percentuale_fatturato = fatturato_elementi[
-                    key_famiglia] / totale_fatturato_tre_stagioni
-                if percentuale_fatturato >= 0.005: # 0,5% all 3 season
+            for family in item_invoice.keys():
+                perc_invoice = item_invoice[
+                    family] / season_total
+                if perc_invoice >= 0.005: # 0,5% all 3 season
                     # Write element
-                    if key_famiglia not in product_removed and key_famiglia \
+                    if family not in product_removed and family \
                             not in most_popular:
-                        most_popular.append(key_famiglia)
+                        most_popular.append(family)
                 
             product_item_to_show_ids = self.search(cr, uid, [
                 ('name', 'in', most_popular)], context=context)
