@@ -326,18 +326,15 @@ class StatisticInvoice(orm.Model):
         'type_cei': fields.related('partner_id','type_cei', type='char',
             size=1, string='C E I'),
         'total': fields.float('Stag. attuale', digits=(16, 2)),
-        'total_last': fields.float('Stag. -1', digits=(16, 2)),
-        'total_last_last': fields.float('Stag. -2', digits=(16, 2)),
-        'total_last_last_last': fields.float('Stag. -3', digits=(16, 2)),
-        'total_last_last_last_last': fields.float('Stag. -4', digits=(16, 2)),
+
         'season_total': fields.char(
             'Totale', size=15,
             help='Only a field for group in graph total invoice'),
         'type_document': fields.selection([
             ('ft', 'Fattura'),
             ('oc', 'Ordine'),
-            ('bc', 'DDT'),
-            ], 'Tipo doc.', select=True),
+            ('bc', 'DDT'), ], 'Tipo doc.', select=True),
+
         'month': fields.selection([
             (0, '00 Non trovato'),
             (1, 'Mese 05*: Gennaio'),
@@ -382,10 +379,6 @@ class StatisticInvoice(orm.Model):
 
     _defaults = {
         'total': lambda *a: 0.0,
-        'total_last': lambda *a: 0.0,
-        'total_last_last': lambda *a: 0.0,
-        'total_last_last_last': lambda *a: 0.0,
-        'total_last_last_last_last': lambda *a: 0.0,
         'season_total': lambda *a: 'Totale', # always the same
         'visible': lambda *a: False,
         }

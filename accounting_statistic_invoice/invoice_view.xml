@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
-    <!-- Statistic invoice product: statistic.invoice.product ************** -->
+    <!-- Statistic invoice product: statistic.invoice.product ************* -->
        <!-- Search -->
     <record model="ir.ui.view" id="view_statistic_invoice_product_search">
         <field name="name">statistic.invoice.product.search</field>
@@ -187,12 +187,36 @@
                 <group col="10" colspan="4">
                     <field name="name" />
                     <field name="partner_id"/>
+                    <field name="season"/>                    
                     <field name="month"/>
+                    <field name="total" />
+                    <field name="type_document" />
+                    <!--<field name="year"/>
+                    <field name="percentage" />-->
                 </group>
-                <newline/>
-                <group expand="0" string="Group By..." colspan="14">
+
+                <!--<filter name="top_sale" domain="[('top','=',True)]" string="Top sale"/>
+                <filter name="low_sale" domain="[('top','=',False)]" string="Low sale"/>
+                <newline />-->
+
+                <filter name="seasonB3" domain="[('season','=',-3)]" string="Season -3"/>
+                <filter name="seasonB2" domain="[('season','=',-1)]" string="Season -2"/>
+                <filter name="seasonB1" domain="[('season','=',-2)]" string="Season -1"/>
+                <filter name="season" domain="[('season','=',1)]" string="Season current"/>
+                <filter name="season_old" domain="[('season','=',-100)]" string="Extra (Old season)"/>
+                <filter name="season_new" domain="[('season','=',100)]" string="Extra (New season)"/>
+                <newline />
+
+                <group expand="0" string="Group By">
                     <filter string="Partner" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'partner_id'}"/>
-                </group>
+                    <filter string="Season" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'season'}"/>
+                    <filter string="Month" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'type_month'}"/>
+                    <filter string="Type of doc" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'type_document'}"/>
+                    <!--<filter string="Year" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'type_year'}"/>-->
+                    <!--<filter name="group_name" string="Name" context="{'group_by': 'name'}"/>-->
+                    <!--<filter name="group_top" string="Top sale" context="{'group_by': 'top'}"/>-->
+                    <!--<filter name="group_default" string="Def.: M + S" context="{'group_by': ('month','season')}"/>-->
+                </group>                
             </search>
         </field>
     </record>
@@ -224,13 +248,17 @@
         <field name="name">statistic.invoice.form</field>
         <field name="model">statistic.invoice</field>
         <field name="arch" type="xml">
-            <form string="Statistic invoice Form">
-                <field name="partner_id"/>
-                <field name="invoice_agent_id"/>
-                <field name="total_last_last" />
-                <field name="total_last"/>
-                <field name="total"/>
-                <field name="month"/>
+            <form string="Statistic invoice Form" versione="7.0">
+              <sheet>
+                  <group colspan="4" col="4">
+                    <field name="partner_id"/>
+                    <field name="invoice_agent_id"/>
+                    <field name="season"/>
+                    <field name="month"/>
+                    <field name="type_document"/>
+                    <field name="total"/>
+                  </group>   
+              </sheet>
             </form>
         </field>
     </record>
@@ -241,20 +269,18 @@
         <field name="model">statistic.invoice</field>
         <field name="arch" type="xml">
             <tree string="Statistic invoice Tree">
+                <field name="season"/>
+                <field name="month"/>
+                <field name="type_document"/>
                 <field name="partner_id"/>
                 <field name="invoice_agent_id"/>
                 <field name="country_id"/>
                 <field name="zone_id"/>
-                <field name="total_last_last_last_last" sum="Totale -4" />
-                <field name="total_last_last_last" sum="Totale -3" />
-                <field name="total_last_last" sum="Totale -2" />
-                <field name="total_last" sum="Totale -1" />
                 <field name="total" sum="Totale" />
-                <field name="month"/>
             </tree>
         </field>
     </record>
-    
+
        <!-- Graph -->
     <!-- Per Fatturato Nazione: -->
     <record model="ir.ui.view" id="view_invoice_nation_graph">
@@ -291,7 +317,7 @@
         </field>
     </record>
 
-    <!-- Per Fatturato Agenti: -->
+    <!-- TODO Remove extra view graph -->
     <record model="ir.ui.view" id="view_invoice_agent_hide_statistic_graph">
         <field name="name">Fatturato agente visibile (barre)</field>
         <field name="model">statistic.invoice</field>
