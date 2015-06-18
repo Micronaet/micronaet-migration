@@ -125,7 +125,7 @@ class StatisticTrend(orm.Model):
             string='Categoria trend'),
         'statistic_category_id': fields.related(
             'partner_id', 'statistic_category_id', type='many2one',
-            relation="statistic.category", readonly=True,
+            relation='statistic.category', readonly=True,
             string='Categoria statistica partner'),
         'trend': fields.related(
             'partner_id', 'trend', type='boolean', readonly=True,
@@ -292,7 +292,7 @@ class StatisticInvoice(orm.Model):
                                     ):
                                     
                                     _logger.warning(
-                                        "%s: replace code: %s>06.03044" % (
+                                        '%s: replace code: %s>06.03044' % (
                                             counter, mexal_id))
                                     mexal_id = '06.03044'
 
@@ -301,51 +301,51 @@ class StatisticInvoice(orm.Model):
                                     cr, uid, mexal_id, context=context)
                                 if not partner_id:
                                     _logger.error(
-                                        "%s) Partner not found: %s" % (
+                                        '%s) Partner not found: %s' % (
                                         counter, mexal_id))
-                                    partner_name = "#ERR Partner code %s" % (
-                                        mexal_id or "")
+                                    partner_name = '#ERR Partner code %s' % (
+                                        mexal_id or '')
                                 else:
                                     partner_name = get_partner_name(
                                         self, cr, uid, partner_id)
 
                             if not total_invoice:
-                                _logger.warning("%s Amount not found [%s]" % (
+                                _logger.warning('%s Amount not found [%s]' % (
                                     counter, line))
                                 continue # Could happen
 
                             # Not classified (TODO but imported, true?!?!)
                             if not (month or year): 
-                                _logger.error("%s Month/Year not found! %s" % (
+                                _logger.error('%s Month/Year not found! %s' % (
                                     counter, line))
 
                             # OC old = today
-                            if (type_document == 'oc') and ("%s%02d" % (
+                            if (type_document == 'oc') and ('%s%02d' % (
                                     year, month) < datetime.now().strftime(
-                                        "%Y%m")):
+                                        '%Y%m')):
                                 _logger.warning(
-                                    "%s) Old OC > today: %s%02d, cliente: %s, "
-                                    "totale %s" % (
+                                    '%s) Old OC > today: %s%02d, cliente: %s, '
+                                    'totale %s' % (
                                         counter, year, month, mexal_id, 
                                         total_invoice))
-                                year = datetime.now().strftime("%Y")
+                                year = datetime.now().strftime('%Y')
                                 month = int(
-                                    datetime.now().strftime("%m"))
+                                    datetime.now().strftime('%m'))
 
                             data = {
-                                "name": "%s [%s]" % (partner_name, mexal_id),
-                                "partner_id": partner_id,
-                                "month": month,
-                                "type_document": type_document,
+                                'name': '%s [%s]' % (partner_name, mexal_id),
+                                'partner_id': partner_id,
+                                'month': month,
+                                'type_document': type_document,
                                 }
 
                             # Year to intert invoiced 
-                            year_month = "%s%02d" % (year, month)
+                            year_month = '%s%02d' % (year, month)
 
                             current_year = int(
-                                datetime.now().strftime("%Y"))
+                                datetime.now().strftime('%Y'))
                             current_month = int(
-                                datetime.now().strftime("%m"))
+                                datetime.now().strftime('%m'))
                                 
                             # Season 
                             if current_month >= 1 and current_month <= 8:
@@ -353,32 +353,32 @@ class StatisticInvoice(orm.Model):
                             elif current_month >= 9 and current_month <= 12:
                                 ref_year = current_year
                             else:
-                                _logger.error("%s) Month error not [1:12]" % (
+                                _logger.error('%s) Month error not [1:12]' % (
                                     counter))
 
                             # september - current year >> agoust - next year
-                            if year_month >= "%s09" % ref_year and \
-                                    year_month <= "%s08" % (
+                            if year_month >= '%s09' % ref_year and \
+                                    year_month <= '%s08' % (
                                         ref_year + 1, ): # current
                                 data['total'] = total_invoice
-                            elif year_month >= "%s09" % (
+                            elif year_month >= '%s09' % (
                                     ref_year -1, ) and \
-                                    year_month <= "%s08" % (
+                                    year_month <= '%s08' % (
                                         ref_year, ): # year -1
                                 data['total_last'] = total_invoice
-                            elif year_month >= "%s09" % (
+                            elif year_month >= '%s09' % (
                                     ref_year -2, ) and \
-                                    year_month <= "%s08" % (
+                                    year_month <= '%s08' % (
                                         ref_year -1, ): # year -2
                                 data['total_last_last'] = total_invoice
-                            elif year_month >= "%s09" % (
+                            elif year_month >= '%s09' % (
                                     ref_year -3, ) and \
-                                    year_month <= "%s08" % (
+                                    year_month <= '%s08' % (
                                         ref_year -2, ): # year -3
                                 data['total_last_last_last'] = total_invoice
-                            elif year_month >= "%s09" % (
+                            elif year_month >= '%s09' % (
                                     ref_year -4, ) and \
-                                    year_month <= "%s08" % (
+                                    year_month <= '%s08' % (
                                         ref_year -3, ): # year -4
                                 data['total_last_last_last_last'] = \
                                     total_invoice
@@ -391,7 +391,7 @@ class StatisticInvoice(orm.Model):
                                     cr, uid, data, context=context)
                                 if step == 2: # Second payment negative! 
                                     # invert sign and setup agent
-                                    data['name'] = "%s [%s]" % (
+                                    data['name'] = '%s [%s]' % (
                                         partner_name2, mexal_id2)
                                     data['partner_id'] = partner_id2
                                     data['total'] = -data.get(
@@ -408,28 +408,28 @@ class StatisticInvoice(orm.Model):
                                     invoice_id = self.create(
                                         cr, uid, data, context=context)
                             except:
-                                _logger.error("%s Error create invoice: %s" % (
+                                _logger.error('%s Error create invoice: %s' % (
                                     counter, mexal_id))
                         except:
-                            _logger.error("%s Error import invoice: [%s]" % (
+                            _logger.error('%s Error import invoice: [%s]' % (
                                 counter, sys.exc_info()))
                     
-                _logger.info("Statistic invoice import terminated")
+                _logger.info('Statistic invoice import terminated')
             # -----------------------------------------------------------------
             #                      STATISTIC.TREND IMPORT
             # -----------------------------------------------------------------
             # Common part:
             for documento in ('oc', 'ft', 'bc'):
                 # Invoice and OC + Invoice
-                _logger.info("Compute statistic.trend %s" % documento)
-                if documento == "ft": # Solo fatture
+                _logger.info('Compute statistic.trend %s' % documento)
+                if documento == 'ft': # Solo fatture
                     invoice_ids = self.search(cr, uid, [
                         ('type_document','=','ft')], context=context)
                 else: # all oc + ft + bc
                     invoice_ids = self.search(cr, uid, [], context=context)
 
                 if invoice_ids: # Delete previous
-                    if documento == "ft":
+                    if documento == 'ft':
                        trend_ids = trend_pool.search(
                            cr, uid, [], context=context)
                        trend_pool.unlink(cr, uid, trend_ids, context=context)
@@ -470,10 +470,10 @@ class StatisticInvoice(orm.Model):
                                 item.total_last_last_last_last
                             total_invoiced[4] += item.total_last_last_last_last
 
-                _logger.info("Add statistic archive for %s" % documento)
+                _logger.info('Add statistic archive for %s' % documento)
                 for elemento_id in item_list.keys(): # for % calculate
                     data = {
-                        'name': "cliente: %d" % elemento_id,
+                        'name': 'cliente: %d' % elemento_id,
                         'partner_id': elemento_id,
                         'total': item_list[elemento_id][2],
                         'total_last': item_list[elemento_id][1],
@@ -493,17 +493,17 @@ class StatisticInvoice(orm.Model):
                         # percentage_last_last_last_last
                         }
                     try:
-                       if documento == "ft":
+                       if documento == 'ft':
                           trend_id = trend_pool.create(
                               cr, uid, data, context=context)
                        else:
                           trend_id = trendoc_pool.create(
                               cr, uid, data, context=context)
                     except:
-                        _logger.error("Error create order for partner: %s" % (
+                        _logger.error('Error create order for partner: %s' % (
                            elemento_id))
         except:
-            _logger.error("Error import order")
+            _logger.error('Error import order')
 
         return True
         
@@ -586,7 +586,7 @@ class StatisticInvoiceProduct(orm.Model):
         # TODO for log check:
         #create_date=time.ctime(os.path.getctime(FileInput))    
         import pdb; pdb.set_trace()
-        _logger.info("Start importation product invoice stats: %s" % (
+        _logger.info('Start importation product invoice stats: %s' % (
             input_file))    
         lines = csv.reader(open(input_file, 'rb'), delimiter=delimiter)
         counter = -header
@@ -597,91 +597,95 @@ class StatisticInvoiceProduct(orm.Model):
         tot_col=0
         season_total = 0 
         item_invoice = {}
-        try:
-            for line in lines:
-                if tot_col == 0: # save total cols
-                   tot_col = len(line)
-                   _logger.info("Total cols %s" % tot_col)
-                if counter < 0:
-                    counter += 1
-                    continue
+        for line in lines:
+            try:
+            if tot_col == 0: # save total cols
+               tot_col = len(line)
+               _logger.info('Total cols %s' % tot_col)
+            if counter < 0:
+                counter += 1
+                continue
 
-                if (len(line) and (tot_col == len(line))): 
-                    _logger.warning("%s) Empty line or column err [%s>%s]" % (
-                        counter, tot_col, len(line)))
-                    counter += 1
-                    continue
-                try:                    
-                    name = csv_base.decode_string(line[0]) # Family
-                    month = int(csv_base.decode_string(line[1])) or 0
-                    year = csv_base.decode_string(line[2])
-                    total_invoice = csv_base.decode_float(line[3]) or 0.0
-                    type_document = csv_base.decode_string(line[4]).lower()
-                                                                  
-                    # Calculated field:
-                    if type_document not in ('ft', 'bc', 'oc'):
-                        _logger.warning("%s) Type of doc not correct: %s" % (
-                            counter, type_document)) 
-                        type_document = False
-                          
-                        data = {
-                            "name": name, 
-                            "month": month, 
-                            "type_document": type_document,
-                            }
-             
-                        # Which year
-                        if not (year or month): 
-                            _logger.error("%s) Year %s or month %s not found" % (
-                                counter, year, month)) 
+            if (len(line) and (tot_col == len(line))): 
+                _logger.warning('%s) Empty line or column err [%s>%s]' % (
+                    counter, tot_col, len(line)))
+                counter += 1
+                continue
+            try:                    
+                name = csv_base.decode_string(line[0]) # Family
+                month = int(csv_base.decode_string(line[1])) or 0
+                year = csv_base.decode_string(line[2])
+                total_invoice = csv_base.decode_float(line[3]) or 0.0
+                type_document = csv_base.decode_string(line[4]).lower()
+                                                              
+                # Calculated field:
+                if type_document not in ('ft', 'bc', 'oc'):
+                    _logger.warning('%s) Type of doc not correct: %s' % (
+                        counter, type_document)) 
+                    type_document = False
+                      
+                    data = {
+                        'name': name, 
+                        'month': month, 
+                        'type_document': type_document,
+                        'total': total_invoice, # now for all seasons
+                        }
+         
+                    # Which year
+                    if not (year or month): 
+                        _logger.error(
+                            '%s) Year %s or month %s not found (jump)' % (
+                                counter, year, month))
+                        continue    
 
-                        year_month = "%s%02d" % (year, month)                        
-                        current_year = int(datetime.now().strftime("%Y"))
-                        current_month = int(datetime.now().strftime("%m"))
-                       
-                        if current_month >=1 and current_month <=8:
-                            ref_year = current_year - 1
-                        elif current_month >= 9 and current_month <= 12:
-                            ref_year = current_year  
-                        else:
-                            _logger.error("%s) Month error" % counter) 
+                    season_total += total_invoice
+                    year_month = '%s%02d' % (year, month)                        
+                    current_year = int(datetime.now().strftime('%Y'))
+                    current_month = int(datetime.now().strftime('%m'))
+                   
+                    if current_month >=1 and current_month <=8:
+                        ref_year = current_year - 1
+                    elif current_month >= 9 and current_month <= 12:
+                        ref_year = current_year  
+                    else:
+                        _logger.error('%s) Month error (jump)' % counter) 
+                        continue
 
-                        # TODO: add also OC
-                        if year_month >= "%s09" % ref_year and \
-                                year_month <= "%s08" % (ref_year + 1):
-                            data['total'] = total_invoice
-                        elif year_month >= "%s09" % (ref_year -1) and \
-                               year_month <= "%s08" % ref_year: # year-1
-                            data['total_last'] = total_invoice
-                        elif year_month >= "%s09" % (ref_year -2) and \
-                                year_month <= "%s08" % (ref_year -1): #-2
-                           data['total_last_last'] = total_invoice
-                        else:  
-                            _logger.warning("%s) Extra period %s-%s" % (
-                                counter, year, month)) 
-                        season_total += total_invoice
- 
-                        # Sum total for element
-                        if name not in item_invoice:
-                            item_invoice[name] = total_invoice
-                        else:    
-                            item_invoice[name] += total_invoice
-                          
-                        try:                      
-                           invoice_id = self.create(
-                               cr, uid, data, context=context)
-                        except:
-                            _logger.error("%s) Error create record" % counter)
+                    # TODO: add also OC
+                    if year_month >= '%s09' % ref_year and \
+                            year_month <= '%s08' % (ref_year + 1):
+                        data['season'] = 0                            
+                    elif year_month >= '%s09' % (ref_year -1) and \
+                           year_month <= '%s08' % ref_year: # -1
+                        data['season'] = 1
+                    elif year_month >= '%s09' % (ref_year -2) and \
+                            year_month <= '%s08' % (ref_year -1): #-2
+                        data['season'] = 2
+                    else:  
+                        _logger.warning('%s) Extra period %s-%s' % (
+                            counter, year, month)) 
 
-                except:
-                    _logger.error("%s) Error create record [%s]" % (
-                       counter, sys.exc_info()))
+                    # Sum total for element
+                    if name not in item_invoice:
+                        item_invoice[name] = total_invoice
+                    else:
+                        item_invoice[name] += total_invoice
+                      
+                    try:                      
+                       invoice_id = self.create(
+                           cr, uid, data, context=context)
+                    except:
+                        _logger.error('%s) Error create record' % counter)
+
+            except:
+                _logger.error('%s) Error create record [%s]' % (
+                   counter, sys.exc_info()))
                    
         except:
-            _logger.error("%s) Error create record [%s]" % (
+            _logger.error('%s) Error create record [%s]' % (
                 counter, sys.exc_info()))
         _logger.info(
-            "End importation records, start totals for split elements")
+            'End importation records, start totals for split elements')
 
         try: # Split product depend on invoiced
             # Remove some code:
@@ -695,38 +699,31 @@ class StatisticInvoiceProduct(orm.Model):
             for family in item_invoice.keys():
                 perc_invoice = item_invoice[
                     family] / season_total
-                if perc_invoice >= 0.005: # 0,5% all 3 season
-                    # Write element
+                if perc_invoice >= 0.005: # 0,5% all 3 season # TODO parametr.
                     if family not in product_removed and family \
                             not in most_popular:
-                        most_popular.append(family)
+                        most_popular.append(family) # write
                 
             product_item_to_show_ids = self.search(cr, uid, [
                 ('name', 'in', most_popular)], context=context)
-            product_updated_percentile = self.write(
-                cr, uid, product_item_to_show_ids, {
-                    'visible': True}, context=context)
-            _logger.info("Set top elements")
+            self.write(cr, uid, product_item_to_show_ids, {
+                    'top': True}, context=context)
+            _logger.info('Set top elements')
 
         except:
-            _logger.error("%s) Error create record [%s]" % (
+            _logger.error('%s) Error create record [%s]' % (
                 counter, sys.exc_info()))
         
         return True
         
     _columns = {
-        'name': fields.char('Famiglia prodotto', size=64),
-        'visible': fields.boolean('Visible',), ## used!
-        'total': fields.float('Stag. attuale', digits=(16, 2)),
-        #'total_last': fields.float('Stag. -1', digits=(16, 2)),
-        #'total_last_last': fields.float('Stag. -2', digits=(16, 2)),
+        'name': fields.char('Product family', size=64),
+        'visible': fields.boolean('Visible',), # TODO removeable!
+        'top': fields.boolean('Top sale),
+        'total': fields.float('Amount', digits=(16, 2)),
 
         'percentage': fields.float(
-            '% sul fatt. stag. corrente', digits=(16, 5)),
-        #'percentage_last': fields.float(
-        #    '% sul fatt. stag. -1', digits=(16, 5)),
-        #'percentage_last_last': fields.float(
-        #    '% sul fatt. stag. -2', digits=(16, 5)),
+            '% 3 season total', digits=(16, 5)),
 
         'season': fields.selection([
             (0, 'Current season'),
@@ -759,8 +756,8 @@ class StatisticInvoiceProduct(orm.Model):
     _defaults = {
         'total': lambda *a: 0.0,
         'season': lambda *a: 0,
-        'visible': lambda *a: False,
-    }
+        'top': lambda *a: False,
+        }
 
 class StatisticInvoiceProductRemoved(orm.Model):
     ''' Product not present in statistic
@@ -770,7 +767,7 @@ class StatisticInvoiceProductRemoved(orm.Model):
 
     _columns = {
         'name': fields.char(
-            'Famiglia', size = 64, required=True),
+            'Family', size = 64, required=True),
         }
     
 class ResPartnerStatistic(orm.Model):
@@ -781,7 +778,7 @@ class ResPartnerStatistic(orm.Model):
     _columns = {
         'trend': fields.boolean(
             'Trend',
-            help="Insert in trend statistic, used for get only interesting "
-                "partner in statistic graph"),
+            help='Insert in trend statistic, used for get only interesting '
+                'partner in statistic graph'),
         }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

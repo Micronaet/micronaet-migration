@@ -7,8 +7,23 @@
         <field name="name">statistic.invoice.product.search</field>
         <field name="model">statistic.invoice.product</field>
         <field name="arch" type="xml">
-            <search string="Statistic invoice product">
-                    <field name="name" />
+            <search string="Statistic invoice product" version="7.0">        
+                <field name="name" /> <!--family-->
+                <field name="total" />
+                <field name="percentage" />
+                <field name="season" />
+
+                <filter name="top_sale" domain="[('top','=',True)]" string="Top sale"/>
+                <filter name="low_sale" domain="[('top','=',False)]" string="Low sale"/>
+
+                <filter name="season0" domain="[('season','=',0)]" string="Current season"/>
+                <filter name="season1" domain="[('season','=',1)]" string="Season -1"/>
+                <filter name="season2" domain="[('season','=',2)]" string="Season -2"/>
+
+                <group expand="0" string="Group By">
+                    <filter name="group_partner" string="Partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Status" context="{'group_by': 'state'}" icon="terp-stock_effects-object-colorize"/>
+                </group>                
             </search>
         </field>
     </record>
