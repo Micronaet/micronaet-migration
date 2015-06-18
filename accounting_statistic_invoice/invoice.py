@@ -126,6 +126,7 @@ class StatisticInvoice(orm.Model):
             }
 
         for step, lines in loop_steps.iteritems():
+            _logger.info("Loop on file: %s" % lines[0])
             counter = -header
             tot_col = 0
             for line in lines:
@@ -318,16 +319,13 @@ class StatisticInvoice(orm.Model):
         'partner_id': fields.many2one('res.partner', 'Partner'),
         'invoice_agent_id': fields.related('partner_id','invoice_agent_id',
             type='many2one', relation='statistic.invoice.agent',
-            string='Invoice agent'),
+            string='Invoice agent', store=True),
         'hide_statistic': fields.related('invoice_agent_id','hide_statistic',
-            type='boolean', string='Nascondi statistica'),
-        'type_cei': fields.related('partner_id','type_cei', type='char',
-            size=1, string='C E I'),
+            type='boolean', string='Nascondi statistica', store=True),
+        'type_cei': fields.related('partner_id', 'type_cei', type='char',
+            size=1, string='C E I', store=True),
         'total': fields.float('Stag. attuale', digits=(16, 2)),
 
-        'season_total': fields.char(
-            'Totale', size=15,
-            help='Only a field for group in graph total invoice'),
         'type_document': fields.selection([
             ('ft', 'Fattura'),
             ('oc', 'Ordine'),
@@ -361,7 +359,7 @@ class StatisticInvoice(orm.Model):
         'year': fields.char('Anno', size=4),
             
         'trend': fields.related('partner_id', 'trend', type='boolean',
-            readonly=True, string='Important partner'),
+            readonly=True, string='Important partner', store=True),
 
         # Extra info for filter graph:
         'zone_id': fields.related('partner_id', 'zone_id', type='many2one',
@@ -378,7 +376,6 @@ class StatisticInvoice(orm.Model):
 
     _defaults = {
         'total': lambda *a: 0.0,
-        #'season_total': lambda *a: 'Totale', # always the same
         'visible': lambda *a: False,
         }
 

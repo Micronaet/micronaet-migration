@@ -229,7 +229,7 @@
                     <filter string="Agent" domain="[]" context="{'group_by':'invoice_agent_id'}"/>
                     <filter string="Zone" domain="[]" context="{'group_by':'zone_id'}"/>
                     <filter string="Type of zone" domain="[]" context="{'group_by':'zone_type'}"/>
-                    <filter string="Contry" domain="[]" context="{'group_by':'country_id'}"/>
+                    <filter string="Country" domain="[]" context="{'group_by':'country_id'}"/>
                 </group>                
             </search>
         </field>
@@ -272,8 +272,8 @@
     <record model="ir.ui.view" id="view_statistic_invoice_tree">
         <field name="name">statistic.invoice.tree</field>
         <field name="model">statistic.invoice</field>
-        <field name="arch" type="xml" colors="green:top==True">
-            <tree string="Statistic invoice Tree">
+        <field name="arch" type="xml" >
+            <tree string="Statistic invoice Tree" colors="green:top==True">
                 <field name="visible" invisible="1"/>
                 <field name="top" invisible="1"/>
                 <field name="trend" invisible="1"/>
