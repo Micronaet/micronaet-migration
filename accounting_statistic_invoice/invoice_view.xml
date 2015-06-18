@@ -186,7 +186,11 @@
             <search string="Statistic invoice">
                 <group col="10" colspan="4">
                     <field name="name" />
+                    <field name="country_id"/>
+                    <field name="zone_id"/>
+                    <field name="zone_type"/>
                     <field name="partner_id"/>
+                    <field name="invoice_agent_id"/>
                     <field name="season"/>                    
                     <field name="month"/>
                     <field name="total" />
@@ -194,6 +198,14 @@
                     <field name="year"/>
                     <!--<field name="percentage" />-->
                 </group>
+
+                <filter name="hide_statistic_on" domain="[('hide_statistic','=',True)]" string="Statistic on"/>
+                <filter name="hide_statistic_off" domain="[('hide_statistic','=',False)]" string="Statistic off"/>
+                <newline />
+
+                <filter name="trend_on" domain="[('trend','=',True)]" string="Trenf on"/>
+                <filter name="trend_off" domain="[('trend','=',False)]" string="Trend off"/>
+                <newline />
 
                 <filter name="top_sale" domain="[('top','=',True)]" string="Top sale"/>
                 <filter name="low_sale" domain="[('top','=',False)]" string="Low sale"/>
@@ -208,14 +220,16 @@
                 <newline />
 
                 <group expand="0" string="Group By">
-                    <filter string="Partner" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'partner_id'}"/>
-                    <filter string="Season" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'season'}"/>
-                    <filter string="Month" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'month'}"/>
-                    <filter string="Type of doc" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'type_document'}"/>
-                    <filter string="Year" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'year'}"/>
-                    <!--<filter name="group_name" string="Name" context="{'group_by': 'name'}"/>-->
-                    <!--<filter name="group_top" string="Top sale" context="{'group_by': 'top'}"/>-->
-                    <!--<filter name="group_default" string="Def.: M + S" context="{'group_by': ('month','season')}"/>-->
+                    <filter string="Partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                    <filter string="CEI" domain="[]" context="{'group_by':'type_cei'}"/>
+                    <filter string="Season" domain="[]" context="{'group_by':'season'}"/>
+                    <filter string="Month" domain="[]" context="{'group_by':'month'}"/>
+                    <filter string="Year" domain="[]" context="{'group_by':'year'}"/>
+                    <filter string="Type of doc" domain="[]" context="{'group_by':'type_document'}"/>
+                    <filter string="Agent" domain="[]" context="{'group_by':'invoice_agent_id'}"/>
+                    <filter string="Zone" domain="[]" context="{'group_by':'zone_id'}"/>
+                    <filter string="Type of zone" domain="[]" context="{'group_by':'zone_type'}"/>
+                    <filter string="Contry" domain="[]" context="{'group_by':'country_id'}"/>
                 </group>                
             </search>
         </field>
@@ -228,13 +242,26 @@
         <field name="arch" type="xml">
             <form string="Statistic invoice Form" versione="7.0">
               <sheet>
-                  <group colspan="4" col="4">
-                    <field name="partner_id"/>
-                    <field name="invoice_agent_id"/>
-                    <field name="season"/>
-                    <field name="month"/>
-                    <field name="type_document"/>
-                    <field name="total"/>
+                  <group colspan="4" col="6">
+                     <field name="visible" />
+                     <field name="top" />
+                     <field name="trend" />
+
+                     <field name="season"/>
+                     <field name="year"/>
+                     <field name="month"/>
+
+
+                     <field name="name"/>
+                     <field name="partner_id"/>
+                     <field name="invoice_agent_id"/>
+
+                     <field name="zone_type"/>
+                     <field name="zone_id"/>
+                     <field name="country_id"/>
+
+                     <field name="type_document"/>
+                     <field name="total" sum="Totale" />
                   </group>   
               </sheet>
             </form>
@@ -245,15 +272,26 @@
     <record model="ir.ui.view" id="view_statistic_invoice_tree">
         <field name="name">statistic.invoice.tree</field>
         <field name="model">statistic.invoice</field>
-        <field name="arch" type="xml">
+        <field name="arch" type="xml" colors="green:top==True">
             <tree string="Statistic invoice Tree">
+                <field name="visible" invisible="1"/>
+                <field name="top" invisible="1"/>
+                <field name="trend" invisible="1"/>
+
                 <field name="season"/>
+                <field name="year"/>
                 <field name="month"/>
+
                 <field name="type_document"/>
+
+                <field name="name"/>
                 <field name="partner_id"/>
                 <field name="invoice_agent_id"/>
-                <field name="country_id"/>
+
+                <field name="zone_type"/>
                 <field name="zone_id"/>
+                <field name="country_id"/>
+
                 <field name="total" sum="Totale" />
             </tree>
         </field>
@@ -279,17 +317,6 @@
         <field name="arch" type="xml">
             <graph string="Fatturato zone" type="bar">
                 <field name="zone_id"/>
-                <field name="total" operator="+" />
-            </graph>
-        </field>
-    </record>
-    <record model="ir.ui.view" id="view_invoice_total_graph">
-        <field name="name">Fatturato complessivo (barre)</field>
-        <field name="model">statistic.invoice</field>
-        <field name="priority" eval="40"/>
-        <field name="arch" type="xml">
-            <graph string="Fatturato complessivo" type="bar">
-                <field name="season_total"/> 
                 <field name="total" operator="+" />
             </graph>
         </field>
@@ -370,15 +397,6 @@
             <field name="domain">[('type_cei','!=','i'),('invoice_agent_id','!=',False)]</field>
             <field name="search_view_id" ref="view_statistic_invoice_search" />
        </record>       
-       
-       <record model="ir.actions.act_window" id="action_statistic_total_graph_form">
-            <field name="name">Fatture Complessivo</field>
-            <field name="res_model">statistic.invoice</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">graph,tree,form</field> <!--TODO CONTEXT CON VISTA GRAPH -->
-            <field name="context">{'graph_view_ref':'accounting_statistic_invoice.view_invoice_total_graph'}</field>
-            <field name="domain">[]</field>
-       </record>              
        
        <record model="ir.actions.act_window" id="action_statistic_invoice_agent_e_False_dashboard">
             <field name="name">Fatture Agente Estero (no agente)</field>

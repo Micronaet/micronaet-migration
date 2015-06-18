@@ -307,10 +307,8 @@ class StatisticInvoice(orm.Model):
                             self.create(cr, uid, data, context=context)
                     except:
                         _logger.error('%s Error import invoice ID %s: [%s]' % (
-                            counter, mexal_id, sys.exc_info()))
-                
-            _logger.info('Statistic invoice import terminated')
-            
+                            counter, mexal_id, sys.exc_info()))                
+            _logger.info('Statistic invoice import terminated')            
         return True
         
     _columns = {
@@ -380,7 +378,7 @@ class StatisticInvoice(orm.Model):
 
     _defaults = {
         'total': lambda *a: 0.0,
-        'season_total': lambda *a: 'Totale', # always the same
+        #'season_total': lambda *a: 'Totale', # always the same
         'visible': lambda *a: False,
         }
 
