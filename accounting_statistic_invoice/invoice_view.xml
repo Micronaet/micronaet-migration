@@ -363,7 +363,7 @@
         <field name="name">Statistic invoice Date</field>
         <field name="res_model">statistic.invoice</field>
         <field name="view_type">form</field>
-        <field name="view_mode">tree,graph,form</field>
+        <field name="view_mode">tree,form,graph</field>
         <field name="search_view_id" ref="view_statistic_invoice_search" />
     </record>
 

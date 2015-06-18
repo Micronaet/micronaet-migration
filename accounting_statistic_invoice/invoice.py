@@ -53,6 +53,8 @@ def get_partner_name(self, cr, uid, partner_id, context=None):
     return partner_proxy.name or False
 
 class StatisticInvoiceAgent(orm.Model):
+    """ Agent for customer, used in statistic grouping
+    """
     _name = 'statistic.invoice.agent'
     _description = 'Invoice Agent'
 
@@ -60,12 +62,11 @@ class StatisticInvoiceAgent(orm.Model):
         'name': fields.char('Agent', size=64, required=True),
         'ref': fields.char('Code', size=10),
         'hide_statistic': fields.boolean('Hide statistic'),
-    }
+        }
 
 class ResPartnerStatistic(orm.Model):
     """ res_partner_extra_fields
     """
-
     _inherit = 'res.partner'
 
     _columns = {
@@ -315,10 +316,10 @@ class StatisticInvoice(orm.Model):
         'visible': fields.boolean('Visible'), # TODO remove
         'top': fields.boolean('Top'),
         'partner_id': fields.many2one('res.partner', 'Partner'),
-        'invoice_agent_id': fields.related('partner_id','invoice_agent_id',
+        'invoice_agent_id': fields.related('partner_id', 'invoice_agent_id',
             type='many2one', relation='statistic.invoice.agent',
             string='Invoice agent', store=True),
-        'hide_statistic': fields.related('invoice_agent_id','hide_statistic',
+        'hide_statistic': fields.related('invoice_agent_id', 'hide_statistic',
             type='boolean', string='Nascondi statistica', store=True),
         'type_cei': fields.related('partner_id', 'type_cei', type='char',
             size=1, string='C E I', store=True),
