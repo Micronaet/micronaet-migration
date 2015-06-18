@@ -640,6 +640,7 @@ class StatisticInvoiceProduct(orm.Model):
                     'month': month, 
                     'type_document': type_document,
                     'total': total_invoice, # now for all seasons
+                    'year': year,
                     }
      
                 # Which year
@@ -733,7 +734,7 @@ class StatisticInvoiceProduct(orm.Model):
             ('oc', 'Ordine'),
             ('bc', 'DDT'),
             ], 'Doc. type', select=True), # togliere?
-            
+
         'month': fields.selection([
             (0, '00 Non trovato'),
             (1, 'Mese 05*: Gennaio'),
@@ -748,6 +749,8 @@ class StatisticInvoiceProduct(orm.Model):
             (10, 'Mese 02: Ottobre'),
             (11, 'Mese 03: Novembre'),
             (12, 'Mese 04: Dicembre'), ], 'Month', select=True),
+
+        'year': fields.char('Anno', size=4),
         }
 
     _defaults = {

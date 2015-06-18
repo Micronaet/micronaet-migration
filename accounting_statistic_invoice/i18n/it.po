@@ -303,7 +303,7 @@ msgstr "Ultimo aggiornamento il "
 #. module: accounting_statistic_invoice
 #: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_search
 msgid "Low sale"
-msgstr "Prodotti meno venduti"
+msgstr "Meno venduti"
 
 #. module: accounting_statistic_invoice
 #: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_search
@@ -313,7 +313,7 @@ msgstr "Mese"
 #. module: accounting_statistic_invoice
 #: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_search
 msgid "Name"
-msgstr "Nome"
+msgstr "Famiglia"
 
 #. module: accounting_statistic_invoice
 #: view:statistic.invoice:accounting_statistic_invoice.view_statistic_invoice_nation_search
@@ -364,7 +364,7 @@ msgstr "Fatturato prodotto + OC (verde = vendite migliori)"
 #: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_search
 #: field:statistic.invoice.product,season:0
 msgid "Season"
-msgstr "Stagione corrente"
+msgstr "Stagione"
 
 #. module: accounting_statistic_invoice
 #: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_search
@@ -495,7 +495,7 @@ msgstr "Tipo doc."
 #: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_search
 #: field:statistic.invoice.product,top:0
 msgid "Top sale"
-msgstr "Prodotti più venduti"
+msgstr "Più venduti"
 
 #. module: accounting_statistic_invoice
 #: field:statistic.trendoc,total_last:0
