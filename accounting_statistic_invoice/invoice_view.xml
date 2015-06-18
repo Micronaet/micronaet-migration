@@ -16,9 +16,11 @@
                 <filter name="top_sale" domain="[('top','=',True)]" string="Top sale"/>
                 <filter name="low_sale" domain="[('top','=',False)]" string="Low sale"/>
 
-                <filter name="season0" domain="[('season','=',0)]" string="Current season"/>
-                <filter name="season1" domain="[('season','=',1)]" string="Season -1"/>
-                <filter name="season2" domain="[('season','=',2)]" string="Season -2"/>
+                <filter name="season_old" domain="[('season','=',-1)]" string="Extra (Old season)"/>
+                <filter name="season_new" domain="[('season','=',4)]" string="Extra (New season)"/>
+                <filter name="season1" domain="[('season','=',1)]" string="Current season"/>
+                <filter name="season2" domain="[('season','=',2)]" string="Season -1"/>
+                <filter name="season3" domain="[('season','=',3)]" string="Season -2"/>
 
                 <group expand="0" string="Group By">
                     <filter name="group_name" string="Name" context="{'group_by': 'name'}"/>

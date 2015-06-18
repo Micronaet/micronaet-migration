@@ -583,7 +583,6 @@ class StatisticInvoiceProduct(orm.Model):
         '''    
         # TODO for log check:
         #create_date=time.ctime(os.path.getctime(FileInput))    
-        import pdb; pdb.set_trace()
         input_file = os.path.expanduser(input_file)
         _logger.info('Start importation product invoice stats: %s' % (
             input_file))    
@@ -657,20 +656,20 @@ class StatisticInvoiceProduct(orm.Model):
                 # TODO: add also OC
                 if year_month >= '%s09' % ref_year and \
                         year_month <= '%s08' % (ref_year + 1):
-                    data['season'] = 0                            
+                    data['season'] = 1                           
                 elif year_month >= '%s09' % (ref_year -1) and \
                        year_month <= '%s08' % ref_year: # -1
-                    data['season'] = 1
+                    data['season'] = 2
                 elif year_month >= '%s09' % (ref_year -2) and \
                         year_month <= '%s08' % (ref_year -1): #-2
-                    data['season'] = 2
+                    data['season'] = 3
                 else:                    
                     _logger.warning('%s) Extra period %s-%s' % (
                         counter, year, month)) 
                     if year_month > '%s08' % (ref_year + 1):    
-                        data['season'] = 3
+                        data['season'] = 4 # extra (new period)
                     else:    
-                        data['season'] = -1                        
+                        data['season'] = -1 # extra (old period)
 
                 # Sum total for element
                 if name not in item_invoice:
@@ -726,10 +725,10 @@ class StatisticInvoiceProduct(orm.Model):
 
         'season': fields.selection([
             (-1, 'Old season'), # all old seasons
-            (0, 'Current season'),
-            (1, 'Season -1'),
-            (2, 'Season -2'),
-            (3, 'New season'), # all new seasons
+            (1, 'Current season'),
+            (2, 'Season -1'),
+            (3, 'Season -2'),
+            (4, 'New season'), # all new seasons
             ], 'Season', select=True),
 
         'type_document': fields.selection([
@@ -756,7 +755,6 @@ class StatisticInvoiceProduct(orm.Model):
 
     _defaults = {
         'total': lambda *a: 0.0,
-        'season': lambda *a: 0,
         'top': lambda *a: False,
         }
 
