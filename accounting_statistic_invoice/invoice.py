@@ -718,21 +718,27 @@ class StatisticInvoiceProduct(orm.Model):
         'name': fields.char('Famiglia prodotto', size=64),
         'visible': fields.boolean('Visible',), ## used!
         'total': fields.float('Stag. attuale', digits=(16, 2)),
-        'total_last': fields.float('Stag. -1', digits=(16, 2)),
-        'total_last_last': fields.float('Stag. -2', digits=(16, 2)),
+        #'total_last': fields.float('Stag. -1', digits=(16, 2)),
+        #'total_last_last': fields.float('Stag. -2', digits=(16, 2)),
 
         'percentage': fields.float(
             '% sul fatt. stag. corrente', digits=(16, 5)),
-        'percentage_last': fields.float(
-            '% sul fatt. stag. -1', digits=(16, 5)),
-        'percentage_last_last': fields.float(
-            '% sul fatt. stag. -2', digits=(16, 5)),
+        #'percentage_last': fields.float(
+        #    '% sul fatt. stag. -1', digits=(16, 5)),
+        #'percentage_last_last': fields.float(
+        #    '% sul fatt. stag. -2', digits=(16, 5)),
+
+        'season': fields.selection([
+            (0, 'Current season'),
+            (1, 'Season -1'),
+            (2, 'Season -2'),
+            ], 'Season', select=True),
 
         'type_document': fields.selection([
-            ('ft','Fattura'),
-            ('oc','Ordine'),
-            ('bc','DDT'),
-            ], 'Tipo doc.', select=True), # togliere?
+            ('ft', 'Fattura'),
+            ('oc', 'Ordine'),
+            ('bc', 'DDT'),
+            ], 'Doc. type', select=True), # togliere?
         'month': fields.selection([
             (0, '00 Non trovato'),
             (1, 'Mese 05*: Gennaio'),
@@ -747,15 +753,12 @@ class StatisticInvoiceProduct(orm.Model):
             (10, 'Mese 02: Ottobre'),
             (11, 'Mese 03: Novembre'),
             (12, 'Mese 04: Dicembre'),
-        ],'Mese', select=True),
+            ], 'Month', select=True),
         }
 
     _defaults = {
         'total': lambda *a: 0.0,
-        'total_last': lambda *a: 0.0,
-        'total_last_last': lambda *a: 0.0,
-        #'total_last_last_last': lambda *a: 0.0,
-        #'total_last_last_last_last': lambda *a: 0.0,
+        'season': lambda *a: 0,
         'visible': lambda *a: False,
     }
 
