@@ -542,8 +542,18 @@ class StatisticInvoice(orm.Model):
             (9, 'Mese 01: Settembre'),
             (10, 'Mese 02: Ottobre'),
             (11, 'Mese 03: Novembre'),
-            (12, 'Mese 04: Dicembre'),
-            ],'Mese', select=True),
+            (12, 'Mese 04: Dicembre'), ],'Mese', select=True),
+
+        'season': fields.selection([
+            (-1, 'Old season'), # all old seasons
+            (1, 'Season -2'),
+            (2, 'Season -1'),
+            (3, 'Current season'),
+            (4, 'New season'), # all new seasons
+            ], 'Season', select=True),
+
+        'year': fields.char('Anno', size=4),
+            
         'trend': fields.related('partner_id', 'trend', type='boolean',
             readonly=True, string='Important partner'),
 
@@ -729,6 +739,8 @@ class StatisticInvoiceProduct(orm.Model):
             (4, 'New season'), # all new seasons
             ], 'Season', select=True),
 
+        'year': fields.char('Anno', size=4),
+
         'type_document': fields.selection([
             ('ft', 'Fattura'),
             ('oc', 'Ordine'),
@@ -750,7 +762,6 @@ class StatisticInvoiceProduct(orm.Model):
             (11, 'Mese 03: Novembre'),
             (12, 'Mese 04: Dicembre'), ], 'Month', select=True),
 
-        'year': fields.char('Anno', size=4),
         }
 
     _defaults = {
