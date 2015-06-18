@@ -21,8 +21,11 @@
                 <filter name="season2" domain="[('season','=',2)]" string="Season -2"/>
 
                 <group expand="0" string="Group By">
-                    <filter name="group_partner" string="Partner" context="{'group_by': 'partner_id'}"/>
-                    <filter string="Status" context="{'group_by': 'state'}" icon="terp-stock_effects-object-colorize"/>
+                    <filter name="group_name" string="Name" context="{'group_by': 'name'}"/>
+                    <filter name="group_type" string="Doc. type" context="{'group_by': 'type_document'}"/>
+                    <filter name="group_season" string="Season" context="{'group_by': 'season'}"/>
+                    <filter name="group_month" string="Name" context="{'group_by': 'month'}"/>
+                    <filter name="group_top" string="Top sale" context="{'group_by': 'top'}"/>
                 </group>                
             </search>
         </field>
@@ -33,15 +36,17 @@
         <field name="name">Statistiche prodotto (fatture+OC) divisi per mese</field>
         <field name="model">statistic.invoice.product</field>
         <field name="arch" type="xml">
-            <form string="Statistic invoice product">
-                <field name="name" />
-                <field name="month" />
-                <!--<field name="total_last_last_last_last" />
-                <field name="total_last_last_last" />-->
-                <field name="total_last_last" />
-                <field name="total_last" />
-                <field name="total" />
-                <!--<field name="type_document" />-->
+            <form string="Statistic invoice product" version="7.0">
+               <sheet>
+                    <group colspan="4" col="4">
+                        <field name="top" invisible="1"/>
+                        <field name="season" />
+                        <field name="month" />
+                        <field name="name" />
+                        <field name="total" />
+                        <field name="type_document" invisible="1"/>
+                    </group>
+               </sheet>
             </form>
         </field>
     </record>
@@ -51,16 +56,13 @@
         <field name="name">Statistiche prodotto (fatture+OC) divisi per mese</field>
         <field name="model">statistic.invoice.product</field>
         <field name="arch" type="xml">
-            <tree string="Statistic invoice product">
-                <field name="name" />
-                <field name="visible" invisible="1" />
+            <tree string="Statistic invoice product" colors="green:top==True">
+                <field name="top" invisible="1"/>
+                <field name="season" />
                 <field name="month" />
-                <!--<field name="total_last_last_last_last" />
-                <field name="total_last_last_last" />-->
-                <field name="total_last_last" />
-                <field name="total_last" />
+                <field name="name" />
                 <field name="total" />
-                <!--<field name="type_document" />-->
+                <field name="type_document" invisible="1"/>
             </tree>
         </field>
     </record>
@@ -72,8 +74,6 @@
         <field name="arch" type="xml">
             <graph string="trend by product" type="bar">
                 <field name="month"/>
-                <field name="total_last_last" operator="+" />
-                <field name="total_last" operator="+" />
                 <field name="total" operator="+" />
             </graph>
         </field>
@@ -85,8 +85,6 @@
         <field name="arch" type="xml">
             <graph string="trend by product" type="bar">
                 <field name="name"/>
-                <field name="total_last_last" operator="+" />
-                <field name="total_last" operator="+" />
                 <field name="total" operator="+" />
             </graph>
         </field>
@@ -94,21 +92,15 @@
    
        <!-- Action -->
     <record model="ir.actions.act_window" id="action_statistic_invoice_product">
-        <field name="name">Statistiche prodotto (fatture+OC) divisi per mese</field>
+        <field name="name">Product invoice+OC (green = top sale product)</field>
         <field name="res_model">statistic.invoice.product</field>
         <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,graph</field>
+        <field name="view_id" ref="view_statistic_invoice_product_tree"/>
         <field name="search_view_id" ref="view_statistic_invoice_product_search"/>
     </record>
 
-    <record model="ir.actions.act_window" id="action_statistic_invoice_product_dashboard">
-        <field name="name">Statistiche prodotto (fatture+OC) divisi per mese</field>
-        <field name="res_model">statistic.invoice.product</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">graph,tree,form</field>
-        <field name="search_view_id" ref="view_statistic_invoice_product_search"/>
-    </record>
-    <!--TODO remove extra action for split product view in more graphs-->
+    <!--TODO remove-->
     <record model="ir.actions.act_window" id="action_statistic_invoice_product_stagione_dashboard">
         <field name="name">FT+BC+OC (>0.5) per fam. prodotto (sul totale di tre stagioni)</field>
         <field name="res_model">statistic.invoice.product</field>
@@ -117,72 +109,8 @@
         <field name="domain">[('visible','=',True)]</field>
         <!--<field name="domain">['|','|',('percentage','&gt;=',0.5),('percentage_last','&gt;=',0.5),('percentage_last_last','&gt;=',0.5)]</field>-->
         <!--<field name="search_view_id" ref="view_statistic_invoice_product_search"/>-->
-        <field name="context">{'graph_view_ref': 'mexal_order_statistic.view_statistic_invoice_product_stagione_graph'}</field>
+        <field name="context">{'graph_view_ref': 'accounting_statistic_invoice.view_statistic_invoice_product_stagione_graph'}</field>
     </record>
-    <record model="ir.actions.act_window" id="action_statistic_invoice_product_stagione_less_dashboard">
-        <field name="name">FT+BC+OC (&lt;=0.5) per fam. prodotto (sul totale di tre stagioni)</field>
-        <field name="res_model">statistic.invoice.product</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">graph,tree,form</field>
-        <field name="domain">[('visible','=',False),('name','&lt;','1')]</field>
-        <field name="context">{'graph_view_ref': 'mexal_order_statistic.view_statistic_invoice_product_stagione_graph'}</field>
-    </record>
-    <record model="ir.actions.act_window" id="action_statistic_invoice_product_stagione_less1_dashboard">
-        <field name="name">FT+BC+OC (&lt;=0.5) per fam. prodotto (sul totale di tre stagioni)</field>
-        <field name="res_model">statistic.invoice.product</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">graph,tree,form</field>
-        <field name="domain">[('visible','=',False),('name','&gt;=','1'),('name','&lt;','3')]</field>
-        <field name="context">{'graph_view_ref': 'mexal_order_statistic.view_statistic_invoice_product_stagione_graph'}</field>
-    </record>
-    <record model="ir.actions.act_window" id="action_statistic_invoice_product_stagione_less2_dashboard">
-        <field name="name">FT+BC+OC (&lt;=0.5) per fam. prodotto (sul totale di tre stagioni)</field>
-        <field name="res_model">statistic.invoice.product</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">graph,tree,form</field>
-        <field name="domain">[('visible','=',False),('name','&gt;=','3'),('name','&lt;','7')]</field>
-        <field name="context">{'graph_view_ref': 'mexal_order_statistic.view_statistic_invoice_product_stagione_graph'}</field>
-    </record>
-    <record model="ir.actions.act_window" id="action_statistic_invoice_product_stagione_less3_dashboard">
-        <field name="name">FT+BC+OC (&lt;=0.5) per fam. prodotto (sul totale di tre stagioni)</field>
-        <field name="res_model">statistic.invoice.product</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">graph,tree,form</field>
-        <field name="domain">[('visible','=',False),('name','&gt;=','7'),('name','&lt;','C')]</field>
-        <field name="context">{'graph_view_ref': 'mexal_order_statistic.view_statistic_invoice_product_stagione_graph'}</field>
-    </record>
-    <record model="ir.actions.act_window" id="action_statistic_invoice_product_stagione_less4_dashboard">
-        <field name="name">FT+BC+OC (&lt;=0.5) per fam. prodotto (sul totale di tre stagioni)</field>
-        <field name="res_model">statistic.invoice.product</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">graph,tree,form</field>
-        <field name="domain">[('visible','=',False),('name','&gt;=','C'),('name','&lt;','C6')]</field>
-        <field name="context">{'graph_view_ref': 'mexal_order_statistic.view_statistic_invoice_product_stagione_graph'}</field>
-    </record>
-    <record model="ir.actions.act_window" id="action_statistic_invoice_product_stagione_less5_dashboard">
-        <field name="name">FT+BC+OC (&lt;=0.5) per fam. prodotto (sul totale di tre stagioni)</field>
-        <field name="res_model">statistic.invoice.product</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">graph,tree,form</field>
-        <field name="domain">[('visible','=',False),('name','&gt;=','C6'),('name','&lt;','E')]</field>
-        <field name="context">{'graph_view_ref': 'mexal_order_statistic.view_statistic_invoice_product_stagione_graph'}</field>
-    </record>
-    <record model="ir.actions.act_window" id="action_statistic_invoice_product_stagione_less6_dashboard">
-        <field name="name">FT+BC+OC (&lt;=0.5) per fam. prodotto (sul totale di tre stagioni)</field>
-        <field name="res_model">statistic.invoice.product</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">graph,tree,form</field>
-        <field name="domain">[('visible','=',False),('name','&gt;=','E'),('name','&lt;','P')]</field>
-        <field name="context">{'graph_view_ref': 'mexal_order_statistic.view_statistic_invoice_product_stagione_graph'}</field>
-    </record>
-    <record model="ir.actions.act_window" id="action_statistic_invoice_product_stagione_less7_dashboard">
-        <field name="name">FT+BC+OC (&lt;=0.5) per fam. prodotto (sul totale di tre stagioni)</field>
-        <field name="res_model">statistic.invoice.product</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">graph,tree,form</field>
-        <field name="domain">[('visible','=',False),('name','&gt;=','P')]</field>
-        <field name="context">{'graph_view_ref': 'mexal_order_statistic.view_statistic_invoice_product_stagione_graph'}</field>
-    </record>    
     
     <!-- Statistic Order: statistic.invoice.product ************************ -->
     <record model="ir.ui.view" id="view_statistic_invoice_product_removed_search">

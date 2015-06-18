@@ -718,8 +718,8 @@ class StatisticInvoiceProduct(orm.Model):
         
     _columns = {
         'name': fields.char('Product family', size=64),
-        'visible': fields.boolean('Visible',), # TODO removeable!
-        'top': fields.boolean('Top sale),
+        'visible': fields.boolean('Visible'), # TODO removeable!
+        'top': fields.boolean('Top sale'),
         'total': fields.float('Amount', digits=(16, 2)),
 
         'percentage': fields.float(
