@@ -1,0 +1,588 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* accounting_statistic_invoice
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-06-18 08:33+0000\n"
+"PO-Revision-Date: 2015-06-18 10:39+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#. module: accounting_statistic_invoice
+#: field:statistic.trendoc,percentage:0
+msgid "% sul fatt. attuale"
+msgstr "% sul fatt. attuale"
+
+#. module: accounting_statistic_invoice
+#: field:statistic.trendoc,percentage_last:0
+msgid "% sul fatt. stag. -1"
+msgstr "% sul fatt. stag. -1"
+
+#. module: accounting_statistic_invoice
+#: field:statistic.trendoc,percentage_last_last:0
+msgid "% sul fatt. stag. -2"
+msgstr "% sul fatt. stag. -2"
+
+#. module: accounting_statistic_invoice
+#: field:statistic.trend,percentage_last_last_last_last:0
+#: field:statistic.trendoc,percentage_last_last_last_last:0
+msgid "% sul fatt. stag. -4"
+msgstr "% sul fatt. stag. -4"
+
+#. module: accounting_statistic_invoice
+#: field:statistic.trend,percentage_last_last_last:0
+#: field:statistic.trendoc,percentage_last_last_last:0
+msgid "% sul fatt. stag. -5"
+msgstr "% sul fatt. stag. -5"
+
+#. module: accounting_statistic_invoice
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_statistic_agents_configuration
+msgid "Agenti"
+msgstr "Agenti"
+
+#. module: accounting_statistic_invoice
+#: model:ir.ui.menu,name:accounting_statistic_invoice.menu_base_mexal_statistic_agent_configuration
+msgid "Agenti statistiche"
+msgstr "Agenti statistiche"
+
+#. module: accounting_statistic_invoice
+#: field:statistic.trendoc,best:0
+msgid "Best trend"
+msgstr "Trend migliore"
+
+#. module: accounting_statistic_invoice
+#: field:statistic.trendoc,statistic_category_id:0
+msgid "Categoria statistica partner"
+msgstr "Categoria statistica partner"
+
+#. module: accounting_statistic_invoice
+#: field:statistic.trendoc,trend_category:0
+msgid "Categoria trend"
+msgstr "Categoria trend"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.trendoc:accounting_statistic_invoice.view_statistic_trendoc_search
+msgid "Cerca fatturato + OC"
+msgstr "Cerca fatturato + OC"
+
+#. module: accounting_statistic_invoice
+#: field:statistic.trendoc,create_uid:0
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: accounting_statistic_invoice
+#: field:statistic.trendoc,create_date:0
+msgid "Created on"
+msgstr "Creato il"
+
+#. module: accounting_statistic_invoice
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_view_statistic_trend_current_best_graph
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_view_statistic_trend_current_best_graph_bar
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_view_statistic_trendoc_current_best_graph
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_view_statistic_trendoc_current_best_graph_bar
+msgid "Current Invoiced"
+msgstr "Fatturato corrente"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_search
+#: selection:statistic.invoice.product,season:0
+msgid "Current season"
+msgstr "Stagione corrente"
+
+#. module: accounting_statistic_invoice
+#: selection:statistic.trendoc,type_document:0
+msgid "DDT"
+msgstr "DDT"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_search
+msgid "Def.: M + S"
+msgstr "Def.: M + S"
+
+#. module: accounting_statistic_invoice
+#: field:statistic.trendoc,name:0
+msgid "Description"
+msgstr "Descrizione"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_search
+msgid "Doc. type"
+msgstr "Tipo doc."
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_search
+msgid "Extra (New season)"
+msgstr "Extra (Nuova stagioni)"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_search
+msgid "Extra (Old season)"
+msgstr "Extra (Vecchie stagioni)"
+
+#. module: accounting_statistic_invoice
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_statistic_invoice_product_removed
+#: view:statistic.invoice.product.removed:accounting_statistic_invoice.view_statistic_invoice_product_removed_search
+#: view:statistic.invoice.product.removed:accounting_statistic_invoice.view_statistic_invoice_product_removed_tree
+msgid "Famiglie da rimuovere"
+msgstr "Famiglie da rimuovere"
+
+#. module: accounting_statistic_invoice
+#: model:ir.ui.menu,name:accounting_statistic_invoice.menu_statistic_invoice_product_removed
+msgid "Famiglie escluse"
+msgstr "Famiglie escluse"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice.product.removed:accounting_statistic_invoice.view_statistic_invoice_product_removed_form
+msgid "Famiglie to remove"
+msgstr "Famiglie da rimuovere"
+
+#. module: accounting_statistic_invoice
+#: selection:statistic.trendoc,type_document:0
+msgid "Fattura"
+msgstr "Fattura"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.trendoc:accounting_statistic_invoice.view_statistic_trendoc_current_best_graph
+msgid "Fatturato (FT + BC + OC) anno attuale"
+msgstr "Fatturato (FT + BC + OC) anno attuale"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.trendoc:accounting_statistic_invoice.view_statistic_trendoc_last_best_graph
+#: view:statistic.trendoc:accounting_statistic_invoice.view_statistic_trendoc_last_last_best_graph
+msgid "Fatturato (FT + BC + OC) anno prec."
+msgstr "Fatturato (FT + BC + OC) anno prec."
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice:accounting_statistic_invoice.view_invoice_agent_graph
+msgid "Fatturato agente Italia"
+msgstr "Fatturato agente Italia"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice:accounting_statistic_invoice.view_invoice_agent_hide_statistic_graph
+msgid "Fatturato agente visibile Italia"
+msgstr "Fatturato agente visibile Italia"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice:accounting_statistic_invoice.view_invoice_total_graph
+msgid "Fatturato complessivo"
+msgstr "Fatturato complessivo"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice:accounting_statistic_invoice.view_invoice_nation_graph
+msgid "Fatturato nazioni"
+msgstr "Fatturato nazioni"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice:accounting_statistic_invoice.view_invoice_nation_zone_graph
+msgid "Fatturato zone"
+msgstr "Fatturato zone"
+
+#. module: accounting_statistic_invoice
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_statistic_invoice_agent_e_True_dashboard
+msgid "Fatture Agente Estero"
+msgstr "Fatture Agente Estero"
+
+#. module: accounting_statistic_invoice
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_statistic_invoice_agent_e_False_dashboard
+msgid "Fatture Agente Estero (no agente)"
+msgstr "Fatture Agente Estero (no agente)"
+
+#. module: accounting_statistic_invoice
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_statistic_invoice_agent_i_True_dashboard
+msgid "Fatture Agente Italia"
+msgstr "Fatture Agente Italia"
+
+#. module: accounting_statistic_invoice
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_statistic_invoice_agent_i_False_dashboard
+msgid "Fatture Agente Italia (no agente)"
+msgstr "Fatture Agente Italia (no agente)"
+
+#. module: accounting_statistic_invoice
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_statistic_total_graph_form
+msgid "Fatture Complessivo"
+msgstr "Fatture Complessivo"
+
+#. module: accounting_statistic_invoice
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_statistic_nation_graph_form
+msgid "Fatture Nazione"
+msgstr "Fatture Nazione"
+
+#. module: accounting_statistic_invoice
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_statistic_nation_zone_area_graph_form
+msgid "Fatture Nazione (zone: macro aree)"
+msgstr "Fatture Nazione (zone: macro aree)"
+
+#. module: accounting_statistic_invoice
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_statistic_nation_zone_region_graph_form
+msgid "Fatture Nazione (zone: regioni)"
+msgstr "Fatture Nazione (zone: regioni)"
+
+#. module: accounting_statistic_invoice
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_statistic_nation_zone_graph_form
+msgid "Fatture Nazione (zone: stati)"
+msgstr "Fatture Nazione (zone: stati)"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_search
+msgid "Group By"
+msgstr "Raggruppa per..."
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice:accounting_statistic_invoice.view_statistic_invoice_nation_search
+#: view:statistic.invoice:accounting_statistic_invoice.view_statistic_invoice_search
+#: view:statistic.trend:accounting_statistic_invoice.view_statistic_trend_search
+#: view:statistic.trendoc:accounting_statistic_invoice.view_statistic_trendoc_search
+msgid "Group By..."
+msgstr "Raggruppa per..."
+
+#. module: accounting_statistic_invoice
+#: field:statistic.trendoc,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: accounting_statistic_invoice
+#: field:statistic.trendoc,trend:0
+msgid "Important partner"
+msgstr "Partner importante"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.trend:accounting_statistic_invoice.view_statistic_trend_search
+msgid "Importanti"
+msgstr "Importanti"
+
+#. module: accounting_statistic_invoice
+#: model:ir.model,name:accounting_statistic_invoice.model_statistic_invoice_agent
+msgid "Invoice Agent"
+msgstr "Agente fattura"
+
+#. module: accounting_statistic_invoice
+#: model:ir.ui.menu,name:accounting_statistic_invoice.menu_accounting_invoice_month
+msgid "Invoice per month"
+msgstr "Fatturato per mese"
+
+#. module: accounting_statistic_invoice
+#: model:ir.ui.menu,name:accounting_statistic_invoice.menu_accounting_invoice_product
+msgid "Invoice per product"
+msgstr "Fatturato per prodotto"
+
+#. module: accounting_statistic_invoice
+#: model:ir.ui.menu,name:accounting_statistic_invoice.menu_accounting_invoice_root
+msgid "Invoice statistic"
+msgstr "Statistiche fatturato"
+
+#. module: accounting_statistic_invoice
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_view_statistic_trendoc_last_last_best_graph
+msgid "Invoiced -2"
+msgstr "Fatturato -2"
+
+#. module: accounting_statistic_invoice
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_view_statistic_trend_last_best_graph
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_view_statistic_trendoc_last_best_graph
+msgid "Last Invoiced"
+msgstr "Ultimo fatturato"
+
+#. module: accounting_statistic_invoice
+#: field:statistic.trendoc,write_uid:0
+msgid "Last Updated by"
+msgstr "Ultimo aggiornamento di"
+
+#. module: accounting_statistic_invoice
+#: field:statistic.trendoc,write_date:0
+msgid "Last Updated on"
+msgstr "Ultimo aggiornamento il "
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_search
+msgid "Low sale"
+msgstr "Prodotti meno venduti"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_search
+msgid "Month"
+msgstr "Mese"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_search
+msgid "Name"
+msgstr "Nome"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice:accounting_statistic_invoice.view_statistic_invoice_nation_search
+msgid "Nation"
+msgstr "Nazione"
+
+#. module: accounting_statistic_invoice
+#: selection:statistic.invoice.product,season:0
+msgid "New season"
+msgstr "Nuova stagione"
+
+#. module: accounting_statistic_invoice
+#: selection:statistic.invoice.product,season:0
+msgid "Old season"
+msgstr "Vecchia stagione"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.trend:accounting_statistic_invoice.view_statistic_trend_search
+msgid "Only partner with trend check selected"
+msgstr "Solo i partner con spunta trend selezionata"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.trend:accounting_statistic_invoice.view_statistic_trend_search
+msgid "Order"
+msgstr "Ordine"
+
+#. module: accounting_statistic_invoice
+#: selection:statistic.trendoc,type_document:0
+msgid "Ordine"
+msgstr "Ordine"
+
+#. module: accounting_statistic_invoice
+#: model:ir.model,name:accounting_statistic_invoice.model_res_partner
+#: view:statistic.invoice:accounting_statistic_invoice.view_statistic_invoice_nation_search
+#: view:statistic.invoice:accounting_statistic_invoice.view_statistic_invoice_search
+#: view:statistic.trend:accounting_statistic_invoice.view_statistic_trend_search
+#: view:statistic.trendoc:accounting_statistic_invoice.view_statistic_trendoc_search
+#: field:statistic.trendoc,partner_id:0
+msgid "Partner"
+msgstr "Partner"
+
+#. module: accounting_statistic_invoice
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_statistic_invoice_product
+msgid "Product invoice+OC (green = top sale product)"
+msgstr "Fatturato prodotto + OC (verde = vendite migliori)"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_search
+#: field:statistic.invoice.product,season:0
+msgid "Season"
+msgstr "Stagione corrente"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_search
+#: selection:statistic.invoice.product,season:0
+msgid "Season -1"
+msgstr "Stagione -1"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_search
+#: selection:statistic.invoice.product,season:0
+msgid "Season -2"
+msgstr "Stagione -2"
+
+#. module: accounting_statistic_invoice
+#: model:ir.model,name:accounting_statistic_invoice.model_statistic_invoice_product_removed
+msgid "Statistic Product to remove"
+msgstr "Prodotti da escludere da statistiche"
+
+#. module: accounting_statistic_invoice
+#: model:ir.model,name:accounting_statistic_invoice.model_statistic_trend
+msgid "Statistic Trend"
+msgstr "Trend"
+
+#. module: accounting_statistic_invoice
+#: model:ir.model,name:accounting_statistic_invoice.model_statistic_trendoc
+msgid "Statistic Trend OC"
+msgstr "Trend statistiche con OC"
+
+#. module: accounting_statistic_invoice
+#: model:ir.model,name:accounting_statistic_invoice.model_statistic_invoice
+#: model:ir.model,name:accounting_statistic_invoice.model_statistic_invoice_product
+#: view:statistic.invoice:accounting_statistic_invoice.view_statistic_invoice_search
+msgid "Statistic invoice"
+msgstr "Statistiche fatturato"
+
+#. module: accounting_statistic_invoice
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_statistic_invoice
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_statistic_invoice_dashboard
+msgid "Statistic invoice Date"
+msgstr "Data statistica fatturato"
+
+#. module: accounting_statistic_invoice
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_statistic_invoice_dashboard_best
+msgid "Statistic invoice Date (best customers)"
+msgstr "Data statistica fatturato (migliori clienti)"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice:accounting_statistic_invoice.view_statistic_invoice_form
+msgid "Statistic invoice Form"
+msgstr "Statistiche fatture"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice:accounting_statistic_invoice.view_statistic_invoice_tree
+msgid "Statistic invoice Tree"
+msgstr "Statistiche fatture"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice:accounting_statistic_invoice.view_statistic_invoice_nation_search
+msgid "Statistic invoice nation"
+msgstr "Nazione statistica fatturato"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_form
+#: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_search
+#: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_tree
+msgid "Statistic invoice product"
+msgstr "Statistiche fatturato prodotto"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice.agent:accounting_statistic_invoice.view_statistic_agents_form
+#: view:statistic.invoice.agent:accounting_statistic_invoice.view_statistic_agents_tree
+msgid "Statistic tree"
+msgstr "Statistiche"
+
+#. module: accounting_statistic_invoice
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_statistic_trend
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_statistic_trend_dashboard
+#: model:ir.actions.act_window,name:accounting_statistic_invoice.action_statistic_trendoc_dashboard
+msgid "Statistic trend Date"
+msgstr "Data trend statistico"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.trendoc:accounting_statistic_invoice.view_statistic_trendoc_current_best_graph_bar
+msgid "Statistiche fatturato"
+msgstr "Statistiche fatturato"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.trendoc:accounting_statistic_invoice.view_statistic_trendoc_form
+#: view:statistic.trendoc:accounting_statistic_invoice.view_statistic_trendoc_tree
+msgid "Statistiche fatturato (FT + BC + OC)"
+msgstr "Statistiche fatturato (FT + BC + OC)"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.trend:accounting_statistic_invoice.view_statistic_trend_current_best_graph_bar
+#: view:statistic.trend:accounting_statistic_invoice.view_statistic_trend_form
+#: view:statistic.trend:accounting_statistic_invoice.view_statistic_trend_graph
+#: view:statistic.trend:accounting_statistic_invoice.view_statistic_trend_search
+#: view:statistic.trend:accounting_statistic_invoice.view_statistic_trend_tree
+msgid "Statistiche fatturato (senza OC)"
+msgstr "Statistiche fatturato (senza OC)"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.trend:accounting_statistic_invoice.view_statistic_trend_current_best_graph
+msgid "Statistiche fatturato anno attuale (senza OC)"
+msgstr "Statistiche fatturato anno attuale (senza OC)"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.trend:accounting_statistic_invoice.view_statistic_trend_last_best_graph
+msgid "Statistiche fatturato anno precedente (senza OC)"
+msgstr "Statistiche fatturato anno precedente (senza OC)"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.trendoc:accounting_statistic_invoice.view_statistic_trendoc_current_best_category_graph
+msgid "Statistiche fatturato per categoria statistica"
+msgstr "Statistiche fatturato per categoria statistica"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.trend:accounting_statistic_invoice.view_statistic_trend_current_best_category_graph
+msgid "Statistiche fatturato per categoria statistica (senza OC)"
+msgstr "Statistiche fatturato per categoria statistica (senza OC)"
+
+#. module: accounting_statistic_invoice
+#: field:statistic.trendoc,type_document:0
+msgid "Tipo doc."
+msgstr "Tipo doc."
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_search
+#: field:statistic.invoice.product,top:0
+msgid "Top sale"
+msgstr "Prodotti più venduti"
+
+#. module: accounting_statistic_invoice
+#: field:statistic.trendoc,total_last:0
+msgid "Tot. stag. -1"
+msgstr "Tot. stag. -1"
+
+#. module: accounting_statistic_invoice
+#: field:statistic.trendoc,total_last_last:0
+msgid "Tot. stag. -2"
+msgstr "Tot. stag. -2"
+
+#. module: accounting_statistic_invoice
+#: field:statistic.trend,total_last_last_last:0
+#: field:statistic.trendoc,total_last_last_last:0
+msgid "Tot. stag. -3"
+msgstr "Tot. stag. -3"
+
+#. module: accounting_statistic_invoice
+#: field:statistic.trend,total_last_last_last_last:0
+#: field:statistic.trendoc,total_last_last_last_last:0
+msgid "Tot. stag. -4"
+msgstr "Tot. stag. -4"
+
+#. module: accounting_statistic_invoice
+#: field:statistic.trendoc,total:0
+msgid "Tot. stag. attuale"
+msgstr "Tot. stag. attuale"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice:accounting_statistic_invoice.view_statistic_invoice_tree
+#: view:statistic.trend:accounting_statistic_invoice.view_statistic_trend_tree
+#: view:statistic.trendoc:accounting_statistic_invoice.view_statistic_trendoc_tree
+msgid "Totale"
+msgstr "Totale"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice:accounting_statistic_invoice.view_statistic_invoice_tree
+msgid "Totale -1"
+msgstr "Totale -1"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice:accounting_statistic_invoice.view_statistic_invoice_tree
+msgid "Totale -2"
+msgstr "Totale -2"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice:accounting_statistic_invoice.view_statistic_invoice_tree
+msgid "Totale -3"
+msgstr "Totale -3"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice:accounting_statistic_invoice.view_statistic_invoice_tree
+msgid "Totale -4"
+msgstr "Totale -4"
+
+#. module: accounting_statistic_invoice
+#: model:ir.ui.menu,name:accounting_statistic_invoice.menu_accounting_invoice_trend
+msgid "Trend invoice"
+msgstr "Trend fatturato"
+
+#. module: accounting_statistic_invoice
+#: model:ir.ui.menu,name:accounting_statistic_invoice.menu_accounting_invoice_trendoc
+msgid "Trend invoice order"
+msgstr "Trend fatturato e ordini"
+
+#. module: accounting_statistic_invoice
+#: field:statistic.trendoc,visible:0
+msgid "Visible"
+msgstr "Visibile"
+
+#. module: accounting_statistic_invoice
+#: field:statistic.trendoc,worst:0
+msgid "Worst trend"
+msgstr "Trend peggiori"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice:accounting_statistic_invoice.view_statistic_invoice_nation_search
+msgid "Zone"
+msgstr "Zone"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice:accounting_statistic_invoice.view_invoice_trend_graph
+msgid "trend by date"
+msgstr "Trend per data"
+
+#. module: accounting_statistic_invoice
+#: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_graph
+#: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_stagione_graph
+msgid "trend by product"
+msgstr "Trend per prodotto"
