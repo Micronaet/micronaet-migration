@@ -191,13 +191,13 @@
                     <field name="month"/>
                     <field name="total" />
                     <field name="type_document" />
-                    <!--<field name="year"/>
-                    <field name="percentage" />-->
+                    <field name="year"/>
+                    <!--<field name="percentage" />-->
                 </group>
 
-                <!--<filter name="top_sale" domain="[('top','=',True)]" string="Top sale"/>
+                <filter name="top_sale" domain="[('top','=',True)]" string="Top sale"/>
                 <filter name="low_sale" domain="[('top','=',False)]" string="Low sale"/>
-                <newline />-->
+                <newline />
 
                 <filter name="seasonB3" domain="[('season','=',-3)]" string="Season -3"/>
                 <filter name="seasonB2" domain="[('season','=',-1)]" string="Season -2"/>
@@ -210,9 +210,9 @@
                 <group expand="0" string="Group By">
                     <filter string="Partner" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'partner_id'}"/>
                     <filter string="Season" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'season'}"/>
-                    <filter string="Month" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'type_month'}"/>
+                    <filter string="Month" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'month'}"/>
                     <filter string="Type of doc" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'type_document'}"/>
-                    <!--<filter string="Year" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'type_year'}"/>-->
+                    <filter string="Year" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'year'}"/>
                     <!--<filter name="group_name" string="Name" context="{'group_by': 'name'}"/>-->
                     <!--<filter name="group_top" string="Top sale" context="{'group_by': 'top'}"/>-->
                     <!--<filter name="group_default" string="Def.: M + S" context="{'group_by': ('month','season')}"/>-->
@@ -220,29 +220,7 @@
             </search>
         </field>
     </record>
-    <record model="ir.ui.view" id="view_statistic_invoice_nation_search">
-        <field name="name">statistic.invoice.nation.search</field>
-        <field name="model">statistic.invoice</field>
-        <field name="priority" eval="40" />
-        <field name="arch" type="xml">
-            <search string="Statistic invoice nation">
-                <group col="10" colspan="4">
-                    <field name="name" />
-                    <field name="partner_id"/>
-                    <field name="month"/>
-                    <field name="zone_id"/>
-                    <field name="country_id"/>
-                </group>
-                <newline/>
-                <group expand="0" string="Group By..." colspan="14">
-                    <filter string="Partner" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'partner_id'}"/>
-                    <filter string="Nation" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'country_id'}"/>
-                    <filter string="Zone" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'zone_id'}"/>
-                </group>
-            </search>
-        </field>
-    </record>
-
+    
        <!-- Form -->
     <record model="ir.ui.view" id="view_statistic_invoice_form">
         <field name="name">statistic.invoice.form</field>
@@ -393,45 +371,6 @@
             <field name="search_view_id" ref="view_statistic_invoice_search" />
        </record>       
        
-       
-       <record model="ir.actions.act_window" id="action_statistic_nation_graph_form">
-            <field name="name">Fatture Nazione</field>
-            <field name="res_model">statistic.invoice</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">graph,tree,form</field> <!--TODO CONTEXT CON VISTA GRAPH -->
-            <field name="context">{'graph_view_ref':'accounting_statistic_invoice.view_invoice_nation_graph','search_view_ref':'accounting_statistic_invoice.view_statistic_invoice_nation_search'}</field>
-            <field name="domain">[]</field>
-            <field name="search_view_id" ref="view_statistic_invoice_nation_search" />
-       </record>       
-       <!--3 action for Zone (area, state, region)-->
-       <record model="ir.actions.act_window" id="action_statistic_nation_zone_area_graph_form">
-            <field name="name">Fatture Nazione (zone: macro aree)</field>
-            <field name="res_model">statistic.invoice</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">graph,tree,form</field> <!--TODO CONTEXT CON VISTA GRAPH (State)-->
-            <field name="context">{'graph_view_ref':'accounting_statistic_invoice.view_invoice_nation_zone_graph','search_view_ref':'accounting_statistic_invoice.view_statistic_invoice_nation_search'}</field>
-            <field name="domain">['|',('zone_type','=',False),('zone_type','=','area')]</field>
-            <field name="search_view_id" ref="view_statistic_invoice_nation_search" /> <!--zone??-->
-       </record> 
-       <record model="ir.actions.act_window" id="action_statistic_nation_zone_graph_form">
-            <field name="name">Fatture Nazione (zone: stati)</field>
-            <field name="res_model">statistic.invoice</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">graph,tree,form</field> <!--TODO CONTEXT CON VISTA GRAPH (State)-->
-            <field name="context">{'graph_view_ref':'accounting_statistic_invoice.view_invoice_nation_zone_graph','search_view_ref':'accounting_statistic_invoice.view_statistic_invoice_nation_search'}</field>
-            <field name="domain">[('zone_type','=','state')]</field>
-            <field name="search_view_id" ref="view_statistic_invoice_nation_search" /> <!--zone??-->
-       </record> 
-       <record model="ir.actions.act_window" id="action_statistic_nation_zone_region_graph_form">
-            <field name="name">Fatture Nazione (zone: regioni)</field>
-            <field name="res_model">statistic.invoice</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">graph,tree,form</field> <!--TODO CONTEXT CON VISTA GRAPH -->
-            <field name="context">{'graph_view_ref':'accounting_statistic_invoice.view_invoice_nation_zone_graph','search_view_ref':'accounting_statistic_invoice.view_statistic_invoice_nation_search'}</field>
-            <field name="domain">[('zone_type','=','region')]</field>
-            <field name="search_view_id" ref="view_statistic_invoice_nation_search" /> <!--zone??-->
-       </record>       
-
        <record model="ir.actions.act_window" id="action_statistic_total_graph_form">
             <field name="name">Fatture Complessivo</field>
             <field name="res_model">statistic.invoice</field>

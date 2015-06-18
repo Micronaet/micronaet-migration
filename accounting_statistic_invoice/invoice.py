@@ -246,7 +246,7 @@ class StatisticInvoice(orm.Model):
                             'partner_id': partner_id,
                             'month': month,
                             'type_document': type_document,
-                            #'year': year,
+                            'year': year,
                             'total': total_invoice,
                             }
 
