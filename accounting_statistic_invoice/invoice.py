@@ -599,19 +599,20 @@ class StatisticInvoiceProduct(orm.Model):
         item_invoice = {}
         for line in lines:
             try:
-            if tot_col == 0: # save total cols
-               tot_col = len(line)
-               _logger.info('Total cols %s' % tot_col)
-            if counter < 0:
-                counter += 1
-                continue
+                if tot_col == 0: # save total cols
+                   tot_col = len(line)
+                   _logger.info('Total cols %s' % tot_col)
+                if counter < 0:
+                    counter += 1
+                    continue
 
-            if (len(line) and (tot_col == len(line))): 
-                _logger.warning('%s) Empty line or column err [%s>%s]' % (
-                    counter, tot_col, len(line)))
-                counter += 1
-                continue
-            try:                    
+                if (len(line) and (tot_col == len(line))): 
+                    _logger.warning('%s) Empty line or column err [%s>%s]' % (
+                        counter, tot_col, len(line)))
+                    counter += 1
+                    continue
+                
+                # Read fields from csv file:
                 name = csv_base.decode_string(line[0]) # Family
                 month = int(csv_base.decode_string(line[1])) or 0
                 year = csv_base.decode_string(line[2])
@@ -622,68 +623,61 @@ class StatisticInvoiceProduct(orm.Model):
                 if type_document not in ('ft', 'bc', 'oc'):
                     _logger.warning('%s) Type of doc not correct: %s' % (
                         counter, type_document)) 
-                    type_document = False
+                    type_document = False # not jumperd
                       
-                    data = {
-                        'name': name, 
-                        'month': month, 
-                        'type_document': type_document,
-                        'total': total_invoice, # now for all seasons
-                        }
-         
-                    # Which year
-                    if not (year or month): 
-                        _logger.error(
-                            '%s) Year %s or month %s not found (jump)' % (
-                                counter, year, month))
-                        continue    
+                data = {
+                    'name': name, 
+                    'month': month, 
+                    'type_document': type_document,
+                    'total': total_invoice, # now for all seasons
+                    }
+     
+                # Which year
+                if not (year or month): 
+                    _logger.error(
+                        '%s) Year %s or month %s not found (jump)' % (
+                            counter, year, month))
+                    continue    
 
-                    season_total += total_invoice
-                    year_month = '%s%02d' % (year, month)                        
-                    current_year = int(datetime.now().strftime('%Y'))
-                    current_month = int(datetime.now().strftime('%m'))
-                   
-                    if current_month >=1 and current_month <=8:
-                        ref_year = current_year - 1
-                    elif current_month >= 9 and current_month <= 12:
-                        ref_year = current_year  
-                    else:
-                        _logger.error('%s) Month error (jump)' % counter) 
-                        continue
+                season_total += total_invoice
+                year_month = '%s%02d' % (year, month)                        
+                current_year = int(datetime.now().strftime('%Y'))
+                current_month = int(datetime.now().strftime('%m'))
+               
+                if current_month >=1 and current_month <=8:
+                    ref_year = current_year - 1
+                elif current_month >= 9 and current_month <= 12:
+                    ref_year = current_year  
+                else:
+                    _logger.error('%s) Month error (jump)' % counter) 
+                    continue
 
-                    # TODO: add also OC
-                    if year_month >= '%s09' % ref_year and \
-                            year_month <= '%s08' % (ref_year + 1):
-                        data['season'] = 0                            
-                    elif year_month >= '%s09' % (ref_year -1) and \
-                           year_month <= '%s08' % ref_year: # -1
-                        data['season'] = 1
-                    elif year_month >= '%s09' % (ref_year -2) and \
-                            year_month <= '%s08' % (ref_year -1): #-2
-                        data['season'] = 2
-                    else:  
-                        _logger.warning('%s) Extra period %s-%s' % (
-                            counter, year, month)) 
+                # TODO: add also OC
+                if year_month >= '%s09' % ref_year and \
+                        year_month <= '%s08' % (ref_year + 1):
+                    data['season'] = 0                            
+                elif year_month >= '%s09' % (ref_year -1) and \
+                       year_month <= '%s08' % ref_year: # -1
+                    data['season'] = 1
+                elif year_month >= '%s09' % (ref_year -2) and \
+                        year_month <= '%s08' % (ref_year -1): #-2
+                    data['season'] = 2
+                else:  
+                    _logger.warning('%s) Extra period %s-%s' % (
+                        counter, year, month)) 
 
-                    # Sum total for element
-                    if name not in item_invoice:
-                        item_invoice[name] = total_invoice
-                    else:
-                        item_invoice[name] += total_invoice
-                      
-                    try:                      
-                       invoice_id = self.create(
-                           cr, uid, data, context=context)
-                    except:
-                        _logger.error('%s) Error create record' % counter)
-
+                # Sum total for element
+                if name not in item_invoice:
+                    item_invoice[name] = total_invoice
+                else:
+                    item_invoice[name] += total_invoice
+                  
+                invoice_id = self.create(
+                       cr, uid, data, context=context)                
             except:
-                _logger.error('%s) Error create record [%s]' % (
+                _logger.error('%s) Error import record [%s]' % (
                    counter, sys.exc_info()))
                    
-        except:
-            _logger.error('%s) Error create record [%s]' % (
-                counter, sys.exc_info()))
         _logger.info(
             'End importation records, start totals for split elements')
 
@@ -736,6 +730,7 @@ class StatisticInvoiceProduct(orm.Model):
             ('oc', 'Ordine'),
             ('bc', 'DDT'),
             ], 'Doc. type', select=True), # togliere?
+            
         'month': fields.selection([
             (0, '00 Non trovato'),
             (1, 'Mese 05*: Gennaio'),
