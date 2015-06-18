@@ -103,7 +103,7 @@ class StatisticInvoice(orm.Model):
         invoice_ids = self.search(cr, uid, [], context=context)
         self.unlink(cr, uid, invoice_ids, context=context)
                 
-        # TODO portare parametrizzandolo in OpenERP:
+        # TODO portare parametrizzandolo in OpenERP (second loop substitution):
         # =====================================================================
         p1_id = csv_base.get_create_partner_lite(
             cr, uid, '06.02209', context=context)
@@ -202,7 +202,7 @@ class StatisticInvoice(orm.Model):
                                 ):
                                 
                                 _logger.warning(
-                                    '%s: replace code: %s>06.03044' % (
+                                    '%s: replace code: %s > 06.03044' % (
                                         counter, mexal_id))
                                 mexal_id = '06.03044'
 
@@ -226,7 +226,7 @@ class StatisticInvoice(orm.Model):
 
                         # Not classified (TODO but imported, true?!?!)
                         if not (month or year): 
-                            _logger.error('%s Month/Year not found! %s' % (
+                            _logger.error('%s Month / Year not found! %s' % (
                                 counter, line))
 
                         # OC old = today
@@ -366,12 +366,13 @@ class StatisticInvoice(orm.Model):
             readonly=True, string='Important partner'),
 
         # Extra info for filter graph:
-        'zone_id': fields.related('partner_id','zone_id', type='many2one',
+        'zone_id': fields.related('partner_id', 'zone_id', type='many2one',
             relation='res.partner.zone', string='Zone', store=True),
-        'zone_type': fields.related('zone_id','type', type='selection',
+        'zone_type': fields.related('zone_id', 'type', type='selection',
             selection=[
-                ('region', 'Region'), ('state', 'State'), ('area', 'Area'),
-                ], string='Tipo', store=True),
+                ('region', 'Region'), 
+                ('state', 'State'), 
+                ('area', 'Area'), ], string='Type', store=True),
         'country_id': fields.related('partner_id', 'country_id', 
             type='many2one', relation='res.country', string='Country', 
             store=True),
