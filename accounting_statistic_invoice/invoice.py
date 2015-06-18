@@ -93,7 +93,7 @@ class StatisticInvoice(orm.Model):
             This particular importation are from 2 files (amount)
         '''
 
-        _logger.info('Start invoice statistic importation (trend and trendoc)')
+        _logger.info('Start invoice statistic for customer')
         
         # File CSV date for future log
         #create_date=time.ctime(os.path.getctime(FileInput))

@@ -452,7 +452,7 @@
        id="menu_accounting_invoice_root" 
        sequence="1" />
 
-       <menuitem name="Invoice per month" 
+       <menuitem name="Invoice per customer" 
            parent="menu_accounting_invoice_root" 
            id="menu_accounting_invoice_month"
            sequence="10" 
