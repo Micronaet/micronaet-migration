@@ -387,8 +387,7 @@ class StatisticInvoice(orm.Model):
 
                             try:
                                 # Common part (correct + amount)
-                                invoice_id = self.create(
-                                    cr, uid, data, context=context)
+                                self.create(cr, uid, data, context=context)
                                 if step == 2: # Second payment negative! 
                                     # invert sign and setup agent
                                     data['name'] = '%s [%s]' % (
@@ -405,8 +404,7 @@ class StatisticInvoice(orm.Model):
                                     data['total_last_last_last_last'] = \
                                         -data.get(
                                             'total_last_last_last_last', 0.0)
-                                    invoice_id = self.create(
-                                        cr, uid, data, context=context)
+                                    self.create(cr, uid, data, context=context)
                             except:
                                 _logger.error('%s Error create invoice: %s' % (
                                     counter, mexal_id))
@@ -586,6 +584,7 @@ class StatisticInvoiceProduct(orm.Model):
         # TODO for log check:
         #create_date=time.ctime(os.path.getctime(FileInput))    
         import pdb; pdb.set_trace()
+        input_file = os.path.expanduser(input_file)
         _logger.info('Start importation product invoice stats: %s' % (
             input_file))    
         lines = csv.reader(open(input_file, 'rb'), delimiter=delimiter)
@@ -594,24 +593,27 @@ class StatisticInvoiceProduct(orm.Model):
         item_ids = self.search(cr, uid, [], context=context)
         self.unlink(cr, uid, item_ids, context=context)
 
-        tot_col=0
+        top_limit = 0.005 # TODO parametrize
+        tot_col = 0
         season_total = 0 
         item_invoice = {}
+        csv_base = self.pool.get('csv.base')
         for line in lines:
             try:
-                if tot_col == 0: # save total cols
-                   tot_col = len(line)
-                   _logger.info('Total cols %s' % tot_col)
                 if counter < 0:
                     counter += 1
                     continue
 
-                if (len(line) and (tot_col == len(line))): 
+                if not tot_col: # save total cols
+                   tot_col = len(line)
+                   _logger.info('Total cols %s' % tot_col)
+
+                if not (len(line) and (tot_col == len(line))): 
                     _logger.warning('%s) Empty line or column err [%s>%s]' % (
                         counter, tot_col, len(line)))
-                    counter += 1
                     continue
                 
+                counter += 1
                 # Read fields from csv file:
                 name = csv_base.decode_string(line[0]) # Family
                 month = int(csv_base.decode_string(line[1])) or 0
@@ -644,7 +646,7 @@ class StatisticInvoiceProduct(orm.Model):
                 current_year = int(datetime.now().strftime('%Y'))
                 current_month = int(datetime.now().strftime('%m'))
                
-                if current_month >=1 and current_month <=8:
+                if current_month >= 1 and current_month <= 8:
                     ref_year = current_year - 1
                 elif current_month >= 9 and current_month <= 12:
                     ref_year = current_year  
@@ -662,9 +664,13 @@ class StatisticInvoiceProduct(orm.Model):
                 elif year_month >= '%s09' % (ref_year -2) and \
                         year_month <= '%s08' % (ref_year -1): #-2
                     data['season'] = 2
-                else:  
+                else:                    
                     _logger.warning('%s) Extra period %s-%s' % (
                         counter, year, month)) 
+                    if year_month > '%s08' % (ref_year + 1):    
+                        data['season'] = 3
+                    else:    
+                        data['season'] = -1                        
 
                 # Sum total for element
                 if name not in item_invoice:
@@ -672,8 +678,7 @@ class StatisticInvoiceProduct(orm.Model):
                 else:
                     item_invoice[name] += total_invoice
                   
-                invoice_id = self.create(
-                       cr, uid, data, context=context)                
+                self.create(cr, uid, data, context=context)                
             except:
                 _logger.error('%s) Error import record [%s]' % (
                    counter, sys.exc_info()))
@@ -693,7 +698,7 @@ class StatisticInvoiceProduct(orm.Model):
             for family in item_invoice.keys():
                 perc_invoice = item_invoice[
                     family] / season_total
-                if perc_invoice >= 0.005: # 0,5% all 3 season # TODO parametr.
+                if perc_invoice >= top_limit: # 0,5% all 3 season # TODO parametr.
                     if family not in product_removed and family \
                             not in most_popular:
                         most_popular.append(family) # write
@@ -720,9 +725,11 @@ class StatisticInvoiceProduct(orm.Model):
             '% 3 season total', digits=(16, 5)),
 
         'season': fields.selection([
+            (-1, 'Old season'), # all old seasons
             (0, 'Current season'),
             (1, 'Season -1'),
             (2, 'Season -2'),
+            (3, 'New season'), # all new seasons
             ], 'Season', select=True),
 
         'type_document': fields.selection([
@@ -744,8 +751,7 @@ class StatisticInvoiceProduct(orm.Model):
             (9, 'Mese 01: Settembre'),
             (10, 'Mese 02: Ottobre'),
             (11, 'Mese 03: Novembre'),
-            (12, 'Mese 04: Dicembre'),
-            ], 'Month', select=True),
+            (12, 'Mese 04: Dicembre'), ], 'Month', select=True),
         }
 
     _defaults = {
