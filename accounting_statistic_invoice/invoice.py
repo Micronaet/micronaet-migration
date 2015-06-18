@@ -592,6 +592,13 @@ class StatisticInvoiceProduct(orm.Model):
         item_ids = self.search(cr, uid, [], context=context)
         self.unlink(cr, uid, item_ids, context=context)
 
+        # Create list for family to remove:
+        remove_pool = self.pool.get('statistic.invoice.product.removed')
+        item_ids = remove_pool.search(cr, uid, [], context=context)
+        family_blacklist = [
+            item.name.upper() for item in remove_pool.browse(
+                cr, uid, item_ids, context=context)]
+
         top_limit = 0.005 # TODO parametrize
         tot_col = 0
         season_total = 0 
@@ -614,7 +621,9 @@ class StatisticInvoiceProduct(orm.Model):
                 
                 counter += 1
                 # Read fields from csv file:
-                name = csv_base.decode_string(line[0]) # Family
+                name = csv_base.decode_string(line[0]).upper() # Family
+                if name in family_blacklist:
+                    continue # jump record
                 month = int(csv_base.decode_string(line[1])) or 0
                 year = csv_base.decode_string(line[2])
                 total_invoice = csv_base.decode_float(line[3]) or 0.0
@@ -656,13 +665,13 @@ class StatisticInvoiceProduct(orm.Model):
                 # TODO: add also OC
                 if year_month >= '%s09' % ref_year and \
                         year_month <= '%s08' % (ref_year + 1):
-                    data['season'] = 1                           
+                    data['season'] = 3
                 elif year_month >= '%s09' % (ref_year -1) and \
                        year_month <= '%s08' % ref_year: # -1
                     data['season'] = 2
                 elif year_month >= '%s09' % (ref_year -2) and \
                         year_month <= '%s08' % (ref_year -1): #-2
-                    data['season'] = 3
+                    data['season'] = 1
                 else:                    
                     _logger.warning('%s) Extra period %s-%s' % (
                         counter, year, month)) 
@@ -683,35 +692,23 @@ class StatisticInvoiceProduct(orm.Model):
                    counter, sys.exc_info()))
                    
         _logger.info(
-            'End importation records, start totals for split elements')
+            'End importation records, set top elements')
 
         try: # Split product depend on invoiced
-            # Remove some code:
-            remove_pool = self.pool.get('statistic.invoice.product.removed')
-            item_ids = remove_pool.search(cr, uid, item_ids, context=context)
-            product_removed = [
-                item.name for item in remove_pool.browse(cr, uid, item_ids, 
-                    context=context)]
-            
             most_popular = []
-            for family in item_invoice.keys():
-                perc_invoice = item_invoice[
-                    family] / season_total
-                if perc_invoice >= top_limit: # 0,5% all 3 season # TODO parametr.
-                    if family not in product_removed and family \
-                            not in most_popular:
-                        most_popular.append(family) # write
-                
-            product_item_to_show_ids = self.search(cr, uid, [
+            for family in item_invoice:
+                perc_invoice = item_invoice[family] / season_total
+                if perc_invoice >= top_limit and family not in most_popular:
+                    most_popular.append(family)
+
+            top_ids = self.search(cr, uid, [
                 ('name', 'in', most_popular)], context=context)
-            self.write(cr, uid, product_item_to_show_ids, {
-                    'top': True}, context=context)
-            _logger.info('Set top elements')
+            self.write(cr, uid, top_ids, {'top': True}, context=context)
+            _logger.info('End importation')
 
         except:
             _logger.error('%s) Error create record [%s]' % (
-                counter, sys.exc_info()))
-        
+                counter, sys.exc_info()))        
         return True
         
     _columns = {
@@ -725,9 +722,9 @@ class StatisticInvoiceProduct(orm.Model):
 
         'season': fields.selection([
             (-1, 'Old season'), # all old seasons
-            (1, 'Current season'),
+            (1, 'Season -2'),
             (2, 'Season -1'),
-            (3, 'Season -2'),
+            (3, 'Current season'),
             (4, 'New season'), # all new seasons
             ], 'Season', select=True),
 
