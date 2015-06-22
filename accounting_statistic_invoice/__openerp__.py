@@ -29,6 +29,7 @@
     'license': 'AGPL-3',
     'depends': [
         'accounting_statistic_base',
+        'production_family',
         ],
     'init_xml': [],
     'demo_xml': [],

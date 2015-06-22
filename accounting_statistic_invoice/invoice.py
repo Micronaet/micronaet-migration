@@ -401,6 +401,16 @@ class StatisticInvoiceProduct(orm.Model):
         item_ids = self.search(cr, uid, [], context=context)
         self.unlink(cr, uid, item_ids, context=context)
 
+        # Family categorization (create dict for association):
+        template_pool = self.pool.get('product.template')
+        family_ids = template_pool.search(cr, uid, [
+            ('is_family','=',True)], context=context)
+        families = {}        
+        for family in template_pool.browse(
+                cr, uid, family_ids, context=context):
+            families.update(
+                dict.fromkeys(family.family_list.split('|'), family.id))
+        
         # Create list for family to remove:
         remove_pool = self.pool.get('statistic.invoice.product.removed')
         item_ids = remove_pool.search(cr, uid, [], context=context)
@@ -412,7 +422,7 @@ class StatisticInvoiceProduct(orm.Model):
         tot_col = 0
         season_total = 0
         item_invoice = {}
-        csv_base = self.pool.get('csv.base')
+        csv_base = self.pool.get('csv.base')        
         for line in lines:
             try:
                 if counter < 0:
@@ -450,6 +460,7 @@ class StatisticInvoiceProduct(orm.Model):
                     'type_document': type_document,
                     'total': total_invoice, # now for all seasons
                     'year': year,
+                    'family_id': families.get(name, False)
                     }
 
                 # Which year
@@ -526,6 +537,11 @@ class StatisticInvoiceProduct(orm.Model):
         'visible': fields.boolean('Visible'), # TODO removeable!
         'top': fields.boolean('Top sale'),
         'total': fields.float('Amount', digits=(16, 2)),
+
+        'family_id': fields.many2one('product.template', 'Family'), 
+        'categ_id': fields.related('family_id', 'categ_id',
+            type='many2one', relation='product.category',
+            string='Category', store=True),
 
         'percentage': fields.float(
             '% 3 season total', digits=(16, 5)),
