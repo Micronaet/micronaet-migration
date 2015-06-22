@@ -409,8 +409,10 @@ class StatisticInvoiceProduct(orm.Model):
         for family in template_pool.browse(
                 cr, uid, family_ids, context=context):
             families.update(
-                dict.fromkeys(family.family_list.split('|'), family.id))
-        
+                dict.fromkeys(
+                    family.family_list.split('|'), (
+                        family.id, family.categ_id.id)))
+
         # Create list for family to remove:
         remove_pool = self.pool.get('statistic.invoice.product.removed')
         item_ids = remove_pool.search(cr, uid, [], context=context)
@@ -454,13 +456,16 @@ class StatisticInvoiceProduct(orm.Model):
                         counter, type_document))
                     type_document = False # not jumperd
 
+                family_id, categ_id = families.get(name, (False, False))
+
                 data = {
                     'name': name,
                     'month': month,
                     'type_document': type_document,
                     'total': total_invoice, # now for all seasons
                     'year': year,
-                    'family_id': families.get(name, False)
+                    'family_id': family_id,
+                    'categ_id': categ_id,
                     }
 
                 # Which year
@@ -539,9 +544,7 @@ class StatisticInvoiceProduct(orm.Model):
         'total': fields.float('Amount', digits=(16, 2)),
 
         'family_id': fields.many2one('product.template', 'Family'), 
-        'categ_id': fields.related('family_id', 'categ_id',
-            type='many2one', relation='product.category',
-            string='Category', store=True),
+        'categ_id': fields.many2one('product.category', 'Family'), 
 
         'percentage': fields.float(
             '% 3 season total', digits=(16, 5)),
