@@ -83,7 +83,7 @@ class ResPartner(orm.Model):
                'name': zone,
                }, context=context)
     
-    def get_agent(self, cr, uid, name, context=None):
+    def get_agent(self, cr, uid, ref, name, context=None):
         ''' Test if there's ref agent in static.invoice.agent
             1. False: Create and return ID
             2. True: Get and return ID
@@ -136,7 +136,8 @@ class ResPartner(orm.Model):
         #pricelists = [0,0,0,0,0,0,0,0,0,0]
         #ReadAllPricelist(sock, dbname, uid, pwd,range(0,10),pricelists)
         fiscal_position_list = {}
-        self.load_fiscal_position(cr, uid, fiscal_position_list, context=context)
+        self.load_fiscal_position(
+            cr, uid, fiscal_position_list, context=context)
         #client_list = cPickleParticInput(file_name_pickle) << TODO partic for pl
         csv_pool = self.pool.get('csv.base')
 
@@ -168,79 +169,74 @@ class ResPartner(orm.Model):
                         len(line), )
                    continue     
                         
-               ref = csv_pool.convert_string(line[0])
-               name = Prepare(line[1]).title()
-               first_name=Prepare(line[2]).title() or ''
-               street = Prepare(line[3]).title() or ''
-               zipcode = Prepare(line[4])
-               city = Prepare(line[5]).title() or ''
-               prov = Prepare(line[6]).upper() or ''
-               phone = Prepare(line[7])
-               fax = Prepare(line[8])
-               email = Prepare(line[9]).lower() or ''
-               fiscal_code = Prepare(Prepare(line[10])).upper() or ''  # Verify field
-               vat = Prepare(line[11]).upper()        # IT* format   (checked ??)
-               type_CEI = Prepare(line[12]).lower()   #  C | E | I 
-               code = Prepare(line[13]).upper()       # Verify "IT" 
-               private = Prepare(line[14]).upper()=="S"  # (non used) S | N (True if S)
-               parent=Prepare(line[15]) # ID parent partner of this destination
-               ref_agente=Prepare(line[16]) or '' # ID agente
-               name_agente=Prepare(line[17]).title() or ''
-               csv_id+=1
+               ref = csv_pool.decode_string(line[0])
+               name = csv_pool.decode_string(line[1]).title()
+               first_name = csv_pool.decode_string(line[2]).title()
+               street = csv_pool.decode_string(line[3]).title()
+               zipcode = csv_pool.decode_string(line[4])
+               city = csv_pool.decode_string(line[5]).title()
+               prov = csv_pool.decode_string(line[6]).upper()
+               phone = csv_pool.decode_string(line[7])
+               fax = csv_pool.decode_string(line[8])
+               email = csv_pool.decode_string(line[9]).lower()
+               fiscal_code = csv_pool.decode_string(line[10]).upper()
+               vat = csv_pool.decode_string(line[11]).upper() # IT* format
+               type_CEI = csv_pool.decode_string(line[12]).lower() #  C, E, I 
+               code = csv_pool.decode_string(line[13]).upper() # Verify "IT" 
+               private = csv_pool.decode_string(line[14]).upper()=="S"
+               parent = csv_pool.decode_string(line[15]) # partner partner
+               ref_agente = csv_pool.decode_string(line[16]) # ID agente
+               name_agente = csv_pool.decode_string(line[17]).title()
 
+               # Get ID for agent name:
                agent_id = False
                # TODO verify for suppliers and destination!!!
+               pl_version = 0
                if (mexal_type == 'c') and (not mexal_destination) and ref_agente[:2] not in ('05', '20',): # Pricelist only present for client TODO not destination                       
-                   agent_id = get_agent(dbname, uid, pwd, ref_agente, name_agente)
-                   if Prepare(line[csv_id]):
-                       pricelist_mexal_id = eval(Prepare(line[csv_id]))   # ID of mexal pricelist
-                       if type(pricelist_mexal_id) != type(0):
-                           pricelist_mexal_id = 0
-                           print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Error converting", Prepare(line[csv_id])
-                   else:
-                       pricelist_mexal_id=0 
-               else:
-                   pricelist_mexal_id=0
-               csv_id+=1
-               discount=Prepare(line[csv_id])       # Discount, string to parse
-               if discount: # per problemi nella stampa del modulo!
-                  discount=discount.replace("+", "+ ") # Metto uno spazio dopo il più
-                  discount=discount.replace("  ", " ") # Se c'era già tolgo il doppio spazio 
-               csv_id+=1
-               esention_code=Prepare(line[csv_id])    # Codice esenzione IVA (se presente allora è esente)
-               csv_id+=1
-               country_international_code=Prepare(line[csv_id]).upper()    # Codice Nazione
-               # Fido:
-               csv_id+=1
-               fido_total = PrepareFloat(line[csv_id])   # Importo fido
-               csv_id+=1
-               fido_date = prepare_date(line[csv_id])    # Data ottenimento fido
-               csv_id+=1
-               fido_ko=('x' == Prepare(line[csv_id]))    # X se ha perso il fido
-               csv_id+=1
-               # ID Zona
-               csv_id+=1
-               zone = Prepare(line[csv_id])              # zona del cliente
-               zone_id=get_zone(sock, dbname, uid, pwd, zone)
+                   agent_id = self.get_agent(cr, uid, ref_agente, name_agente)
+                   
+                   # 10 pricelist standard:
+                   pl_code = csv_pool.decode_string(line[18])
+                   if pl_code:
+                       try:
+                           pl_version = int(pl_code)   
+                       except:                           
+                           _logger.error('Pricelist code error: %s' % pl_code)
 
-               if azienda=="fiam":  # solo per fiam la gestione della categoria
-                   csv_id+=1
-                   # ID Categoria
-                   csv_id+=1
-                   category = Prepare(line[csv_id])              # categoria statistica cliente
-                   category_id=get_statistic_category(sock, dbname, uid, pwd, category)                    
-                   csv_id+=1
-                   ddt_e_oc = PrepareFloat(line[csv_id])              # saldo contabile OC + DDT aperti
+               discount = csv_pool.decode_string(line[19]) # Discount list
+               if discount:
+                  discount = discount.replace(
+                      "+", "+ ").replace(
+                      "  ", " ")
+               esention_code = csv_pool.decode_string(line[20])
+               country_code = csv_pool.decode_string(line[21]).upper()
+               fido_total = csv_pool.decode_float(line[22])
+               fido_date = csv_pool.decode_date(line[23]) # FIDO from date 
+               fido_ko = ('x' == csv_pool.decode_string(line[24])) # X = loose
+               # 25 = ID zone (accounting)
+               zone = csv_pool.decode_string(line[26])
+               zone_id = self.get_zone(cr, uid, ids, zone)
+
+               # TODO only 1 company used it:
+               if tot_col > 27:
+                   # 27 ID category               
+                   category = csv_pool.decode_string(line[28]) # Statistic categ.
+                   category_id = self.get_statistic_category(
+                       cr, uid, category, context=context)
+                   ddt_e_oc = csv_pool.decode_float(line[29]) # balance accounting
+
                else:
                    ddt_e_oc = ""    
-                   
-               if pricelist_mexal_id in range(1,10): # mexal ID go from 1 to 9
+                   category_id = False
+                   ddt_e_oc = False
+
+               if pl_version in range(1,10): # mexal ID go from 1 to 9
                   if ref in client_list: # Create Particular PL for client (or update)
                      result={} 
-                     GetPricelist(sock, dbname, uid, pwd, ref, pricelist_mexal_id, pricelists[pricelist_mexal_id], result) # 2 returned values in dict
+                     GetPricelist(sock, dbname, uid, pwd, ref, pl_version, pricelists[pl_version], result) # 2 returned values in dict
                      pricelist_id=result['pricelist']
                   else: # Link to standard PL version
-                     pricelist_id=pricelists[pricelist_mexal_id]
+                     pricelist_id=pricelists[pl_version]
                else:
                   pricelist_id=0
  
@@ -274,7 +270,7 @@ class ResPartner(orm.Model):
                # Default data dictionary (to insert / update)
                data_address={'city': city, # modify first import address
                              'zip': zipcode, 
-                             'country_id': getCountryFromCode(sock,dbname,uid,pwd,country_international_code), 
+                             'country_id': getCountryFromCode(sock,dbname,uid,pwd,country_code), 
                              'phone': phone,
                              'fax': fax,
                              'street': street, 

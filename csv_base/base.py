@@ -69,6 +69,8 @@ class CsvBase(orm.Model):
         
     def decode_string(self, valore):  
         # For problems: input win output ubuntu; trim extra spaces
+        if not valore: 
+            return ''
         valore = valore.decode('cp1252')
         valore = valore.encode('utf-8')
         return valore.strip()
