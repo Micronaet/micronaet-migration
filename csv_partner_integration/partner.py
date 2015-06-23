@@ -44,6 +44,84 @@ class ResPartner(orm.Model):
     '''
     _inherit = 'res.partner'
 
+    # -------------------------------------------------------------------------
+    #                          Utility function:
+    # -------------------------------------------------------------------------
+    def get_statistic_category(self, cr, uid, category, context=None):
+        ''' Get (or create) statistic category (obj: statistic.category)
+        '''
+        if category:
+            return False
+            
+        category = category.strip()
+        category = category.capitalize()        
+        category_pool = self.pool.get('statistic.category')
+        item_ids = category_pool.search(cr, uid, [
+            ('name', '=', category)], context=context)
+        if item_ids:
+           return item_ids[0]
+        else:
+           return category_pool.create(cr, uid, {
+               'name': category,
+               }, context=context)
+
+    def get_zone(self, cr, uid, zone, context=None):
+        ''' Get (or create) zone element (obj: res.partner.zone)
+        '''
+        if not zone:
+            return False
+            
+        zone = zone.strip()
+        zone = zone.capitalize()        
+        zone_pool = self.pool.get('res.partner.zone')
+        item_ids = zone_pool.search(cr, uid, [
+            ('name', '=', zone)], context=context)
+        if item_ids:
+           return item_ids[0]
+        else:
+           return zone_pool.create(cr, uid, {
+               'name': zone,
+               }, context=context)
+    
+    def get_agent(self, cr, uid, name, context=None):
+        ''' Test if there's ref agent in static.invoice.agent
+            1. False: Create and return ID
+            2. True: Get and return ID
+        '''
+        if not ref:
+            return False
+            
+        agent_pool = self.pool.get('statistic.invoice.agent')    
+        item_ids = agent_pool.search(cr, uid, [
+            ('ref', '=', ref)], context=context) 
+        if item_ids:
+            return item[0]
+        else:
+            return agent_pool.create(cr, uid, {
+                'ref': ref, 
+                'name': name, 
+                }, context=context) 
+
+    def load_fiscal_position(self, cr, uid, fiscal_position_list, context=None):
+        ''' In accounting there's 3 position: C, E, I
+            Load the fiscal_position_list dictionary 
+        '''
+        fiscal_pool = self.pool.get('account.fiscal.position')
+        
+        fiscal_ids = fiscal_pool(cr, uid, [], context=context)
+        fiscal_proxy = fiscal_pool.proxy(cr, uid, fiscal_ids, context=context)
+        for item in fiscal_proxy:
+            if item.name == 'Regime Intra comunitario':
+               fiscal_position_list['c'] = item.id
+            elif item.name == 'Regime Extra comunitario':
+               fiscal_position_list['e'] = item.id
+            elif item.name == 'Italia':
+               fiscal_position_list['i'] = item.id
+        return
+
+    # -------------------------------------------------------------------------
+    #                      Scheduled function for import:
+    # -------------------------------------------------------------------------
     def schedule_csv_partner_integration(self, cr, uid,
             input_file='~/ETL/copenerp.csv', delimiter=';', header_line=0,
             verbose=100, context=None):
@@ -53,103 +131,9 @@ class ResPartner(orm.Model):
         _logger.info('Start partner integration')
         
         # Customer integration
-# Function ********************************************************************
-def raise_error(text, file_name,error_type="E"):
-    status_list={"E":"ERROR","I":"INFO","W":"WARNING","C":"COLUMN ERROR"}
-    error_type=error_type.upper()
-    if error_type not in status_list.keys():
-       error_type="E" # if status non present, default is Error!
-
-    text= "["+status_list[error_type]+"] " + text 
-    print text
-    file_name.write(text + "\n")                          
-    return
-
-# Start main code *************************************************************
-# gia' testato 3 parti dell'argv all'inizio
-if sys.argv[2].lower() in ('c','s','cd', 'sd'):
-   mexal_type = sys.argv[2][0].lower()  # parameter for future use
-   if len(sys.argv[2])==2: # = "*d"
-      mexal_destination=True
-   else:
-      mexal_destination=False
-
-   header_lines=config.getint('csv','header_' + mexal_type) # number of line to jump
-else:
-   print """
-        *** Syntax Error! ***
-        *  Use the command with this syntax: python ./partner_ETL.py nome_file.csv c|s|cd|sd
-                                                                       check this  ^^^^^^^^^    
-        *********************
-        """ 
-   sys.exit()
-
-# FUNCTION:
-def prepare_date(valore):
-    valore=valore.strip()
-    if len(valore)==8:
-       if valore: # TODO test correct date format
-          return valore[:4] + "/" + valore[4:6] + "/" + valore[6:8]
-    return False #time.strftime("%d/%m/%Y") (per gli altri casi)
-
-def get_statistic_category(sock, dbname, uid, pwd, category):
-    ''' get categoria statistica
-    '''
-    if category:
-        category=category.strip()
-        category=category.capitalize()        
-        item_ids=sock.execute(dbname, uid, pwd, 'statistic.category', 'search', [('name', '=', category)])
-        if item_ids:
-           return item_ids[0]
-        else:
-           return sock.execute(dbname, uid, pwd, 'statistic.category', 'create', {'name': category,})
-    else:
-        return False
-
-def get_zona(sock, dbname, uid, pwd, zona):
-    ''' get zone ID (if exist, instead create)
-    '''
-    if zona:
-        zona=zona.strip()
-        zona=zona.capitalize()        
-        item_ids=sock.execute(dbname, uid, pwd, 'res.partner.zone', 'search', [('name', '=', zona)])
-        if item_ids:
-           return item_ids[0]
-        else:
-           return sock.execute(dbname, uid, pwd, 'res.partner.zone', 'create', {'name': zona,})
-    else:
-        return False
-
-def get_agent_id(dbname, uid, pwd, ref, name):
-    ''' Test if there's ref agent in static.invoice.agent
-        1. False: Create and return ID
-        2. True: Get and return ID
-    '''
-    if not ref:
-        return False
         
-    item = sock.execute(dbname, uid, pwd, 'statistic.invoice.agent', 'search', [('ref', '=', ref)]) 
-    if item: # return first
-        return item[0]
-    else: # create
-        return sock.execute(dbname, uid, pwd, 'statistic.invoice.agent', 'create', {'ref': ref, 'name': name,}) 
-    
-def load_fiscal_position(sock, dbname, uid, pwd, fiscal_position_list):
-    ''' get fiscal position for 3 states of openerp, from mexal the fields are: C, E, I 
-        NOTA: il programma è cablato sul piano dei conti italiano perciò vediamo solo 
-        le descrizioni italiane per i test
-        TODO: parametrizzare con l'ID azienda!!
-    '''
-    fiscal_element=sock.execute(dbname, uid, pwd, 'account.fiscal.position', 'search', [])
-    fiscal_element_read=sock.execute(dbname, uid, pwd, 'account.fiscal.position', 'read', fiscal_element)
-    for element in fiscal_element_read:
-        if element['name']=='Regime Intra comunitario':
-           fiscal_position_list['c']=element['id']
-        elif element['name']=='Regime Extra comunitario':
-           fiscal_position_list['e']=element['id']
-        elif element['name']=='Italia':
-           fiscal_position_list['i']=element['id']
-    return
+# Function ********************************************************************
+
 
 # XMLRPC connection for autentication (UID) and proxy 
 sock = xmlrpclib.ServerProxy('http://' + server + ':' + port + '/xmlrpc/common', allow_none=True)
@@ -233,7 +217,7 @@ try:
                    agent_id = False
                    # TODO verify for suppliers and destination!!!
                    if (mexal_type == 'c') and (not mexal_destination) and ref_agente[:2] not in ('05', '20',): # Pricelist only present for client TODO not destination                       
-                       agent_id = get_agent_id(dbname, uid, pwd, ref_agente, name_agente)
+                       agent_id = get_agent(dbname, uid, pwd, ref_agente, name_agente)
                        if Prepare(line[csv_id]):
                            pricelist_mexal_id = eval(Prepare(line[csv_id]))   # ID of mexal pricelist
                            if type(pricelist_mexal_id) != type(0):
@@ -263,7 +247,7 @@ try:
                    # ID Zona
                    csv_id+=1
                    zone = Prepare(line[csv_id])              # zona del cliente
-                   zone_id=get_zona(sock, dbname, uid, pwd, zone)
+                   zone_id=get_zone(sock, dbname, uid, pwd, zone)
 
                    if azienda=="fiam":  # solo per fiam la gestione della categoria
                        csv_id+=1
