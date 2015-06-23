@@ -50,7 +50,7 @@ class ResPartner(orm.Model):
     def get_statistic_category(self, cr, uid, category, context=None):
         ''' Get (or create) statistic category (obj: statistic.category)
         '''
-        if category:
+        if not category:
             return False
 
         category = category.strip()
@@ -95,7 +95,7 @@ class ResPartner(orm.Model):
         item_ids = agent_pool.search(cr, uid, [
             ('ref', '=', ref)], context=context)
         if item_ids:
-            return item[0]
+            return item_ids[0]
         else:
             return agent_pool.create(cr, uid, {
                 'ref': ref,
@@ -109,9 +109,8 @@ class ResPartner(orm.Model):
         '''
         fiscal_pool = self.pool.get('account.fiscal.position')
 
-        fiscal_ids = fiscal_pool(cr, uid, [], context=context)
-        fiscal_proxy = fiscal_pool.proxy(cr, uid, fiscal_ids, context=context)
-        for item in fiscal_proxy:
+        fiscal_ids = fiscal_pool.search(cr, uid, [], context=context)
+        for item in fiscal_pool.browse(cr, uid, fiscal_ids, context=context):
             if item.name == 'Regime Intra comunitario':
                fiscal_position_list['c'] = item.id
             elif item.name == 'Regime Extra comunitario':
@@ -148,8 +147,8 @@ class ResPartner(orm.Model):
         pl_pool = self.pool.get('product.pricelist')
         pl_ids = pl_pool.search(cr, uid, [
                 ('mexal_id', '!=', False)], context=context)
-        for item in pl_pool.browse(cr, uid, pol_ids, context=context):
-            pricelist_fiam_id[mexal_id] = item.id
+        for item in pl_pool.browse(cr, uid, pl_ids, context=context):
+            pricelists[item.mexal_id] = item.id
         return
 
     # -------------------------------------------------------------------------
@@ -163,7 +162,7 @@ class ResPartner(orm.Model):
         ''' Import partner extra fields, this operation override sql schedule
             for add extra fields that could not be reached fast
         '''
-        _logger.info('Start partner integration, file: %s' % input_file)
+        _logger.info('Start partner integration.')
 
         pricelists = {}
         self.read_all_pricelist(cr, uid, pricelists, context=context)
@@ -193,7 +192,8 @@ class ResPartner(orm.Model):
             counter = 0
             tot_col = 0
             lines = csv.reader(
-                open(input_file, 'rb'), delimiter=delimiter)
+                open(os.path.expanduser(input_file), 'rb'), 
+                delimiter=delimiter)
 
             for line in lines:
                 try:
@@ -203,6 +203,11 @@ class ResPartner(orm.Model):
                        continue
 
                     counter += 1
+                    if counter != 649:
+                        continue
+                    import pdb; pdb.set_trace()
+                    if verbose and counter and counter % verbose == 0:
+                        _logger.info('Record updated: %s' % counter)
                     # Jump empty lines:
                     if not len(line):
                         _logger.warning('%s. Jump empty line' % counter)
@@ -219,7 +224,8 @@ class ResPartner(orm.Model):
                             counter, tot_col, len(line), 
                             ))
                         continue
-
+                        
+                    # Read all fields to import:
                     ref = csv_pool.decode_string(line[0])
                     name = csv_pool.decode_string(line[1]).title()
                     first_name = csv_pool.decode_string(line[2]).title()
@@ -232,8 +238,8 @@ class ResPartner(orm.Model):
                     email = csv_pool.decode_string(line[9]).lower()
                     fiscal_code = csv_pool.decode_string(line[10]).upper()
                     vat = csv_pool.decode_string(line[11]).upper() # IT* format
-
-                    type_CEI = csv_pool.decode_string(line[12]).lower() #  CEI
+                        
+                    type_CEI = csv_pool.decode_string(line[12]).lower()
                     if type_CEI in ('c', 'e', 'i', 'v', 'r'):
                         fiscal_position = fiscal_position_list.get(
                             type_CEI, 'e')
@@ -243,7 +249,7 @@ class ResPartner(orm.Model):
                            type_CEI))
 
                     code = csv_pool.decode_string(line[13]).upper() # IT
-                    private = csv_pool.decode_string(line[14]).upper()=="S"
+                    private = csv_pool.decode_string(line[14]).upper() == "S"
                     parent = csv_pool.decode_string(line[15]) # partner partner
                     ref_agente = csv_pool.decode_string(line[16]) # ID agente
                     name_agente = csv_pool.decode_string(line[17]).title()
@@ -253,7 +259,7 @@ class ResPartner(orm.Model):
 
                     # Pricelist only present for client 
                     pl_version = 0
-                    if (mode == 'c') and (not is_destination): 
+                    if (mode == 'customer') and (not is_destination): 
                         # and ref_agente[:2] not in ('05', '20',): TODO serve?
                         agent_id = self.get_agent(
                             cr, uid, ref_agente, name_agente, context=context)
@@ -266,17 +272,17 @@ class ResPartner(orm.Model):
                         discount = discount.replace(
                             "+", "+ ").replace(
                             "  ", " ")
-                    discount_parsed = parse_discount(discount)
+                    discount_parsed = self.parse_discount(discount)
 
                     esention_code = csv_pool.decode_string(line[20])
                     country_code = csv_pool.decode_string(line[21]).upper()
                     fido_total = csv_pool.decode_float(line[22])
                     fido_date = csv_pool.decode_date(line[23]) # FIDO from date
-                    fido_ko = ('x' == csv_pool.decode_string(line[24])) # X = loose
+                    fido_ko = ('x' == csv_pool.decode_string(line[24])) # X=no
                     # 25 = ID zone (accounting)
                     zone = csv_pool.decode_string(line[26])
                     zone_id = self.get_zone(
-                        cr, uid, ids, zone, context=context)
+                        cr, uid, zone, context=context)
 
                     # TODO only 1 company used it:
                     if tot_col > 27:
@@ -348,8 +354,8 @@ class ResPartner(orm.Model):
                             #NO 'phone': phone,
                             #NO 'email': email,
                             #NO 'lang_id': lang_id,
-                            #NO 'vat': vat,
                             #NO 'sql_%s_code' % mode : ref,
+                            #NO 'vat': vat, # for deletion
                             'discount_value': discount_parsed['value'],
                             'discount_rates': discount_parsed['rates'],
                             #NO 'import': True,
@@ -364,7 +370,7 @@ class ResPartner(orm.Model):
                             }
 
                         # Only customer
-                        if mode == 'c':  # TODO era solo per company1
+                        if mode == 'customer':  # TODO era solo per company1
                             data['statistic_category_id'] = category_id
                             if agent_id:
                                 data['invoice_agent_id'] = agent_id
@@ -377,7 +383,7 @@ class ResPartner(orm.Model):
                             data['type_cei'] = type_CEI
                             data['ddt_e_oc_c'] = ddt_e_oc
 
-                        if mode == 's':
+                        if mode == 'supplier':
                             #NO data['supplier'] = True
                             
                             data['ddt_e_oc_s'] = ddt_e_oc
@@ -387,41 +393,50 @@ class ResPartner(orm.Model):
                     # PARTNER CREATION ***************
                     if is_destination:  # partner creation only for c or s
                         partner_ids = self.search(cr, uid, [
-                            ('sql_%s_code' % mode, '=', parent)], context=context)
+                            ('sql_%s_code' % mode, '=', parent)
+                            ], context=context)
                         if partner_ids:
                             partner_id = partner_ids[0] # only the first
-                    else:
-                        item = self.search(cr, uid, [
+                    else: # partner
+                        item_ids = self.search(cr, uid, [
                             ('sql_%s_code' % mode, '=', ref)], context=context)
-                        if (not item): # partner not found with 'sql_customer_code', try with vat  <<<< TODO problem 2 client with same vat!!!
+                        # partner not found with 'sql_customer_code', 
+                        # try with vat  <<<< TODO problem 2 client w/same vat!!
+                        """if not item_ids: 
                             if vat:
-                                item = self.search(cr, uid, [
+                                item_ids = self.search(cr, uid, [
                                     ('vat', '=', vat),
                                     ('sql_%s_code' % mode, '=', False)
                                     ], context=context)
-                                if not item and mode == "s":
+                                if not item_ids and mode == 'supplier':
                                    data['customer'] = False
                             else:
-                                if mode == "s":
-                                    data['customer'] = False
+                                if mode == 'supplier':
+                                    data['customer'] = False"""
 
-                        if item: # modify
-                            try:
-                                self.write(cr, uid, item, data, context=context)
-                                partner_id = item[0]
-                            except: # if error go to master error in loop:
-                                del data['vat']
+                        if item_ids: # modify
+                            #try:
+                            partner_id = item_ids[0]
+                            self.write(
+                                cr, uid, partner_id, data, context=context)
+                            #except: # if error go to master error in loop:
+                            """ del data['vat']
+                                partner_id = item_ids[0]
                                 self.write(
-                                    cr, uid, item, data, context=context)
-                                partner_id = item[0]
+                                    cr, uid, partner_id, data, context=context)
+                                """
+                                
 
                         else: # create
-                            try:
-                                partner_id = self.create(
+                            #try:
+                            continue # TODO not created only updated
+                            """ partner_id = self.create(
                                     cr, uid, data, context=context)
                             except: # if error go to master error in loop:
                                 del data['vat']
-                                partner_id = sock.execute(dbname, uid, pwd, 'res.partner', 'create', data)
+                                partner_id = self.create(
+                                    cr, uid, data, context=context)
+                            """
 
                     if not partner_id:
                         _logger.error('No partner [%s] rif: "%s" << [%s] ' % (
@@ -429,16 +444,17 @@ class ResPartner(orm.Model):
                         continue # next record
 
                     # ADDRESS CREATION ***************
-                    if is_destination:
+                    # TODO
+                    """if is_destination:
                         # TODO Duplication if same in c or s
                         item_address = self.search(cr, uid, [
-                            ('import', '=', 'true'), # TODO remove
+                            ('is_address', '=', 'true'), # TODO remove
                             ('type', '=', type_address_destination),
                             ('sql_%s_code' % mode, '=', ref)
-                            ], context=context)                             
+                            ], context=context)
                     else:
                         item_address = self.search(cr, uid, [
-                            ('import', '=', 'true'),
+                            ('is_address', '=', 'true'),
                             ('type', '=', type_address),
                             ('partner_id','=',partner_id)
                             ], context=context)
@@ -451,10 +467,11 @@ class ResPartner(orm.Model):
                         data_address['partner_id'] = partner_id # only creation
                         item_address_new = self.create(
                             cr, uid, data_address, context=context)
+                    """
 
                 except:
                     _logger.error('Error import line: %s\n[%s]' % (
-                        counter, sys.exc_info()))
+                        counter, (sys.exc_info())))
                     continue
 
             _logger.info('End of importation, totals line: %s' % counter)

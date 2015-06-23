@@ -28,6 +28,7 @@
     'website': 'http://www.micronaet.it',
     'license': 'AGPL-3',
     'depends': [
+        'account',
         'accounting_statistic_base',
         'production_family',
         ],

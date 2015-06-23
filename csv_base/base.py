@@ -79,18 +79,14 @@ class CsvBase(orm.Model):
     def decode_date(self, valore, with_slash=True):
         ''' Return date value of asc passed
         '''
-        # yet correct
+        valore = valore.strip()
         if with_slash: # yet correct YYYY/MM/DD
-            return valore
+            return valore or False
         else: # YYYYMMDD
-            valore = valore.strip()
             if len(valore) == 8:
                 return "%s/%s/%s" % (
-                    valore[:4],
-                    valore[4:6],
-                    valore[6:8],
-                    )
-        return False # when error                      
+                    valore[:4], valore[4:6], valore[6:8])
+        return False # when error
 
 
     def decode_float(self, valore):
