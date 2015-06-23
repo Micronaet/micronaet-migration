@@ -96,5 +96,14 @@ class CsvBase(orm.Model):
            return float(valore.replace(",", "."))
         else:
            return 0.0   # for empty values
+
+    def decode_int(self, valore):
+        valore = valore.strip() 
+        if valore: 
+           try:
+               return int(valore)
+           except:
+               pass # next line:    
+       return False   # for empty values
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

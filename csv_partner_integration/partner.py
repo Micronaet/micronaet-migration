@@ -52,9 +52,9 @@ class ResPartner(orm.Model):
         '''
         if category:
             return False
-            
+
         category = category.strip()
-        category = category.capitalize()        
+        category = category.capitalize()
         category_pool = self.pool.get('statistic.category')
         item_ids = category_pool.search(cr, uid, [
             ('name', '=', category)], context=context)
@@ -70,9 +70,9 @@ class ResPartner(orm.Model):
         '''
         if not zone:
             return False
-            
+
         zone = zone.strip()
-        zone = zone.capitalize()        
+        zone = zone.capitalize()
         zone_pool = self.pool.get('res.partner.zone')
         item_ids = zone_pool.search(cr, uid, [
             ('name', '=', zone)], context=context)
@@ -82,7 +82,7 @@ class ResPartner(orm.Model):
            return zone_pool.create(cr, uid, {
                'name': zone,
                }, context=context)
-    
+
     def get_agent(self, cr, uid, ref, name, context=None):
         ''' Test if there's ref agent in static.invoice.agent
             1. False: Create and return ID
@@ -90,24 +90,24 @@ class ResPartner(orm.Model):
         '''
         if not ref:
             return False
-            
-        agent_pool = self.pool.get('statistic.invoice.agent')    
+
+        agent_pool = self.pool.get('statistic.invoice.agent')
         item_ids = agent_pool.search(cr, uid, [
-            ('ref', '=', ref)], context=context) 
+            ('ref', '=', ref)], context=context)
         if item_ids:
             return item[0]
         else:
             return agent_pool.create(cr, uid, {
-                'ref': ref, 
-                'name': name, 
-                }, context=context) 
+                'ref': ref,
+                'name': name,
+                }, context=context)
 
     def load_fiscal_position(self, cr, uid, fiscal_position_list, context=None):
         ''' In accounting there's 3 position: C, E, I
-            Load the fiscal_position_list dictionary 
+            Load the fiscal_position_list dictionary
         '''
         fiscal_pool = self.pool.get('account.fiscal.position')
-        
+
         fiscal_ids = fiscal_pool(cr, uid, [], context=context)
         fiscal_proxy = fiscal_pool.proxy(cr, uid, fiscal_ids, context=context)
         for item in fiscal_proxy:
@@ -129,11 +129,11 @@ class ResPartner(orm.Model):
         if len(discount_list): #
            base_discount = 100.00
            for r in discount_list:
-               try: 
+               try:
                    i = float(r)
                except:
                    i = 0.00
-               base_discount -= base_discount * i / 100.00 
+               base_discount -= base_discount * i / 100.00
            res['value'] = 100 - base_discount
            res['rates']= '+'.join(discount_list)
         else:
@@ -141,11 +141,21 @@ class ResPartner(orm.Model):
            res['rates'] = ''
         return res
 
+    def read_all_pricelist(self, cr, uid, pricelists, context=None):
+        ''' Read all pricelist
+        '''
+        pl_pool = self.pool.get('product.pricelist')
+        pl_ids = pl_pool.search(cr, uid, [
+                ('mexal_id', '!=', False)], context=context)
+        for item in pl_pool.browse(cr, uid, pol_ids, context=context):
+            pricelist_fiam_id[mexal_id] = item.id
+        return
+
     # -------------------------------------------------------------------------
     #                      Scheduled function for import:
     # -------------------------------------------------------------------------
     def schedule_csv_partner_integration(self, cr, uid,
-            customer_file='~/ETL/copenerp.csv', 
+            customer_file='~/ETL/copenerp.csv',
             supplier_file='~/ETL/fopenerp.csv',
             delimiter=';', header_line=0,
             verbose=100, context=None):
@@ -153,17 +163,17 @@ class ResPartner(orm.Model):
             for add extra fields that could not be reached fast
         '''
         _logger.info('Start partner integration, file: %s' % input_file)
-        
-        # Customer integration
-        
 
-        pricelists = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        #ReadAllPricelist(sock, dbname, uid, pwd, range(0,10), pricelists)
+        # Customer integration
+
+
+        pricelists = {}
+        self.read_all_pricelist(cr, uid, pricelists, context=context)
         fiscal_position_list = {}
         self.load_fiscal_position(
             cr, uid, fiscal_position_list, context=context)
         # client_list = cPickleParticInput(file_name_pickle) << TODO partic for pl
-        
+
         # Default elements:
         type_address = 'default'
         type_address_destination = 'delivery'
@@ -171,19 +181,19 @@ class ResPartner(orm.Model):
 
         loop = [
             ('c', False, customer_file), # customer only
-            ('c', True, customer_file),  # customer destination only
-            ('s', False, supplier_file),  # supplier only
-            ('s', True, supplier_file),  # supplier destination only            
+            #('c', True, customer_file),  # customer destination only # TODO
+            #('s', False, supplier_file),  # supplier only
+            #('s', True, supplier_file),  # supplier destination only
             ]
-        
-        # 4 loop for complete importation:    
-        for mode, is_destination, input_file in loop:    
+
+        # 4 loop for complete importation:
+        for mode, is_destination, input_file in loop:
             _logger.info('Start import %s element %s' % (
                 'customer' if mode == 'c' else 'supplier,
                 'destination' if is_destination else 'parent',))
 
             counter = 0
-            tot_col = 0        
+            tot_col = 0
             lines = csv.reader(
                 open(input_file, 'rb'), delimiter=delimiter)
 
@@ -196,7 +206,7 @@ class ResPartner(orm.Model):
 
                     counter += 1
                     # Jump empty lines:
-                    if not len(line): 
+                    if not len(line):
                         _logger.warning('%s. Jump empty line' % counter)
                         continue
 
@@ -204,15 +214,15 @@ class ResPartner(orm.Model):
                     if not tot_col:
                         tot_col = len(line)
                         _logger.info('Total columns: %s' % tot_col)
-                       
-                    # Jump lines with different cols:    
-                    if tot_col != len(line): 
+
+                    # Jump lines with different cols:
+                    if tot_col != len(line):
                         _logger.error('%s. Line with different cols [%s > %s]' % (
                             counter,
                             tot_col,
                             len(line), )
-                       continue     
-                            
+                       continue
+
                     ref = csv_pool.decode_string(line[0])
                     name = csv_pool.decode_string(line[1]).title()
                     first_name = csv_pool.decode_string(line[2]).title()
@@ -225,47 +235,53 @@ class ResPartner(orm.Model):
                     email = csv_pool.decode_string(line[9]).lower()
                     fiscal_code = csv_pool.decode_string(line[10]).upper()
                     vat = csv_pool.decode_string(line[11]).upper() # IT* format
-                    type_CEI = csv_pool.decode_string(line[12]).lower() #  C, E, I 
-                    code = csv_pool.decode_string(line[13]).upper() # Verify "IT" 
+
+                    type_CEI = csv_pool.decode_string(line[12]).lower() #  CEI
+                    if type_CEI in ('c', 'e', 'i', 'v', 'r'):
+                        fiscal_position = fiscal_position_list.get(type_CEI, 'e')
+                    else:
+                       fiscal_position = False
+                       _logger.error("Field C, E, I with wrong code: %s" % type_CEI
+
+                    code = csv_pool.decode_string(line[13]).upper() # IT
                     private = csv_pool.decode_string(line[14]).upper()=="S"
                     parent = csv_pool.decode_string(line[15]) # partner partner
                     ref_agente = csv_pool.decode_string(line[16]) # ID agente
                     name_agente = csv_pool.decode_string(line[17]).title()
-     
+
                     # Get ID for agent name:
                     agent_id = False
-                    # TODO verify for suppliers and destination!!!
+
+                    # Pricelist only present for client 
                     pl_version = 0
-                    
-                    # TODO:
-                    if (mode == 'c') and (not is_destination) and ref_agente[:2] not in ('05', '20',): # Pricelist only present for client TODO not destination                       
-                        agent_id = self.get_agent(cr, uid, ref_agente, name_agente)
-                        
+                    if (mode == 'c') and (not is_destination): 
+                        # and ref_agente[:2] not in ('05', '20',): TODO serve?
+                        agent_id = self.get_agent(
+                            cr, uid, ref_agente, name_agente, context=context)
+
                         # 10 pricelist standard:
-                        pl_code = csv_pool.decode_string(line[18])
-                        if pl_code:
-                            try:
-                                pl_version = int(pl_code)   
-                            except:                           
-                                _logger.error('Pricelist code error: %s' % pl_code)
-     
+                        pl_code = csv_pool.decode_int(line[18]) or 0
+
                     discount = csv_pool.decode_string(line[19]) # Discount list
                     if discount:
                         discount = discount.replace(
                             "+", "+ ").replace(
                             "  ", " ")
+                    discount_parsed = parse_discount(discount)
+
                     esention_code = csv_pool.decode_string(line[20])
                     country_code = csv_pool.decode_string(line[21]).upper()
                     fido_total = csv_pool.decode_float(line[22])
-                    fido_date = csv_pool.decode_date(line[23]) # FIDO from date 
+                    fido_date = csv_pool.decode_date(line[23]) # FIDO from date
                     fido_ko = ('x' == csv_pool.decode_string(line[24])) # X = loose
                     # 25 = ID zone (accounting)
                     zone = csv_pool.decode_string(line[26])
-                    zone_id = self.get_zone(cr, uid, ids, zone)
-     
+                    zone_id = self.get_zone(
+                        cr, uid, ids, zone, context=context)
+
                     # TODO only 1 company used it:
                     if tot_col > 27:
-                        # 27 ID category               
+                        # 27 ID category
                         category = csv_pool.decode_string(line[28]) # Stat. categ.
                         category_id = self.get_statistic_category(
                             cr, uid, category, context=context)
@@ -275,12 +291,12 @@ class ResPartner(orm.Model):
                         category_id = False
                         ddt_e_oc = ""
 
-                    pricelist_id=0
                     # TODO rivedere!!!
+                    pricelist_id = 0
                     """
                     if pl_version in range(1,10): # version [1:9]
                         if ref in client_list:
-                            result = {} 
+                            result = {}
                             GetPricelist(sock, dbname, uid, pwd, ref, pl_version, pricelists[pl_version], result) # 2 returned values in dict
                             pricelist_id = result['pricelist']
                         else: # Link to standard PL version
@@ -288,8 +304,6 @@ class ResPartner(orm.Model):
                     else:
                         pricelist_id=0
                     """
-     
-                    discount_parsed = parse_discount(discount)               
 
                     # TODO rivedere:
                     """
@@ -297,156 +311,154 @@ class ResPartner(orm.Model):
                        if not parent: # Destination have parent field
                           if verbose: print "[INFO]", "JUMPED (not a destination)",ref,name
                           continue # jump if is destination and record is c or s
-                    else: # c or s 
-                       if parent: 
+                    else: # c or s
+                       if parent:
                           if verbose: print "[INFO]", "JUMPED (not a client / supplier)",ref,name
                           continue # jump if is c or s but parent is present
                     """
-                    if type_CEI in ('c', 'e', 'i', 'v', 'r'):
-                        fiscal_position = fiscal_position_list.get(type_CEI, 'e')
-                    else:
-                       fiscal_position = False
-                       _logger.error("Field C, E, I with wrong code: %s" % type_CEI
-     
-                    # Calculated fields:    
-                    if first_name: 
+
+                    # Calculated fields:
+                    if first_name:
                         name += " " + first_name
-                    if prov: 
+                    if prov:
                         city += " (%s)" % prov
-                       
+
                     # TODO:
                     # lang_id = getLanguage(sock,dbname,uid,pwd,"Italian / Italiano")    # TODO check in country (for creation not for update)
 
                     # Default data dictionary (to insert / update)
                     data_address = {
                         'city': city, # modify first import address
-                        'zip': zipcode, 
-                        #TODO 'country_id': getCountryFromCode(sock,dbname,uid,pwd,country_code), 
+                        'zip': zipcode,
+                        #TODO 'country_id': getCountryFromCode(sock,dbname,uid,pwd,country_code),
                         'phone': phone,
                         'fax': fax,
-                        'street': street, 
+                        'street': street,
                         'import': True,
                         #'email': email
                         #'type': type_address,
-                        }    
-                    if not is_destination: # create partner only with c or s
+                        }
+
+                    if is_destination: # create partner only with c or s
+                        data_address['mexal_' + mode] = ref      # ID in address
+                        data_address['type'] = type_address_destination # delivery
+                    else:    
                         data = {
-                            'name': name,
-                            'fiscal_id_code': fiscal_code, 
-                            'phone': phone,
-                            'email': email, 
-                            'lang_id': lang_id,
-                            'vat': vat,
-                            #'category_id': [(6,0,[category_id])], # m2m
-                            #'comment': comment, # TODO create list of "province" / "regioni"
-                            'mexal_' + mode : ref,
+                            #NO 'name': name,
+                            #NO 'fiscal_id_code': fiscal_code,
+                            #NO 'phone': phone,
+                            #NO 'email': email,
+                            #NO 'lang_id': lang_id,
+                            #NO 'vat': vat,
+                            #NO 'mexal_' + mode : ref,
                             'discount_value': discount_parsed['value'],
-                            'discount_rates': discount_parsed['rates'],                             
-                            'import': True,                    
+                            'discount_rates': discount_parsed['rates'],
+                            #NO 'import': True,
                             'fido_total': fido_total,
                             'fido_date': fido_date,
-                            'fido_ko': fido_ko,  
-                            'zone_id': zone_id,                              
+                            'fido_ko': fido_ko,
+                            'zone_id': zone_id,
+                            
+                            #'category_id': [(6,0,[category_id])], # m2m
+                            #'comment': comment, 
+                            # TODO create list of "province" / "regioni"
                             }
 
-                        if azienda == "fiam" and mode == 'c':  # Per ora solo per la fiam
+                        # Only customer
+                        if mode == 'c':  # TODO era solo per company1
                             data['statistic_category_id'] = category_id
                             if agent_id:
                                 data['invoice_agent_id'] = agent_id
-
-                        if mode == 'c': # and not destination!                       
-                            data['property_product_pricelist'] = pricelist_id  
+                                
+                            # TODO parte comune per tutti i clienti:
+                            data['property_product_pricelist'] = pricelist_id
                             data['property_account_position'] = fiscal_position
-                            data['customer'] = True
-                            data['ref'] = ref
+                            #NO data['customer'] = True
+                            #NO data['ref'] = ref
                             data['type_cei'] = type_CEI
                             data['ddt_e_oc_c'] = ddt_e_oc
-                           
-                        if mode == 's': 
-                            data['supplier']=True
+
+                        if mode == 's':
+                            #NO data['supplier'] = True
+                            
                             data['ddt_e_oc_s'] = ddt_e_oc
-     
+
                         data_address['type'] = type_address  # default
-                    else:  # destination
-                        data_address['mexal_' + mode]= ref      # ID in address
-                        data_address['type']= type_address_destination # delivery
-                   
+
                     # PARTNER CREATION ***************
-                    if not is_destination:  # partner creation only for c or s
-                        item = sock.execute(dbname, uid, pwd, 'res.partner', 'search', [('mexal_' + mode, '=', ref)]) # search if there is an import
+                    if is_destination:  # partner creation only for c or s
+                        partner_ids = self.search(cr, uid, [
+                            ('mexal_' + mode, '=', parent)], context=context)
+                        if partner_ids:
+                            partner_id = partner_ids[0] # only the first
+                    else:
+                        item = self.search(cr, uid, [
+                            ('mexal_' + mode, '=', ref)], context=context)
                         if (not item): # partner not found with mexal_c, try with vat  <<<< TODO problem 2 client with same vat!!!
                             if vat:
-                                item = sock.execute(dbname, uid, pwd, 'res.partner', 'search', [('vat', '=', vat),('mexal_' + mode, '=', False)]) # search if there is a partner with same vat (c or f)
+                                item = self.search(cr, uid, [
+                                    ('vat', '=', vat),
+                                    ('mexal_' + mode, '=', False)
+                                    ], context=context)
                                 if not item and mode == "s":
                                    data['customer'] = False
                             else:
                                 if mode == "s":
                                     data['customer'] = False
-     
+
                         if item: # modify
                             try:
-                                item_mod = sock.execute(dbname, uid, pwd, 'res.partner', 'write', item, data) # (update partner)
-                                partner_id=item[0] # save ID for address creation
-                            except:
-                                try: 
-                                    del data['vat']    
-                                    item_mod = sock.execute(dbname, uid, pwd, 'res.partner', 'write', item, data) # (update partner)
-                                    partner_id=item[0] # save ID for address creation
-                                except: 
-                                    raise_error(error_print % ("modified", data['mexal_' + mode], data['name'], ""), out_file, "E")
-                                    #raise # << don't stop import process
+                                self.write(cr, uid, item, data, context=context)
+                                partner_id = item[0]
+                            except: # if error go to master error in loop:
+                                del data['vat']
+                                self.write(
+                                    cr, uid, item, data, context=context)
+                                partner_id = item[0]
 
                         else: # create
                             try:
-                                partner_id=sock.execute(dbname, uid, pwd, 'res.partner', 'create', data) 
-                                #except ValidateError:
-                                #   print "[ERROR] Create partner, (record not writed)", data                          
-                            except:
-                                try: 
-                                    del data['vat']    
-                                    partner_id=sock.execute(dbname, uid, pwd, 'res.partner', 'create', data) 
-                                except: 
-                                    raise_error(error_print % ("created",data['mexal_' + mode],data['name'], ""), out_file, "E")
-                                    #raise # << don't stop import process
-     
-                            if verbose: 
-                    else: # destination
-                        partner_id = sock.execute(dbname, uid, pwd, 'res.partner', 'search', [('mexal_' + mode, '=', parent),])
-                        if partner_id: 
-                            #print "**", partner_id
-                            partner_id=partner_id[0] # only the first
-                          
-                   
-                    if not partner_id:  
-                        raise_error('No partner [%s] rif: "%s" << [%s] ' % (mode, ref, parent),out_file,"E")
+                                partner_id = self.create(
+                                    cr, uid, data, context=context)
+                            except: # if error go to master error in loop:
+                                del data['vat']
+                                partner_id = sock.execute(dbname, uid, pwd, 'res.partner', 'create', data)
+
+                    if not partner_id:
+                        _logger.error('No partner [%s] rif: "%s" << [%s] ' % (
+                            mode, ref, parent))
                         continue # next record
 
                     # ADDRESS CREATION ***************
-                    if is_destination:   
-                        item_address = sock.execute(dbname, uid, pwd, 'res.partner.address', 'search', [('import', '=', 'true'),('type', '=', type_address_destination),('mexal_' + mode, '=', ref)]) # TODO error (double dest if c or s)
-                    else:   
-                        item_address = sock.execute(dbname, uid, pwd, 'res.partner.address', 'search', [('import', '=', 'true'),('type', '=', type_address),('partner_id','=',partner_id)])
+                    if is_destination:
+                        # TODO Duplication if same in c or s
+                        item_address = self.search(cr, uid, [
+                            ('import', '=', 'true'), # TODO remove
+                            ('type', '=', type_address_destination),
+                            ('mexal_' + mode, '=', ref)
+                            ], context=context)                             
+                    else:
+                        item_address = self.search(cr, uid, [
+                            ('import', '=', 'true'),
+                            ('type', '=', type_address),
+                            ('partner_id','=',partner_id)
+                            ], context=context)
 
                     if item_address:
-                        try:
-                            item_address_mod = sock.execute(dbname, uid, pwd, 'res.partner.address', 'write', item_address, data_address) 
-                        except:
-                            print "     [ERROR] Modifing address, current record:", data_address
-                            raise # eliminate but raise log error
-                    else:           
-                        try:
-                            data_address['partner_id']=partner_id # (only for creation)
-                            item_address_new=sock.execute(dbname, uid, pwd, 'res.partner.address', 'create', data_address) 
-                        except:
-                            raise_error("Insert data, current record:" + str(data),out_file,"E")
-                
+                        self.write(
+                            cr, uid, item_address, data_address, 
+                            context=context)
+                    else:
+                        data_address['partner_id'] = partner_id # only creation
+                        item_address_new = self.create(
+                            cr, uid, data_address, context=context)
+
                 except:
                     _logger.error('Error import line: %s\n[%s]' % (
                         counter, sys.exc_info())
-                    continue    
- 
+                    continue
+
             _logger.info('End of importation, totals line: %s" % counter)
-        
         return True
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
