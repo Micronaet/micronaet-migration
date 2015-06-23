@@ -472,6 +472,7 @@ class ResPartner(orm.Model):
                     continue
 
             _logger.info('End of importation, totals line: %s' % counter)
+            # TODO caricamento note partner??
         return True
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
