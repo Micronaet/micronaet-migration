@@ -355,25 +355,24 @@ class ResPartner(orm.Model):
                                 data['invoice_agent_id'] = agent_id
 
                         if mode == 'c': # and not destination!                       
-                            data['property_product_pricelist']= pricelist_id  
-                            data['property_account_position']= fiscal_position
-                            data['customer']=True
-                            data['ref']=ref
-                            data['type_cei']=type_CEI
-                            data['ddt_e_oc_c']=ddt_e_oc
+                            data['property_product_pricelist'] = pricelist_id  
+                            data['property_account_position'] = fiscal_position
+                            data['customer'] = True
+                            data['ref'] = ref
+                            data['type_cei'] = type_CEI
+                            data['ddt_e_oc_c'] = ddt_e_oc
                            
                         if mode == 's': 
                             data['supplier']=True
-                            data['ddt_e_oc_s']=ddt_e_oc
+                            data['ddt_e_oc_s'] = ddt_e_oc
      
-                        data_address['type']=type_address  # default
+                        data_address['type'] = type_address  # default
                     else:  # destination
                         data_address['mexal_' + mode]= ref      # ID in address
                         data_address['type']= type_address_destination # delivery
                    
                     # PARTNER CREATION ***************
                     if not is_destination:  # partner creation only for c or s
-                        error="Searching partner with ref"
                         item = sock.execute(dbname, uid, pwd, 'res.partner', 'search', [('mexal_' + mode, '=', ref)]) # search if there is an import
                         if (not item): # partner not found with mexal_c, try with vat  <<<< TODO problem 2 client with same vat!!!
                             if vat:
@@ -384,10 +383,7 @@ class ResPartner(orm.Model):
                                 if mode == "s":
                                     data['customer'] = False
      
-                        error_print = "Partner not %s: [%s] %s (%s)"
                         if item: # modify
-                            counter['upd'] += 1  
-                            error="Updating partner"
                             try:
                                 item_mod = sock.execute(dbname, uid, pwd, 'res.partner', 'write', item, data) # (update partner)
                                 partner_id=item[0] # save ID for address creation
@@ -398,13 +394,9 @@ class ResPartner(orm.Model):
                                     partner_id=item[0] # save ID for address creation
                                 except: 
                                     raise_error(error_print % ("modified", data['mexal_' + mode], data['name'], ""), out_file, "E")
-                                    counter['err_upd']+=1  
                                     #raise # << don't stop import process
 
-                            if verbose: print "[INFO]", counter['tot'], "Already exist: ", ref, name
                         else: # create
-                            counter['new'] += 1  
-                            error="Creating partner"
                             try:
                                 partner_id=sock.execute(dbname, uid, pwd, 'res.partner', 'create', data) 
                                 #except ValidateError:
@@ -415,11 +407,9 @@ class ResPartner(orm.Model):
                                     partner_id=sock.execute(dbname, uid, pwd, 'res.partner', 'create', data) 
                                 except: 
                                     raise_error(error_print % ("created",data['mexal_' + mode],data['name'], ""), out_file, "E")
-                                    counter['err']+= 1  
                                     #raise # << don't stop import process
      
                             if verbose: 
-                                print "[INFO]", counter['tot'], "Insert: ", ref, name
                     else: # destination
                         partner_id = sock.execute(dbname, uid, pwd, 'res.partner', 'search', [('mexal_' + mode, '=', parent),])
                         if partner_id: 
@@ -432,46 +422,30 @@ class ResPartner(orm.Model):
                         continue # next record
 
                     # ADDRESS CREATION ***************
-                    error = "Searching address with ref"
                     if is_destination:   
                         item_address = sock.execute(dbname, uid, pwd, 'res.partner.address', 'search', [('import', '=', 'true'),('type', '=', type_address_destination),('mexal_' + mode, '=', ref)]) # TODO error (double dest if c or s)
                     else:   
                         item_address = sock.execute(dbname, uid, pwd, 'res.partner.address', 'search', [('import', '=', 'true'),('type', '=', type_address),('partner_id','=',partner_id)])
-                    counter['tot_add'] += 1
 
                     if item_address:
-                        counter['upd_add'] += 1  
-                        error = "Updating address"
                         try:
                             item_address_mod = sock.execute(dbname, uid, pwd, 'res.partner.address', 'write', item_address, data_address) 
                         except:
                             print "     [ERROR] Modifing address, current record:", data_address
                             raise # eliminate but raise log error
-                       if verbose: print "     [INFO]", counter['tot_add'], "Already exist address: ", ref, name
                     else:           
-                        counter['new_add'] += 1  
-                        error="Creating address"
                         try:
                             data_address['partner_id']=partner_id # (only for creation)
                             item_address_new=sock.execute(dbname, uid, pwd, 'res.partner.address', 'create', data_address) 
                         except:
                             raise_error("Insert data, current record:" + str(data),out_file,"E")
-                        if verbose: print "     [INFO]",counter['tot_add'], "Insert: ", ref, name
-                 else: # wrong column number
-                     counter['err']+=1
-                     raise_error('Line %d (sep.: "%s"), %s)' % (counter['tot'] + 1 ,separator, line[0].strip() + " " +line[1].strip()),out_file,"C")
-     
-                 except:
-                     raise_error ('>>> Import interrupted! Line:' + str(counter['tot']),out_file,"E")
-                     if verbose_mail: 
-                       send_mail(smtp_sender,[smtp_receiver,],smtp_subject,smtp_text,[smtp_log,],smtp_server)
-                     raise # Exception("Errore di importazione!") # Scrivo l'errore per debug
+                
+                except:
+                    _logger.error('Error import line: %s\n[%s]' % (
+                        counter, sys.exc_info())
+                    continue    
  
-        print "[INFO]","Address:", "Total line: ",counter['tot_add']," (imported: ",counter['new_add'],") (updated: ", counter['upd_add'], ")"
-        
-        # Supplier integration
-        
-        # Destination integration
+            _logger.info('End of importation, totals line: %s" % counter)
         
         return True
 
