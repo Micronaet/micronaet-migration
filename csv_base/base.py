@@ -68,7 +68,8 @@ class CsvBase(orm.Model):
         return partner_pool.create(cr, uid, record, context=context)        
         
     def decode_string(self, valore):  
-        # For problems: input win output ubuntu; trim extra spaces
+        ''' Return string value of asc passed
+        '''
         if not valore: 
             return ''
         valore = valore.decode('cp1252')
@@ -76,6 +77,8 @@ class CsvBase(orm.Model):
         return valore.strip()
 
     def decode_date(self, valore, with_slash=True):
+        ''' Return date value of asc passed
+        '''
         # yet correct
         if with_slash: # yet correct YYYY/MM/DD
             return valore
@@ -91,6 +94,8 @@ class CsvBase(orm.Model):
 
 
     def decode_float(self, valore):
+        ''' Return float value of asc passed
+        '''
         valore = valore.strip() 
         if valore: 
            return float(valore.replace(",", "."))
@@ -98,12 +103,14 @@ class CsvBase(orm.Model):
            return 0.0   # for empty values
 
     def decode_int(self, valore):
+        ''' Return int value of asc passed
+        '''
         valore = valore.strip() 
         if valore: 
            try:
                return int(valore)
            except:
                pass # next line:    
-       return False   # for empty values
+        return False   # for empty values
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

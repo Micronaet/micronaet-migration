@@ -42,7 +42,9 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 _logger = logging.getLogger(__name__)
 
 
+# -----------------------------------------------------------------------------
 # Utility: TODO move somewhere!
+# -----------------------------------------------------------------------------
 def get_partner_name(self, cr, uid, partner_id, context=None):
     ''' Partner ID from accounting code
     '''
@@ -52,6 +54,9 @@ def get_partner_name(self, cr, uid, partner_id, context=None):
         cr, uid, partner_id, context=context)
     return partner_proxy.name or False
 
+# -----------------------------------------------------------------------------
+#                              Objects:
+# -----------------------------------------------------------------------------
 class StatisticInvoiceAgent(orm.Model):
     """ Agent for customer, used in statistic grouping
     """

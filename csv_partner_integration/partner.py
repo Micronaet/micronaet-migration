@@ -102,7 +102,8 @@ class ResPartner(orm.Model):
                 'name': name,
                 }, context=context)
 
-    def load_fiscal_position(self, cr, uid, fiscal_position_list, context=None):
+    def load_fiscal_position(self, cr, uid, fiscal_position_list, 
+            context=None):
         ''' In accounting there's 3 position: C, E, I
             Load the fiscal_position_list dictionary
         '''
