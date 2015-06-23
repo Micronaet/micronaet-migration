@@ -165,9 +165,6 @@ class ResPartner(orm.Model):
         '''
         _logger.info('Start partner integration, file: %s' % input_file)
 
-        # Customer integration
-
-
         pricelists = {}
         self.read_all_pricelist(cr, uid, pricelists, context=context)
         fiscal_position_list = {}
@@ -181,16 +178,16 @@ class ResPartner(orm.Model):
         csv_pool = self.pool.get('csv.base')
 
         loop = [
-            ('c', False, customer_file), # customer only
-            #('c', True, customer_file),  # customer destination only # TODO
-            #('s', False, supplier_file),  # supplier only
-            #('s', True, supplier_file),  # supplier destination only
+            ('customer', False, customer_file), # customer only
+            #('customer', True, customer_file),  # customer destination only # TODO
+            #('supplier', False, supplier_file),  # supplier only
+            #('supplier', True, supplier_file),  # supplier destination only
             ]
 
         # 4 loop for complete importation:
         for mode, is_destination, input_file in loop:
             _logger.info('Start import %s element %s' % (
-                'customer' if mode == 'c' else 'supplier,
+                mode,
                 'destination' if is_destination else 'parent',))
 
             counter = 0
@@ -218,11 +215,10 @@ class ResPartner(orm.Model):
 
                     # Jump lines with different cols:
                     if tot_col != len(line):
-                        _logger.error('%s. Line with different cols [%s > %s]' % (
-                            counter,
-                            tot_col,
-                            len(line), )
-                       continue
+                        _logger.error('%s. Different cols [%s > %s]' % (
+                            counter, tot_col, len(line), 
+                            ))
+                        continue
 
                     ref = csv_pool.decode_string(line[0])
                     name = csv_pool.decode_string(line[1]).title()
@@ -239,10 +235,12 @@ class ResPartner(orm.Model):
 
                     type_CEI = csv_pool.decode_string(line[12]).lower() #  CEI
                     if type_CEI in ('c', 'e', 'i', 'v', 'r'):
-                        fiscal_position = fiscal_position_list.get(type_CEI, 'e')
+                        fiscal_position = fiscal_position_list.get(
+                            type_CEI, 'e')
                     else:
                        fiscal_position = False
-                       _logger.error("Field C, E, I with wrong code: %s" % type_CEI
+                       _logger.error("Field C, E, I with wrong code: %s" % (
+                           type_CEI))
 
                     code = csv_pool.decode_string(line[13]).upper() # IT
                     private = csv_pool.decode_string(line[14]).upper()=="S"
@@ -341,7 +339,7 @@ class ResPartner(orm.Model):
                         }
 
                     if is_destination: # create partner only with c or s
-                        data_address['mexal_' + mode] = ref      # ID in address
+                        data_address['sql_%s_code' % mode] = ref      # ID in address
                         data_address['type'] = type_address_destination # delivery
                     else:    
                         data = {
@@ -351,7 +349,7 @@ class ResPartner(orm.Model):
                             #NO 'email': email,
                             #NO 'lang_id': lang_id,
                             #NO 'vat': vat,
-                            #NO 'mexal_' + mode : ref,
+                            #NO 'sql_%s_code' % mode : ref,
                             'discount_value': discount_parsed['value'],
                             'discount_rates': discount_parsed['rates'],
                             #NO 'import': True,
@@ -389,17 +387,17 @@ class ResPartner(orm.Model):
                     # PARTNER CREATION ***************
                     if is_destination:  # partner creation only for c or s
                         partner_ids = self.search(cr, uid, [
-                            ('mexal_' + mode, '=', parent)], context=context)
+                            ('sql_%s_code' % mode, '=', parent)], context=context)
                         if partner_ids:
                             partner_id = partner_ids[0] # only the first
                     else:
                         item = self.search(cr, uid, [
-                            ('mexal_' + mode, '=', ref)], context=context)
-                        if (not item): # partner not found with mexal_c, try with vat  <<<< TODO problem 2 client with same vat!!!
+                            ('sql_%s_code' % mode, '=', ref)], context=context)
+                        if (not item): # partner not found with 'sql_customer_code', try with vat  <<<< TODO problem 2 client with same vat!!!
                             if vat:
                                 item = self.search(cr, uid, [
                                     ('vat', '=', vat),
-                                    ('mexal_' + mode, '=', False)
+                                    ('sql_%s_code' % mode, '=', False)
                                     ], context=context)
                                 if not item and mode == "s":
                                    data['customer'] = False
@@ -436,7 +434,7 @@ class ResPartner(orm.Model):
                         item_address = self.search(cr, uid, [
                             ('import', '=', 'true'), # TODO remove
                             ('type', '=', type_address_destination),
-                            ('mexal_' + mode, '=', ref)
+                            ('sql_%s_code' % mode, '=', ref)
                             ], context=context)                             
                     else:
                         item_address = self.search(cr, uid, [
@@ -456,10 +454,10 @@ class ResPartner(orm.Model):
 
                 except:
                     _logger.error('Error import line: %s\n[%s]' % (
-                        counter, sys.exc_info())
+                        counter, sys.exc_info()))
                     continue
 
-            _logger.info('End of importation, totals line: %s" % counter)
+            _logger.info('End of importation, totals line: %s' % counter)
         return True
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
