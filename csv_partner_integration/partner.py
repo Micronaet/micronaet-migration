@@ -203,9 +203,7 @@ class ResPartner(orm.Model):
                        continue
 
                     counter += 1
-                    if counter != 649:
-                        continue
-                    import pdb; pdb.set_trace()
+
                     if verbose and counter and counter % verbose == 0:
                         _logger.info('Record updated: %s' % counter)
                     # Jump empty lines:
@@ -241,8 +239,10 @@ class ResPartner(orm.Model):
                         
                     type_CEI = csv_pool.decode_string(line[12]).lower()
                     if type_CEI in ('c', 'e', 'i', 'v', 'r'):
+                        if type_CEI in ('v', 'r'):
+                            type_CEI = 'e'
                         fiscal_position = fiscal_position_list.get(
-                            type_CEI, 'e')
+                            type_CEI, False)
                     else:
                        fiscal_position = False
                        _logger.error("Field C, E, I with wrong code: %s" % (
@@ -377,7 +377,7 @@ class ResPartner(orm.Model):
                                 
                             # TODO parte comune per tutti i clienti:
                             data['property_product_pricelist'] = pricelist_id
-                            data['property_account_position'] = fiscal_position
+                            #data['property_account_position'] = fiscal_position # TODO da errore!!!
                             #NO data['customer'] = True
                             #NO data['ref'] = ref
                             data['type_cei'] = type_CEI
@@ -390,7 +390,6 @@ class ResPartner(orm.Model):
 
                         data_address['type'] = type_address  # default
 
-                    # PARTNER CREATION ***************
                     if is_destination:  # partner creation only for c or s
                         partner_ids = self.search(cr, uid, [
                             ('sql_%s_code' % mode, '=', parent)
@@ -417,15 +416,13 @@ class ResPartner(orm.Model):
                         if item_ids: # modify
                             #try:
                             partner_id = item_ids[0]
-                            self.write(
-                                cr, uid, partner_id, data, context=context)
+                            self.write(cr, uid, item_ids, data, context=context)
                             #except: # if error go to master error in loop:
                             """ del data['vat']
                                 partner_id = item_ids[0]
                                 self.write(
                                     cr, uid, partner_id, data, context=context)
                                 """
-                                
 
                         else: # create
                             #try:
@@ -470,8 +467,8 @@ class ResPartner(orm.Model):
                     """
 
                 except:
-                    _logger.error('Error import line: %s\n[%s]' % (
-                        counter, (sys.exc_info())))
+                    _logger.error('%s. Error import line: [%s]' % (
+                            counter, sys.exc_info(), ))
                     continue
 
             _logger.info('End of importation, totals line: %s' % counter)
