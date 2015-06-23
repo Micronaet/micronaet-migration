@@ -164,6 +164,14 @@ class ResPartner(orm.Model):
         '''
         _logger.info('Start partner integration.')
 
+        # ---------------------------------------------------------------------
+        # Pricelist importation:
+        # ---------------------------------------------------------------------
+        
+        
+        # ---------------------------------------------------------------------
+        # Partner importation (customer, cust. dest, supplier, supp. dest):
+        # ---------------------------------------------------------------------
         pricelists = {}
         self.read_all_pricelist(cr, uid, pricelists, context=context)
         fiscal_position_list = {}

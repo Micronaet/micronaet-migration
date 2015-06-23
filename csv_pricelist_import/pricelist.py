@@ -43,6 +43,39 @@ class ProductPricelist(orm.Model):
     ''' Add scheduled operations
     '''
     _inherit = 'product.pricelist'
+
+    # Utility:
+    def create_pricelist(self, cr, uid, context=None):
+        ''' Crate if not exist all [0:9] base pricelist - version
+        '''
+        version_pool = self.pool.get('product.pricelist.version')
+        
+        for pricelist in range(0, 10): 
+            mexal_id = str(pricelist)
+            pl_ids = self.search(cr, uid, [
+                ('mexal_id', '=', mexal_id,)], context=context) 
+            if pl_ids:
+                pl_id = pd_ids[0]
+            else:    
+                pl_id = self.create(cr, uid, {
+                    'name': "Listino Mexal n. " + mexal_id,
+                    #'currency_id': getCurrency(sock,dbname,uid,pwd,currency_ids[i]), # TODO
+                    'type': 'sale',
+                    'mexal_id': mexal_id,
+                    })  
+
+            # Create base version (product.pricelist.version)
+            version_ids = version_pool.search(cr, uid, [
+                ('mexal_id', '=', mexal_id)], context=context) 
+            if not version_ids: 
+               version_pool.create(cr, uid, {
+                   'name': "Versione base " + mexal_id,
+                   'pricelist_id': pl_id,
+                   'mexal_id': pricelist, # << extra fields
+                   'import': True,        # <<  
+                   })  
+             
+        return
     
     def get_partner_pricelist(self, cr, uid, partner_code, context=None):
         ''' Search or Create a pricelist and a pricelist version 
@@ -134,19 +167,28 @@ class ProductPricelist(orm.Model):
         item_ids = item_pool.search(cr, uid, [], context=context)
         item_pool.unlink(cr, uid, item_ids, context=context)
 
+        # Crete if not exist 0:9 standard pricelist
+        self.create_pricelist(cr, uid, context=context) 
         # ---------------------------------------------------------------------
         #                  Load standard pricelist version:
         # ---------------------------------------------------------------------
         _logger.info("Start pricelist standard importation")
         versions = {} # dict of pricelist (mexal_id: odoo id)
         # Delete all version pricelist:
-        version_ids = version_pool.search(cr, uid, [
-            #('mexal_id', '!=', False), # for update operation non load all!
-            ('mexal_id', 'in', 
-                ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',))
-            ], context=context)            
-        for item in version_pool.browse(cr, uid, version_ids, context=context):            
-            versions[item.mexal_id] = item.id
+        # TODO get converter from previous function utility
+        for item in range(0, 10): # 1-9
+            mexal_id = str(item)
+            version_ids = version_pool.search(cr, uid, [
+                ('mexal_id', '=', mexal_id)
+                ], context=context)  
+            if version_ids:
+               version_id = version_ids[0]
+            else:    
+                # create pricelist and version return version id
+                # TODO
+                version_id = False
+                
+            versions[mexal_id] = version_id
 
         csv_file = open(os.path.expanduser(input_file), 'rb')
         counter = -header_line
@@ -182,7 +224,8 @@ class ProductPricelist(orm.Model):
                     
                 for pl in price_list:
                     if price_list[pl]: 
-                        item_pool.create(cr, uid, {
+                        try:
+                            item_pool.create(cr, uid, {
                             'price_version_id': versions[str(pl)],
                             'sequence': 10,
                             'name': default_code,
@@ -193,6 +236,8 @@ class ProductPricelist(orm.Model):
                             'price_surcharge': price_list[pl],
                             'price_round': 0.01,                          
                             }, context=context)
+                        except:
+                            import pdb; pdb.set_trace()    
         except:
             _logger.error("Pricelist import %s" % (sys.exc_info(), ))
             return False
