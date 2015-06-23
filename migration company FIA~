@@ -239,7 +239,7 @@ partner_delete_ETL: * NON SERVE
     Cancellazione partner
 
 partner_ETL: * TODO (vedere se è il caso di fare un modulo come per prodotti che aggiorni le SQL)
-    Import partner     
+    Import partner: integrato nel modulo  
 
 partner_label   e   partner_set_label: * NON MIGRATO VEDERE SE SERVE
     Setta le etichette corrette nei partner 

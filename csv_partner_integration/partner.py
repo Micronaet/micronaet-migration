@@ -304,7 +304,7 @@ class ResPartner(orm.Model):
                         category_id = False
                         ddt_e_oc = ""
 
-                    # TODO rivedere!!!
+                    # TODO rivedere !!!
                     pricelist_id = 0
                     """
                     if pl_version in range(1,10): # version [1:9]
