@@ -183,7 +183,7 @@ DASHBOARD MODULE
 
 * accounting_statistic_order:
 
-  
+Controllare il formato dei decimali per il punto ogni 3 decimali
   
 *******************************************************************************  
                          SCRIPT IMPORTAZIONI ETL
@@ -326,3 +326,4 @@ Controllo importazione listini e versioni (sia partner che 10 standard)
     Rimuovere i menu nascondendoli da configurazione per le parti non utilizzate (associare altro gruppo)
     Vedere se le categorie statistiche, gruppi elenco agenti vanno importati (sì) oppure migrati
     >> controllare le videate delle configurazioni se va aggiunto qualcosa a mano (non fare importazione per 2 o 3 voci)
+    
