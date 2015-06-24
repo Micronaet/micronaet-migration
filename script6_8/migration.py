@@ -831,7 +831,9 @@ class SyncroXMLRPC(orm.Model):
 
             for item in erp_pool.browse(item_ids): # TODO stopped!!!
                 try:
-                    partner_id = converter[item.id] # TODO test error
+                    partner_id = converter.get(item.id, False)
+                    if not partner_id:
+                        _logger.error("Parent not found: %s" % item.id)
                     # Create record to insert / update
                     data = { # NOTE: partner are imported add only new data
                         # function
@@ -864,7 +866,7 @@ class SyncroXMLRPC(orm.Model):
                     converter[item.id] = item_id
 
                 except:
-                    print "#ERR", obj, "jumped:", item.partner_id.name
+                    print "#ERR", obj, "jumped:", item.id
                     continue
                 # NOTE No contact for this database
 

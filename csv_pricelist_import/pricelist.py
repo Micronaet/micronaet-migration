@@ -39,6 +39,16 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 
 _logger = logging.getLogger(__name__)
 
+class ResPartner(orm.Model):
+    ''' Extra fields for manage pricelist
+    '''
+    _inherit = 'res.partner'
+    
+    _columns = {
+        'ref_pricelist_id': fields.many2one(
+            'product.pricelist.version', 'Ref. version pricelist'), 
+        }
+
 class ProductPricelist(orm.Model):
     ''' Add scheduled operations
     '''
@@ -245,6 +255,7 @@ class ProductPricelist(orm.Model):
         _logger.info("Start pricelist partner particular importation")
         csv_file = open(os.path.expanduser(input_file_part), 'rb')
         counter = -header_line_part
+        last_rule = {}
         try:
             for line in csv.reader(csv_file, delimiter=delimiter_part):
                 if counter < 0:  # jump n lines of header 
@@ -291,6 +302,10 @@ class ProductPricelist(orm.Model):
                     'price_surcharge': price_list,
                     'price_round': 0.01,                          
                     }, context=context)
+                    
+            # Create last rule for default pricelist (referente)
+            ref_pricelist_id
+                    
         except:
             _logger.error("Pricelist import %s" % (sys.exc_info(), ))
             return False
