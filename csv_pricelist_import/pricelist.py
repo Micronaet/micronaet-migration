@@ -65,7 +65,7 @@ class ProductPricelist(orm.Model):
             pl_ids = self.search(cr, uid, [
                 ('mexal_id', '=', mexal_id,)], context=context) 
             if pl_ids:
-                pl_id = pd_ids[0]
+                pl_id = pl_ids[0]
             else:    
                 pl_id = self.create(cr, uid, {
                     'name': "Listino Mexal n. " + mexal_id,
@@ -86,6 +86,18 @@ class ProductPricelist(orm.Model):
                    })  
              
         return
+
+    def get_partner_pricelist_ref(self, cr, uid, partner_code, context=None):
+        ''' Return res_pricelist_if for partner passed
+        '''
+        partner_pool = self.pool.get('res.partner')
+        partner_ids = partner_pool.search(cr, uid, [
+            ('sql_customer_code', '=', partner_code)], context=context)
+        if partner_ids:
+            return partner_pool.browse(
+                cr, uid, partner_ids, context=context)[
+                    0].ref_pricelist_id.id or False
+        return False
     
     def get_partner_pricelist(self, cr, uid, partner_code, context=None):
         ''' Search or Create a pricelist and a pricelist version 
@@ -261,7 +273,7 @@ class ProductPricelist(orm.Model):
                 if counter < 0:  # jump n lines of header 
                     counter += 1
                     continue
-                   
+
                 if not len(line): # jump empty lines
                     continue
                 if verbose and counter % verbose == 0:
@@ -285,9 +297,23 @@ class ProductPricelist(orm.Model):
                 # Get pricelist version:
                 if not partner_code:
                     _logger.error("Partner code not present!")
-                    continue                    
+                    continue                
                 if partner_code not in versions:
-                    # Create a pricelist and create a version
+                    # Create version rule (last rule)
+                    ref_pricelist_id = self.get_partner_pricelist_ref(
+                        cr, uid, partner_code, context=context)
+                    item_pool.create(cr, uid, {
+                        'price_version_id': versions[partner_code],
+                        'sequence': 9999,
+                        'name': 'Listino di riferimento', # TODO number of pricelist
+                        'base': -1,
+                        'base_pricelist_id': ref_pricelist_id,
+                        'min_quantity': 1,
+                        'price_discount': 0.0,
+                        'price_surcharge': 0.0,
+                        'price_round': 0.01,                     
+                        }, context=context)
+                    # Save in versions dict converter                        
                     versions[partner_code] = self.get_partner_pricelist(
                         cr, uid, partner_code, context=context)
                     
@@ -302,9 +328,6 @@ class ProductPricelist(orm.Model):
                     'price_surcharge': price_list,
                     'price_round': 0.01,                          
                     }, context=context)
-                    
-            # Create last rule for default pricelist (ref pricelist)
-            #ref_pricelist_id # TODO
                     
         except:
             _logger.error("Pricelist import %s" % (sys.exc_info(), ))
