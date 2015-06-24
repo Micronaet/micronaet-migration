@@ -834,6 +834,7 @@ class SyncroXMLRPC(orm.Model):
                     partner_id = converter.get(item.id, False)
                     if not partner_id:
                         _logger.error("Parent not found: %s" % item.id)
+                        continue
                     # Create record to insert / update
                     data = { # NOTE: partner are imported add only new data
                         # function

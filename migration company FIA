@@ -293,6 +293,7 @@ TODO cercare il modulo statische che caricata da solo (forse però non serve)
 *******************************************************************************  
                                   RICORDA
 *******************************************************************************  
+Integrare l'importazione dei colli da lot (inserita dopo in Fiam)
 Migrazione completa dei dati:
  PRODOTTI:
      migrare prima uom
