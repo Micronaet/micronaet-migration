@@ -124,7 +124,7 @@ class ResPartner(orm.Model):
         '''
         res = {}
         discount = discount.strip()
-        discount = discount.replace(",",".")
+        discount = discount.replace(",", ".")
         discount_list = discount.split('+')
         if len(discount_list): #
            base_discount = 100.00
@@ -146,7 +146,7 @@ class ResPartner(orm.Model):
         '''
         pl_pool = self.pool.get('product.pricelist')
         pl_ids = pl_pool.search(cr, uid, [
-                ('mexal_id', '!=', False)], context=context)
+            ('mexal_id', '!=', False)], context=context)
         for item in pl_pool.browse(cr, uid, pl_ids, context=context):
             pricelists[item.mexal_id] = item.id
         return

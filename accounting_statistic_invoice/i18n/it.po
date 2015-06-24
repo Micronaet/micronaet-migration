@@ -185,7 +185,7 @@ msgstr "Mese"
 #. module: accounting_statistic_invoice
 #: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_search
 msgid "Name"
-msgstr "Nome"
+msgstr "Codice padre"
 
 #. module: accounting_statistic_invoice
 #: selection:statistic.invoice.product,season:0

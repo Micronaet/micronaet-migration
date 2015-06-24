@@ -170,13 +170,13 @@ class ProductPricelist(orm.Model):
         # Crete if not exist 0:9 standard pricelist
         self.create_pricelist(cr, uid, context=context) 
         # ---------------------------------------------------------------------
-        #                  Load standard pricelist version:
+        #                  Load standard pricelist version (1-9):
         # ---------------------------------------------------------------------
         _logger.info("Start pricelist standard importation")
         versions = {} # dict of pricelist (mexal_id: odoo id)
         # Delete all version pricelist:
         # TODO get converter from previous function utility
-        for item in range(0, 10): # 1-9
+        for item in range(0, 10): #1-9
             mexal_id = str(item)
             version_ids = version_pool.search(cr, uid, [
                 ('mexal_id', '=', mexal_id)
@@ -224,20 +224,17 @@ class ProductPricelist(orm.Model):
                     
                 for pl in price_list:
                     if price_list[pl]: 
-                        try:
-                            item_pool.create(cr, uid, {
-                            'price_version_id': versions[str(pl)],
-                            'sequence': 10,
-                            'name': default_code,
-                            'base': 2, # 1 pl 2 cost
-                            'min_quantity': 1,
-                            'product_id': product_ids[0],
-                            'price_discount': -1,
-                            'price_surcharge': price_list[pl],
-                            'price_round': 0.01,                          
-                            }, context=context)
-                        except:
-                            import pdb; pdb.set_trace()    
+                        item_pool.create(cr, uid, {
+                        'price_version_id': versions[str(pl)],
+                        'sequence': 10,
+                        'name': default_code,
+                        'base': 2, # 1 pl 2 cost
+                        'min_quantity': 1,
+                        'product_id': product_ids[0],
+                        'price_discount': -1,
+                        'price_surcharge': price_list[pl],
+                        'price_round': 0.01,                          
+                        }, context=context)
         except:
             _logger.error("Pricelist import %s" % (sys.exc_info(), ))
             return False
