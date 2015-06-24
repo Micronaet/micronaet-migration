@@ -298,23 +298,28 @@ class ProductPricelist(orm.Model):
                     _logger.error("Partner code not present!")
                     continue
                 if partner_code not in versions:
-                    # Create version rule (last rule)
-                    ref_pricelist_id = self.get_partner_pricelist_ref(
-                        cr, uid, partner_code, context=context)
-                    item_pool.create(cr, uid, {
-                        'price_version_id': versions[partner_code],
-                        'sequence': 9999,
-                        'name': 'Listino di riferimento', # TODO number of pricelist
-                        'base': -1,
-                        'base_pricelist_id': ref_pricelist_id,
-                        'min_quantity': 1,
-                        'price_discount': 0.0,
-                        'price_surcharge': 0.0,
-                        'price_round': 0.01,
-                        }, context=context)
                     # Save in versions dict converter
                     versions[partner_code] = self.get_partner_pricelist(
                         cr, uid, partner_code, context=context)
+                    # Create version rule (last rule)
+                    ref_pricelist_id = self.get_partner_pricelist_ref(
+                        cr, uid, partner_code, context=context)
+                    if ref_pricelist_id:
+                        item_pool.create(cr, uid, {
+                            'price_version_id': versions[partner_code],
+                            'sequence': 9999,
+                            'name': 'Listino di riferimento', # TODO number of pricelist
+                            'base': -1,
+                            'base_pricelist_id': ref_pricelist_id,
+                            'min_quantity': 1,
+                            'price_discount': 0.0,
+                            'price_surcharge': 0.0,
+                            'price_round': 0.01,
+                            }, context=context)
+                    else:
+                        _logger.warning(
+                            'Partner ref. pricelist not found %s' % (
+                                partner_code, ))
 
                 item_pool.create(cr, uid, {
                     'price_version_id': versions[partner_code],
