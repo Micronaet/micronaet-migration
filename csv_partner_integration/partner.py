@@ -142,9 +142,9 @@ class ResPartner(orm.Model):
         return res
 
     def read_all_pricelist(self, cr, uid, pricelists, context=None):
-        ''' Read all pricelist
+        ''' Read all pricelist version
         '''
-        pl_pool = self.pool.get('product.pricelist')
+        pl_pool = self.pool.get('product.pricelist.version')
         pl_ids = pl_pool.search(cr, uid, [
             ('mexal_id', '!=', False)], context=context)
         for item in pl_pool.browse(cr, uid, pl_ids, context=context):
@@ -172,8 +172,10 @@ class ResPartner(orm.Model):
         # ---------------------------------------------------------------------
         # Partner importation (customer, cust. dest, supplier, supp. dest):
         # ---------------------------------------------------------------------
+        # Read all pricelist version:
         pricelists = {}
         self.read_all_pricelist(cr, uid, pricelists, context=context)
+        
         fiscal_position_list = {}
         self.load_fiscal_position(
             cr, uid, fiscal_position_list, context=context)
@@ -262,19 +264,20 @@ class ResPartner(orm.Model):
                     ref_agente = csv_pool.decode_string(line[16]) # ID agente
                     name_agente = csv_pool.decode_string(line[17]).title()
 
-                    # Get ID for agent name:
-                    agent_id = False
-
                     # Pricelist only present for client 
-                    pl_version = 0
                     if (mode == 'customer') and (not is_destination): 
                         # and ref_agente[:2] not in ('05', '20',): TODO serve?
                         agent_id = self.get_agent(
                             cr, uid, ref_agente, name_agente, context=context)
 
-                        # 10 pricelist standard:
-                        pl_code = csv_pool.decode_int(line[18]) or 0
-
+                        # 10 pricelist default:
+                        pl_version = csv_pool.decode_int(line[18]) or 0
+                        ref_pricelist_id = pricelists.get(pl_version, False)
+                    else:
+                        agent_id = False
+                        pl_version = 0
+                        ref_pricelist_id = False
+    
                     discount = csv_pool.decode_string(line[19]) # Discount list
                     if discount:
                         discount = discount.replace(
@@ -379,12 +382,13 @@ class ResPartner(orm.Model):
 
                         # Only customer
                         if mode == 'customer':  # TODO era solo per company1
-                            data['statistic_category_id'] = category_id
+                            data['statistic_category_id'] = category_id                            
                             if agent_id:
                                 data['invoice_agent_id'] = agent_id
                                 
                             # TODO parte comune per tutti i clienti:
                             data['property_product_pricelist'] = pricelist_id
+                            data['ref_pricelist_id'] = ref_pricelist_id
                             #data['property_account_position'] = fiscal_position # TODO da errore!!!
                             #NO data['customer'] = True
                             #NO data['ref'] = ref

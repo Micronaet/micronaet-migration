@@ -60,7 +60,7 @@ class ProductPricelist(orm.Model):
         '''
         version_pool = self.pool.get('product.pricelist.version')
         
-        for pricelist in range(0, 10): 
+        for pricelist in range(1, 10): 
             mexal_id = str(pricelist)
             pl_ids = self.search(cr, uid, [
                 ('mexal_id', '=', mexal_id,)], context=context) 
@@ -186,7 +186,7 @@ class ProductPricelist(orm.Model):
         versions = {} # dict of pricelist (mexal_id: odoo id)
         # Delete all version pricelist:
         # TODO get converter from previous function utility
-        for item in range(0, 10): #1-9
+        for item in range(1, 10): #1-9
             mexal_id = str(item)
             version_ids = version_pool.search(cr, uid, [
                 ('mexal_id', '=', mexal_id)
@@ -303,8 +303,8 @@ class ProductPricelist(orm.Model):
                     'price_round': 0.01,                          
                     }, context=context)
                     
-            # Create last rule for default pricelist (referente)
-            ref_pricelist_id
+            # Create last rule for default pricelist (ref pricelist)
+            #ref_pricelist_id # TODO
                     
         except:
             _logger.error("Pricelist import %s" % (sys.exc_info(), ))
