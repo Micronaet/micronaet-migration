@@ -102,16 +102,52 @@ class ProductPricelist(orm.Model):
         ''' Search or Create a pricelist and a pricelist version
             return version ID
             Set also as default pricelist for partner
+            Set default rule in version pricelist (always update)
         '''
-        # 0. Search for partner (associate pricelist after create)
+        # --------
+        # Utility:
+        # --------
+        def update_reference_pl(self, cr, uid, version_id, ref, context=None):
+            ''' Update last rule of pricelist version with default partner
+            '''
+            if not ref:
+                return False
+
+            item_pool = self.pool.get('product.pricelist.item')
+            item_ids = version_pool.search(cr, uid, [
+                ('price_version_id', '=', version_id),                
+                ('default_pricelist', '=', True),
+                ], context=context)
+            data = {
+                'price_version_id': version_id,
+                'sequence': 9999, # max number for automated rules
+                'name': 'Listino di riferimento', # TODO number of pricelist
+                'base': -1,
+                'base_pricelist_id': ref,
+                'min_quantity': 1,
+                'price_discount': 0.0,
+                'price_surcharge': 0.0,
+                'price_round': 0.01,
+                'default_pricelist',
+                }    
+            if item_ids:
+                version_pool.write(cr, uid, item_ids, data, context=context)
+            else:
+                version_pool.create(cr, uid, data, context=context)
+            return True
+            
+        # ------------------
+        # Search for partner
+        # ------------------
+        # Associate pricelist after create
         partner_pool = self.pool.get('res.partner')
         partner_ids = partner_pool.search(cr, uid, [
             ('sql_customer_code', '=', partner_code)], context=context)
         if partner_ids:
             partner_id = partner_ids[0]
-        else: # Fast creation
+        else: # Fast creation of partner
             partner_id = partner_pool.create(cr, uid, {
-                'name': "Partner %s" % partner_code,
+                'name': "Partner %s (from pricelist)" % partner_code,
                 'sql_customer_code': partner_code,
                 }, context=context)
         partner_proxy = partner_pool.browse(
@@ -126,14 +162,19 @@ class ProductPricelist(orm.Model):
             #version_pool.write(cr, uid, version_ids[0], {
             #    'name': "Versione base partner [%s]" % partner_proxy.name,
             #    }, context=context)
+            # Update last rule:
+            update_reference_pl(
+                self, cr, uid, version_ids[0], partner_proxy.ref_version_id, 
+                context=context)
             return version_ids[0]
 
         # 2. case: version present (so pricelist and partner)
         pricelist_ids = self.search(cr, uid, [
             ('mexal_id', '=', partner_code)], context=context)
+
         # Check pricelist:
         if pricelist_ids:
-            pricelist_id = pricelist_ids
+            pricelist_id = pricelist_ids[0]
             #self.write(cr, uid, pricelist_id, {
             #    'name': "Listino partner [%s]" % partner_proxy.name,
             #    }, context=context)
@@ -155,12 +196,17 @@ class ProductPricelist(orm.Model):
             }, context=context)
 
         # Create version:
-        return version_pool.create(cr, uid, {
+        version_id = version_pool.create(cr, uid, {
             'name': "Versione base partner [%s]" % partner_proxy.name,
-            'pricelist_id': pricelist_id,
-            'import': True,
+            'pricelist_id': pricelist_id, 'import': True,
             'mexal_id': partner_code,
             }, context=context)
+
+        # Update last rule
+        update_reference_pl(
+            self, cr, uid, version_id, partner_proxy.ref_version_id, 
+            context=context)
+        return
 
     def schedule_csv_pricelist_import(self, cr, uid,
             input_file="~/ETL/artioerp.csv", delimiter=";", header_line=0,
@@ -266,7 +312,6 @@ class ProductPricelist(orm.Model):
         _logger.info("Start pricelist partner particular importation")
         csv_file = open(os.path.expanduser(input_file_part), 'rb')
         counter = -header_line_part
-        last_rule = {}
         try:
             for line in csv.reader(csv_file, delimiter=delimiter_part):
                 if counter < 0:  # jump n lines of header
@@ -297,8 +342,7 @@ class ProductPricelist(orm.Model):
                 if not partner_code:
                     _logger.error("Partner code not present!")
                     continue
-                if partner_code not in versions:
-                    # Save in versions dict converter
+                if partner_code not in versions: # Save in versions converter
                     versions[partner_code] = self.get_partner_pricelist(
                         cr, uid, partner_code, context=context)
                     # Create version rule (last rule)
