@@ -159,7 +159,8 @@ class ProductPricelist(orm.Model):
             ('mexal_id', '=', partner_code)], context=context)
         if version_ids: # TODO update?            
             update_reference_pl( # Update last rule:
-                self, cr, uid, version_ids[0], partner_proxy.ref_pricelist_id, 
+                self, cr, uid, version_ids[0], 
+                partner_proxy.ref_pricelist_id.id, 
                 context=context)
             return version_ids[0]
 
@@ -196,7 +197,7 @@ class ProductPricelist(orm.Model):
 
         # Update last rule
         update_reference_pl(
-            self, cr, uid, version_id, partner_proxy.ref_version_id, 
+            self, cr, uid, version_id, partner_proxy.ref_version_id.id, 
             context=context)
         return
 

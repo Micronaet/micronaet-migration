@@ -47,6 +47,7 @@ class StatisticCategory(orm.Model):
     
     _name = 'statistic.category'
     _description = 'Statistic category'
+    _order = 'name'
 
     _columns = {
         'name': fields.char('Description', size=64),

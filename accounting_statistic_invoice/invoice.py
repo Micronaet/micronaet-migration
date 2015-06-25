@@ -62,6 +62,7 @@ class StatisticInvoiceAgent(orm.Model):
     """
     _name = 'statistic.invoice.agent'
     _description = 'Invoice Agent'
+    _order = 'name'
 
     _columns = {
         'name': fields.char('Agent', size=64, required=True),

@@ -272,6 +272,7 @@ Add extra fields populated from accounting > maybe better in a single module
 class ResPartnerZone(orm.Model):
     _name = 'res.partner.zone'
     _description = 'Partner Zone'
+    _order = 'type,name'
 
     _columns = {
         'name':fields.char('Zone', size=64, required=True),

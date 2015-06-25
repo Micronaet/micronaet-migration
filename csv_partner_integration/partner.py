@@ -271,11 +271,11 @@ class ResPartner(orm.Model):
                             cr, uid, ref_agente, name_agente, context=context)
 
                         # 10 pricelist default:
-                        pl_version = csv_pool.decode_int(line[18]) or 0
+                        pl_version = csv_pool.decode_string(line[18]) or False
                         ref_pricelist_id = pricelists.get(pl_version, False)
                     else:
                         agent_id = False
-                        pl_version = 0
+                        pl_version = False
                         ref_pricelist_id = False
     
                     discount = csv_pool.decode_string(line[19]) # Discount list
