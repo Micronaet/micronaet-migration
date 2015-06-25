@@ -234,7 +234,7 @@ class ProductPricelist(orm.Model):
         _logger.info("Start pricelist standard importation: %s" % (
             input_file, ))
         versions = {} # dict of pricelist (mexal_id: odoo id)
-        self.create_pricelist(cr, uid, versions, context=context) # pl + vers.
+        self.create_default_pricelist(cr, uid, versions, context=context) # pl + vers.
 
         csv_file = open(os.path.expanduser(input_file), 'rb')
         counter = -header_line
