@@ -157,13 +157,8 @@ class ProductPricelist(orm.Model):
         version_pool = self.pool.get('product.pricelist.version')
         version_ids = version_pool.search(cr, uid, [
             ('mexal_id', '=', partner_code)], context=context)
-        if version_ids:
-            # update name:
-            #version_pool.write(cr, uid, version_ids[0], {
-            #    'name': "Versione base partner [%s]" % partner_proxy.name,
-            #    }, context=context)
-            # Update last rule:
-            update_reference_pl(
+        if version_ids: # TODO update?            
+            update_reference_pl( # Update last rule:
                 self, cr, uid, version_ids[0], partner_proxy.ref_pricelist_id, 
                 context=context)
             return version_ids[0]
@@ -175,9 +170,6 @@ class ProductPricelist(orm.Model):
         # Check pricelist:
         if pricelist_ids:
             pricelist_id = pricelist_ids[0]
-            #self.write(cr, uid, pricelist_id, {
-            #    'name': "Listino partner [%s]" % partner_proxy.name,
-            #    }, context=context)
         else:
             # TODO: Current always create in EUR
             currency_ids = self.pool.get('res.currency').search(cr, uid, [
@@ -198,7 +190,7 @@ class ProductPricelist(orm.Model):
         # Create version:
         version_id = version_pool.create(cr, uid, {
             'name': "Versione base partner [%s]" % partner_proxy.name,
-            'pricelist_id': pricelist_id, 'import': True,
+            'pricelist_id': pricelist_id, 
             'mexal_id': partner_code,
             }, context=context)
 
@@ -239,9 +231,10 @@ class ProductPricelist(orm.Model):
         # ---------------------------------------------------------------------
         #                  Load standard pricelist version (1-9):
         # ---------------------------------------------------------------------
-        _logger.info("Start pricelist standard importation")
-        self.create_pricelist(cr, uid, versione, context=context) # pl + vers.
+        _logger.info("Start pricelist standard importation: %s" % (
+            input_file, ))
         versions = {} # dict of pricelist (mexal_id: odoo id)
+        self.create_pricelist(cr, uid, versions, context=context) # pl + vers.
 
         csv_file = open(os.path.expanduser(input_file), 'rb')
         counter = -header_line
@@ -254,8 +247,8 @@ class ProductPricelist(orm.Model):
 
                 if not len(line): # jump empty lines
                     continue
-                if verbose and counter % verbose == 0:
-                    _logger.info("Pricelist item created: %s" % counter)
+                if verbose and counter and counter % verbose == 0:
+                    _logger.info("# Pricelist item created: %s" % counter)
                 counter += 1
                 default_code = csv_pool.decode_string(line[0])
                 name = csv_pool.decode_string(line[1]).title()
@@ -275,6 +268,7 @@ class ProductPricelist(orm.Model):
                     _logger.warning("Multiple product %s" % default_code)
                     continue # jump
 
+                # Update item in all standard version:
                 for pl in price_list:
                     if price_list[pl]:
                         item_pool.create(cr, uid, {
@@ -289,13 +283,14 @@ class ProductPricelist(orm.Model):
                         'price_round': 0.01,
                         }, context=context)
         except:
-            _logger.error("Pricelist import %s" % (sys.exc_info(), ))
+            _logger.error("Stopped pricelist import %s" % (sys.exc_info(), ))
             return False
 
         # ---------------------------------------------------------------------
         #                Partner with particularity pricelist:
         # ---------------------------------------------------------------------
-        _logger.info("Start pricelist partner particular importation")
+        _logger.info("Start pricelist partner item importation: %s" % (
+            input_file_part, ))
         csv_file = open(os.path.expanduser(input_file_part), 'rb')
         counter = -header_line_part
         try:
@@ -306,7 +301,7 @@ class ProductPricelist(orm.Model):
 
                 if not len(line): # jump empty lines
                     continue
-                if verbose and counter % verbose == 0:
+                if verbose and counter and counter % verbose == 0:
                     _logger.info("Partner PL item created: %s" % counter)
                 counter += 1
                 default_code = csv_pool.decode_string(line[0])
@@ -319,14 +314,14 @@ class ProductPricelist(orm.Model):
                     ], context=context)
                 if not product_ids:
                     _logger.error("Product not found %s" % default_code)
-                    continue # jump (not created here)
+                    continue # jump (TODO created here?)
                 elif len(product_ids) > 1:
                     _logger.warning("Multiple product %s" % default_code)
                     continue # jump
 
                 # Get pricelist version:
                 if not partner_code:
-                    _logger.error("Partner code not present!")
+                    _logger.error("Partner code not present!") # TODO create?                    
                     continue
                 if partner_code not in versions: # Save in versions converter
                     versions[partner_code] = self.get_partner_pricelist(
