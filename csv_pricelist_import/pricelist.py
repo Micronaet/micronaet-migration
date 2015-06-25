@@ -49,17 +49,28 @@ class ResPartner(orm.Model):
             'product.pricelist.version', 'Ref. version pricelist'),
         }
 
+class ProductPricelistItem(orm.Model):
+    ''' Extra fields
+    '''
+    _inherit = 'product.pricelist.item'
+
+    _columns = {
+        'default_pricelist': fields.boolean('Default pricelist rule'),
+        }
+
 class ProductPricelist(orm.Model):
     ''' Add scheduled operations
     '''
     _inherit = 'product.pricelist'
 
     # Utility:
-    def create_pricelist(self, cr, uid, context=None):
+    def create_default_pricelist(self, cr, uid, versions, context=None):
         ''' Crate if not exist all [0:9] base pricelist - version
+            Update versions converter
         '''
         version_pool = self.pool.get('product.pricelist.version')
 
+        # Create pricelist 1-9
         for pricelist in range(1, 10):
             mexal_id = str(pricelist)
             pl_ids = self.search(cr, uid, [
@@ -69,20 +80,21 @@ class ProductPricelist(orm.Model):
             else:
                 pl_id = self.create(cr, uid, {
                     'name': "Listino Mexal n. " + mexal_id,
-                    #'currency_id': getCurrency(sock,dbname,uid,pwd,currency_ids[i]), # TODO
+                    #'currency_id': 
                     'type': 'sale',
                     'mexal_id': mexal_id,
                     })
 
-            # Create base version (product.pricelist.version)
+            # Create version (updare converter)
             version_ids = version_pool.search(cr, uid, [
                 ('mexal_id', '=', mexal_id)], context=context)
-            if not version_ids:
-               version_pool.create(cr, uid, {
+            if version_ids:
+               versions[mexal_id] = version_ids[0]
+            else:    
+               versions[mexal_id] = version_pool.create(cr, uid, {
                    'name': "Versione base " + mexal_id,
                    'pricelist_id': pl_id,
-                   'mexal_id': pricelist, # << extra fields
-                   'import': True,        # <<
+                   'mexal_id': pricelist,
                    })
         return
 
@@ -116,7 +128,7 @@ class ProductPricelist(orm.Model):
                 'price_discount': 0.0,
                 'price_surcharge': 0.0,
                 'price_round': 0.01,
-                'default_pricelist',
+                'default_pricelist': True,
                 }    
             if item_ids:
                 version_pool.write(cr, uid, item_ids, data, context=context)
@@ -152,7 +164,7 @@ class ProductPricelist(orm.Model):
             #    }, context=context)
             # Update last rule:
             update_reference_pl(
-                self, cr, uid, version_ids[0], partner_proxy.ref_version_id, 
+                self, cr, uid, version_ids[0], partner_proxy.ref_pricelist_id, 
                 context=context)
             return version_ids[0]
 
@@ -213,37 +225,23 @@ class ProductPricelist(orm.Model):
         # ---------------------------------------------------------------------
         #                            Common part
         # ---------------------------------------------------------------------
-        csv_pool = self.pool.get('csv.base')
-        item_pool = self.pool.get('product.pricelist.item')
+        # Pool used:
+        # self is product.pricelist
         version_pool = self.pool.get('product.pricelist.version')
+        item_pool = self.pool.get('product.pricelist.item')
         product_pool = self.pool.get('product.product')
+        csv_pool = self.pool.get('csv.base')
 
         # Erase all pricelist item (only) before import:
         item_ids = item_pool.search(cr, uid, [], context=context)
         item_pool.unlink(cr, uid, item_ids, context=context)
 
-        # Crete if not exist 0:9 standard pricelist
-        self.create_pricelist(cr, uid, context=context)
         # ---------------------------------------------------------------------
         #                  Load standard pricelist version (1-9):
         # ---------------------------------------------------------------------
         _logger.info("Start pricelist standard importation")
+        self.create_pricelist(cr, uid, versione, context=context) # pl + vers.
         versions = {} # dict of pricelist (mexal_id: odoo id)
-        # Delete all version pricelist:
-        # TODO get converter from previous function utility
-        for item in range(1, 10): #1-9
-            mexal_id = str(item)
-            version_ids = version_pool.search(cr, uid, [
-                ('mexal_id', '=', mexal_id)
-                ], context=context)
-            if version_ids:
-               version_id = version_ids[0]
-            else:
-                # create pricelist and version return version id
-                # TODO
-                version_id = False
-
-            versions[mexal_id] = version_id
 
         csv_file = open(os.path.expanduser(input_file), 'rb')
         counter = -header_line
