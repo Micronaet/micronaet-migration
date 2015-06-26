@@ -33,6 +33,7 @@
     'demo': [],
     'data': [
         #'security/ir.model.access.csv',    
+        'pricelist_view.xml',
         'scheduler.xml',
         ],
     'active': False,
