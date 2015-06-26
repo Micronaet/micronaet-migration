@@ -273,10 +273,12 @@ class ResPartner(orm.Model):
                         # 10 pricelist default:
                         pl_version = csv_pool.decode_string(line[18]) or False
                         ref_pricelist_id = pricelists.get(pl_version, False)
+                        pricelist_id = pricelists.get(ref, ref_pricelist_id)
                     else:
                         agent_id = False
                         pl_version = False
                         ref_pricelist_id = False
+                        pricelist_id = False
     
                     discount = csv_pool.decode_string(line[19]) # Discount list
                     if discount:
@@ -307,8 +309,6 @@ class ResPartner(orm.Model):
                         category_id = False
                         ddt_e_oc = ""
 
-                    # TODO rivedere !!!
-                    pricelist_id = 0
                     """
                     if pl_version in range(1,10): # version [1:9]
                         if ref in client_list:
