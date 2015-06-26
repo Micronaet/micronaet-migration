@@ -144,7 +144,7 @@ class ResPartner(orm.Model):
     def read_all_pricelist(self, cr, uid, pricelists, context=None):
         ''' Read all pricelist version
         '''
-        pl_pool = self.pool.get('product.pricelist.version')
+        pl_pool = self.pool.get('product.pricelist')
         pl_ids = pl_pool.search(cr, uid, [
             ('mexal_id', '!=', False)], context=context)
         for item in pl_pool.browse(cr, uid, pl_ids, context=context):

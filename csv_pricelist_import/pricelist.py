@@ -46,7 +46,7 @@ class ResPartner(orm.Model):
 
     _columns = {
         'ref_pricelist_id': fields.many2one(
-            'product.pricelist.version', 'Ref. version pricelist'),
+            'product.pricelist', 'Ref. pricelist'),
         }
 
 class ProductPricelistItem(orm.Model):
@@ -107,19 +107,19 @@ class ProductPricelist(orm.Model):
         # --------
         # Utility:
         # --------
-        def update_reference_pl(self, cr, uid, version_id, ref, context=None):
-            ''' Update last rule of pricelist version with default partner
+        def update_reference_pl(self, cr, uid, pricelist_id, ref, context=None):
+            ''' Update last rule of pricelist with default partner
             '''
             if not ref:
                 return False
 
             item_pool = self.pool.get('product.pricelist.item')
-            item_ids = version_pool.search(cr, uid, [
-                ('price_version_id', '=', version_id),                
+            item_ids = item_pool.search(cr, uid, [
+                ('price_version_id', '=', pricelist_id),                
                 ('default_pricelist', '=', True),
                 ], context=context)
             data = {
-                'price_version_id': version_id,
+                'price_version_id': pricelist_id,
                 'sequence': 9999, # max number for automated rules
                 'name': 'Listino di riferimento', # TODO number of pricelist
                 'base': -1,
@@ -131,9 +131,9 @@ class ProductPricelist(orm.Model):
                 'default_pricelist': True,
                 }    
             if item_ids:
-                version_pool.write(cr, uid, item_ids, data, context=context)
+                item_pool.write(cr, uid, item_ids, data, context=context)
             else:
-                version_pool.create(cr, uid, data, context=context)
+                item_pool.create(cr, uid, data, context=context)
             return True
             
         # ------------------
@@ -159,7 +159,8 @@ class ProductPricelist(orm.Model):
             ('mexal_id', '=', partner_code)], context=context)
         if version_ids: # TODO update?            
             update_reference_pl( # Update last rule:
-                self, cr, uid, version_ids[0], 
+                self, cr, uid, 
+                version_ids[0], 
                 partner_proxy.ref_pricelist_id.id, 
                 context=context)
             return version_ids[0]
@@ -197,7 +198,9 @@ class ProductPricelist(orm.Model):
 
         # Update last rule
         update_reference_pl(
-            self, cr, uid, version_id, partner_proxy.ref_version_id.id, 
+            self, cr, uid, 
+            version_id, 
+            partner_proxy.ref_version_id.id, 
             context=context)
         return
 
