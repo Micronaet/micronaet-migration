@@ -195,6 +195,8 @@
                 <group col="10" colspan="4">
                     <field name="name" />
                     <field name="country_id"/>
+                    <field name="statistic_category_id"/>
+                    <field name="type_cei"/>
                     <field name="zone_id"/>
                     <field name="zone_type"/>
                     <field name="partner_id"/>
@@ -235,6 +237,7 @@
                     <filter string="Year" domain="[]" context="{'group_by':'year'}"/>
                     <filter string="Type of doc" domain="[]" context="{'group_by':'type_document'}"/>
                     <filter string="Agent" domain="[]" context="{'group_by':'invoice_agent_id'}"/>
+                    <filter string="Statistic category" domain="[]" context="{'group_by':'statistic_category_id'}"/>
                     <filter string="Zone" domain="[]" context="{'group_by':'zone_id'}"/>
                     <filter string="Type of zone" domain="[]" context="{'group_by':'zone_type'}"/>
                     <filter string="Country" domain="[]" context="{'group_by':'country_id'}"/>
@@ -268,6 +271,7 @@
                      <field name="zone_id"/>
                      <field name="country_id"/>
 
+                     <field name="statistic_category_id"/>
                      <field name="type_document"/>
                      <field name="total" sum="Totale" />
                   </group>   
@@ -296,6 +300,7 @@
                 <field name="partner_id"/>
                 <field name="invoice_agent_id"/>
 
+                <field name="statistic_category_id"/>
                 <field name="zone_type"/>
                 <field name="zone_id"/>
                 <field name="country_id"/>

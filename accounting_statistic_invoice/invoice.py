@@ -367,6 +367,10 @@ class StatisticInvoice(orm.Model):
             readonly=True, string='Important partner', store=True),
 
         # Extra info for filter graph:
+        'statistic_category_id': fields.related('partner_id', 
+            'statistic_category_id', type='many2one',
+            relation='statistic.category', string='Statistic category', 
+            store=True),
         'zone_id': fields.related('partner_id', 'zone_id', type='many2one',
             relation='res.partner.zone', string='Zone', store=True),
         'zone_type': fields.related('zone_id', 'type', type='selection',
