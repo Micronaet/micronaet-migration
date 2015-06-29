@@ -134,8 +134,7 @@ class StatisticInvoice(orm.Model):
         if particular:
             loop_step[2] = csv.reader(
                 open(os.path.expanduser(file_input2), 'rb'),
-                delimiter=delimiter),
-            }
+                delimiter=delimiter)
 
         for step, lines in loop_steps.iteritems():
             counter = -header
@@ -461,11 +460,16 @@ class StatisticInvoiceProduct(orm.Model):
                 name = csv_base.decode_string(line[0]).upper() # Family
                 if name in family_blacklist:
                     continue # jump record
-                month = int(csv_base.decode_string(line[1])) or 0
+                month = csv_base.decode_string(line[1])
                 year = csv_base.decode_string(line[2])
                 total_invoice = csv_base.decode_float(line[3]) or 0.0
                 type_document = csv_base.decode_string(line[4]).lower()
 
+                if not year or not month:
+                    _logger.warning('%s) Period not found!' % counter)
+                    continue
+
+                month = int(month)
                 # Calculated field:
                 if type_document not in ('ft', 'bc', 'oc'):
                     _logger.warning('%s) Type of doc not correct: %s' % (
