@@ -94,9 +94,10 @@ class StatisticInvoice(orm.Model):
             file_input1='~/ETL/fatmeseoerp1.csv',
             file_input2='~/ETL/fatmeseoerp2.csv',
             delimiter=';', header=0,
-            verbose=100, context=None):
+            particular=True, verbose=100, context=None):
         ''' Import statistic data from CSV file for invoice, trend, trendoc
             This particular importation are from 2 files (amount)
+            (all particularity manage are use if particular = True)
         '''
 
         _logger.info('Start invoice statistic for customer')
@@ -111,22 +112,27 @@ class StatisticInvoice(orm.Model):
 
         # TODO portare parametrizzandolo in OpenERP (second loop substitution):
         # =====================================================================
-        p1_id = csv_base.get_create_partner_lite(
-            cr, uid, '06.02209', context=context)
-        p2_id = csv_base.get_create_partner_lite(
-            cr, uid, '06.01537', context=context)
-        customer_replace = {
-            '06.40533': (
-                ('06.02209', p1_id, get_partner_name(self, cr, uid, p1_id)),
-                ('06.01537', p2_id, get_partner_name(self, cr, uid, p2_id)),
-                )}
+        if particular:
+            p1_id = csv_base.get_create_partner_lite(
+                cr, uid, '06.02209', context=context)
+            p2_id = csv_base.get_create_partner_lite(
+                cr, uid, '06.01537', context=context)
+            customer_replace = {
+                '06.40533': (
+                    ('06.02209', p1_id, get_partner_name(
+                        self, cr, uid, p1_id)),
+                    ('06.01537', p2_id, get_partner_name(
+                        self, cr, uid, p2_id)),
+                    )}
         # =====================================================================
 
         loop_steps = { # 2 loop for read the 2 files to mix
             1: csv.reader(
                 open(os.path.expanduser(file_input1), 'rb'),
                 delimiter=delimiter),
-            2: csv.reader(
+            }
+        if particular:
+            loop_step[2] = csv.reader(
                 open(os.path.expanduser(file_input2), 'rb'),
                 delimiter=delimiter),
             }
@@ -157,7 +163,7 @@ class StatisticInvoice(orm.Model):
                         type_document = csv_base.decode_string(
                             line[4]).lower() # oc/ft
 
-                        if step == 2: # 2nd loop is different:
+                        if particular and step == 2: # 2nd loop is different:
                             if mexal_id not in customer_replace:
                                 continue # jump if not a replace partner
 
@@ -180,7 +186,7 @@ class StatisticInvoice(orm.Model):
                                 old_mexal_id][1][2]
                             # =============================================
 
-                        else: # 1st loop is different:
+                        elif particular: # 1st loop is different:
                             # Problem Customer: M Business:
                             if mexal_id in (
                                 '06.00052', '06.00632', '06.01123',
@@ -211,7 +217,7 @@ class StatisticInvoice(orm.Model):
                                     '%s: replace code: %s > 06.03044' % (
                                         counter, mexal_id))
                                 mexal_id = '06.03044'
-
+                        else:
                             # Calculated field:
                             partner_id = csv_base.get_create_partner_lite(
                                 cr, uid, mexal_id, context=context)

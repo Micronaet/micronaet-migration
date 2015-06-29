@@ -11,7 +11,7 @@
 			<field eval="5" name="priority"/>
 			<field eval="0" name="doall"/>
 			<field eval="1" name="active"/>
-			<field name="args">('~/ETL/fatmeseoerp1.csv', '~/ETL/fatmeseoerp2.csv', ';', 0, 100)</field>
+			<field name="args">('~/ETL/fatmeseoerp1.csv', '~/ETL/fatmeseoerp2.csv', ';', 0, True, 100)</field>
 			<field eval="1" name="interval_number"/>
 			<field eval="&quot;&quot;&quot;statistic.invoice&quot;&quot;&quot;" name="model"/>
 		</record>
