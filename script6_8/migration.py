@@ -980,17 +980,19 @@ class SyncroXMLRPC(orm.Model):
         converter = self._converter[obj]
         if wiz_proxy.sale:
             item_pool = self.pool.get(obj)
-            erp_pool = erp.AccountPaymentTerm
+            erp_pool = erp.StockIncoterms
             item_ids = erp_pool.search([])
             for item in erp_pool.browse(item_ids):
                 try: # Create record to insert/update
-                    name = item.name
+                    code = item.code
+                    name = item.name                    
                     data = {
-                        'name': item.name,
-                        'note': item.note,
+                        'name': name,
+                        'active': item.active,
+                        'code': code,
                         }
                     new_ids = item_pool.search(cr, uid, [
-                        ('name', '=', name)], context=context)
+                        ('code', '=', code)], context=context)
                     if new_ids: # Modify
                         item_id = new_ids[0]
                         item_pool.write(cr, uid, item_id, data,
@@ -1005,8 +1007,7 @@ class SyncroXMLRPC(orm.Model):
                 except:
                     print "#ERR", obj, "jumped:", name
                     print sys.exc_info()
-                    continue
-                    
+                    continue                    
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
                 context=context)
@@ -1030,6 +1031,11 @@ class SyncroXMLRPC(orm.Model):
                         'name': item.name,
                         'date_order': item.date_order,
                         'client_order_ref': item.client_order_ref,
+                        'user_id': self._converter[
+                            'res.users'].get(
+                                item.user_id.id \
+                                    if item.user_id \
+                                    else False, False),
                         #'pricelist_id': item.pricelist_id.id # TODO Convert
                         'partner_id': 1, #'partner_id': item.partner_id.id # TODO Convert
                         #'destination_partner_id': item.partner_shipping_id.id # TODO Convert
@@ -1039,7 +1045,11 @@ class SyncroXMLRPC(orm.Model):
                                     if item.payment_term \
                                     else False, False),
                         'quotation_model': item.quotation_model,
-                        'incoterm': item.incoterm,
+                        'incoterm': self._converter[
+                            'stock.incoterms'].get(
+                                item.incoterm.id \
+                                    if item.incoterm \
+                                    else False, False),
                         'picking_policy': item.picking_policy,                        
                         }
                     new_ids = item_pool.search(cr, uid, [
