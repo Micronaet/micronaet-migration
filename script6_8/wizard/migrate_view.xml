@@ -22,7 +22,7 @@
                        <field name="pricelist" />
                        <field name="partner" />
                        <field name="sale" />
-                       <field name="purschase" />
+                       <field name="purchase" />
                    </group>
                 </form>
             </field>
