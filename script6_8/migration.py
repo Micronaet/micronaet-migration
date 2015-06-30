@@ -684,13 +684,15 @@ class SyncroXMLRPC(orm.Model):
                 context=context)
 
         # ---------------------------------------------------------------------
-        # TODO supplier pricelist
+        # Supplier pricelist
         # ---------------------------------------------------------------------
-
+        # TODO ?
+        
         # ---------------------------------------------------------------------
-        # TODO pricelist
+        # Pricelist
         # ---------------------------------------------------------------------
-
+        # TODO linked to imported
+        
         # ---------------------------------------------------------------------
         # res.partner and res.partner.address
         # ---------------------------------------------------------------------
@@ -931,6 +933,53 @@ class SyncroXMLRPC(orm.Model):
             self.load_converter(cr, uid, converter, obj=obj,
                 context=context)
         return True
+
+        # ---------------------------------------------------------------------
+        # sale.order
+        # ---------------------------------------------------------------------
+        import pdb; pdb.set_trace()
+        obj = 'sale.order'
+        self._converter[obj] = {}
+        converter = self._converter[obj]
+        if wiz_proxy.sale: # TODO
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.SaleOrder
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try: # Create record to insert/update
+                    name = item.name
+                    data = {
+                        'name': item.name,
+                        'date_order': item.date_order,
+                        'client_order_ref': item.client_order_ref,
+                        #'pricelist_id': item.pricelist_id.id # TODO Convert
+                        #'partner_id': item.partner_id.id # TODO Convert
+                        #'destination_partner_id': item.partner_shipping_id.id # TODO Convert
+                        #'payment_term': item.payment_term.id # TODO Convert
+                        'quotation_model': item.quotation_model,
+                        'incoterm': item.incoterm,
+                        'picking_policy': item.picking_policy,                        
+                        }
+                    new_ids = item_pool.search(cr, uid, [
+                        ('name', '=', name)], context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        item_pool.write(cr, uid, item_id, data,
+                            context=context)
+                        print "#INFO", obj, "update:", name
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO", obj, "create:", name
+
+                    converter[item.id] = item_id
+                except:
+                    print "#ERR", obj, "jumped:", name
+                    continue
+        else: # Load convert list form database
+            self.load_converter(cr, uid, converter, obj=obj,
+                context=context)
+
 
     _columns = {
         'name': fields.char('Source DB name', size=80, required=True),
