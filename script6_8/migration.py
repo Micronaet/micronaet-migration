@@ -1051,6 +1051,44 @@ class SyncroXMLRPC(orm.Model):
                 context=context)
         
         # ---------------------------------------------------------------------
+        # sale.product.return
+        # ---------------------------------------------------------------------
+        obj = 'sale.order.bank' # TODO also for english
+        self._converter[obj] = {}
+        converter = self._converter[obj]
+        if wiz_proxy.sale:
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.SaleOrderBank
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try: # Create record to insert/update
+                    name = item.name                    
+                    data = {
+                        'name': name,
+                        'information': item.information,
+                        }
+                    new_ids = item_pool.search(cr, uid, [
+                        ('name', '=', name)], context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        item_pool.write(cr, uid, item_id, data,
+                            context=context)
+                        print "#INFO", obj, "update:", name
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO", obj, "create:", name
+
+                    converter[item.id] = item_id
+                except:
+                    print "#ERR", obj, "jumped:", name
+                    print sys.exc_info()
+                    continue                    
+        else: # Load convert list form database
+            self.load_converter(cr, uid, converter, obj=obj,
+                context=context)
+
+        # ---------------------------------------------------------------------
         # sale.order
         # ---------------------------------------------------------------------
         obj = 'sale.order'
@@ -1068,6 +1106,9 @@ class SyncroXMLRPC(orm.Model):
                         'name': item.name,
                         'date_order': item.date_order,
                         'client_order_ref': item.client_order_ref,
+                        'origin': item.origin,
+                        'create_date': item.create_date,
+                        'confirm_date': item.confirm_date,
                         'user_id': self._converter[
                             'res.users'].get(
                                 item.user_id.id \
@@ -1089,12 +1130,11 @@ class SyncroXMLRPC(orm.Model):
                                     else False, False),
                         'picking_policy': item.picking_policy, # direct one
                         'order_policy': item.order_policy, # manual picking ...
-                        'return_id': self._converter[
+                        'return_id': self._converter[ # TODO Error importation1!!!!!!
                             'sale.product.return'].get(
                                 item.return_id.id \
                                     if item.return_id \
-                                    else False, False),
-                        
+                                    else False, False),                        
                         }
                     new_ids = item_pool.search(cr, uid, [
                         ('name', '=', name)], context=context)
