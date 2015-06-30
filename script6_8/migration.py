@@ -1087,7 +1087,7 @@ class SyncroXMLRPC(orm.Model):
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
                 context=context)
-
+                
         # ---------------------------------------------------------------------
         # account.fiscal.position
         # ---------------------------------------------------------------------
@@ -1115,7 +1115,6 @@ class SyncroXMLRPC(orm.Model):
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
                         print "#INFO", obj, "Error here I dont' create", name
-                        import pdb; pdb.set_trace()
 
                     converter[item.id] = item_id
                 except:
@@ -1139,22 +1138,18 @@ class SyncroXMLRPC(orm.Model):
             for item in erp_pool.browse(item_ids):
                 try: # Create record to insert/update
                     name = item.name
-                    
                     data = {
                         'name': item.name,
+                        'note': item.note,
                         'date_order': item.date_order,
                         'client_order_ref': item.client_order_ref,
                         'origin': item.origin,
                         'create_date': item.create_date,
-                        #'confirm_date': item.confirm_date, # Not present
                         'user_id': self._converter[
                             'res.users'].get(
                                 item.user_id.id \
                                     if item.user_id \
                                     else False, False),
-                        #'pricelist_id': item.pricelist_id.id # TODO Convert
-                        'partner_id': 1, #'partner_id': item.partner_id.id # TODO Convert
-                        #'destination_partner_id': item.partner_shipping_id.id # TODO Convert
                         'payment_term': self._converter[
                             'account.payment.term'].get(
                                 item.payment_term.id \
@@ -1182,7 +1177,13 @@ class SyncroXMLRPC(orm.Model):
                             'account.fiscal.position'].get(
                                 item.fiscal_position.id \
                                     if item.fiscal_position \
-                                    else False, False),                        
+                                    else False, False),
+                        # TODO:            
+                        #'confirm_date': item.confirm_date, # Not present
+                        #'pricelist_id': item.pricelist_id.id # TODO Convert
+                        #'destination_partner_id': item.partner_shipping_id.id # TODO Convert
+                        'partner_id': 1, #'partner_id': item.partner_id.id # TODO Convert
+                                                            
                         }
                     new_ids = item_pool.search(cr, uid, [
                         ('name', '=', name)], context=context)
