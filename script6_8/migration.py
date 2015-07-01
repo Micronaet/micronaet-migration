@@ -1267,11 +1267,11 @@ class SyncroXMLRPC(orm.Model):
                 context=context)
 
 
-        obj = 'sale.order.line'
+        obj = 'sale.order.line'        
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        import pdb; pdb.set_trace()
+        default_product_uom = 1 # Pz.
         if wiz_proxy.sale_line:
             item_pool = self.pool.get(obj)
             erp_pool = erp.SaleOrderLine
@@ -1297,12 +1297,12 @@ class SyncroXMLRPC(orm.Model):
                             'product.uom'].get(
                                 item.product_uom.id \
                                     if item.product_uom \
-                                    else False, False),
+                                    else False, default_product_uom),
                         'product_uos': self._converter[
                             'product.uom'].get(
                                 item.product_uom.id \
                                     if item.product_uos \
-                                    else False, False),
+                                    else False, default_product_uom),
                         'product_uom_qty': item.product_uom_qty,
                         'product_uos_qty': item.product_uos_qty,
                         'discount': item.discount,
