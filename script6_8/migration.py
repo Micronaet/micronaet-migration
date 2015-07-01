@@ -1015,8 +1015,9 @@ class SyncroXMLRPC(orm.Model):
                     continue
                     
         else: # Load convert list form database
-            self.load_converter(cr, uid, converter, obj=obj,
-                context=context)
+            pass # Non used (no migration_old_id)
+            #self.load_converter(cr, uid, converter, obj=obj,
+            #    context=context)
 
         # ---------------------------------------------------------------------
         # stock.incoterms
@@ -1051,12 +1052,13 @@ class SyncroXMLRPC(orm.Model):
 
                     converter[item.id] = item_id
                 except:
-                    _logger.error(line)
+                    _logger.error(name)
                     _logger.error(sys.exc_info())
                     continue                    
         else: # Load convert list form database
-            self.load_converter(cr, uid, converter, obj=obj,
-                context=context)
+            pass # Non used (no migration_old_id)
+            #self.load_converter(cr, uid, converter, obj=obj,
+            #    context=context)
 
         # ---------------------------------------------------------------------
         # sale.product.return
@@ -1094,8 +1096,9 @@ class SyncroXMLRPC(orm.Model):
                     print sys.exc_info()
                     continue                    
         else: # Load convert list form database
-            self.load_converter(cr, uid, converter, obj=obj,
-                context=context)
+            pass # Non used (no migration_old_id)
+            #self.load_converter(cr, uid, converter, obj=obj,
+            #    context=context)
         
         # ---------------------------------------------------------------------
         # sale.product.return
@@ -1169,8 +1172,9 @@ class SyncroXMLRPC(orm.Model):
                     _logger.error(sys.exc_info())
                     continue                    
         else: # Load convert list form database
-            self.load_converter(cr, uid, converter, obj=obj,
-                context=context)
+            pass # Non used (no migration_old_id)
+            #self.load_converter(cr, uid, converter, obj=obj,
+            #    context=context)
                 
         # ---------------------------------------------------------------------
         # sale.order
@@ -1325,15 +1329,15 @@ class SyncroXMLRPC(orm.Model):
 
                     converter[item.id] = item_id
                 except:
-                    _logger.error(line)
+                    _logger.error(name)
                     _logger.error("#ERR %s jumped: %s [%s]" % (
                         obj, name, sys.exc_info()))
                     print sys.exc_info()
                     continue
         else: # Load convert list form database
-            self.load_converter(cr, uid, converter, obj=obj,
-                context=context)
-
+            pass # Non used
+            #self.load_converter(cr, uid, converter, obj=obj,
+            #    context=context)
 
         # END:
         return True
@@ -1380,6 +1384,20 @@ class ProductProduct(orm.Model):
 
 class ProductCategory(orm.Model):
     _inherit = 'product.category'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.6'),
+        }
+
+class ProductPricelist(orm.Model):
+    _inherit = 'product.pricelist'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.6'),
+        }
+
+class ProductPricelistVersion(orm.Model):
+    _inherit = 'product.pricelist.version'
 
     _columns = {
         'migration_old_id': fields.integer('ID v.6'),
