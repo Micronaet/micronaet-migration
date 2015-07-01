@@ -1162,6 +1162,7 @@ class SyncroXMLRPC(orm.Model):
         # sale.order
         # ---------------------------------------------------------------------
         obj = 'sale.order'
+        update = False
         self._converter[obj] = {}
         converter = self._converter[obj]
         if wiz_proxy.sale: # TODO
@@ -1220,8 +1221,78 @@ class SyncroXMLRPC(orm.Model):
                         # TODO:            
                         'partner_id': 1, #'partner_id': item.partner_id.id # TODO Convert
                         #'confirm_date': item.confirm_date, # Not present
-                        #'destination_partner_id': item.partner_shipping_id.id # TODO Convert
-                                                            
+                        #'destination_partner_id': item.partner_shipping_id.id # TODO Convert                                                            
+                        }
+
+                    new_ids = item_pool.search(cr, uid, [
+                        ('name', '=', name)], context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        if update:
+                            item_pool.write(cr, uid, item_id, data,
+                                context=context)
+                        print "#INFO", obj, "update:", name
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO", obj, "create:", name
+
+                    converter[item.id] = item_id
+                except:
+                    print "#ERR", obj, "jumped:", name
+                    print sys.exc_info()
+                    continue
+        else: # Load convert list form database
+            self.load_converter(cr, uid, converter, obj=obj,
+                context=context)
+
+
+        obj = 'sale.order.line'
+        self._converter[obj] = {}
+        converter = self._converter[obj]
+        if wiz_proxy.sale:
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.SaleOrderLine
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try: # Create record to insert/update
+                    name = item.name
+                    data = {
+                        'name': item.name,
+                        'order_id': self._converter[
+                            'sale.order'].get(
+                                item.order_id.id \
+                                    if item.order_id \
+                                    else False, False),
+                        'sequence': item.sequence, 
+                        'product_id': self._converter[
+                            'product.product'].get(
+                                item.product_id.id \
+                                    if item.product_id \
+                                    else False, False),
+                        'price_unit': item.price_unit,
+                        'product_uom': self._converter[
+                            'product.uom'].get(
+                                item.product_uom.id \
+                                    if item.product_uom \
+                                    else False, False),
+                        'product_uos': self._converter[
+                            'product.uom'].get(
+                                item.product_uom.id \
+                                    if item.product_uos \
+                                    else False, False),
+                        'product_uom_qty': item.product_uom_qty,
+                        'product_uos_qty': item.product_uos_qty,
+                        'discount': item.discount,
+                        'th_weight': item.th_weight,
+                        'delay': item.delay,
+                        
+                        # TODO extra fields:
+                        
+                        # TODO used?!?
+                        #'address_allotment_id': 'res.partner'
+                        #'company_id'
+                        #'state': item.state,                        
                         }
                     new_ids = item_pool.search(cr, uid, [
                         ('name', '=', name)], context=context)
@@ -1243,6 +1314,8 @@ class SyncroXMLRPC(orm.Model):
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
                 context=context)
+
+
 
         # END:
         return True
