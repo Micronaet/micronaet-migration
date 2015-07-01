@@ -1245,7 +1245,7 @@ class SyncroXMLRPC(orm.Model):
                         }
 
                     new_ids = item_pool.search(cr, uid, [
-                        ('name', '=', name)], context=context) #use migrateID ?
+                        ('migration_old_id', '=', item.id)], context=context) #use migrateID ?
                     if new_ids: # Modify
                         item_id = new_ids[0]
                         if update:
@@ -1271,6 +1271,7 @@ class SyncroXMLRPC(orm.Model):
         self._converter[obj] = {}
         converter = self._converter[obj]
         default_product_uom = 1 # Pz.
+        import pdb; pdb.set_trace()
         if wiz_proxy.sale_line:
             item_pool = self.pool.get(obj)
             erp_pool = erp.SaleOrderLine
@@ -1278,14 +1279,17 @@ class SyncroXMLRPC(orm.Model):
             for item in erp_pool.browse(item_ids):
                 try: # Create record to insert/update
                     name = item.name
+                    try:
+                        order_id = self._converter['sale.order'][
+                            item.order_id.id]
+                    except:
+                        _logger.error("Order ID not present: %s" % name)                        
+                        continue
+
                     data = {
                         'name': item.name,
-                        'order_id': self._converter[
-                            'sale.order'].get(
-                                item.order_id.id \
-                                    if item.order_id \
-                                    else False, False),
-                        'sequence': item.sequence, 
+                        'order_id': order_id,
+                        'sequence': item.sequence,
                         'product_id': self._converter[
                             'product.product'].get(
                                 item.product_id.id \
