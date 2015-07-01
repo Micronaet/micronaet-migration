@@ -124,6 +124,7 @@ class SyncroXMLRPC(orm.Model):
         # -----------------
         #Load and create extra
         obj = 'product.uom.categ'
+        _logger.info("Start %s" % obj)
         obj_pool = self.pool.get(obj)
         self._converter[obj] = {}    
         obj_ids = obj_pool.search(cr, uid, []) #context=context)
@@ -144,6 +145,7 @@ class SyncroXMLRPC(orm.Model):
         # -----------
         #Load and create extra UOM
         obj = 'product.uom'
+        _logger.info("Start %s" % obj)
         obj_pool = self.pool.get(obj)        
         self._converter[obj] = {}    
         obj_ids = obj_pool.search(cr, uid, []) #context=context) # for lang
@@ -230,6 +232,7 @@ class SyncroXMLRPC(orm.Model):
         # res.currency
         # ------------
         obj = 'res.currency'
+        _logger.info("Start %s" % obj)
         obj_pool = self.pool.get(obj)
         self._converter[obj] = {}
         obj_ids = obj_pool.search(cr, uid, [], context=context)
@@ -252,6 +255,7 @@ class SyncroXMLRPC(orm.Model):
         # product.pricelist (first 10 pricelist)
         # --------------------------------------
         obj = 'product.pricelist'
+        _logger.info("Start %s" % obj)
         obj_pool = self.pool.get(obj)
         self._converter[obj] = {}
         obj_ids = obj_pool.search(cr, uid, [
@@ -278,6 +282,7 @@ class SyncroXMLRPC(orm.Model):
         # product.pricelist.version (first 10 pricelist)
         # ----------------------------------------------
         obj = 'product.pricelist.version'
+        _logger.info("Start %s" % obj)
         obj_pool = self.pool.get(obj)
         self._converter[obj] = {}
         obj_ids = obj_pool.search(cr, uid, [
@@ -303,6 +308,7 @@ class SyncroXMLRPC(orm.Model):
         # res.users
         # ---------------------------------------------------------------------
         obj = 'res.users'
+        _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj] # for use same name
         if wiz_proxy.user:
@@ -348,6 +354,7 @@ class SyncroXMLRPC(orm.Model):
         # crm.tracking.campaign
         # ---------------------------------------------------------------------
         obj = 'crm.tracking.campaign'
+        _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj] # for use same name
         if wiz_proxy.campaign: # TODO
@@ -384,6 +391,7 @@ class SyncroXMLRPC(orm.Model):
         # res.partner.category
         # ---------------------------------------------------------------------
         obj = 'res.partner.category' # Tags partner
+        _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj] # for use same name
         if wiz_proxy.category: # TODO
@@ -424,6 +432,7 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         obj = 'product.category'
         self._converter[obj] = {}
+        _logger.info("Start %s" % obj)
         converter = self._converter[obj] # for use same name
         if wiz_proxy.category:
             item_pool = self.pool.get(obj)
@@ -481,6 +490,7 @@ class SyncroXMLRPC(orm.Model):
         # product.product
         # ---------------------------------------------------------------------
         obj = 'product.product' # template??
+        _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
         if wiz_proxy.product:
@@ -693,6 +703,7 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
 
         obj = 'product.pricelist' # linked by mexal_id key (only create dict)
+        _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
         # Always loaded
@@ -710,6 +721,7 @@ class SyncroXMLRPC(orm.Model):
                     print "#ERR", obj, "not found:", mexal_id
                 
         obj = 'product.pricelist.version' # linked by mexal_id key (for dict)
+        _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
         # Always loaded
@@ -730,6 +742,7 @@ class SyncroXMLRPC(orm.Model):
         # res.partner and res.partner.address
         # ---------------------------------------------------------------------
         obj = 'res.partner'
+        _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj] # for use same name
         if wiz_proxy.partner:
@@ -970,6 +983,7 @@ class SyncroXMLRPC(orm.Model):
         # account.payment.term
         # ---------------------------------------------------------------------
         obj = 'account.payment.term' # TODO also for english
+        _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
         if wiz_proxy.sale:
@@ -1049,6 +1063,7 @@ class SyncroXMLRPC(orm.Model):
         # sale.product.return
         # ---------------------------------------------------------------------
         obj = 'sale.product.return' # TODO also for english
+        _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
         if wiz_proxy.sale:
@@ -1087,6 +1102,7 @@ class SyncroXMLRPC(orm.Model):
         # sale.product.return
         # ---------------------------------------------------------------------
         obj = 'sale.order.bank' # TODO also for english
+        _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
         if wiz_proxy.sale:
@@ -1125,6 +1141,7 @@ class SyncroXMLRPC(orm.Model):
         # account.fiscal.position
         # ---------------------------------------------------------------------
         obj = 'account.fiscal.position' # TODO also for english
+        _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
         if wiz_proxy.sale:
@@ -1162,6 +1179,7 @@ class SyncroXMLRPC(orm.Model):
         # sale.order
         # ---------------------------------------------------------------------
         obj = 'sale.order'
+        _logger.info("Start %s" % obj)
         update = False
         self._converter[obj] = {}
         converter = self._converter[obj]
@@ -1248,9 +1266,11 @@ class SyncroXMLRPC(orm.Model):
 
 
         obj = 'sale.order.line'
+        _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        if wiz_proxy.sale:
+        import pdb; pdb.set_trace()
+        if wiz_proxy.sale_line:
             item_pool = self.pool.get(obj)
             erp_pool = erp.SaleOrderLine
             item_ids = erp_pool.search([])
@@ -1295,7 +1315,7 @@ class SyncroXMLRPC(orm.Model):
                         #'state': item.state,                        
                         }
                     new_ids = item_pool.search(cr, uid, [
-                        ('name', '=', name)], context=context)
+                        ('migration_old_id', '=', item.id)], context=context)
                     if new_ids: # Modify
                         item_id = new_ids[0]
                         item_pool.write(cr, uid, item_id, data,
@@ -1308,13 +1328,13 @@ class SyncroXMLRPC(orm.Model):
 
                     converter[item.id] = item_id
                 except:
-                    print "#ERR", obj, "jumped:", name
+                    _logger.error("#ERR %s jumped: %s [%s]" % (
+                        obj, name, sys.exc_info()))
                     print sys.exc_info()
                     continue
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
                 context=context)
-
 
 
         # END:
@@ -1367,6 +1387,14 @@ class ProductCategory(orm.Model):
     _columns = {
         'migration_old_id': fields.integer('ID v.6'),
         }
+
+class SaleOrderLine(orm.Model):
+    _inherit = 'sale.order.line'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.6'),
+        }
+
 
 class ProductTemplate(orm.Model):
     _inherit = 'product.template'
