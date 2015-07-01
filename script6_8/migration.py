@@ -972,7 +972,6 @@ class SyncroXMLRPC(orm.Model):
                     converter[item.id] = item_id
 
                 except:
-                    _logger.error(line)
                     _logger.error(sys.exc_info())
                     continue
                 # NOTE No contact for this database
@@ -1012,7 +1011,6 @@ class SyncroXMLRPC(orm.Model):
 
                     converter[item.id] = item_id
                 except:
-                    _logger.error(line)
                     _logger.error(sys.exc_info())
                     continue
                     
@@ -1131,7 +1129,6 @@ class SyncroXMLRPC(orm.Model):
 
                     converter[item.id] = item_id
                 except:
-                    _logger.error(line)
                     _logger.error(sys.exc_info())
                     continue                    
         else: # Load convert list form database
@@ -1169,7 +1166,6 @@ class SyncroXMLRPC(orm.Model):
 
                     converter[item.id] = item_id
                 except:
-                    _logger.error(line)
                     _logger.error(sys.exc_info())
                     continue                    
         else: # Load convert list form database
@@ -1259,7 +1255,6 @@ class SyncroXMLRPC(orm.Model):
 
                     converter[item.id] = item_id
                 except:
-                    _logger.error(line)
                     _logger.erro(sys.exc_info())
                     continue
         else: # Load convert list form database
