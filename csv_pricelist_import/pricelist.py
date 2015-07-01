@@ -141,7 +141,6 @@ class ProductPricelist(orm.Model):
         # ---------------------------------------------------------------------
         #                        Partner pricelist
         # ---------------------------------------------------------------------
-        import pdb; pdb.set_trace()
         # Associate pricelist after create (get partner here)
         partner_pool = self.pool.get('res.partner')
         partner_ids = partner_pool.search(cr, uid, [
@@ -299,9 +298,8 @@ class ProductPricelist(orm.Model):
             input_file_part))
         csv_file = open(os.path.expanduser(input_file_part), 'rb')
         counter = -header_line_part
-        import pdb; pdb.set_trace()
-        try:
-            for line in csv.reader(csv_file, delimiter=delimiter_part):
+        for line in csv.reader(csv_file, delimiter=delimiter_part):
+            try:
                 if counter < 0:  # jump n lines of header
                     counter += 1
                     continue
@@ -346,9 +344,9 @@ class ProductPricelist(orm.Model):
                     'price_round': 0.01,
                     }, context=context)
 
-        except:
-            _logger.error("Pricelist import %s" % (sys.exc_info(), ))
-            return False
+            except:
+                _logger.error("Pricelist import %s" % (sys.exc_info(), ))
+                continue
 
         _logger.info("End pricelist import!")
         return True
