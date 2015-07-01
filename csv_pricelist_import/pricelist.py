@@ -63,7 +63,9 @@ class ProductPricelist(orm.Model):
     '''
     _inherit = 'product.pricelist'
 
+    # --------
     # Utility:
+    # --------
     def create_default_pricelist(self, cr, uid, versions, context=None):
         ''' Crate if not exist all [0:9] base pricelist - version
             Update versions converter
@@ -136,10 +138,11 @@ class ProductPricelist(orm.Model):
                 item_pool.create(cr, uid, data, context=context)
             return True
             
-        # ------------------
-        # Search for partner
-        # ------------------
-        # Associate pricelist after create
+        # ---------------------------------------------------------------------
+        #                        Partner pricelist
+        # ---------------------------------------------------------------------
+        import pdb; pdb.set_trace()
+        # Associate pricelist after create (get partner here)
         partner_pool = self.pool.get('res.partner')
         partner_ids = partner_pool.search(cr, uid, [
             ('sql_customer_code', '=', partner_code)], context=context)
@@ -159,10 +162,8 @@ class ProductPricelist(orm.Model):
             ('mexal_id', '=', partner_code)], context=context)
         if version_ids: # TODO update?            
             update_reference_pl( # Update last rule:
-                self, cr, uid, 
-                version_ids[0], 
-                partner_proxy.ref_pricelist_id.id, 
-                context=context)
+                self, cr, uid, version_ids[0], 
+                partner_proxy.ref_pricelist_id.id, context=context)
             return version_ids[0]
 
         # 2. case: version present (so pricelist and partner)
@@ -238,7 +239,8 @@ class ProductPricelist(orm.Model):
         _logger.info("Start pricelist standard importation: %s" % (
             input_file, ))
         versions = {} # dict of pricelist (mexal_id: odoo id)
-        self.create_default_pricelist(cr, uid, versions, context=context) # pl + vers.
+        # Create Pl + Version:
+        self.create_default_pricelist(cr, uid, versions, context=context)
 
         csv_file = open(os.path.expanduser(input_file), 'rb')
         counter = -header_line
@@ -294,9 +296,10 @@ class ProductPricelist(orm.Model):
         #                Partner with particularity pricelist:
         # ---------------------------------------------------------------------
         _logger.info("Start pricelist partner item importation: %s" % (
-            input_file_part, ))
+            input_file_part))
         csv_file = open(os.path.expanduser(input_file_part), 'rb')
         counter = -header_line_part
+        import pdb; pdb.set_trace()
         try:
             for line in csv.reader(csv_file, delimiter=delimiter_part):
                 if counter < 0:  # jump n lines of header

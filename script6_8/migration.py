@@ -696,35 +696,35 @@ class SyncroXMLRPC(orm.Model):
         self._converter[obj] = {}
         converter = self._converter[obj]
         # Always loaded
-            item_pool = self.pool.get(obj)
-            erp_pool = erp.ProductPricelist
-            item_ids = erp_pool.search([])
-            for item in erp_pool.browse(item_ids):
-                    mexal_id = item.mexal_id
-                    new_ids = item_pool.search(cr, uid, [
-                        ('mexal_id', '=', mexal_id)], context=context)
-                    if new_ids: # Modify
-                        item_id = new_ids[0]
-                        converter[item.id] = item_id
-                    else: # Create
-                        print "#ERR", obj, "not found:", mexal_id
+        item_pool = self.pool.get(obj)
+        erp_pool = erp.ProductPricelist
+        item_ids = erp_pool.search([])
+        for item in erp_pool.browse(item_ids):
+                mexal_id = item.mexal_id
+                new_ids = item_pool.search(cr, uid, [
+                    ('mexal_id', '=', mexal_id)], context=context)
+                if new_ids: # Modify
+                    item_id = new_ids[0]
+                    converter[item.id] = item_id
+                else: # Create
+                    print "#ERR", obj, "not found:", mexal_id
                 
         obj = 'product.pricelist.version' # linked by mexal_id key (for dict)
         self._converter[obj] = {}
         converter = self._converter[obj]
         # Always loaded
-            item_pool = self.pool.get(obj)
-            erp_pool = erp.ProductPricelistVersion
-            item_ids = erp_pool.search([])
-            for item in erp_pool.browse(item_ids):
-                    mexal_id = item.mexal_id
-                    new_ids = item_pool.search(cr, uid, [
-                        ('mexal_id', '=', mexal_id)], context=context)
-                    if new_ids: # Modify
-                        item_id = new_ids[0]
-                        converter[item.id] = item_id
-                    else: # Create
-                        print "#ERR", obj, "not found:", mexal_id
+        item_pool = self.pool.get(obj)
+        erp_pool = erp.ProductPricelistVersion
+        item_ids = erp_pool.search([])
+        for item in erp_pool.browse(item_ids):
+                mexal_id = item.mexal_id
+                new_ids = item_pool.search(cr, uid, [
+                    ('mexal_id', '=', mexal_id)], context=context)
+                if new_ids: # Modify
+                    item_id = new_ids[0]
+                    converter[item.id] = item_id
+                else: # Create
+                    print "#ERR", obj, "not found:", mexal_id
         
         # ---------------------------------------------------------------------
         # res.partner and res.partner.address
