@@ -972,7 +972,8 @@ class SyncroXMLRPC(orm.Model):
                     converter[item.id] = item_id
 
                 except:
-                    print "#ERR", obj, "(dest) jumped:", item.name
+                    _logger.error(line)
+                    _logger.error(sys.exc_info())
                     continue
                 # NOTE No contact for this database
         else: # Load convert list form database
@@ -1011,8 +1012,8 @@ class SyncroXMLRPC(orm.Model):
 
                     converter[item.id] = item_id
                 except:
-                    print "#ERR", obj, "jumped:", name
-                    print sys.exc_info()
+                    _logger.error(line)
+                    _logger.error(sys.exc_info())
                     continue
                     
         else: # Load convert list form database
@@ -1052,8 +1053,8 @@ class SyncroXMLRPC(orm.Model):
 
                     converter[item.id] = item_id
                 except:
-                    print "#ERR", obj, "jumped:", name
-                    print sys.exc_info()
+                    _logger.error(line)
+                    _logger.error(sys.exc_info())
                     continue                    
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
@@ -1130,8 +1131,8 @@ class SyncroXMLRPC(orm.Model):
 
                     converter[item.id] = item_id
                 except:
-                    print "#ERR", obj, "jumped:", name
-                    print sys.exc_info()
+                    _logger.error(line)
+                    _logger.error(sys.exc_info())
                     continue                    
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
@@ -1168,8 +1169,8 @@ class SyncroXMLRPC(orm.Model):
 
                     converter[item.id] = item_id
                 except:
-                    print "#ERR", obj, "jumped:", name
-                    print sys.exc_info()
+                    _logger.error(line)
+                    _logger.error(sys.exc_info())
                     continue                    
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
@@ -1236,14 +1237,15 @@ class SyncroXMLRPC(orm.Model):
                                     if item.pricelist_id \
                                     else False, False),
 
-                        # TODO:            
+                        # TODO:
                         'partner_id': 1, #'partner_id': item.partner_id.id # TODO Convert
+                        'migration_old_id': item.it,
                         #'confirm_date': item.confirm_date, # Not present
                         #'destination_partner_id': item.partner_shipping_id.id # TODO Convert                                                            
                         }
 
                     new_ids = item_pool.search(cr, uid, [
-                        ('name', '=', name)], context=context)
+                        ('name', '=', name)], context=context) #use migrateID ?
                     if new_ids: # Modify
                         item_id = new_ids[0]
                         if update:
@@ -1257,8 +1259,8 @@ class SyncroXMLRPC(orm.Model):
 
                     converter[item.id] = item_id
                 except:
-                    print "#ERR", obj, "jumped:", name
-                    print sys.exc_info()
+                    _logger.error(line)
+                    _logger.erro(sys.exc_info())
                     continue
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
@@ -1328,6 +1330,7 @@ class SyncroXMLRPC(orm.Model):
 
                     converter[item.id] = item_id
                 except:
+                    _logger.error(line)
                     _logger.error("#ERR %s jumped: %s [%s]" % (
                         obj, name, sys.exc_info()))
                     print sys.exc_info()
@@ -1388,13 +1391,19 @@ class ProductCategory(orm.Model):
         'migration_old_id': fields.integer('ID v.6'),
         }
 
+class SaleOrder(orm.Model):
+    _inherit = 'sale.order'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.6'),
+        }
+
 class SaleOrderLine(orm.Model):
     _inherit = 'sale.order.line'
 
     _columns = {
         'migration_old_id': fields.integer('ID v.6'),
         }
-
 
 class ProductTemplate(orm.Model):
     _inherit = 'product.template'
