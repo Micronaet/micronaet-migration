@@ -987,7 +987,7 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        if wiz_proxy.sale:
+        if wiz_proxy.sale or wiz_proxy.sale_line:
             item_pool = self.pool.get(obj)
             erp_pool = erp.AccountPaymentTerm
             item_ids = erp_pool.search([])
@@ -1026,7 +1026,7 @@ class SyncroXMLRPC(orm.Model):
         obj = 'stock.incoterms' # TODO also for english
         self._converter[obj] = {}
         converter = self._converter[obj]
-        if wiz_proxy.sale:
+        if wiz_proxy.sale or wiz_proxy.sale_line:
             item_pool = self.pool.get(obj)
             erp_pool = erp.StockIncoterms
             item_ids = erp_pool.search([])
@@ -1067,7 +1067,7 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        if wiz_proxy.sale:
+        if wiz_proxy.sale or wiz_proxy.sale_line:
             item_pool = self.pool.get(obj)
             erp_pool = erp.SaleProductReturn
             item_ids = erp_pool.search([])
@@ -1106,7 +1106,7 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        if wiz_proxy.sale:
+        if wiz_proxy.sale or wiz_proxy.sale_line:
             item_pool = self.pool.get(obj)
             erp_pool = erp.SaleOrderBank
             item_ids = erp_pool.search([])
@@ -1145,7 +1145,7 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        if wiz_proxy.sale:
+        if wiz_proxy.sale or wiz_proxy.sale_line:
             item_pool = self.pool.get(obj)
             erp_pool = erp.AccountFiscalPosition
             item_ids = erp_pool.search([])
@@ -1239,7 +1239,7 @@ class SyncroXMLRPC(orm.Model):
 
                         # TODO:
                         'partner_id': 1, #'partner_id': item.partner_id.id # TODO Convert
-                        'migration_old_id': item.it,
+                        'migration_old_id': item.id,
                         #'confirm_date': item.confirm_date, # Not present
                         #'destination_partner_id': item.partner_shipping_id.id # TODO Convert                                                            
                         }
@@ -1342,7 +1342,6 @@ class SyncroXMLRPC(orm.Model):
 
         # END:
         return True
-
 
     _columns = {
         'name': fields.char('Source DB name', size=80, required=True),
