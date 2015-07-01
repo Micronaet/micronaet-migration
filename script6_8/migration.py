@@ -686,12 +686,45 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # Supplier pricelist
         # ---------------------------------------------------------------------
-        # TODO ?
+        # TODO?
         
         # ---------------------------------------------------------------------
         # Pricelist
         # ---------------------------------------------------------------------
-        # TODO linked to imported
+
+        obj = 'product.pricelist' # linked by mexal_id key (only create dict)
+        self._converter[obj] = {}
+        converter = self._converter[obj]
+        # Always loaded
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.ProductPricelist
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                    mexal_id = item.mexal_id
+                    new_ids = item_pool.search(cr, uid, [
+                        ('mexal_id', '=', mexal_id)], context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        converter[item.id] = item_id
+                    else: # Create
+                        print "#ERR", obj, "not found:", mexal_id
+                
+        obj = 'product.pricelist.version' # linked by mexal_id key (for dict)
+        self._converter[obj] = {}
+        converter = self._converter[obj]
+        # Always loaded
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.ProductPricelistVersion
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                    mexal_id = item.mexal_id
+                    new_ids = item_pool.search(cr, uid, [
+                        ('mexal_id', '=', mexal_id)], context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        converter[item.id] = item_id
+                    else: # Create
+                        print "#ERR", obj, "not found:", mexal_id
         
         # ---------------------------------------------------------------------
         # res.partner and res.partner.address
@@ -1178,11 +1211,16 @@ class SyncroXMLRPC(orm.Model):
                                 item.fiscal_position.id \
                                     if item.fiscal_position \
                                     else False, False),
+                        'pricelist_id': self._converter[
+                            'product.pricelist'].get(
+                                item.pricelist_id.id \
+                                    if item.pricelist_id \
+                                    else False, False),
+
                         # TODO:            
-                        #'confirm_date': item.confirm_date, # Not present
-                        #'pricelist_id': item.pricelist_id.id # TODO Convert
-                        #'destination_partner_id': item.partner_shipping_id.id # TODO Convert
                         'partner_id': 1, #'partner_id': item.partner_id.id # TODO Convert
+                        #'confirm_date': item.confirm_date, # Not present
+                        #'destination_partner_id': item.partner_shipping_id.id # TODO Convert
                                                             
                         }
                     new_ids = item_pool.search(cr, uid, [
