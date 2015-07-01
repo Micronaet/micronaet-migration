@@ -1163,7 +1163,7 @@ class SyncroXMLRPC(orm.Model):
                                     else False, False),
                         'picking_policy': item.picking_policy, # direct one
                         'order_policy': item.order_policy, # manual picking ...
-                        'return_id': self._converter[ # TODO Error importation1!!!!!!
+                        'return_id': self._converter[
                             'sale.product.return'].get(
                                 item.return_id.id \
                                     if item.return_id \
