@@ -1259,7 +1259,7 @@ class SyncroXMLRPC(orm.Model):
 
                     converter[item.id] = item_id
                 except:
-                    _logger.erro(sys.exc_info())
+                    _logger.error(sys.exc_info())
                     continue
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
@@ -1271,7 +1271,6 @@ class SyncroXMLRPC(orm.Model):
         self._converter[obj] = {}
         converter = self._converter[obj]
         default_product_uom = 1 # Pz.
-        import pdb; pdb.set_trace()
         if wiz_proxy.sale_line:
             item_pool = self.pool.get(obj)
             erp_pool = erp.SaleOrderLine
