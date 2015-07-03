@@ -353,42 +353,42 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # account.tax
         # ---------------------------------------------------------------------
-        obj = 'account.tax'
-        _logger.info("Start %s" % obj)
-        tax_invert = {
-            '22a': '22v',
-            '22b': '22a',
-            '00b': '00v',
-            '20b': '20a',
-            '10b': '10a',
-            '12b': '12a',
-            '4b': '4a',
-            '21b': '21a',
-            }
-        self._converter[obj] = {}
-        converter = self._converter[obj]
-        item_pool = self.pool.get(obj)
-        erp_pool = erp.AccountTax 
-        item_ids = erp_pool.search([])
-        for item in erp_pool.browse(item_ids):
-            try:
-                # Create record to insert/update
-                description = item.description
-                if description in tax_invert:
-                    description = tax_invert[description]
-                new_ids = item_pool.search(cr, uid, [
-                    ('description', '=', description)], context=context)
-                if new_ids: # Modify
-                    converter[item.id] = new_ids[0]
-                else: # Create
-                    #item_id = item_pool.create(cr, uid, data,
-                    #    context=context)
-                    print "#INFO", obj, "Error tax to create:", description
+        if wiz_proxy.sale_line: # TODO or if needed in other tables 
+            obj = 'account.tax'
+            _logger.info("Start %s" % obj)
+            tax_invert = {
+                '22a': '22v',
+                '22b': '22a',
+                '00b': '00v',
+                '20b': '20a',
+                '10b': '10a',
+                '12b': '12a',
+                '4b': '4a',
+                '21b': '21a',
+                }
+            self._converter[obj] = {}
+            converter = self._converter[obj]
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.AccountTax 
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try:
+                    # Create record to insert/update
+                    description = item.description
+                    if description in tax_invert:
+                        description = tax_invert[description]
+                    new_ids = item_pool.search(cr, uid, [
+                        ('description', '=', description)], context=context)
+                    if new_ids: # Modify
+                        converter[item.id] = new_ids[0]
+                    else: # Create
+                        #item_id = item_pool.create(cr, uid, data,
+                        #    context=context)
+                        print "#INFO", obj, "Error tax to create:", description
 
-            except:
-                print "#ERR", obj, "jumped:", description
-                continue
-            # NOTE No contact for this database
+                except:
+                    print "#ERR", obj, "jumped:", description
+                    continue
 
         # ---------------------------------------------------------------------
         # crm.tracking.campaign
@@ -1149,7 +1149,7 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        if wiz_proxy.sale or wiz_proxy.sale_line:
+        if wiz_proxy.sale or wiz_proxy.sale_line: # << loaded only here 
             item_pool = self.pool.get(obj)
             erp_pool = erp.SaleOrderBank
             item_ids = erp_pool.search([])
@@ -1176,9 +1176,6 @@ class SyncroXMLRPC(orm.Model):
                 except:
                     _logger.error(sys.exc_info())
                     continue                    
-        else: # Load convert list form database
-            self.load_converter(cr, uid, converter, obj=obj,
-                context=context)
                 
         # ---------------------------------------------------------------------
         # account.fiscal.position
@@ -1213,10 +1210,6 @@ class SyncroXMLRPC(orm.Model):
                 except:
                     _logger.error(sys.exc_info())
                     continue                    
-        else: # Load convert list form database
-            pass # Non used (no migration_old_id)
-            #self.load_converter(cr, uid, converter, obj=obj,
-            #    context=context)
                 
         # ---------------------------------------------------------------------
         # sale.order
@@ -1334,8 +1327,6 @@ class SyncroXMLRPC(orm.Model):
                     try:
                         order_id = self._converter['sale.order'][
                             item.order_id.id]
-                        if order_id == 214:
-                            import pdb; pdb.set_trace()    
                     except:
                         _logger.error("Order ID not present: %s" % name)                        
                         continue
@@ -1419,6 +1410,8 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         obj = 'auto.stock.supplier' # no need converter
         _logger.info("Start %s" % obj)
+        self._converter[obj] = {}
+        converter = self._converter[obj]
         if wiz_proxy.autostock:
             item_pool = self.pool.get(obj)
             erp_pool = erp.AutoStockSupplier
@@ -1429,23 +1422,28 @@ class SyncroXMLRPC(orm.Model):
                     data = {
                         'name': name,
                         'suspended': item.suspended,
+                        'migration_old_id': item.id,                        
                         }
                     new_ids = item_pool.search(cr, uid, [
-                        ('name', '=', name)], context=context)
+                        ('migration_old_id', '=', item.id)], context=context)
                     if new_ids: # Modify
+                        item_id = new_ids[0]
                         item_pool.write(cr, uid, item_id, data,
                             context=context)
                         print "#INFO", obj, "update:", name
                     else: # Create
-                        item_pool.create(cr, uid, data,
+                        new_ids = item_pool.create(cr, uid, data,
                             context=context)
                         print "#INFO", obj, "create:", name
                 except:
                     _logger.error(sys.exc_info())
                     continue                    
+        else: # Load convert list form database
+            self.load_converter(cr, uid, converter, obj=obj,
+                context=context)
 
-            # END:
-            return True
+        # END:
+        return True
 
     _columns = {
         'name': fields.char('Source DB name', size=80, required=True),
@@ -1467,6 +1465,13 @@ class ResUsers(orm.Model):
 
 class CrmTrackingCampaign(orm.Model):
     _inherit = 'crm.tracking.campaign'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.6'),
+        }
+
+class AutoStockReport(orm.Model):
+    _inherit = 'auto.stock.supplier'
 
     _columns = {
         'migration_old_id': fields.integer('ID v.6'),
