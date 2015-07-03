@@ -1183,7 +1183,6 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        import pdb; pdb.set_trace()
         if wiz_proxy.sale: # TODO
             item_pool = self.pool.get(obj)
             erp_pool = erp.SaleOrder
@@ -1312,6 +1311,12 @@ class SyncroXMLRPC(orm.Model):
                         'delay': item.delay,
                         
                         # TODO extra fields:
+                        'multi_discount_rates': item.multi_discount_rates,
+                        'price_use_manual': item.price_use_manual,
+                        'price_unit_manual': item.price_unit_manual,
+                        'discount': item.discount,
+                        
+                        
                         
                         # TODO used?!?
                         #'address_allotment_id': 'res.partner'
@@ -1322,8 +1327,9 @@ class SyncroXMLRPC(orm.Model):
                         ('migration_old_id', '=', item.id)], context=context)
                     if new_ids: # Modify
                         item_id = new_ids[0]
-                        item_pool.write(cr, uid, item_id, data,
-                            context=context)
+                        if wiz_proxy.update:
+                            item_pool.write(cr, uid, item_id, data,
+                                context=context)
                         print "#INFO", obj, "update:", name
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
