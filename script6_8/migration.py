@@ -1183,7 +1183,7 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        if wiz_proxy.sale: # TODO
+        if wiz_proxy.sale:
             item_pool = self.pool.get(obj)
             erp_pool = erp.SaleOrder
             item_ids = erp_pool.search([])
@@ -1235,10 +1235,14 @@ class SyncroXMLRPC(orm.Model):
                                 item.pricelist_id.id \
                                     if item.pricelist_id \
                                     else False, False),
+                        'partner_id': self._converter[
+                            'res.partner'].get(
+                                item.partner_id_id.id \
+                                    if item.partner_id \
+                                    else False, 1),                                    
+                        'migration_old_id': item.id,
 
                         # TODO:
-                        'partner_id': 1, #'partner_id': item.partner_id.id # TODO Convert
-                        'migration_old_id': item.id,
                         #'confirm_date': item.confirm_date, # Not present
                         #'destination_partner_id': item.partner_shipping_id.id # TODO Convert                                                            
                         }
