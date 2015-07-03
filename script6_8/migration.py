@@ -1237,7 +1237,7 @@ class SyncroXMLRPC(orm.Model):
                                     else False, False),
                         'partner_id': self._converter[
                             'res.partner'].get(
-                                item.partner_id_id.id \
+                                item.partner_id.id \
                                     if item.partner_id \
                                     else False, 1),                                    
                         'migration_old_id': item.id,
