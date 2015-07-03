@@ -1410,8 +1410,42 @@ class SyncroXMLRPC(orm.Model):
             #self.load_converter(cr, uid, converter, obj=obj,
             #    context=context)
 
-        # END:
-        return True
+        # ---------------------------------------------------------------------
+        #                        CUSTOM FOR THIS PARTNER
+        # ---------------------------------------------------------------------
+
+        # ---------------------------------------------------------------------
+        # auto.stock.supplier
+        # ---------------------------------------------------------------------
+        obj = 'auto.stock.supplier' # no need converter
+        _logger.info("Start %s" % obj)
+        if wiz_proxy.autostock:
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.AutoStockSupplier
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try: # Create record to insert/update
+                    name = item.name                    
+                    data = {
+                        'name': name,
+                        'suspended': item.suspended,
+                        }
+                    new_ids = item_pool.search(cr, uid, [
+                        ('name', '=', name)], context=context)
+                    if new_ids: # Modify
+                        item_pool.write(cr, uid, item_id, data,
+                            context=context)
+                        print "#INFO", obj, "update:", name
+                    else: # Create
+                        item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO", obj, "create:", name
+                except:
+                    _logger.error(sys.exc_info())
+                    continue                    
+
+            # END:
+            return True
 
     _columns = {
         'name': fields.char('Source DB name', size=80, required=True),
@@ -1420,40 +1454,6 @@ class SyncroXMLRPC(orm.Model):
         'username': fields.char('Source Username', size=80, required=True),
         'password': fields.char('Source Password', size=80, required=True),
         }
-
-# -----------------------------------------------------------------------------
-#                        CUSTOM FOR THIS PARTNER
-# -----------------------------------------------------------------------------
-
-# ---------------------------------------------------------------------
-# auto.stock.supplier
-# ---------------------------------------------------------------------
-obj = 'auto.stock.supplier' # no need converter
-_logger.info("Start %s" % obj)
-if wiz_proxy.autostock:
-    item_pool = self.pool.get(obj)
-    erp_pool = erp.AutoStockSupplier
-    item_ids = erp_pool.search([])
-    for item in erp_pool.browse(item_ids):
-        try: # Create record to insert/update
-            name = item.name                    
-            data = {
-                'name': name,
-                'suspended': item.suspended,
-                }
-            new_ids = item_pool.search(cr, uid, [
-                ('name', '=', name)], context=context)
-            if new_ids: # Modify
-                item_pool.write(cr, uid, item_id, data,
-                    context=context)
-                print "#INFO", obj, "update:", name
-            else: # Create
-                item_pool.create(cr, uid, data,
-                    context=context)
-                print "#INFO", obj, "create:", name
-        except:
-            _logger.error(sys.exc_info())
-            continue                    
 
 # -----------------------------------------------------------------------------
 # Add reference for future update of migration / sync
