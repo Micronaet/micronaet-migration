@@ -1181,9 +1181,9 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         obj = 'sale.order'
         _logger.info("Start %s" % obj)
-        update = False
         self._converter[obj] = {}
         converter = self._converter[obj]
+        import pdb; pdb.set_trace()
         if wiz_proxy.sale: # TODO
             item_pool = self.pool.get(obj)
             erp_pool = erp.SaleOrder
@@ -1245,10 +1245,11 @@ class SyncroXMLRPC(orm.Model):
                         }
 
                     new_ids = item_pool.search(cr, uid, [
+                        #('name', '=', name)], context=context) #use migrateID ?
                         ('migration_old_id', '=', item.id)], context=context) #use migrateID ?
                     if new_ids: # Modify
                         item_id = new_ids[0]
-                        if update:
+                        if wiz_proxy.update:
                             item_pool.write(cr, uid, item_id, data,
                                 context=context)
                         print "#INFO", obj, "update:", name
@@ -1264,7 +1265,6 @@ class SyncroXMLRPC(orm.Model):
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
                 context=context)
-
 
         obj = 'sale.order.line'        
         _logger.info("Start %s" % obj)
