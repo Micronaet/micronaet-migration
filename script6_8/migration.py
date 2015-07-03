@@ -1269,6 +1269,9 @@ class SyncroXMLRPC(orm.Model):
             self.load_converter(cr, uid, converter, obj=obj,
                 context=context)
 
+        # ---------------------------------------------------------------------
+        # sale.order.line
+        # ---------------------------------------------------------------------
         obj = 'sale.order.line'        
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
@@ -1319,8 +1322,7 @@ class SyncroXMLRPC(orm.Model):
                         'price_use_manual': item.price_use_manual,
                         'price_unit_manual': item.price_unit_manual,
                         'discount': item.discount,
-                        
-                        
+                        'migration_old_id': item.id,
                         
                         # TODO used?!?
                         #'address_allotment_id': 'res.partner'
