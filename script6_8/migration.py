@@ -355,6 +355,11 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         obj = 'account.tax'
         _logger.info("Start %s" % obj)
+        tax_invert = {
+            '22a': '22v',
+            '22b': '22a',
+            '00b': '00v',
+            }
         self._converter[obj] = {}
         converter = self._converter[obj]
         item_pool = self.pool.get(obj)
@@ -364,13 +369,12 @@ class SyncroXMLRPC(orm.Model):
             try:
                 # Create record to insert/update
                 description = item.description
+                if description in tax_invert:
+                    description = tax_invert[description]
                 new_ids = item_pool.search(cr, uid, [
                     ('description', '=', description)], context=context)
                 if new_ids: # Modify
                     converter[item.id] = new_ids[0]
-                    #item_pool.write(cr, uid, item_id, data,
-                    #    context=context)
-                    print "#INFO", obj, "Tax loaded:", description
                 else: # Create
                     #item_id = item_pool.create(cr, uid, data,
                     #    context=context)
@@ -1370,7 +1374,6 @@ class SyncroXMLRPC(orm.Model):
                         data['tax_id'] = [6, 0, (
                             self._converter[item.tax_id[0].id])]
                     except:
-                        print item.tax_id
                         pass # use default tax
 
                     new_ids = item_pool.search(cr, uid, [
