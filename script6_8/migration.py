@@ -351,6 +351,37 @@ class SyncroXMLRPC(orm.Model):
                 context=context)
 
         # ---------------------------------------------------------------------
+        # account.tax
+        # ---------------------------------------------------------------------
+        obj = 'account.tax'
+        _logger.info("Start %s" % obj)
+        self._converter[obj] = {}
+        converter = self._converter[obj]
+        item_pool = self.pool.get(obj)
+        erp_pool = erp.AccountTax 
+        item_ids = erp_pool.search([])
+        for item in erp_pool.browse(item_ids):
+            try:
+                # Create record to insert/update
+                description = item.description
+                new_ids = item_pool.search(cr, uid, [
+                    ('description', '=', description)], context=context)
+                if new_ids: # Modify
+                    converter[item.id] = new_ids[0]
+                    #item_pool.write(cr, uid, item_id, data,
+                    #    context=context)
+                    print "#INFO", obj, "Tax loaded:", description
+                else: # Create
+                    #item_id = item_pool.create(cr, uid, data,
+                    #    context=context)
+                    print "#INFO", obj, "Error tax to create:", description
+
+            except:
+                print "#ERR", obj, "jumped:", description
+                continue
+            # NOTE No contact for this database
+
+        # ---------------------------------------------------------------------
         # crm.tracking.campaign
         # ---------------------------------------------------------------------
         obj = 'crm.tracking.campaign'
@@ -1335,6 +1366,13 @@ class SyncroXMLRPC(orm.Model):
                         #'company_id'
                         #'state': item.state,                        
                         }
+                    try:
+                        data['tax_id'] = [6, 0, (
+                            self._converter[item.tax_id[0].id])]
+                    except:
+                        print item.tax_id
+                        pass # use default tax
+
                     new_ids = item_pool.search(cr, uid, [
                         ('migration_old_id', '=', item.id)], context=context)
                     if new_ids: # Modify
