@@ -359,6 +359,11 @@ class SyncroXMLRPC(orm.Model):
             '22a': '22v',
             '22b': '22a',
             '00b': '00v',
+            '20b': '20a',
+            '10b': '10a',
+            '12b': '12a',
+            '4b': '4a',
+            '21b': '21a',
             }
         self._converter[obj] = {}
         converter = self._converter[obj]
