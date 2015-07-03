@@ -909,9 +909,11 @@ class SyncroXMLRPC(orm.Model):
                         if wiz_proxy.update:
                             item_id = item_pool.write(cr, uid, partner_ids,
                                 data)
-                            print "#INFO", obj, "partner-addr upd:", item.partner_id.name
+                            print "#INFO", obj, "partner-addr upd:", \
+                                item.partner_id.name
                     else: # Create
-                        print "#ERR", obj ,"partner-addr not found", item.partner_id.name
+                        print "#ERR", obj ,"partner-addr not found", \
+                            item.partner_id.name
                     converter[item.id] = item_id
 
                 except:
@@ -1241,10 +1243,14 @@ class SyncroXMLRPC(orm.Model):
                                     if item.partner_id \
                                     else False, 1),                                    
                         'migration_old_id': item.id,
+                        'destination_partner_id': self._converter[
+                            'res.partner'].get(
+                                item.partner_shipping_id.id \
+                                    if item.partner_shipping_id \
+                                    else False, False),
 
                         # TODO:
                         #'confirm_date': item.confirm_date, # Not present
-                        #'destination_partner_id': item.partner_shipping_id.id # TODO Convert                                                            
                         }
 
                     new_ids = item_pool.search(cr, uid, [
@@ -1317,7 +1323,7 @@ class SyncroXMLRPC(orm.Model):
                         'th_weight': item.th_weight,
                         'delay': item.delay,
                         
-                        # TODO extra fields:
+                        # Extxra fields:
                         'multi_discount_rates': item.multi_discount_rates,
                         'price_use_manual': item.price_use_manual,
                         'price_unit_manual': item.price_unit_manual,
@@ -1343,6 +1349,7 @@ class SyncroXMLRPC(orm.Model):
                         print "#INFO", obj, "create:", name
 
                     converter[item.id] = item_id
+                    # TODO if state is order: wizard confirm!!!
                 except:
                     _logger.error(name)
                     _logger.error("#ERR %s jumped: %s [%s]" % (
