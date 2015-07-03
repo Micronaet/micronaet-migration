@@ -1,5 +1,233 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
+    <!-- Statistic Order: statistic.header ******************************** -->
+       <!-- Search -->
+    <record model="ir.ui.view" id="view_statistic_header_deadline_search">
+        <field name="name">statistic.header.search</field>
+        <field name="model">statistic.header</field>
+        <field name="arch" type="xml">
+            <search string="Statistic order header">
+                <group col="11" colspan="4">
+                <filter string="Italia" name="italia" icon="terp-personal" domain="[('property_account_position','=','Italia')]" help="Consegne in Italia"/>
+                <filter string="Estero" name="estero" icon="terp-personal" domain="[('property_account_position','!=','Italia')]" help="Consegne all'estero"/>
+                <separator />
+                <filter string="To print" name="to_print" icon="terp-personal" domain="[('print','=',True)]" help="Ordini selezionati per la stampa"/>
+                <separator />
+                <!--<filter string="Da completare" name="completare" icon="terp-personal" domain="[('complete','=',False)]" help="Consegne non ancora prodotte"/>-->
+                    <field name="name" string="Order"/>
+                    <field name="partner_id"/>
+                    <field name="deadline"/>
+                    <field name="zone_id" widget="selection" />
+                </group>
+                <newline/>
+                <group expand="0" string="Group By..." colspan="14">
+                    <filter string="Posizione" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'property_account_position'}"/>
+                    <filter string="Zone" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'zone_id'}"/>
+                    <filter string="Partner" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'partner_id'}"/>
+                    <filter string="Deadline" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'deadline'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+       <!-- Form -->
+    <record model="ir.ui.view" id="view_statistic_header_deadline_form">
+        <field name="name">statistic.header.form</field>
+        <field name="model">statistic.header</field>
+        <field name="arch" type="xml">
+            <form string="Statistic Order header Form">
+                <group colspan="4" col="8">
+                    <field name="name" />
+                    <field name="date" />
+                    <field name="deadline"/>
+                    <field name="registration_date" />
+
+                    <field name="partner_id"/>
+                    <field name="destination"/>
+                    <field name="zone_id"/>
+                    <field name="total"/>
+                </group>
+                <field name="extra_note" colspan="4"/>
+                <field name="print" invisible="1"/>
+                <newline/>
+                <button name="to_print" string="To print" icon="gtk-print" type="object" attrs="{'invisible':[('print','=', True)]}" colspan="2"/>
+                <newline/>
+                <button name="no_print" string="Cancel print" icon="gtk-print" type="object" attrs="{'invisible':[('print','=', False)]}" colspan="2"/>
+                <newline />
+                <field name="line_ids" colspan="4" nolabel="1" domain="['!',('line_type','=','d')]">
+                   <tree colors="green:type!=False;blue:line_type=='d'">
+                        <field name="sequence" />
+                        <field name="code" />
+                        <field name="article" />
+                        <field name="quantity" sum="Totale" />
+                        <field name="colli" />
+                        <field name="type" invisible="1" />                   
+                        <field name="line_type" />                   
+                        <field name="total_linear_meter" sum="mt. lin." />
+                        <field name="total_volume" sum="Volume"/>
+                        <field name="total_weight" sum="Peso" />
+                   </tree> 
+                </field>
+            </form>
+        </field>
+    </record>
+
+       <!-- Tree -->
+    <record model="ir.ui.view" id="view_statistic_header_deadline_tree">
+        <field name="name">statistic.header.tree</field>
+        <field name="model">statistic.header</field>
+        <field name="arch" type="xml">
+            <tree string="Statistic Order header tree" colors="green:complete!=False">
+                <field name="deadline"/>
+                <field name="partner_id"/>
+                <field name="destination"/>
+                <field name="name" />
+                <field name="date" />
+                <field name="zone_id"/>
+                <field name="property_account_position" />                
+                <field name="note" string="Num. ord."/>
+                <field name="extra_note" string="Note"/>
+                
+                <field name="complete" />
+                <field name="total_item_complete" sum="Completi" />
+                <field name="total_item" sum="Totali" />
+                <field name="total_linear_meter_ready" sum="m/l (pronti)" />
+                <field name="total_linear_meter" sum="m/l" />
+                <field name="total_volume_ready" sum="Volume (pronti)"/>
+                <field name="total_volume" sum="Volume"/>
+                <!--<field name="total_weight" sum="Peso" />-->
+
+                <button name="to_print" string="To print" icon="gtk-print" type="object" attrs="{'invisible':[('print','=', True)]}" />
+                <button name="no_print" string="Cancel print" icon="gtk-ok" type="object" attrs="{'invisible':[('print','=', False)]}" />
+                <field name="print"/>
+            </tree>
+        </field>
+    </record>
+    
+       <!-- Graph -->
+    <record model="ir.ui.view" id="view_statistic_header_deadline_graph">
+        <field name="name">Statistic Order header Graph deadline</field>
+        <field name="model">statistic.header</field>
+        <field name="arch" type="xml">
+            <graph string="Order by deadline" type="bar">
+                <field name="zone_id"/>
+                <field name="complete" />
+            </graph>
+        </field>
+    </record>
+    
+       <!-- Action -->
+    <record model="ir.actions.act_window" id="action_statistic_header_deadline">
+        <field name="name">Statistic Order header Deadline</field>
+        <field name="res_model">statistic.header</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,graph,form</field>
+        <field name="search_view_id" ref="view_statistic_header_deadline_search"/>
+    </record>
+
+    <!-- Statistic Order: statistic.order ********************************** -->
+       <!-- Search -->
+    <record model="ir.ui.view" id="view_statistic_order_deadline_search">
+        <field name="name">statistic.order.search</field>
+        <field name="model">statistic.order</field>
+        <field name="arch" type="xml">
+            <search string="Statistic Order">
+                <group col="11" colspan="4">
+                <filter string="Prodotti" name="prodotti" icon="terp-personal" domain="[('type','=','b')]" help="Solo le righe ordine prodotte"/>
+                <separator orientation="vertical" />
+                <filter string="Italia" name="italia" icon="terp-personal" domain="[('property_account_position','=','Italia')]" help="Consegne in Italia"/>
+                <filter string="Estero" name="estero" icon="terp-personal" domain="[('property_account_position','!=','Italia')]" help="Consegne all'estero"/>
+                    <field name="name" string="Order"/>
+                    <field name="partner_id"/>
+                    <field name="deadline"/>
+                    <field name="zone_id" widget="selection" />
+                </group>
+                <newline/>
+                <group expand="0" string="Group By..." colspan="14">
+                    <filter string="Partner" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'partner_id'}"/>
+                    <filter string="Deadline" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'deadline'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+       <!-- Form -->
+    <record model="ir.ui.view" id="view_statistic_order_deadline_form">
+        <field name="name">statistic.order.form</field>
+        <field name="model">statistic.order</field>
+        <field name="arch" type="xml">
+            <form string="Statistic Order Form">
+                <field name="date" />
+                <field name="name" />
+                <field name="deadline"/>
+                <field name="partner_id"/>
+                <field name="zone_id"/>
+                <field name="total"/>
+                
+                <field name="code" />
+                <field name="article" />
+                <field name="quantity"  />
+                <field name="colli" />
+                <field name="type" />
+                <field name="line_type" />
+            </form>
+        </field>
+    </record>
+
+       <!-- Tree -->
+    <record model="ir.ui.view" id="view_statistic_order_deadline_tree">
+        <field name="name">statistic.order.tree</field>
+        <field name="model">statistic.order</field>
+        <field name="arch" type="xml">
+            <tree string="Statistic Order Tree" colors="green:type!=False">
+                <field name="date" />
+                <field name="name" />
+                <field name="deadline"/>
+                <field name="partner_id"/>
+                <field name="zone_id"/>
+                <field name="property_account_position" />                
+
+                <field name="code" />
+                <field name="article" />
+                <field name="quantity" sum="Art. tot." />
+                <field name="colli" />
+                <field name="total_linear_meter" sum="m/l tot." />
+                <field name="total_volume" sum="Vol. tot." />
+                <field name="total_weight" sum="Peso tot." />
+                <field name="type" />
+                <field name="note" />
+                <field name="line_type" />
+            </tree>
+        </field>
+    </record>
+    
+       <!-- Graph -->
+    <record model="ir.ui.view" id="view_statistic_order_deadline_graph">
+        <field name="name">Statistic Order Graph deadline</field>
+        <field name="model">statistic.order</field>
+        <field name="arch" type="xml">
+            <graph string="Order by deadline" type="bar">
+                <field name="deadline"/>
+                <field name="quantity" operator="+" string="Totali" />
+                <field name="quantity_ok" operator="+" string="Prodotti" />
+            </graph>
+        </field>
+    </record>
+
+    <menuitem name="Order (header)" 
+        parent="accounting_statistic_order.menu_base_accounting" 
+        id="menu_action_statistic_header_deadline" 
+        action="action_statistic_header_deadline" 
+        sequence="2" 
+        />
+        
+        <menuitem name="Order (details)" 
+            parent="menu_action_statistic_header_deadline" 
+            id="menu_statistic_statistic_order_deadline_analysis" 
+            action="action_statistic_order_deadline" 
+            sequence="1" 
+            />
+    
   </data>
 </openerp>
