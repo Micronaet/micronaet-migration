@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+         <!--<record model="ir.ui.view" id="view_res_partner_group_tree">
+             <field name="name">res.partner.group.tree</field>
+             <field name="model">res.partner.group</field>
+             <field name="type">tree</field>
+             <field name="arch" type="xml">
+                 <tree string="Partner group">
+                     <field name="name" />
+                     <field name="note" />
+                 </tree>
+             </field>
+         </record>
+         <record model="ir.ui.view" id="view_res_partner_group_form">
+             <field name="name">res.partner.group.form</field>
+             <field name="model">res.partner.group</field>
+             <field name="type">form</field>
+             <field name="arch" type="xml">
+                 <form string="Partner group" version="7.0">
+                     <sheet>
+                         <group colspan="4" col="4">
+                             <field name="name" />
+                             <newline />
+                             <separator string="Note" colspan="4"/>
+                             <field name="note" colspan="4"/>
+                         </group>    
+                     </sheet>    
+                 </form>
+             </field>
+         </record>
+         <record model="ir.actions.act_window" id="action_res_partner_group_form">
+             <field name="name">Partner group</field>
+             <field name="res_model">res.partner.group</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">tree,form</field>
+             <field name="view_id" ref="view_res_partner_group_tree"/>
+             <field name="context">{}</field>
+             <field name="domain">[]</field>
+         </record>         
+         <menuitem 
+             parent="base.menu_base_config" 
+             id="menu_partner_group_form" 
+             action="view_res_partner_group_form"
+             sequence="50"
+             name="Partner group" />-->
+         
+    </data>
+</openerp>
