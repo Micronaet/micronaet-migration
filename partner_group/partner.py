@@ -67,5 +67,15 @@ class ResPartner(orm.Model):
         'partner_group_id': fields.many2one('res.partner.group', 
             'Partner group'),
         }
+
+class ResPartnerGroup(orm.Model):
+    """ Partner group for statistic purpose
+    """
+    _inherit = 'res.partner.group'
+
+    _columns = {
+        'partner_ids': fields.one2many('res.partner.group', 
+            'partner_group_id', 'Partners')
+        }
         
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
