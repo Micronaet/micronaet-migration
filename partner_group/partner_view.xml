@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
-         <!--<record model="ir.ui.view" id="view_res_partner_group_tree">
+         <record model="ir.ui.view" id="view_res_partner_group_tree">
              <field name="name">res.partner.group.tree</field>
              <field name="model">res.partner.group</field>
              <field name="type">tree</field>
@@ -29,7 +29,7 @@
                  </form>
              </field>
          </record>
-         <record model="ir.actions.act_window" id="action_res_partner_group_form">
+         <record model="ir.actions.act_window" id="action_res_partner_group">
              <field name="name">Partner group</field>
              <field name="res_model">res.partner.group</field>
              <field name="view_type">form</field>
@@ -37,13 +37,9 @@
              <field name="view_id" ref="view_res_partner_group_tree"/>
              <field name="context">{}</field>
              <field name="domain">[]</field>
-         </record>         
-         <menuitem 
-             parent="base.menu_base_config" 
-             id="menu_partner_group_form" 
-             action="view_res_partner_group_form"
-             sequence="50"
-             name="Partner group" />-->
-         
+         </record>       
+           
+         <menuitem parent="base.menu_base_config" id="menu_res_partner_group" action="action_res_partner_group" sequence="50" /> <!-- name="Partner group" -->
+
     </data>
 </openerp>
