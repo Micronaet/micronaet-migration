@@ -46,8 +46,8 @@ _logger = logging.getLogger(__name__)
 # Utility: TODO move somewhere!
 # -----------------------------------------------------------------------------
 def get_partner_name(self, cr, uid, partner_id, context=None):
-    ''' Partner ID from accounting code
-    '''
+    """ Partner ID from accounting code
+    """
     if not partner_id:
         return False
     partner_proxy = self.pool.get('res.partner').browse(
@@ -81,8 +81,8 @@ class ResPartnerStatistic(orm.Model):
         }
 
 class StatisticInvoice(orm.Model):
-    ''' Invoice analysis from accounting program
-    '''
+    """ Invoice analysis from accounting program
+    """
     _name = 'statistic.invoice'
     _description = 'Statistic invoice'
     _order = 'month, name'
@@ -95,10 +95,10 @@ class StatisticInvoice(orm.Model):
             file_input2='~/ETL/fatmeseoerp2.csv',
             delimiter=';', header=0,
             particular=True, verbose=100, context=None):
-        ''' Import statistic data from CSV file for invoice, trend, trendoc
+        """ Import statistic data from CSV file for invoice, trend, trendoc
             This particular importation are from 2 files (amount)
             (all particularity manage are use if particular = True)
-        '''
+        """
 
         _logger.info('Start invoice statistic for customer')
 
@@ -110,6 +110,14 @@ class StatisticInvoice(orm.Model):
         invoice_ids = self.search(cr, uid, [], context=context)
         self.unlink(cr, uid, invoice_ids, context=context)
 
+        # Load tags for create a dict of partner:
+        partner_tags = {}
+        tag_pool = self.pool.get('res.partner.category')
+        tag_ids = tag_pool.search(cr, uid, [('statistic', '=', True)], context=context)        
+        for tag in tag_pool.browse(cr, uid, tag_ids, context=context):
+            for partner in partner_ids:
+                partner_tags[partner.id] = tag.id # TODO problem in multi pres.
+        
         # TODO portare parametrizzandolo in OpenERP (second loop substitution):
         # =====================================================================
         if particular:
@@ -394,17 +402,17 @@ class StatisticInvoice(orm.Model):
         }
 
 class StatisticInvoiceProduct(orm.Model):
-    ''' Statistic on product:
+    """ Statistic on product:
         Partner - month - product = key
-    '''
+    """
     _name = 'statistic.invoice.product'
     _description = 'Statistic invoice'
     _order = 'month, name'
 
     def schedule_csv_statistic_invoice_product_import(self, cr, uid,
             input_file, delimiter=';', header=0, verbose=100, context=None):
-        ''' Schedule procedure for import statistic.invoice.product
-        '''
+        """ Schedule procedure for import statistic.invoice.product
+        """
         # TODO for log check:
         #create_date=time.ctime(os.path.getctime(FileInput))
         input_file = os.path.expanduser(input_file)
@@ -420,7 +428,7 @@ class StatisticInvoiceProduct(orm.Model):
         template_pool = self.pool.get('product.template')
         family_ids = template_pool.search(cr, uid, [
             ('is_family','=',True)], context=context)
-        families = {}        
+        families = {}
         for family in template_pool.browse(
                 cr, uid, family_ids, context=context):
             families.update(
@@ -606,15 +614,24 @@ class StatisticInvoiceProduct(orm.Model):
         'top': lambda *a: False,
         }
 
+class ResPartnerCategory(orm.Model):
+    """ Add fields for statistic purpose
+    """
+    _inherit = 'res.partner.category'
+
+    _columns = {
+        'statistic': fields.boolean('Statistic')
+        # TODO m2m per partner tags
+        }
+
 class StatisticInvoiceProductRemoved(orm.Model):
-    ''' Product not present in statistic
-    '''
+    """ Product not present in statistic
+    """
     _name = 'statistic.invoice.product.removed'
     _description = 'Statistic Product to remove'
 
     _columns = {
-        'name': fields.char(
-            'Family', size = 64, required=True),
+        'name': fields.char('Family', size=64, required=True),
         }
 
 class ResPartnerStatistic(orm.Model):
