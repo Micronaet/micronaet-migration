@@ -66,10 +66,10 @@ class StatisticStore(orm.Model):
         stock_ids = self.search(cr, uid, [], context=context)
         self.unlink(cr, uid, stock_ids, context=context)
 
-        records = {"FIA": {}, "GPB": {}} # TODO
+        records = {'FIA': {}, 'GPB': {}} # TODO
 
         # Load pack for product:
-        q_x_packs = {"FIA": {}, "GPB": {}}
+        q_x_packs = {'FIA': {}, 'GPB': {}}
 
         product_pool = self.pool.get('product.product')
         pack_ids = product_pool.search(cr, uid, [], context=context)
@@ -79,7 +79,7 @@ class StatisticStore(orm.Model):
             q_x_packs["FIA"][item.default_code] = item.q_x_pack
         
         # second company:
-        # TODO    
+        # TODO XML-RPC
         pack_ids = sock_gpb.execute(dbname, uid_gpb, pwd, 'product.product', 'search', [])
         for item in sock_gpb.execute(dbname, uid_gpb, pwd, 'product.product', 'read', pack_ids, ('q_x_pack','default_code')):
             q_x_packs["GPB"][item['default_code']] = item['q_x_pack']
@@ -88,180 +88,166 @@ class StatisticStore(orm.Model):
             ("FIA", file_input1, exch_file1), 
             ("GPB", file_input2, exch_file2),
             ]
-        try:
-            for azienda, f, f_exch in loops:    
-                file_csv = os.path.expanduser(f)
+        for azienda, f, f_exch in loops:    
+            file_csv = os.path.expanduser(f)
 
-                lines = csv.reader(open(file_csv, 'rb'), delimiter=delimiter)
-                counter = -header
+            lines = csv.reader(open(file_csv, 'rb'), delimiter=delimiter)
+            counter = -header
 
-                for line in lines:
-                    try:
-                        counter += 1 
-                        if counter <= 0:  # jump n lines of header 
-                            continue
+            for line in lines:
+                try:
+                    counter += 1 
+                    if counter <= 0:  # jump n lines of header 
+                        continue
 
-                        ref = Prepare(line[0]) 
-                        product_description = Prepare(line[1]).title() 
-                        product_um = Prepare(line[2]).upper()
-                        inventary = PrepareFloat(line[3]) or 0.0
-                        value_in = PrepareFloat(line[4]) or 0.0 
-                        value_out = PrepareFloat(line[5]) or 0.0 
-                        balance = PrepareFloat(line[6]) or 0.0 
-                        supplier_order = PrepareFloat(line[7]) or 0.0 
-                        customer_order = PrepareFloat(line[8]) or 0.0 
-                        customer_order_auto = PrepareFloat(line[9]) or 0.0 
-                        customer_order_suspended = PrepareFloat(line[10]) or 0.0 
-                        supplier = Prepare(line[11]).title()
-                        product_description += "\n" + (Prepare(line[12]).title() or '') 
-                        mexal_s = Prepare(line[13]) or False
-                       
-                        # Calculated fields:
-                        company = azienda.lower()
-                        availability = (
-                            balance + supplier_order - 
-                            customer_order - customer_order_suspended) 
-                            # E + F - I - S TODO auto??
-                        product_um2 = ''
-                        inventary_last = 0.0
-                        q_x_pack = q_x_packs[azienda][ref] if ref in q_x_packs[
-                            azienda] else 0
-                        
-                        records[azienda][ref] = {
-                            'company': company, 
-                            'supplier': supplier,
-                            'mexal_s': mexal_s, 
-                            'product_code': ref,
-                            'product_description': product_description,
-                            'product_um': product_um,
-                            'q_x_pack': q_x_pack,
-
-                            # Value fields
-                            'inventary': inventary,
-                            'q_in': value_in,
-                            'q_out': value_out,
-                            'balance': balance,
-                            'supplier_order': supplier_order,
-                            'customer_order': customer_order,
-                            'customer_order_auto': customer_order_auto,
-                            'customer_order_suspended': 
-                                customer_order_suspended,
-
-                            # Field calculated:
-                            'availability': availability,
-                            'product_um2': product_um2,
-                            'inventary_last': inventary_last,
-                            }
-                    except:
-                        print '>>> [ERROR] Error importing articles!'
-                        raise 
-
-                # Sell from CM1 to CM2 (subtract from q_in sum to q_out:
-                file_exchange = os.path.expanduser(f_exch)
-                lines = csv.reader(
-                    open(file_exchange, 'rb'), delimiter=delimiter)
- 
-                for line in lines:
-                    if len(line): # jump empty lines
-                        ref = Prepare(line[0])
-                        value_sale = PrepareFloat(line[1]) or 0.0
-                        if ref in records[azienda]:
-                            # also for unload number is positive
-                            records[azienda][ref]['q_in'] -= value_sale
-                            records[azienda][ref]['q_out'] -= value_sale 
+                    ref = Prepare(line[0]) 
+                    product_description = Prepare(line[1]).title() 
+                    product_um = Prepare(line[2]).upper()
+                    inventary = PrepareFloat(line[3]) or 0.0
+                    value_in = PrepareFloat(line[4]) or 0.0 
+                    value_out = PrepareFloat(line[5]) or 0.0 
+                    balance = PrepareFloat(line[6]) or 0.0 
+                    supplier_order = PrepareFloat(line[7]) or 0.0 
+                    customer_order = PrepareFloat(line[8]) or 0.0 
+                    customer_order_auto = PrepareFloat(line[9]) or 0.0 
+                    customer_order_suspended = PrepareFloat(line[10]) or 0.0 
+                    supplier = Prepare(line[11]).title()
+                    product_description += "\n" + (Prepare(line[12]).title() or '') 
+                    mexal_s = Prepare(line[13]) or False
                    
-            comment = ""
-            for azienda in ["FIA", "GPB"]:
-                if azienda == "FIA":
-                   altra_azienda="GPB"
-                else:   
-                   altra_azienda="FIA"
-                   
-                total = {'jump':0,'normal':0,'double':0,'total':0}        
-                for item in records[azienda].keys():            
-                    total['total']+=1
-                    if ((azienda == "FIA") and (item[:1] == "C") and (
-                            item[1:] in records["GPB"])) or (
-                            (azienda=="GPB") and (item[:1]=="F") and (
-                            item[1:] in records["FIA"])): # jump other CM items
+                    # Calculated fields:
+                    company = azienda.lower()
+                    availability = (
+                        balance + supplier_order - 
+                        customer_order - customer_order_suspended) 
+                        # E + F - I - S TODO auto??
+                    product_um2 = ''
+                    inventary_last = 0.0
+                    q_x_pack = q_x_packs[azienda][ref] if ref in q_x_packs[
+                        azienda] else 0
+                    
+                    records[azienda][ref] = {
+                        'company': company, 
+                        'supplier': supplier,
+                        'mexal_s': mexal_s, 
+                        'product_code': ref,
+                        'product_description': product_description,
+                        'product_um': product_um,
+                        'q_x_pack': q_x_pack,
 
-                       # Do nothing (sum in other company)
-                       total['jump']+=1
-                       print "Riga: %s [%s] SALTATO [%s] %s" % (
-                           total['total'], azienda, item, 
-                           records[azienda][item]['product_description'])
-                    elif (
-                            (azienda=="FIA") and (
-                            "F" + item in records["GPB"])) or (
-                            (azienda=="GPB") and (
-                            "C" + item in records["FIA"])): # Sum item this CM
-                       total['double']+=1
-                       if azienda == "FIA": 
-                          item_other = "F" + item 
-                       else:   
-                          item_other = "C" + item 
-                          
-                       data_store = {   
-                           'company': records[azienda][item]['company'], 
-                           'supplier': records[azienda][item]['supplier'], 
-                           'product_code': records[azienda][item][
-                               'product_code'],
-                           'product_description': records[azienda][item][
-                               'product_description'],
-                           'product_um': records[azienda][item]['product_um'],
+                        # Value fields
+                        'inventary': inventary,
+                        'q_in': value_in,
+                        'q_out': value_out,
+                        'balance': balance,
+                        'supplier_order': supplier_order,
+                        'customer_order': customer_order,
+                        'customer_order_auto': customer_order_auto,
+                        'customer_order_suspended': 
+                            customer_order_suspended,
 
-                           'inventary': records[azienda][item]['inventary'] + \
-                               records[altra_azienda][item_other]['inventary'],   
-                           'q_x_pack': records[azienda][item]['q_x_pack'],
-                           'q_in': records[azienda][item]['q_in'] + records[
-                               altra_azienda][item_other]['q_in'],
-                           'q_out': records[azienda][item]['q_out'] + \
-                               records[altra_azienda][item_other]['q_out'],
-                           'balance': records[azienda][item]['balance'] + \
-                               records[altra_azienda][item_other]['balance'],
-                           'supplier_order': records[azienda][item][
-                               'supplier_order'] + \
-                               records[altra_azienda][item_other][
-                                   'supplier_order'],
-                           'customer_order': records[azienda][item][
-                               'customer_order'] + records[altra_azienda][
-                                   item_other]['customer_order'],
-                           'customer_order_auto': records[azienda][item][
-                               'customer_order_auto'] + records[
-                                   altra_azienda][item_other][
-                                       'customer_order_auto'],
-                           'customer_order_suspended': records[azienda][item][
-                               'customer_order_suspended'] + records[
-                                   altra_azienda][item_other][
-                                       'customer_order_suspended'],
+                        # Field calculated:
+                        'availability': availability,
+                        'product_um2': product_um2,
+                        'inventary_last': inventary_last,
+                        }
+                except:
+                    _logger.error('Error import line: %s' % (
+                        sys.exc_info(),))
+                    continue    
 
-                           'availability': records[azienda][item][
-                               'availability'] + records[altra_azienda][
-                                   item_other]['availability'],
-                           'product_um2':  records[azienda][item][
-                               'product_um2'],
-                           'inventary_last':  records[azienda][item][
-                               'inventary_last'],
+            # Sell from CM1 to CM2 (subtract from q_in sum to q_out:
+            file_exchange = os.path.expanduser(f_exch)
+            lines = csv.reader(
+                open(file_exchange, 'rb'), delimiter=delimiter)
 
-                           'both': True, # for elements present in both company
-                           }
-                       try: 
-                          store_create = sock.execute(dbname, uid, pwd, 'statistic.store', 'create', data_store) 
-                          print "Riga: %s [%s] DOPPIO [%s] %s" % (total['total'], azienda, item, records[azienda][item]['product_description'])
-                       except:
-                          print "[ERR] Riga: %s importando:%s" % (total['total'], records[azienda][item])
-                    else: # extra items (nessuna intersezione)
-                        total['normal'] += 1
-                        store_create=sock.execute(dbname, uid, pwd, 'statistic.store', 'create', records[azienda][item])
-                        print "Riga: %s [%s] NORMALE [%s] %s" % (total['total'], azienda, item, records[azienda][item]['product_description'])
-                comment += "\n[%s] %s"%(azienda,total)
-                print comment
-        except:
-            print '>>> [ERROR] General Error!'
-            raise 
+            for line in lines:
+                if len(line): # jump empty lines
+                    ref = Prepare(line[0])
+                    value_sale = PrepareFloat(line[1]) or 0.0
+                    if ref in records[azienda]:
+                        # also for unload number is positive
+                        records[azienda][ref]['q_in'] -= value_sale
+                        records[azienda][ref]['q_out'] -= value_sale 
+               
+        comment = ""
+        for azienda in ["FIA", "GPB"]:
+            if azienda == "FIA":
+               altra_azienda="GPB"
+            else:   
+               altra_azienda="FIA"
+               
+            for item in records[azienda].keys():            
+                if ((azienda == "FIA") and (item[:1] == "C") and (
+                        item[1:] in records["GPB"])) or (
+                        (azienda=="GPB") and (item[:1]=="F") and (
+                        item[1:] in records["FIA"])): # jump other CM items
 
+                    # Do nothing (sum in other company)
+                    # Jump
+                    print "Riga: [%s] SALTATO [%s] %s" % (
+                        azienda, item, 
+                        records[azienda][item]['product_description'])
+                elif (
+                        (azienda=="FIA") and (
+                        "F" + item in records["GPB"])) or (
+                        (azienda=="GPB") and (
+                        "C" + item in records["FIA"])): # Sum item this CM
+                    # double
+                    if azienda == "FIA": 
+                        item_other = "F" + item 
+                    else:   
+                        item_other = "C" + item 
 
+                    data_store = {   
+                        'company': records[azienda][item]['company'], 
+                        'supplier': records[azienda][item]['supplier'], 
+                        'product_code': records[azienda][item][
+                            'product_code'],
+                        'product_description': records[azienda][item][
+                            'product_description'],
+                        'product_um': records[azienda][item]['product_um'],
 
+                        'inventary': records[azienda][item][
+                            'inventary'] + records[altra_azienda][
+                                item_other]['inventary'],   
+                        'q_x_pack': records[azienda][item]['q_x_pack'],
+                        'q_in': records[azienda][item]['q_in'] + records[
+                            altra_azienda][item_other]['q_in'],
+                        'q_out': records[azienda][item]['q_out'] + \
+                            records[altra_azienda][item_other]['q_out'],
+                        'balance': records[azienda][item]['balance'] + \
+                            records[altra_azienda][item_other]['balance'],
+                        'supplier_order': records[azienda][item][
+                            'supplier_order'] + \
+                            records[altra_azienda][item_other][
+                                'supplier_order'],
+                        'customer_order': records[azienda][item][
+                            'customer_order'] + records[altra_azienda][
+                                item_other]['customer_order'],
+                        'customer_order_auto': records[azienda][item][
+                            'customer_order_auto'] + records[
+                                altra_azienda][item_other][
+                                    'customer_order_auto'],
+                        'customer_order_suspended': records[azienda][item][
+                            'customer_order_suspended'] + records[
+                                altra_azienda][item_other][
+                                    'customer_order_suspended'],
+
+                        'availability': records[azienda][item][
+                            'availability'] + records[altra_azienda][
+                                item_other]['availability'],
+                        'product_um2':  records[azienda][item][
+                            'product_um2'],
+                        'inventary_last':  records[azienda][item][
+                            'inventary_last'],
+
+                        'both': True, # for elements present in both company
+                        }
+                    self.create(cr, uid, data_store, context=context)
+                else: # Normal (no intersection)
+                    self.create(cr, uid, records[azienda][item], 
+                        context=context)
         
         return True
 
