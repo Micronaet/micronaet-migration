@@ -147,7 +147,6 @@ class StatisticInvoice(orm.Model):
                 delimiter=delimiter)
 
         for step, lines in loop_steps.iteritems():
-            import pdb; pdb.set_trace()
             counter = -header
             tot_col = 0
             for line in lines:
@@ -227,7 +226,6 @@ class StatisticInvoice(orm.Model):
                                     '%s: replace code: %s > 06.03044' % (
                                         counter, mexal_id))
                                 mexal_id = '06.03044'
-                                partner_name = "M Business"
                         # Calculated field:
                         partner_id = csv_base.get_create_partner_lite(
                             cr, uid, mexal_id, context=context)
