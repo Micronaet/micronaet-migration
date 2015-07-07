@@ -94,7 +94,7 @@ class StatisticInvoice(orm.Model):
             file_input1='~/ETL/fatmeseoerp1.csv',
             file_input2='~/ETL/fatmeseoerp2.csv',
             delimiter=';', header=0,
-            particular=True, verbose=100, context=None):
+            verbose=100, particular=True, context=None):
         """ Import statistic data from CSV file for invoice, trend, trendoc
             This particular importation are from 2 files (amount)
             (all particularity manage are use if particular = True)
@@ -111,13 +111,15 @@ class StatisticInvoice(orm.Model):
         self.unlink(cr, uid, invoice_ids, context=context)
 
         # Load tags for create a dict of partner:
+
         partner_tags = {}
         tag_pool = self.pool.get('res.partner.category')
-        tag_ids = tag_pool.search(cr, uid, [('statistic', '=', True)], context=context)        
+        tag_ids = tag_pool.search(cr, uid, [
+            ('statistic', '=', True)], context=context)        
         for tag in tag_pool.browse(cr, uid, tag_ids, context=context):
-            for partner in partner_ids:
+            for partner in tag.partner_ids:
                 partner_tags[partner.id] = tag.id # TODO problem in multi pres.
-        
+
         # TODO portare parametrizzandolo in OpenERP (second loop substitution):
         # =====================================================================
         if particular:
@@ -263,6 +265,7 @@ class StatisticInvoice(orm.Model):
                         data = {
                             'name': '%s [%s]' % (partner_name, mexal_id),
                             'partner_id': partner_id,
+                            'tag_id': partner_tags.get(partner_id, False),
                             'month': month,
                             'type_document': type_document,
                             'year': year,
@@ -335,6 +338,7 @@ class StatisticInvoice(orm.Model):
         'visible': fields.boolean('Visible'), # TODO remove
         'top': fields.boolean('Top'),
         'partner_id': fields.many2one('res.partner', 'Partner'),
+        'tag_id': fields.many2one('res.partner.category', 'Tag'),
         'invoice_agent_id': fields.related('partner_id', 'invoice_agent_id',
             type='many2one', relation='statistic.invoice.agent',
             string='Invoice agent', store=True),

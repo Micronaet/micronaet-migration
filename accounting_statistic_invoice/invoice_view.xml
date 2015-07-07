@@ -1,6 +1,18 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
+        <!--res.partner.category-->
+    <record model="ir.ui.view" id="view_partner_category_statistic_form">
+        <field name="name">Statistic for category</field>
+        <field name="model">res.partner.category</field>
+        <field name="inherit_id" ref="base.view_partner_category_form" />
+        <field name="arch" type="xml">
+            <field name="parent_id" position="after">
+                <field name="statistic" />
+            </field>
+        </field>
+    </record>
+
     <!-- Statistic invoice product: statistic.invoice.product ************* -->
        <!-- Search -->
     <record model="ir.ui.view" id="view_statistic_invoice_product_search">
@@ -200,6 +212,7 @@
                     <field name="zone_id"/>
                     <field name="zone_type"/>
                     <field name="partner_id"/>
+                    <field name="tag_id"/>
                     <field name="invoice_agent_id"/>
                     <field name="season"/>                    
                     <field name="month"/>
@@ -231,6 +244,7 @@
 
                 <group expand="0" string="Group By">
                     <filter string="Partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                    <filter string="Tag" domain="[]" context="{'group_by':'tag_id'}"/>
                     <filter string="CEI" domain="[]" context="{'group_by':'type_cei'}"/>
                     <filter string="Season" domain="[]" context="{'group_by':'season'}"/>
                     <filter string="Month" domain="[]" context="{'group_by':'month'}"/>
@@ -262,7 +276,6 @@
                      <field name="year"/>
                      <field name="month"/>
 
-
                      <field name="name"/>
                      <field name="partner_id"/>
                      <field name="invoice_agent_id"/>
@@ -271,8 +284,10 @@
                      <field name="zone_id"/>
                      <field name="country_id"/>
 
+                     <field name="tag_id"/>
                      <field name="statistic_category_id"/>
                      <field name="type_document"/>
+                     
                      <field name="total" sum="Totale" />
                   </group>   
               </sheet>
@@ -298,6 +313,7 @@
 
                 <field name="name"/>
                 <field name="partner_id"/>
+                <field name="tag_id"/>
                 <field name="invoice_agent_id"/>
 
                 <field name="statistic_category_id"/>
