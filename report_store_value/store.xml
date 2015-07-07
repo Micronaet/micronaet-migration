@@ -41,7 +41,7 @@
                     <field name="customer_order" />
                     <field name="customer_order_auto" />
                     <field name="customer_order_suspended" />
-                    <field name="disponibility" />
+                    <field name="availability" />
                     <field name="product_um2" />
                     <field name="inventary_last" />
                     <field name="both" />
@@ -70,7 +70,7 @@
                     <field name="customer_order" />
                     <field name="customer_order_auto" />
                     <field name="customer_order_suspended" />
-                    <field name="disponibility" />
+                    <field name="availability" />
                     <field name="product_um2" />
                     <field name="inventary_last" />
                     <field name="both" invisible="1"/>

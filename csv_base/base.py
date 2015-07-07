@@ -88,7 +88,6 @@ class CsvBase(orm.Model):
                     valore[:4], valore[4:6], valore[6:8])
         return False # when error
 
-
     def decode_float(self, valore):
         ''' Return float value of asc passed
         '''

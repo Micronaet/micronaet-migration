@@ -25,6 +25,7 @@ import sys
 import logging
 import openerp
 import xmlrpclib
+import erppeek
 import csv
 import openerp.netsvc as netsvc
 import openerp.addons.decimal_precision as dp
@@ -66,11 +67,12 @@ class StatisticStore(orm.Model):
         stock_ids = self.search(cr, uid, [], context=context)
         self.unlink(cr, uid, stock_ids, context=context)
 
-        records = {'FIA': {}, 'GPB': {}} # TODO
-
-        # Load pack for product:
+        import pdb; pdb.set_trace()
+        # TODO keep in this form?
+        records = {'FIA': {}, 'GPB': {}} 
         q_x_packs = {'FIA': {}, 'GPB': {}}
 
+        csv_pool = self.pool.get('csv.base')
         product_pool = self.pool.get('product.product')
         pack_ids = product_pool.search(cr, uid, [], context=context)
         
@@ -79,10 +81,24 @@ class StatisticStore(orm.Model):
             q_x_packs["FIA"][item.default_code] = item.q_x_pack
         
         # second company:
-        # TODO XML-RPC
-        pack_ids = sock_gpb.execute(dbname, uid_gpb, pwd, 'product.product', 'search', [])
-        for item in sock_gpb.execute(dbname, uid_gpb, pwd, 'product.product', 'read', pack_ids, ('q_x_pack','default_code')):
-            q_x_packs["GPB"][item['default_code']] = item['q_x_pack']
+        # TODO Parametrize
+        hostname = 'localhost'
+        port = 8069
+        database = 'GPB'
+        user = 'admin'
+        password = 'admin'
+        
+        erp = erppeek.Client(
+            'http://%s:%s' % (hostname, port),
+            db=database,
+            user=user,
+            password=password,
+            )
+        erp_pool = erp.ProductProduct
+        erp_ids = erp_pool.search([])
+        erp_pool.browse(erp_ids)        
+        for item in erp_pool.browse(item_ids):
+            q_x_packs["GPB"][item.default_code] = item.q_x_pack
 
         loops = [
             ("FIA", file_input1, exch_file1), 
@@ -99,21 +115,23 @@ class StatisticStore(orm.Model):
                     counter += 1 
                     if counter <= 0:  # jump n lines of header 
                         continue
-
-                    ref = Prepare(line[0]) 
-                    product_description = Prepare(line[1]).title() 
-                    product_um = Prepare(line[2]).upper()
-                    inventary = PrepareFloat(line[3]) or 0.0
-                    value_in = PrepareFloat(line[4]) or 0.0 
-                    value_out = PrepareFloat(line[5]) or 0.0 
-                    balance = PrepareFloat(line[6]) or 0.0 
-                    supplier_order = PrepareFloat(line[7]) or 0.0 
-                    customer_order = PrepareFloat(line[8]) or 0.0 
-                    customer_order_auto = PrepareFloat(line[9]) or 0.0 
-                    customer_order_suspended = PrepareFloat(line[10]) or 0.0 
-                    supplier = Prepare(line[11]).title()
-                    product_description += "\n" + (Prepare(line[12]).title() or '') 
-                    mexal_s = Prepare(line[13]) or False
+                    # decode_date(self, valore, with_slash=True
+                    ref = csv_pool.decode_string(line[0]) 
+                    product_description = csv_pool.decode_string(
+                        line[1]).title() 
+                    product_um = csv_pool.decode_string(line[2]).upper()
+                    inventary = csv_pool.decode_float(line[3])
+                    value_in = csv_pool.decode_float(line[4])
+                    value_out = csv_pool.decode_float(line[5])
+                    balance = csv_pool.decode_float(line[6])
+                    supplier_order = csv_pool.decode_float(line[7])
+                    customer_order = csv_pool.decode_float(line[8])
+                    customer_order_auto = csv_pool.decode_float(line[9])
+                    customer_order_suspended = csv_pool.decode_float(line[10])
+                    supplier = csv_pool.decode_string(line[11]).title()
+                    product_description += "\n" + (csv_pool.decode_string(
+                        line[12]).title()) 
+                    mexal_s = csv_pool.decode_string(line[13]) or False
                    
                     # Calculated fields:
                     company = azienda.lower()
@@ -123,8 +141,8 @@ class StatisticStore(orm.Model):
                         # E + F - I - S TODO auto??
                     product_um2 = ''
                     inventary_last = 0.0
-                    q_x_pack = q_x_packs[azienda][ref] if ref in q_x_packs[
-                        azienda] else 0
+                    q_x_pack = q_x_packs[azienda][ref] \
+                        if ref in q_x_packs[azienda] else 0
                     
                     records[azienda][ref] = {
                         'company': company, 
@@ -163,8 +181,8 @@ class StatisticStore(orm.Model):
 
             for line in lines:
                 if len(line): # jump empty lines
-                    ref = Prepare(line[0])
-                    value_sale = PrepareFloat(line[1]) or 0.0
+                    ref = csv_pool.decode_string(line[0])
+                    value_sale = csv_pool.decode_float(line[1]) or 0.0
                     if ref in records[azienda]:
                         # also for unload number is positive
                         records[azienda][ref]['q_in'] -= value_sale
@@ -182,12 +200,7 @@ class StatisticStore(orm.Model):
                         item[1:] in records["GPB"])) or (
                         (azienda=="GPB") and (item[:1]=="F") and (
                         item[1:] in records["FIA"])): # jump other CM items
-
-                    # Do nothing (sum in other company)
-                    # Jump
-                    print "Riga: [%s] SALTATO [%s] %s" % (
-                        azienda, item, 
-                        records[azienda][item]['product_description'])
+                    pass # Do nothing (sum in other company) Jump
                 elif (
                         (azienda=="FIA") and (
                         "F" + item in records["GPB"])) or (
@@ -247,8 +260,7 @@ class StatisticStore(orm.Model):
                     self.create(cr, uid, data_store, context=context)
                 else: # Normal (no intersection)
                     self.create(cr, uid, records[azienda][item], 
-                        context=context)
-        
+                        context=context)        
         return True
 
     _columns = {
