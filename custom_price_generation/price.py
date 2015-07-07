@@ -387,23 +387,12 @@ class ProductProductExtra(orm.Model):
         return res
 
     _columns = {
-        'preview':fields.function(_get_image, type="binary", method=True),
+        'preview': fields.function(_get_image, type="binary", method=True),
         'in_pricelist': fields.boolean('In Pricelist'),
-
-
-        'height': fields.float('Height', help='The max height of the product'),
-        'width': fields.float('Width', help='The max width of the product'),
-        'length': fields.float('Length', help='The max length of the product'),
 
         'error_import': fields.boolean('Import error'), # ERASE
         'dimension_text': fields.text('Dimensione (testuale)'), # ERASE
         'error_dimension': fields.boolean('Errore dimens.'), # ERASE
-
-        'colour': fields.text('Colour'),
-        'fabric': fields.text('Fabric - Glass'),
-        'type_of_material': fields.text('Type of material or fabric'),
-
-        'description_web': fields.text('Web Description',translate=True),
 
         # Cost calculation:
         'fob_cost_supplier': fields.function(

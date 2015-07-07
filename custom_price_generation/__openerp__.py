@@ -29,6 +29,7 @@
     'depends': [
         'base',
         'product',
+        'product_dimension_fields',
         'base_accounting_program',
         'sale',
         'report_aeroo',

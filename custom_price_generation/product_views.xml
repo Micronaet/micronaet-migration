@@ -74,14 +74,6 @@
             <field name="list_price" position="after">
                <field name="duty_id" />
             </field>
-            <field name="description_purchase" position="after">
-               <separator string="Web Description" colspan="4"/>
-               <field colspan="4" name="description_web" nolabel="1"/>
-               <separator string="Colour" colspan="4"/>
-               <field name="colour" colspan="4" nolabel="1" />
-               <field name="fabric" />
-               <field name="type_of_material" />        
-            </field>                        
             <!--TODO RIATTIVARE: <xpath expr="/form/sheet/notebook/page[@string='Packaging']/field/form/separator[2]" position="replace"> 
                 <separator string="Dimensione pack" colspan="4" />
             </xpath>
@@ -142,18 +134,12 @@
             </xpath>
             <group name="procurement_uom" position="before">
                 <group colspan="2" col="2" groups="base.group_extended" name="dimension">
-                    <separator string="Product dim." colspan="2"/> 
-                    <field digits="(14, 3)" name="height" attrs="{'readonly':[('type','=','service')]}"/>
-                    <field digits="(14, 3)" name="width" attrs="{'readonly':[('type','=','service')]}"/>
-                    <field digits="(14, 3)" name="length" attrs="{'readonly':[('type','=','service')]}"/>
-
                     <!--Eliminare quando corretti tutti! DA QUI:-->
                     <separator string="Errore dimensione" colspan="2"/>                     
                     <field name="error_import" /><newline />
                     <field name="error_dimension" />
                     <field name="dimension_text" attrs="{'readonly':[('type','=','service')], 'invisible':[('error_dimension','=',False)]}" colspan="2" nolabel="1" />                    
-                    <!--Eliminare quando corretti tutti! A QUI!-->
-                    
+                    <!--Eliminare quando corretti tutti! A QUI!-->                    
                 </group>                
             </group>            
         </field>
