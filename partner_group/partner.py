@@ -53,29 +53,20 @@ class ResPartnerGroup(orm.Model):
     _description = 'Partner group'
     _order = 'name'
 
+    def add_partner(self, cr, uid, ids, context=None):
+        ''' Add partner to list
+        '''
+        return True
+        
     _columns = {
         'name': fields.char('Name', size=64, required=True),
         'note': fields.text('Note'),
-        }
-
-class ResPartner(orm.Model):
-    """ Partner group for statistic purpose
-    """
-    _inherit = 'res.partner'
-
-    _columns = {
-        'partner_group_id': fields.many2one('res.partner.group', 
-            'Partner group'),
-        }
-
-class ResPartnerGroup(orm.Model):
-    """ Partner group for statistic purpose
-    """
-    _inherit = 'res.partner.group'
-
-    _columns = {
-        'partner_ids': fields.one2many('res.partner.group', 
-            'partner_group_id', 'Partners')
+        'partner_ids': fields.many2many(
+            'res.partner', 
+            'res_partner_group_rel', 
+            'group_id',
+            'partner_id', 
+            'Group')
         }
         
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
