@@ -142,11 +142,12 @@ class StatisticInvoice(orm.Model):
                 delimiter=delimiter),
             }
         if particular:
-            loop_step[2] = csv.reader(
+            loop_steps[2] = csv.reader(
                 open(os.path.expanduser(file_input2), 'rb'),
                 delimiter=delimiter)
 
         for step, lines in loop_steps.iteritems():
+            import pdb; pdb.set_trace()
             counter = -header
             tot_col = 0
             for line in lines:
@@ -226,19 +227,19 @@ class StatisticInvoice(orm.Model):
                                     '%s: replace code: %s > 06.03044' % (
                                         counter, mexal_id))
                                 mexal_id = '06.03044'
+                                partner_name = "M Business"
+                        # Calculated field:
+                        partner_id = csv_base.get_create_partner_lite(
+                            cr, uid, mexal_id, context=context)
+                        if not partner_id:
+                            _logger.error(
+                                '%s) Partner not found: %s' % (
+                                counter, mexal_id))
+                            partner_name = '#ERR Partner code %s' % (
+                                mexal_id or '')
                         else:
-                            # Calculated field:
-                            partner_id = csv_base.get_create_partner_lite(
-                                cr, uid, mexal_id, context=context)
-                            if not partner_id:
-                                _logger.error(
-                                    '%s) Partner not found: %s' % (
-                                    counter, mexal_id))
-                                partner_name = '#ERR Partner code %s' % (
-                                    mexal_id or '')
-                            else:
-                                partner_name = get_partner_name(
-                                    self, cr, uid, partner_id)
+                            partner_name = get_partner_name(
+                                self, cr, uid, partner_id)
 
                         if not total_invoice:
                             _logger.warning('%s Amount not found [%s]' % (
