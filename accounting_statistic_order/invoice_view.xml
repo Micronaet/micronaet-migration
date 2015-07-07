@@ -215,7 +215,7 @@
         </field>
     </record>
 
-    <menuitem name="Order (header)" 
+    <!--<menuitem name="Order (header)" 
         parent="accounting_statistic_order.menu_base_accounting" 
         id="menu_action_statistic_header_deadline" 
         action="action_statistic_header_deadline" 
@@ -227,7 +227,7 @@
             id="menu_statistic_statistic_order_deadline_analysis" 
             action="action_statistic_order_deadline" 
             sequence="1" 
-            />
+            />TODO-->
     
   </data>
 </openerp>
