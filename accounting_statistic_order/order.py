@@ -69,7 +69,7 @@ class StatisticOrder(orm.Model):
         'deadline': fields.date('Scadenza'),
         'total': fields.float('Total', digits=(16, 2)),
         'country_id': fields.related(
-            'partner_id', 'country', type='many2one',
+            'partner_id', 'country_id', type='many2one',
             relation='res.country', string='Country', store=True),
         'zone_id': fields.related(
             'partner_id', 'zone_id', type='many2one',
@@ -117,13 +117,12 @@ class StatisticHeader(orm.Model):
         def get_partner_id(self, cr, uid, partner_id, context=None):
             ''' ID from partner
             '''
-            item_ids = self.pool.get('res.partner').search(cr, uid, [
+            partner_ids = self.pool.get('res.partner').search(cr, uid, [
                 ('sql_customer_code', '=', partner_id)], context=context)
-            if item_ids:
-                return item_id[0]
+            if partner_ids:
+                return partner_ids[0]
             return False
             
-        import pdb; pdb.set_trace()    
         _logger.info('Import CSV order file: %s' % file_input)
         #create_date = time.ctime(os.path.getctime(FileInput))    
 
@@ -147,6 +146,7 @@ class StatisticHeader(orm.Model):
         header_id = 0
         old_order_number = ''
         sequence = 0
+        import pdb; pdb.set_trace()
         for line in lines:
             try:
                 counter += 1
@@ -166,11 +166,13 @@ class StatisticHeader(orm.Model):
                 mexal_id = csv_pool.decode_string(line[0])
                 cliente = csv_pool.decode_string(line[1]) 
                 number = csv_pool.decode_string(line[2])
-                order_date = csv_pool.decode_date(line[3]) or False
-                order_deadline = csv_pool.decode_date(line[4]) or False
+                order_date = csv_pool.decode_date(
+                    line[3], with_slash=False) or False
+                order_deadline = csv_pool.decode_date(
+                    line[4], with_slash=False) or False
                 articolo_id = csv_pool.decode_string(line[5]) 
                 articolo = csv_pool.decode_string(line[6]) 
-                quantity = csv_pool.decode_float(line[7]) or 0.0
+                quantity = csv_pool.decode_float(line[7])
                 type_of_line = csv_pool.decode_string(line[8]) 
                 note = csv_pool.decode_string(line[9]) 
                 product_description = csv_pool.decode_string(line[10]) 
@@ -185,7 +187,8 @@ class StatisticHeader(orm.Model):
                 destination_cap = csv_pool.decode_string(line[18]) 
                 destination_loc = csv_pool.decode_string(line[19]) 
                 destination_prov = csv_pool.decode_string(line[20]) 
-                registration_date = csv_pool.decode_date(line[21]) or False
+                registration_date = csv_pool.decode_date(
+                    line[21], with_slash=False) or False
                 extra_note = csv_pool.decode_string(line[22]) 
                 agent_description = csv_pool.decode_string(line[23]) 
 
@@ -214,6 +217,10 @@ class StatisticHeader(orm.Model):
                 partner_id = get_partner_id(
                     self, cr, uid, mexal_id, context=context)
 
+                if not partner_id:
+                    _logger.error('Partner not found %s' % mexal_id)
+                    continue
+                    
                 if line_type=="a":
                     if not colli:
                         colli = quantity # if no cols use quantity (for 20 x 1)
@@ -382,7 +389,7 @@ class StatisticHeader(orm.Model):
             relation='account.fiscal.position', store=True,
             string='Fiscal position'),
         'country_id': fields.related(
-            'partner_id', 'country', type='many2one', relation='res.country',
+            'partner_id', 'country_id', type='many2one', relation='res.country',
             string='Country', store=True),
         'zone_id': fields.related(
             'partner_id', 'zone_id', type='many2one',

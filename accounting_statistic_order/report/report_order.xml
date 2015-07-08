@@ -9,8 +9,8 @@
         <field name="report_name">order_report</field>
         <field name="report_type">aeroo</field>
         <field name="in_format">oo-odt</field>
-        <field name="parser_loc">mexal_order_statistic/report/parser.py</field>
-        <field name="report_rml">mexal_order_statistic/report/order.odt</field>
+        <field name="parser_loc">accounting_statistic_order/report/parser.py</field>
+        <field name="report_rml">accounting_statistic_order/report/order.odt</field>
         <field name="parser_state">loc</field>
         <field name="tml_source">file</field>
         <!--<field name="out_format" eval="ref('report_aeroo_ooo.report_mimetypes_pdf_odt')"></field>-->
@@ -33,8 +33,8 @@
         <field name="report_name">order_report_summary</field>
         <field name="report_type">aeroo</field>
         <field name="in_format">oo-odt</field>
-        <field name="parser_loc">mexal_order_statistic/report/parser.py</field>
-        <field name="report_rml">mexal_order_statistic/report/summary.odt</field>
+        <field name="parser_loc">accounting_statistic_order/report/parser.py</field>
+        <field name="report_rml">accounting_statistic_order/report/summary.odt</field>
         <field name="parser_state">loc</field>
         <field name="tml_source">file</field>
         <!--<field name="out_format" eval="ref('report_aeroo_ooo.report_mimetypes_pdf_odt')"></field>-->
