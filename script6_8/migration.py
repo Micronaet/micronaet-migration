@@ -1385,8 +1385,9 @@ class SyncroXMLRPC(orm.Model):
                         #'state': item.state,                        
                         }
                     try:
-                        data['tax_id'] = [6, 0, (
-                            self._converter[item.tax_id[0].id])]
+                        
+                        data['tax_id'] = [
+                            (6, 0, (self._converter[item.tax_id[0].id]))]
                     except:
                         pass # use default tax
 
@@ -1615,6 +1616,7 @@ class SyncroXMLRPC(orm.Model):
                         #'state': item.state,                        
                         }
                     try:
+                        import pdb; pdb.set_trace()
                         data['taxes_id'] = [(6, 0, (tax_22a, ))] # NOTE add 22
                     except:
                         pass # use default tax
