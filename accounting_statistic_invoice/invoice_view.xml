@@ -172,10 +172,14 @@
         <field name="name">statistic.invoice.agent.form</field>
         <field name="model">statistic.invoice.agent</field>
         <field name="arch" type="xml">
-            <form string="Statistic tree">
-                <field name="hide_statistic"/>
-                <!--<field name="trend" />-->
-                <field name="name" />
+            <form string="Statistic tree" version="7.0">
+                <sheet>
+                   <group colspan="4" col="4">
+                       <field name="hide_statistic"/>
+                       <!--<field name="trend" />-->
+                       <field name="name" />
+                   </group> 
+                </sheet>
             </form>
         </field>
     </record>
@@ -183,7 +187,7 @@
         <field name="name">statistic.invoice.agent.tree</field>
         <field name="model">statistic.invoice.agent</field>
         <field name="arch" type="xml">
-            <tree string="Statistic tree">
+            <tree string="Statistic tree" editable="bottom">
                 <field name="hide_statistic"/>
                 <!--<field name="trend" />-->
                 <field name="name" />

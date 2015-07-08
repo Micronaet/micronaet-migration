@@ -21,7 +21,7 @@
 ###############################################################################
 
 {
-    'name': 'Accounting statistic: invoice',
+    'name': 'Accounting statistic: order',
     'version': '0.1',
     'category': 'Statistic',
     'author': 'Micronaet s.r.l.',

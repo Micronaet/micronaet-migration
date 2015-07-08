@@ -8,8 +8,8 @@
         <field name="model">statistic.category</field>
         <field name="arch" type="xml">
             <search string="Statistic category">
-                    <field name="trend" />
-                    <field name="name" />
+                <field name="trend" />
+                <field name="name" />
             </search>
         </field>
     </record>
@@ -19,9 +19,13 @@
         <field name="name">statistic.category.form</field>
         <field name="model">statistic.category</field>
         <field name="arch" type="xml">
-            <form string="Statistic category">
-                <field name="trend" />
-                <field name="name" />
+            <form string="Statistic category" version="7.0">
+                <sheet>
+                    <group colspan="4" col="4"> 
+                        <field name="trend" />
+                        <field name="name" />
+                    </group>
+                </sheet>
             </form>
         </field>
     </record>
@@ -31,10 +35,9 @@
         <field name="name">statistic.category.tree</field>
         <field name="model">statistic.category</field>
         <field name="arch" type="xml">
-            <tree string="Statistic category">
+            <tree string="Statistic category" editable="bottom">                
                 <field name="trend" />
                 <field name="name" />
-                <!--<field name="mexal_id"/>-->
             </tree>
         </field>
     </record>
