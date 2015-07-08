@@ -1549,7 +1549,6 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # purchase.order.line
         # ---------------------------------------------------------------------
-        import pdb; pdb.set_trace()
         obj = 'purchase.order.line'        
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
@@ -1572,7 +1571,7 @@ class SyncroXMLRPC(orm.Model):
                     data = {
                         'name': item.name,
                         'order_id': order_id,
-                        'sequence': item.sequence,
+                        #'sequence': item.sequence,
                         'product_id': self._converter[
                             'product.product'].get(
                                 item.product_id.id \
