@@ -780,8 +780,8 @@ class SyncroXMLRPC(orm.Model):
 
         # Load pricelist:      
         if wiz_proxy.purchase or wiz_proxy.purchase_line:
-            erp_pool = erp.ProductPricelist
-            item_ids = erp_pool.search([('type', '=', 'purchase')])
+            pl_pool = self.pool.get('product.pricelist')
+            item_ids = pl_pool.search(cr, uid, [('type', '=', 'purchase')])
             if item_ids:
                 purchase_pricelist_id = item_ids[0]
             else:
@@ -1440,7 +1440,6 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # purchase.order
         # ---------------------------------------------------------------------
-        import pdb; pdb.set_trace()
         obj = 'purchase.order'
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
@@ -1550,6 +1549,7 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # purchase.order.line
         # ---------------------------------------------------------------------
+        import pdb; pdb.set_trace()
         obj = 'purchase.order.line'        
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
@@ -1591,15 +1591,17 @@ class SyncroXMLRPC(orm.Model):
                                     else False, default_product_uom),
                         'product_uom_qty': item.product_uom_qty,
                         'product_uos_qty': item.product_uos_qty,
-                        'discount': item.discount,
-                        'th_weight': item.th_weight,
-                        'delay': item.delay,
+                        #'discount': item.discount,
+                        #'th_weight': item.th_weight,
+                        #'delay': item.delay,
                         
                         # Extxra fields:
-                        'multi_discount_rates': item.multi_discount_rates,
-                        'price_use_manual': item.price_use_manual,
-                        'price_unit_manual': item.price_unit_manual,
-                        'discount': item.discount,
+                        #'multi_discount_rates': item.multi_discount_rates,
+                        #'price_use_manual': item.price_use_manual,
+                        #'price_unit_manual': item.price_unit_manual,
+                        #'discount': item.discount,
+                        'date_planned': item.date_planned,
+
                         'migration_old_id': item.id,
 
                         # TODO used?!?
@@ -1607,11 +1609,11 @@ class SyncroXMLRPC(orm.Model):
                         #'company_id'
                         #'state': item.state,                        
                         }
-                    try:
-                        data['tax_id'] = [6, 0, (
-                            self._converter[item.tax_id[0].id])]
-                    except:
-                        pass # use default tax
+                    #try:
+                    #    data['tax_id'] = [6, 0, (
+                    #        self._converter[item.tax_id[0].id])]
+                    #except:
+                    #    pass # use default tax
 
                     new_ids = item_pool.search(cr, uid, [
                         ('migration_old_id', '=', item.id)], context=context)
