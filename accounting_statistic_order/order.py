@@ -117,17 +117,19 @@ class StatisticHeader(orm.Model):
         def get_partner_id(self, cr, uid, partner_id, context=None):
             ''' ID from partner
             '''
-            item_ids = self.pool.get('res.partner').search(cr, uid, 
+            item_ids = self.pool.get('res.partner').search(cr, uid, [
                 ('sql_customer_code', '=', partner_id)], context=context)
             if item_ids:
                 return item_id[0]
             return False
             
+        import pdb; pdb.set_trace()    
         _logger.info('Import CSV order file: %s' % file_input)
         #create_date = time.ctime(os.path.getctime(FileInput))    
 
         product_pool = self.pool.get('product.product')
-        counter = 0
+        csv_pool = self.pool.get('csv.base')
+        counter = -header
         lines = csv.reader(
             open(os.path.expanduser(file_input), 'rb'), delimiter=delimiter)
 
@@ -157,34 +159,35 @@ class StatisticHeader(orm.Model):
                 
                 if tot_col != len(line):
                     _logger.error('Different columns (%s > %s)' % (
-                        len(line), tot_col) 
+                        len(line), tot_col))
                     continue
                         
                 # Read data:
-                mexal_id = prepare(line[0])
-                cliente = prepare(line[1]) 
-                number = prepare(line[2])
-                order_date = prepare_date(line[3]) or False
-                order_deadline = prepare_date(line[4]) or False
-                articolo_id = prepare(line[5]) 
-                articolo = prepare(line[6]) 
-                quantity = prepare_float(line[7]) or 0.0
-                type_of_line = prepare(line[8]) 
-                note = prepare(line[9]) 
-                product_description = prepare(line[10]) 
-                product_description_eng = prepare(line[11]) 
-                colli = prepare(line[12]) 
-                line_type = prepare(line[13]).lower() # a=art, d=desc
-                port_code = prepare(line[14]).lower()
-                port_description = prepare(line[15]) 
-                destination_description = prepare(line[16]) 
-                destination_address = prepare(line[17]) 
-                destination_cap = prepare(line[18]) 
-                destination_loc = prepare(line[19]) 
-                destination_prov = prepare(line[20]) 
-                registration_date = prepare_date(line[21]) or False
-                extra_note = prepare(line[22]) 
-                agent_description = prepare(line[23]) 
+                mexal_id = csv_pool.decode_string(line[0])
+                cliente = csv_pool.decode_string(line[1]) 
+                number = csv_pool.decode_string(line[2])
+                order_date = csv_pool.decode_date(line[3]) or False
+                order_deadline = csv_pool.decode_date(line[4]) or False
+                articolo_id = csv_pool.decode_string(line[5]) 
+                articolo = csv_pool.decode_string(line[6]) 
+                quantity = csv_pool.decode_float(line[7]) or 0.0
+                type_of_line = csv_pool.decode_string(line[8]) 
+                note = csv_pool.decode_string(line[9]) 
+                product_description = csv_pool.decode_string(line[10]) 
+                product_description_eng = csv_pool.decode_string(line[11]) 
+                colli = csv_pool.decode_string(line[12]) 
+                line_type = csv_pool.decode_string(
+                    line[13]).lower() # a=art, d=desc
+                port_code = csv_pool.decode_string(line[14]).lower()
+                port_description = csv_pool.decode_string(line[15]) 
+                destination_description = csv_pool.decode_string(line[16]) 
+                destination_address = csv_pool.decode_string(line[17]) 
+                destination_cap = csv_pool.decode_string(line[18]) 
+                destination_loc = csv_pool.decode_string(line[19]) 
+                destination_prov = csv_pool.decode_string(line[20]) 
+                registration_date = csv_pool.decode_date(line[21]) or False
+                extra_note = csv_pool.decode_string(line[22]) 
+                agent_description = csv_pool.decode_string(line[23]) 
 
                 # Dimensional fields:
                 product_ids = product_pool.search(cr, uid, [
@@ -261,7 +264,7 @@ class StatisticHeader(orm.Model):
                     search_header_id = self.search(cr, uid, [
                         ('name','=',number)], context=context)
                     if search_header_id:
-                       header_id = search_header_id[0] # Save for use in order
+                        header_id = search_header_id[0] # Save for use in order
                     else: # Create:
                         header_id = self.create(
                             cr, uid, header, context=context)                            
@@ -304,7 +307,7 @@ class StatisticHeader(orm.Model):
                 order_id = order_pool.create(cr, uid, data, context=context)                
             except:
                 _logger.error('%s) Import order [%s]!' % (
-                    counter, sys.exc_info())
+                    counter, sys.exc_info()))
 
         _logger.info('End import order csv file: %s' % counter)
         return True
