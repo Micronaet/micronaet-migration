@@ -215,19 +215,20 @@
         </field>
     </record>
 
-    <!--<menuitem name="Order (header)" 
-        parent="accounting_statistic_order.menu_base_accounting" 
+    <menuitem
+        name="Order: Manage delivery" 
+        parent="base.menu_sales" 
         id="menu_action_statistic_header_deadline" 
         action="action_statistic_header_deadline" 
-        sequence="2" 
+        sequence="2"
         />
-        
-        <menuitem name="Order (details)" 
+
+        <!--<menuitem name="Details" 
             parent="menu_action_statistic_header_deadline" 
-            id="menu_statistic_statistic_order_deadline_analysis" 
+            id="menu_action_statistic_header_deadline_details" 
             action="action_statistic_order_deadline" 
             sequence="1" 
-            />TODO-->
+            />-->
     
   </data>
 </openerp>

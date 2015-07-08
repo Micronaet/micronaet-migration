@@ -28,6 +28,8 @@
     'website': 'http://www.micronaet.it',
     'license': 'AGPL-3',
     'depends': [
+        'base',
+        'sale',
         'accounting_statistic_base',
         'report_aeroo',
         ],
