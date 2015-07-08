@@ -1401,6 +1401,199 @@ class SyncroXMLRPC(orm.Model):
             #    context=context)
 
         # ---------------------------------------------------------------------
+        # purchase.order
+        # ---------------------------------------------------------------------
+        obj = 'purchase.order'
+        _logger.info("Start %s" % obj)
+        self._converter[obj] = {}
+        converter = self._converter[obj]
+        if wiz_proxy.purchase:
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.Purchase
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try: # Create record to insert/update
+                    name = item.name
+                    data = {
+                        'name': item.name,
+                        'note': item.note,
+                        'date_order': item.date_order,
+                        'partner_ref': item.partner_ref,
+                        'origin': item.origin,
+                        'create_date': item.create_date,
+                        'user_id': self._converter[
+                            'res.users'].get(
+                                item.user_id.id \
+                                    if item.user_id \
+                                    else False, False),
+                        #'payment_term': self._converter[
+                        #    'account.payment.term'].get(
+                        #        item.payment_term.id \
+                        #            if item.payment_term \
+                        #            else False, False),
+                        #'quotation_model': item.quotation_model,
+                        #'incoterm': self._converter[
+                        #    'stock.incoterms'].get(
+                        #        item.incoterm.id \
+                        #            if item.incoterm \
+                        #            else False, False),
+                        #'picking_policy': item.picking_policy, # direct one
+                        #'order_policy': item.order_policy, # manual picking ...
+                        #'return_id': self._converter[
+                        #    'sale.product.return'].get(
+                        #        item.return_id.id \
+                        #            if item.return_id \
+                        #            else False, False),
+                        #'bank_id': self._converter[
+                        #    'sale.order.bank'].get(
+                        #        item.bank_id.id \
+                        #            if item.bank_id \
+                        #            else False, False),                        
+                        #'fiscal_position': self._converter[
+                        #    'account.fiscal.position'].get(
+                        #        item.fiscal_position.id \
+                        #            if item.fiscal_position \
+                        #            else False, False),
+                        #'pricelist_id': self._converter[
+                        #    'product.pricelist'].get(
+                        #        item.pricelist_id.id \
+                        #            if item.pricelist_id \
+                        #            else False, False),
+                        'partner_id': self._converter[
+                            'res.partner'].get(
+                                item.partner_id.id \
+                                    if item.partner_id \
+                                    else False, 1),                                    
+                        'migration_old_id': item.id,
+                        #'destination_partner_id': self._converter[
+                        #    'res.partner'].get(
+                        #        item.partner_shipping_id.id \
+                        #            if item.partner_shipping_id \
+                        #            else False, False),
+                        'payment_note': item.payment_note,
+                        'delivery_note': item.delivery_note,
+                        'note': item.note,
+
+                        # TODO:
+                        #'confirm_date': item.confirm_date, # Not present
+                        }
+
+                    new_ids = item_pool.search(cr, uid, [
+                        #('name', '=', name)], context=context) #use migrateID ?
+                        ('migration_old_id', '=', item.id)], context=context) #use migrateID ?
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        if wiz_proxy.update:
+                            item_pool.write(cr, uid, item_id, data,
+                                context=context)
+                        print "#INFO", obj, "update:", name
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO", obj, "create:", name
+
+                    converter[item.id] = item_id
+                except:
+                    _logger.error(sys.exc_info())
+                    continue
+        else: # Load convert list form database
+            self.load_converter(cr, uid, converter, obj=obj,
+                context=context)
+
+        # ---------------------------------------------------------------------
+        # purchase.order.line
+        # ---------------------------------------------------------------------
+        obj = 'purchase.order.line'        
+        _logger.info("Start %s" % obj)
+        self._converter[obj] = {}
+        converter = self._converter[obj]
+        default_product_uom = 1 # Pz.
+        if wiz_proxy.purchase_line:
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.PurchaseOrderLine
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try: # Create record to insert/update
+                    name = item.name
+                    try:
+                        order_id = self._converter['purchase.order'][
+                            item.order_id.id]
+                    except:
+                        _logger.error("Order ID not present: %s" % name)                        
+                        continue
+
+                    data = {
+                        'name': item.name,
+                        'order_id': order_id,
+                        'sequence': item.sequence,
+                        'product_id': self._converter[
+                            'product.product'].get(
+                                item.product_id.id \
+                                    if item.product_id \
+                                    else False, False),
+                        'price_unit': item.price_unit,
+                        'product_uom': self._converter[
+                            'product.uom'].get(
+                                item.product_uom.id \
+                                    if item.product_uom \
+                                    else False, default_product_uom),
+                        'product_uos': self._converter[
+                            'product.uom'].get(
+                                item.product_uom.id \
+                                    if item.product_uos \
+                                    else False, default_product_uom),
+                        'product_uom_qty': item.product_uom_qty,
+                        'product_uos_qty': item.product_uos_qty,
+                        'discount': item.discount,
+                        'th_weight': item.th_weight,
+                        'delay': item.delay,
+                        
+                        # Extxra fields:
+                        'multi_discount_rates': item.multi_discount_rates,
+                        'price_use_manual': item.price_use_manual,
+                        'price_unit_manual': item.price_unit_manual,
+                        'discount': item.discount,
+                        'migration_old_id': item.id,
+
+                        # TODO used?!?
+                        #'address_allotment_id': 'res.partner'
+                        #'company_id'
+                        #'state': item.state,                        
+                        }
+                    try:
+                        data['tax_id'] = [6, 0, (
+                            self._converter[item.tax_id[0].id])]
+                    except:
+                        pass # use default tax
+
+                    new_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item.id)], context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        if wiz_proxy.update:
+                            item_pool.write(cr, uid, item_id, data,
+                                context=context)
+                        print "#INFO", obj, "update:", name
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO", obj, "create:", name
+
+                    converter[item.id] = item_id
+                    # TODO if state is order: wizard confirm!!!
+                except:
+                    _logger.error(name)
+                    _logger.error("#ERR %s jumped: %s [%s]" % (
+                        obj, name, sys.exc_info()))
+                    print sys.exc_info()
+                    continue
+        else: # Load convert list form database
+            pass # Non used
+            #self.load_converter(cr, uid, converter, obj=obj,
+            #    context=context)
+
+
+        # ---------------------------------------------------------------------
         #                        CUSTOM FOR THIS PARTNER
         # ---------------------------------------------------------------------
 
@@ -1521,6 +1714,20 @@ class SaleOrder(orm.Model):
 
 class SaleOrderLine(orm.Model):
     _inherit = 'sale.order.line'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.6'),
+        }
+
+class PurchaseOrder(orm.Model):
+    _inherit = 'purchase.order'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.6'),
+        }
+
+class PurchaseOrderLine(orm.Model):
+    _inherit = 'purchase.order.line'
 
     _columns = {
         'migration_old_id': fields.integer('ID v.6'),
