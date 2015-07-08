@@ -353,6 +353,8 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # account.tax
         # ---------------------------------------------------------------------
+        tax_22v = False
+        tax_22a = False
         if wiz_proxy.sale_line: # TODO or if needed in other tables 
             obj = 'account.tax'
             _logger.info("Start %s" % obj)
@@ -381,6 +383,10 @@ class SyncroXMLRPC(orm.Model):
                         ('description', '=', description)], context=context)
                     if new_ids: # Modify
                         converter[item.id] = new_ids[0]
+                        if description == '22v':
+                            tax_22v = new_ids[0]
+                        if description == '22a':
+                            tax_22a = new_ids[0]
                     else: # Create
                         #item_id = item_pool.create(cr, uid, data,
                         #    context=context)
@@ -1608,11 +1614,10 @@ class SyncroXMLRPC(orm.Model):
                         #'company_id'
                         #'state': item.state,                        
                         }
-                    #try:
-                    #    data['tax_id'] = [6, 0, (
-                    #        self._converter[item.tax_id[0].id])]
-                    #except:
-                    #    pass # use default tax
+                    try:
+                        data['taxes_id'] = [(6, 0, (tax_22a, ))] # NOTE add 22
+                    except:
+                        pass # use default tax
 
                     new_ids = item_pool.search(cr, uid, [
                         ('migration_old_id', '=', item.id)], context=context)
