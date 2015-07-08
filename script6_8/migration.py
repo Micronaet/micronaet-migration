@@ -1616,7 +1616,6 @@ class SyncroXMLRPC(orm.Model):
                         #'state': item.state,                        
                         }
                     try:
-                        import pdb; pdb.set_trace()
                         data['taxes_id'] = [(6, 0, (tax_22a, ))] # NOTE add 22
                     except:
                         pass # use default tax
