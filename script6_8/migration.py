@@ -1427,11 +1427,11 @@ class SyncroXMLRPC(orm.Model):
                     new_ids = item_pool.search(cr, uid, [
                         ('name', '=', name)], context=context)
                     if new_ids: # Modify
+                        converter[item.id] = new_ids[0]
                         print "#INFO", obj, "linked:", name
                     else: # Create
                         print "#ERR", obj, "not found:", name
 
-                    converter[item.id] = item_id
                 except:
                     print "#ERR", obj, "jumped:", name
                     print sys.exc_info()
