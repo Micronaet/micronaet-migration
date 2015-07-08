@@ -68,7 +68,8 @@ class SyncroMigrationWizard(orm.TransientModel):
         'partner': fields.boolean('B. Partner'),
         'sale': fields.boolean('C. Sale'),        
         'sale_line': fields.boolean('C. Sale order line'),        
-        'purchase': fields.boolean('C. Purchase > Purchase order line'),        
+        'purchase': fields.boolean('C. Purchase'),
+        'purchase_line': fields.boolean('C. Purchase order line'),
         
         # Custom for partner:
         'autostock': fields.boolean('Z. Autostock'),        

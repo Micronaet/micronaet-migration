@@ -24,6 +24,7 @@
                        <field name="sale" />
                        <field name="sale_line" />
                        <field name="purchase" />
+                       <field name="purchase_line" />
                        <field name="autostock" />
                    </group>
                 </form>
