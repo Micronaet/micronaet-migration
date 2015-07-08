@@ -200,7 +200,7 @@ class ProductPricelist(orm.Model):
         update_reference_pl(
             self, cr, uid, 
             version_id, 
-            partner_proxy.ref_version_id.id, 
+            partner_proxy.ref_pricelist_id.id, 
             context=context)
         return
 
