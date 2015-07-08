@@ -8,19 +8,22 @@
         <field name="model">statistic.header</field>
         <field name="arch" type="xml">
             <search string="Statistic order header">
-                <group col="11" colspan="4">
-                <filter string="Italia" name="italia" icon="terp-personal" domain="[('property_account_position','=','Italia')]" help="Consegne in Italia"/>
-                <filter string="Estero" name="estero" icon="terp-personal" domain="[('property_account_position','!=','Italia')]" help="Consegne all'estero"/>
-                <separator />
-                <filter string="To print" name="to_print" icon="terp-personal" domain="[('print','=',True)]" help="Ordini selezionati per la stampa"/>
-                <separator />
-                <!--<filter string="Da completare" name="completare" icon="terp-personal" domain="[('complete','=',False)]" help="Consegne non ancora prodotte"/>-->
+                <group col="11" colspan="4" string="Filter:">
+                   <filter string="Italia" name="italia" icon="terp-personal" domain="[('property_account_position','in',('Italia','Italy'))]" help="Consegne in Italia"/>
+                   <filter string="Estero" name="estero" icon="terp-personal" domain="[('property_account_position','not in',('Italia','Italy'))]" help="Consegne all'estero"/>
+                   <separator />
+               
+                   <filter string="To print" name="to_print" icon="terp-personal" domain="[('print','=',True)]" help="Ordini selezionati per la stampa"/>
+                   <separator />
+               
+                    <!--<filter string="Da completare" name="completare" icon="terp-personal" domain="[('complete','=',False)]" help="Consegne non ancora prodotte"/>-->
                     <field name="name" string="Order"/>
                     <field name="partner_id"/>
                     <field name="deadline"/>
                     <field name="zone_id" widget="selection" />
                 </group>
                 <newline/>
+
                 <group expand="0" string="Group By..." colspan="14">
                     <filter string="Posizione" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'property_account_position'}"/>
                     <filter string="Zone" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'zone_id'}"/>
