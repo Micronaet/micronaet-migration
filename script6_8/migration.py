@@ -1646,6 +1646,51 @@ class SyncroXMLRPC(orm.Model):
             #self.load_converter(cr, uid, converter, obj=obj,
             #    context=context)
 
+        # ---------------------------------------------------------------------
+        # product.supplierinfo
+        # ---------------------------------------------------------------------
+        obj = 'product.supplierinfo'
+        _logger.info("Start %s" % obj)
+        self._converter[obj] = {}
+        converter = self._converter[obj]
+        if wiz_proxy.product: # TODO
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.ProductSupplierinfo
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try: # Create record to insert/update
+                    data = {
+                        'product_code': item.product_code,
+                        'name': item.name, # supplier id # TODO
+                        'sequence': item.sequence,
+                        'product_name': item.product_name,
+                        'delay': item.delay,
+                        'min_qty': item.min_qty,
+                        'qty': item.qty,
+                        'product_tmpl_id': item.product_tmpl_id, # tmpl ID # TODO
+                        'migration_old_id': item.id, 
+                        }
+                        
+                    # TODO a qui    
+                    new_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item.id)], context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        item_pool.write(cr, uid, item_id, data,
+                            context=context)
+                        print "#INFO", obj, "update:", name
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO", obj, "Error here I dont' create", name
+
+                    converter[item.id] = item_id
+                except:
+                    _logger.error(sys.exc_info())
+                    continue                    
+        else: # Load convert list form database
+            self.load_converter(cr, uid, converter, obj=obj,
+                context=context)
 
         # ---------------------------------------------------------------------
         #                        CUSTOM FOR THIS PARTNER
@@ -1800,4 +1845,12 @@ class ResPartnerCategory(orm.Model):
     _columns = {
         'migration_old_id': fields.integer('ID v.6'),
         }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+        
+class ProductSupplierinfo(orm.Model):
+    _inherit = 'product.supplierinfo'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.6'),
+        }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:class ResPartnerCategory(orm.Model):
+
