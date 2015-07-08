@@ -69,13 +69,14 @@ class Parser(report_sxw.rml_parse):
     def get_telephone(self, ids):
         if not ids:
            return ""
-           
+
         partner_proxy = self.pool.get('res.partner').browse(
             self.cr, self.uid, ids)
-        for address in partner_proxy.address:
-            if not address.mexal_c and not address.mexal_s:
-               return address.phone
-        return ""
+        #for address in partner_proxy.address:
+        #    if not address.mexal_c and not address.mexal_s:
+        #       return address.phone
+        #return ""
+        return partner_proxy.phone
 
     def get_address_default(self, item_id, partner_name=""):
         ''' Get, from id of partner the first default address imported 
@@ -84,12 +85,12 @@ class Parser(report_sxw.rml_parse):
             return ""
         partner_pool = self.pool.get('res.partner')
         partner_proxy = partner_pool.browse(
-            self.cr, self.uid, item_ids)
+            self.cr, self.uid, item_id)
         return "%s\n%s\n%s - %s" % (
-            partner_proxy.name, 
-            partner_proxy.street, 
-            partner_proxy.zip, 
-            partner_proxy.city,
+            partner_proxy.name or '', 
+            partner_proxy.street or '', 
+            partner_proxy.zip or '', 
+            partner_proxy.city or '',
             )
 
     def reset_print(self):
