@@ -30,9 +30,9 @@
 from openerp.report import report_sxw
 from openerp.report.report_sxw import rml_parse
 
-last_record = 0
 
 class Parser(report_sxw.rml_parse):
+    last_record = 0
     def __init__(self, cr, uid, name, context):
         super(Parser, self).__init__(cr, uid, name, context)
         self.localcontext.update({
@@ -50,10 +50,9 @@ class Parser(report_sxw.rml_parse):
     def is_last(self, item_id):
         ''' Test if the record id passed is the last of the list
         '''
-        global last_record
-        if not (item_id and last_record):
+        if not (item_id and self.last_record):
             return False
-        return item_id == last_record  # return test value
+        return item_id == self.last_record  # return test value
             
         if value:
             return "%s-%s-%s" % (value[8:10], value[5:7], value[:4])
@@ -78,37 +77,29 @@ class Parser(report_sxw.rml_parse):
                return address.phone
         return ""
 
-    def get_address_default(self, item_id, partner_name = ""):
+    def get_address_default(self, item_id, partner_name=""):
         ''' Get, from id of partner the first default address imported 
         '''
         if not item_id:
             return ""
-           
-        partner_address_pool = self.pool.get('res.partner.address')
-        find_ids = partner_address_pool.search(self.cr, self.uid, [
-            ('partner_id', '=', item_id),
-            ('type', '=', 'default'),
-            ('import', '=', True)])
-        
-        if not find_ids:
-            return partner_name
-            
-        partner_address_proxy = partner_address_pool.browse(
-            self.cr, self.uid, find_ids)[0] # take first
+        partner_pool = self.pool.get('res.partner')
+        partner_proxy = partner_pool.browse(
+            self.cr, self.uid, item_ids)
         return "%s\n%s\n%s - %s" % (
-            partner_address_proxy.partner_id.name, 
-            partner_address_proxy.street, 
-            partner_address_proxy.zip, 
-            partner_address_proxy.city,
+            partner_proxy.name, 
+            partner_proxy.street, 
+            partner_proxy.zip, 
+            partner_proxy.city,
             )
 
     def reset_print(self):
         ''' Called at the end of report to reset print check
         '''
+        header_pool = self.pool.get('statistic.header')
         # Azzero tutte le selezioni (al termine della stampa:
-        header_ids = self.pool.get('statistic.header').search(
+        header_ids = header_pool.search(
             self.cr, self.uid, [('print', '=', True)])
-        header_mod = self.pool.get('statistic.header').write(
+        header_mod = header_pool.write(
             self.cr, self.uid, header_ids, {'print': False})     
         return "" # print nothing    
 
@@ -133,22 +124,22 @@ class Parser(report_sxw.rml_parse):
     def order_browse(self, objects):
         ''' Return only in_pricelist product for print a pricelist
         '''
-        global last_record
-        last_record = 0
+        self.last_record = 0
         
         ids = self._get_fully_list(objects)
         order_proxy = self.pool.get('statistic.header').browse(
             self.cr, self.uid, ids) 
         
-        last_record=ids[-1] # for extra page
+        self.last_record = ids[-1] # for extra page
         return order_proxy
         
     def colli_total(self, order_id):
+        order_pool = self.pool.get('statistic.order')
         total = 0
-        order_line_ids = self.pool.get('statistic.order').search(
+        order_line_ids = order_pool.search(
             self.cr, self.uid, [('header_id', '=', order_id)])
         
-        for order_line in self.pool.get('statistic.order').browse(
+        for order_line in order_pool.browse(
                 self.cr, self.uid, order_line_ids):
             if order_line.colli:
                total += order_line.colli or 0
