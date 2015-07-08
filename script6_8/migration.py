@@ -1549,7 +1549,6 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # purchase.order.line
         # ---------------------------------------------------------------------
-        import pdb; pdb.set_trace()
         obj = 'purchase.order.line'        
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
@@ -1584,13 +1583,13 @@ class SyncroXMLRPC(orm.Model):
                                 item.product_uom.id \
                                     if item.product_uom \
                                     else False, default_product_uom),
-                        'product_uos': self._converter[
-                            'product.uom'].get(
-                                item.product_uom.id \
-                                    if item.product_uos \
-                                    else False, default_product_uom),
-                        'product_uom_qty': item.product_uom_qty,
-                        'product_uos_qty': item.product_uos_qty,
+                        #'product_uos': self._converter[
+                        #    'product.uom'].get(
+                        #        item.product_uom.id \
+                        #            if item.product_uos \
+                        #            else False, default_product_uom),
+                        'product_qty': item.product_qty,
+                        #'product_uos_qty': item.product_uos_qty,
                         #'discount': item.discount,
                         #'th_weight': item.th_weight,
                         #'delay': item.delay,
