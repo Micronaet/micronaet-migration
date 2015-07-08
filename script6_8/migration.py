@@ -777,7 +777,17 @@ class SyncroXMLRPC(orm.Model):
                     converter[item.id] = item_id
                 else: # Create
                     print "#ERR", obj, "not found:", mexal_id
-        
+
+        # Load pricelist:      
+        if wiz_proxy.purchase or wiz_proxy.purchase_line:
+            erp_pool = erp.ProductPricelist
+            item_ids = erp_pool.search([('type', '=', 'purchase')])
+            if item_ids:
+                purchase_pricelist_id = item_ids[0]
+            else:
+                print "No sale pricelist found"
+                purchase_pricelist_id = 0
+
         # ---------------------------------------------------------------------
         # res.partner and res.partner.address
         # ---------------------------------------------------------------------
@@ -1401,31 +1411,58 @@ class SyncroXMLRPC(orm.Model):
             #    context=context)
 
         # ---------------------------------------------------------------------
+        # stock.location
+        # ---------------------------------------------------------------------
+        obj = 'stock.location' 
+        _logger.info("Start %s" % obj)
+        self._converter[obj] = {}
+        converter = self._converter[obj]
+        if wiz_proxy.purchase or wiz_proxy.purchase_line:
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.StockLocation
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try: # Create record to insert/update
+                    name = item.name                    
+                    new_ids = item_pool.search(cr, uid, [
+                        ('name', '=', name)], context=context)
+                    if new_ids: # Modify
+                        print "#INFO", obj, "linked:", name
+                    else: # Create
+                        print "#ERR", obj, "not found:", name
+
+                    converter[item.id] = item_id
+                except:
+                    print "#ERR", obj, "jumped:", name
+                    print sys.exc_info()
+                    continue                    
+
+        # ---------------------------------------------------------------------
         # purchase.order
         # ---------------------------------------------------------------------
+        import pdb; pdb.set_trace()
         obj = 'purchase.order'
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
         if wiz_proxy.purchase:
             item_pool = self.pool.get(obj)
-            erp_pool = erp.Purchase
+            erp_pool = erp.PurchaseOrder
             item_ids = erp_pool.search([])
             for item in erp_pool.browse(item_ids):
                 try: # Create record to insert/update
                     name = item.name
                     data = {
                         'name': item.name,
-                        'note': item.note,
                         'date_order': item.date_order,
                         'partner_ref': item.partner_ref,
                         'origin': item.origin,
-                        'create_date': item.create_date,
-                        'user_id': self._converter[
-                            'res.users'].get(
-                                item.user_id.id \
-                                    if item.user_id \
-                                    else False, False),
+                        #'create_date': item.create_date,
+                        #'user_id': self._converter[
+                        #    'res.users'].get(
+                        #        item.user_id.id \
+                        #            if item.user_id \
+                        #            else False, False),
                         #'payment_term': self._converter[
                         #    'account.payment.term'].get(
                         #        item.payment_term.id \
@@ -1472,15 +1509,25 @@ class SyncroXMLRPC(orm.Model):
                         #            else False, False),
                         'payment_note': item.payment_note,
                         'delivery_note': item.delivery_note,
-                        'note': item.note,
+                        'pricelist_id': purchase_pricelist_id,
+                        #'note': item.note,
 
                         # TODO:
                         #'confirm_date': item.confirm_date, # Not present
                         }
 
+                    location_id = self._converter[
+                            'stock.location'].get(
+                                item.location_id.id \
+                                    if item.location_id \
+                                    else False, False)
+                    if not location_id:
+                        _logger.error('Location not found, jumped')
+                        continue
+                    data['location_id'] = location_id
+
                     new_ids = item_pool.search(cr, uid, [
-                        #('name', '=', name)], context=context) #use migrateID ?
-                        ('migration_old_id', '=', item.id)], context=context) #use migrateID ?
+                        ('migration_old_id', '=', item.id)], context=context) 
                     if new_ids: # Modify
                         item_id = new_ids[0]
                         if wiz_proxy.update:
@@ -1488,8 +1535,8 @@ class SyncroXMLRPC(orm.Model):
                                 context=context)
                         print "#INFO", obj, "update:", name
                     else: # Create
-                        item_id = item_pool.create(cr, uid, data,
-                            context=context)
+                        item_id = item_pool.create(
+                            cr, uid, data, context=context)
                         print "#INFO", obj, "create:", name
 
                     converter[item.id] = item_id
@@ -1600,7 +1647,7 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # auto.stock.supplier
         # ---------------------------------------------------------------------
-        obj = 'auto.stock.supplier' # no need converter
+        """obj = 'auto.stock.supplier' # no need converter
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
@@ -1632,7 +1679,7 @@ class SyncroXMLRPC(orm.Model):
                     continue                    
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
-                context=context)
+                context=context)"""
 
         # END:
         return True

@@ -33,6 +33,7 @@
         'partner_addresses',
         'product',
         'sale',
+        'purchase',
         'crm',
         'report_auto_stock',
         #'auto_backup',
