@@ -355,7 +355,7 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         tax_22v = False
         tax_22a = False
-        if wiz_proxy.sale_line: # TODO or if needed in other tables 
+        if wiz_proxy.sale_line or wiz_proxy.purchase_line: # TODO or if needed in other tables 
             obj = 'account.tax'
             _logger.info("Start %s" % obj)
             tax_invert = {
