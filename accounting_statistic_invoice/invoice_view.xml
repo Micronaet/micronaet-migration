@@ -20,7 +20,7 @@
         <field name="model">statistic.invoice.product</field>
         <field name="arch" type="xml">
             <search string="Statistic invoice product" version="7.0">        
-                <field name="name" /> <!--family-->
+                <field name="name" string="father code"/> <!--family-->
                 <field name="total" />
                 <field name="percentage" />
                 <field name="season" />
@@ -38,7 +38,7 @@
                 <filter name="season_new" domain="[('season','=',4)]" string="Extra (New season)"/>
 
                 <group expand="0" string="Group By">
-                    <filter name="group_name" string="Name" context="{'group_by': 'name'}"/>
+                    <filter name="group_name" string="Father code" context="{'group_by': 'name'}"/>
                     <filter name="group_family" string="Family" context="{'group_by': 'family_id'}"/>
                     <filter name="group_category" string="Category" context="{'group_by': 'categ_id'}"/>
                     <filter name="group_type" string="Doc. type" context="{'group_by': 'type_document'}"/>
