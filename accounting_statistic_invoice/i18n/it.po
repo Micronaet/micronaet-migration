@@ -174,7 +174,7 @@ msgstr "Statistiche fatturato"
 #: view:statistic.invoice:accounting_statistic_invoice.view_statistic_invoice_search
 #: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_search
 msgid "Low sale"
-msgstr "Prodotti meno venduti"
+msgstr "Low partner"
 
 #. module: accounting_statistic_invoice
 #: view:statistic.invoice:accounting_statistic_invoice.view_statistic_invoice_search
@@ -335,7 +335,7 @@ msgstr "Top"
 #: view:statistic.invoice.product:accounting_statistic_invoice.view_statistic_invoice_product_search
 #: field:statistic.invoice.product,top:0
 msgid "Top sale"
-msgstr "Prodotti più venduti"
+msgstr "Top partner"
 
 #. module: accounting_statistic_invoice
 #: view:statistic.invoice:accounting_statistic_invoice.view_statistic_invoice_form

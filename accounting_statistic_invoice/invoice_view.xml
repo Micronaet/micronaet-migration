@@ -234,8 +234,8 @@
                 <filter name="trend_off" domain="[('trend','=',False)]" string="Trend off"/>
                 <newline />
 
-                <filter name="top_sale" domain="[('top','=',True)]" string="Top sale"/>
-                <filter name="low_sale" domain="[('top','=',False)]" string="Low sale"/>
+                <filter name="top_sale" domain="[('top','=',True)]" string="Top partner"/>
+                <filter name="low_sale" domain="[('top','=',False)]" string="Low partner"/>
                 <newline />
 
                 <filter name="seasonB3" domain="[('season','=',-3)]" string="Season -3"/>

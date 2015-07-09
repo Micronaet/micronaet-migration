@@ -1649,11 +1649,11 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # product.supplierinfo
         # ---------------------------------------------------------------------
-        obj = 'product.supplierinfo'
+        """obj = 'product.supplierinfo'
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        if wiz_proxy.product: # TODO
+        if wiz_proxy.productpricelist: # TODO
             item_pool = self.pool.get(obj)
             erp_pool = erp.ProductSupplierinfo
             item_ids = erp_pool.search([])
@@ -1691,7 +1691,7 @@ class SyncroXMLRPC(orm.Model):
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
                 context=context)
-
+        """
         # ---------------------------------------------------------------------
         #                        CUSTOM FOR THIS PARTNER
         # ---------------------------------------------------------------------
