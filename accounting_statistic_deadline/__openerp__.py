@@ -36,7 +36,7 @@
     'data': [
         'security/ir.model.access.csv',        
         'deadline_view.xml',
-        'scheduler.xml',
+        'scheduler.xml',        
         ],
     'active': False,
     'installable': True,
