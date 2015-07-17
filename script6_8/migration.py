@@ -535,6 +535,8 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # product.product
         # ---------------------------------------------------------------------
+        import pdb; pdb.set_trace()
+
         obj = 'product.product' # template??
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
