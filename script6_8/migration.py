@@ -1664,6 +1664,7 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
+        import pdb; pdb.set_trace()
         if wiz_proxy.productpricelist: # TODO
             item_pool = self.pool.get(obj)
             erp_pool = erp.ProductSupplierinfo
@@ -1688,15 +1689,15 @@ class SyncroXMLRPC(orm.Model):
                         'delay': item.delay,
                         # company_ID
                         'qty': item.qty,
-                        'product_id': self._converter[
-                            'product.product'].get(
+                        #'product_id': self._converter[
+                        #    'product.product'].get(
+                        #        item.product_id.id \
+                        #            if item.product_id \
+                        #            else False, False),
+                        'product_tmpl_id': self._converter[
+                            'product.template'].get(
                                 item.product_id.id \
                                     if item.product_id \
-                                    else False, False),
-                        'product_tmpl_id': self._converter[
-                            'product.product'].get(
-                                item.product_tmpl_id.id \
-                                    if item.product_tmpl_id \
                                     else False, False),
                         'migration_old_id': item.id, 
                         }
