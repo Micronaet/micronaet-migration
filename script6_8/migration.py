@@ -1664,13 +1664,18 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        import pdb; pdb.set_trace()
         if wiz_proxy.productpricelist: # TODO
             item_pool = self.pool.get(obj)
             erp_pool = erp.ProductSupplierinfo
             item_ids = erp_pool.search([])
             for item in erp_pool.browse(item_ids):
                 try: # Create record to insert/update
+                    tmpl_old_id = item.product_id.id if item.product_id else False
+                    if not tmpl_old_id:
+                        _logger.error("Template not found, no product!")
+                        continue
+                    tmpl_id = self._converter['product.template'].get(
+                        tmpl_old_id, False)    
                     data = {                        
                         'name': self._converter[ # supplier ID
                             'res.partner'].get(
@@ -1694,11 +1699,7 @@ class SyncroXMLRPC(orm.Model):
                         #        item.product_id.id \
                         #            if item.product_id \
                         #            else False, False),
-                        'product_tmpl_id': self._converter[
-                            'product.template'].get(
-                                item.product_id.id \
-                                    if item.product_id \
-                                    else False, False),
+                        'product_tmpl_id': tmpl_id,
                         'migration_old_id': item.id, 
                         }
 
