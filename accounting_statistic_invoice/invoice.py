@@ -41,7 +41,20 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 
 _logger = logging.getLogger(__name__)
 
-
+transcode_month = { # to season element
+    9: 1, # Sept
+    10: 2,
+    11: 3,
+    12: 4,
+    1: 5,
+    2: 6, 
+    3: 7,
+    4: 8,
+    5: 9,
+    6: 10,
+    7: 11, 
+    8: 12,
+    }
 # -----------------------------------------------------------------------------
 # Utility: TODO move somewhere!
 # -----------------------------------------------------------------------------
@@ -166,6 +179,7 @@ class StatisticInvoice(orm.Model):
                     try:
                         mexal_id = csv_base.decode_string(line[0]) # ID
                         month = int(csv_base.decode_string(line[1])) or 0
+                        month_season = transcode_month[month]
                         year = csv_base.decode_string(line[2]) or ''
                         total_invoice = csv_base.decode_float(
                             line[3]) or 0.0
@@ -265,7 +279,7 @@ class StatisticInvoice(orm.Model):
                             'name': '%s [%s]' % (partner_name, mexal_id),
                             'partner_id': partner_id,
                             'tag_id': partner_tags.get(partner_id, False),
-                            'month': month,
+                            'month': month_season, # month,
                             'type_document': type_document,
                             'year': year,
                             'total': total_invoice,
@@ -354,18 +368,31 @@ class StatisticInvoice(orm.Model):
 
         'month': fields.selection([
             (0, '00 Non trovato'),
-            (1, '05*: Gen.'),
-            (2, '06*: Feb.'),
-            (3, '07*: Mar.'),
-            (4, '08*: Apr.'),
-            (5, '09*: Mag.'),
-            (6, '10*: Giu.'),
-            (7, '11*: Lug.'),
-            (8, '12*: Ago.'),
-            (9, '01: Set.'),
-            (10, '02: Ott.'),
-            (11, '03: Nov.'),
-            (12, '04: Dic.'), ], 'Mese', select=True),
+            (1, '01: Set.'),
+            (2, '02: Ott.'),
+            (3, '03: Nov.'),
+            (4, '04: Dic.'), 
+            (5, '05*: Gen.'),
+            (6, '06*: Feb.'),
+            (7, '07*: Mar.'),
+            (8, '08*: Apr.'),
+            (9, '09*: Mag.'),
+            (10, '10*: Giu.'),
+            (11, '11*: Lug.'),
+            (12, '12*: Ago.'),
+            #(1, '05*: Gen.'),
+            #(2, '06*: Feb.'),
+            #(3, '07*: Mar.'),
+            #(4, '08*: Apr.'),
+            #(5, '09*: Mag.'),
+            #(6, '10*: Giu.'),
+            #(7, '11*: Lug.'),
+            #(8, '12*: Ago.'),
+            #(9, '01: Set.'),
+            #(10, '02: Ott.'),
+            #(11, '03: Nov.'),
+            #(12, '04: Dic.'), 
+            ], 'Mese', select=True),
 
         'season': fields.selection([
             (-100, 'Season old'), # all old seasons
@@ -481,6 +508,8 @@ class StatisticInvoiceProduct(orm.Model):
                     continue
 
                 month = int(month)
+                month_season = transcode_month[month]
+
                 # Calculated field:
                 if type_document not in ('ft', 'bc', 'oc'):
                     _logger.warning('%s) Type of doc not correct: %s' % (
@@ -491,7 +520,7 @@ class StatisticInvoiceProduct(orm.Model):
 
                 data = {
                     'name': name,
-                    'month': month,
+                    'month': month_season,
                     'type_document': type_document,
                     'total': total_invoice, # now for all seasons
                     'year': year,
@@ -598,18 +627,19 @@ class StatisticInvoiceProduct(orm.Model):
 
         'month': fields.selection([
             (0, '00 Non trovato'),
-            (1, '05*: Gen.'),
-            (2, '06*: Feb.'),
-            (3, '07*: Mar.'),
-            (4, '08*: Apr.'),
-            (5, '09*: Mag.'),
-            (6, '10*: Giu.'),
-            (7, '11*: Lug.'),
-            (8, '12*: Ago.'),
-            (9, '01: Set.'),
-            (10, '02: Ott.'),
-            (11, '03: Nov.'),
-            (12, '04: Dic.'), ], 'Month', select=True),
+            (1, '01: Set.'),
+            (2, '02: Ott.'),
+            (3, '03: Nov.'),
+            (4, '04: Dic.'), 
+            (5, '05*: Gen.'),
+            (6, '06*: Feb.'),
+            (7, '07*: Mar.'),
+            (8, '08*: Apr.'),
+            (9, '09*: Mag.'),
+            (10, '10*: Giu.'),
+            (11, '11*: Lug.'),
+            (12, '12*: Ago.'),
+            ], 'Month', select=True),
         }
 
     _defaults = {
