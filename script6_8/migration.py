@@ -749,8 +749,7 @@ class SyncroXMLRPC(orm.Model):
                 # Save in converter dict:    
                 self._converter['product.template'][
                     product.migration_old_tmpl_id] = product.product_tmpl_id.id
-        print self._converter['product.template']
-        import pdb; pdb.set_trace()
+
         # ---------------------------------------------------------------------
         # Supplier pricelist
         # ---------------------------------------------------------------------
@@ -1689,8 +1688,13 @@ class SyncroXMLRPC(orm.Model):
                         'delay': item.delay,
                         # company_ID
                         'qty': item.qty,
+                        'product_id': self._converter[
+                            'product.product'].get(
+                                item.product_id.id \
+                                    if item.product_id \
+                                    else False, False),
                         'product_tmpl_id': self._converter[
-                            'product.template'].get(
+                            'product.product'].get(
                                 item.product_tmpl_id.id \
                                     if item.product_tmpl_id \
                                     else False, False),
