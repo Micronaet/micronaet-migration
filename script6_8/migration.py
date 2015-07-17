@@ -709,6 +709,7 @@ class SyncroXMLRPC(orm.Model):
                         # Extra fields:
                         'sql_import': item.mexal_id, # for sync purpose
                         'migration_old_id': item.id,
+                        'migration_old_tmpl_id': item.product_tmpl_id,
                         }
 
                     # Note: search by code (default_code is the key)
@@ -738,6 +739,13 @@ class SyncroXMLRPC(orm.Model):
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
                 context=context)
+
+        # Load template converter:
+        self._converter['product.template'] = {}
+        converter = self._converter['product.template']
+        for product in self.pool.get('product.product'):
+            converter[
+                product.migration_old_tmpl_id] = product.product_tmpl_id.id
 
         # ---------------------------------------------------------------------
         # Supplier pricelist
@@ -1649,7 +1657,7 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # product.supplierinfo
         # ---------------------------------------------------------------------
-        """obj = 'product.supplierinfo'
+        obj = 'product.supplierinfo'
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
@@ -1659,30 +1667,43 @@ class SyncroXMLRPC(orm.Model):
             item_ids = erp_pool.search([])
             for item in erp_pool.browse(item_ids):
                 try: # Create record to insert/update
-                    data = {
-                        'product_code': item.product_code,
-                        'name': item.name, # supplier id # TODO
+                    data = {                        
+                        'name': self._converter[ # supplier ID
+                            'res.partner'].get(
+                                item.name.id \
+                                    if item.name \
+                                    else False, False),
                         'sequence': item.sequence,
                         'product_name': item.product_name,
-                        'delay': item.delay,
+                        'product_code': item.product_code,
                         'min_qty': item.min_qty,
+                        'product_uom': self._converter[ # supplier ID
+                            'product.uom'].get(
+                                item.product_uom.id \
+                                    if item.product_uom \
+                                    else False, False),
+                        'delay': item.delay,
+                        # company_ID
                         'qty': item.qty,
-                        'product_tmpl_id': item.product_tmpl_id, # tmpl ID # TODO
+                        'product_tmpl_id': self._converter[
+                            'product.template'].get(
+                                item.product_tmpl_id.id \
+                                    if item.product_tmpl_id \
+                                    else False, False),
                         'migration_old_id': item.id, 
                         }
-                        
-                    # TODO a qui    
+
                     new_ids = item_pool.search(cr, uid, [
                         ('migration_old_id', '=', item.id)], context=context)
                     if new_ids: # Modify
                         item_id = new_ids[0]
                         item_pool.write(cr, uid, item_id, data,
                             context=context)
-                        print "#INFO", obj, "update:", name
+                        print "#INFO", obj, "update:", item.product_name
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        print "#INFO", obj, "Error here I dont' create", name
+                        print "#INFO", obj, "create:", item.product_name
 
                     converter[item.id] = item_id
                 except:
@@ -1691,7 +1712,7 @@ class SyncroXMLRPC(orm.Model):
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
                 context=context)
-        """
+        
         # ---------------------------------------------------------------------
         #                        CUSTOM FOR THIS PARTNER
         # ---------------------------------------------------------------------
@@ -1781,7 +1802,9 @@ class ProductProduct(orm.Model):
 
     _columns = {
         'migration_old_id': fields.integer('ID v.6'),
+        'migration_old_tmpl_id': fields.integer('ID tmpl v.6'),
         }
+
 
 class ProductCategory(orm.Model):
     _inherit = 'product.category'
