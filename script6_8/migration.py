@@ -837,7 +837,7 @@ class SyncroXMLRPC(orm.Model):
                 except:
                     print "#ERR", obj, "jumped:", name
                     continue
-        print converter
+
         # ---------------------------------------------------------------------
         # res.partner and res.partner.address
         # ---------------------------------------------------------------------
@@ -852,7 +852,6 @@ class SyncroXMLRPC(orm.Model):
             item_pool = self.pool.get(obj)
             erp_pool = erp.ResPartner
             item_ids = erp_pool.search([]) 
-            #('trend', '=', True) ('statistic_category_id', '=', True)
             i = 0
             
             try:
@@ -864,7 +863,7 @@ class SyncroXMLRPC(orm.Model):
                 
             for item in erp_pool.browse(item_ids):
                 try:
-                    i += 1                    
+                    i += 1                                        
                     name = item.name.strip()
                     # Create record to insert / update
                     data = { # NOTE: partner are imported add only new data

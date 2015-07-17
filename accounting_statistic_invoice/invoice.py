@@ -394,14 +394,16 @@ class StatisticInvoice(orm.Model):
 
         'year': fields.char('Anno', size=4),
 
-        'trend': fields.related('partner_id', 'trend', type='boolean',
-            readonly=True, string='Important partner', store=True),
-
         # Extra info for filter graph:
         'statistic_category_id': fields.related('partner_id', 
             'statistic_category_id', type='many2one',
             relation='statistic.category', string='Statistic category', 
             store=True),
+
+        'trend': fields.related('statistic_category_id', 'trend', 
+            type='boolean', readonly=True, string='Important partner', 
+            store=True),
+
         'zone_id': fields.related('partner_id', 'zone_id', type='many2one',
             relation='res.partner.zone', string='Zone', store=True),
         'zone_type': fields.related('zone_id', 'type', type='selection',
