@@ -401,7 +401,7 @@ class StatisticInvoice(orm.Model):
             store=True),
 
         'trend': fields.related('statistic_category_id', 'trend', 
-            type='boolean', readonly=True, string='Important partner', 
+            type='boolean', readonly=True, string='Trend stat. cat.', 
             store=True),
 
         'zone_id': fields.related('partner_id', 'zone_id', type='many2one',
