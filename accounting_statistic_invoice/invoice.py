@@ -106,8 +106,8 @@ class StatisticInvoice(orm.Model):
     def schedule_csv_statistic_invoice_import(self, cr, uid,
             file_input1='~/ETL/fatmeseoerp1.csv',
             file_input2='~/ETL/fatmeseoerp2.csv',
-            delimiter=';', header=0,
-            verbose=100, particular=True, context=None):
+            delimiter=';', header=0, verbose=100, 
+            particular=True, context=None):
         """ Import statistic data from CSV file for invoice, trend, trendoc
             This particular importation are from 2 files (amount)
             (all particularity manage are use if particular = True)
@@ -380,18 +380,6 @@ class StatisticInvoice(orm.Model):
             (10, '10*: Giu.'),
             (11, '11*: Lug.'),
             (12, '12*: Ago.'),
-            #(1, '05*: Gen.'),
-            #(2, '06*: Feb.'),
-            #(3, '07*: Mar.'),
-            #(4, '08*: Apr.'),
-            #(5, '09*: Mag.'),
-            #(6, '10*: Giu.'),
-            #(7, '11*: Lug.'),
-            #(8, '12*: Ago.'),
-            #(9, '01: Set.'),
-            #(10, '02: Ott.'),
-            #(11, '03: Nov.'),
-            #(12, '04: Dic.'), 
             ], 'Mese', select=True),
 
         'season': fields.selection([

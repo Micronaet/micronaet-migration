@@ -1,6 +1,29 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
+        <!--res.partner-->
+    <record model="ir.ui.view" id="view_partner_trend_statistic_form">
+        <field name="name">Partner trend</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <field name="active" position="after">
+                <field name="trend" />
+            </field>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="view_partner_trend_statistic_search">
+        <field name="name">Partner trend</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter" />
+        <field name="arch" type="xml">
+            <xpath expr="/search/filter[@name='customer']" position="before">
+                <filter name="trend" string="Trend" domain="[('trend','=',True)]"/>
+            </xpath>
+        </field>
+    </record>
+
         <!--res.partner.category-->
     <record model="ir.ui.view" id="view_partner_category_statistic_form">
         <field name="name">Statistic for category</field>

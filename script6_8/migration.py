@@ -806,6 +806,39 @@ class SyncroXMLRPC(orm.Model):
                 purchase_pricelist_id = 0
 
         # ---------------------------------------------------------------------
+        # statistic.category
+        # ---------------------------------------------------------------------
+        obj = 'statistic.category' 
+        _logger.info("Start %s" % obj)
+        self._converter[obj] = {}
+        converter = self._converter[obj] # Load with partner (use name non ID)
+        if wiz_proxy.partner: # TODO
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.StatisticCategory
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try:
+                    # Create record to insert/update
+                    name = item.name
+                    data = {'name': name}
+                    new_ids = item_pool.search(cr, uid, [
+                        ('name', '=', name)], context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        item_pool.write(cr, uid, item_id, data,
+                            context=context)
+                        print "#INFO", obj, "update:", name
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO", obj, "create:", name
+
+                    converter[item.id] = item_id
+                except:
+                    print "#ERR", obj, "jumped:", name
+                    continue
+        print converter
+        # ---------------------------------------------------------------------
         # res.partner and res.partner.address
         # ---------------------------------------------------------------------
         obj = 'res.partner'
@@ -818,12 +851,20 @@ class SyncroXMLRPC(orm.Model):
             # -----------------------------------------------------------------
             item_pool = self.pool.get(obj)
             erp_pool = erp.ResPartner
-            item_ids = erp_pool.search([])#[:10]
+            item_ids = erp_pool.search([]) 
+            #('trend', '=', True) ('statistic_category_id', '=', True)
             i = 0
             
+            try:
+                statistic_category_id = self._converter[
+                    'statistic.category'].get(
+                        item.statistic_category_id.id, False)
+            except:
+                statistic_category_id = False                
+                
             for item in erp_pool.browse(item_ids):
                 try:
-                    i += 1
+                    i += 1                    
                     name = item.name.strip()
                     # Create record to insert / update
                     data = { # NOTE: partner are imported add only new data
@@ -881,7 +922,7 @@ class SyncroXMLRPC(orm.Model):
                         #saldo_c
                         #saldo_s
                         #section_id crm.case.section # TODO source / campaign
-                        #statistic_category_id statistic.category # TODO category
+                        'statistic_category_id': statistic_category_id,
                         'supplier': item.supplier,
                         #title
                         'trend': item.trend,
@@ -889,7 +930,7 @@ class SyncroXMLRPC(orm.Model):
                         'type_cei': item.type_cei,
                         #type_id  crm.case.resource.type
                         'user_id': self._converter['res.users'].get(
-                            item.user_id or 0, False),
+                            item.user_id.id if item.user_id else False, False),
                         'vat': item.vat,
                         #vat_subject
                         'website': item.website,
