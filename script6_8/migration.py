@@ -535,8 +535,6 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # product.product
         # ---------------------------------------------------------------------
-        import pdb; pdb.set_trace()
-
         obj = 'product.product' # template??
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
@@ -711,7 +709,7 @@ class SyncroXMLRPC(orm.Model):
                         # Extra fields:
                         'sql_import': item.mexal_id, # for sync purpose
                         'migration_old_id': item.id,
-                        'migration_old_tmpl_id': item.product_tmpl_id,
+                        'migration_old_tmpl_id': item.product_tmpl_id.id,
                         }
 
                     # Note: search by code (default_code is the key)
@@ -742,13 +740,17 @@ class SyncroXMLRPC(orm.Model):
             self.load_converter(cr, uid, converter, obj=obj,
                 context=context)
 
-        # Load template converter:
-        self._converter['product.template'] = {}
-        converter = self._converter['product.template']
-        for product in self.pool.get('product.product'):
-            converter[
-                product.migration_old_tmpl_id] = product.product_tmpl_id.id
-
+            # Load template converter:
+            self._converter['product.template'] = {}            
+            product_ids = self.pool.get('product.product').search(
+            cr, uid, [], context=context)            
+            for product in self.pool.get('product.product').browse(cr, uid, 
+                    product_ids, context=context):
+                # Save in converter dict:    
+                self._converter['product.template'][
+                    product.migration_old_tmpl_id] = product.product_tmpl_id.id
+        print self._converter['product.template']
+        import pdb; pdb.set_trace()
         # ---------------------------------------------------------------------
         # Supplier pricelist
         # ---------------------------------------------------------------------
