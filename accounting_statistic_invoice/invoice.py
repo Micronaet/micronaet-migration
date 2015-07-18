@@ -93,6 +93,9 @@ class ResPartnerStatistic(orm.Model):
             'statistic.invoice.agent', 'Invoice Agent'),
         }
 
+# -----------------------------------------------------------------------------
+#                            INVOICE:
+# -----------------------------------------------------------------------------
 class StatisticInvoice(orm.Model):
     """ Invoice analysis from accounting program
     """
@@ -343,6 +346,21 @@ class StatisticInvoice(orm.Model):
                     except:
                         _logger.error('%s Error import invoice ID %s: [%s]' % (
                             counter, mexal_id, sys.exc_info()))
+
+            # Set tot 20 partner:
+            _logger.info('Set top 20 partner invoiced in all years')
+            cr.execute("""
+                UPDATE statistic_invoice 
+                SET top='t' 
+                WHERE partner_id IN (
+                    SELECT partner_id 
+                    FROM statistic_invoice 
+                    GROUP BY partner_id 
+                    ORDER BY sum(total) desc 
+                    LIMIT 20);""")
+            # TODO For a bug: update zone_type:
+                            
+                            
             _logger.info('Statistic invoice import terminated')
         return True
 
@@ -406,11 +424,16 @@ class StatisticInvoice(orm.Model):
 
         'zone_id': fields.related('partner_id', 'zone_id', type='many2one',
             relation='res.partner.zone', string='Zone', store=True),
-        'zone_type': fields.related('zone_id', 'type', type='selection',
-            selection=[
-                ('region', 'Region'),
-                ('state', 'State'),
-                ('area', 'Area'), ], string='Type', store=True),
+        # Related won't work!
+        #'zone_type': fields.related('zone_id', 'type', type='selection',
+        #    selection=[
+        #        ('region', 'Region'),
+        #        ('state', 'State'),
+        #        ('area', 'Area'), ], string='Type', store=True),
+        'zone_type': fields.selection([
+            ('region', 'Region'),
+            ('state', 'State'),
+            ('area', 'Area'), ], 'Zone type'),
         'country_id': fields.related('partner_id', 'country_id',
             type='many2one', relation='res.country', string='Country',
             store=True),
@@ -421,6 +444,9 @@ class StatisticInvoice(orm.Model):
         'visible': lambda *a: False,
         }
 
+# -----------------------------------------------------------------------------
+#                            PRODUCT
+# -----------------------------------------------------------------------------
 class StatisticInvoiceProduct(orm.Model):
     """ Statistic on product:
         Partner - month - product = key
