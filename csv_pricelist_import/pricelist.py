@@ -146,7 +146,11 @@ class ProductPricelist(orm.Model):
         
         # Note: error because partner_sql not in dependencies:        
         partner_ids = partner_pool.search(cr, uid, [
-            ('sql_customer_code', '=', partner_code)], context=context)
+            ('sql_customer_code', '=', partner_code),
+            #('sql_supplier_code', '=', partner_code), 
+            ('sql_destination_code', '=', partner_code), 
+            # Added for not create partner for destination TODO check case!!
+            ], context=context)
         if partner_ids:
             partner_id = partner_ids[0]
         else: # Fast creation of partner
@@ -200,9 +204,7 @@ class ProductPricelist(orm.Model):
 
         # Update last rule
         update_reference_pl(
-            self, cr, uid, 
-            version_id, 
-            partner_proxy.ref_pricelist_id.id, 
+            self, cr, uid, version_id, partner_proxy.ref_pricelist_id.id, 
             context=context)
         return
 
