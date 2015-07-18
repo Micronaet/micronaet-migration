@@ -143,6 +143,8 @@ class ProductPricelist(orm.Model):
         # ---------------------------------------------------------------------
         # Associate pricelist after create (get partner here)
         partner_pool = self.pool.get('res.partner')
+        
+        # Note: error because partner_sql not in dependencies:        
         partner_ids = partner_pool.search(cr, uid, [
             ('sql_customer_code', '=', partner_code)], context=context)
         if partner_ids:
@@ -313,6 +315,14 @@ class ProductPricelist(orm.Model):
                 partner_code = csv_pool.decode_string(line[1])
                 price_list = csv_pool.decode_float(line[2])
 
+                # Import only customer pricelist, in case test partner creation
+                company_proxy = self.pool.get('res.company').get_from_to_dict(
+                    cr, uid, context=context)
+                if partner_code >= company_proxy.sql_customer_from_code and \
+                        partner_code < company_proxy.sql_customer_to_code:
+                    _logger.error('Jumped, not a customer: %s' % partner_code)
+                    continue
+                
                 # Get product:
                 product_ids = product_pool.search(cr, uid, [
                     ('default_code', '=', default_code),
