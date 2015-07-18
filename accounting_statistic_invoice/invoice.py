@@ -348,7 +348,8 @@ class StatisticInvoice(orm.Model):
                             counter, mexal_id, sys.exc_info()))
 
             # Set tot 20 partner:
-            _logger.info('Set top 20 partner invoiced in all years')
+            # TODO set only current year in test!
+            _logger.info('Set top 15 partner invoiced in all years')
             cr.execute("""
                 UPDATE statistic_invoice 
                 SET top='t' 
@@ -357,9 +358,16 @@ class StatisticInvoice(orm.Model):
                     FROM statistic_invoice 
                     GROUP BY partner_id 
                     ORDER BY sum(total) desc 
-                    LIMIT 20);""")
-            # TODO For a bug: update zone_type:
-                            
+                    LIMIT 15);""")
+                    
+            # For a bug: update zone_type:
+            _logger.info('Update zone type for a bug')
+            stat_ids = self.search(cr, uid, [
+                ('zone_id', '!=', False)], context=context)
+            for stat in self.browse(cr, uid, stat_ids, context=context):
+                self.write(cr, uid, stat.id, {
+                    'zone_type': stat.zone_id.type, 
+                    }, context=context)    
                             
             _logger.info('Statistic invoice import terminated')
         return True
