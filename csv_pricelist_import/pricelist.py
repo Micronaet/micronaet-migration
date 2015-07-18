@@ -318,8 +318,8 @@ class ProductPricelist(orm.Model):
                 # Import only customer pricelist, in case test partner creation
                 company_proxy = self.pool.get('res.company').get_from_to_dict(
                     cr, uid, context=context)
-                if partner_code >= company_proxy.sql_customer_from_code and \
-                        partner_code < company_proxy.sql_customer_to_code:
+                if partner_code < company_proxy.sql_customer_from_code or \
+                        partner_code >= company_proxy.sql_customer_to_code:
                     _logger.error('Jumped, not a customer: %s' % partner_code)
                     continue
                 
