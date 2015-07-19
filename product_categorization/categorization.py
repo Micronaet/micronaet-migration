@@ -69,6 +69,18 @@ class ProductTipology(orm.Model):
         'note': fields.text('Note'),
     }
 
+class ProductMaterial(orm.Model):
+    ''' Every product have an associated material
+    '''    
+    _name = 'product.material'
+    _description = 'Product material'
+    _order = 'name'
+
+    _columns = {
+        'name': fields.char('Material', size=80, required=True, readonly=False,
+             translate=True),
+        'note': fields.text('Note'),
+    }
 #class ProductSubtipology(orm.Model):
 #    ''' Every product have an associated subtipology
 #    '''

@@ -51,10 +51,10 @@
             <field name="name">Product tipology</field>
             <field name="model">product.tipology</field>
             <field name="arch" type="xml">
-                <form string="Product tipology">
+                <tree string="Product tipology">
                     <field name="name"/>
                     <field name="note"/>
-                </form>
+                </tree>
             </field>
         </record>
         <record id="action_product_tipology" model="ir.actions.act_window">
@@ -62,7 +62,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">product.tipology</field>
             <field name="view_type">form</field>
-            <field name="view_mode">form,tree</field>
+            <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_product_tipology_tree" />            
             <field name="search_view_id" ref="view_product_tipology_search" />            
         </record>
@@ -106,12 +106,56 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">product.line</field>
             <field name="view_type">form</field>
-            <field name="view_mode">form,tree</field>
+            <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_product_line_tree" />            
             <field name="search_view_id" ref="view_product_line_search" />            
         </record>
 
         <menuitem action="action_product_line" id="menu_product_line" name="Product line" sequence="20" parent="base.menu_product"/>
+
+        <!-- product.material -->
+        <record id="view_product_material_search" model="ir.ui.view">
+            <field name="name">Search product material</field>
+            <field name="model">product.material</field>
+            <field name="arch" type="xml">
+                <search string="Search product material">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+        <record id="view_product_material_form" model="ir.ui.view">
+            <field name="name">Product material</field>
+            <field name="model">product.material</field>
+            <field name="arch" type="xml">
+                <form string="Product material">
+                    <field name="name"/>
+                    <newline />
+                    <separator string="Note" colspan="4"/>
+                    <field name="note" colspan="4" nolabel="1"/>
+                </form>
+            </field>
+        </record>
+        <record id="view_product_material_tree" model="ir.ui.view">
+            <field name="name">Product material tree</field>
+            <field name="model">product.material</field>
+            <field name="arch" type="xml">
+                <tree string="Product material">
+                    <field name="name"/>
+                    <field name="note"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_product_material" model="ir.actions.act_window">
+            <field name="name">Product material</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.material</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_product_material_tree" />            
+            <field name="search_view_id" ref="view_product_material_search" />            
+        </record>
+
+        <menuitem action="action_product_material" id="menu_product_material" name="Product material" sequence="30" parent="base.menu_product"/>
    </data>
 </openerp>
 
