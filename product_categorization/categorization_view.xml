@@ -1,0 +1,117 @@
+<?xml version="1.0" ?>
+<openerp>
+   <data>
+    <!--product.product-->     
+    <!--<record model="ir.ui.view" id="view_product_search_view_categorization">
+            <field name="name">Product categorization search</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_search_form_view"/>
+            <field name="arch" type="xml">
+                <field name="name" position="before">
+                     <field name="line_id"/>
+                     <field name="tipology_id"/>
+                </field>
+            </field>
+    </record>
+    <record model="ir.ui.view" id="view_product_form_view_categorization">
+            <field name="name">Product categorization</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_search_form_view"/>
+            <field name="arch" type="xml">
+                <field name="name" position="before">
+                     <field name="line_id"/>
+                     <field name="tipology_id"/>
+                </field>
+            </field>
+    </record>-->
+
+    <!-- product.tipology -->
+        <record id="view_product_tipology_search" model="ir.ui.view">
+            <field name="name">Search product tipology</field>
+            <field name="model">product.tipology</field>
+            <field name="arch" type="xml">
+                <search string="Search product tipology">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+        <record id="view_product_tipology_form" model="ir.ui.view">
+            <field name="name">Product tipology</field>
+            <field name="model">product.tipology</field>
+            <field name="arch" type="xml">
+                <form string="Product tipology">
+                    <field name="name"/>
+                    <newline />
+                    <separator string="Note"colspan="4"/>
+                    <field name="note" colspan="4" nolabel="1"/>
+                </form>
+            </field>
+        </record>
+        <record id="view_product_tipology_tree" model="ir.ui.view">
+            <field name="name">Product tipology</field>
+            <field name="model">product.tipology</field>
+            <field name="arch" type="xml">
+                <form string="Product tipology">
+                    <field name="name"/>
+                    <field name="note"/>
+                </form>
+            </field>
+        </record>
+        <record id="action_product_tipology_form" model="ir.actions.act_window">
+            <field name="name">Product tipology</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.tipology</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form,tree</field>
+            <field name="view_id" ref="view_product_tipology_tree" />            
+            <field name="search_view_id" ref="view_product_tipology_search" />            
+        </record>
+
+        <!--<menuitem action="action_web_line_form" id="menu_web_line_form" name="Web product line" sequence="4" parent="menu_web_category_form"/>-->
+        
+        <!-- product.line -->
+        <record id="view_product_line_search" model="ir.ui.view">
+            <field name="name">Search product line</field>
+            <field name="model">product.line</field>
+            <field name="arch" type="xml">
+                <search string="Search product line">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+        <record id="view_product_line_form" model="ir.ui.view">
+            <field name="name">Product line</field>
+            <field name="model">product.line</field>
+            <field name="arch" type="xml">
+                <form string="Product line">
+                    <field name="name"/>
+                    <newline />
+                    <separator string="Note"colspan="4"/>
+                    <field name="note" colspan="4" nolabel="1"/>
+                </form>
+            </field>
+        </record>
+        <record id="view_product_line_tree" model="ir.ui.view">
+            <field name="name">Product line tree</field>
+            <field name="model">product.line</field>
+            <field name="arch" type="xml">
+                <tree string="Product line">
+                    <field name="name"/>
+                    <field name="note"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_product_line_form" model="ir.actions.act_window">
+            <field name="name">Product line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form,tree</field>
+            <field name="view_id" ref="view_product_line_tree" />            
+            <field name="search_view_id" ref="view_product_line_search" />            
+        </record>
+
+        <!--<menuitem action="action_web_line_form" id="menu_web_line_form" name="Web product line" sequence="4" parent="menu_web_category_form"/>-->
+   </data>
+</openerp>
+
