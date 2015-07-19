@@ -39,7 +39,7 @@
         ],
     'init_xml': [], 
     'data': [
-         #'security/ir.model.access.csv',
+         'security/ir.model.access.csv',
          'categorization_view.xml',
          ],
     'demo_xml': [],

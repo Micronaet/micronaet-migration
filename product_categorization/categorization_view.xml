@@ -42,7 +42,7 @@
                 <form string="Product tipology">
                     <field name="name"/>
                     <newline />
-                    <separator string="Note"colspan="4"/>
+                    <separator string="Note" colspan="4"/>
                     <field name="note" colspan="4" nolabel="1"/>
                 </form>
             </field>
@@ -57,7 +57,7 @@
                 </form>
             </field>
         </record>
-        <record id="action_product_tipology_form" model="ir.actions.act_window">
+        <record id="action_product_tipology" model="ir.actions.act_window">
             <field name="name">Product tipology</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">product.tipology</field>
@@ -67,7 +67,7 @@
             <field name="search_view_id" ref="view_product_tipology_search" />            
         </record>
 
-        <!--<menuitem action="action_web_line_form" id="menu_web_line_form" name="Web product line" sequence="4" parent="menu_web_category_form"/>-->
+        <menuitem action="action_product_tipology" id="menu_product_tipology" name="Product tipology" sequence="10" parent="base.menu_product"/>
         
         <!-- product.line -->
         <record id="view_product_line_search" model="ir.ui.view">
@@ -86,7 +86,7 @@
                 <form string="Product line">
                     <field name="name"/>
                     <newline />
-                    <separator string="Note"colspan="4"/>
+                    <separator string="Note" colspan="4"/>
                     <field name="note" colspan="4" nolabel="1"/>
                 </form>
             </field>
@@ -101,7 +101,7 @@
                 </tree>
             </field>
         </record>
-        <record id="action_product_line_form" model="ir.actions.act_window">
+        <record id="action_product_line" model="ir.actions.act_window">
             <field name="name">Product line</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">product.line</field>
@@ -111,7 +111,7 @@
             <field name="search_view_id" ref="view_product_line_search" />            
         </record>
 
-        <!--<menuitem action="action_web_line_form" id="menu_web_line_form" name="Web product line" sequence="4" parent="menu_web_category_form"/>-->
+        <menuitem action="action_product_line" id="menu_product_line" name="Product line" sequence="20" parent="base.menu_product"/>
    </data>
 </openerp>
 
