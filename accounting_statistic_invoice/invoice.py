@@ -575,20 +575,20 @@ class StatisticInvoiceProduct(orm.Model):
                 # TODO: add also OC
                 if year_month >= '%s09' % ref_year and \
                         year_month <= '%s08' % (ref_year + 1):
-                    data['season'] = 3
+                    data['season'] = 1
                 elif year_month >= '%s09' % (ref_year -1) and \
                        year_month <= '%s08' % ref_year: # -1
-                    data['season'] = 2
+                    data['season'] = -1
                 elif year_month >= '%s09' % (ref_year -2) and \
                         year_month <= '%s08' % (ref_year -1): #-2
-                    data['season'] = 1
+                    data['season'] = -2
                 else:
                     _logger.warning('%s) Extra period %s-%s' % (
                         counter, year, month))
                     if year_month > '%s08' % (ref_year + 1):
-                        data['season'] = 4 # extra (new period)
+                        data['season'] = 100 # extra (new period)
                     else:
-                        data['season'] = -1 # extra (old period)
+                        data['season'] = -100 # extra (old period)
 
                 # Sum total for element
                 if name not in item_invoice:
@@ -634,11 +634,13 @@ class StatisticInvoiceProduct(orm.Model):
             '% 3 season total', digits=(16, 5)),
 
         'season': fields.selection([
-            (-1, 'Old season'), # all old seasons
-            (1, 'Season -2'),
-            (2, 'Season -1'),
-            (3, 'Current season'),
-            (4, 'New season'), # all new seasons
+            (-100, 'Season old'), # all old seasons ex -1
+            (-4, 'Season -4'),
+            (-3, 'Season -3'),
+            (-2, 'Season -2'), # ex 1
+            (-1, 'Season -1'), # ex 2
+            (1, 'Season current'), # ex 3
+            (100, 'Season new'), # all new seasons ex 4
             ], 'Season', select=True),
 
         'year': fields.char('Anno', size=4),
