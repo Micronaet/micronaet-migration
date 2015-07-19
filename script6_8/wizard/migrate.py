@@ -58,6 +58,7 @@ class SyncroMigrationWizard(orm.TransientModel):
         'from_date': fields.datetime('From date'),
         'to_date': fields.datetime('To date'),
         'update': fields.boolean('Update if present'),
+        'link': fields.boolean('Link', help='Only soft link to record'),
 
         'user': fields.boolean('A. User'),
         'campaign': fields.boolean('A. Campaign'),

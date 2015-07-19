@@ -13,6 +13,7 @@
                        <field name="from_date" />
                        <field name="to_date" />                       
                        <field name="update" />
+                       <field name="link" />
 
                        <field name="user" />
                        <field name="campaign" />

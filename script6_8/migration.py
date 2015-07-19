@@ -845,7 +845,61 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj] # for use same name
-        if wiz_proxy.partner:
+        
+        # ------------------------------------------------
+        # Syncro partner without update other informations
+        # ------------------------------------------------
+        if wiz_proxy.partner and wiz_proxy.link:
+            erp_pool = erp.ResPartner
+            item_ids = erp_pool.search([
+                '|',
+                ('mexal_c', '!=', False),
+                ('mexal_s', '!=', False),
+                ]) 
+            for item in erp_pool.browse(item_ids):
+                try:
+                    if item.mexal_c:
+                        # TODO check extra elements fount!
+                        partner_ids = item_pool.search(cr, uid, [
+                            ('sql_customer_code', '=', item.mexal_c)])
+                        if partner_ids:
+                            item_id = partner_ids[0]
+                            item_pool.write(cr, uid, item_id, {
+                                'migration_old_id': item.id,
+                                }, context=context)
+                    elif item.mexal_s:
+                        partner_ids = item_pool.search(cr, uid, [
+                            ('sql_supplier_code', '=', item.mexal_s)])
+                        if partner_ids:
+                            item_id = partner_ids[0]
+                            item_pool.write(cr, uid, item_id, {
+                                'migration_old_id': item.id,
+                                }, context=context)
+                except:
+                    print i, "#ERR", obj, "jump:", item.name, sys.exc_info()
+                    continue
+
+            erp_pool = erp.ResPartnerAddress
+            item_ids = erp_pool.search([('mexal_d', '!=', False)]) 
+            for item in erp_pool.browse(item_ids):
+                try:
+                    if item.mexal_d:
+                        # TODO check extra elements fount!
+                        partner_ids = item_pool.search(cr, uid, [
+                            ('sql_destination_code', '=', item.mexal_c)])
+                        if partner_ids:
+                            item_id = partner_ids[0]
+                            item_pool.write(cr, uid, item_id, {
+                                'migration_old_id': item.id,
+                                }, context=context)
+                except:
+                    print i, "#ERR", obj, "jump:", item.name, sys.exc_info()
+                    continue
+        
+        # ------------------------------------
+        # Syncro partner with all informations
+        # ------------------------------------
+        if wiz_proxy.partner and not wiz_proxy.link:
             # -----------------------------------------------------------------
             # A. Searching for partner (master):
             # -----------------------------------------------------------------
@@ -1035,7 +1089,7 @@ class SyncroXMLRPC(orm.Model):
             erp_pool = erp.ResPartnerAddress
             # Destination address:
             item_ids = erp_pool.search([
-                '|',('mexal_c','=',True), ('mexal_s','=',True)])
+                '|', ('mexal_c','!=', False), ('mexal_s','!=', False)])
             for item in []:# erp_pool.browse(item_ids): # TODO stopped!!!
                 try:
                     partner_id = self._converter['res.partner'].get(
