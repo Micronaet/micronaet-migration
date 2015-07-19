@@ -634,15 +634,15 @@ class StatisticInvoiceProduct(orm.Model):
         'tipology_id': fields.related(
             'family_id', 'tipology_id', 
             type='many2one', relation='product.tipology', 
-            string='Tipology'), 
+            string='Tipology', store=True), 
         'line_id': fields.related(
             'family_id', 'line_id', 
             type='many2one', relation='product.line', 
-            string='Line'), 
+            string='Line', store=True), 
         'material_id': fields.related(
             'family_id', 'material_id', 
             type='many2one', relation='product.material', 
-            string='Material'), 
+            string='Material', store=True), 
 
         'percentage': fields.float(
             '% 3 season total', digits=(16, 5)),

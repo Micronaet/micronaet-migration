@@ -106,13 +106,14 @@ class ProductMaterial(orm.Model):
 #        'Subtipology', required=False),
 #    }
 
-class ProductProduct(orm.Model):
-    _inherit ='product.product'
+class ProductTemplate(orm.Model):
+    _inherit ='product.template'
 
     _columns = {
         #'category_id': fields.many2one('web.category', 'Category', required=False),
-        'line_id':fields.many2one('product.line', 'Line'),
+        'line_id': fields.many2one('product.line', 'Line'),
         'tipology_id': fields.many2one('product.tipology', 'Tipology'),
+        'material_id': fields.many2one('product.material', 'Material'),
         #'subtipology_ids': fields.many2many(
         #    'product.subtipology', 'product_subtipology_rel', 'product_id',
         #'subtipoloy_id','Subtipology'),
