@@ -138,7 +138,7 @@
             <field name="view_type">form</field>
             <field name="view_id" ref="mrp_bom_component_tree_view_obsolete_color"/>
             <field name="search_view_id" ref="view_mrp_bom_filter_component" /> 
-            <field name="domain">[('bom_id','!=',False)]</field>
+            <field name="domain">[]</field> <!--TODO before bom_id != False correct?-->
             <field name="help">Componenti obsoleti abbinati alle distinte, dove presenti (impostato obsoleto oppure con prezzo oltre l'1/1 di 2 anni fa)</field>
         </record>
         <menuitem
