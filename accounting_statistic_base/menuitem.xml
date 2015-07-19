@@ -5,6 +5,7 @@
     <menuitem name="Analysis" 
         id="menu_base_accounting"
         parent="base.menu_reporting"
+        groups="group_sale_statistic"
         sequence="1" /> <!--action="action_board_mexal_form" -->
               
        <menuitem name="Analisi" parent="menu_base_accounting" id="menu_base_mexal_analisi" sequence="1" />
