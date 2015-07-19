@@ -31,6 +31,7 @@
         'account',
         'accounting_statistic_base',
         'production_family',
+        'product_categorization',
         ],
     'init_xml': [],
     'demo_xml': [],

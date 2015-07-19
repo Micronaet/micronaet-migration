@@ -627,8 +627,22 @@ class StatisticInvoiceProduct(orm.Model):
         'top': fields.boolean('Top sale'),
         'total': fields.float('Amount', digits=(16, 2)),
 
-        'family_id': fields.many2one('product.template', 'Family'), 
+        'family_id': fields.many2one('product.template', 'Family'),
         'categ_id': fields.many2one('product.category', 'Family'), 
+        
+        # Categorization fields:
+        'tipology_id': fields.related(
+            'family_id', 'tipology_id', 
+            type='many2one', relation='product.tipology', 
+            string='Tipology'), 
+        'line_id': fields.related(
+            'family_id', 'line_id', 
+            type='many2one', relation='product.line', 
+            string='Line'), 
+        'material_id': fields.related(
+            'family_id', 'material_id', 
+            type='many2one', relation='product.material', 
+            string='Material'), 
 
         'percentage': fields.float(
             '% 3 season total', digits=(16, 5)),
