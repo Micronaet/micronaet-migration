@@ -218,6 +218,9 @@ class statistic_deadline(orm.Model):
         'visible': fields.boolean('Visible'),
 
         'partner_id': fields.many2one('res.partner', 'Partner'),
+        'type_cei': fields.related(
+            'partner_id', 'type_cei', type='char', size=1,
+            string='Fiscal position', store=True),
         'property_account_position': fields.related(
             'partner_id', 'property_account_position', type='many2one',
             relation='account.fiscal.position', store=True,

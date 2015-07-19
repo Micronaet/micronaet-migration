@@ -29,6 +29,7 @@
     'license': 'AGPL-3',
     'depends': [
         'accounting_statistic_base',
+        'base_accounting_program',
         'csv_base',
         ],
     'init_xml': [],
