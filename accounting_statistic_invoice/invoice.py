@@ -67,6 +67,22 @@ seasons = [
     (100, 'Season new'), # all new seasons ex 4
     ]
 
+month_order_season = [
+    (0, '00: Non trovato'),
+    (1, '01: Set.'),
+    (2, '02: Ott.'),
+    (3, '03: Nov.'),
+    (4, '04: Dic.'), 
+    (5, '05*: Gen.'),
+    (6, '06*: Feb.'),
+    (7, '07*: Mar.'),
+    (8, '08*: Apr.'),
+    (9, '09*: Mag.'),
+    (10, '10*: Giu.'),
+    (11, '11*: Lug.'),
+    (12, '12*: Ago.'),
+    ]
+    
 # -----------------------------------------------------------------------------
 # Utility: TODO move somewhere!
 # -----------------------------------------------------------------------------
@@ -405,21 +421,7 @@ class StatisticInvoice(orm.Model):
             ('oc', 'Ordine'),
             ('bc', 'DDT'), ], 'Tipo doc.', select=True),
 
-        'month': fields.selection([
-            (0, '00 Non trovato'),
-            (1, '01: Set.'),
-            (2, '02: Ott.'),
-            (3, '03: Nov.'),
-            (4, '04: Dic.'), 
-            (5, '05*: Gen.'),
-            (6, '06*: Feb.'),
-            (7, '07*: Mar.'),
-            (8, '08*: Apr.'),
-            (9, '09*: Mag.'),
-            (10, '10*: Giu.'),
-            (11, '11*: Lug.'),
-            (12, '12*: Ago.'),
-            ], 'Mese', select=True),
+        'month': fields.selection(month_order_season, 'Mese', select=True),
 
         'season': fields.selection(seasons, 'Season', select=True),
 
@@ -690,21 +692,7 @@ class StatisticInvoiceProduct(orm.Model):
             ('bc', 'DDT'),
             ], 'Doc. type', select=True), # togliere?
 
-        'month': fields.selection([
-            (0, '00 Non trovato'),
-            (1, '01: Set.'),
-            (2, '02: Ott.'),
-            (3, '03: Nov.'),
-            (4, '04: Dic.'), 
-            (5, '05*: Gen.'),
-            (6, '06*: Feb.'),
-            (7, '07*: Mar.'),
-            (8, '08*: Apr.'),
-            (9, '09*: Mag.'),
-            (10, '10*: Giu.'),
-            (11, '11*: Lug.'),
-            (12, '12*: Ago.'),
-            ], 'Month', select=True),
+        'month': fields.selection(month_order_season, 'Month', select=True),
         }
 
     _defaults = {
