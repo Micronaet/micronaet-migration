@@ -8,18 +8,23 @@
         <field name="arch" type="xml">
             <search string="Statistic deadline">
                 <group col="10" colspan="4">
+                    <field name="partner_id"/>
+                    <field name="deadline"/>
+                    <field name="type"/>
+
                     <filter string="Italy" name="italia" icon="terp-personal" domain="[('type_cei','=','i')]" help="Italian payment"/>
                     <filter string="Abroad" name="estero" icon="terp-personal" domain="[('type_cei','!=','i')]" help="Abroad payment"/>
                     <separator />
                     <filter string="Customer" name="clienti" icon="terp-personal" domain="[('c_o_s','=','c')]" help="Only customer"/>
                     <filter string="Supplier" name="fornitori" icon="terp-personal" domain="[('c_o_s','=','s')]" help="Only supplier"/>
                     <separator />
+                    <filter string="Deadlined" domain="[('deadline','&lt;=', datetime.datetime.now().strftime('%Y-%m-%d'))]" />
+                    <filter string="Not deadlined" domain="[('deadline','&gt;', datetime.datetime.now().strftime('%Y-%m-%d'))]" />
+                    <separator />
                     <filter string="Uncovered" name="scoperti" icon="terp-personal" domain="[('scoperto_c', '&lt;', 0.0)]" help="Only over credit limit"/>
-                    <field name="partner_id"/>
-                    <field name="deadline"/>
-                    <field name="type"/>
                 </group>
                 <newline/>
+
                 <group expand="0" string="Group By..." colspan="14">
                     <filter string="Partner" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'partner_id'}"/>
                     <filter string="Type" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'type'}"/>

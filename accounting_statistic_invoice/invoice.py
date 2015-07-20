@@ -55,6 +55,18 @@ transcode_month = { # to season element
     7: 11, 
     8: 12,
     }
+
+# fields selection:    
+seasons = [
+    (-100, 'Season old'), # all old seasons ex -1
+    (-4, 'Season -4'),
+    (-3, 'Season -3'),
+    (-2, 'Season -2'), # ex 1
+    (-1, 'Season -1'), # ex 2
+    (1, 'Season current'), # ex 3
+    (100, 'Season new'), # all new seasons ex 4
+    ]
+
 # -----------------------------------------------------------------------------
 # Utility: TODO move somewhere!
 # -----------------------------------------------------------------------------
@@ -408,15 +420,7 @@ class StatisticInvoice(orm.Model):
             (12, '12*: Ago.'),
             ], 'Mese', select=True),
 
-        'season': fields.selection([
-            (-100, 'Season old'), # all old seasons
-            (-4, 'Season -4'),
-            (-3, 'Season -3'),
-            (-2, 'Season -2'),
-            (-1, 'Season -1'),
-            (1, 'Season current'),
-            (100, 'Season new'), # all new seasons
-            ], 'Season', select=True),
+        'season': fields.selection(seasons, 'Season', select=True),
 
         'year': fields.char('Anno', size=4),
 
@@ -647,15 +651,7 @@ class StatisticInvoiceProduct(orm.Model):
         'percentage': fields.float(
             '% 3 season total', digits=(16, 5)),
 
-        'season': fields.selection([
-            (-100, 'Season old'), # all old seasons ex -1
-            (-4, 'Season -4'),
-            (-3, 'Season -3'),
-            (-2, 'Season -2'), # ex 1
-            (-1, 'Season -1'), # ex 2
-            (1, 'Season current'), # ex 3
-            (100, 'Season new'), # all new seasons ex 4
-            ], 'Season', select=True),
+        'season': fields.selection(seasons, 'Season', select=True),
 
         'year': fields.char('Anno', size=4),
 
