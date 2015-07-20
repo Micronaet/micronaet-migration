@@ -66,8 +66,8 @@
             <field name="view_id" ref="view_product_tipology_tree" />            
             <field name="search_view_id" ref="view_product_tipology_search" />            
         </record>
-
-        <menuitem action="action_product_tipology" id="menu_product_tipology" name="Product tipology" sequence="10" parent="base.menu_product"/>
+        <!--NOTE: used family for now-->
+        <!--<menuitem action="action_product_tipology" id="menu_product_tipology" name="Product tipology" sequence="10" parent="base.menu_product"/>-->
         
         <!-- product.line -->
         <record id="view_product_line_search" model="ir.ui.view">
@@ -111,7 +111,7 @@
             <field name="search_view_id" ref="view_product_line_search" />            
         </record>
 
-        <menuitem action="action_product_line" id="menu_product_line" name="Product line" sequence="20" parent="base.menu_product"/>
+        <menuitem action="action_product_line" id="menu_product_line" name="Product line" sequence="20" parent="base.menu_product" />
 
         <!-- product.material -->
         <record id="view_product_material_search" model="ir.ui.view">

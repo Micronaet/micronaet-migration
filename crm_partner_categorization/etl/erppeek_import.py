@@ -22,6 +22,7 @@
 
 import erppeek
 import ConfigParser
+import sys
 
 # -----------------------------------------------------------------------------
 #                             Read Parameters:
@@ -61,62 +62,65 @@ material_pool = odoo.model('product.material')
 # ----------------------------------
 # Read element needed for conversion
 # ----------------------------------
-tipology_ids = tipology_pool.search([])
-tipology_convert = {}
-if tipology_ids:
-    for item in tipology_pool.browse(family_ids):
-        tipology_convert[item.name] = [item.id, []] 
+#tipology_ids = tipology_pool.search([])
+#tipology_convert = {}
+#if tipology_ids:
+#    for item in tipology_pool.browse(tipology_ids):
+#        tipology_convert[item.name] = item.id
 
-category_ids = category_pool.search([])
-category_convert = {}
-if category_ids:
-    for item in category_pool.browse(category_ids):
-        category_convert[item.name] = [item.id, []] 
+line_ids = line_pool.search([])
+line_convert = {}
+if line_ids:
+    for item in line_pool.browse(line_ids):
+        line_convert[item.name] = item.id
 
 # -------------------------
 # Load elements from files:
 # -------------------------
 i = -header
 max_col = False
-for row in open(file_in, 'rb'):
-    line = row.split(separator)
-    i += 1
-    if i <= 0: # jump header
+for row in open(file_in, 'rb'):    
+    try:
+        csv_line = row.split(separator)
+        i += 1
+        if i <= 0: # jump header
+            continue
+        if not max_col:
+            max_col = len(csv_line)    
+        default_code = csv_line[0]
+        #tipology = csv_line[1].strip() # Famiglie
+        line = csv_line[2].strip().title() # ex category (not used >> compiled from family)
+        
+        # -------------------------------------
+        # Check in converter, elsewhere create:
+        # -------------------------------------
+        #if tipology not in tipology_convert:        
+        #    # Create dict record 
+        #    tipology_id = tipology_pool.create({'name': tipology})
+        #    tipology_convert[tipology] = tipology_id.id
+        if not line:
+            continue # jump line without line
+        
+        if line not in line_convert:        
+            # Create dict record 
+            line_id = line_pool.create({'name': line})
+            line_convert[line] = line_id.id
+        
+        # -------------------------------------
+        # Check product 
+        # -------------------------------------
+        product_ids = product_pool.search([
+            ('default_code', '=', default_code)])
+        if product_ids:
+            if len(product_ids) > 1:
+                print "More than one instance: %s (%s)" % (
+                    default_code, len(product_ids)
+                    )
+            product_pool.write(product_ids[0], {
+                #'tipology_id': tipology_convert[tipology],
+                'line_id': line_convert[line],
+                'categ_id': 1, # TODO remove after first import
+                })
+    except:
+        print sys.exc_info()
         continue
-    if not max_col:
-        max_col = len(line)    
-    default_code = line[0]
-    tipology = line[1]
-    category = line[2]
-    
-    # -------------------------------------
-    # Check in converter, elsewhere create:
-    # -------------------------------------
-    if tipology not in tipology_convert:        
-        # Create dict record 
-        tipology_convert[tipology] = [
-            tipology_pool.create({
-                'name': tipology,
-                })]   
-    
-    if category not in category_convert:        
-        # Create dict record 
-        category_convert[tipology] = [
-            category_pool.create({
-                'name': category,
-                })]   
-    
-    # -------------------------------------
-    # Check product 
-    # -------------------------------------
-    product_ids = product_pool.search([('default_code', '=', default_code)])
-    if product_ids:
-        if len(product_ids) > 1:
-            print "More than one instance: %s (%s)" % (
-                default_code, len(product_ids)
-                )
-        product_pool.write(product_ids[0], {
-            'tipology_id': tipology_convert[tipology],
-            'category_id': category_convert[category],
-            })
-

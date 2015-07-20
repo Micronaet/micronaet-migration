@@ -53,7 +53,7 @@
                 <field name="year" />
                 <field name="family_id" />
                 <field name="categ_id" />
-                <field name="tipology_id" />
+                <!--<field name="tipology_id" />-->
                 <field name="material_id" />
                 <field name="line_id" />
 
@@ -73,7 +73,7 @@
                     <filter name="group_family" string="Family" context="{'group_by': 'family_id'}"/>
                     <filter name="group_category" string="Category" context="{'group_by': 'categ_id'}"/>
                     <filter name="group_line" string="Line" context="{'group_by': 'line_id'}"/>
-                    <filter name="group_tipology" string="Tipology" context="{'group_by': 'tipology_id'}"/>
+                    <!--<filter name="group_tipology" string="Tipology" context="{'group_by': 'tipology_id'}"/>-->
                     <filter name="group_material" string="Material" context="{'group_by': 'material_id'}"/>
                     <filter name="group_type" string="Doc. type" context="{'group_by': 'type_document'}"/>
                     <filter name="group_season" string="Season" context="{'group_by': 'season'}"/>
@@ -121,7 +121,7 @@
                 <field name="month" />
                 <field name="name" />
                 <field name="family_id" />
-                <field name="tipology_id" />
+                <!--<field name="tipology_id" />-->
                 <field name="material_id" />
                 <field name="line_id" />
                 <field name="categ_id" />
