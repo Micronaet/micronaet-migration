@@ -1098,7 +1098,7 @@ class SyncroXMLRPC(orm.Model):
         # ------------------------------------------------
         # Link when there's a sync in the midle (create structure from 6 to 8)
         item_pool = self.pool.get('res.partner') #
-        import pdb; pdb.set_trace()
+
         if wiz_proxy.partner and wiz_proxy.link:
             erp_pool = erp.ResPartner
             item_ids = erp_pool.search([
@@ -1110,7 +1110,6 @@ class SyncroXMLRPC(orm.Model):
                     if i % 100 == 0:
                         print "%s partner record imported" % i
                     if item.mexal_c:
-                        # TODO check extra elements fount!
                         partner_ids = item_pool.search(cr, uid, [
                             ('sql_customer_code', '=', item.mexal_c)])
                         if partner_ids:
@@ -1144,8 +1143,8 @@ class SyncroXMLRPC(orm.Model):
                     elif item.mexal_s:
                         domain = [('sql_destination_code', '=', item.mexal_s)]
                     
-                        partner_ids = item_pool.search(cr, uid, domain)                        
-                        # TODO check extra elements fount!
+                        partner_ids = item_pool.search(
+                            cr, uid, domain, context=context)                        
                         if len(partner_ids) > 1:
                             print "Too much destination: %s %s" % (
                                 mexal_c, mexal_s)
@@ -1415,6 +1414,7 @@ class SyncroXMLRPC(orm.Model):
                                     if item.partner_id \
                                     else False, 1),                                    
                         'migration_old_id': item.id,
+                        
                         'destination_partner_id': self._converter[
                             'res.partner'].get(
                                 item.partner_shipping_id.id \

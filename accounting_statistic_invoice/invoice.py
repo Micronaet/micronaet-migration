@@ -134,12 +134,24 @@ class StatisticInvoice(orm.Model):
         #create_date=time.ctime(os.path.getctime(FileInput))
 
         # statistic.invoice:
+        sql_pool = self.pool.get('micronaet.accounting')
         csv_base = self.pool.get('csv.base')
         invoice_ids = self.search(cr, uid, [], context=context)
         self.unlink(cr, uid, invoice_ids, context=context)
 
-        # Load tags for create a dict of partner:
+        # Load dict for swap destination in parent ID
+        _logger.info('Read parent for destinations conversion')
+        convert_destination = {}
+        cursor = sql_pool.get_parent_partner(cr, uid, context=context)
+        if not cursor:
+            _logger.error("Unable to connect to parent (destination)!")
+            return False # Fatal error!
+        else:
+            for record in cursor:
+                convert_destination[record['CKY_CNT']] = record[
+                    'CKY_CNT_CLI_FATT']
 
+        # Load tags for create a dict of partner:
         partner_tags = {}
         tag_pool = self.pool.get('res.partner.category')
         tag_ids = tag_pool.search(cr, uid, [
@@ -225,6 +237,7 @@ class StatisticInvoice(orm.Model):
                             # =============================================
 
                         elif particular: # 1st loop is different:
+                            # TODO parametrizable with destination switch?
                             # Problem Customer: M Business:
                             if mexal_id in (
                                 '06.00052', '06.00632', '06.01123',

@@ -29,6 +29,7 @@
     'license': 'AGPL-3',
     'depends': [
         'account',
+        'base_mssql_accounting', # for destination conversion
         'accounting_statistic_base',
         'production_family',
         'product_categorization',
