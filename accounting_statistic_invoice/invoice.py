@@ -139,7 +139,9 @@ class StatisticInvoice(orm.Model):
         invoice_ids = self.search(cr, uid, [], context=context)
         self.unlink(cr, uid, invoice_ids, context=context)
 
+        # -------------------------------------------
         # Load dict for swap destination in parent ID
+        # -------------------------------------------
         _logger.info('Read parent for destinations conversion')
         convert_destination = {}
         cursor = sql_pool.get_parent_partner(cr, uid, context=context)
@@ -151,7 +153,9 @@ class StatisticInvoice(orm.Model):
                 convert_destination[record['CKY_CNT']] = record[
                     'CKY_CNT_CLI_FATT']
 
+        # ---------------------------------------
         # Load tags for create a dict of partner:
+        # ---------------------------------------
         partner_tags = {}
         tag_pool = self.pool.get('res.partner.category')
         tag_ids = tag_pool.search(cr, uid, [
@@ -237,38 +241,20 @@ class StatisticInvoice(orm.Model):
                             # =============================================
 
                         elif particular: # 1st loop is different:
-                            # TODO parametrizable with destination switch?
-                            # Problem Customer: M Business:
-                            if mexal_id in (
-                                '06.00052', '06.00632', '06.01123',
-                                '06.01125', '06.01126', '06.01127',
-                                '06.01129', '06.01131', '06.01132',
-                                '06.01136', '06.01137', '06.01138',
-                                '06.01139', '06.01142', '06.01143',
-                                '06.01146', '06.01147', '06.01149',
-                                '06.01151', '06.01153', '06.01154',
-                                '06.01155', '06.01159', '06.01161',
-                                '06.01163', '06.01164', '06.01165',
-                                '06.01166', '06.01167', '06.01168',
-                                '06.01170', '06.01171', '06.01175',
-                                '06.01177', '06.01178', '06.01179',
-                                '06.01221', '06.01231', '06.01260',
-                                '06.01317', '06.01386', '06.01408',
-                                '06.01416', '06.01420', '06.01421',
-                                '06.01424', '06.01436', '06.01439',
-                                '06.01481', '06.01501', '06.01532',
-                                '06.01538', '06.01580', '06.01609',
-                                '06.01764', '06.01797', '06.02081',
-                                '06.02117', '06.02348', '06.02408',
-                                '06.02409', '06.02709', '06.02888',
-                                '06.03043', '06.03629', '06.03788',
-                                ):
-
+                            # -------------------------------------------
+                            # Swap destination with parent customer code:
+                            # -------------------------------------------
+                            if mexal_id in convert_destination:
                                 _logger.warning(
-                                    '%s: replace code: %s > 06.03044' % (
-                                        counter, mexal_id))
-                                mexal_id = '06.03044'
+                                    '%s: Destination %s >> Customer %s' % (
+                                        counter, mexal_id,
+                                        convert_destination[mexal_id],
+                                        ))
+                                mexal_id = convert_destination[mexal_id]
+                                
+                        # -----------------        
                         # Calculated field:
+                        # -----------------        
                         partner_id = csv_base.get_create_partner_lite(
                             cr, uid, mexal_id, context=context)
                         if not partner_id:
