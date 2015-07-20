@@ -487,7 +487,7 @@ class StatisticInvoiceProduct(orm.Model):
         input_file = os.path.expanduser(input_file)
         _logger.info('Start importation product invoice stats: %s' % (
             input_file))
-        lines = csv.reader(open(input_file, 'rb'), delimiter=delimiter)
+        csv_lines = csv.reader(open(input_file, 'rb'), delimiter=delimiter)
         counter = -header
 
         item_ids = self.search(cr, uid, [], context=context)
@@ -504,20 +504,20 @@ class StatisticInvoiceProduct(orm.Model):
                 dict.fromkeys(
                     family.family_list.split('|'), (
                         family.id, family.categ_id.id)))
+                        
         # Load line if necessary (family = code, not parent part!)
         lines = {}
         if load_line:
             product_pool = self.pool.get('product.product')
-            product_ids = product_pool.search(cr, uid, [
-                ('line_id', '!=', True)], context=context)            
+            product_ids = product_pool.search(cr, uid, [], context=context)            
             for product in product_pool.browse(
-                    cr, uid, product_ids, context=context):
+                    cr, uid, product_ids, context=context):                    
                 try:    
-                    lines[product.default_code] = product.line_id.id
+                    if product.line_id.id:
+                        lines[product.default_code] = product.line_id.id
                 except:
                     continue # jump error    
-        print lines
-        
+
         # Create list for family to remove:
         remove_pool = self.pool.get('statistic.invoice.product.removed')
         item_ids = remove_pool.search(cr, uid, [], context=context)
@@ -530,7 +530,7 @@ class StatisticInvoiceProduct(orm.Model):
         season_total = 0
         item_invoice = {}
         csv_base = self.pool.get('csv.base')        
-        for line in lines:
+        for line in csv_lines:
             try:
                 if counter < 0:
                     counter += 1
