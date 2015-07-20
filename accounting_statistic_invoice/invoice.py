@@ -152,6 +152,8 @@ class StatisticInvoice(orm.Model):
             for record in cursor:
                 convert_destination[record['CKY_CNT']] = record[
                     'CKY_CNT_CLI_FATT']
+        _logger.info(
+            'Find %s destinations for conversion' % len(convert_destination))
 
         # ---------------------------------------
         # Load tags for create a dict of partner:
