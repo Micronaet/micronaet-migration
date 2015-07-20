@@ -82,7 +82,7 @@ month_order_season = [
     (11, '11*: Lug.'),
     (12, '12*: Ago.'),
     ]
-    
+
 # -----------------------------------------------------------------------------
 # Utility: TODO move somewhere!
 # -----------------------------------------------------------------------------
@@ -422,9 +422,7 @@ class StatisticInvoice(orm.Model):
             ('bc', 'DDT'), ], 'Tipo doc.', select=True),
 
         'month': fields.selection(month_order_season, 'Mese', select=True),
-
         'season': fields.selection(seasons, 'Season', select=True),
-
         'year': fields.char('Anno', size=4),
 
         # Extra info for filter graph:

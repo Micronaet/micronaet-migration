@@ -146,12 +146,15 @@ class ProductPricelist(orm.Model):
         
         # Note: error because partner_sql not in dependencies:        
         partner_ids = partner_pool.search(cr, uid, [
+            '|',
             ('sql_customer_code', '=', partner_code),
             #('sql_supplier_code', '=', partner_code), 
             ('sql_destination_code', '=', partner_code), 
             # Added for not create partner for destination TODO check case!!
             ], context=context)
         if partner_ids:
+            if len(partner_ids) > 1:
+                _logger.error("More than one: %s" % partner_code)
             partner_id = partner_ids[0]
         else: # Fast creation of partner
             partner_id = partner_pool.create(cr, uid, {
