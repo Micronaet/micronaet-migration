@@ -660,10 +660,12 @@ class StatisticInvoiceProduct(orm.Model):
         'categ_id': fields.many2one('product.category', 'Family'), 
         
         # Categorization fields:
-        'line_id': fields.related(
-            'family_id', 'line_id', 
-            type='many2one', relation='product.line', 
-            string='Line', store=True),             
+        'line_id': fields.many2one('product.line', 'Line'), 
+        #'line_id': fields.related(
+        #    'family_id', 'line_id', 
+        #    type='many2one', relation='product.line', 
+        #    string='Line', store=True),             
+        
         # Not used for now:    
         'tipology_id': fields.related(
             'family_id', 'tipology_id', 
