@@ -468,8 +468,19 @@ class StatisticInvoiceProduct(orm.Model):
     _order = 'month, name'
 
     def schedule_csv_statistic_invoice_product_import(self, cr, uid,
-            input_file, delimiter=';', header=0, verbose=100, context=None):
+            input_file, delimiter=';', header=0, verbose=100, load_line=False, 
+            context=None):
         """ Schedule procedure for import statistic.invoice.product
+            self: instance
+            cr: cursor
+            uid: user ID
+            input_file: input file (use ~ as home position)
+            delimiter: separator for csv file
+            header: total line of header
+            verbose: every X record print log (0 = no log)
+            load_line: if present load family element and get line
+            context:
+            
         """
         # TODO for log check:
         #create_date=time.ctime(os.path.getctime(FileInput))
@@ -485,7 +496,7 @@ class StatisticInvoiceProduct(orm.Model):
         # Family categorization (create dict for association):
         template_pool = self.pool.get('product.template')
         family_ids = template_pool.search(cr, uid, [
-            ('is_family','=',True)], context=context)
+            ('is_family', '=', True)], context=context)
         families = {}
         for family in template_pool.browse(
                 cr, uid, family_ids, context=context):
@@ -493,7 +504,20 @@ class StatisticInvoiceProduct(orm.Model):
                 dict.fromkeys(
                     family.family_list.split('|'), (
                         family.id, family.categ_id.id)))
-
+        # Load line if necessary (family = code, not parent part!)
+        lines = {}
+        if load_line:
+            product_pool = self.pool.get('product.product')
+            product_ids = product_pool.search(cr, uid, [
+                ('line_id', '!=', True)], context=context)            
+            for product in product_pool.browse(
+                    cr, uid, product_ids, context=context):
+                try:    
+                    lines[product.default_code] = product.line_id.id
+                except:
+                    continue # jump error    
+        print lines
+        
         # Create list for family to remove:
         remove_pool = self.pool.get('statistic.invoice.product.removed')
         item_ids = remove_pool.search(cr, uid, [], context=context)
@@ -554,6 +578,7 @@ class StatisticInvoiceProduct(orm.Model):
                     'year': year,
                     'family_id': family_id,
                     'categ_id': categ_id,
+                    'line_id': lines.get(name, False), # if not request is {}
                     }
 
                 # Which year
@@ -635,14 +660,15 @@ class StatisticInvoiceProduct(orm.Model):
         'categ_id': fields.many2one('product.category', 'Family'), 
         
         # Categorization fields:
+        'line_id': fields.related(
+            'family_id', 'line_id', 
+            type='many2one', relation='product.line', 
+            string='Line', store=True),             
+        # Not used for now:    
         'tipology_id': fields.related(
             'family_id', 'tipology_id', 
             type='many2one', relation='product.tipology', 
             string='Tipology', store=True), 
-        'line_id': fields.related(
-            'family_id', 'line_id', 
-            type='many2one', relation='product.line', 
-            string='Line', store=True), 
         'material_id': fields.related(
             'family_id', 'material_id', 
             type='many2one', relation='product.material', 
