@@ -844,58 +844,7 @@ class SyncroXMLRPC(orm.Model):
         obj = 'res.partner'
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
-        converter = self._converter[obj] # for use same name
-        
-        # ------------------------------------------------
-        # Syncro partner without update other informations
-        # ------------------------------------------------
-        if wiz_proxy.partner and wiz_proxy.link:
-            erp_pool = erp.ResPartner
-            item_ids = erp_pool.search([
-                '|',
-                ('mexal_c', '!=', False),
-                ('mexal_s', '!=', False),
-                ]) 
-            for item in erp_pool.browse(item_ids):
-                try:
-                    if item.mexal_c:
-                        # TODO check extra elements fount!
-                        partner_ids = item_pool.search(cr, uid, [
-                            ('sql_customer_code', '=', item.mexal_c)])
-                        if partner_ids:
-                            item_id = partner_ids[0]
-                            item_pool.write(cr, uid, item_id, {
-                                'migration_old_id': item.id,
-                                }, context=context)
-                    elif item.mexal_s:
-                        partner_ids = item_pool.search(cr, uid, [
-                            ('sql_supplier_code', '=', item.mexal_s)])
-                        if partner_ids:
-                            item_id = partner_ids[0]
-                            item_pool.write(cr, uid, item_id, {
-                                'migration_old_id': item.id,
-                                }, context=context)
-                except:
-                    print i, "#ERR", obj, "jump:", item.name, sys.exc_info()
-                    continue
-
-            erp_pool = erp.ResPartnerAddress
-            item_ids = erp_pool.search([('mexal_d', '!=', False)]) 
-            for item in erp_pool.browse(item_ids):
-                try:
-                    if item.mexal_d:
-                        # TODO check extra elements fount!
-                        partner_ids = item_pool.search(cr, uid, [
-                            ('sql_destination_code', '=', item.mexal_c)])
-                        if partner_ids:
-                            item_id = partner_ids[0]
-                            item_pool.write(cr, uid, item_id, {
-                                'migration_old_id': item.id,
-                                }, context=context)
-                except:
-                    print i, "#ERR", obj, "jump:", item.name, sys.exc_info()
-                    continue
-        
+        converter = self._converter[obj] # for use same name        
         # ------------------------------------
         # Syncro partner with all informations
         # ------------------------------------
@@ -1139,9 +1088,71 @@ class SyncroXMLRPC(orm.Model):
                     continue
                 # NOTE No contact for this database
         else: # Load convert list form database
+             # Old method with ID saved (when sync it doesn't work) 
             self.load_converter(cr, uid, converter, obj=obj,
                 context=context)
-        
+
+                        
+        # ------------------------------------------------
+        # Syncro partner without update other informations
+        # ------------------------------------------------
+        # Link when there's a sync in the midle (create structure from 6 to 8)
+        import pdb; pdb.set_trace()
+        if wiz_proxy.partner and wiz_proxy.link:
+            erp_pool = erp.ResPartner
+            item_ids = erp_pool.search([
+                '|',
+                ('mexal_c', '!=', False),
+                ('mexal_s', '!=', False),
+                ]) 
+            for item in erp_pool.browse(item_ids):
+                try:
+                    if item.mexal_c:
+                        # TODO check extra elements fount!
+                        partner_ids = item_pool.search(cr, uid, [
+                            ('sql_customer_code', '=', item.mexal_c)])
+                        if partner_ids:
+                            item_id = partner_ids[0]
+                            item_pool.write(cr, uid, item_id, {
+                                'migration_old_id': item.id}, context=context)
+                    elif item.mexal_s:
+                        partner_ids = item_pool.search(cr, uid, [
+                            ('sql_supplier_code', '=', item.mexal_s)])
+                        if partner_ids:
+                            item_id = partner_ids[0]
+                            item_pool.write(cr, uid, item_id, {
+                                'migration_old_id': item.id}, context=context)
+                except:
+                    print i, "#ERR", obj, "jump:", item.name, sys.exc_info()
+                    continue
+
+            erp_pool = erp.ResPartnerAddress
+            item_ids = erp_pool.search([
+                '|',
+                ('mexal_c', '!=', False),
+                ('mexal_s', '!=', False),
+                ]) 
+            for item in erp_pool.browse(item_ids):
+                try:
+                    if item.mexal_c:
+                        domain = [('sql_destination_code', '=', item.mexal_c)]
+                    elif item.mexal_s:
+                        domain = [('sql_destination_code', '=', item.mexal_s)]
+                    
+                        partner_ids = item_pool.search(cr, uid, domain)                        
+                        # TODO check extra elements fount!
+                        if len(partner_ids) > 1:
+                            print "Too much destination: %s %s" % (
+                                mexal_c, mexal_s)
+                        if partner_ids:
+                            item_id = partner_ids[0]
+                            item_pool.write(cr, uid, item_id, {
+                                'migration_old_id': item.id,
+                                }, context=context)
+                except:
+                    print i, "#ERR", obj, "jump:", item.name, sys.exc_info()
+                    continue
+
         # ---------------------------------------------------------------------
         # account.payment.term
         # ---------------------------------------------------------------------
