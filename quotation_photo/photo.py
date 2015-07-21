@@ -89,6 +89,7 @@ class ProductProductImage(osv.osv):
             image folder + extra path + ext.
             Return image
         '''
+        # TODO Better rewrite all this mess function!
         img = ''
         folder_proxy = self.pool.get('product.quotation.folder')
         folder_ids = folder_proxy.search(cr, uid, [('width', '=', 200)])
