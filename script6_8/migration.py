@@ -1518,7 +1518,7 @@ class SyncroXMLRPC(orm.Model):
                         #'company_id'
                         #'state': item.state,                        
                         }
-                    try:                        
+                    try:      
                         data['tax_id'] = [
                             (6, 0, (self._converter['account.tax'][
                                 item.tax_id[0].id]))]
