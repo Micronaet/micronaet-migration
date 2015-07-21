@@ -844,7 +844,77 @@ class SyncroXMLRPC(orm.Model):
         obj = 'res.partner'
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
-        converter = self._converter[obj] # for use same name        
+        converter = self._converter[obj] # for use same name  
+        self._converter['res.partner.address'] = {} # For destinations!
+              
+        # ------------------------------------------------
+        # Syncro partner without update other informations
+        # ------------------------------------------------
+        # Link when there's a sync in the midle (create structure from 6 to 8)
+        item_pool = self.pool.get(obj) #
+
+        if wiz_proxy.partner and wiz_proxy.link:
+            import pdb; pdb.set_trace()
+            erp_pool = erp.ResPartner
+            item_ids = erp_pool.search([
+                '|', ('mexal_c', '!=', False), ('mexal_s', '!=', False)]) 
+            i = 0    
+            for item in erp_pool.browse(item_ids):
+                try:
+                    i += 1
+                    if i % 100 == 0:
+                        print "%s partner record imported" % i
+                    if item.mexal_c:
+                        domain = [('sql_customer_code', '=', item.mexal_c)]
+                    elif item.mexal_s: # TODO maybe unwanted substitution?
+                        [('sql_supplier_code', '=', item.mexal_s)]
+                    else:    
+                        print "Not found: %s %s" % (mexal_c, mexal_c)
+                        continue
+                        
+                    # Write:                        
+                    partner_ids = item_pool.search(cr, uid, domain)
+                    if partner_ids:
+                        item_id = partner_ids[0]
+                        item_pool.write(cr, uid, item_id, {
+                            'migration_old_id': item.id}, context=context)
+                except:
+                    print i, "#ERR", obj, "jump:", item.name, sys.exc_info()
+                    continue
+
+            erp_pool = erp.ResPartnerAddress
+            item_ids = erp_pool.search([
+                '|', ('mexal_c', '!=', False), ('mexal_s', '!=', False)]) 
+            i = 0    
+            for item in erp_pool.browse(item_ids):
+                try:
+                    i += 1
+                    if i % 100 == 0:
+                        print "%s address record imported" % i
+                    if item.mexal_c:
+                        domain = [('sql_destination_code', '=', item.mexal_c)]
+                    elif item.mexal_s:
+                        domain = [('sql_destination_code', '=', item.mexal_s)]
+                    else:
+                        print "Not found: %s %s" % (mexal_c, mexal_c)
+                        continue    
+                    
+                    partner_ids = item_pool.search(
+                        cr, uid, domain, context=context)                        
+                    if len(partner_ids) > 1:
+                        print "Too much destination: %s %s" % (
+                            mexal_c, mexal_s)
+                    if partner_ids:
+                        item_id = partner_ids[0]
+                        item_pool.write(cr, uid, item_id, {
+                            'migration_old_id': item.id,
+                            }, context=context)
+                    else:
+                        print "Not found: %s %s" % (mexal_c, mexal_c) 
+                except:
+                    print i, "#ERR", obj, "jump:", item.name, sys.exc_info()
+                    continue
+        
         # ------------------------------------
         # Syncro partner with all informations
         # ------------------------------------
@@ -1090,83 +1160,17 @@ class SyncroXMLRPC(orm.Model):
         else: # Load convert list form database
             # Not use load_converter but splitted loop c/s and dest.
             item_ids = item_pool.search(cr, uid, [], context=context)
-            for item in item_pool.search(cr, uid, item_ids, context=context):
+            for item in item_pool.browse(cr, uid, item_ids, context=context):
                 if not item.migration_old_id:
                     continue # jump line
                 if item.is_address:
-                    self._conveter['res.partner.address'][
+                    self._converter['res.partner.address'][
                         item.migration_old_id] = item.id
                     
                 else:    
-                    self._conveter['res.partner'][
+                    self._converter['res.partner'][
                         item.migration_old_id] = item.id
                         
-        # ------------------------------------------------
-        # Syncro partner without update other informations
-        # ------------------------------------------------
-        # Link when there's a sync in the midle (create structure from 6 to 8)
-        item_pool = self.pool.get('res.partner') #
-
-        if wiz_proxy.partner and wiz_proxy.link:
-            erp_pool = erp.ResPartner
-            item_ids = erp_pool.search([
-                '|', ('mexal_c', '!=', False), ('mexal_s', '!=', False)]) 
-            i = 0    
-            for item in erp_pool.browse(item_ids):
-                try:
-                    i += 1
-                    if i % 100 == 0:
-                        print "%s partner record imported" % i
-                    if item.mexal_c:
-                        partner_ids = item_pool.search(cr, uid, [
-                            ('sql_customer_code', '=', item.mexal_c)])
-                        if partner_ids:
-                            item_id = partner_ids[0]
-                            item_pool.write(cr, uid, item_id, {
-                                'migration_old_id': item.id}, context=context)
-                    elif item.mexal_s:
-                        partner_ids = item_pool.search(cr, uid, [
-                            ('sql_supplier_code', '=', item.mexal_s)])
-                        if partner_ids:
-                            item_id = partner_ids[0]
-                            item_pool.write(cr, uid, item_id, {
-                                'migration_old_id': item.id}, context=context)
-                        else:
-                            print "Not found: %s %s" % mexal_c, mexal_c        
-                except:
-                    print i, "#ERR", obj, "jump:", item.name, sys.exc_info()
-                    continue
-
-            erp_pool = erp.ResPartnerAddress
-            item_ids = erp_pool.search([
-                '|', ('mexal_c', '!=', False), ('mexal_s', '!=', False), ]) 
-            i = 0    
-            for item in erp_pool.browse(item_ids):
-                try:
-                    i += 1
-                    if i % 100 == 0:
-                        print "%s address record imported" % i
-                    if item.mexal_c:
-                        domain = [('sql_destination_code', '=', item.mexal_c)]
-                    elif item.mexal_s:
-                        domain = [('sql_destination_code', '=', item.mexal_s)]
-                    
-                        partner_ids = item_pool.search(
-                            cr, uid, domain, context=context)                        
-                        if len(partner_ids) > 1:
-                            print "Too much destination: %s %s" % (
-                                mexal_c, mexal_s)
-                        if partner_ids:
-                            item_id = partner_ids[0]
-                            item_pool.write(cr, uid, item_id, {
-                                'migration_old_id': item.id,
-                                }, context=context)
-                        else:
-                            print "Not found: %s %s" % mexal_c, mexal_c        
-                except:
-                    print i, "#ERR", obj, "jump:", item.name, sys.exc_info()
-                    continue
-
         # ---------------------------------------------------------------------
         # account.payment.term
         # ---------------------------------------------------------------------
@@ -1364,7 +1368,6 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        import pdb; pdb.set_trace()
         if wiz_proxy.sale:
             item_pool = self.pool.get(obj)
             erp_pool = erp.SaleOrder
@@ -1372,6 +1375,8 @@ class SyncroXMLRPC(orm.Model):
             for item in erp_pool.browse(item_ids):
                 try: # Create record to insert/update
                     name = item.name
+                    if item.name != "SO262": continue # TODO remove debug
+                    import pdb; pdb.set_trace()
                     data = {
                         'name': item.name,
                         'note': item.note,
