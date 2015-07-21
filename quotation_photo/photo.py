@@ -106,6 +106,7 @@ class ProductProductImage(osv.osv):
                   (folder_browse.folder_path + "/") % (cr.dbname, )
                       if len(folder_browse.folder_path.split("%s")) == 2
                       else folder_browse.folder_path + "/")
+           _logger.info('Load image: %s' % image_path) # TODO remove (debug)      
         else: # no folder image
            return img # empty!
 
