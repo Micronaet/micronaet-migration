@@ -106,7 +106,7 @@ class ProductProductImage(osv.osv):
                   (folder_browse.folder_path + "/") % (cr.dbname, )
                       if len(folder_browse.folder_path.split("%s")) == 2
                       else folder_browse.folder_path + "/")
-           _logger.info('Load image: %s' % image_path) # TODO remove (debug)      
+           _logger.warning('Load image: %s' % image_path) # TODO remove (debug)      
         else: # no folder image
            return img # empty!
 
@@ -168,12 +168,13 @@ class ProductProductImage(osv.osv):
 
     def _get_image(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
+        _logger.warning('Loading image for product: %s' % (ids, )) # TODO debug
         for item in ids:
             res[item] = self.get_image(cr, uid, item)
         return res
 
     _columns = {
-        'default_photo': fields.function(
-            _get_image, type="binary", method=True),
+        'default_photo': fields.function(_get_image, type="binary", 
+            method=True),
         }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
