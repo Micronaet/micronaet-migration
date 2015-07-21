@@ -1522,7 +1522,7 @@ class SyncroXMLRPC(orm.Model):
                         data['tax_id'] = [
                             (6, 0, (self._converter[item.tax_id[0].id]))]
                     except:
-                        _logger.warning("Error set tax for line")
+                        _logger.warning("Error reading tax for line (not set)")
 
                     new_ids = item_pool.search(cr, uid, [
                         ('migration_old_id', '=', item.id)], context=context)
