@@ -1088,10 +1088,18 @@ class SyncroXMLRPC(orm.Model):
                     continue
                 # NOTE No contact for this database
         else: # Load convert list form database
-             # Old method with ID saved (when sync it doesn't work) 
-            self.load_converter(cr, uid, converter, obj=obj,
-                context=context)
-
+            # Not use load_converter but splitted loop c/s and dest.
+            item_ids = item_pool.search(cr, uid, [], context=context)
+            for item in item_pool.search(cr, uid, item_ids, context=context):
+                if not item.migration_old_id:
+                    continue # jump line
+                if item.is_address:
+                    self._conveter['res.partner.address'][
+                        item.migration_old_id] = item.id
+                    
+                else:    
+                    self._conveter['res.partner'][
+                        item.migration_old_id] = item.id
                         
         # ------------------------------------------------
         # Syncro partner without update other informations
@@ -1356,6 +1364,7 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
+        import pdb; pdb.set_trace()
         if wiz_proxy.sale:
             item_pool = self.pool.get(obj)
             erp_pool = erp.SaleOrder
@@ -1416,7 +1425,7 @@ class SyncroXMLRPC(orm.Model):
                         'migration_old_id': item.id,
                         
                         'destination_partner_id': self._converter[
-                            'res.partner'].get(
+                            'res.partner.address'].get(
                                 item.partner_shipping_id.id \
                                     if item.partner_shipping_id \
                                     else False, False),
@@ -1507,12 +1516,11 @@ class SyncroXMLRPC(orm.Model):
                         #'company_id'
                         #'state': item.state,                        
                         }
-                    try:
-                        
+                    try:                        
                         data['tax_id'] = [
                             (6, 0, (self._converter[item.tax_id[0].id]))]
                     except:
-                        pass # use default tax
+                        _logger.warning("Error set tax for line")
 
                     new_ids = item_pool.search(cr, uid, [
                         ('migration_old_id', '=', item.id)], context=context)
