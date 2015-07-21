@@ -83,7 +83,7 @@ class ProductProductImage(osv.osv):
     '''
     _inherit = 'product.product'
 
-    def get_image(self, cr, uid, item):
+    def get_image(self, cr, uid, item, context=None):
         ''' Get folder (actually 200 px) and extension from folder obj.
             Calculated dinamically image from module
             image folder + extra path + ext.
@@ -96,7 +96,7 @@ class ProductProductImage(osv.osv):
         if folder_ids:
            folder_browse = folder_proxy.browse(cr, uid, folder_ids)[0]
            extension = "." + folder_browse.extension_image
-           empty_image= folder_browse.empty_image
+           empty_image = folder_browse.empty_image
            if folder_browse.addons:
               image_path = tools.config[
                   'addons_path'] + '/quotation_photo/images/' + \
@@ -110,7 +110,7 @@ class ProductProductImage(osv.osv):
         else: # no folder image
            return img # empty!
 
-        product_browse=self.browse(cr, uid, item)
+        product_browse = self.browse(cr, uid, item, context=context)
         if product_browse.code:
             # codice originale (tutte le cifre)
             try:
@@ -169,8 +169,9 @@ class ProductProductImage(osv.osv):
     def _get_image(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
         _logger.warning('Loading image for product: %s' % (ids, )) # TODO debug
+        import pdb; pdb.set_trace()
         for item in ids:
-            res[item] = self.get_image(cr, uid, item)
+            res[item] = self.get_image(cr, uid, item, context=context)
         return res
 
     _columns = {
