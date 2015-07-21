@@ -389,7 +389,8 @@ class ResPartner(orm.Model):
                             # TODO parte comune per tutti i clienti:
                             data['property_product_pricelist'] = pricelist_id
                             data['ref_pricelist_id'] = ref_pricelist_id
-                            #data['property_account_position'] = fiscal_position # TODO da errore!!!
+                            #data['property_account_position'] = fiscal_position 
+                            # NOTE: Imported with sql_partner!!!
                             #NO data['customer'] = True
                             #NO data['ref'] = ref
                             data['type_cei'] = type_CEI
