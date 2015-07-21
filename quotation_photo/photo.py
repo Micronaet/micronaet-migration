@@ -168,8 +168,7 @@ class ProductProductImage(osv.osv):
 
     def _get_image(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
-        _logger.warning('Loading image for product: %s' % (ids, )) # TODO debug
-        import pdb; pdb.set_trace()
+        #_logger.warning('Loading image for product: %s' % (ids, )) # TODO debug
         for item in ids:
             res[item] = self.get_image(cr, uid, item)
         return res

@@ -1520,7 +1520,8 @@ class SyncroXMLRPC(orm.Model):
                         }
                     try:                        
                         data['tax_id'] = [
-                            (6, 0, (self._converter[item.tax_id[0].id]))]
+                            (6, 0, (self._converter['account.tax'][
+                                item.tax_id[0].id]))]
                     except:
                         _logger.warning("Error reading tax for line (not set)")
 
