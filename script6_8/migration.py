@@ -854,7 +854,6 @@ class SyncroXMLRPC(orm.Model):
         item_pool = self.pool.get(obj) #
 
         if wiz_proxy.partner and wiz_proxy.link:
-            import pdb; pdb.set_trace()
             erp_pool = erp.ResPartner
             item_ids = erp_pool.search([
                 '|', ('mexal_c', '!=', False), ('mexal_s', '!=', False)]) 
@@ -869,7 +868,7 @@ class SyncroXMLRPC(orm.Model):
                     elif item.mexal_s: # TODO maybe unwanted substitution?
                         [('sql_supplier_code', '=', item.mexal_s)]
                     else:    
-                        print "Not found: %s %s" % (mexal_c, mexal_c)
+                        print "Not found: %s %s" % (item.mexal_c, item.mexal_c)
                         continue
                         
                     # Write:                        
@@ -903,14 +902,14 @@ class SyncroXMLRPC(orm.Model):
                         cr, uid, domain, context=context)                        
                     if len(partner_ids) > 1:
                         print "Too much destination: %s %s" % (
-                            mexal_c, mexal_s)
+                            item.mexal_c, item.mexal_s)
                     if partner_ids:
                         item_id = partner_ids[0]
                         item_pool.write(cr, uid, item_id, {
                             'migration_old_id': item.id,
                             }, context=context)
                     else:
-                        print "Not found: %s %s" % (mexal_c, mexal_c) 
+                        print "Not found: %s %s" % (item.mexal_c, item.mexal_c) 
                 except:
                     print i, "#ERR", obj, "jump:", item.name, sys.exc_info()
                     continue
@@ -1375,8 +1374,6 @@ class SyncroXMLRPC(orm.Model):
             for item in erp_pool.browse(item_ids):
                 try: # Create record to insert/update
                     name = item.name
-                    if item.name != "SO262": continue # TODO remove debug
-                    import pdb; pdb.set_trace()
                     data = {
                         'name': item.name,
                         'note': item.note,
