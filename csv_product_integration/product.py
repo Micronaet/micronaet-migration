@@ -130,9 +130,11 @@ class ProductProduct(orm.Model):
             else:
                 _logger.error("Partner not found: %s" % key[8:])
 
-    def schedule_csv_group_force(self, cr, uid, context=None):
+    def schedule_csv_group_force(self, cr, uid, context=None):        
         ''' Force group (custom for a particular client)        
         '''
+        # TODO remove, not used (with family)
+        return True # TODO <<< stop the procedure here!
         product_group = {
             'Prodotti': {
                 'Amaca': ('Amaca','Amache',),
@@ -282,12 +284,11 @@ class ProductProduct(orm.Model):
         for uom in uom_pool.browse(
                 cr, uid, uom_ids, context=context):
             uoms[uom.name] = uom.id
-        
 
         csv_pool = self.pool.get('csv.base')
         csv_file = open(os.path.expanduser(input_file), 'rb')
         counter = -header_line
-        language = {}
+        #language = {}
         for line in csv.reader(csv_file, delimiter=delimiter):
             try:
                 if counter < 0:  # jump n lines of header
@@ -308,7 +309,7 @@ class ProductProduct(orm.Model):
                 # Language:
                 #language['it_IT']:
                 name = csv_pool.decode_string(line[1]).title()
-                language['en_US'] = csv_pool.decode_string(line[10]).title()
+                #language['en_US'] = csv_pool.decode_string(line[10]).title()
                 # TODO: activate language
                 #language['1'] = csv_pool.decode_string(line[11]).title()
                 #language['2'] = csv_pool.decode_string(line[12]).title()
@@ -333,7 +334,7 @@ class ProductProduct(orm.Model):
 
                 # Get UOM depend on ref:
                 if uom in ['NR', 'N.', 'PZ', 'RT']: 
-                    uom_id = uoms.get('Unit(s)', False)
+                    uom_id = uoms.get('Unit(s)', False) # TODO remain unit(s)?
                 elif uom in ['M2', 'MQ']: 
                     uom_id = uoms.get('M2', False)
                 elif uom in ['M', 'MT', 'ML',]: # NOTE: after M2!! 
@@ -364,16 +365,18 @@ class ProductProduct(orm.Model):
 
                 product_ids = self.search(cr, uid, [
                     ('default_code', '=', default_code)]) #, context=context)
+                    
                 data = {
                     'linear_length': linear_length,
                     'weight': weight,
                     'volume': volume,
                     'colour': colour,
                     'q_x_pack': lot,
-                    'description_sale': name,
-                    'name_template': name, # TODO langs
+                    #'description_sale': name,
+                    #'name_template': name, # TODO langs
+                    
+                    # Other fields not used: 
                     #'name': name,
-
                     #'active': active,
                     #'mexal_id': ref,
                     #'import': True,
@@ -399,14 +402,14 @@ class ProductProduct(orm.Model):
                         
                 if product_ids: # only update
                     try:
-                        self.write(cr, uid, product_ids, data, context={
-                            'lang': 'it_IT'})
+                        self.write(cr, uid, product_ids, data, context=context)
+                        #{'lang': 'it_IT'})
                     except: # update via SQL in case of error
                         _logger.warning('Forced product %s uom %s' % (
                             product_ids[0],
                             uom_id,
                             ))
-                        if uom_id: # update via SQL 
+                        if uom_id: # update via SQL (ODOO not possibile!) 
                             cr.execute(""" 
                                 UPDATE product_template
                                 SET uom_id = %s, uom_po_id = %s 
@@ -418,15 +421,15 @@ class ProductProduct(orm.Model):
                             
                     
                     # Update language
-                    for lang in language: # extra language
-                        name = language.get(lang, False)
-                        if name:
-                            self.write(cr, uid, product_ids, {
-                                'name': name,
-                                'description_sale': name,
-                                #'name_template': name,                                
-                                }, context={
-                                    'lang': lang})
+                    #for lang in language: # extra language
+                    #    name = language.get(lang, False)
+                    #    if name:
+                    #        self.write(cr, uid, product_ids, {
+                    #            'name': name,
+                    #            'description_sale': name,
+                    #            #'name_template': name,                                
+                    #            }, context={
+                    #                'lang': lang})
 
                 else:
                     _logger.error('Product not present: %s' % default_code)
