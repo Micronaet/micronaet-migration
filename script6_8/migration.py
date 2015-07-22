@@ -812,7 +812,7 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj] # Load with partner (use name non ID)
-        if wiz_proxy.partner: # TODO
+        if wiz_proxy.partner and not wiz_proxy.link:
             item_pool = self.pool.get(obj)
             erp_pool = erp.StatisticCategory
             item_ids = erp_pool.search([])
