@@ -1467,7 +1467,7 @@ class SyncroXMLRPC(orm.Model):
                     # For problem in pricelist (if not present) TODO test
                     pricelist_id = self._converter['product.pricelist'].get(
                         item.pricelist_id.id if item.pricelist_id else False, 
-                        False),
+                        False)
                     if pricelist_id:
                         data['pricelist_id'] = pricelist_id
                         
