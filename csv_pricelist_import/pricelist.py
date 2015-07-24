@@ -164,7 +164,9 @@ class ProductPricelist(orm.Model):
         partner_proxy = partner_pool.browse(
             cr, uid, partner_id, context=context)
 
+        # ---------------------------------------------------
         # 1. case: version present (so pricelist and partner)
+        # ---------------------------------------------------
         version_pool = self.pool.get('product.pricelist.version')
         version_ids = version_pool.search(cr, uid, [
             ('mexal_id', '=', partner_code)], context=context)
@@ -174,11 +176,15 @@ class ProductPricelist(orm.Model):
                 partner_proxy.ref_pricelist_id.id, context=context)
             return version_ids[0]
 
+        # ---------------------------------------------------
         # 2. case: version present (so pricelist and partner)
+        # ---------------------------------------------------
         pricelist_ids = self.search(cr, uid, [
             ('mexal_id', '=', partner_code)], context=context)
 
+        # ----------------
         # Check pricelist:
+        # ----------------
         if pricelist_ids:
             pricelist_id = pricelist_ids[0]
         else:
@@ -193,19 +199,25 @@ class ProductPricelist(orm.Model):
                 'mexal_id': partner_code,
                 }, context=context)
 
+        # -----------------------------
         # Update pricelist for partner:
+        # -----------------------------
         partner_pool.write(cr, uid, partner_id, {
             'property_product_pricelist': pricelist_id,
             }, context=context)
 
+        # ---------------
         # Create version:
+        # ---------------
         version_id = version_pool.create(cr, uid, {
             'name': "Versione base partner [%s]" % partner_proxy.name,
             'pricelist_id': pricelist_id, 
             'mexal_id': partner_code,
             }, context=context)
 
-        # Update last rule
+        # -----------------
+        # Update last rule:
+        # -----------------
         update_reference_pl(
             self, cr, uid, version_id, partner_proxy.ref_pricelist_id.id, 
             context=context)
@@ -325,7 +337,7 @@ class ProductPricelist(orm.Model):
                     cr, uid, context=context)
                 if partner_code < company_proxy.sql_customer_from_code or \
                         partner_code >= company_proxy.sql_customer_to_code:
-                    _logger.error('Jumped, not a customer: %s' % partner_code)
+                    _logger.warning('Jumped, not a customer: %s' % partner_code)
                     continue
                 
                 # Get product:
@@ -346,6 +358,11 @@ class ProductPricelist(orm.Model):
                 if partner_code not in versions: # Save in versions converter
                     versions[partner_code] = self.get_partner_pricelist(
                         cr, uid, partner_code, context=context)
+
+                price_version_id = versions[partner_code]
+                if not price_version_id:
+                    _logger.error("Pricelist version not created!")
+                    continue
 
                 item_pool.create(cr, uid, {
                     'price_version_id': versions[partner_code],
