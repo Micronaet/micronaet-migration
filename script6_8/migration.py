@@ -1261,31 +1261,38 @@ class SyncroXMLRPC(orm.Model):
         if wiz_proxy.sale or wiz_proxy.sale_line:
             item_pool = self.pool.get(obj)
             erp_pool = erp.SaleProductReturn
-            item_ids = erp_pool.search([])
-            for item in erp_pool.browse(item_ids):
-                try: # Create record to insert/update
-                    name = item.name                    
-                    data = {
-                        'name': name,
-                        'text': item.text,
-                        }
-                    new_ids = item_pool.search(cr, uid, [
-                        ('name', '=', name)], context=context)
-                    if new_ids: # Modify
-                        item_id = new_ids[0]
-                        item_pool.write(cr, uid, item_id, data,
-                            context=context)
-                        print "#INFO", obj, "update:", name
-                    else: # Create
-                        item_id = item_pool.create(cr, uid, data,
-                            context=context)
-                        print "#INFO", obj, "create:", name
+            error = False
+            try:
+                item_ids = erp_pool.search([])
+            except:
+                error = True
+                _logger.warning('Object: %s not found in v. 6.0 (jump)' % obj)
+            if not error:
+                    
+                for item in erp_pool.browse(item_ids):
+                    try: # Create record to insert/update
+                        name = item.name                    
+                        data = {
+                            'name': name,
+                            'text': item.text,
+                            }
+                        new_ids = item_pool.search(cr, uid, [
+                            ('name', '=', name)], context=context)
+                        if new_ids: # Modify
+                            item_id = new_ids[0]
+                            item_pool.write(cr, uid, item_id, data,
+                                context=context)
+                            print "#INFO", obj, "update:", name
+                        else: # Create
+                            item_id = item_pool.create(cr, uid, data,
+                                context=context)
+                            print "#INFO", obj, "create:", name
 
-                    converter[item.id] = item_id
-                except:
-                    print "#ERR", obj, "jumped:", name
-                    print sys.exc_info()
-                    continue                    
+                        converter[item.id] = item_id
+                    except:
+                        print "#ERR", obj, "jumped:", name
+                        print sys.exc_info()
+                        continue                    
         else: # Load convert list form database
             pass # Non used (no migration_old_id)
             #self.load_converter(cr, uid, converter, obj=obj,
