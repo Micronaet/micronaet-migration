@@ -769,13 +769,15 @@ class SyncroXMLRPC(orm.Model):
         item_ids = erp_pool.search([])
         for item in erp_pool.browse(item_ids):
             # TODO problem with item.mexal_id!!!
-            #mexal_id = item.mexal_id
-            mexal_id = item.name.split('[')[-1].split(']')[0]
-            if not '.' in mexal_id:            
-                _logger.error('Cannot find mexal ID %s' % item.name)
-                continue
-            if 'Listino Mexal n. ' in mexal_id:
-                mexal_id = mexal_id[-1]    
+            if 'mexal_id' in dir(item):
+                mexal_id = item.mexal_id
+            else:
+                mexal_id = item.name.split('[')[-1].split(']')[0]
+                if not '.' in mexal_id:            
+                    _logger.error('Cannot find mexal ID %s' % item.name)
+                    continue
+                if 'Listino Mexal n. ' in mexal_id:
+                    mexal_id = mexal_id[-1]    
             new_ids = item_pool.search(cr, uid, [
                 ('mexal_id', '=', mexal_id)], context=context)
             if new_ids: # Modify
@@ -795,13 +797,15 @@ class SyncroXMLRPC(orm.Model):
 
         for item in erp_pool.browse(item_ids):
             # TODO problem with item.mexal_id!!!
-            #mexal_id = item.mexal_id
-            mexal_id = item.name.split('[')[-1].split(']')[0]
-            if not '.' in mexal_id:            
-                _logger.error('Cannot find mexal ID %s' % item.name)
-                continue
-            if 'Versione base ' in mexal_id:
-                mexal_id = mexal_id[-1]    
+            if 'mexal_id' in dir(item):
+                mexal_id = item.mexal_id
+            else:    
+                mexal_id = item.name.split('[')[-1].split(']')[0]
+                if not '.' in mexal_id or 'Versione base ' not in mexal_id:
+                    _logger.error('Cannot find mexal ID %s' % item.name)
+                    continue
+                if 'Versione base ' in mexal_id:
+                    mexal_id = mexal_id[-1]    
 
             new_ids = item_pool.search(cr, uid, [
                 ('mexal_id', '=', mexal_id)], context=context)
@@ -1450,14 +1454,14 @@ class SyncroXMLRPC(orm.Model):
                     # ---------------------------------------------    
                     # Extra fields not present in all installation:    
                     # ---------------------------------------------    
-                    return_id  = self._converter['sale.product.return'].get(
+                    if 'return_id' in dir(item):                
+                        return_id  = self._converter['sale.product.return'].get(
                         item.return_id.id if item.return_id else False, False)
-                    if return_id:                
                         data['return_id'] = return_id
                     
-                    bank_id = self._converter['sale.order.bank'].get(
+                    if 'bank_id' in dir(item):
+                        bank_id = self._converter['sale.order.bank'].get(
                         item.bank_id.id if item.bank_id else False, False)
-                    if bank_id:
                         data['bank_id'] = bank_id
                     
                     # For problem in pricelist (if not present) TODO test
