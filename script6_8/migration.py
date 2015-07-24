@@ -1374,6 +1374,7 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # sale.order
         # ---------------------------------------------------------------------
+        import pdb; pdb.set_trace()
         obj = 'sale.order'
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
@@ -1410,43 +1411,47 @@ class SyncroXMLRPC(orm.Model):
                                     else False, False),
                         'picking_policy': item.picking_policy, # direct one
                         'order_policy': item.order_policy, # manual picking ...
-                        'return_id': self._converter[
-                            'sale.product.return'].get(
-                                item.return_id.id \
-                                    if item.return_id \
-                                    else False, False),
-                        'bank_id': self._converter[
-                            'sale.order.bank'].get(
-                                item.bank_id.id \
-                                    if item.bank_id \
-                                    else False, False),                        
                         'fiscal_position': self._converter[
                             'account.fiscal.position'].get(
                                 item.fiscal_position.id \
                                     if item.fiscal_position \
-                                    else False, False),
-                        'pricelist_id': self._converter[
-                            'product.pricelist'].get(
-                                item.pricelist_id.id \
-                                    if item.pricelist_id \
                                     else False, False),
                         'partner_id': self._converter[
                             'res.partner'].get(
                                 item.partner_id.id \
                                     if item.partner_id \
                                     else False, 1),                                    
-                        'migration_old_id': item.id,
-                        
+                        'migration_old_id': item.id,                        
                         'destination_partner_id': self._converter[
                             'res.partner.address'].get(
                                 item.partner_shipping_id.id \
                                     if item.partner_shipping_id \
                                     else False, False),
-
                         # TODO:
                         #'confirm_date': item.confirm_date, # Not present
                         }
-
+                        
+                    # ---------------------------------------------    
+                    # Extra fields not present in all installation:    
+                    # ---------------------------------------------    
+                    return_id  = self._converter['sale.product.return'].get(
+                        item.return_id.id if item.return_id else False, False)
+                    if return_id:                
+                        data['return_id'] = return_id
+                    
+                    bank_id = self._converter['sale.order.bank'].get(
+                        item.bank_id.id if item.bank_id else False, False)
+                    if bank_id    
+                        data['bank_id'] = banck_id
+                    
+                    # For problem in pricelist (if not present) TODO test
+                    pricelist_id = self._converter['product.pricelist'].get(
+                        item.pricelist_id.id if item.pricelist_id else False, 
+                        False),
+                    if pricelist_id:
+                        data['pricelist_id'] = pricelist_id
+                        
+                        
                     new_ids = item_pool.search(cr, uid, [
                         #('name', '=', name)], context=context) #use migrateID ?
                         ('migration_old_id', '=', item.id)], context=context) #use migrateID ?
