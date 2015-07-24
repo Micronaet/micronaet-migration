@@ -760,7 +760,6 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
 
         obj = 'product.pricelist' # linked by mexal_id key (only create dict)
-        import pdb; pdb.set_trace()
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
@@ -771,7 +770,6 @@ class SyncroXMLRPC(orm.Model):
         for item in erp_pool.browse(item_ids):
             # TODO problem with item.mexal_id!!!
             #mexal_id = item.mexal_id
-            #if not mexal_id:
             mexal_id = item.name.split('[')[-1].split(']')[0]
             if not '.' in mexal_id:            
                 _logger.error('Cannot find mexal ID %s' % item.name)
@@ -794,15 +792,24 @@ class SyncroXMLRPC(orm.Model):
         item_pool = self.pool.get(obj)
         erp_pool = erp.ProductPricelistVersion
         item_ids = erp_pool.search([])
+
         for item in erp_pool.browse(item_ids):
-                mexal_id = item.mexal_id
-                new_ids = item_pool.search(cr, uid, [
-                    ('mexal_id', '=', mexal_id)], context=context)
-                if new_ids: # Modify
-                    item_id = new_ids[0]
-                    converter[item.id] = item_id
-                else: # Create
-                    print "#ERR", obj, "not found:", mexal_id
+            # TODO problem with item.mexal_id!!!
+            #mexal_id = item.mexal_id
+            mexal_id = item.name.split('[')[-1].split(']')[0]
+            if not '.' in mexal_id:            
+                _logger.error('Cannot find mexal ID %s' % item.name)
+                continue
+            if 'Versione base ' in mexal_id:
+                mexal_id = mexal_id[-1]    
+
+            new_ids = item_pool.search(cr, uid, [
+                ('mexal_id', '=', mexal_id)], context=context)
+            if new_ids: # Modify
+                item_id = new_ids[0]
+                converter[item.id] = item_id
+            else: # Create
+                print "#ERR", obj, "not found:", mexal_id
 
         # Load pricelist:      
         if wiz_proxy.purchase or wiz_proxy.purchase_line:
