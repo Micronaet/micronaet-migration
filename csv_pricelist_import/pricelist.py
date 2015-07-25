@@ -67,8 +67,9 @@ class ProductPricelist(orm.Model):
     # Utility:
     # --------
     def create_default_pricelist(self, cr, uid, versions, context=None):
-        ''' Crate if not exist all [0:9] base pricelist - version
-            Update versions converter
+        ''' Default pricelist creation (from 0 to 9)
+            Create if not exist base pricelist - version
+            Update versions converter for future purpose
         '''
         version_pool = self.pool.get('product.pricelist.version')
 
@@ -76,7 +77,7 @@ class ProductPricelist(orm.Model):
         for pricelist in range(1, 10):
             mexal_id = str(pricelist)
             pl_ids = self.search(cr, uid, [
-                ('mexal_id', '=', mexal_id,)], context=context)
+                ('mexal_id', '=', mexal_id)], context=context)
             if pl_ids:
                 pl_id = pl_ids[0]
             else:
@@ -101,7 +102,7 @@ class ProductPricelist(orm.Model):
         return
 
     def get_partner_pricelist(self, cr, uid, partner_code, context=None):
-        ''' Search or Create a pricelist and a pricelist version
+        ''' Search or Create a partner pricelist and a pricelist version
             return version ID
             Set also as default pricelist for partner
             Set default rule in version pricelist (always update)
@@ -171,6 +172,9 @@ class ProductPricelist(orm.Model):
         version_ids = version_pool.search(cr, uid, [
             ('mexal_id', '=', partner_code)], context=context)
         if version_ids: # TODO update?            
+            if not partner_proxy.ref_pricelist_id.id:
+                _logger.warning(
+                    'Ref. pricelist not present, run partner integration')
             update_reference_pl( # Update last rule:
                 self, cr, uid, version_ids[0], 
                 partner_proxy.ref_pricelist_id.id, context=context)
@@ -256,8 +260,9 @@ class ProductPricelist(orm.Model):
         # ---------------------------------------------------------------------
         _logger.info("Start pricelist standard importation: %s" % (
             input_file, ))
+
         versions = {} # dict of pricelist (mexal_id: odoo id)
-        # Create Pl + Version:
+        # Create 10 base pricelist (if not exist): Base Pl + Version
         self.create_default_pricelist(cr, uid, versions, context=context)
 
         csv_file = open(os.path.expanduser(input_file), 'rb')
@@ -337,7 +342,8 @@ class ProductPricelist(orm.Model):
                     cr, uid, context=context)
                 if partner_code < company_proxy.sql_customer_from_code or \
                         partner_code >= company_proxy.sql_customer_to_code:
-                    _logger.warning('Jumped, not a customer: %s' % partner_code)
+                    _logger.warning(
+                        'Jumped, not a customer: %s' % partner_code)
                     continue
                 
                 # Get product:
@@ -353,9 +359,11 @@ class ProductPricelist(orm.Model):
 
                 # Get pricelist version:
                 if not partner_code:
-                    _logger.error("Partner code not present!") # TODO create?                    
+                    _logger.error("Partner code empty!") # TODO create?                    
                     continue
+                    
                 if partner_code not in versions: # Save in versions converter
+                    #import pdb; pdb.set_trace()
                     versions[partner_code] = self.get_partner_pricelist(
                         cr, uid, partner_code, context=context)
 

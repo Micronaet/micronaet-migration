@@ -783,7 +783,7 @@ class SyncroXMLRPC(orm.Model):
             if new_ids: # Modify
                 item_id = new_ids[0]
                 converter[item.id] = item_id
-            else: # Create
+            else: # No creation here
                 print "#ERR", obj, "not found:", mexal_id
                 
         obj = 'product.pricelist.version' # linked by mexal_id key (for dict)
