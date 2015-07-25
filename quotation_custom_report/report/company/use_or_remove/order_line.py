@@ -110,10 +110,10 @@ class sale_order_line_add_fields(osv.osv):
     _name='sale.order.line'
     _inherit='sale.order.line'
     
-    _columns={
-             'repeat_header_line': fields.boolean('Intest.', required=False, help="Spuntare quando e' richiesta l'intestazione, tipo dopo una riga titolo."),             
-             'insert_photo': fields.boolean('Con foto', required=False, help="Spuntare quando e' richiesto l'inserimento della foto a preventivo."),                                     
-             'use_amazon_description': fields.boolean('Amazon description', required=False, help="Take amazon description instead of product's one"),
-             'show_notes': fields.boolean('Show notes', required=False, help="Show notes after description"),
-             }
+    _columns = {
+        'repeat_header_line': fields.boolean('Intest.', required=False, help="Spuntare quando e' richiesta l'intestazione, tipo dopo una riga titolo."),             
+        'insert_photo': fields.boolean('Con foto', required=False, help="Spuntare quando e' richiesto l'inserimento della foto a preventivo."),                                     
+        'use_amazon_description': fields.boolean('Amazon description', required=False, help="Take amazon description instead of product's one"),
+        'show_notes': fields.boolean('Show notes', required=False, help="Show notes after description"),
+        }
 sale_order_line_add_fields()

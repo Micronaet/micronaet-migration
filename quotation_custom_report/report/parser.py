@@ -32,11 +32,26 @@ from openerp.report.report_sxw import rml_parse
 class Parser(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):
         super(Parser, self).__init__(cr, uid, name, context)
+        self.counters = {}
         self.localcontext.update({
             'clean_description': self.clean_description,
             'get_telaio': self.get_telaio,
             'get_fabric': self.get_fabric,
+            'set_counter': self.set_counter,
+            'get_counter': self.get_counter,
         })
+
+    def set_counter(self, name, value = 0.0):
+        ''' Create or set a counter in the counter list of the class
+            If value is not setted counter is reset
+        '''
+        self.counters[name] = value
+        return
+
+    def get_counter(self, name):
+        ''' Return counter value, if present, else 0.0
+        '''
+        return self.counters.get(name, 0.0)
 
     def clean_description(self, name):
         return name.split("]")[-1:]
