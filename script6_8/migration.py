@@ -872,6 +872,7 @@ class SyncroXMLRPC(orm.Model):
         # Link when there's a sync in the midle (create structure from 6 to 8)
         item_pool = self.pool.get(obj) #
 
+        import pdb; pdb.set_trace()
         if wiz_proxy.partner and wiz_proxy.link:
             erp_pool = erp.ResPartner
             item_ids = erp_pool.search([
@@ -1504,6 +1505,7 @@ class SyncroXMLRPC(orm.Model):
         converter = self._converter[obj]
         default_product_uom = 1 # Pz.
         if wiz_proxy.sale_line:
+            import pdb; pdb.set_trace()
             item_pool = self.pool.get(obj)
             erp_pool = erp.SaleOrderLine
             item_ids = erp_pool.search([])
