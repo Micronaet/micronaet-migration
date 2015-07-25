@@ -1423,7 +1423,6 @@ class SyncroXMLRPC(orm.Model):
                                 item.payment_term.id \
                                     if item.payment_term \
                                     else False, False),
-                        'quotation_model': item.quotation_model,
                         'incoterm': self._converter[
                             'stock.incoterms'].get(
                                 item.incoterm.id \
@@ -1454,6 +1453,9 @@ class SyncroXMLRPC(orm.Model):
                     # ---------------------------------------------    
                     # Extra fields not present in all installation:    
                     # ---------------------------------------------    
+                    if 'quotation_model' in dir(item):                
+                        data['quotation_model'] = item.quotation_model
+                        
                     if 'return_id' in dir(item):                
                         return_id  = self._converter['sale.product.return'].get(
                         item.return_id.id if item.return_id else False, False)
