@@ -794,7 +794,6 @@ class SyncroXMLRPC(orm.Model):
         item_pool = self.pool.get(obj)
         erp_pool = erp.ProductPricelistVersion
         item_ids = erp_pool.search([])
-        import pdb; pdb.set_trace()
         for item in erp_pool.browse(item_ids):
             # TODO problem with item.mexal_id!!!
             if 'mexal_id' in dir(item):
