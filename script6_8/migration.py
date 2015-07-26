@@ -768,6 +768,12 @@ class SyncroXMLRPC(orm.Model):
                         item_pool.write(cr, uid, new_ids, {
                             'migration_old_id': item.id, 
                             }, context=context)
+                        self._converter['product.product'][
+                            item.id] = new_ids[0]
+                    else:
+                        _logger.error(
+                             'Product not found code: %s' % default_code)
+                                
 
             # Load template converter:
             self._converter['product.template'] = {}            
