@@ -1524,43 +1524,44 @@ class SyncroXMLRPC(orm.Model):
                     name = item.name
                     try:
                         order_id = self._converter['sale.order'][
-                            item.order_id.id]
+                            item['order_id'][0]]
                     except:
                         _logger.error("Order ID not present: %s" % name)                        
                         continue
 
+                    old_id = item['id']
                     data = {
-                        'name': item.name,
+                        'name': item['name'],
                         'order_id': order_id,
-                        'sequence': item.sequence,
+                        'sequence': item['sequence'],
                         'product_id': self._converter[
                             'product.product'].get(
-                                item.product_id.id \
+                                item.['product_id'][0] \
                                     if item.product_id \
                                     else False, False),
-                        'price_unit': item.price_unit,
+                        'price_unit': item['price_unit'],
                         'product_uom': self._converter[
                             'product.uom'].get(
-                                item.product_uom.id \
+                                item['product_uom'][0] \
                                     if item.product_uom \
                                     else False, default_product_uom),
                         'product_uos': self._converter[
                             'product.uom'].get(
-                                item.product_uom.id \
+                                item['product_uom'][0] \
                                     if item.product_uos \
                                     else False, default_product_uom),
-                        'product_uom_qty': item.product_uom_qty,
-                        'product_uos_qty': item.product_uos_qty,
-                        'discount': item.discount,
-                        'th_weight': item.th_weight,
-                        'delay': item.delay,
+                        'product_uom_qty': item['product_uom_qty'],
+                        'product_uos_qty': item['product_uos_qty'],
+                        'discount': item['discount'],
+                        'th_weight': item['th_weight'],
+                        'delay': item['delay'],
                         
                         # Extxra fields:
-                        'multi_discount_rates': item.multi_discount_rates,
-                        'price_use_manual': item.price_use_manual,
-                        'price_unit_manual': item.price_unit_manual,
-                        'discount': item.discount,
-                        'migration_old_id': item.id,
+                        'multi_discount_rates': item['multi_discount_rates'],
+                        'price_use_manual': item['price_use_manual'],
+                        'price_unit_manual': item['price_unit_manual'],
+                        'discount': item['discount'],
+                        'migration_old_id': old_id,
 
                         # TODO used?!?
                         #'address_allotment_id': 'res.partner'
@@ -1570,12 +1571,12 @@ class SyncroXMLRPC(orm.Model):
                     try:      
                         data['tax_id'] = [
                             (6, 0, (self._converter['account.tax'][
-                                item.tax_id[0].id]))]
+                                item['tax_id'][0]))]
                     except:
                         _logger.warning("Error reading tax for line (not set)")
 
                     new_ids = item_pool.search(cr, uid, [
-                        ('migration_old_id', '=', item.id)], context=context)
+                        ('migration_old_id', '=', old_id)], context=context)
                     if new_ids: # Modify
                         item_id = new_ids[0]
                         if wiz_proxy.update:
@@ -1587,7 +1588,7 @@ class SyncroXMLRPC(orm.Model):
                             context=context)
                         print "#INFO", obj, "create:", name
 
-                    converter[item.id] = item_id
+                    converter[old_id] = item_id
                     # TODO if state is order: wizard confirm!!!
                 except:
                     _logger.error(name)
@@ -1597,8 +1598,6 @@ class SyncroXMLRPC(orm.Model):
                     continue
         else: # Load convert list form database
             pass # Non used
-            #self.load_converter(cr, uid, converter, obj=obj,
-            #    context=context)
 
         # ---------------------------------------------------------------------
         # stock.location
