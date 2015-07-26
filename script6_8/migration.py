@@ -114,7 +114,6 @@ class SyncroXMLRPC(orm.Model):
         
         # Add extra socket for XMLRPC for problem in reading of erpeek
         # XMLRPC connection for autentication (UID) and proxy 
-        import pdb; pdb.set_trace()
         sock = xmlrpclib.ServerProxy('http://%s:%s/xmlrpc/common' % (
             openerp.hostname, 
             openerp.port), allow_none=True)            
@@ -1520,7 +1519,7 @@ class SyncroXMLRPC(orm.Model):
 
             import pdb; pdb.set_trace()
             for item in sock.execute(openerp.name, user_id, 
-                    openerp.password, obj, 'read'):
+                    openerp.password, obj, 'read', item_ids):
                 try: # Create record to insert/update
                     name = item['name']
                     try:
@@ -1538,18 +1537,18 @@ class SyncroXMLRPC(orm.Model):
                         'product_id': self._converter[
                             'product.product'].get(
                                 item['product_id'][0] \
-                                    if item['product_id'][0] \
+                                    if type(item['product_id']) == list \
                                     else False, False),
                         'price_unit': item['price_unit'],
                         'product_uom': self._converter[
                             'product.uom'].get(
                                 item['product_uom'][0] \
-                                    if item['product_uom'] \
+                                    if type(item['product_uom']) == list \
                                     else False, default_product_uom),
                         'product_uos': self._converter[
                             'product.uom'].get(
                                 item['product_uom'] \
-                                    if item['product_uos'][0] \
+                                    if type(item['product_uos']) == list \
                                     else False, default_product_uom),
                         'product_uom_qty': item['product_uom_qty'],
                         'product_uos_qty': item['product_uos_qty'],
@@ -1558,9 +1557,6 @@ class SyncroXMLRPC(orm.Model):
                         'delay': item['delay'],
                         
                         # Extxra fields:
-                        'multi_discount_rates': item['multi_discount_rates'],
-                        'price_use_manual': item['price_use_manual'],
-                        'price_unit_manual': item['price_unit_manual'],
                         'discount': item['discount'],
                         'migration_old_id': old_id,
 
@@ -1575,6 +1571,14 @@ class SyncroXMLRPC(orm.Model):
                                 item['tax_id'][0]]))]
                     except:
                         _logger.warning("Error reading tax for line (not set)")
+                    try:
+                        data['multi_discount_rates'] = item[
+                            'multi_discount_rates']
+                            
+                        data['price_use_manual'] = item['price_use_manual']
+                        date['price_unit_manual'] = item['price_unit_manual']
+                    except:
+                        pass    
 
                     new_ids = item_pool.search(cr, uid, [
                         ('migration_old_id', '=', old_id)], context=context)
