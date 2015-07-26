@@ -70,7 +70,7 @@
     </record>
 
     <!-- sale.order --> 
-    <record id='view_sale_order_tree_add_exchange_layout' model='ir.ui.view'>
+    <!--TODO<record id='view_sale_order_tree_add_exchange_layout' model='ir.ui.view'>
         <field name='name'>Order exchange layout</field>
         <field name='model'>sale.order</field>
         <field name="inherit_id" ref="sale.view_order_tree"/>
@@ -85,9 +85,9 @@
                 <attribute name="invisible">1</attribute>
             </field>
         </field>
-    </record>
+    </record>-->
 
-    <record id='view_sale_order_add_exchange_layout' model='ir.ui.view'>
+    <!--TODO<record id='view_sale_order_add_exchange_layout' model='ir.ui.view'>
         <field name='name'>Order exchange layout</field>
         <field name='model'>sale.order</field>
         <field name="inherit_id" ref="sale_layout.view_order_form_inherit_1"/>
@@ -99,7 +99,7 @@
                <field name="currency_price_subtotal" />
            </xpath>
         </field>
-    </record>
+    </record>-->
 
     <record id='view_sale_order_add_exchange' model='ir.ui.view'>
         <field name='name'>Order exchange</field>

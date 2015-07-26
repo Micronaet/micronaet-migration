@@ -33,7 +33,7 @@
         'product',
         ],
     'init_xml': [], 
-    'update_xml': [
+    'data': [
         'security/ir.model.access.csv',
         'exchange_views.xml',
         ],
