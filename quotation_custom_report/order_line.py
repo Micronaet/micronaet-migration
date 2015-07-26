@@ -25,6 +25,8 @@ import logging
 import openerp
 import openerp.netsvc as netsvc
 import openerp.addons.decimal_precision as dp
+import base64
+import urllib
 from openerp.osv import fields, osv, expression, orm
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
@@ -40,12 +42,62 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 
 _logger = logging.getLogger(__name__)
 
-class ProductProductQuotation(orm.Model):
-    """ product.product extra fields
-    """
+class ProductProxuct_Photo(orm.Model):
     _inherit = 'product.product'
 
+    def get_quotation_image(self, cr, uid, item, context=None):
+        ''' Get single image for the file
+            (default path is ~/photo/db_name/quotation
+        '''        
+        img = ''         
+        extension = "jpg"
+        image_path = os.path.expanduser(
+            "~/photo/%s/product/default" % cr.dbname)
+        empty_image= "%s/%s.%s" % (
+            image_path, 
+            "empty", 
+            extension)
+
+        product_browse=self.browse(cr, uid, item, context=context)
+        # Image compoesed with code format (code.jpg)
+        if product_browse.default_code:
+            try:
+                (filename, header) = urllib.urlretrieve(
+                    "%s/%s.%s" % (
+                        image_path, 
+                        product_browse.default_code.replace(" ", "_"), 
+                        extension)) # code image
+                f = open(filename , 'rb')
+                img = base64.encodestring(f.read())
+                f.close()
+            except:
+                img = ''
+            
+            if not img: # empty image:
+                try:
+                    (filename, header) = urllib.urlretrieve(empty_image)
+                    f = open(filename , 'rb')
+                    img = base64.encodestring(f.read())
+                    f.close()
+                except:
+                    img = ''
+        return img
+
+    # Fields function:
+    def _get_quotation_image(self, cr, uid, ids, field_name, arg, context=None):
+        ''' Field function, for every ids test if there's image and return
+            base64 format according to code value (images are jpg)
+        '''
+        res = {}
+        for item in ids:
+            res[item] = self.get_quotation_image(cr, uid, item, context=context)
+        return res                
+
     _columns = {
+        'quotation_photo':fields.function( # Second company
+            _get_quotation_image, type="binary",  method=True),
+        # 'quantity_x_pack': fields.integer('Q. per pack'),
+
         'telaio': fields.char('Telaio', size=64,
             translate=True),
         'pipe_diameter':fields.char(
@@ -55,9 +107,7 @@ class ProductProductQuotation(orm.Model):
         'item_per_pallet':fields.char('Pezzi per bancale', size=20),
         'item_per_mq':fields.char('Pezzi per metro cubo', size=20),
         'item_per_camion':fields.char('Pezzi per camion 13,6 mt.', size=20),
-
         'extra_description':fields.text('Extra description', translate=True),
-
         # Non visibili attualmente nella vista
         'dim_article':fields.char('Dim. art.', size=20),
         'dim_pack':fields.char('Dim. scatola', size=20),
