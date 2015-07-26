@@ -88,6 +88,7 @@ class ProductProxuct_Photo(orm.Model):
         ''' Field function, for every ids test if there's image and return
             base64 format according to code value (images are jpg)
         '''
+        import pdb; pdb.set_trace()
         res = {}
         for item in ids:
             res[item] = self.get_quotation_image(cr, uid, item, context=context)
