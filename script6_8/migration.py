@@ -1617,7 +1617,7 @@ class SyncroXMLRPC(orm.Model):
                             context=context)
                         print "#INFO", obj, "create:", name
 
-                    converter[old_id] = item_id
+                    #converter[old_id] = item_id # No needed!
                     # TODO if state is order: wizard confirm!!!
                 except:
                     _logger.error(name)

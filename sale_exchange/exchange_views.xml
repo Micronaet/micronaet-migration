@@ -1,0 +1,129 @@
+<?xml version="1.0" ?>
+<openerp>
+<data>
+    <!-- VIEW: -->  
+       <!-- sale.order.exchange -->      
+   <record id='view_sale_order_exchange_search' model='ir.ui.view'>
+        <field name='name'>Exchange</field>
+        <field name='model'>sale.order.exchange</field>
+        <field name='arch' type='xml'>
+           <search>
+              <field name='name' />
+              <field name="currency_id" />
+           </search>
+        </field>
+    </record>
+    
+   <record id='view_sale_order_exchange_form' model='ir.ui.view'>
+        <field name='name'>Exchange</field>
+        <field name='model'>sale.order.exchange</field>
+        <field name='arch' type='xml'>
+           <form>
+              <field name='name' />
+              <field name="date" />
+
+              <field name="currency_id" />
+              <field name="quotation" />
+           </form>
+        </field>
+    </record>
+    
+   <record id='view_sale_order_exchange_tree' model='ir.ui.view'>
+        <field name='name'>Exchange</field>
+        <field name='model'>sale.order.exchange</field>
+        <field name='arch' type='xml'>
+           <tree> 
+              <field name='name' />
+              <field name="date" />
+              <field name="currency_id" />
+              <field name="quotation" />
+           </tree>
+        </field>
+    </record>    
+    
+    <record model="ir.actions.act_window" id="action_sale_order_exchange">
+        <field name="name">Sale Exchange VS Exchange Company</field>
+        <field name="res_model">sale.order.exchange</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_sale_order_exchange_tree"/>
+        <field name="search_view_id" ref="view_sale_order_exchange_search"/>
+    </record>
+    <menuitem 
+        parent="base.menu_sale_config_sales" 
+        id="menu_sale_order_exchange" 
+        action="action_sale_order_exchange"
+        />
+
+
+    <!-- INHERIT VIEW: -->    
+    <!-- res.partner -->
+    <record id='view_res_partner_exchange' model='ir.ui.view'>
+        <field name='name'>Partner exchange</field>
+        <field name='model'>res.partner</field>
+        <field name="inherit_id" ref="product.view_partner_property_form" />
+        <field name='arch' type='xml'>
+            <field name="property_product_pricelist" position="after">
+                <field name="sale_currency_id" />
+            </field>
+        </field>
+    </record>
+
+    <!-- sale.order --> 
+    <record id='view_sale_order_tree_add_exchange_layout' model='ir.ui.view'>
+        <field name='name'>Order exchange layout</field>
+        <field name='model'>sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name='arch' type='xml'>
+            <field name="invoiced_rate" position="after">
+                <field name="sale_currency_id" />
+            </field>
+            <field name="picked_rate" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="invoiced_rate" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record id='view_sale_order_add_exchange_layout' model='ir.ui.view'>
+        <field name='name'>Order exchange layout</field>
+        <field name='model'>sale.order</field>
+        <field name="inherit_id" ref="sale_layout.view_order_form_inherit_1"/>
+        <field name='arch' type='xml'>
+           <xpath expr="//field[@name='abstract_line_ids']/tree/field[@name='price_unit']" position="after">
+               <field name="currency_price_unit" />
+           </xpath>
+           <xpath expr="//field[@name='abstract_line_ids']/tree/field[@name='price_subtotal']" position="after">
+               <field name="currency_price_subtotal" />
+           </xpath>
+        </field>
+    </record>
+
+    <record id='view_sale_order_add_exchange' model='ir.ui.view'>
+        <field name='name'>Order exchange</field>
+        <field name='model'>sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name='arch' type='xml'>
+            <field name='amount_untaxed' position='before'>
+                 <separator string="Exchange section:"/>
+                 <newline />
+                 
+                 <field name='currency_order' />
+                 <field name='sale_currency_id' attrs="{'invisible': [('currency_order','=',False)], 'required': [('currency_order','=',True)]}" on_change="onchange_sale_currency(sale_currency_id)"/>
+                 <field name='sale_quotation_currency' attrs="{'invisible': [('currency_order','=',False)], 'required': [('currency_order','=',True)]}" />
+                 <newline />
+                    
+                 <field name="currency_amount_untaxed" attrs="{'invisible':[('currency_order','=',False)]}"/>
+                 <field name="currency_amount_tax" attrs="{'invisible':[('currency_order','=',False)]}"/>
+                 <field name="currency_amount_total" attrs="{'invisible':[('currency_order','=',False)]}"/>
+                 <newline />
+                 <separator string="Totals:"/>
+                <newline />
+            </field>
+        </field>
+    </record>
+</data>
+</openerp>
+
