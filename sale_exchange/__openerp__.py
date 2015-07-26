@@ -35,7 +35,7 @@
     'init_xml': [], 
     'update_xml': [
         'security/ir.model.access.csv',
-        #'exchange_views.xml',
+        'exchange_views.xml',
         ],
     'demo_xml': [],
     'active': False, 

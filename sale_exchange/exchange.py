@@ -24,7 +24,27 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from osv import osv, fields
+import os
+import sys
+import logging
+import openerp
+import openerp.netsvc as netsvc
+import openerp.addons.decimal_precision as dp
+from openerp.osv import fields, osv, expression, orm
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
+from openerp import SUPERUSER_ID, api
+from openerp import tools
+from openerp.tools.translate import _
+from openerp.tools.float_utils import float_round as round
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
+    DEFAULT_SERVER_DATETIME_FORMAT, 
+    DATETIME_FORMATS_MAP, 
+    float_compare)
+
+
+_logger = logging.getLogger(__name__)
+
 
 
 class SaleOrderExchange(orm.Model):
@@ -131,8 +151,8 @@ class SaleOrder(orm.Model):
 
     _columns = {
         'currency_order': fields.boolean('Currency order', 
-            help="If the quotation / order need a currency transformation '
-                '(usually depend on partner)"),
+            help='If the quotation / order need a currency transformation '
+                '(usually depend on partner)'),
         'sale_currency_id': fields.many2one('sale.order.exchange', 'Currency'),
         'sale_quotation_currency': fields.float(
             'Quotation', digits=(16, 2), 
