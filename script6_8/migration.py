@@ -750,6 +750,25 @@ class SyncroXMLRPC(orm.Model):
             self.load_converter(cr, uid, converter, obj=obj,
                 context=context)
 
+            if not self._converter['product.product']:
+                # Convert using default code
+                item_pool = self.pool.get(obj)
+                erp_pool = erp.ProductProduct
+                item_ids = erp_pool.search([])
+                for item in erp_pool.browse(item_ids):
+                    default_code = item.default_code
+                    new_ids = item_pool.search(cr, uid, [
+                        ('default_code', '=', default_code)], context=context)
+
+                    if new_ids: 
+                        if len(new_ids) > 1:
+                            _logger.warning(
+                                 'Multi product code: %s' % default_code)
+                                 
+                        item_pool.write(cr, uid, new_ids, {
+                            'migration_old_id': item.id, 
+                            }, context=context)
+
             # Load template converter:
             self._converter['product.template'] = {}            
             product_ids = self.pool.get('product.product').search(
@@ -1534,8 +1553,7 @@ class SyncroXMLRPC(orm.Model):
                         'name': item['name'],
                         'order_id': order_id,
                         'sequence': item['sequence'],
-                        'product_id': self._converter[
-                            'product.product'].get(
+                        'product_id': self._converter['product.product'].get(
                                 item['product_id'][0] \
                                     if type(item['product_id']) == list \
                                     else False, False),
@@ -1568,7 +1586,7 @@ class SyncroXMLRPC(orm.Model):
                     try:      
                         data['tax_id'] = [
                             (6, 0, (self._converter['account.tax'][
-                                item['tax_id'][0]]))]
+                                item['tax_id'][0]], ))]
                     except:
                         _logger.warning("Error reading tax for line (not set)")
                     try:
