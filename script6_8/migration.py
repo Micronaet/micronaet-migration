@@ -1600,7 +1600,7 @@ class SyncroXMLRPC(orm.Model):
                             'multi_discount_rates']
                             
                         data['price_use_manual'] = item['price_use_manual']
-                        date['price_unit_manual'] = item['price_unit_manual']
+                        data['price_unit_manual'] = item['price_unit_manual']
                     except:
                         pass    
 
