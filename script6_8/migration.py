@@ -111,7 +111,17 @@ class SyncroXMLRPC(orm.Model):
             user=openerp.username,
             password=openerp.password,
             )
-
+        
+        # Add extra socket for XMLRPC for problem in reading of erpeek
+        # XMLRPC connection for autentication (UID) and proxy 
+        sock = xmlrpclib.ServerProxy('http://%s:%s//xmlrpc/common' % (
+            openerp.hostname, 
+            openerp.port), allow_none=True)            
+        uid = sock.login(openerp.db, openerp.username, openerp.password)
+        sock = xmlrpclib.ServerProxy('http://%s:%s/xmlrpc/object' % (
+            openerp.hostname,
+            openerp.port), allow_none=True)
+        
         from_date = wiz_proxy.from_date or False
         to_date = wiz_proxy.to_date or False
 
@@ -1506,7 +1516,10 @@ class SyncroXMLRPC(orm.Model):
             item_pool = self.pool.get(obj)
             erp_pool = erp.SaleOrderLine
             item_ids = erp_pool.search([])
-            for item in erp_pool.browse(item_ids):
+
+            import pdb; pdb.set_trace()
+            for item in sock.execute(openerp.db, openerp.username, 
+                    openerp.password, obj, 'read'):
                 try: # Create record to insert/update
                     name = item.name
                     try:
