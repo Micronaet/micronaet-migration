@@ -1521,7 +1521,7 @@ class SyncroXMLRPC(orm.Model):
             for item in sock.execute(openerp.db, openerp.username, 
                     openerp.password, obj, 'read'):
                 try: # Create record to insert/update
-                    name = item.name
+                    name = item['name']
                     try:
                         order_id = self._converter['sale.order'][
                             item['order_id'][0]]
@@ -1536,19 +1536,19 @@ class SyncroXMLRPC(orm.Model):
                         'sequence': item['sequence'],
                         'product_id': self._converter[
                             'product.product'].get(
-                                item.['product_id'][0] \
-                                    if item.product_id \
+                                item['product_id'][0] \
+                                    if item['product_id'][0] \
                                     else False, False),
                         'price_unit': item['price_unit'],
                         'product_uom': self._converter[
                             'product.uom'].get(
                                 item['product_uom'][0] \
-                                    if item.product_uom \
+                                    if item['product_uom'] \
                                     else False, default_product_uom),
                         'product_uos': self._converter[
                             'product.uom'].get(
-                                item['product_uom'][0] \
-                                    if item.product_uos \
+                                item['product_uom'] \
+                                    if item['product_uos'][0] \
                                     else False, default_product_uom),
                         'product_uom_qty': item['product_uom_qty'],
                         'product_uos_qty': item['product_uos_qty'],
