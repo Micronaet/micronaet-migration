@@ -114,10 +114,11 @@ class SyncroXMLRPC(orm.Model):
         
         # Add extra socket for XMLRPC for problem in reading of erpeek
         # XMLRPC connection for autentication (UID) and proxy 
-        sock = xmlrpclib.ServerProxy('http://%s:%s//xmlrpc/common' % (
+        import pdb; pdb.set_trace()
+        sock = xmlrpclib.ServerProxy('http://%s:%s/xmlrpc/common' % (
             openerp.hostname, 
             openerp.port), allow_none=True)            
-        uid = sock.login(openerp.db, openerp.username, openerp.password)
+        user_id = sock.login(openerp.name, openerp.username, openerp.password)
         sock = xmlrpclib.ServerProxy('http://%s:%s/xmlrpc/object' % (
             openerp.hostname,
             openerp.port), allow_none=True)
@@ -1518,7 +1519,7 @@ class SyncroXMLRPC(orm.Model):
             item_ids = erp_pool.search([])
 
             import pdb; pdb.set_trace()
-            for item in sock.execute(openerp.db, openerp.username, 
+            for item in sock.execute(openerp.name, user_id, 
                     openerp.password, obj, 'read'):
                 try: # Create record to insert/update
                     name = item['name']
@@ -1571,7 +1572,7 @@ class SyncroXMLRPC(orm.Model):
                     try:      
                         data['tax_id'] = [
                             (6, 0, (self._converter['account.tax'][
-                                item['tax_id'][0]))]
+                                item['tax_id'][0]]))]
                     except:
                         _logger.warning("Error reading tax for line (not set)")
 
