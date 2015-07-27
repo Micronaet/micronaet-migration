@@ -113,13 +113,17 @@ class Parser(report_sxw.rml_parse):
         ''' Function that compute total volume for 1 or more items
         '''
         total = 0.0
-        for item in self.pool.get('purchase.order.line').browse(self.cr, self.uid, item_list):
-            if item.product_id and len(item.product_id.packaging)==1 and item.product_id.packaging[0].qty:  # only one package!
+        for item in self.pool.get('purchase.order.line').browse(
+                self.cr, self.uid, item_list):
+            if item.product_id and len(
+                    item.product_id.packaging_ids)==1 and item.product_id.packaging_ids[0].qty:  # only one package!
                 #     total order      / total per box                     1 box if there's a rest            
-                box = item.product_qty // item.product_id.packaging[0].qty + (0.0 if item.product_qty % item.product_id.packaging[0].qty == 0.0 else 1.0) 
-                volume = item.product_id.packaging[0].pack_volume if item.product_id.packaging[0].pack_volume_manual else (item.product_id.packaging[0].length *
-                                                                                                                           item.product_id.packaging[0].width *
-                                                                                                                           item.product_id.packaging[0].height) / 1000000.0
+                box = item.product_qty // item.product_id.packaging_ids[0].qty + (
+                    0.0 if item.product_qty % item.product_id.packaging_ids[0].qty == 0.0 else 1.0) 
+                volume = item.product_id.packaging_ids[0].pack_volume if item.product_id.packaging_ids[0].pack_volume_manual else (
+                    item.product_id.packaging_ids[0].length *
+                    item.product_id.packaging_ids[0].width *
+                    item.product_id.packaging_ids[0].height) / 1000000.0
                 total_value =  box * volume
                 total += float("%2.3f"%(total_value))  # for correct aprox value (maybe theres' a best way :) )
         return "%2.3f"%(total,)
