@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<openerp>
+<data noupdate="1">
+    <record id="aeroo_purchase_gpb_report_id_ods" model="ir.actions.report.xml">
+        <field name="name">G.P.B.: Stampa ODS</field>
+        <field name="type">ir.actions.report.xml</field>
+        <field name="model">purchase.order</field>
+        <field name="report_name">gpb_purchase_order_report_ods</field>
+        <field name="report_type">aeroo</field>
+        <field name="in_format">oo-ods</field>
+        <field name="parser_loc">report_purchase_gpb/report/parser_ods.py</field>
+        <field name="report_rml">report_purchase_gpb/report/purchase.ods</field>
+        <field name="parser_state">loc</field>
+        <field name="tml_source">file</field>
+        <field name="out_format" eval="ref('report_aeroo.report_mimetypes_ods_od')"></field>
+    </record>
+    
+    <ir_set>
+        <field eval="'action'" name="key"/>
+        <field eval="'client_print_multi'" name="key2"/>
+        <field eval="['purchase.order']" name="models"/>
+        <field name="name">gpb_report_ods</field>
+        <field eval="'ir.actions.report.xml,'+str(aeroo_purchase_gpb_report_id_ods)" name="value"/>
+        <field eval="True" name="isobject"/>
+        <field eval="True" name="replace"/>
+    </ir_set>
+</data>
+</openerp>
+
