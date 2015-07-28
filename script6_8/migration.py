@@ -625,7 +625,6 @@ class SyncroXMLRPC(orm.Model):
                         # ----------------
                         # Template fields:
                         # ----------------
-                        'dimension_text': item.dimension_text,
                         'weight_net': item_tmpl.weight_net,
                         # purchase_ok
                         # sale_ok
@@ -637,7 +636,7 @@ class SyncroXMLRPC(orm.Model):
                         # --------------
                         # All company
                         'colour': item.colour,
-                        'categ_id': categ_id, # NOTE: mandatory
+                        'categ_id': categ_id or 1, # NOTE: mandatory
                         'colls': item.colls,
                         'colls_number': item.colls_number,
                         'default_code': item.default_code,
@@ -710,25 +709,10 @@ class SyncroXMLRPC(orm.Model):
                         # No Amazon, no K2 fields                        
 
                         # Extra fields:
-                        'dazi': item.dazi,
-                        'dazi_eur': item.dazi_eur,
                         'description_purchase': item.description_purchase,
                         'description_sale': item.description_sale,
-                        'error_dimension': item.error_dimension,
-                        'error_import': item.error_import,
-                        'fob_cost_supplier': item.fob_cost_supplier,
-                        'fob_cost_supplier_eur': item.fob_cost_supplier_eur,
-                        'fob_cost_total': item.fob_cost_total,
-                        'fob_cost_total_eur': item.fob_cost_total_eur,
-                        'fob_pricelist': item.fob_pricelist,
-                        'fob_pricelist_compute': item.fob_pricelist_compute,
-                        'fob_pricelist_compute_eur': 
-                            item.fob_pricelist_compute_eur,
-                        'in_pricelist': item.in_pricelist,
-                        'margin': item.margin,
                         'sql_import': item.mexal_id, # for sync purpose
                         'migration_old_id': item.id,
-                        'transport_packaging': item.transport_packaging,
                         'list_price': item.list_price,
                         'standard_price': item.standard_price,
                         'volume': item.volume,
@@ -740,6 +724,7 @@ class SyncroXMLRPC(orm.Model):
 
                     if 'extra_description' in dir(item): # First company (extra fields):
                         data.update({
+                            # No source field:
                             'extra_description': item_tmpl.extra_description,
                             'weight_packaging': item_tmpl.weight_packaging,
                             'telaio': item_tmpl.telaio,                        
@@ -755,6 +740,24 @@ class SyncroXMLRPC(orm.Model):
                             'pack_l': item_tmpl.pack_l,
                             'pack_h': item_tmpl.pack_h,
                             'pack_p': item_tmpl.pack_p,
+
+                            # No destination field:
+                            'dimension_text': item.dimension_text,
+                            'error_dimension': item.error_dimension,
+                            'dazi': item.dazi,
+                            'dazi_eur': item.dazi_eur,
+                            'error_import': item.error_import,
+                            'fob_cost_supplier': item.fob_cost_supplier,
+                            'fob_cost_supplier_eur': item.fob_cost_supplier_eur,
+                            'fob_cost_total': item.fob_cost_total,
+                            'fob_cost_total_eur': item.fob_cost_total_eur,
+                            'fob_pricelist': item.fob_pricelist,
+                            'fob_pricelist_compute': item.fob_pricelist_compute,
+                            'fob_pricelist_compute_eur': 
+                                item.fob_pricelist_compute_eur,
+                            'in_pricelist': item.in_pricelist,
+                            'margin': item.margin,
+                            'transport_packaging': item.transport_packaging,
                             })
 
                     # Note: search by code (default_code is the key)
