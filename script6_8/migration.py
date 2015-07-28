@@ -572,6 +572,7 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
+        import pdb; pdb.set_trace()
         if wiz_proxy.product:
             item_pool = self.pool.get(obj)
             erp_pool = erp.ProductProduct
@@ -990,7 +991,7 @@ class SyncroXMLRPC(orm.Model):
                 item_id = new_ids[0]
                 converter[item.id] = item_id
             else: # Create
-                _logger.warning("% not found: %s" % ( obj, mexal_id))
+                _logger.warning("%s not found: %s" % ( obj, mexal_id))
 
         # Load pricelist:      
         if wiz_proxy.purchase or wiz_proxy.purchase_line:
