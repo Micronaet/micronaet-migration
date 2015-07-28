@@ -774,12 +774,12 @@ class SyncroXMLRPC(orm.Model):
                         else:
                             print i, "#INFO ", obj, "jumped:", \
                                 item.default_code
+                        converter[item.id] = item_id
                     else: # Create
-                        item_id = item_pool.create(cr, uid, data,
-                            context=context)
-                        print i, "#INFO", obj, " create:", item.default_code
-
-                    converter[item.id] = item_id
+                        if wiz_proxy.create:
+                            converter[item.id] = item_pool.create(cr, uid, data,
+                                context=context)
+                            print i, "#INFO", obj, " create:", item.default_code
                 except:
                     print i, "#ERR", sys.exc_info()
                     continue

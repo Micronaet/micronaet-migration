@@ -57,6 +57,7 @@ class SyncroMigrationWizard(orm.TransientModel):
     _columns = {
         'from_date': fields.datetime('From date'),
         'to_date': fields.datetime('To date'),
+        'crate': fields.boolean('Create if not present'),
         'update': fields.boolean('Update if present'),
         'link': fields.boolean('Link', help='Only soft link to record'),
 
@@ -78,6 +79,7 @@ class SyncroMigrationWizard(orm.TransientModel):
         }
         
     _defaults = {
+        'create': lambda *x: False,
         'update': lambda *x: False,
         }    
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
