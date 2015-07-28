@@ -255,16 +255,17 @@ class SyncroXMLRPC(orm.Model):
         # ------------
         import pdb; pdb.set_trace()
         if wiz_proxy.package:
-            obj = 'product.ul'
             _logger.info("Start %s" % obj)
+            obj = 'product.ul'
             obj_pool = self.pool.get(obj)
             self._converter[obj] = {}
-            obj_ids = obj_pool.search(cr, uid, [], context=context)
-            for item in obj_pool.browse(
-                    cr, uid, obj_ids, context=context):
-                item_ids = obj_pool.search(cr, uid, [
+            
+            erp_pool = erp.ProductUl
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                ul_ids = obj_pool.search(cr, uid, [
                     ('name', '=', item.name)], context=context)
-                if not item_ids:
+                if not ul_ids:
                     item_id = obj_pool.create(cr, uid, {
                         'name': item.name,
                         'type': item.type,
