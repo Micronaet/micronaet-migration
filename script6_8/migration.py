@@ -625,48 +625,39 @@ class SyncroXMLRPC(orm.Model):
                         # ----------------
                         # Template fields:
                         # ----------------
-                        'colour_code': item_tmpl.colour_code,
-                        'colour': item_tmpl.colour,
-                        'extra_description': item_tmpl.extra_description,
-                        'dimension_text': item_tmpl.dimension_text,
-                        'dim_article': item_tmpl.dim_article,
-                        'dim_pack': item_tmpl.dim_pack,
-                        'dim_pallet': item_tmpl.dim_pallet,
-                        'pipe_diameter': item_tmpl.pipe_diameter,
-                        'item_per_box': item_tmpl.item_per_box,
-                        'item_per_camion': item_tmpl.item_per_camion,
-                        'item_per_mq': item_tmpl.item_per_mq,
-                        'item_per_pallet': item_tmpl.item_per_pallet,
+                        'dimension_text': item.dimension_text,
                         'weight_net': item_tmpl.weight_net,
-                        'weight_packaging': item_tmpl.weight_packaging,
-                        'telaio': item_tmpl.telaio,
-                        'pack_h': item_tmpl.pack_h,
-                        'pack_l': item_tmpl.pack_l,
-                        'pack_p': item_tmpl.pack_p,
-                        'description_purchase': item_tmpl.description_purchase,
-                        'description_sale': item_tmpl.description_sale,
-                        'list_price': item_tmpl.list_price,
-                        'standard_price': item_tmpl.standard_price,
-                        'volume': item_tmpl.volume,
-                        'weight': item_tmpl.weight,
-                        'weight_net': item_tmpl.weight_net,
-                        'warranty': item_tmpl.warranty,
                         # purchase_ok
                         # sale_ok
                         # seller_id seller_ids seller_qty
                         #uom_id, uom_po_id, uos_coeff, uos_id
                         
-                        
-                        
                         # --------------
                         # Product fields
                         # --------------
+                        # All company
+                        'colour': item.colour,
                         'categ_id': categ_id, # NOTE: mandatory
                         'colls': item.colls,
                         'colls_number': item.colls_number,
-                        'dazi': item.dazi,
-                        'dazi_eur': item.dazi_eur,
                         'default_code': item.default_code,
+                        'description': item.description,
+                        'description_web': item.description_web,
+                        'ean13': item.ean13,
+                        'fabric': item.fabric,
+                        'height': item.height,
+                        'large_description': item.large_description,
+                        'length': item.length,
+                        'linear_length': item.linear_length,
+                        'mexal_id': item.mexal_id,
+                        'name': name,
+                        'price': item.price,
+                        'price_extra': item.price_extra,
+                        'quantity_x_pack': item.quantity_x_pack,
+                        'q_x_pack': item.q_x_pack,
+                        'width': item.width,
+                        'weight': item.weight,
+                        'weight_net': item.weight_net,
                         #'best_cost': item.best_cost,
                         #category_id > web.category
                         ##'code': item.code,
@@ -675,59 +666,32 @@ class SyncroXMLRPC(orm.Model):
                         #'default_supplier': item.default_supplier, # no!?!
                         #'default_supplier_code': item.default_supplier_code,
                         #'duty_id > product_custom_duty
-                        'description': item.description,
-                        'description_web': item.description_web,
-                        'ean13': item.ean13,
-                        'error_dimension': item.error_dimension,
-                        'error_import': item.error_import,
-                        'fabric': item.fabric,
                         #'first_code': item.first_code,
                         #'first_supplier': item.first_supplier,
                         #'fixed_margin': item.fixed_margin,
-                        'fob_cost_supplier': item.fob_cost_supplier,
-                        'fob_cost_supplier_eur': item.fob_cost_supplier_eur,
-                        'fob_cost_total': item.fob_cost_total,
-                        'fob_cost_total_eur': item.fob_cost_total_eur,
-                        'fob_pricelist': item.fob_pricelist,
-                        'fob_pricelist_compute': item.fob_pricelist_compute,
-                        'fob_pricelist_compute_eur': 
-                            item.fob_pricelist_compute_eur,
-                        'height': item.height,
                         ##ERR'H_pack': item.H_pack,
                         #'import': item.import,
                         #'incoming_qty': item.incoming_qty,
-                        'in_pricelist': item.in_pricelist,
-                        'large_description': item.large_description,
-                        'length': item.length,
-                        'linear_length': item.linear_length,
                         #'line_id > web.line
                         ##'lst_price': ': item.lst_price,
                         #'location_id': item.location_id,
                         ##ERR'L_pack': item.L_pack,
                         ##ERR'manual_price': item.manual_price,
-                        'margin': item.margin,
-                        'mexal_id': item.mexal_id,
-                        'name': name,
                         ##name_template
                         #'outoing_qty': item.outoing_qty,
                         #'partner_ref': item.partner_ref,
                         ##ERR'P_pack': item.P_pack,
                         #'preview': item.preview,
-                        'price': item.price,
-                        'price_extra': item.price_extra,
                         #'pricelist_id': item.pricelist_id,
                         ##ERR NON PRES'price_margin': item.price_margin,
                         ##product_tmpl_id
                         ##'project_id': item.project_id,
                         #'qty_available': item.qty_available,
-                        'quantity_x_pack': item.quantity_x_pack,
                         #'quotation_photo': item.quotation_photo,
-                        'q_x_pack': item.q_x_pack,
                         #'tipology_id > web.tipology
                         #'track_incoming': item.track_incoming,
                         #'track_outgoing': item.track_outgoing,
                         #'track_production': item.track_production,
-                        'transport_packaging': item.transport_packaging,
                         ##ERR'transpost_packaging_usd': 
                         ##    item.transpost_packaging_usd,
                         ##'type': 'service',
@@ -742,15 +706,56 @@ class SyncroXMLRPC(orm.Model):
                         #'web_image_create_time': item.web_image_create_time,
                         #'web_image_preview': item.web_image_preview,
                         #'web_image_update': item.web_image_update,
-                        'width': item.width,
                         
                         # No Amazon, no K2 fields                        
 
                         # Extra fields:
+                        'dazi': item.dazi,
+                        'dazi_eur': item.dazi_eur,
+                        'description_purchase': item.description_purchase,
+                        'description_sale': item.description_sale,
+                        'error_dimension': item.error_dimension,
+                        'error_import': item.error_import,
+                        'fob_cost_supplier': item.fob_cost_supplier,
+                        'fob_cost_supplier_eur': item.fob_cost_supplier_eur,
+                        'fob_cost_total': item.fob_cost_total,
+                        'fob_cost_total_eur': item.fob_cost_total_eur,
+                        'fob_pricelist': item.fob_pricelist,
+                        'fob_pricelist_compute': item.fob_pricelist_compute,
+                        'fob_pricelist_compute_eur': 
+                            item.fob_pricelist_compute_eur,
+                        'in_pricelist': item.in_pricelist,
+                        'margin': item.margin,
                         'sql_import': item.mexal_id, # for sync purpose
                         'migration_old_id': item.id,
+                        'transport_packaging': item.transport_packaging,
+                        'list_price': item.list_price,
+                        'standard_price': item.standard_price,
+                        'volume': item.volume,
+                        'warranty': item.warranty,                        
+
+                        # Link:
                         'migration_old_tmpl_id': item.product_tmpl_id.id,
                         }
+
+                    if 'extra_description' in dir(item): # First company (extra fields):
+                        data.update({
+                            'extra_description': item_tmpl.extra_description,
+                            'weight_packaging': item_tmpl.weight_packaging,
+                            'telaio': item_tmpl.telaio,                        
+                            'colour_code': item_tmpl.colour_code,
+                            'dim_article': item_tmpl.dim_article,
+                            'dim_pack': item_tmpl.dim_pack,
+                            'dim_pallet': item_tmpl.dim_pallet,
+                            'item_per_box': item_tmpl.item_per_box,
+                            'item_per_camion': item_tmpl.item_per_camion,
+                            'item_per_mq': item_tmpl.item_per_mq,
+                            'item_per_pallet': item_tmpl.item_per_pallet,
+                            'pipe_diameter': item_tmpl.pipe_diameter,
+                            'pack_l': item_tmpl.pack_l,
+                            'pack_h': item_tmpl.pack_h,
+                            'pack_p': item_tmpl.pack_p,
+                            })
 
                     # Note: search by code (default_code is the key)
                     new_ids = item_pool.search(cr, uid, [
