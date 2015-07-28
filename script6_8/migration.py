@@ -270,7 +270,7 @@ class SyncroXMLRPC(orm.Model):
                         'type': item.type,
                         }, context=context) 
                 else:
-                    item_id = item_ids[0]
+                    item_id = ul_ids[0]
                 self._converter[obj][item.name] = item_id
 
         # ----------------------
@@ -850,6 +850,7 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # product.packaging
         # ---------------------------------------------------------------------
+        import pdb; pdb.set_trace()
         obj = 'product.packaging' 
         product_pool = self.pool.get('product.product')
         _logger.info("Start %s" % obj)
@@ -870,10 +871,13 @@ class SyncroXMLRPC(orm.Model):
                         continue    
                     product_proxy = product_pool.browse(
                         cr, uid, product_id, context=context)
+                    ul = self._converter['product.ul'].get(item.ul.name, False)   
+                    if not ul:
+                        _logger.error('UL not present!')
+                        continue
                             
                     data = {
-                        'ul': self._converter['product.ul'].get(
-                            item.ul.name, False), # product.ul
+                        'ul': ul, # product.ul
                         'code': item.code,
                         'product_tmpl_id': product_proxy.product_tmpl_id.id,
                         'weight': item.weight, 
@@ -890,11 +894,13 @@ class SyncroXMLRPC(orm.Model):
                         #'length': item.length,
                         #'height': item.height,
                         #'weight_ul': item_weight_ul, # non più
-                        #'q_x_container': item.q_x_container,
-                        #'dimension_text': item.dimension_text,
-                        #'error_dimension_pack': item.error_dimension_pack,
-                        #'pack_volume': item.pack_volume,
-                        #'pack_volume_manual': item.pack_volume_manual,
+                        
+                        'q_x_container': item.q_x_container,                        
+                        'dimension_text': item.dimension_text,
+                        'error_dimension_pack': item.error_dimension_pack,
+                        'pack_volume': item.pack_volume,
+                        'pack_volume_manual': item.pack_volume_manual,
+                        'migration_old_id': item.id,
                         }
                         
                     new_ids = item_pool.search(cr, uid, [
