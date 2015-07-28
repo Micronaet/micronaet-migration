@@ -250,6 +250,29 @@ class SyncroXMLRPC(orm.Model):
                 cr, uid, obj_ids, context=context):
             self._converter[obj][item.name] = item.id
 
+        # ------------
+        # product.ul
+        # ------------
+        import pdb; pdb.set_trace()
+        if wiz_proxy.package:
+            obj = 'product.ul'
+            _logger.info("Start %s" % obj)
+            obj_pool = self.pool.get(obj)
+            self._converter[obj] = {}
+            obj_ids = obj_pool.search(cr, uid, [], context=context)
+            for item in obj_pool.browse(
+                    cr, uid, obj_ids, context=context):
+                item_ids = obj_pool.search(cr, uid, [
+                    ('name', '=', item.name)], context=context)
+                if not item_ids:
+                    item_id = obj_pool.create(cr, uid, {
+                        'name': item.name,
+                        'type': item.type,
+                        }, context=context) 
+                else:
+                    item_id = item_ids[0]
+                self._converter[obj][item.name] = item_id
+
         # ----------------------
         # product.pricelist.type
         # ----------------------
@@ -546,7 +569,6 @@ class SyncroXMLRPC(orm.Model):
         # product.product
         # ---------------------------------------------------------------------
         obj = 'product.product' # template??
-        import pdb; pdb.set_trace()
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
@@ -785,9 +807,11 @@ class SyncroXMLRPC(orm.Model):
                     continue
                 # NOTE No contact for this database
         else: # Load convert list form database
+            # Automatic load:
             self.load_converter(cr, uid, converter, obj=obj,
                 context=context)
 
+            # Manual load with default_code:
             if not self._converter['product.product']:
                 # Convert using default code
                 item_pool = self.pool.get(obj)
@@ -811,17 +835,93 @@ class SyncroXMLRPC(orm.Model):
                     else:
                         _logger.error(
                              'Product not found code: %s' % default_code)
-                                
 
             # Load template converter:
             self._converter['product.template'] = {}            
             product_ids = self.pool.get('product.product').search(
-            cr, uid, [], context=context)            
+                cr, uid, [], context=context)            
             for product in self.pool.get('product.product').browse(cr, uid, 
                     product_ids, context=context):
                 # Save in converter dict:    
                 self._converter['product.template'][
                     product.migration_old_tmpl_id] = product.product_tmpl_id.id
+
+
+        # ---------------------------------------------------------------------
+        # product.packaging
+        # ---------------------------------------------------------------------
+        import pdb; pdb.set_trace()
+        obj = 'product.packaging' 
+        product_pool = self.pool.get('product.product')
+        _logger.info("Start %s" % obj)
+        self._converter[obj] = {}
+        converter = self._converter[obj]
+        if wiz_proxy.sale or wiz_proxy.package:
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.ProductPackaging
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try: # Create record to insert/update
+                    name = item.name
+                    product_id = self._converter['product.product'].get(
+                            item.product_id.id, False)
+                    if not product_id:
+                        _logger.error('Product ID not found!: %s' % (
+                            item.product_id.id, ))
+                        continue    
+                    product_proxy = product_pool.browse(
+                        cr, uid, product_id, context=context)
+                            
+                    data = {
+                        'ul': self._converter['product.ul'].get(
+                            item.ul.name, False), # product.ul
+                        'code': item.code,
+                        'product_id': product_proxy.product_tmpl_id.id,
+                        'weight': item.weight, 
+                        'sequence': item.sequence,
+                        'ul_qty': item.ul_qty,
+                        'ean': item.ean,
+                        'qty': item.qty,
+                        'rows': item.rows,
+                        'name': name,
+
+                        #'container_id' # base.container.type >> ul_container
+                        
+                        #'width': item.width,
+                        #'length': item.length,
+                        #'height': item.height,
+                        #'weight_ul': item_weight_ul, # non più
+                        #'q_x_container': item.q_x_container,
+                        #'dimension_text': item.dimension_text,
+                        #'error_dimension_pack': item.error_dimension_pack,
+                        #'pack_volume': item.pack_volume,
+                        #'pack_volume_manual': item.pack_volume_manual,
+                        }
+                        
+                    new_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item.id)], context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        if wiz_proxy.modify:
+                            item_pool.write(cr, uid, item_id, data,
+                                context=context)
+                        print "#INFO", obj, "update:", name
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO", obj, "create:", name
+
+                     #converter[item.id] = item_id # not used
+                except:
+                    print "#ERR", obj, "jumped:", name
+                    print sys.exc_info()
+                    continue                    
+        else: # Load convert list form database
+            #self.load_converter(cr, uid, converter, obj=obj,
+            #     context=context)
+            pass # not used converter
+        
+
 
         # ---------------------------------------------------------------------
         # Supplier pricelist
@@ -2118,6 +2218,13 @@ class ResPartnerCategory(orm.Model):
         
 class ProductSupplierinfo(orm.Model):
     _inherit = 'product.supplierinfo'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.6'),
+        }
+
+class ProductPackaging(orm.Model):
+    _inherit = 'product.packaging'
 
     _columns = {
         'migration_old_id': fields.integer('ID v.6'),
