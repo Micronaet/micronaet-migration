@@ -57,7 +57,7 @@ class SyncroMigrationWizard(orm.TransientModel):
     _columns = {
         'from_date': fields.datetime('From date'),
         'to_date': fields.datetime('To date'),
-        'crate': fields.boolean('Create if not present'),
+        'create': fields.boolean('Create if not present'),
         'update': fields.boolean('Update if present'),
         'link': fields.boolean('Link', help='Only soft link to record'),
 
