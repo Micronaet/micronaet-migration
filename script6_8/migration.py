@@ -850,13 +850,12 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # product.packaging
         # ---------------------------------------------------------------------
-        import pdb; pdb.set_trace()
         obj = 'product.packaging' 
         product_pool = self.pool.get('product.product')
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        if wiz_proxy.sale or wiz_proxy.package:
+        if wiz_proxy.package:
             item_pool = self.pool.get(obj)
             erp_pool = erp.ProductPackaging
             item_ids = erp_pool.search([])

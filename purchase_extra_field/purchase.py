@@ -41,11 +41,21 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 _logger = logging.getLogger(__name__)
 
 
-class purchase_order(orm.Model):
+class PurchaseOrder(orm.Model):
     _inherit = 'purchase.order'
     
     _columns = {
         'delivery_note': fields.text('Delivery note'),
         'payment_note': fields.text('Payment note'),
+        }
+
+class PurchaseOrderLine(orm.Model):
+    ''' Add here maybe not used
+    '''
+    _inherit = 'purchase.order.line'
+    
+    _columns = {
+        'show_note': fields.text('Show note'),
+        'note': fields.text('Note'),
         }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
