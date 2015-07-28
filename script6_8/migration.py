@@ -253,7 +253,6 @@ class SyncroXMLRPC(orm.Model):
         # ------------
         # product.ul
         # ------------
-        import pdb; pdb.set_trace()
         if wiz_proxy.package:
             _logger.info("Start %s" % obj)
             obj = 'product.ul'
@@ -877,7 +876,7 @@ class SyncroXMLRPC(orm.Model):
                         'ul': self._converter['product.ul'].get(
                             item.ul.name, False), # product.ul
                         'code': item.code,
-                        'product_id': product_proxy.product_tmpl_id.id,
+                        'product_tmpl_id': product_proxy.product_tmpl_id.id,
                         'weight': item.weight, 
                         'sequence': item.sequence,
                         'ul_qty': item.ul_qty,
