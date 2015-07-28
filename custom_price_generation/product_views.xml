@@ -74,27 +74,6 @@
             <field name="list_price" position="after">
                <field name="duty_id" />
             </field>
-            <!--TODO RIATTIVARE: <xpath expr="/form/sheet/notebook/page[@string='Packaging']/field/form/separator[2]" position="replace"> 
-                <separator string="Dimensione pack" colspan="4" />
-            </xpath>
-            <xpath expr="/form/sheet/notebook/page[@string='Packaging']/field/form/field[@name='length']" position="after">            
-                <newline />
-                <field name="pack_volume_manual" />
-                <field name="pack_volume" attrs="{'invisible':[('pack_volume_manual','=',False)]}" />
-                
-                --><!--Eliminare quando corretti tutti! DA QUI:--><!--
-                <newline />
-                <separator string="Errore dimensione" colspan="4" />
-                <field name="error_dimension_pack" />                
-                <newline />
-                <field name="dimension_text" attrs="{'invisible':[('error_dimension_pack','=',False)]}" colspan="4" nolabel="1" />               
-                --><!--Eliminare quando corretti tutti! A QUI!--><!--   
-                                      
-                <separator string="Container data" colspan="4" />
-                <field name="q_x_container" />
-                <field name="container_id" />
-                <field name="transport_cost" />
-            </xpath>-->
             <xpath expr="/form/sheet/notebook/page[@string='Sales']" position="after">            
                <page string="Pricelist computation">
                    <separator string="Costs:" colspan="4"/>
@@ -180,44 +159,6 @@
               parent="product.menu_products" 
               sequence="1" />
               
-    <!-- base.container.type: -->
-    <record id="base_container_type_tree_view" model="ir.ui.view">
-        <field name="name">Container type tree</field>
-        <field name="model">base.container.type</field>
-        <field name="arch" type="xml">
-            <tree string="Container type">
-                <field name="name" select="1" />
-                <field name="cost" />
-                <field name="date" />
-            </tree>
-        </field>
-    </record>            
-    <record id="base_container_type_form_view" model="ir.ui.view">
-        <field name="name">Container type form</field>
-        <field name="model">base.container.type</field>
-        <field name="type">form</field>
-        <field name="arch" type="xml">
-            <form string="Container type">
-                <field name="name" />
-                <field name="cost" />
-                <field name="date" />
-            </form>
-        </field>
-    </record>
-
-    <record id="base_container_type_action" model="ir.actions.act_window">
-        <field name="name">Container type</field>
-        <field name="res_model">base.container.type</field>
-        <field name="view_type">form</field>        
-        <field name="view_mode">tree,form</field>        
-        <field name="help">Type of container, to compute transport cost for each product</field>
-    </record>
-
-    <menuitem action="base_container_type_action" 
-              id="base_container_type_action_menu" 
-              parent="product.prod_config_main" 
-              sequence="3" />
-                
     <!-- base.product.exchange: -->
     <record id="base_product_exchange_tree_view" model="ir.ui.view">
         <field name="name">Product exchange tree</field>
