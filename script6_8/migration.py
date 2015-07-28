@@ -890,10 +890,11 @@ class SyncroXMLRPC(orm.Model):
 
                         #'container_id' # base.container.type >> ul_container
                         
-                        #'width': item.width,
-                        #'length': item.length,
-                        #'height': item.height,
-                        #'weight_ul': item_weight_ul, # non più
+                        # Moved in product.ul (for now insert also here)
+                        'width': item.width,
+                        'length': item.length,
+                        'height': item.height,
+                        'weight_ul': item_weight_ul,
                         
                         'q_x_container': item.q_x_container,                        
                         'dimension_text': item.dimension_text,
@@ -1699,6 +1700,7 @@ class SyncroXMLRPC(orm.Model):
                     old_id = item['id']
                     data = {
                         'name': item['name'],
+                        'note': item['note'], # TODO both company? 1?
                         'order_id': order_id,
                         'sequence': item['sequence'],
                         'product_id': self._converter['product.product'].get(

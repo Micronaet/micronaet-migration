@@ -98,6 +98,13 @@ class ProductPackagingFunction(orm.Model):
 
         'pack_volume': fields.float('Pack volum (manual)', digits=(16, 3)),
         'pack_volume_manual': fields.boolean('Manual volum'),
+        
+        # TODO moved in product.ul in v.8 (not existant here)
+        'length': fields.float('Length', digits=(16, 2)), 
+        'height': fields.float('Height', digits=(16, 2)), 
+        'width': fields.float('Width', digits=(16, 2)), 
+
+        'weight_ul': fields.float('Weight UL', digits=(16, 2)), 
         }
 
     _defaults = {
