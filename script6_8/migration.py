@@ -850,7 +850,6 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # product.packaging
         # ---------------------------------------------------------------------
-        import pdb; pdb.set_trace()
         obj = 'product.packaging' 
         product_pool = self.pool.get('product.product')
         _logger.info("Start %s" % obj)

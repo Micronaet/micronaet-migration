@@ -20,28 +20,7 @@
 #
 ###############################################################################
 
-{
-    'name': 'Custom price for manage pricelist generation',
-    'version': '0.0.1',
-    'category': 'Generic Modules/Customization',
-    'author': 'Micronaet s.r.l.',
-    'website': 'http://www.micronaet.it',
-    'depends': [
-        'base',
-        'product',
-        'product_extra_packaging', # moved for instal in 2 company this part
-        'product_dimension_fields',
-        'base_accounting_program',
-        'sale',
-        'report_aeroo',
-        ],
-    'init_xml': [], 
-    'data': [
-        'security/ir.model.access.csv',
-        'product_views.xml',
-        'report/pricelist.xml', 
-        ],
-    'demo_xml': [],
-    'active': False, 
-    'installable': True, 
-    }
+import pack
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

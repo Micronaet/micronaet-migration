@@ -29,7 +29,6 @@
     'depends': [
         'base',
         'product',
-        'product_extra_packaging', # moved for instal in 2 company this part
         'product_dimension_fields',
         'base_accounting_program',
         'sale',
@@ -38,8 +37,7 @@
     'init_xml': [], 
     'data': [
         'security/ir.model.access.csv',
-        'product_views.xml',
-        'report/pricelist.xml', 
+        #'product_views.xml',
         ],
     'demo_xml': [],
     'active': False, 
