@@ -1699,7 +1699,7 @@ class SyncroXMLRPC(orm.Model):
                     old_id = item['id']
                     data = {
                         'name': item['name'],
-                        'note': item['note'], # TODO both company? 1?
+                        #'note': item['note'], # TODO both company? 1?
                         'order_id': order_id,
                         'sequence': item['sequence'],
                         'product_id': self._converter['product.product'].get(
@@ -1931,7 +1931,7 @@ class SyncroXMLRPC(orm.Model):
 
                     data = {
                         'name': item.name,
-                        'order_id': order_id,
+                        'note': item['note'], # TODO both company? 1?
                         #'sequence': item.sequence,
                         'product_id': self._converter[
                             'product.product'].get(
