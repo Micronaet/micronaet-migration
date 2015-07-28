@@ -20,6 +20,7 @@
                        <field name="campaign" />
                        <field name="category" />
                        <field name="product" />
+                       <field name="package" />
                        <field name="bom" />
                        <field name="pricelist" />
                        <field name="partner" />
