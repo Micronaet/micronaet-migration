@@ -1580,7 +1580,6 @@ class SyncroXMLRPC(orm.Model):
             erp_pool = erp.SaleOrderLine
             item_ids = erp_pool.search([])
 
-            import pdb; pdb.set_trace()
             for item in sock.execute(openerp.name, user_id, 
                     openerp.password, obj, 'read', item_ids):
                 try: # Create record to insert/update
