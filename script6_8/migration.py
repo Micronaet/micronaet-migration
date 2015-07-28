@@ -990,7 +990,7 @@ class SyncroXMLRPC(orm.Model):
                 item_id = new_ids[0]
                 converter[item.id] = item_id
             else: # Create
-                print "#ERR", obj, "not found:", mexal_id
+                _logger.warning("% not found: %s" % ( obj, mexal_id))
 
         # Load pricelist:      
         if wiz_proxy.purchase or wiz_proxy.purchase_line:
@@ -999,7 +999,7 @@ class SyncroXMLRPC(orm.Model):
             if item_ids:
                 purchase_pricelist_id = item_ids[0]
             else:
-                print "No sale pricelist found"
+                _logger.warning("No sale pricelist found")
                 purchase_pricelist_id = 0
 
         # ---------------------------------------------------------------------
@@ -1931,7 +1931,7 @@ class SyncroXMLRPC(orm.Model):
 
                     data = {
                         'name': item.name,
-                        'note': item['note'], # TODO both company? 1?
+                        'note': item.note, # TODO both company? 1?
                         #'sequence': item.sequence,
                         'product_id': self._converter[
                             'product.product'].get(
