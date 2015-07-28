@@ -16,19 +16,19 @@
               </group>    
            </xpath>
 
-           <!-- TODO: remove: <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='sequence']" position="after">
-              <field name='repeat_header_line' />
-           </xpath>
-           -->
-           
-           <!--TODO: remove: <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/form/notebook/page[@string='Order Line']/field[@name='layout_type']" position="after">
-              <field name='repeat_header_line' />
-           </xpath>-->
-           
            <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/form/group/group/field[@name='product_id']" position="after">
               <field name='insert_photo' />                  
               <!--<field name='use_amazon_description' /> TODO remove?-->
-              <!--<field name='show_notes' /> need field notes in sales-->
+           </xpath>
+           <xpath expr="/form/sheet/notebook/page[0]" position="after">
+               <page string="Note">
+                   <group colspan="4" col="4">
+                       <field name='show_notes' />
+                       <newline />
+                       <separator string='Note:' colspan="4" />
+                       <field name='note' colspan='4' nolabel='1' />
+                   </group>
+               </page>
            </xpath>
         </field>
     </record>

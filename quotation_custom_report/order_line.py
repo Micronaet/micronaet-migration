@@ -148,4 +148,5 @@ class SaleOrderLineQuotation(orm.Model):
             help="Take amazon description instead of product's one"),
         'show_notes': fields.boolean(
             'Show notes', help="Show notes after description"),
+        'note': fields.text( 'Note'),    
         }
