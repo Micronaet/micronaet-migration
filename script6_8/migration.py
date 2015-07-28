@@ -641,7 +641,13 @@ class SyncroXMLRPC(orm.Model):
 
                     # Add extra fields not present in product_product
                     item_tmpl = erp_tmpl_pool.browse(item_tmpl_ids[0])     
-
+                    if not item.description:
+                        _logger.info("Riga: %s" % i)
+                        continue
+                    if item_tmpl.description:
+                        _logger.info("Riga: %s" % i)
+                        continue 
+                    import pdb; pdb.set_trace()
                     data = {                        
                         # TODO check with if the company fields
                         
