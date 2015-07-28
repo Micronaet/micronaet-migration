@@ -150,3 +150,8 @@ class SaleOrderLineQuotation(orm.Model):
             'Show notes', help="Show notes after description"),
         'note': fields.text( 'Note'),    
         }
+        
+    _defaults = {
+        'insert_photo': lambda *x: True,
+        }
+        
