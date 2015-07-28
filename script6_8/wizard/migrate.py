@@ -47,7 +47,7 @@ class SyncroMigrationWizard(orm.TransientModel):
     _name = "syncro.migration.wizard"
 
     # Wizard button:
-    def migrate_database(self, cr, uid, ids, context=None):        
+    def migrate_database(self, cr, uid, ids, context=None):  
         self.pool.get('syncro.xmlrpc').migrate_database(
             cr, uid, 
             self.browse(cr, uid, ids, context=context)[0], # proxy for param.
@@ -57,7 +57,7 @@ class SyncroMigrationWizard(orm.TransientModel):
     _columns = {
         'from_date': fields.datetime('From date'),
         'to_date': fields.datetime('To date'),
-        'create': fields.boolean('Create if not present'),
+        'to_create': fields.boolean('Create if not present'),
         'update': fields.boolean('Update if present'),
         'link': fields.boolean('Link', help='Only soft link to record'),
 
