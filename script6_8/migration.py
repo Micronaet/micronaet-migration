@@ -934,6 +934,7 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
+        import pdb; pdb.set_trace()
         if wiz_proxy.bom:
             item_pool = self.pool.get(obj)
             erp_pool = erp.MrpBom
@@ -944,14 +945,15 @@ class SyncroXMLRPC(orm.Model):
                     name = item.name
 
                     # Many2one:
-                    routing_id = self._converter[
-                        'mrp.routing'].get(item.routing_id.id, False) # mrp.routing # TODO?
-                    product_uom = self._converter[
-                        'product.uom'].get(item.product_uom.id, False) # product.uom
-                    product_id = self._converter[
-                        'product.product'].get(item.product_id.id, False) # product.product                        
-                    tmpl_id = self._converter[
-                        'product.template'].get(item.product_id.id, False) # mrp.bom
+                    routing_id = False
+                    #self._converter[ # mrp.routing # TODO?
+                    #    'mrp.routing'].get(item.routing_id.id, False) 
+                    product_uom = self._converter[ # product.uom
+                        'product.uom'].get(item.product_uom.id, False)
+                    product_id = self._converter[ # product.product
+                        'product.product'].get(item.product_id.id, False)
+                    tmpl_id = self._converter[ # mrp.bom
+                        'product.template'].get(item.product_id.id, False)
 
                     data = {
                         # not null:
@@ -979,14 +981,15 @@ class SyncroXMLRPC(orm.Model):
                         'migration_old_id': item.id,
                         #'company_id'
 
-                        # only in v. 6.0
-                        #'product_uos_qty': item.product_uos_qty,
-                        #'product_uos': product_uos, # product.uos
-
                         # only in odoo:
                         'product_tmpl_id': tmpl_id, # product.template
                         # family
                         # obsolete
+
+                        # only in v. 6.0
+                        #'product_uos_qty': item.product_uos_qty,
+                        #'product_uos': product_uos, # product.uos
+
                         }
                         
                     new_ids = item_pool.search(cr, uid, [
@@ -1448,6 +1451,7 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # product.supplierinfo
         # ---------------------------------------------------------------------
+        import pdb; pdb.set_trace()
         obj = 'product.supplierinfo' 
         item_pool = self.pool.get('product.supplierinfo')
         product_pool = self.pool.get('product.product')
@@ -1545,7 +1549,6 @@ class SyncroXMLRPC(orm.Model):
                         'min_quantity': item.min_quantity,
                         'price': item.price,
                         'name': name, 
-                        #'price_usd': item.price_uds,
                         'migration_old_id': item.id,
                         
                         # not present in ODOO:
@@ -1553,6 +1556,8 @@ class SyncroXMLRPC(orm.Model):
                         'is_active': item.is_active,
                         'product_id': tmpl_id,
                         }
+                    if 'price_usd' in dir(item):
+                        data['price_usd'] = item.price_usd
 
                     new_ids = item_pool.search(cr, uid, [
                         ('migration_old_id', '=', item.id)], context=context)
