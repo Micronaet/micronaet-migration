@@ -934,7 +934,6 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        import pdb; pdb.set_trace()
         if wiz_proxy.bom:
             item_pool = self.pool.get(obj)
             erp_pool = erp.MrpBom
@@ -1451,7 +1450,6 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # product.supplierinfo
         # ---------------------------------------------------------------------
-        import pdb; pdb.set_trace()
         obj = 'product.supplierinfo' 
         item_pool = self.pool.get('product.supplierinfo')
         product_pool = self.pool.get('product.product')
@@ -1522,6 +1520,7 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # pricelist.partnerinfo
         # ---------------------------------------------------------------------
+        # TODO error in company 1
         obj = 'pricelist.partnerinfo' 
         item_pool = self.pool.get(obj)
         _logger.info("Start %s" % obj)
