@@ -1438,7 +1438,7 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        if wiz_proxy.supplierinfo:
+        if wiz_proxy.partnerinfo:
             import pdb; pdb.set_trace()
             item_pool = self.pool.get(obj)
             erp_pool = erp.PricelistPartnerinfo
@@ -1452,6 +1452,9 @@ class SyncroXMLRPC(orm.Model):
                     if not suppinfo_id:
                         _logger.error('Suppinfo ID not found!: %s' % name)
                         continue # jump
+
+                    tmpl_id = self._converter['product.template'].get(
+                        item.product_id.id, False)
                     
                     data = {
                         'suppinfo_id': suppinfo_id,
@@ -1465,6 +1468,7 @@ class SyncroXMLRPC(orm.Model):
                         # not present in ODOO:
                         'date_quotation': item.date_quotation,
                         'is_active': item.is_active,
+                        'product_id': tmpl_id,
                         }
 
                     new_ids = item_pool.search(cr, uid, [
