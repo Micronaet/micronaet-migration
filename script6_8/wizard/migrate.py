@@ -66,6 +66,7 @@ class SyncroMigrationWizard(orm.TransientModel):
         'category': fields.boolean('A. Partner category'),
         'product': fields.boolean('B. Product'),
         'package': fields.boolean('B. Package'),
+        'supplierinfo': fields.boolean('B. Supplierinfo'),
         'bom': fields.boolean('B. BOM'), # TODO
         'pricelist': fields.boolean('B. Pricelist'), # TODO
         'partner': fields.boolean('B. Partner'),

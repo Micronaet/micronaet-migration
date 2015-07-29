@@ -851,7 +851,7 @@ class SyncroXMLRPC(orm.Model):
         # product.packaging
         # ---------------------------------------------------------------------
         obj = 'product.packaging' 
-        product_pool = self.pool.get('product.product')
+        product_pool = self.pool.get('product.product') # for extra use
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
@@ -925,13 +925,6 @@ class SyncroXMLRPC(orm.Model):
             #self.load_converter(cr, uid, converter, obj=obj,
             #     context=context)
             pass # not used converter
-        
-
-
-        # ---------------------------------------------------------------------
-        # Supplier pricelist
-        # ---------------------------------------------------------------------
-        # TODO?
         
         # ---------------------------------------------------------------------
         # Pricelist
@@ -1366,6 +1359,84 @@ class SyncroXMLRPC(orm.Model):
                 else:    
                     self._converter['res.partner'][
                         item.migration_old_id] = item.id
+
+        # ---------------------------------------------------------------------
+        # product.supplierinfo
+        # ---------------------------------------------------------------------
+        import pdb; pdb.set_trace()
+        obj = 'product.supplierinfo' 
+        item_pool = self.pool.get('product.supplierinfo')
+        product_pool = self.pool.get('product.product')
+        _logger.info("Start %s" % obj)
+        self._converter[obj] = {}
+        converter = self._converter[obj]
+        if wiz_proxy.supplierinfo:
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.ProductSupplierinfo
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try: # Create record to insert/update
+                    name = item.name # partner_id
+                    partner_id = self._converter['res.partner'].get(
+                            name, False)
+                    if not partner_id:
+                        _logger.error('Partner ID not found!: %s' % (
+                            item.name, ))
+                        continue
+                    
+                    product_id = self._converter['product.product'].get(
+                            name, False) # template
+                                                        
+                    if not product_id:
+                        _logger.error('Product ID not found!: %s' % (
+                            item.product_id, ))
+                        continue
+                    product_proxy = product_pool.browse( # for tmpl ID
+                        cr, uid, product_id, context=context)
+                        
+                    data = {
+                        'name': partner_id,
+                        'sequence': item.sequence,
+                        'qty': item.qty,
+                        'delay': item.delay,
+                        'min_qty': item.min_qty,
+                        'product_code': item.product_code,
+                        'product_name': item.product_name,
+                        'product_tmpl_id': product_proxy.product_tmpl_id.id,
+                        'migration_old_id': item.id, 
+                        'product_uom': self._converter[
+                            'product.uom'].get(
+                                item.product_uom.id \
+                                    if item.product_uom \
+                                    else False, False),
+                        }
+                        
+                    new_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item.id)], context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        if wiz_proxy.modify:
+                            item_pool.write(cr, uid, item_id, data,
+                                context=context)
+                        _logger.info("%s update: %s" % (obj, name))
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        _logger.info("%s create: %s" % (obj, name))
+
+                    converter[item.id] = item_id # not used
+                except:
+                    _logger.error("%s jumped: %s" % (obj, name))
+                    _logger.error(sys.exc_info())
+                    continue                    
+        else: # Load convert list form database
+            self.load_converter(cr, uid, converter, obj=obj,
+                 context=context)
+
+        # ---------------------------------------------------------------------
+        # Supplier pricelist
+        # ---------------------------------------------------------------------
+        # TODO?
                         
         # ---------------------------------------------------------------------
         # account.payment.term
@@ -2000,71 +2071,6 @@ class SyncroXMLRPC(orm.Model):
             #self.load_converter(cr, uid, converter, obj=obj,
             #    context=context)
 
-        # ---------------------------------------------------------------------
-        # product.supplierinfo
-        # ---------------------------------------------------------------------
-        obj = 'product.supplierinfo'
-        _logger.info("Start %s" % obj)
-        self._converter[obj] = {}
-        converter = self._converter[obj]
-        if wiz_proxy.productpricelist: # TODO
-            item_pool = self.pool.get(obj)
-            erp_pool = erp.ProductSupplierinfo
-            item_ids = erp_pool.search([])
-            for item in erp_pool.browse(item_ids):
-                try: # Create record to insert/update
-                    tmpl_old_id = item.product_id.id if item.product_id else False
-                    if not tmpl_old_id:
-                        _logger.error("Template not found, no product!")
-                        continue
-                    tmpl_id = self._converter['product.template'].get(
-                        tmpl_old_id, False)    
-                    data = {                        
-                        'name': self._converter[ # supplier ID
-                            'res.partner'].get(
-                                item.name.id \
-                                    if item.name \
-                                    else False, False),
-                        'sequence': item.sequence,
-                        'product_name': item.product_name,
-                        'product_code': item.product_code,
-                        'min_qty': item.min_qty,
-                        'product_uom': self._converter[ # supplier ID
-                            'product.uom'].get(
-                                item.product_uom.id \
-                                    if item.product_uom \
-                                    else False, False),
-                        'delay': item.delay,
-                        # company_ID
-                        'qty': item.qty,
-                        #'product_id': self._converter[
-                        #    'product.product'].get(
-                        #        item.product_id.id \
-                        #            if item.product_id \
-                        #            else False, False),
-                        'product_tmpl_id': tmpl_id,
-                        'migration_old_id': item.id, 
-                        }
-
-                    new_ids = item_pool.search(cr, uid, [
-                        ('migration_old_id', '=', item.id)], context=context)
-                    if new_ids: # Modify
-                        item_id = new_ids[0]
-                        item_pool.write(cr, uid, item_id, data,
-                            context=context)
-                        print "#INFO", obj, "update:", item.product_name
-                    else: # Create
-                        item_id = item_pool.create(cr, uid, data,
-                            context=context)
-                        print "#INFO", obj, "create:", item.product_name
-
-                    converter[item.id] = item_id
-                except:
-                    _logger.error(sys.exc_info())
-                    continue                    
-        else: # Load convert list form database
-            self.load_converter(cr, uid, converter, obj=obj,
-                context=context)
         
         # ---------------------------------------------------------------------
         #                        CUSTOM FOR THIS PARTNER
