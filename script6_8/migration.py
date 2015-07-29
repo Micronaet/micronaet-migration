@@ -647,7 +647,6 @@ class SyncroXMLRPC(orm.Model):
                     if item_tmpl.description:
                         _logger.info("Riga: %s" % i)
                         continue 
-                    import pdb; pdb.set_trace()
                     data = {                        
                         # TODO check with if the company fields
                         
@@ -900,7 +899,7 @@ class SyncroXMLRPC(orm.Model):
                         'width': item.width,
                         'length': item.length,
                         'height': item.height,
-                        'weight_ul': item_weight_ul,
+                        'weight_ul': item.weight_ul,
                         
                         'q_x_container': item.q_x_container,                        
                         'dimension_text': item.dimension_text,
