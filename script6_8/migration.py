@@ -1370,14 +1370,6 @@ class SyncroXMLRPC(orm.Model):
         self._converter[obj] = {}
         converter = self._converter[obj]
         if wiz_proxy.supplierinfo:
-            # Load product with default_code
-            #product_default_code = {}
-            #product_ids = product_pool.search(cr, uid, [
-            #    ('default_code', '!=', False)], context=context)
-            #for p in product_pool.browse(
-            #        cr, uid, product_ids, context=context):
-            #    product_default_code[p.default_code] = p.id    
-        
             import pdb; pdb.set_trace()
             item_pool = self.pool.get(obj)
             erp_pool = erp.ProductSupplierinfo
@@ -1392,17 +1384,13 @@ class SyncroXMLRPC(orm.Model):
                             name, ))
                         continue
                     
-                    #product_id = product_default_code.get( # is temìpate ID
-                    #    item.product_id.default_code, False)
-                    product_id = self._converter['product.template'].get(
+                    tmpl_id = self._converter['product.template'].get(
                         item.product_id.id, False)
                                                         
-                    if not product_id:
+                    if not tmpl_id:
                         _logger.error('Product template ID not found!: %s' % (
                             item.product_id, ))
                         continue
-                    #product_proxy = product_pool.browse( # for tmpl ID
-                    #    cr, uid, product_id, context=context)
                         
                     data = {
                         'name': partner_id,
@@ -1412,8 +1400,7 @@ class SyncroXMLRPC(orm.Model):
                         'min_qty': item.min_qty,
                         'product_code': item.product_code,
                         'product_name': item.product_name,
-                        'product_tmpl_id': product_proxy.product_tmpl_id.id,
-                        'product_tmpl_id': product_id,
+                        'product_tmpl_id': tmpl_id,
                         'migration_old_id': item.id, 
                         'product_uom': self._converter[
                             'product.uom'].get(
