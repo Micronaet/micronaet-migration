@@ -927,6 +927,91 @@ class SyncroXMLRPC(orm.Model):
             pass # not used converter
         
         # ---------------------------------------------------------------------
+        # mrp.bom
+        # ---------------------------------------------------------------------
+        obj = 'mrp.bom' 
+        product_pool = self.pool.get(obj)
+        _logger.info("Start %s" % obj)
+        self._converter[obj] = {}
+        converter = self._converter[obj]
+        if wiz_proxy.bom:
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.MrpBom
+            item_ids = erp_pool.search([
+                ('bom_id', '=', False)]) # parent before
+            for item in erp_pool.browse(item_ids):
+                try: # Create record to insert/update
+                    name = item.name
+
+                    # Many2one:
+                    routing_id = self._converter[
+                        'mrp.routing'].get(item.routing_id.id, False) # mrp.routing # TODO?
+                    product_uom = self._converter[
+                        'product.uom'].get(item.product_uom.id, False) # product.uom
+                    product_id = self._converter[
+                        'product.product'].get(item.product_id.id, False) # product.product                        
+                    tmpl_id = self._converter[
+                        'product.template'].get(item.product_id.id, False) # mrp.bom
+
+                    data = {
+                        # not null:
+                        'product_efficiency': item.product_efficiency, 
+                        'name': name,
+                        'type': item.type,
+                        'product_qty': item.product_qty,
+                        
+                        'date_stop': item.date_stop,
+                        'code': item.code,
+                        'sequence': item.sequence,
+                        'active': item.active,
+                        'product_rounding': item.product_rounding,
+                        'date_start': item.date_start,
+                        'position': item.position,
+                        'obsolete': item.obsolete,
+                        'old_cost': item.old_cost,
+                        'tot_component': item.tot_component,
+                        'note': item.note,
+
+                        'routing_id': routing_id, 
+                        'product_uom': product_uom, 
+                        'product_id': product_id, 
+                        'bom_id': False, 
+                        'migration_old_id': item.id,
+                        #'company_id'
+
+                        # only in v. 6.0
+                        #'product_uos_qty': item.product_uos_qty,
+                        #'product_uos': product_uos, # product.uos
+
+                        # only in odoo:
+                        'product_tmpl_id': tmpl_id, # product.template
+                        # family
+                        # obsolete
+                        }
+                        
+                    new_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item.id)], context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        if wiz_proxy.update:
+                            item_pool.write(cr, uid, item_id, data,
+                                context=context)
+                        print "#INFO", obj, "update:", name
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO", obj, "create:", name
+
+                     #converter[item.id] = item_id # not used
+                except:
+                    print "#ERR", obj, "jumped:", name
+                    print sys.exc_info()
+                    continue                    
+        else: # Load convert list form database
+            self.load_converter(cr, uid, converter, obj=obj,
+                 context=context)
+
+        # ---------------------------------------------------------------------
         # Pricelist
         # ---------------------------------------------------------------------
 
@@ -1461,7 +1546,6 @@ class SyncroXMLRPC(orm.Model):
                         'price': item.price,
                         'name': name, 
                         #'price_usd': item.price_uds,
-                        #'product_id' # related ?
                         'migration_old_id': item.id,
                         
                         # not present in ODOO:
@@ -2250,6 +2334,13 @@ class SaleOrder(orm.Model):
 
 class SaleOrderLine(orm.Model):
     _inherit = 'sale.order.line'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.6'),
+        }
+
+class MrpBom(orm.Model):
+    _inherit = 'mrp.bom'
 
     _columns = {
         'migration_old_id': fields.integer('ID v.6'),
