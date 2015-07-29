@@ -1462,11 +1462,11 @@ class SyncroXMLRPC(orm.Model):
                         item_id = new_ids[0]
                         item_pool.write(cr, uid, item_id, data,
                             context=context)
-                        print "#INFO", obj, "update:", name
+                        _logger.info("%s update: %s" % (obj, name))
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        print "#INFO", obj, "create:", name
+                        _logger.info("%s create: %s" % (obj, name))
 
                     converter[item.id] = item_id
                 except:
@@ -1503,11 +1503,11 @@ class SyncroXMLRPC(orm.Model):
                         item_id = new_ids[0]
                         item_pool.write(cr, uid, item_id, data,
                             context=context)
-                        print "#INFO", obj, "update:", name
+                        _logger.info("%s update: %s" % (obj, name))
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        print "#INFO", obj, "create:", name
+                        _logger.info("%s create: %s" % (obj, name))
 
                     converter[item.id] = item_id
                 except:
@@ -1549,16 +1549,17 @@ class SyncroXMLRPC(orm.Model):
                             item_id = new_ids[0]
                             item_pool.write(cr, uid, item_id, data,
                                 context=context)
-                            print "#INFO", obj, "update:", name
+                            _logger.info("%s update: %s" % (obj, name))
                         else: # Create
                             item_id = item_pool.create(cr, uid, data,
                                 context=context)
-                            print "#INFO", obj, "create:", name
+                            _logger.info("%s create: %s" % (obj, name))
+                        _logger.info("%s create: %s" % (obj, name))
 
                         converter[item.id] = item_id
                     except:
-                        print "#ERR", obj, "jumped:", name
-                        print sys.exc_info()
+                        _logger.info("%s jumped: %s" % (obj, name))
+                        _logger.info(sys.exc_info())
                         continue                    
         else: # Load convert list form database
             pass # Non used (no migration_old_id)
@@ -1594,11 +1595,11 @@ class SyncroXMLRPC(orm.Model):
                             item_id = new_ids[0]
                             item_pool.write(cr, uid, item_id, data,
                                 context=context)
-                            print "#INFO", obj, "update:", name
+                            _logger.info("%s update: %s" % (obj, name))
                         else: # Create
                             item_id = item_pool.create(cr, uid, data,
                                 context=context)
-                            print "#INFO", obj, "create:", name
+                            _logger.info("%s create: %s" % (obj, name))
 
                         converter[item.id] = item_id
                     except:
@@ -1628,11 +1629,12 @@ class SyncroXMLRPC(orm.Model):
                         item_id = new_ids[0]
                         item_pool.write(cr, uid, item_id, data,
                             context=context)
-                        print "#INFO", obj, "update:", name
+                        _logger.info("%s update: %s" % (obj, name))
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        print "#INFO", obj, "Error here I dont' create", name
+                        _logger.warning("%s error, here not create!: %s" % (
+                            obj, name))
 
                     converter[item.id] = item_id
                 except:
@@ -1729,11 +1731,11 @@ class SyncroXMLRPC(orm.Model):
                         if wiz_proxy.update:
                             item_pool.write(cr, uid, item_id, data,
                                 context=context)
-                        print "#INFO", obj, "update:", name
+                        _logger.info("%s update: %s" % (obj, name))
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        print "#INFO", obj, "create:", name
+                        _logger.info("%s create: %s" % (obj, name))
 
                     converter[item.id] = item_id
                 except:
@@ -1825,11 +1827,11 @@ class SyncroXMLRPC(orm.Model):
                         if wiz_proxy.update:
                             item_pool.write(cr, uid, item_id, data,
                                 context=context)
-                        print "#INFO", obj, "update:", name
+                        _logger.info("%s update: %s" % (obj, name))
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        print "#INFO", obj, "create:", name
+                        _logger.info("%s create: %s" % (obj, name))
 
                     #converter[old_id] = item_id # No needed!
                     # TODO if state is order: wizard confirm!!!
@@ -1837,7 +1839,6 @@ class SyncroXMLRPC(orm.Model):
                     _logger.error(name)
                     _logger.error("#ERR %s jumped: %s [%s]" % (
                         obj, name, sys.exc_info()))
-                    print sys.exc_info()
                     continue
         else: # Load convert list form database
             pass # Non used
