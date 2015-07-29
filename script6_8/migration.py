@@ -907,7 +907,7 @@ class SyncroXMLRPC(orm.Model):
                         ('migration_old_id', '=', item.id)], context=context)
                     if new_ids: # Modify
                         item_id = new_ids[0]
-                        if wiz_proxy.modify:
+                        if wiz_proxy.update:
                             item_pool.write(cr, uid, item_id, data,
                                 context=context)
                         print "#INFO", obj, "update:", name
@@ -1370,7 +1370,6 @@ class SyncroXMLRPC(orm.Model):
         self._converter[obj] = {}
         converter = self._converter[obj]
         if wiz_proxy.supplierinfo:
-            import pdb; pdb.set_trace()
             item_pool = self.pool.get(obj)
             erp_pool = erp.ProductSupplierinfo
             item_ids = erp_pool.search([])
@@ -1413,7 +1412,7 @@ class SyncroXMLRPC(orm.Model):
                         ('migration_old_id', '=', item.id)], context=context)
                     if new_ids: # Modify
                         item_id = new_ids[0]
-                        if wiz_proxy.modify:
+                        if wiz_proxy.update:
                             item_pool.write(cr, uid, item_id, data,
                                 context=context)
                         _logger.info("%s update: %s" % (obj, name))
@@ -1432,10 +1431,64 @@ class SyncroXMLRPC(orm.Model):
                  context=context)
 
         # ---------------------------------------------------------------------
-        # Supplier pricelist
+        # pricelist.partnerinfo
         # ---------------------------------------------------------------------
-        # TODO?
+        obj = 'pricelist.partnerinfo' 
+        item_pool = self.pool.get(obj)
+        _logger.info("Start %s" % obj)
+        self._converter[obj] = {}
+        converter = self._converter[obj]
+        if wiz_proxy.supplierinfo:
+            import pdb; pdb.set_trace()
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.PricelistPartnerinfo
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try: # Create record to insert/update
+                    name = item.name
+                    suppinfo_id = self._converter['product.supplierinfo'].get(
+                        item.suppinfo_id.id, False)
                         
+                    if not suppinfo_id:
+                        _logger.error('Suppinfo ID not found!: %s' % name)
+                        continue # jump
+                    
+                    data = {
+                        'suppinfo_id': suppinfo_id,
+                        'min_quantity': item.min_quantity,
+                        'price': item.price,
+                        'name': name, 
+                        #'price_usd': item.price_uds,
+                        #'product_id' # related ?
+                        'migration_old_id': item.id,
+                        
+                        # not present in ODOO:
+                        'date_quotation': item.date_quotation,
+                        'is_active': item.is_active,
+                        }
+
+                    new_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item.id)], context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        if wiz_proxy.update:
+                            item_pool.write(cr, uid, item_id, data,
+                                context=context)
+                        _logger.info("%s update: %s" % (obj, name))
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        _logger.info("%s create: %s" % (obj, name))
+
+                    converter[item.id] = item_id # not used
+                except:
+                    _logger.error("%s jumped: %s" % (obj, name))
+                    _logger.error(sys.exc_info())
+                    continue                    
+        else: # Load convert list form database
+            self.load_converter(cr, uid, converter, obj=obj,
+                 context=context)
+
         # ---------------------------------------------------------------------
         # account.payment.term
         # ---------------------------------------------------------------------
@@ -2226,9 +2279,16 @@ class ResPartnerCategory(orm.Model):
     _columns = {
         'migration_old_id': fields.integer('ID v.6'),
         }
-        
+
 class ProductSupplierinfo(orm.Model):
     _inherit = 'product.supplierinfo'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.6'),
+        }
+
+class PricelistPartnerinfo(orm.Model):
+    _inherit = 'pricelist.partnerinfo'         
 
     _columns = {
         'migration_old_id': fields.integer('ID v.6'),
