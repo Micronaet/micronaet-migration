@@ -1376,12 +1376,12 @@ class SyncroXMLRPC(orm.Model):
             item_ids = erp_pool.search([])
             for item in erp_pool.browse(item_ids):
                 try: # Create record to insert/update
-                    name = item.name # partner_id
+                    name = item.name.id # partner_id
                     partner_id = self._converter['res.partner'].get(
                             name, False)
                     if not partner_id:
                         _logger.error('Partner ID not found!: %s' % (
-                            item.name, ))
+                            name, ))
                         continue
                     
                     product_id = self._converter['product.product'].get(
@@ -1856,7 +1856,7 @@ class SyncroXMLRPC(orm.Model):
             item_ids = erp_pool.search([])
             for item in erp_pool.browse(item_ids):
                 try: # Create record to insert/update
-                    name = item.name                    
+                    name = item.name                  
                     new_ids = item_pool.search(cr, uid, [
                         ('name', '=', name)], context=context)
                     if new_ids: # Modify
