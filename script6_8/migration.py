@@ -1371,6 +1371,14 @@ class SyncroXMLRPC(orm.Model):
         self._converter[obj] = {}
         converter = self._converter[obj]
         if wiz_proxy.supplierinfo:
+            # Load product with default_code
+            product_default_code = {}
+            product_ids = product_pool.search(cr, uid, [
+                ('default_code', '!=', False)], context=context)
+            for p in product_pool.browse(
+                    cr, uid, product_ids, context=context):
+                product_default_code[p.default_code] = p.id    
+        
             item_pool = self.pool.get(obj)
             erp_pool = erp.ProductSupplierinfo
             item_ids = erp_pool.search([])
@@ -1384,8 +1392,8 @@ class SyncroXMLRPC(orm.Model):
                             name, ))
                         continue
                     
-                    product_id = self._converter['product.product'].get(
-                            name, False) # template
+                    product_id = product_default_code.get(
+                        item.product_id.default_code, False)
                                                         
                     if not product_id:
                         _logger.error('Product ID not found!: %s' % (
