@@ -572,7 +572,6 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        import pdb; pdb.set_trace()
         if wiz_proxy.product:
             item_pool = self.pool.get(obj)
             erp_pool = erp.ProductProduct
