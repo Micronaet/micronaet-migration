@@ -1439,7 +1439,6 @@ class SyncroXMLRPC(orm.Model):
         self._converter[obj] = {}
         converter = self._converter[obj]
         if wiz_proxy.partnerinfo:
-            import pdb; pdb.set_trace()
             item_pool = self.pool.get(obj)
             erp_pool = erp.PricelistPartnerinfo
             item_ids = erp_pool.search([])
