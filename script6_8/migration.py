@@ -581,7 +581,7 @@ class SyncroXMLRPC(orm.Model):
                  context=context)
 
         # ---------------------------------------------------------------------
-        # easylabel.parameter
+        # easylabel.batch
         # ---------------------------------------------------------------------
         obj = 'easylabel.batch' 
         _logger.info("Start %s" % obj)
@@ -595,9 +595,6 @@ class SyncroXMLRPC(orm.Model):
                 try: # Create record to insert/update
                     name = item.name
                     
-                    label_id = self._counter['easylabel.label'].get(
-                        item.label_id, False)
-                    
                     data = {
                         'name': name,
                         'date': item.date,
@@ -606,6 +603,187 @@ class SyncroXMLRPC(orm.Model):
                         'week': item.week,
                         'note': item.note,
                         'migration_old_id': item.id,
+                        }
+                        
+                    new_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item.id)], context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        if wiz_proxy.update:
+                            item_pool.write(cr, uid, item_id, data,
+                                context=context)
+                        _logger.info("%s update: %s" % (obj, name))
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        _logger.info("%s create: %s" % (obj, name))
+
+                     converter[item.id] = item_id # not used
+                except:
+                    _logger.error("%s Error sync: %s" % (obj, name))
+                    _logger.error("%s" % (print sys.exc_info(), )
+                    continue                    
+        else: # Load convert list form database
+            self.load_converter(cr, uid, converter, obj=obj,
+                 context=context)
+
+        # ---------------------------------------------------------------------
+        # easylabel.particularity
+        # ---------------------------------------------------------------------
+        # TODO not for all 2 company!!!
+        obj = 'easylabel.particularity' 
+        _logger.info("Start %s" % obj)
+        self._converter[obj] = {}
+        converter = self._converter[obj]
+        if wiz_proxy.package:
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.EasylabelParticularity
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try: # Create record to insert/update
+                    name = item.name
+                    
+                    partner_id = self._counter['res.partner'].get(
+                        item.partner_id, False)
+                    article_label_id = self._counter['easylabel.label'].get(
+                        item.article_label_id, False)
+                    pack_label_id = self._counter['easylabel.label'].get(
+                        item.pack_label_id, False)
+                    pallet_label_id = self._counter['easylabel.label'].get(
+                        item.pallet_label_id, False)
+                    
+                    data = {
+                        'name': name,
+                        'partner_id': item.partner_id,
+                        'article_label_id': item.article_label_id,
+                        'pack_label_id': item.pack_label_id,
+                        'pallet_label_id': item.pallet_label_id,
+                        'partner_name': item.partner_name,
+                        'migration_old_id': item.id,
+                        }
+                        
+                    new_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item.id)], context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        if wiz_proxy.update:
+                            item_pool.write(cr, uid, item_id, data,
+                                context=context)
+                        _logger.info("%s update: %s" % (obj, name))
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        _logger.info("%s create: %s" % (obj, name))
+
+                     converter[item.id] = item_id # not used
+                except:
+                    _logger.error("%s Error sync: %s" % (obj, name))
+                    _logger.error("%s" % (print sys.exc_info(), )
+                    continue                    
+        else: # Load convert list form database
+            self.load_converter(cr, uid, converter, obj=obj,
+                 context=context)
+
+        # ---------------------------------------------------------------------
+        # easylabel.printer
+        # ---------------------------------------------------------------------
+        obj = 'easylabel.printer' 
+        _logger.info("Start %s" % obj)
+        self._converter[obj] = {}
+        converter = self._converter[obj]
+        if wiz_proxy.package:
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.EasylabelPrinter
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try: # Create record to insert/update
+                    name = item.name
+                    
+                    data = {
+                        'name': name,
+                        'number': item.number,
+                        'sequence': item.sequence,
+                        'type': item.type,
+                        'note': item.note,
+                        'migration_old_id': item.id,
+                        }
+                        
+                    new_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item.id)], context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        if wiz_proxy.update:
+                            item_pool.write(cr, uid, item_id, data,
+                                context=context)
+                        _logger.info("%s update: %s" % (obj, name))
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        _logger.info("%s create: %s" % (obj, name))
+
+                     converter[item.id] = item_id # not used
+                except:
+                    _logger.error("%s Error sync: %s" % (obj, name))
+                    _logger.error("%s" % (print sys.exc_info(), )
+                    continue                    
+        else: # Load convert list form database
+            self.load_converter(cr, uid, converter, obj=obj,
+                 context=context)
+
+        # ---------------------------------------------------------------------
+        # easylabel.batch.line
+        # ---------------------------------------------------------------------
+        # TODO not for all 2 company!!!
+        obj = 'easylabel.batch.line' 
+        _logger.info("Start %s" % obj)
+        self._converter[obj] = {}
+        converter = self._converter[obj]
+        if wiz_proxy.package:
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.EasylabelBatchLine
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try: # Create record to insert/update
+                    name = item.name
+                    
+                    batch_id = self._counter['easylabel.batch'].get(
+                        item.batch_id, False)
+                    printer_id = self._counter['easylabel.printer'].get(
+                        item.printer_id, False)
+                    partner_id = self._counter['res.partner'].get(
+                        item.partner_id, False)
+                    product_id = self._counter['product.product'].get(
+                        item.product_id, False)
+
+                    label_id = self._counter['easylabel.label'].get(
+                        item.label_id, False)
+                    
+                    data = {
+                        'name': name,
+                        'sequence': item.sequence,
+                        'position': item.position,
+                        'total': item.total,
+                        'type': item.type,
+                        'shipment': item.shipment,
+                        'shipment_date': item.shipment_date,
+                        'order': item.order,
+                        'order_c': item.order_c,
+
+                        # Many2one fileds:
+                        'batch_id': item.batch_id,
+                        'printer_id': item.printer_id,
+                        'partner_id': item.partner_id,
+                        'product_id': item.product_id,
+                        
+                        'label_id': item.label_id,
+                        'migration_old_id': item.id,
+                        
+                        # Related:
+                        #'package_id': item.package_id, 
+                        #'article_label_id': item.article_label_id,
+                        #'pack_label_id': item.pack_label_id,
+                        #'pallet_label_id': item.pallet_label_id,
+
                         }
                         
                     new_ids = item_pool.search(cr, uid, [

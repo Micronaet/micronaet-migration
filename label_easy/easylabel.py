@@ -489,7 +489,7 @@ class EasylabelPrinter(orm.Model):
     '''
     _name = 'easylabel.printer'
     _description = 'Printers'
-    _order="sequence"
+    _order = 'sequence'
 
     _columns = {
         'name': fields.char(
