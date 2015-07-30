@@ -104,13 +104,14 @@ class EasylabelLabel(orm.Model):
             help="Extra folder to added to root one."),
         'root_id': fields.many2one('easylabel.path', 'Root folder',
             help="Root folder zone"),
-        'path_id': fields.related('root_id','path', type='char', size=128,
+        'path_id': fields.related('root_id', 'path', type='char', size=128,
             string='Root path folder'),
         'type': fields.selection([
-            ('article','Article'),
-            ('package','Package'),
-            ('pallet','Pallet'),
-            ('placeholder', 'Placeholder')],'Type of label', select=True),
+            ('article', 'Article'),
+            ('package', 'Package'),
+            ('pallet', 'Pallet'),
+            ('placeholder', 'Placeholder'),
+            ],'Type of label', select=True),
         'counter': fields.boolean('Has counter',
             help='Has a parameter that write for each lot number / tot value'),
         }
@@ -240,9 +241,8 @@ class EasylabelBatch(orm.Model):
         def create_old_value(self, cr, uid, old_value, context=None):
             '''Read printer list and generate the dictionary that is
                necessary for test break code in label'''
-            cr.execute("""
-                SELECT id, number FROM easylabel_printer
-                """)
+
+            cr.execute("""SELECT id, number FROM easylabel_printer""")
             for item in cr.fetchall():
                 old_value[item[1]] = ['', 0, 0, 0, 0]
                 # printer: ['art code', label_id, width, height, # total]
@@ -308,12 +308,9 @@ class EasylabelBatch(orm.Model):
             # Test if label_id exist (if not is the first value!)
             if not old_value[item.printer_id.id][1]:
                old_value[item.printer_id.id] = [
-                   item.product_id.code, # set up old value the first time
-                   item.label_id.id,
-                   item.label_id.width,
-                   item.label_id.height,
-                   0,
-                   ]
+                   # set up old value the first time
+                   item.product_id.code, item.label_id.id, item.label_id.width,
+                   item.label_id.height, 0, ]
 
             # Testing break code in article code or label_id:
             if (old_value[item.printer_id.id][0] != item.product_id.code) or (
@@ -322,17 +319,15 @@ class EasylabelBatch(orm.Model):
                    self, cr, uid, old_value, ph_ids, item.printer_id.id,
                    fileObj, context=context)
                old_value[item.printer_id.id] = [
-                   item.product_id.code, # update old value with actual
-                   item.label_id.id,
-                   item.label_id.width,
-                   item.label_id.height,
-                   0,] # total
+                   # update old value with actual
+                   item.product_id.code, item.label_id.id, item.label_id.width,
+                   item.label_id.height, 0, ] # total
             old_value[item.printer_id.id][4] += item.total # + total # of lbl!
 
             if item.label_id.counter: # set up if there is a loop to do
-               loop=item.total  # n times
+               loop = item.total  # n times
             else:
-               loop=1           # once
+               loop = 1           # once
 
             for step in range(0, loop):
                 # Counter (create one label for all pack label)
@@ -377,15 +372,10 @@ class EasylabelBatch(orm.Model):
                 fileObj.write("useprinter=%d\r\n" % item.printer_id.number)
                 if loop > 1: # counter labels!
                    fileObj.write("jobdescription=\"%d) %s#%d\"\r\n" % (
-                       item.sequence,
-                       item.name,
-                       (step+1),
-                       ))
+                       item.sequence, item.name, (step+1), ))
                 else:
                    fileObj.write("jobdescription=\"%d) %s\"\r\n" % (
-                       item.sequence,
-                       item.name,
-                       ))
+                       item.sequence, item.name, ))
                 if i == 1:
                    fileObj.write("singlejob=on\r\n") # only one time
                 fileObj.write(";\r\n") # end of record label
@@ -426,9 +416,9 @@ class EasylabelBatch(orm.Model):
 
     _columns = {
         # Description fields:
-        'name':fields.char('Name of print queue', size=32),
+        'name': fields.char('Name of print queue', size=32),
         'date': fields.date('Load date'),
-        'state':fields.selection([
+        'state': fields.selection([
             ('unprinted', 'To be printed'),
             ('printed', 'Printed'),
             ('cancel', 'Cancelled'),
@@ -546,9 +536,9 @@ class EasylabelBatchLine(orm.Model):
             'Total of labels',
             help="Total number of label to be printed for this element"),
         'type': fields.selection([
-            ('article','Article'),
-            ('package','Package'),
-            ('pallet','Pallet'),],
+            ('article', 'Article'),
+            ('package', 'Package'),
+            ('pallet', 'Pallet'),],
             string="Type of label",
             help="Type of label to be printed for this element"),
 
@@ -556,13 +546,13 @@ class EasylabelBatchLine(orm.Model):
         'label_id': fields.many2one('easylabel.label', 'Use label',
             help="If present this label is used instead of the default "
                 "partner label"),
-        'article_label_id': fields.related('partner_id','article_label_id',
+        'article_label_id': fields.related('partner_id', 'article_label_id',
             type='many2one', relation='easylabel.label',
             string='Partner article label'),
-        'pack_label_id': fields.related('partner_id','pack_label_id',
+        'pack_label_id': fields.related('partner_id', 'pack_label_id',
             type='many2one', relation='easylabel.label',
             string='Partner package label'),
-        'pallet_label_id': fields.related('partner_id','pallet_label_id',
+        'pallet_label_id': fields.related('partner_id', 'pallet_label_id',
             type='many2one', relation='easylabel.label',
             string='Partner pallet label'),
         # Parameters:
