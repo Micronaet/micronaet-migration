@@ -109,11 +109,10 @@
     <record id="mrp_bom_component_tree_view_obsolete_color" model="ir.ui.view">
             <field name="name">MRP BOM componenti obsoleti</field>
             <field name="model">mrp.bom</field>
-            <field name="type">tree</field>
             <field name="field_parent">child_complete_ids</field>
             <field name="priority" eval="20" />
             <field name="arch" type="xml">
-                <tree string="BoM Structure" colors="red:obsolete or old_cost">
+                <tree string="BoM Structure" colors="red:obsolete==True or old_cost==True">
                     <field name="sequence" invisible="1"/>
                     <field name="name" string="Component Name"/>
                     <field name="code"/>
@@ -172,7 +171,7 @@
               </xpath>-->
               <!-- Attributi di colore -->
               <xpath expr="/form/notebook/page[@string='Components']/field[@name='bom_line_ids']/tree" position="attributes">
-                  <attribute name='colors'>red:obsolete or old_cost</attribute>
+                  <attribute name='colors'>red:obsolete==True or old_cost==True</attribute>
               </xpath>
 
               <xpath expr="/form/notebook" position="after">
@@ -212,10 +211,9 @@
     <record id='mrp_bom_component_costs_tree' model='ir.ui.view'>
         <field name='name'>Controllo costi (blu=ha distinta base)</field>
         <field name='model'>pricelist.partnerinfo</field>
-        <field name="type">tree</field>
         <field name="priority" eval="30" />
         <field name="arch" type="xml">
-            <tree string="Controllo costi" colors="blue:has_bom">            
+            <tree string="Controllo costi" colors="blue:has_bom==True">            
                 <field name="product_id"/>
                 <field name="supplier_id"/>
                 <field name="product_supp_code"/>
