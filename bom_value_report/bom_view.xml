@@ -76,7 +76,7 @@
                          <field name="name"/>
                          <field name="code" string="Reference"/>
                          <field name="product_id"/>
-                         <field name="obsolete"/>
+                         <!--<field name="obsolete"/>-->
                          <field name="old_cost"/>
                          <field name="company_id" groups="base.group_multi_company"/>
                     </group>
@@ -112,7 +112,8 @@
             <field name="field_parent">child_complete_ids</field>
             <field name="priority" eval="20" />
             <field name="arch" type="xml">
-                <tree string="BoM Structure" colors="red:obsolete==True or old_cost==True">
+                <!--TODO<tree string="BoM Structure" colors="red:obsolete==True or old_cost==True">-->
+                <tree string="BoM Structure" >
                     <field name="sequence" invisible="1"/>
                     <field name="name" string="Component Name"/>
                     <field name="code"/>
@@ -170,9 +171,9 @@
                   <field name='old_cost' />
               </xpath>-->
               <!-- Attributi di colore -->
-              <xpath expr="/form/notebook/page[@string='Components']/field[@name='bom_line_ids']/tree" position="attributes">
+              <!--TODO<xpath expr="/form/notebook/page[@string='Components']/field[@name='bom_line_ids']/tree" position="attributes">
                   <attribute name='colors'>red:obsolete==True or old_cost==True</attribute>
-              </xpath>
+              </xpath>-->
 
               <xpath expr="/form/notebook" position="after">
                   <separator string='Note' colspan="4" />
