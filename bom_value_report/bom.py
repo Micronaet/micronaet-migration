@@ -46,46 +46,28 @@ class MrpBomLine(orm.Model):
             self, cr, uid, ids, args, field_list, context=None):
         ''' Comput cost of component (minor date o first of all)
             Note: only one supplier!
-        '''
-        res = {}
+        '''        
+        res = {}.fromkeys(ids, False) 
+        return res # TODO create function!!!!!!!
+        
         riferimento = str(int(datetime.strftime(
-            datetime.now(), "%Y"))-2) + "-01-01"
+            datetime.now(), "%Y")) - 2) + "-01-01" # 2 years = old
         for item in self.browse(cr, uid, ids, context=context):
-            res[item.id] = {}
-            res[item.id]['tot_component'] = len(item.bom_line_ids)
-            res[item.id]['old_cost'] = False
-            res[item.id]['actual_price'] = 0.0
-            res[item.id]['first_supplier'] = False
-            price = 0.0
+            res['old_cost'] = False
             date_max = False
-            first_supplier = 0
             for seller in item.product_id.seller_ids:
                 # loop all quotation:
                 for pricelist in seller.pricelist_ids:
-                    if pricelist.is_active:
-                        if pricelist.date_quotation:
-                           # component price:
-                           if date_max < pricelist.date_quotation:
-                               date_max = pricelist.date_quotation
-                               price = pricelist.price
-                               first_supplier = (
-                                   seller.name and seller.name.id) or False
-                        else: # data di quotazione vuota, prezzo presente
-                           if not date_max: # if not data max take price
-                               price = pricelist.price
-                               first_supplier = (
-                                   seller.name and seller.name.id) or False
+                    if pricelist.is_active and pricelist.date_quotation:
+                        if not date_max: 
+                            date_max = pricelist.date_quotation
+                        elif date_max < pricelist.date_quotation:
+                            date_max = pricelist.date_quotation
 
             # Set value after loop for customers
             if date_max <= riferimento:  # only one
-               res[item.id]['old_cost'] = True
-            else:
-               res[item.id]['old_cost'] = True
+               res['old_cost'] = True
 
-            res[item.id]['actual_price'] = price or 0.0
-            res[item.id]['actual_total'] = (price or 0.0) * (
-                item.product_qty or 0.0)
-            res[item.id]['first_supplier'] = first_supplier
         return res
 
     _columns = {
@@ -94,8 +76,7 @@ class MrpBomLine(orm.Model):
         'note': fields.text('Note'),
         'old_cost': fields.function(
             _get_fields_component, method=True, type='boolean',
-            string="Old price", store=True, multi=True),
-        
+            string="Old price", store=True),
         }
     
 

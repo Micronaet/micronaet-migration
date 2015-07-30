@@ -1021,6 +1021,7 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
+        import pdb; pdb.set_trace()
         if wiz_proxy.bomline:
             item_pool = self.pool.get(obj)
             erp_pool = erp.MrpBom
@@ -1071,10 +1072,10 @@ class SyncroXMLRPC(orm.Model):
                         'migration_old_id': item.id,
 
                         'obsolete': item.obsolete,
-                        'old_cost': item.old_cost,
-                        'tot_component': item.tot_component,
                         'note': item.note,
-
+                        #'old_cost': item.old_cost, # calculated!
+                        #'tot_component': item.tot_component,
+                        
                          # ODOO only: 
                          # product_uos_qty
 
