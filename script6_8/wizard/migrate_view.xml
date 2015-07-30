@@ -32,6 +32,7 @@
                        <field name="purchase" />
                        <field name="purchase_line" />
                        <field name="productpricelist" />
+                       <field name="easylabel" />
                        
                        <!--<field name="autostock" />-->
                    </group>
