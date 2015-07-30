@@ -1023,7 +1023,7 @@ class SyncroXMLRPC(orm.Model):
         converter = self._converter[obj]
         if wiz_proxy.bomline:
             item_pool = self.pool.get(obj)
-            erp_pool = erp.MrpBomLine
+            erp_pool = erp.MrpBom
             item_ids = erp_pool.search([
                 ('bom_id', '!=', False)]) # component
             for item in erp_pool.browse(item_ids):
@@ -1044,6 +1044,9 @@ class SyncroXMLRPC(orm.Model):
 
                     product_id = self._converter[ # product.product
                         'product.product'].get(item.product_id.id, False)
+                    if not product_id:
+                        _logger.error('BOM product not found ID: %s' % name)
+                        continue    
 
                     bom_id = self._converter[ # mrp.bom
                         'mrp.bom'].get(item.bom_id.id, False)

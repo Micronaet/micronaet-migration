@@ -38,9 +38,70 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 _logger = logging.getLogger(__name__)
 
 
+class MrpBomLine(orm.Model):
+    _inherit = 'mrp.bom.line'
+
+    # teke the same in mrp.bom    
+    def _get_fields_component(
+            self, cr, uid, ids, args, field_list, context=None):
+        ''' Comput cost of component (minor date o first of all)
+            Note: only one supplier!
+        '''
+        res = {}
+        riferimento = str(int(datetime.strftime(
+            datetime.now(), "%Y"))-2) + "-01-01"
+        for item in self.browse(cr, uid, ids, context=context):
+            res[item.id] = {}
+            res[item.id]['tot_component'] = len(item.bom_line_ids)
+            res[item.id]['old_cost'] = False
+            res[item.id]['actual_price'] = 0.0
+            res[item.id]['first_supplier'] = False
+            price = 0.0
+            date_max = False
+            first_supplier = 0
+            for seller in item.product_id.seller_ids:
+                # loop all quotation:
+                for pricelist in seller.pricelist_ids:
+                    if pricelist.is_active:
+                        if pricelist.date_quotation:
+                           # component price:
+                           if date_max < pricelist.date_quotation:
+                               date_max = pricelist.date_quotation
+                               price = pricelist.price
+                               first_supplier = (
+                                   seller.name and seller.name.id) or False
+                        else: # data di quotazione vuota, prezzo presente
+                           if not date_max: # if not data max take price
+                               price = pricelist.price
+                               first_supplier = (
+                                   seller.name and seller.name.id) or False
+
+            # Set value after loop for customers
+            if date_max <= riferimento:  # only one
+               res[item.id]['old_cost'] = True
+            else:
+               res[item.id]['old_cost'] = True
+
+            res[item.id]['actual_price'] = price or 0.0
+            res[item.id]['actual_total'] = (price or 0.0) * (
+                item.product_qty or 0.0)
+            res[item.id]['first_supplier'] = first_supplier
+        return res
+
+    _columns = {
+        'obsolete': fields.boolean('Obsolete',
+            help='Is better do not use this component!'),
+        'note': fields.text('Note'),
+        'old_cost': fields.function(
+            _get_fields_component, method=True, type='boolean',
+            string="Old price", store=True, multi=True),
+        
+        }
+    
+
 class MrpBomExtraFields(orm.Model):
     _inherit = 'mrp.bom'
-    _order = 'name,code'
+    _order = 'name, code'
 
     def get_bom_element_price(self, cr, uid, bom_id, context=None):
         ''' Recursive procedure for get total cost
@@ -116,7 +177,7 @@ class MrpBomExtraFields(orm.Model):
             help='Is better do not use this component!'),
         'note': fields.text('Note'),
 
-        # Fields function:
+        # Fields function: 
         'tot_component': fields.function(
             _get_fields_component, method=True, type='integer',
             string="Tot comp", store= True, multi=True),
