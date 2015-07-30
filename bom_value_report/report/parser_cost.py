@@ -40,32 +40,34 @@ class Parser(report_sxw.rml_parse):
 
     def get_objects_product(self):
         # Cerco solo le distinte con il padre
-        active_ids=self.pool.get('mrp.bom').search(self.cr, self.uid, [
-            ('bom_id', '=', False)], order='name')
+        active_ids = self.pool.get('mrp.bom').search(self.cr, self.uid, [
+            #('bom_id', '=', False) # no more present!!
+            ], order='name')
         return self.pool.get('mrp.bom').browse(self.cr, self.uid, active_ids)
         
     def get_value(self, bom_id, type_of="min"):
-        components=self.pool.get('mrp.bom').browse(self.cr, self.uid, bom_id)
-        tot=0
-        no_component=""
+        components = self.pool.get('mrp.bom').browse(
+            self.cr, self.uid, bom_id)
+        tot = 0
+        no_component = ""
         #uom=components.product_uom.name
-        for component in components.bom_lines: 
-            no_component=""
-            value=0                
+        for component in components.bom_line_ids: 
+            no_component = ""
+            value = 0                
             for seller in component.product_id.seller_ids:
                 for pricelist in seller.pricelist_ids:    
                     if pricelist.price > 0 and pricelist.is_active: 
-                       if type_of=="min":   
+                       if type_of == "min":   
                           if not value: 
-                             value=pricelist.price
+                             value = pricelist.price
                           if pricelist.price < value:
-                             value=pricelist.price
+                             value = pricelist.price
                        else: # suppose max
                           if pricelist.price > value:
-                             value=pricelist.price
+                             value = pricelist.price
             if not value:
-               no_component="**"              
-            tot+= value * component.product_qty  
+               no_component = "**"              
+            tot += value * component.product_qty  
         return "%.5f %s %s" % (tot, "EUR", no_component)
 
     def get_min_value(self, bom_id):

@@ -34,21 +34,23 @@ class Parser(report_sxw.rml_parse):
         super(Parser, self).__init__(cr, uid, name, context)
         self.localcontext.update({
             'objects_all': self.get_objects_boms(),
-            'best_value':self.get_best_value,
+            'best_value': self.get_best_value,
         })
 
     def get_objects_boms(self):
         # Cerco solo le distinte con il padre
         active_ids = self.pool.get('mrp.bom').search(self.cr, self.uid, [
-            ('bom_id', '=', False),], order='name')
+            #('bom_id', '=', False)
+            ], order='name')
         return self.pool.get('mrp.bom').browse(self.cr, self.uid, active_ids)
 
     def get_best_value(self, bom_id):
-        components=self.pool.get('mrp.bom').browse(self.cr, self.uid, bom_id)
-        tot=0
+        components = self.pool.get('mrp.bom').browse(
+            self.cr, self.uid, bom_id)
+        tot = 0
         #uom=components.product_uom.name
-        note=""
-        for component in components.bom_lines:
+        note = ""
+        for component in components.bom_line_ids:
             if component.product_id.best_cost:
                value = component.product_id.best_cost
                note = ""
@@ -56,4 +58,4 @@ class Parser(report_sxw.rml_parse):
                value = 0
                note = "**"              
             tot += value * component.product_qty 
-        return "%.5f %s %s " % (tot, "EUR", note, )
+        return "%.5f %s %s " % (tot, "EUR", note)

@@ -51,26 +51,27 @@ class Parser(report_sxw.rml_parse):
         return result
         
     def get_value(self, bom_id, type_of="min"):
-        components=self.pool.get('mrp.bom').browse(self.cr, self.uid, bom_id)
-        tot=0
-        note=""
+        components = self.pool.get('mrp.bom').browse(
+            self.cr, self.uid, bom_id)
+        tot = 0
+        note = ""
         #uom=components.product_uom.name
-        for component in components.bom_lines:             # loop on component
-            value=0                
+        for component in components.bom_line_ids:             # loop on component
+            value = 0                
             for seller in component.product_id.seller_ids: 
                 for pricelist in seller.pricelist_ids:     
                     if pricelist.price > 0 and pricelist.is_active:
-                       if type_of=="min":   
+                       if type_of == "min":   
                           if not value: 
-                             value=pricelist.price
+                             value = pricelist.price
                           if pricelist.price < value: 
-                             value=pricelist.price
+                             value = pricelist.price
                        else: # suppose max
                           if pricelist.price > value: 
-                             value=pricelist.price
+                             value = pricelist.price
             if not value:
-               note="**"              
-            tot+= value * component.product_qty  # compute Q * min price              
+               note = "**"              
+            tot += value * component.product_qty  # compute Q * min price              
         return "%s %.5f %s" % (note, tot, "EUR")
 
     def get_min_value(self, bom_id):

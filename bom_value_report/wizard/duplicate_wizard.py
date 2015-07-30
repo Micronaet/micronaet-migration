@@ -132,8 +132,8 @@ class DuplicateBomWizard(orm.TransientModel):
               deleted = bom_pool.unlink(cr, uid, bom_ids_to_delete)
 
            # Create element with duplication:
-           bom_lines = bom_pool.browse(cr, uid, from_id).bom_lines
-           for component in bom_lines: # loop for duplication
+           bom_line_ids = bom_pool.browse(cr, uid, from_id).bom_line_ids
+           for component in bom_line_ids: # loop for duplication
                bom_component_data = {
                    #'product_uos_qty': component.product_uos_qty,
                    'code': component.code,
