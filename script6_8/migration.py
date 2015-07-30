@@ -394,7 +394,8 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        if wiz_proxy.package:
+        import pdb; pdb.set_trace()
+        if wiz_proxy.easylabel:
             item_pool = self.pool.get(obj)
             erp_pool = erp.EasylabelEasylabel
             item_ids = erp_pool.search([])
@@ -439,7 +440,8 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        if wiz_proxy.package:
+        import pdb; pdb.set_trace()
+        if wiz_proxy.easylabel:
             item_pool = self.pool.get(obj)
             erp_pool = erp.EasylabelPath
             item_ids = erp_pool.search([])
@@ -483,7 +485,8 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        if wiz_proxy.package:
+        import pdb; pdb.set_trace()
+        if wiz_proxy.easylabel:
             item_pool = self.pool.get(obj)
             erp_pool = erp.EasylabelPath
             item_ids = erp_pool.search([])
@@ -537,7 +540,8 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        if wiz_proxy.package:
+        import pdb; pdb.set_trace()
+        if wiz_proxy.easylabel:
             item_pool = self.pool.get(obj)
             erp_pool = erp.EasylabelParameter
             item_ids = erp_pool.search([])
@@ -587,7 +591,8 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        if wiz_proxy.package:
+        import pdb; pdb.set_trace()
+        if wiz_proxy.easylabel:
             item_pool = self.pool.get(obj)
             erp_pool = erp.EasylabelBatch
             item_ids = erp_pool.search([])
@@ -635,7 +640,8 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        if wiz_proxy.package:
+        import pdb; pdb.set_trace()
+        if wiz_proxy.easylabel:
             item_pool = self.pool.get(obj)
             erp_pool = erp.EasylabelParticularity
             item_ids = erp_pool.search([])
@@ -691,7 +697,8 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        if wiz_proxy.package:
+        import pdb; pdb.set_trace()
+        if wiz_proxy.easylabel:
             item_pool = self.pool.get(obj)
             erp_pool = erp.EasylabelPrinter
             item_ids = erp_pool.search([])
@@ -738,7 +745,8 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        if wiz_proxy.package:
+        import pdb; pdb.set_trace()
+        if wiz_proxy.easylabel:
             item_pool = self.pool.get(obj)
             erp_pool = erp.EasylabelBatchLine
             item_ids = erp_pool.search([])
