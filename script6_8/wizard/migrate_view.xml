@@ -24,6 +24,7 @@
                        <field name="supplierinfo" />
                        <field name="partnerinfo" />
                        <field name="bom" />
+                       <field name="bomline" />
                        <field name="pricelist" />
                        <field name="partner" />
                        <field name="sale" />

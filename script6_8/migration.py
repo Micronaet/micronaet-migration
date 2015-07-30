@@ -934,7 +934,6 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        import pdb; pdb.set_trace()
         if wiz_proxy.bom:
             item_pool = self.pool.get(obj)
             erp_pool = erp.MrpBom
@@ -983,7 +982,6 @@ class SyncroXMLRPC(orm.Model):
                         'routing_id': routing_id, 
                         'product_uom': product_uom, 
                         'product_id': product_id, 
-                        #'bom_id': False,  not exist!
                         'migration_old_id': item.id,
                         #'company_id'
 
@@ -995,8 +993,99 @@ class SyncroXMLRPC(orm.Model):
                         # only in v. 6.0
                         #'product_uos_qty': item.product_uos_qty,
                         #'product_uos': product_uos, # product.uos
-
                         }
+                        
+                    new_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item.id)], context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        if wiz_proxy.update:
+                            item_pool.write(cr, uid, item_id, data,
+                                context=context)
+                        print "#INFO", obj, "update:", name
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO", obj, "create:", name
+
+                    converter[item.id] = item_id 
+                except:
+                    print "#ERR", obj, "jumped:", name
+                    print sys.exc_info()
+                    continue                    
+        else: # Load convert list form database
+            self.load_converter(cr, uid, converter, obj=obj,
+                 context=context)
+
+        obj = 'mrp.bom.line' 
+        _logger.info("Start %s" % obj)
+        self._converter[obj] = {}
+        converter = self._converter[obj]
+        if wiz_proxy.bomline:
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.MrpBomLine
+            item_ids = erp_pool.search([
+                ('bom_id', '!=', False)]) # component
+            for item in erp_pool.browse(item_ids):
+                try: # Create record to insert/update
+                    name = item.id # theres' no name here
+                    
+                    uom_name = item.product_uom.name
+                    if uom_name == 'Pz': # rename
+                        uom_name = 'Unit(s)'
+
+                    product_uom = self._converter[ # product.uom
+                        'product.uom'].get(uom_name, False)
+                        
+                    routing_id = False
+                    # No routing in DB
+                    #self._converter[ # mrp.routing 
+                    #    'mrp.routing'].get(item.routing_id.id, False) 
+
+                    product_id = self._converter[ # product.product
+                        'product.product'].get(item.product_id.id, False)
+
+                    bom_id = self._converter[ # mrp.bom
+                        'mrp.bom'].get(item.bom_id.id, False)
+                    if not bom_id:
+                        _logger.error('BOM parent not found: %s' % name)
+                        continue    
+
+                    data = {
+                        'date_stop': item.date_stop,
+                        'product_uom': product_uom, 
+                        'sequence': item.sequence,
+                        'date_start': item.date_start,
+                        'routing_id': routing_id, 
+                        'product_rounding': item.product_rounding,
+                        'product_qty': item.product_qty,
+                        'product_efficiency': item.product_efficiency, 
+                        'type': item.type,
+                        'bom_id': bom_id,
+                        'product_id': product_id, 
+                        #'product_uos': product_uos, # product.uos
+                        #'company_id'
+                        'migration_old_id': item.id,
+
+                        'obsolete': item.obsolete,
+                        'old_cost': item.old_cost,
+                        'tot_component': item.tot_component,
+                        'note': item.note,
+
+                         # ODOO only: 
+                         # product_uos_qty
+
+                         # v.6 only:
+                         # note
+                         # code
+                         # active
+                         # name
+                         # company_id
+                         # position
+                         # tot_component
+                         # obsolete
+                         # old_cost
+                         }
                         
                     new_ids = item_pool.search(cr, uid, [
                         ('migration_old_id', '=', item.id)], context=context)
@@ -1017,9 +1106,10 @@ class SyncroXMLRPC(orm.Model):
                     print sys.exc_info()
                     continue                    
         else: # Load convert list form database
-            self.load_converter(cr, uid, converter, obj=obj,
-                 context=context)
-
+            #self.load_converter(cr, uid, converter, obj=obj,
+            #     context=context)
+            pass # no needed
+            
         # ---------------------------------------------------------------------
         # Pricelist
         # ---------------------------------------------------------------------
@@ -2352,6 +2442,13 @@ class SaleOrderLine(orm.Model):
 
 class MrpBom(orm.Model):
     _inherit = 'mrp.bom'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.6'),
+        }
+
+class MrpBomLine(orm.Model):
+    _inherit = 'mrp.bom.line'
 
     _columns = {
         'migration_old_id': fields.integer('ID v.6'),
