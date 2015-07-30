@@ -478,8 +478,11 @@ class ResPartnerEasylabel(orm.Model):
     _columns = {
         'article_label_id': fields.many2one(
             'easylabel.label', 'Article Label'),
-        'pack_label_id': fields.many2one('easylabel.label', 'Package Label'),
-        'pallet_label_id': fields.many2one('easylabel.label', 'Pallet Label'),
+        'pack_label_id': fields.many2one(
+            'easylabel.label', 'Package Label'),
+        'pallet_label_id': fields.many2one(
+            'easylabel.label', 'Pallet Label'),
+            
         'particularity_ids': fields.one2many(
             'easylabel.particularity', 'partner_id', 'Particularity'),
         }
@@ -538,9 +541,8 @@ class EasylabelBatchLine(orm.Model):
         'type': fields.selection([
             ('article', 'Article'),
             ('package', 'Package'),
-            ('pallet', 'Pallet'),],
-            string="Type of label",
-            help="Type of label to be printed for this element"),
+            ('pallet', 'Pallet'), ], string="Type of label",
+                help="Type of label to be printed for this element"),
 
         # Labels:
         'label_id': fields.many2one('easylabel.label', 'Use label',
