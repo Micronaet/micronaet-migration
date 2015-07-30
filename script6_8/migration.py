@@ -1837,11 +1837,11 @@ class SyncroXMLRPC(orm.Model):
                     
                     data = {
                         'name': name,
-                        'partner_id': item.partner_id,
-                        'article_label_id': item.article_label_id,
-                        'pack_label_id': item.pack_label_id,
-                        'pallet_label_id': item.pallet_label_id,
-                        'partner_name': item.partner_name,
+                        'partner_id': partner_id,
+                        'article_label_id': article_label_id,
+                        'pack_label_id': pack_label_id,
+                        'pallet_label_id': pallet_label_id,
+                        'partner_name': partner_name,
                         'migration_old_id': item.id,
                         }
                         
