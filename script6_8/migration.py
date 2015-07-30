@@ -1799,7 +1799,6 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        import pdb; pdb.set_trace()
         if wiz_proxy.easylabel:
             item_pool = self.pool.get(obj)
             erp_pool = erp.EasylabelParticularity
@@ -1812,7 +1811,7 @@ class SyncroXMLRPC(orm.Model):
                         partner_id = self._converter['res.partner'].get(
                             item.partner_id.id, False)
                     except:
-                        article_label_id = False
+                        partner_id = False
 
                     try:    
                         article_label_id = self._converter[
@@ -1841,7 +1840,7 @@ class SyncroXMLRPC(orm.Model):
                         'article_label_id': article_label_id,
                         'pack_label_id': pack_label_id,
                         'pallet_label_id': pallet_label_id,
-                        'partner_name': partner_name,
+                        #'partner_name': item.partner_name,
                         'migration_old_id': item.id,
                         }
                         
@@ -1874,7 +1873,6 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
-        import pdb; pdb.set_trace()
         if wiz_proxy.easylabel:
             item_pool = self.pool.get(obj)
             erp_pool = erp.EasylabelPrinter
@@ -1931,17 +1929,35 @@ class SyncroXMLRPC(orm.Model):
                 try: # Create record to insert/update
                     name = item.name
                     
-                    batch_id = self._converter['easylabel.batch'].get(
-                        item.batch_id.id, False)
-                    printer_id = self._converter['easylabel.printer'].get(
-                        item.printer_id.id, False)
-                    partner_id = self._converter['res.partner'].get(
-                        item.partner_id.id, False)
-                    product_id = self._converter['product.product'].get(
-                        item.product_id.id, False)
+                    try:    
+                        batch_id = self._converter['easylabel.batch'].get(
+                            item.batch_id.id, False)
+                    except:
+                        batch_id = False
+                        
+                    try:    
+                        printer_id = self._converter['easylabel.printer'].get(
+                            item.printer_id.id, False)
+                    except:
+                        printer_id = False
 
-                    label_id = self._converter['easylabel.label'].get(
-                        item.label_id.id, False)
+                    try:    
+                        partner_id = self._converter['res.partner'].get(
+                            item.partner_id.id, False)
+                    except:
+                        partner_id = False
+
+                    try:    
+                        product_id = self._converter['product.product'].get(
+                            item.product_id.id, False)
+                    except:
+                        product_id = False
+
+                    try:    
+                        label_id = self._converter['easylabel.label'].get(
+                            item.label_id.id, False)
+                    except:
+                        label_id = False
                     
                     data = {
                         'name': name,
@@ -1955,12 +1971,12 @@ class SyncroXMLRPC(orm.Model):
                         'order_c': item.order_c,
 
                         # Many2one fileds:
-                        'batch_id': item.batch_id,
-                        'printer_id': item.printer_id,
-                        'partner_id': item.partner_id,
-                        'product_id': item.product_id,
+                        'batch_id': batch_id,
+                        'printer_id': printer_id,
+                        'partner_id': partner_id,
+                        'product_id': product_id,                        
+                        'label_id': label_id,
                         
-                        'label_id': item.label_id,
                         'migration_old_id': item.id,
                         
                         # Related:
@@ -1968,7 +1984,6 @@ class SyncroXMLRPC(orm.Model):
                         #'article_label_id': item.article_label_id,
                         #'pack_label_id': item.pack_label_id,
                         #'pallet_label_id': item.pallet_label_id,
-
                         }
                         
                     new_ids = item_pool.search(cr, uid, [
