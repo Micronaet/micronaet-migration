@@ -531,6 +531,106 @@ class SyncroXMLRPC(orm.Model):
                  context=context)
 
         # ---------------------------------------------------------------------
+        # easylabel.parameter
+        # ---------------------------------------------------------------------
+        obj = 'easylabel.parameter' 
+        _logger.info("Start %s" % obj)
+        self._converter[obj] = {}
+        converter = self._converter[obj]
+        if wiz_proxy.package:
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.EasylabelParameter
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try: # Create record to insert/update
+                    name = item.name
+                    
+                    label_id = self._counter['easylabel.label'].get(
+                        item.label_id, False)
+                    
+                    data = {
+                        'name': name,
+                        'sequence': item.sequence,
+                        'label_id': label_id,
+                        'mode': item.mode,
+                        'mode_type': item.mode_type,
+                        'value': item.value,
+                        'migration_old_id': item.id,
+                        }
+                        
+                    new_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item.id)], context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        if wiz_proxy.update:
+                            item_pool.write(cr, uid, item_id, data,
+                                context=context)
+                        _logger.info("%s update: %s" % (obj, name))
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        _logger.info("%s create: %s" % (obj, name))
+
+                     converter[item.id] = item_id # not used
+                except:
+                    _logger.error("%s Error sync: %s" % (obj, name))
+                    _logger.error("%s" % (print sys.exc_info(), )
+                    continue                    
+        else: # Load convert list form database
+            self.load_converter(cr, uid, converter, obj=obj,
+                 context=context)
+
+        # ---------------------------------------------------------------------
+        # easylabel.parameter
+        # ---------------------------------------------------------------------
+        obj = 'easylabel.batch' 
+        _logger.info("Start %s" % obj)
+        self._converter[obj] = {}
+        converter = self._converter[obj]
+        if wiz_proxy.package:
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.EasylabelBatch
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try: # Create record to insert/update
+                    name = item.name
+                    
+                    label_id = self._counter['easylabel.label'].get(
+                        item.label_id, False)
+                    
+                    data = {
+                        'name': name,
+                        'date': item.date,
+                        'state': item.state,
+                        'line': item.line,
+                        'week': item.week,
+                        'note': item.note,
+                        'migration_old_id': item.id,
+                        }
+                        
+                    new_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item.id)], context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        if wiz_proxy.update:
+                            item_pool.write(cr, uid, item_id, data,
+                                context=context)
+                        _logger.info("%s update: %s" % (obj, name))
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        _logger.info("%s create: %s" % (obj, name))
+
+                     converter[item.id] = item_id # not used
+                except:
+                    _logger.error("%s Error sync: %s" % (obj, name))
+                    _logger.error("%s" % (print sys.exc_info(), )
+                    continue                    
+        else: # Load convert list form database
+            self.load_converter(cr, uid, converter, obj=obj,
+                 context=context)
+
+        # ---------------------------------------------------------------------
         # account.tax
         # ---------------------------------------------------------------------
         tax_22v = False
