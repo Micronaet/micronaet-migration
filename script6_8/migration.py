@@ -799,14 +799,15 @@ class SyncroXMLRPC(orm.Model):
                             context=context)
                         _logger.info("%s create: %s" % (obj, name))
 
-                     converter[item.id] = item_id # not used
+                     #converter[item.id] = item_id # not used
                 except:
                     _logger.error("%s Error sync: %s" % (obj, name))
                     _logger.error("%s" % (print sys.exc_info(), )
                     continue                    
         else: # Load convert list form database
-            self.load_converter(cr, uid, converter, obj=obj,
-                 context=context)
+            #self.load_converter(cr, uid, converter, obj=obj,
+            #     context=context)
+            pass
 
         # ---------------------------------------------------------------------
         # account.tax
@@ -2930,5 +2931,61 @@ class ProductPackaging(orm.Model):
     _columns = {
         'migration_old_id': fields.integer('ID v.6'),
         }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:class ResPartnerCategory(orm.Model):
 
+class EasylabelEasylabel(orm.Model):
+    _inherit = 'easylabel.easylabel'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.6'),
+        }
+
+class EasylabelPath(orm.Model):
+    _inherit = 'easylabel.path'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.6'),
+        }
+
+class EasylabelLabel(orm.Model):
+    _inherit = 'easylabel.label'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.6'),
+        }
+
+class EasylabelParameter(orm.Model):
+    _inherit = 'easylabel.parameter'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.6'),
+        }
+
+class EasylabelBatch(orm.Model):
+    _inherit = 'easylabel.batch'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.6'),
+        }
+
+class EasylabelParticularity(orm.Model):
+    _inherit = 'easylabel.particularity'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.6'),
+        }
+        
+class EasylabelPrinter(orm.Model):
+    _inherit = 'easylabel.printer'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.6'),
+        }
+        
+class EasylabelBatchLine(orm.Model):
+    _inherit = 'easylabel.batch.line'
+
+    _columns = {
+        'migration_old_id': fields.integer('ID v.6'),
+        }
+        
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:class ResPartnerCategory(orm.Model):
