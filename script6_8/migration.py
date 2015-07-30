@@ -423,10 +423,10 @@ class SyncroXMLRPC(orm.Model):
                             context=context)
                         _logger.info("%s create: %s" % (obj, name))
 
-                     converter[item.id] = item_id # not used
+                    converter[item.id] = item_id # not used
                 except:
                     _logger.error("%s Error sync: %s" % (obj, name))
-                    _logger.error("%s" % (print sys.exc_info(), )
+                    _logger.error("%s" % (sys.exc_info(), ))
                     continue                    
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
@@ -467,10 +467,10 @@ class SyncroXMLRPC(orm.Model):
                             context=context)
                         _logger.info("%s create: %s" % (obj, name))
 
-                     converter[item.id] = item_id # not used
+                    converter[item.id] = item_id # not used
                 except:
                     _logger.error("%s Error sync: %s" % (obj, name))
-                    _logger.error("%s" % (print sys.exc_info(), )
+                    _logger.error("%s" % (sys.exc_info(), ))
                     continue                    
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
@@ -521,10 +521,10 @@ class SyncroXMLRPC(orm.Model):
                             context=context)
                         _logger.info("%s create: %s" % (obj, name))
 
-                     converter[item.id] = item_id # not used
+                    converter[item.id] = item_id # not used
                 except:
                     _logger.error("%s Error sync: %s" % (obj, name))
-                    _logger.error("%s" % (print sys.exc_info(), )
+                    _logger.error("%s" % (sys.exc_info(), ))
                     continue                    
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
@@ -571,10 +571,10 @@ class SyncroXMLRPC(orm.Model):
                             context=context)
                         _logger.info("%s create: %s" % (obj, name))
 
-                     converter[item.id] = item_id # not used
+                    converter[item.id] = item_id # not used
                 except:
                     _logger.error("%s Error sync: %s" % (obj, name))
-                    _logger.error("%s" % (print sys.exc_info(), )
+                    _logger.error("%s" % (sys.exc_info(), ))
                     continue                    
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
@@ -618,10 +618,10 @@ class SyncroXMLRPC(orm.Model):
                             context=context)
                         _logger.info("%s create: %s" % (obj, name))
 
-                     converter[item.id] = item_id # not used
+                    converter[item.id] = item_id # not used
                 except:
                     _logger.error("%s Error sync: %s" % (obj, name))
-                    _logger.error("%s" % (print sys.exc_info(), )
+                    _logger.error("%s" % (sys.exc_info(), ))
                     continue                    
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
@@ -675,10 +675,10 @@ class SyncroXMLRPC(orm.Model):
                             context=context)
                         _logger.info("%s create: %s" % (obj, name))
 
-                     converter[item.id] = item_id # not used
+                    converter[item.id] = item_id # not used
                 except:
                     _logger.error("%s Error sync: %s" % (obj, name))
-                    _logger.error("%s" % (print sys.exc_info(), )
+                    _logger.error("%s" % (sys.exc_info(), ))
                     continue                    
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
@@ -721,10 +721,10 @@ class SyncroXMLRPC(orm.Model):
                             context=context)
                         _logger.info("%s create: %s" % (obj, name))
 
-                     converter[item.id] = item_id # not used
+                    converter[item.id] = item_id # not used
                 except:
                     _logger.error("%s Error sync: %s" % (obj, name))
-                    _logger.error("%s" % (print sys.exc_info(), )
+                    _logger.error("%s" % (sys.exc_info(), ))
                     continue                    
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
@@ -802,7 +802,7 @@ class SyncroXMLRPC(orm.Model):
                      #converter[item.id] = item_id # not used
                 except:
                     _logger.error("%s Error sync: %s" % (obj, name))
-                    _logger.error("%s" % (print sys.exc_info(), )
+                    _logger.error("%s" % (sys.exc_info(), ))
                     continue                    
         else: # Load convert list form database
             #self.load_converter(cr, uid, converter, obj=obj,
