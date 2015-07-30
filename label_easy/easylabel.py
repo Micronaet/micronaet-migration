@@ -52,7 +52,7 @@ class EasylabelEasylabel(orm.Model):
         'path': fields.char(
             'Easylabel Path', size=256,
             help=r"Complete path of the root folder, ex.: "
-                "c:\programmi\tharo\easylabel"),
+                "c:\programmi\\tharo\easylabel"),
         'command': fields.char(
             'EXE Command', size=32,
             help=r"File that launch the batch command, ex.: easy.exe"),
@@ -130,29 +130,29 @@ class EasylabelParameter(orm.Model):
     _description = 'Label command file parameter'
 
     _columns = {
-        'name':fields.char('Parameter', size=32, ),
+        'name':fields.char('Parameter', size=32),
         'sequence': fields.integer('Sequence'),
         'label_id': fields.many2one('easylabel.label', 'Label'),
         'mode': fields.selection([
             ('static','Static'),
-            ('dynamic','Dynamic'),],
-            string="Mode",
-            help="Static if text is always the same, dynamic if use some "
-                "automatism: need compilation of 'mode type'!"),
-        'mode_type':fields.selection([
-            ('date','Today date'),
-            ('week','Today week'),
-            ('shipment','Place of shipment'),
-            ('shipment_date','Date of shipment'),
-            ('order','Order number'),
-            ('order_c','Customer order number'),
-            ('code','Product code'),
-            ('product','Product description'),
-            #('color','Product color'), # for now in easylabel DB
-            #('size','Product size'),   # for now in easylabel DB
-            ('line','Line of production'),
-            ('counter','Counter'), # Counter (create one label for all pack)
-            ('counter_tot','Counter total'), # Total number of lots
+            ('dynamic','Dynamic'),
+            ], string="Mode",
+                help="Static if text is always the same, dynamic if use some "
+                    "automatism: need compilation of 'mode type'!"),
+        'mode_type': fields.selection([
+            ('date', 'Today date'),
+            ('week', 'Today week'),
+            ('shipment', 'Place of shipment'),
+            ('shipment_date', 'Date of shipment'),
+            ('order', 'Order number'),
+            ('order_c', 'Customer order number'),
+            ('code', 'Product code'),
+            ('product', 'Product description'),
+            #('color', 'Product color'), # for now in easylabel DB
+            #('size', 'Product size'),   # for now in easylabel DB
+            ('line', 'Line of production'),
+            ('counter', 'Counter'), # Counter (create one label for all pack)
+            ('counter_tot', 'Counter total'), # Total number of lots
             ],
             string="Mode",
             help="If mode is Dynamic set up here the field automatic value"),
@@ -263,7 +263,7 @@ class EasylabelBatch(orm.Model):
             # list of parameters that are available on batch header o computed!
             'date': datetime.now().strftime('%d-%m-%Y'), # Today date
             'week': batch_param_proxy.week or datetime.strftime(
-                datetime.now(),"%y%W"), # number of a week format: yyww
+                datetime.now(), "%y%W"), # number of a week format: yyww
             'line': batch_param_proxy.line or '', # Line of production
             #'shipment': ,#Date of shipment
             #'order': ,   #Order number
@@ -348,7 +348,7 @@ class EasylabelBatch(orm.Model):
                 if loop > 1: # counter labels!
                    fileObj.write("formatcount=1\r\n") # write 1!
                 else:  # test if there is lot number
-                   if item.label_id.lot and item.label_id.lot>1:
+                   if item.label_id.lot and item.label_id.lot > 1:
                       fileObj.write("formatcount=%s,%d\r\n" % (
                           item.total, item.label_id.lot))
                    else:
@@ -386,10 +386,10 @@ class EasylabelBatch(orm.Model):
                        item.sequence,
                        item.name,
                        ))
-                if i==1:
+                if i == 1:
                    fileObj.write("singlejob=on\r\n") # only one time
                 fileObj.write(";\r\n") # end of record label
-                i+=1
+                i += 1
 
         fileObj.close()
         # Create batch file to launch

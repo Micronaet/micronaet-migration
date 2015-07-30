@@ -109,8 +109,8 @@ try:
            counter['tot']+=1
         else: 
             if len(line): # jump empty lines
-               counter['tot']+=1 
-               error="Importing line" 
+               counter['tot'] += 1 
+               error = "Importing line" 
                '''FIELDS: warranty ean13 supply_method uos_id list_price weight 
                track_production incoming_qty standard_price variants active 
                price_extra mes_type
@@ -129,7 +129,7 @@ try:
                property_account_expense categ_id lst_price 
                taxes_id produce_delay seller_ids rental
                '''
-               price = [0.0,0.0,0.0,0.0,]
+               price = [0.0, 0.0, 0.0, 0.0]
                csv_id = 0
                ref = Prepare(line[csv_id])
                csv_id += 1
@@ -178,11 +178,11 @@ try:
                      #'seller_qty'   
                     }
                #import pdb; pdb.set_trace()
-               if taxes_id and taxes_id=='20':
-                  data['taxes_id']= [(6,0,[iva_debito])]
-                  data['supplier_taxes_id']= [(6,0,[iva_credito])]
+               if taxes_id and taxes_id == '20':
+                  data['taxes_id'] = [(6, 0, [iva_debito])]
+                  data['supplier_taxes_id'] = [(6, 0, [iva_credito])]
                else:
-                  errori_iva.append("articolo: %s" % (name))                                       
+                  errori_iva.append("articolo: %s" % name)
  
                # PRODUCT CREATION ***************
                error="Searching product with ref"
@@ -191,7 +191,8 @@ try:
                        ('mexal_id', '=', ref)])
                if item: # update
                   try:
-                      modify_id = sock.execute(dbname, uid, pwd, 'product.product', 'write', item, data)
+                      modify_id = sock.execute(
+                          dbname, uid, pwd, 'product.product', 'write', item, data)
                       product_id=item[0]
                   except:
                       print "[ERROR] Modify product, current record:", data
@@ -210,23 +211,29 @@ try:
                # PRICE LIST CREATION/UPDATE:               
                for j in range(0,4):
                    if price[j]: # if exist price prepare PL item                        
-                      item_data={#'price_round':
-                                 #'price_min_margin':
-                                 #'price_discount':
-                                 #'base_pricelist_id': pl_pricelist[j],  # Price list
-                                 'price_version_id': pl_fiam[j],   # Price list version (4 pl) # TODO erase cost=1 PL=PL-1
-                                 'sequence':10,                    # Sequence for article 4 pl (for partic is less)
-                                 #'price_max_margin':
-                                 #'company_id
-                                 'name':'%s [%s]' % (name,ref),
-                                 #'product_tmpl_id':
-                                 'base': 2,    # base price (product.price.type) TODO parametrize: 1 pl 2 cost
-                                 'min_quantity':1,
-                                 'price_surcharge': price[j] - bug_start_value, # Recharge on used base price 
-                                 #'categ_id':
-                                 'product_id': product_id,
-                                 }
-                      item_item = sock.execute(dbname, uid, pwd, 'product.pricelist.item', 'search', [('price_version_id', '=', pl_fiam[j]),('product_id','=',product_id)])                
+                      item_data = {
+                          #'price_round':
+                          #'price_min_margin':
+                          #'price_discount':
+                          #'base_pricelist_id': pl_pricelist[j],  # Price list
+                          'price_version_id': pl_fiam[j],   # Price list version (4 pl) # TODO erase cost=1 PL=PL-1
+                          'sequence':10,                    # Sequence for article 4 pl (for partic is less)
+                          #'price_max_margin':
+                          #'company_id
+                          'name':'%s [%s]' % (name,ref),
+                          #'product_tmpl_id':
+                          'base': 2,    # base price (product.price.type) TODO parametrize: 1 pl 2 cost
+                          'min_quantity':1,
+                          'price_surcharge': price[j] - bug_start_value, # Recharge on used base price 
+                          #'categ_id':
+                          'product_id': product_id,
+                          }
+                      item_item = sock.execute(
+                          dbname, uid, pwd, 'product.pricelist.item', 
+                          'search', [
+                              ('price_version_id', '=', pl_fiam[j]),
+                              ('product_id','=',product_id),
+                              ])                
                       try:
                          if item_item: # update
                              modify_item = sock.execute(dbname, uid, pwd, 'product.pricelist.item', 'write', item_item, item_data)                                    

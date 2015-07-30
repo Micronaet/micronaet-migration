@@ -934,6 +934,7 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
         converter = self._converter[obj]
+        import pdb; pdb.set_trace()
         if wiz_proxy.bom:
             item_pool = self.pool.get(obj)
             erp_pool = erp.MrpBom
@@ -942,13 +943,19 @@ class SyncroXMLRPC(orm.Model):
             for item in erp_pool.browse(item_ids):
                 try: # Create record to insert/update
                     name = item.name
+                    
+                    uom_name = item.product_uom.name
+                    if uom_name == 'Pz': # rename
+                        uom_name = 'Unit(s)'
 
                     # Many2one:
                     routing_id = False
-                    #self._converter[ # mrp.routing # TODO?
+                    # No routing in DB
+                    #self._converter[ # mrp.routing 
                     #    'mrp.routing'].get(item.routing_id.id, False) 
                     product_uom = self._converter[ # product.uom
-                        'product.uom'].get(item.product_uom.id, False)
+                        'product.uom'].get(uom_name, False)
+                        
                     product_id = self._converter[ # product.product
                         'product.product'].get(item.product_id.id, False)
                     tmpl_id = self._converter[ # mrp.bom
@@ -976,7 +983,7 @@ class SyncroXMLRPC(orm.Model):
                         'routing_id': routing_id, 
                         'product_uom': product_uom, 
                         'product_id': product_id, 
-                        'bom_id': False, 
+                        #'bom_id': False,  not exist!
                         'migration_old_id': item.id,
                         #'company_id'
 
