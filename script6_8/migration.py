@@ -1808,14 +1808,32 @@ class SyncroXMLRPC(orm.Model):
                 try: # Create record to insert/update
                     name = item.name
                     
-                    partner_id = self._converter['res.partner'].get(
-                        item.partner_id.id, False)
-                    article_label_id = self._converter['easylabel.label'].get(
-                        item.article_label_id.id, False)
-                    pack_label_id = self._converter['easylabel.label'].get(
-                        item.pack_label_id.id, False)
-                    pallet_label_id = self._converter['easylabel.label'].get(
-                        item.pallet_label_id.id, False)
+                    try:    
+                        partner_id = self._converter['res.partner'].get(
+                            item.partner_id.id, False)
+                    except:
+                        article_label_id = False
+
+                    try:    
+                        article_label_id = self._converter[
+                            'easylabel.label'].get(
+                                item.article_label_id.id, False)
+                    except:
+                        article_label_id = False
+                        
+                    try:    
+                        pack_label_id = self._converter[
+                            'easylabel.label'].get(
+                                item.pack_label_id.id, False)
+                    except:
+                        pack_label_id = False
+                        
+                    try:    
+                        pallet_label_id = self._converter[
+                            'easylabel.label'].get(
+                                item.pallet_label_id.id, False)
+                    except:
+                        pallet_label_id = False
                     
                     data = {
                         'name': name,
