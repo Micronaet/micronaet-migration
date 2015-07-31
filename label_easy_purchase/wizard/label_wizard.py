@@ -24,6 +24,7 @@ import os
 import sys
 import logging
 import openerp
+import dbf
 import openerp.netsvc as netsvc
 import openerp.addons.decimal_precision as dp
 from openerp.osv import fields, osv, expression, orm
@@ -58,17 +59,25 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
             desktop PC 
         '''
         
-        # -----------------
-        # Start setup file:
-        # -----------------
+        # ---------------------------------------------------------------------
+        #                           Start setup file
+        # ---------------------------------------------------------------------
         root_path = os.path.dirname(openerp.addons.__file__) # addons path
         
+        # file name:
         cmd_file = root_path + "/label_easy/wizard/csv/purchase.cmd" # Label
         bat_file = root_path + "/label_easy/wizard/csv/purchase.bat" # Command
+        dbf_file = root_path + "/label_easy/wizard/csv/purchase.dbf" # Database
         
+        # file handle:
         label_file = open(cmd_file, "w")
         batch_file = open(bat_file, 'w')
-
+        # TODO choose correct field:
+        table = dbf.Table(dbf_file, # TODO correct? 
+           'code C(18); desc C(80); colour C(40); ean C(12); imagine C(100); '
+           'pack C(10); piece C(10); order C(30)')
+        table.open()
+        
         # ---------------------
         # Populate with labels:
         # ---------------------
@@ -82,11 +91,29 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
         po_proxy = po_pool.browse(cr, uid, po_id, context=context)
         parameters = {} # used for merge in the label (postprocessor)
         i = 1
-        import pdb; pdb.set_trace()
+        label_to_print = '' # TODO for comunicate in batch
         for item in po_proxy.order_line: # loop on all lines:
+
             if not item.product_id:
                 continue # jump line witout product            
-            parameters['code'] = item.product_id.default_code
+
+            # Add record in database:
+            default_code = item.product_id.default_code
+            # TODO chose correct field:
+            ean = item.product_id.ean13[:12] if item.product_id.ean13 else ''
+            name = item.product_id.name.split("] ")[-1]
+            table.append((
+                default_code, 
+                name, 
+                item.product_id.colour, 
+                ean,
+                'C:\Immagini\%s.jpg' % default_code, 
+                '1', # Scatola
+                '1', # Pezzi
+                item.order_id.name,
+                ))
+
+            parameters['code'] = default_code
             # TODO need other params?
 
             # Windows path:
@@ -128,18 +155,20 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
                 "useprinter=%d\r\n" % wiz_proxy.printer_id.number)
 
             label_file.write(_("jobdescription=\"Order: %s (%s)\"\r\n") % (
-                   po_proxy.name, item.product_id.default_code))
-                   
+                   po_proxy.name, default_code))
+
             if i == 1:
                label_file.write("singlejob=on\r\n") # only one time
             label_file.write(";\r\n") # end of record label
+            label_to_print += "@echo Code %s  -  Tot. %s\r\n" % (
+                default_code, item.product_qty)
             i += 1
         label_file.close()
+        table.close()
         
         # ----------------------------
         # Create batch file to launch:
-        # ----------------------------
-        
+        # ----------------------------        
         param_ids = easylabel_pool.search(
             cr, uid, [], context=context)
         if not param_ids:
@@ -153,7 +182,6 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
             po_proxy.name, po_proxy.partner_id.name)
             ).replace('\'', '').replace('"', '')
         
-
         # TODO parametrize mapped drive and print message
         batch_file.write(
             "@echo off\r\n" \
@@ -161,13 +189,17 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
                 0].oerp_command + \
             "@copy o:\purchase.cmd \"%s\"\r\n" % (param_proxy[
                 0].path, ) + \
+            "@copy o:\purchase.dbf \"%s\"\r\n" % (param_proxy[
+                0].path, ) + \
             "@cd \"%s\"\r\n" %(param_proxy[
                 0].path, ) + \
             "@cls\r\n" + \
             _("@echo Start printing... %s\r\n") % print_comment + \
-            _("@echo Print note: %s\r\n") % wiz_proxy.note or _('No note!') + \
+            _("@echo Print note: %s\r\n") % (
+                wiz_proxy.note or _('No note!'), ) + \
+            _("@echo Job detail:\r\n%s\r\n") % label_to_print + \
             "@pause\r\n" + \
-            "@\"%s\\%s\" openerp\r\n" % (
+            "@\"%s\\%s\" purchase\r\n" % (
                 param_proxy[0].path,
                 param_proxy[0].command,
                 ))
@@ -180,18 +212,18 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
         'printer_id': fields.many2one('easylabel.printer', 'Printer', 
             required=True),
         'note': fields.text('Note', help='Note for label employee'),
-        'run_note': fields.text('Procedure', 
+        'run_note': fields.text('Procedure', readonly=True,
             help='Help user with the procedure'),
         }
     _defaults = {
         'run_note': lambda *x: '''
-            <p><h1>Export label procedure:</h1><br/>
+            <p><h1>Export label procedure:</h1>
                Choose the purchase label for print this order and the default
                printer to use, after export all the command file with the
                button. <br/>
                To print the label run the batch on print workstation (destkop)
                link, ensure that the printer correct is open and with the right
-               labels.                
+               labels.
             </p>
             '''
         }    
