@@ -24,7 +24,7 @@
                 </form>
             </field>
       </record>
-      
+
       <!--Called from button in form-->
       <record model="ir.actions.act_window" id="action_easylabel_purchase_wizard">
           <field name="name">Export label</field>

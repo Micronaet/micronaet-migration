@@ -170,8 +170,9 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
                 label_file.write(
                     "useprinter=%d\r\n" % wiz_proxy.printer_id.number)
 
-                label_file.write(_("jobdescription=\"Order: %s (%s)\"\r\n") % (
-                       po_proxy.name, default_code))
+                label_file.write(
+                    _("jobdescription=\"Order: %s (%s Part: %s)\"\r\n") % (
+                        po_proxy.name, default_code, partno))
 
                 if i == 1 and part == 1:
                     label_file.write("singlejob=on\r\n") # only one time
@@ -179,7 +180,7 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
                 label_file.write(";\r\n") # end of record label
                 label_to_print += "@echo Code %s  -  Tot. %s (%s) %s\r\n" % (
                     default_code, 
-                    number_of_label, 
+                    tot_label, 
                     partno,
                     '*test' if wiz_proxy.test else '',
                     )
@@ -232,7 +233,8 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
             domain=[('area', '=', 'purchase')]),
         'printer_id': fields.many2one('easylabel.printer', 'Printer', 
             required=True),
-        'test': fields.boolean('Label', help='Print test (every label once)'),
+        'test': fields.boolean('Print test', 
+            help='The print test launch a batch job with 1 label for all'),
         'note': fields.text('Note', help='Note for label employee'),
         'run_note': fields.text('Procedure', readonly=True,
             help='Help user with the procedure'),
