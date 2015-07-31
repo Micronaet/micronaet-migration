@@ -62,9 +62,12 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
         # Start setup file:
         # -----------------
         root_path = os.path.dirname(openerp.addons.__file__) # addons path
+        
         cmd_file = root_path + "/label_easy/wizard/csv/purchase.cmd" # Label
         bat_file = root_path + "/label_easy/wizard/csv/purchase.bat" # Command
+        
         label_file = open(cmd_file, "w")
+        batch_file = open(bat_file, 'w')
 
         # ---------------------
         # Populate with labels:
@@ -91,27 +94,27 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
                 wiz_proxy.label_id.folder,
                 wiz_proxy.label_id.label_name[:-4],
                 )
-            bat_file.write(
+            label_file.write(
                 "formatname=\"%s\"\r\n" % (
                     path_label.replace("\\\\", "\\")))
 
             # TODO check the total of label to print
-            bat_file.write("formatcount=%s\r\n" % item.product_qty)
+            label_file.write("formatcount=%s\r\n" % item.product_qty)
 
             if i == 1:
-               bat_file.write("testprint=off\r\n") # only one time
+               label_file.write("testprint=off\r\n") # only one time
 
             # -----------
             # Parameters:
             # -----------
             for param in item.label_id.parameter_ids:
                 if param.mode == 'static': # currently not used but leaved!
-                   bat_file.write("%s=\"%s\"\r\n" % (
+                   label_file.write("%s=\"%s\"\r\n" % (
                        param.name, param.value))
                 else: # dynamic
                    if param.mode_type in parameters and parameters[
                            param.mode_type]: # test if there is parameter
-                       bat_file.write("%s=\"%s\"\r\n" % (
+                       label_file.write("%s=\"%s\"\r\n" % (
                            param.name, parameters[param.mode_type]
                            ))
                    else: # error param. not present!! erase not waste label
@@ -120,23 +123,22 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
                       # TODO raise one time or collect 
 
             # Be carefull: works with printer_id, write printer.number
-            bat_file.write(
+            label_file.write(
                 "useprinter=%d\r\n" % wiz_proxy.printer_id.number)
 
-            bat_file.write("jobdescription=\"%d) %s\"\r\n" % (
+            label_file.write("jobdescription=\"%d) %s\"\r\n" % (
                    po_proxy.name, item.product_id.default_code))
                    
             if i == 1:
-               bat_file.write("singlejob=on\r\n") # only one time
-            bat_file.write(";\r\n") # end of record label
+               label_file.write("singlejob=on\r\n") # only one time
+            label_file.write(";\r\n") # end of record label
             i += 1
-        bat_file.close()
+        label_file.close()
         
         # ----------------------------
         # Create batch file to launch:
         # ----------------------------
         
-        bat_file = open(FileOutputBat, 'w')
         param_ids = easylabel_pool.search(
             cr, uid, [], context=context)
         if not param_ids:
@@ -152,7 +154,7 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
         
 
         # TODO parametrize mapped drive and print message
-        bat_file.write(
+        batch_file.write(
             "@echo off\r\n" \
             "@net use o: %s /persistent:yes\r\n" % param_proxy[
                 0].oerp_command + \
@@ -168,7 +170,7 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
                 param_proxy[0].path,
                 param_proxy[0].command,
                 ))
-        bat_file.close()
+        batch_file.close()
         return True
         
     _columns = {
