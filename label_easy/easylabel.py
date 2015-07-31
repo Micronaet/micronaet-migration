@@ -54,10 +54,6 @@ class EasylabelEasylabel(orm.Model):
             'Easylabel Path', size=256,
             help=r"Complete path of the root folder, ex.: "
                 "c:\programmi\\tharo\easylabel"),
-        'local_path': fields.char(
-            'Output local path', size=256,
-            help=r"Local path for generate control files, es.:"
-                "/home/administrator/easylabel"),
         'command': fields.char(
             'EXE Command', size=32,
             help=r"File that launch the batch command, ex.: easy.exe"),
@@ -83,6 +79,10 @@ class EasylabelPath(orm.Model):
         'path': fields.char('Path', size=128,
             help=r"Complete path of the root folder, ex.: "
                 "c:\easylabel\label\year2011"),
+        'local_path': fields.char(
+            'Output local path', size=256,
+            help=r"Local path for generate control files, es.:"
+                "/home/administrator/easylabel"),
         'note': fields.text(
             'Note', help="A little explaination of what folder contains"),
         }

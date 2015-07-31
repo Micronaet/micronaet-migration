@@ -12,7 +12,6 @@
                 <tree string="Easylabel">
                     <field name="name" select="1" />
                     <field name="path" />
-                    <field name="local_path" />
                     <field name="command" />
                 </tree>
             </field>
@@ -26,10 +25,7 @@
                         <group colspan="4" col="4">
                            <field name="name" />
                            <field name="oerp_command" />
-       
                            <field name="path" />
-                           <field name="local_path" />
-       
                            <field name="command" />
                         </group>
                     </sheet>       
@@ -335,9 +331,10 @@
             <field name="model">easylabel.path</field>
             <field name="arch" type="xml">
                 <tree string="Easylabel path">
-                    <field name="name" select="1" />
-                    <field name="path" select="1" />
-                    <field name="note" select="2" />
+                    <field name="name" />
+                    <field name="path" />
+                    <field name="local_path" />
+                    <field name="note" />
                 </tree>
             </field>
          </record>
@@ -350,6 +347,7 @@
                         <group colspan="4" col="4">
                             <field name="name" />
                             <field name="path" />
+                            <field name="local_path" />
                             <field name="note" colspan="4" />
                         </group>
                     </sheet>                
