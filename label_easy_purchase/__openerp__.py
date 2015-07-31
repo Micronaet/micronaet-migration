@@ -34,8 +34,8 @@
         'purchase', 
         ],
     'data': [
-        'view/purchase_view.xml',
         'wizard/label_view.xml',
+        'view/purchase_view.xml',
         ],
     'qweb': [],
     'demo': [],

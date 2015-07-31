@@ -13,6 +13,7 @@
                     <sheet>
                         <group colspan="4">
                             <field name="label_id" />
+                            <field name="printer_id" />
                             <separator string="Note for label employee" colspan="4"/>
                             <field name="note" colspan="4" nolabel="1" />
                         </group>

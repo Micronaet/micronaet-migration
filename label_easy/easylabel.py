@@ -215,7 +215,7 @@ class EasylabelBatch(orm.Model):
 
         def write_placeholder(self, cr, uid, old_value, ph_ids, printer_id,
                 obj_file, context=None):
-            '''Search a placeholder label for this witdh, value
+            '''Search a placeholder label for this width, value
                Get comment parameter to fill
                Prepare output text with old value printed
                Write label to file setting up right printer'''
@@ -223,7 +223,7 @@ class EasylabelBatch(orm.Model):
                 # test width and height
                 if ph[1] == old_value[printer_id][2] and \
                         ph[2] == old_value[printer_id][3]:
-                    ph_id=ph[0] # save label_id
+                    ph_id = ph[0] # save label_id
                     continue # exit for
             if not ph_id:
                 # TODO raise error for no PH found with measure
