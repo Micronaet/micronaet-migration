@@ -215,6 +215,8 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
                 0].oerp_command + \
             "@copy o:\purchase.cmd \"%s\"\r\n" % (param_proxy[
                 0].path, ) + \
+            "@del \"%s\\purchase.ixl\"\r\n" % (param_proxy[
+                0].path, ) + \
             "@copy o:\purchase.dbf \"%s\"\r\n" % (param_proxy[
                 0].path, ) + \
             "@cd \"%s\"\r\n" %(param_proxy[
