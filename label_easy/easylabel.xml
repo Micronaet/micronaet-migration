@@ -348,6 +348,7 @@
                             <field name="name" />
                             <field name="path" />
                             <field name="local_path" />
+                            <newline />
                             <field name="note" colspan="4" />
                         </group>
                     </sheet>                
