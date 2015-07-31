@@ -94,7 +94,7 @@ class EasylabelLabel(orm.Model):
 
     _columns = {
         'name': fields.char(
-            'Name', size=64, help="Friendly name of the label"),
+            'Name', size=64, help="Friendly name of the label", required=True),
         'label_name': fields.char(
             'Label Name', size=64,
             help="Name of the label in Easylabel program"),

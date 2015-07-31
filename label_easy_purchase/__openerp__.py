@@ -30,11 +30,12 @@
     'license': 'AGPL-3',
     'depends': [
         'base', 
-        'labe_easy',
+        'label_easy',
         'purchase', 
         ],
     'data': [
         'view/purchase_view.xml',
+        'wizard/label_view.xml',
         ],
     'qweb': [],
     'demo': [],
