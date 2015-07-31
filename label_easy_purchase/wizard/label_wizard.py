@@ -58,16 +58,26 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
             After this the label employee have to launch the link on his 
             desktop PC 
         '''
+        # ---------------------------------------------------------------------
+        #                               Pool used
+        # ---------------------------------------------------------------------
+        easylabel_pool = self.pool.get('easylabel.easylabel')
+        po_pool = self.pool.get('purchase.order')
         
+        wiz_proxy = self.browse(cr, uid, ids, context=context)[0]
+
         # ---------------------------------------------------------------------
         #                           Start setup file
-        # ---------------------------------------------------------------------
-        root_path = os.path.dirname(openerp.addons.__file__) # addons path
+        # ---------------------------------------------------------------------                
+        root_path = wiz_proxy.label_id.root_id.local_path
         
         # file name:
-        cmd_file = root_path + "/label_easy/wizard/csv/purchase.cmd" # Label
-        bat_file = root_path + "/label_easy/wizard/csv/purchase.bat" # Command
-        dbf_file = root_path + "/label_easy/wizard/csv/purchase.dbf" # Database
+        cmd_file = os.path.expanduser(
+            os.path.join(root_path, "purchase.cmd")) # Label
+        bat_file =  os.path.expanduser(
+            os.path.join(root_path, "purchase.bat")) # Command
+        dbf_file =  os.path.expanduser(
+            os.path.join(root_path, "purchase.dbf")) # Database
         
         # file handle:
         label_file = open(cmd_file, "w")
@@ -81,12 +91,6 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
         # ---------------------
         # Populate with labels:
         # ---------------------
-        # Pool used:
-        easylabel_pool = self.pool.get('easylabel.easylabel')
-        po_pool = self.pool.get('purchase.order')
-        
-        wiz_proxy = self.browse(cr, uid, ids, context=context)[0]
-        
         po_id = context.get('active_id', False) # TODO check!
         po_proxy = po_pool.browse(cr, uid, po_id, context=context)
         parameters = {} # used for merge in the label (postprocessor)
