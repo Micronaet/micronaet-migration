@@ -38,6 +38,7 @@
         'report_auto_stock',
         #'auto_backup',
         'report_aeroo',
+        'label_easy',
         ],
     'init_xml': [], 
     'data': [
