@@ -57,12 +57,11 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
             After this the label employee have to launch the link on his 
             desktop PC 
         '''
-        import pdb; pdb.set_trace()
         
         # -----------------
         # Start setup file:
         # -----------------
-        root_path = __name__ #get_addons_path()
+        root_path = os.path.dirname(openerp.addons.__file__) # addons path
         cmd_file = root_path + "/label_easy/wizard/csv/purchase.cmd" # Label
         bat_file = root_path + "/label_easy/wizard/csv/purchase.bat" # Command
         label_file = open(cmd_file, "w")
@@ -72,7 +71,7 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
         # ---------------------
         # Pool used:
         easylabel_pool = self.pool.get('easylabel.easylabel')
-        po_pool = self.pool.get('purchase_order')
+        po_pool = self.pool.get('purchase.order')
         
         wiz_proxy = self.browse(cr, uid, ids, context=context)[0]
         
@@ -80,58 +79,57 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
         po_proxy = po_pool.browse(cr, uid, po_id, context=context)
         parameters = {} # used for merge in the label (postprocessor)
         i = 1
-        for item in po_proxy.line_ids: # loop on all lines:
+        for item in po_proxy.order_line: # loop on all lines:
             if not item.product_id:
                 continue # jump line witout product            
             parameters['code'] = item.product_id.default_code
             # TODO need other params?
 
-            for step in range(0, loop):
-                # Windows path:
-                path_label = "%s\\%s\\%s" % (
-                    wiz_proxy.label_id.path_id,
-                    wiz_proxy.label_id.folder,
-                    wiz_proxy.label_id.label_name[:-4],
-                    )
-                bat_file.write(
-                    "formatname=\"%s\"\r\n" % (
-                        path_label.replace("\\\\", "\\")))
+            # Windows path:
+            path_label = "%s\\%s\\%s" % (
+                wiz_proxy.label_id.path_id,
+                wiz_proxy.label_id.folder,
+                wiz_proxy.label_id.label_name[:-4],
+                )
+            bat_file.write(
+                "formatname=\"%s\"\r\n" % (
+                    path_label.replace("\\\\", "\\")))
 
-                # TODO check the total of label to print
-                bat_file.write("formatcount=%s\r\n" % item.product_qty)
+            # TODO check the total of label to print
+            bat_file.write("formatcount=%s\r\n" % item.product_qty)
 
-                if i == 1:
-                   bat_file.write("testprint=off\r\n") # only one time
+            if i == 1:
+               bat_file.write("testprint=off\r\n") # only one time
 
-                # -----------
-                # Parameters:
-                # -----------
-                for param in item.label_id.parameter_ids:
-                    if param.mode == 'static': # currently not used but leaved!
+            # -----------
+            # Parameters:
+            # -----------
+            for param in item.label_id.parameter_ids:
+                if param.mode == 'static': # currently not used but leaved!
+                   bat_file.write("%s=\"%s\"\r\n" % (
+                       param.name, param.value))
+                else: # dynamic
+                   if param.mode_type in parameters and parameters[
+                           param.mode_type]: # test if there is parameter
                        bat_file.write("%s=\"%s\"\r\n" % (
-                           param.name, param.value))
-                    else: # dynamic
-                       if param.mode_type in parameters and parameters[
-                               param.mode_type]: # test if there is parameter
-                           bat_file.write("%s=\"%s\"\r\n" % (
-                               param.name, parameters[param.mode_type]
-                               ))
-                       else: # error param. not present!! erase not waste label
-                          error.append(
-                              "Parameter not found: %s" % param.mode_type)
-                          # TODO raise one time or collect 
+                           param.name, parameters[param.mode_type]
+                           ))
+                   else: # error param. not present!! erase not waste label
+                      error.append(
+                          "Parameter not found: %s" % param.mode_type)
+                      # TODO raise one time or collect 
 
-                # Be carefull: works with printer_id, write printer.number
-                bat_file.write(
-                    "useprinter=%d\r\n" % wiz_proxy.printer_id.number)
+            # Be carefull: works with printer_id, write printer.number
+            bat_file.write(
+                "useprinter=%d\r\n" % wiz_proxy.printer_id.number)
 
-                bat_file.write("jobdescription=\"%d) %s\"\r\n" % (
-                       po_proxy.name, item.product_id.default_code))
-                       
-                if i == 1:
-                   bat_file.write("singlejob=on\r\n") # only one time
-                bat_file.write(";\r\n") # end of record label
-                i += 1
+            bat_file.write("jobdescription=\"%d) %s\"\r\n" % (
+                   po_proxy.name, item.product_id.default_code))
+                   
+            if i == 1:
+               bat_file.write("singlejob=on\r\n") # only one time
+            bat_file.write(";\r\n") # end of record label
+            i += 1
         bat_file.close()
         
         # ----------------------------
@@ -177,7 +175,7 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
         'note': fields.text('Note', help='Note for label employee'),
         'label_id': fields.many2one('easylabel.label', 'Label', required=True,
             domain=[('area', '=', 'purchase')]),
-        'printer_id': fields.many2one('easylabel.printer', 'Label', 
+        'printer_id': fields.many2one('easylabel.printer', 'Printer', 
             required=True),
         }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
