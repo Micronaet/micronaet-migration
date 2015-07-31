@@ -22,6 +22,7 @@ import os
 import sys
 import logging
 import openerp
+from openerp import addons
 import openerp.netsvc as netsvc
 import openerp.addons.decimal_precision as dp
 from openerp.osv import fields, osv, expression, orm
@@ -112,6 +113,15 @@ class EasylabelLabel(orm.Model):
             ('pallet', 'Pallet'),
             ('placeholder', 'Placeholder'),
             ],'Type of label', select=True),
+        'area': fields.selection([
+            ('accounting', 'Accounting'),
+            ('hr', 'HR'),
+            ('project', 'Projecy'),
+            ('purchase', 'Purchase'),
+            ('sale', 'Sale'),
+            ('stock', 'Stock'),
+            ], string="Label used in this area",
+            help="Setting the area for get a filter view when needed"),
         'counter': fields.boolean('Has counter',
             help='Has a parameter that write for each lot number / tot value'),
         }
@@ -188,7 +198,6 @@ class EasylabelBatch(orm.Model):
         # Functions:
         def get_addons_path():
             '''Import addons module, read the path!'''
-            import addons
             return os.path.dirname(addons.__file__)
 
         def create_ph_list(self, cr, uid, ph_ids, context=None):
@@ -231,7 +240,7 @@ class EasylabelBatch(orm.Model):
                 item.parameter_ids[0].name, #'COMMENTO'
                 old_value[printer_id][0],
                 old_value[printer_id][1],
-                old_value[printer_id][4],)) # TODO label name!
+                old_value[printer_id][4], )) # TODO label name!
             # TODO: set number not id:
             obj_file.write("useprinter=%d\r\n" % printer_id)
             obj_file.write("jobdescription=\"Fine blocco\"\r\n")
@@ -384,7 +393,7 @@ class EasylabelBatch(orm.Model):
         fileObj.close()
         # Create batch file to launch
         fileObj = open(FileOutputBat, 'w')
-        param_ids_proxy= self.pool.get('easylabel.easylabel').search(
+        param_ids_proxy = self.pool.get('easylabel.easylabel').search(
             cr, uid, [], context=context)
         if not param_ids_proxy:
            error.append('Error, Some parameter not found!')
