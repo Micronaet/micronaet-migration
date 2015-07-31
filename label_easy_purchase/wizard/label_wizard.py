@@ -102,19 +102,26 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
             # TODO chose correct field:
             ean = item.product_id.ean13[:12] if item.product_id.ean13 else ''
             name = item.product_id.name.split("] ")[-1]
+            try:
+                colls = int(element.product_id.colls) or 1
+            except:
+                colls = 1
+            try:
+                q_x_pack = int(element.product_id.q_x_pack) or '/'
+            except:
+                q_x_pack = '/'
+
+            # Write record in database:
             table.append((
                 default_code, 
                 name, 
                 item.product_id.colour, 
                 ean,
                 'C:\Immagini\%s.jpg' % default_code, 
-                '1', # Scatola
-                '1', # Pezzi
+                '0', # Pack TODO not used, remove!!! (also in label)
+                q_x_pack, # Pieces
                 item.order_id.name,
                 ))
-
-            parameters['code'] = default_code
-            # TODO need other params?
 
             # Windows path:
             path_label = "%s\\%s\\%s" % (
@@ -122,47 +129,61 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
                 wiz_proxy.label_id.folder,
                 wiz_proxy.label_id.label_name[:-4],
                 )
-            label_file.write(
-                "formatname=\"%s\"\r\n" % (
-                    path_label.replace("\\\\", "\\")))
 
-            # TODO check the total of label to print
-            label_file.write("formatcount=%s\r\n" % int(item.product_qty))
+            # Loop on label for colls:
+            for part in range(1, colls + 1): 
+                # Parameter to pass during print (cmd file):
+                partno = "%s/%s" % (part, colls)
+                parameters['code'] = default_code
+                parameters['partno'] = partno
+                # TODO need other params?
 
-            if i == 1:
-               label_file.write("testprint=off\r\n") # only one time
+                label_file.write(
+                    "formatname=\"%s\"\r\n" % (
+                        path_label.replace("\\\\", "\\")))
 
-            # -----------
-            # Parameters:
-            # -----------
-            for param in wiz_proxy.label_id.parameter_ids:
-                if param.mode == 'static': # currently not used but leaved!
-                   label_file.write("%s=\"%s\"\r\n" % (
-                       param.name, param.value))
-                else: # dynamic
-                   if param.mode_type in parameters and parameters[
-                           param.mode_type]: # test if there is parameter
+                # TODO check the total of label to print
+                tot_label = 1 if wiz_proxy.test else int(item.product_qty) 
+                label_file.write("formatcount=%s\r\n" % tot_label)
+
+                if i == 1 and part == 1: # first loop first part number
+                   label_file.write("testprint=off\r\n") # only one time
+
+                # -----------
+                # Parameters:
+                # -----------
+                for param in wiz_proxy.label_id.parameter_ids:
+                    if param.mode == 'static': # currently not used but leaved!
                        label_file.write("%s=\"%s\"\r\n" % (
-                           param.name, parameters[param.mode_type]
-                           ))
-                   else: # error param. not present!! erase not waste label
-                      error.append(
-                          "Parameter not found: %s" % param.mode_type)
-                      # TODO raise one time or collect 
+                           param.name, param.value))
+                    else: # dynamic
+                       if param.mode_type in parameters and parameters[
+                               param.mode_type]: # test if there is parameter
+                           label_file.write("%s=\"%s\"\r\n" % (
+                               param.name, parameters[param.mode_type]
+                               ))
+                       else: # error param. not present!! erase not waste label
+                          error.append( # TODO raise one time or collect
+                              "Parameter not found: %s" % param.mode_type)
 
-            # Be carefull: works with printer_id, write printer.number
-            label_file.write(
-                "useprinter=%d\r\n" % wiz_proxy.printer_id.number)
+                # Be carefull: works with printer_id, write printer.number
+                label_file.write(
+                    "useprinter=%d\r\n" % wiz_proxy.printer_id.number)
 
-            label_file.write(_("jobdescription=\"Order: %s (%s)\"\r\n") % (
-                   po_proxy.name, default_code))
+                label_file.write(_("jobdescription=\"Order: %s (%s)\"\r\n") % (
+                       po_proxy.name, default_code))
 
-            if i == 1:
-               label_file.write("singlejob=on\r\n") # only one time
-            label_file.write(";\r\n") # end of record label
-            label_to_print += "@echo Code %s  -  Tot. %s\r\n" % (
-                default_code, item.product_qty)
-            i += 1
+                if i == 1 and part == 1:
+                    label_file.write("singlejob=on\r\n") # only one time
+                    
+                label_file.write(";\r\n") # end of record label
+                label_to_print += "@echo Code %s  -  Tot. %s (%s) %s\r\n" % (
+                    default_code, 
+                    number_of_label, 
+                    partno,
+                    '*test' if wiz_proxy.test else '',
+                    )
+                i += 1
         label_file.close()
         table.close()
         
@@ -211,11 +232,13 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
             domain=[('area', '=', 'purchase')]),
         'printer_id': fields.many2one('easylabel.printer', 'Printer', 
             required=True),
+        'test': fields.boolean('Label', help='Print test (every label once)'),
         'note': fields.text('Note', help='Note for label employee'),
         'run_note': fields.text('Procedure', readonly=True,
             help='Help user with the procedure'),
         }
     _defaults = {
+        'test': lambda *x: False,
         'run_note': lambda *x: '''
             <p><h1>Export label procedure:</h1>
                Choose the purchase label for print this order and the default
@@ -225,6 +248,6 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
                link, ensure that the printer correct is open and with the right
                labels.
             </p>
-            '''
+            ''',
         }    
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -158,6 +158,7 @@ class EasylabelParameter(orm.Model):
             ('order', 'Order number'),
             ('order_c', 'Customer order number'),
             ('code', 'Product code'),
+            ('partno', 'Part number'),
             ('product', 'Product description'),
             #('color', 'Product color'), # for now in easylabel DB
             #('size', 'Product size'),   # for now in easylabel DB
@@ -305,6 +306,7 @@ class EasylabelBatch(orm.Model):
             # Counter (create one label for all pack label) > moved in loop
             #parameters['counter']="1"
             parameters['counter_tot'] = item.total # Total number of lots
+            #parameters['partno'] = item.total # Part number
 
             # Write a label object
             if not item.label_id.name: # test if there's a label
