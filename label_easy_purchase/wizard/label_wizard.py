@@ -82,6 +82,7 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
         po_proxy = po_pool.browse(cr, uid, po_id, context=context)
         parameters = {} # used for merge in the label (postprocessor)
         i = 1
+        import pdb; pdb.set_trace()
         for item in po_proxy.order_line: # loop on all lines:
             if not item.product_id:
                 continue # jump line witout product            
@@ -99,7 +100,7 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
                     path_label.replace("\\\\", "\\")))
 
             # TODO check the total of label to print
-            label_file.write("formatcount=%s\r\n" % item.product_qty)
+            label_file.write("formatcount=%s\r\n" % int(item.product_qty))
 
             if i == 1:
                label_file.write("testprint=off\r\n") # only one time
@@ -107,7 +108,7 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
             # -----------
             # Parameters:
             # -----------
-            for param in item.label_id.parameter_ids:
+            for param in wiz_proxy.label_id.parameter_ids:
                 if param.mode == 'static': # currently not used but leaved!
                    label_file.write("%s=\"%s\"\r\n" % (
                        param.name, param.value))
@@ -126,7 +127,7 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
             label_file.write(
                 "useprinter=%d\r\n" % wiz_proxy.printer_id.number)
 
-            label_file.write("jobdescription=\"%d) %s\"\r\n" % (
+            label_file.write(_("jobdescription=\"Order: %s (%s)\"\r\n") % (
                    po_proxy.name, item.product_id.default_code))
                    
             if i == 1:
@@ -174,10 +175,24 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
         return True
         
     _columns = {
-        'note': fields.text('Note', help='Note for label employee'),
         'label_id': fields.many2one('easylabel.label', 'Label', required=True,
             domain=[('area', '=', 'purchase')]),
         'printer_id': fields.many2one('easylabel.printer', 'Printer', 
             required=True),
+        'note': fields.text('Note', help='Note for label employee'),
+        'run_note': fields.text('Procedure', 
+            help='Help user with the procedure'),
         }
+    _defaults = {
+        'run_note': lambda *x: '''
+            <p><h1>Export label procedure:</h1><br/>
+               Choose the purchase label for print this order and the default
+               printer to use, after export all the command file with the
+               button. <br/>
+               To print the label run the batch on print workstation (destkop)
+               link, ensure that the printer correct is open and with the right
+               labels.                
+            </p>
+            '''
+        }    
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
