@@ -84,7 +84,7 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
         batch_file = open(bat_file, 'w')
         # TODO choose correct field:
         table = dbf.Table(dbf_file, # TODO correct? 
-           'code C(18); desc C(80); colour C(40); ean C(12); imagine C(100); '
+           'code C(18); desc C(80); colour C(80); ean C(12); imagine C(100); '
            'pack C(10); piece C(10); order C(30)')
         table.open()
         
@@ -213,11 +213,11 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
             "@echo off\r\n" \
             "@net use o: %s /persistent:yes\r\n" % param_proxy[
                 0].oerp_command + \
-            "@copy o:\purchase.cmd \"%s\"\r\n" % (param_proxy[
+            "@xcopy o:\purchase.cmd \"%s\" /y\r\n" % (param_proxy[
                 0].path, ) + \
             "@del \"%s\\purchase.ixl\"\r\n" % (param_proxy[
                 0].path, ) + \
-            "@copy o:\purchase.dbf \"%s\"\r\n" % (param_proxy[
+            "@xcopy o:\purchase.dbf \"%s\" /y\r\n" % (param_proxy[
                 0].path, ) + \
             "@cd \"%s\"\r\n" %(param_proxy[
                 0].path, ) + \
