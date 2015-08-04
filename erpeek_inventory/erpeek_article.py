@@ -79,6 +79,4 @@ for row in csv.reader(
             print 'ERR Code:', default_code, 'not found (EAN13', ean13, ')'
     except:
         print 'Unmanaged error:', default_code, ean13, sys.exc_info()
-                
-logfile.close()
 
