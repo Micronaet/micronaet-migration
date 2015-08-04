@@ -41,6 +41,7 @@ password = config.get('dbaccess', 'pwd')
 
 # File CSV
 filename = os.path.expanduser(config.get('csv', 'filename') )
+#logfile = os.path.expanduser(config.get('csv', 'logfile') )
 delimiter = config.get('csv', 'delimiter') 
 header = eval(config.get('csv', 'header'))
 
@@ -54,26 +55,30 @@ odoo = erppeek.Client(
 product = odoo.model('product.product')
 
 i = -header
+#log = open(logfile, 'w')
 for row in csv.reader(
         open(filename, 'rb'), delimiter=delimiter):
-    i += 1
-    if i <= 0:
-        continue # jump line
-    default_code = row[1]
-    ean13 = row[2]
-    
-    product_ids = product.search([('default_code', 'ilike', default_code)])
-    if product_ids:
-        product.write(product_ids, {
-           'ean13': ean13,
-            })
+    try:    
+        i += 1
+        if i <= 0:
+            continue # jump line
+        default_code = row[1]
+        ean13 = row[2]
+ 
+        product_ids = product.search([('default_code', 'ilike', default_code)])
         print '\nBLOCK', default_code, 'TOTAL:', len(product_ids)
-            
-        for variant in product.browse(product_ids):    
-            print (
-                "INFO Code", variant.default_code, 
-                "updated with EAN13:", ean13)
-    else:        
-        print "ERR  Code: % updated with EAN13: %s" % (default_code, ean13)
 
+        if product_ids:
+            product.write(product_ids, {'ean13': ean13, })
+
+            for variant in product.browse(product_ids):
+                print (
+                    "INFO Code", variant.default_code, 
+                    "updated with EAN13:", ean13)
+        else:        
+            print 'ERR Code:', default_code, 'not found (EAN13', ean13, ')'
+    except:
+        print 'Unmanaged error:', default_code, ean13, sys.exc_info()
+                
+logfile.close()
 
