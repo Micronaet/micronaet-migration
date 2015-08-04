@@ -27,7 +27,8 @@ import erppeek
 import ConfigParser
 
 # Set up parameters (for connection to Open ERP Database) *********************
-config_file = os.path.expanduser('~/ETL/GPB/openerp.cfg')
+path = '~/ETL/GPB'
+config_file = os.path.join(os.path.expanduser(path), 'openerp.cfg')
 config = ConfigParser.ConfigParser()
 config.read([config_file])
 
@@ -39,9 +40,9 @@ user = config.get('dbaccess', 'user')
 password = config.get('dbaccess', 'pwd') 
 
 # File CSV
-filename = config.get('csv', 'filename') 
+filename = os.path.expanduser(config.get('csv', 'filename') )
 delimiter = config.get('csv', 'delimiter') 
-header = config.get('csv', 'header') 
+header = eval(config.get('csv', 'header'))
 
 odoo = erppeek.Client(
     'http://%s:%s' % (server, port), 
@@ -57,16 +58,22 @@ for row in csv.reader(
         open(filename, 'rb'), delimiter=delimiter):
     i += 1
     if i <= 0:
-        print "# INFO Jump header line (%)" % header
+        continue # jump line
     default_code = row[1]
     ean13 = row[2]
     
-    product_ids = product.search([('default_code', '=', default_code)])
+    product_ids = product.search([('default_code', 'ilike', default_code)])
     if product_ids:
         product.write(product_ids, {
            'ean13': ean13,
             })
-        print "# INFO Code: % updated with EAN13: %s" % (default_code, ean13)
+        print '\nBLOCK', default_code, 'TOTAL:', len(product_ids)
+            
+        for variant in product.browse(product_ids):    
+            print (
+                "INFO Code", variant.default_code, 
+                "updated with EAN13:", ean13)
     else:        
-        print "# ERR  Code: % updated with EAN13: %s" % (default_code, ean13)
+        print "ERR  Code: % updated with EAN13: %s" % (default_code, ean13)
+
 
