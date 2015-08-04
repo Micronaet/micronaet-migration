@@ -63,6 +63,7 @@ if not purchase_ids:
 purchase_id = purchase_ids[0]
 
 i = -header
+tot = 0
 for row in csv.reader(
         open(filename, 'rb'), delimiter=delimiter):
     try:    
@@ -77,7 +78,7 @@ for row in csv.reader(
 
         # Search product code:     
         product_ids = product.search([
-            ('default_code', 'ilike', default_code)])
+            ('default_code', '=', default_code)])
 
         if len(product_ids) > 1:
             print "More than one", default_code, len(product_ids), inventory
@@ -100,6 +101,8 @@ for row in csv.reader(
             ('order_id', '=', purchase_id),
             ('product_id', '=', product_ids[0]),
             ])
+            
+        tot += 1        
         if line_ids:
             purchase_line.write(line_ids, data)
             print "Update:", default_code, "quantity", inventory
@@ -110,3 +113,4 @@ for row in csv.reader(
     except:
         print 'Unmanaged error:', default_code, inventory, sys.exc_info()
 
+print "Total:", tot
