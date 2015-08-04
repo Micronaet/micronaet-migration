@@ -27,7 +27,6 @@ import erppeek
 import ConfigParser
 
 # Set up parameters (for connection to Open ERP Database) *********************
-import pdb; pdb.set_trace()
 path = '~/ETL/GPB'
 config_file = os.path.join(os.path.expanduser(path), 'openerp.cfg')
 config = ConfigParser.ConfigParser()
@@ -57,8 +56,8 @@ purchase = odoo.model('purchase.order')
 purchase_line = odoo.model('purchase.order.line')
 
 order = 'PO00357'
-purchase_ids = purchase.search(['name', '=', order])
-if not puchase_ids:
+purchase_ids = purchase.search([('name', '=', order)])
+if not purchase_ids:
     print 'Purchase', order, 'not found'
     sys.exit()
 purchase_id = purchase_ids[0]
@@ -73,31 +72,40 @@ for row in csv.reader(
         default_code = row[0]
         inventory = float(row[4].replace(',', '.'))
         if not inventory:
-            print "Quantity not found:", inventory
-            
+            print "Quantity not found:", default_code, "quantity", inventory
+            continue
+
         # Search product code:     
         product_ids = product.search([
             ('default_code', 'ilike', default_code)])
 
         if len(product_ids) > 1:
-            print "More than one", len(product_ids)
+            print "More than one", default_code, len(product_ids), inventory
             continue
         elif not product_ids:     
-            print "No product found:", default_code
+            print "No product found:", default_code, "quantity", inventory
             continue
         
+        product_proxy = product.browse(product_ids)[0]        
         data = {
+            'name': product_proxy.name,
             'order_id': purchase_id,
             'product_id': product_ids[0],
             'product_qty': inventory,
+            'price_unit': 1.0,
+            'date_planned': '2015/08/05',            
             }
 
         line_ids = purchase_line.search([
             ('order_id', '=', purchase_id),
             ('product_id', '=', product_ids[0]),
-            ])            
+            ])
         if line_ids:
             purchase_line.write(line_ids, data)
+            print "Update:", default_code, "quantity", inventory
+        else:
+            purchase_line.create(data)
+            print "Create:", default_code, "quantity", inventory
 
     except:
         print 'Unmanaged error:', default_code, inventory, sys.exc_info()
