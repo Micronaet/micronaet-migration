@@ -62,8 +62,8 @@ for row in csv.reader(
         i += 1
         if i <= 0:
             continue # jump line
-        default_code = row[1]
-        ean13 = row[2]
+        default_code = row[0]
+        ean13 = row[1]
  
         product_ids = product.search([('default_code', 'ilike', default_code)])
         print '\nBLOCK', default_code, 'TOTAL:', len(product_ids)
