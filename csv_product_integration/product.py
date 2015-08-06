@@ -305,7 +305,7 @@ class ProductProduct(orm.Model):
                 # CSV fields:
                 default_code = csv_pool.decode_string(line[0])
                 uom = csv_pool.decode_string(line[2]).upper()
-                fabric = csv_pool.decode_string(line[18])
+                #fabric = csv_pool.decode_string(line[18]) # TODO not present!
 
                 # Language:
                 #language['it_IT']:
@@ -379,7 +379,7 @@ class ProductProduct(orm.Model):
                     'colour': colour,
                     'q_x_pack': lot,
                     'colls': colls,
-                    'fabric': fabric,
+                    #'fabric': fabric,
                     #'description_sale': name,
                     #'name_template': name, # TODO langs
                     
