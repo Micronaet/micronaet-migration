@@ -317,7 +317,6 @@ class ProductProduct(orm.Model):
                 #language['3'] = csv_pool.decode_string(line[13]).title()
 
                 try: # sale lot of product
-                    import pdb; pdb.set_trace()
                     lot = eval(csv_pool.decode_string(
                         line[5]).replace(',', '.'))
                 except:
