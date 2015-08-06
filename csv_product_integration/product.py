@@ -305,7 +305,7 @@ class ProductProduct(orm.Model):
                 # CSV fields:
                 default_code = csv_pool.decode_string(line[0])
                 uom = csv_pool.decode_string(line[2]).upper()
-                               
+
                 # Language:
                 #language['it_IT']:
                 name = csv_pool.decode_string(line[1]).title()
@@ -316,10 +316,15 @@ class ProductProduct(orm.Model):
                 #language['3'] = csv_pool.decode_string(line[13]).title()
 
                 try: # sale lot of product
-                   lot = eval(csv_pool.decode_string(
-                       line[5]).replace(',', '.'))
+                    lot = eval(csv_pool.decode_string(
+                        line[5]).replace(',', '.'))
                 except:
-                   lot = 0
+                    lot = 1
+                   
+                try:   
+                    colls = 1 / lot  
+                except:
+                    colls = 1    
 
                 # Anagraphic fields:
                 linear_length = csv_pool.decode_float(line[14])
@@ -337,7 +342,7 @@ class ProductProduct(orm.Model):
                     uom_id = uoms.get('Unit(s)', False) # TODO remain unit(s)?
                 elif uom in ['M2', 'MQ']: 
                     uom_id = uoms.get('M2', False)
-                elif uom in ['M', 'MT', 'ML',]: # NOTE: after M2!! 
+                elif uom in ['M', 'MT', 'ML']: # NOTE: after M2!! 
                     uom_id = uoms.get('m', False)
                 elif uom == 'HR': 
                     uom_id = uoms.get('Hour(s)', False)
@@ -372,6 +377,7 @@ class ProductProduct(orm.Model):
                     'volume': volume,
                     'colour': colour,
                     'q_x_pack': lot,
+                    'colls': colls,
                     #'description_sale': name,
                     #'name_template': name, # TODO langs
                     
