@@ -305,6 +305,7 @@ class ProductProduct(orm.Model):
                 # CSV fields:
                 default_code = csv_pool.decode_string(line[0])
                 uom = csv_pool.decode_string(line[2]).upper()
+                fabric = csv_pool.decode_string(line[18])
 
                 # Language:
                 #language['it_IT']:
@@ -320,7 +321,7 @@ class ProductProduct(orm.Model):
                         line[5]).replace(',', '.'))
                 except:
                     lot = 1
-                   
+
                 try:   
                     colls = 1 / lot  
                 except:
@@ -378,6 +379,7 @@ class ProductProduct(orm.Model):
                     'colour': colour,
                     'q_x_pack': lot,
                     'colls': colls,
+                    'fabric': fabric,
                     #'description_sale': name,
                     #'name_template': name, # TODO langs
                     
