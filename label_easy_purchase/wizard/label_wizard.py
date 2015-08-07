@@ -124,7 +124,7 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
                 'C:\Immagini\%s.jpg' % default_code, 
                 colls or '0', # Pack TODO not used, remove!!! (also in label)
                 q_x_pack, # Pieces
-                item.order_id.name,
+                item.order_id.name or 'NO NAME',
                 ))
 
             # Windows path:
