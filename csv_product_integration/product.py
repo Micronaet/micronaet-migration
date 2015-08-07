@@ -321,10 +321,12 @@ class ProductProduct(orm.Model):
                         line[5]).replace(',', '.'))
                 except:
                     lot = 1
+                if lot < 0:
+                    lot = - lot    
                     
                 try:
                     if lot < 1.0:
-                        colls = 1 / lot  
+                        colls = int(0.5 + (1 / lot)) # approx to int 
                     else:
                         colls = 1    
                 except:

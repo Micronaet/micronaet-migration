@@ -63,20 +63,21 @@ for row in csv.reader(
         if i <= 0:
             continue # jump line
         default_code = row[0].strip()
-        ean13 = row[1].strip()
+        ean13 = row[1]
  
         product_ids = product.search([('default_code', 'ilike', default_code)])
         print '\nBLOCK', default_code, 'TOTAL:', len(product_ids)
 
         if product_ids:
-            product.write(product_ids, {'ean13': ean13, })
+            #product.write(product_ids, {'ean13': ean13, })
 
             for variant in product.browse(product_ids):
                 print (
-                    "INFO Code", variant.default_code, 
-                    "updated with EAN13:", ean13)
+                    "INFO Code", ean13, variant.ean13, 
+                    "KO *******************" if ean13 != variant.ean13 else "",
+                    )
         else:        
-            print 'ERR Code:', default_code, 'not found (EAN13', ean13, ')'
+            print 'ERR Code:', default_code, 'not found'
     except:
-        print 'Unmanaged error:', default_code, ean13, sys.exc_info()
+        print 'Unmanaged error:', default_code, sys.exc_info()
 
