@@ -321,9 +321,12 @@ class ProductProduct(orm.Model):
                         line[5]).replace(',', '.'))
                 except:
                     lot = 1
-
+                    
                 try:
-                    colls = 1 / lot  
+                    if lot < 1.0:
+                        colls = 1 / lot  
+                    else:
+                        colls = 1    
                 except:
                     colls = 1    
 
@@ -334,7 +337,7 @@ class ProductProduct(orm.Model):
 
                 # Sometimes not present:
                 if len(line) > 18:
-                    colour = csv_pool.decode_string(line[18])
+                    colour = csv_pool.decode_string(line[18]) # TODO lang dec.?
                 else:
                     colour = ''
 
