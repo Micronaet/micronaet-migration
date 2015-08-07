@@ -111,9 +111,9 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
             except:
                 colls = 1
             try:
-                q_x_pack = int(element.product_id.q_x_pack) or '1'
+                q_x_pack = int(element.product_id.q_x_pack or '1')
             except:
-                q_x_pack = '1'
+                q_x_pack = 1
 
             # Write record in database:
             table.append((
