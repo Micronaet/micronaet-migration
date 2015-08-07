@@ -107,8 +107,7 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
             ean = item.product_id.ean13[:12] if item.product_id.ean13 else ''
             name = item.product_id.name.split("] ")[-1]
             try:
-                #colls = int(element.product_id.colls) or 1
-                colls = 1 / int(element.product_id.q_x_pack) 
+                colls = int(element.product_id.colls) or 1
             except:
                 colls = 1
             try:

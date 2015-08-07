@@ -322,7 +322,7 @@ class ProductProduct(orm.Model):
                 except:
                     lot = 1
 
-                try: # TODO maybe not used
+                try:
                     colls = 1 / lot  
                 except:
                     colls = 1    
