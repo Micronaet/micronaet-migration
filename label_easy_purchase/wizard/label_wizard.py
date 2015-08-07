@@ -106,14 +106,12 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
             # TODO chose correct field:
             ean = item.product_id.ean13[:12] if item.product_id.ean13 else ''
             name = item.product_id.name.split("] ")[-1]
-            if default_code == 'SBEASECTNBI--S':
-                import pdb; pdb.set_trace()
             try:
-                colls = int(element.product_id.colls) or 1
+                colls = int(item.product_id.colls) or 1
             except:
                 colls = 1
             try:
-                q_x_pack = int(element.product_id.q_x_pack or '1')
+                q_x_pack = int(item.product_id.q_x_pack) or 1
             except:
                 q_x_pack = 1
 
