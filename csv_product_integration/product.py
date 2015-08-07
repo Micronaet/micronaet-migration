@@ -304,8 +304,6 @@ class ProductProduct(orm.Model):
 
                 # CSV fields:
                 default_code = csv_pool.decode_string(line[0])
-                if default_code == 'SBEASECTNBI--S':
-                    import pdb; pdb.set_trace()
                 uom = csv_pool.decode_string(line[2]).upper()
                 #fabric = csv_pool.decode_string(line[18]) # TODO not present!
 
