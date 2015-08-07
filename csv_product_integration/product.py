@@ -311,9 +311,6 @@ class ProductProduct(orm.Model):
                 ean = csv_pool.decode_string(line[4]).strip()
                 if len(ean) != 13 or ean[:2] != '80':
                     ean = False
-                else:
-                    print ean    
-                
 
                 # Language:
                 #language['it_IT']:
