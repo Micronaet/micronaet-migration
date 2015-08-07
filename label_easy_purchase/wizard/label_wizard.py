@@ -116,16 +116,15 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
                 q_x_pack = '1'
 
             # Write record in database:
-            import pdb; pdb.set_trace()
             table.append((
                 default_code, 
                 name, 
                 item.product_id.colour, 
                 ean,
                 'C:\Immagini\%s.jpg' % default_code, 
-                colls or '0', # Pack TODO not used, remove!!! (also in label)
+                str(colls or 0), # Pack TODO not used, remove!!! (also in label)
                 q_x_pack, # Pieces
-                item.order_id.name or 'NO NAME',
+                item.order_id.name,
                 ))
 
             # Windows path:
