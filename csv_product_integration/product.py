@@ -306,6 +306,14 @@ class ProductProduct(orm.Model):
                 default_code = csv_pool.decode_string(line[0])
                 uom = csv_pool.decode_string(line[2]).upper()
                 #fabric = csv_pool.decode_string(line[18]) # TODO not present!
+                
+                # TODO move in sql_product CSG_ART_ALT
+                ean = csv_pool.decode_string(line[4]).strip()
+                if len(ean) != 13 or ean[:2] != '80':
+                    ean = False
+                else:
+                    print ean    
+                
 
                 # Language:
                 #language['it_IT']:
@@ -406,6 +414,9 @@ class ProductProduct(orm.Model):
                     ##'lst_price'
                     ##'seller_qty'
                     }
+                if ean:
+                    data['ean13'] = ean
+
                 if uom_id: 
                     data.update({
                         #'uos_id': uom_id,
