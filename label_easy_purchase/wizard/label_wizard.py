@@ -116,6 +116,7 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
                 q_x_pack = '1'
 
             # Write record in database:
+            import pdb; pdb.set_trace()
             table.append((
                 default_code, 
                 name, 
