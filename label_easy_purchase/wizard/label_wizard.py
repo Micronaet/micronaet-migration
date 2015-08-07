@@ -123,7 +123,7 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
                 ean,
                 'C:\Immagini\%s.jpg' % default_code, 
                 str(colls or 0), # Pack TODO not used, remove!!! (also in label)
-                q_x_pack, # Pieces
+                str(q_x_pack), # Pieces
                 item.order_id.name,
                 ))
 
