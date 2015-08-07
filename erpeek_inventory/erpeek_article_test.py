@@ -73,7 +73,7 @@ for row in csv.reader(
 
             for variant in product.browse(product_ids):
                 print (
-                    "INFO Code", ean13, variant.ean13, 
+                    "INFO Code", variant.default_code, ean13, variant.ean13, 
                     "KO *******************" if ean13 != variant.ean13 else "",
                     )
         else:        
