@@ -43,6 +43,6 @@ class ProductProduct(orm.Model):
 
     _columns = {
         'force_coll': fields.boolean('Force colls'),
-        'forced_colls': fields.float('Colls forced', digits=(16, 3)),
+        'forced_colls': fields.integer('Colls forced'),
         }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

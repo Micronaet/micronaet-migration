@@ -108,7 +108,7 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
             name = item.product_id.name.split("] ")[-1]
             try:
                 if item.product_id.force_coll:
-                    colls = item.product_id.forced_colls)
+                    colls = item.product_id.forced_colls or 1
                 else:
                     colls = int(item.product_id.colls) or 1
             except:
