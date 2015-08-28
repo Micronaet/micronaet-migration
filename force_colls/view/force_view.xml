@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+       <!--product.product:-->
+         <record model="ir.ui.view" id="force_colls_product_product_form_view">
+            <field name="name">Force colls</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view" />
+            <field name="arch" type="xml">
+                <field name="product_delay"/>
+                    <field name="force_colls" />
+                    <field name="forced_colls" attrs="{'invisible': [('force_colls','!=',False)],'invisible': [('force_colls','=',False)]}"/>
+                </field>    
+            </field>
+         </record>
+    </data>
+</openerp>

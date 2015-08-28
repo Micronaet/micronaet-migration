@@ -30,6 +30,7 @@
     'init_xml': [],
     'demo': [],
     'data': [
+        'view/force_view.xml',
         ],
     'active': False,
     'installable': True,
