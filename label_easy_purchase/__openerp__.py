@@ -30,6 +30,7 @@
     'license': 'AGPL-3',
     'depends': [
         'base', 
+        'force_colls',
         'label_easy',
         'purchase', 
         ],
