@@ -7,9 +7,9 @@
             <field name="model">product.product</field>
             <field name="inherit_id" ref="product.product_normal_form_view" />
             <field name="arch" type="xml">
-                <field name="product_delay"/>
-                    <field name="force_colls" />
-                    <field name="forced_colls" attrs="{'invisible': [('force_colls','!=',False)],'invisible': [('force_colls','=',False)]}"/>
+                <field name="ean13" position="before">
+                    <field name="force_coll" />
+                    <field name="forced_colls" attrs="{'invisible': [('force_coll','!=',False)],'invisible': [('force_coll','=',False)]}"/>
                 </field>    
             </field>
          </record>
