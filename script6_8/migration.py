@@ -1010,7 +1010,7 @@ class SyncroXMLRPC(orm.Model):
 
                     converter[item.id] = item_id 
                 except:
-                    print "#ERR", obj, "jumped:", name
+                    #print "#ERR", obj, "jumped:", name
                     print sys.exc_info()
                     continue                    
         else: # Load convert list form database
