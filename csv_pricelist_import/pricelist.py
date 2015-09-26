@@ -100,7 +100,7 @@ class ProductPricelist(orm.Model):
                 if len(version_ids) > 1:
                     _logger.error('Found more than one pricelist version')
                     
-               versions[mexal_id] = version_ids[0]
+                versions[mexal_id] = version_ids[0]
             else:    
                versions[mexal_id] = version_pool.create(cr, uid, {
                    'name': "Versione base " + mexal_id,
