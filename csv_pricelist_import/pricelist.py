@@ -79,6 +79,10 @@ class ProductPricelist(orm.Model):
             pl_ids = self.search(cr, uid, [
                 ('mexal_id', '=', mexal_id)], context=context)
             if pl_ids:
+                # There's only one pricelist:
+                if len(pl_ids) > 1:
+                    _logger.error('Found more than one pricelist')
+                    
                 pl_id = pl_ids[0]
             else:
                 pl_id = self.create(cr, uid, {
@@ -92,6 +96,10 @@ class ProductPricelist(orm.Model):
             version_ids = version_pool.search(cr, uid, [
                 ('mexal_id', '=', mexal_id)], context=context)
             if version_ids:
+                # There's only one pricelist:
+                if len(version_ids) > 1:
+                    _logger.error('Found more than one pricelist version')
+                    
                versions[mexal_id] = version_ids[0]
             else:    
                versions[mexal_id] = version_pool.create(cr, uid, {
@@ -240,7 +248,6 @@ class ProductPricelist(orm.Model):
 
             Note: pricelist yet present here (only item are unlink / create)
         '''
-
         # ---------------------------------------------------------------------
         #                            Common part
         # ---------------------------------------------------------------------
@@ -251,15 +258,17 @@ class ProductPricelist(orm.Model):
         product_pool = self.pool.get('product.product')
         csv_pool = self.pool.get('csv.base')
 
+        # ----------------------------------------------
         # Erase all pricelist item (only) before import:
+        # ----------------------------------------------
         item_ids = item_pool.search(cr, uid, [], context=context)
         item_pool.unlink(cr, uid, item_ids, context=context)
 
         # ---------------------------------------------------------------------
         #                  Load standard pricelist version (1-9):
         # ---------------------------------------------------------------------
-        _logger.info("Start pricelist standard importation: %s" % (
-            input_file, ))
+        _logger.info(
+            "Start pricelist standard importation: %s" % input_file)
 
         versions = {} # dict of pricelist (mexal_id: odoo id)
         # Create 10 base pricelist (if not exist): Base Pl + Version
@@ -363,7 +372,6 @@ class ProductPricelist(orm.Model):
                     continue
                     
                 if partner_code not in versions: # Save in versions converter
-                    #import pdb; pdb.set_trace()
                     versions[partner_code] = self.get_partner_pricelist(
                         cr, uid, partner_code, context=context)
 
