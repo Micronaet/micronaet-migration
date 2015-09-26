@@ -54,10 +54,11 @@ class StatisticStore(orm.Model):
     _order = "product_code,product_description"
 
     def schedule_csv_import_store(
-            file_input1='~/ETL/esistoerprogr.CM1',
-            file_input2='~/ETL/esistoerprogr.CM2',  
-            exch_file1='~/ETL/cm1-cm2.CM1',
-            exch_file2='~/ETL/cm1-cm2.CM2',
+            self, cr, uid, 
+            file_input1='~/etl/esistoerprogr.CM1',
+            file_input2='~/etl/esistoerprogr.CM2',  
+            exch_file1='~/etl/cm1-cm2.CM1',
+            exch_file2='~/etl/cm1-cm2.CM2',
             delimiter=';', header=0, verbose=100):
         ''' Scheduled importation of existence
         '''
@@ -107,7 +108,12 @@ class StatisticStore(orm.Model):
         for azienda, f, f_exch in loops:    
             file_csv = os.path.expanduser(f)
 
-            lines = csv.reader(open(file_csv, 'rb'), delimiter=delimiter)
+            try:
+                lines = csv.reader(open(file_csv, 'rb'), delimiter=delimiter)
+            except:
+                _logger.error('Exchange file not found: %s' % f_exch)
+                continue
+                    
             counter = -header
 
             for line in lines:

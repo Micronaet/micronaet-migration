@@ -11,7 +11,7 @@
 			<field eval="5" name="priority"/>
 			<field eval="0" name="doall"/>
 			<field eval="1" name="active"/>
-			<field name="args">('~/ETL/esistoerprogr.CM1','~/ETL/esistoerprogr.CM2', ';', 0, 100)</field>
+			<field name="args">('~/ETL/esistoerprogr.CM1','~/ETL/esistoerprogr.CM2', '~/ETL/cm1-cm2', '~/ETL/cm2-cm1'';', 0, 100)</field>
 			<field eval="1" name="interval_number"/>
 			<field eval="&quot;&quot;&quot;statistic.store&quot;&quot;&quot;" name="model"/>
 		</record>
