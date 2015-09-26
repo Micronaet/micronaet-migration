@@ -121,7 +121,7 @@ class SaleOrderQuotation(orm.Model):
 
     # Override fake wizard button event for print this report:
     def print_quotation(self, cr, uid, ids, context=None):
-        ''' Override origina function that prints the sales order and mark it 
+        ''' Override originaL function that prints the sales order and mark it 
             as sent, so that we can see more easily the next step of the 
             workflow
         '''

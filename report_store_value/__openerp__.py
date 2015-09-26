@@ -38,6 +38,7 @@
         'security/ir.model.access.csv',                     
         'store.xml',
         'report/report_store.xml',
+        'scheduler.xml',
         ],
     'active': False,
     'installable': True,
