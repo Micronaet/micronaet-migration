@@ -122,6 +122,8 @@ class ProductPricelist(orm.Model):
             ''' Update last rule of pricelist with default partner
             '''
             if not ref:
+                _logger.error(
+                    'Create partner Pl default reference, ref, not found!')
                 return False
 
             item_pool = self.pool.get('product.pricelist.item')
