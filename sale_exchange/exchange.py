@@ -118,11 +118,14 @@ class SaleOrder(orm.Model):
         return res
         
     # Override onchange function:
-    def onchange_partner_id(self, cr, uid, ids, partner_id):
+    def onchange_partner_id(self, cr, uid, ids, partner_id, context=None):
         ''' Add extra field onchange for new field to fill        
         '''
-        res = super(sale_order_extra, self).onchange_partner_id(
-            cr, uid, ids, partner_id)
+        if context is None:
+            context = {}
+            
+        res = super(SaleOrder, self).onchange_partner_id(
+            cr, uid, ids, partner_id, context=context)
         if not partner_id:
             res['value'].update({
                 'currency_order': False,
@@ -132,7 +135,7 @@ class SaleOrder(orm.Model):
             return res
         
         partner_proxy = self.pool.get('res.partner').browse(
-            cr, uid, partner_id)
+            cr, uid, partner_id, context=context)
         # if currency is present setup order parameters:
         if partner_id and partner_proxy.sale_currency_id:
             res['value'].update({

@@ -39,8 +39,16 @@ class Parser(report_sxw.rml_parse):
             'get_fabric': self.get_fabric,
             'set_counter': self.set_counter,
             'get_counter': self.get_counter,
+            
+            # TODO remove
+            'temp_get_order': self.temp_get_order,
         })
 
+    def temp_get_order(self):
+        pool = self.pool.get('product.product')
+        item_ids = pool.search(self.cr, self.uid, [])
+        return pool.browse(self.cr, self.uid, item_ids)
+        
     def set_counter(self, name, value = 0.0):
         ''' Create or set a counter in the counter list of the class
             If value is not setted counter is reset
