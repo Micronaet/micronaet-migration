@@ -292,7 +292,6 @@ class ProductProduct(orm.Model):
         csv_file = open(os.path.expanduser(input_file), 'rb')
         counter = -header_line
         language = {}
-        import pdb; pdb.set_trace()
         for line in csv.reader(csv_file, delimiter=delimiter):
             try:
                 if counter < 0:  # jump n lines of header
