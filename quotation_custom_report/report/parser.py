@@ -108,17 +108,43 @@ class Parser(report_sxw.rml_parse):
             return "/"        
 
     def get_telaio(self, name, lingua):
-        if name:
-            name = name.strip()
-            if name == "STEEL":
-               name = "ACCIAIO"
-            ita2eng = {
-               "ALLUMINIO": "ALUMINIUM", 
-               "LEGNO": "WOOD", 
-               "ACCIAIO": "STEEL"}
-            if lingua != 'it_IT':
-               return ita2eng[name] if name in ita2eng else "?"
-            else:
-               return name
-        else:       
+        ''' Last minute function for confert name (not translated in product)
+        '''
+        name = name.strip()
+        if not name:
             return ""
+        # If name is originally in english translate in italian
+        if name == "STEEL":
+           name = "ACCIAIO"
+        elif name == "WOOD":
+           name = "LEGNO"
+        elif name == "WOODEN":
+           name = "LEGNO"
+        elif name == "IRON PAINTED":
+           name = "TINTO FERRO"
+        elif name == "IRON CHROMED":
+           name = "CROMATO FERRO"
+        elif name == "ANODIZED ALUMINIUM":
+           name = "ALLUMINIO ANODIZZATO"
+        elif name == "ALUMINIUM":
+           name = "ALLUMINIO"
+        elif name == "IRON":
+           name = "FERRO"
+        elif name == "WALNUT":
+           name = "NOCE"
+
+        ita2eng = {
+           "ALLUMINIO": "ALUMINIUM", 
+           "LEGNO": "WOOD", 
+           "ACCIAIO": "STEEL",
+           "TINTO NOCE": "PAINTED WALNUT",
+           "NOCE": "WALNUT",           
+           "ALLUMINIO ANODIZZATO": "ANODIZED ALUMINIUM",
+           "CROMATO FERRO": "IRON CHROMED",  
+           "TINTO FERRO": "IRON PAINTED",
+           "FERRO": "IRON",           
+           }
+        if lingua == 'it_IT':
+           return name
+        else:   
+           return ita2eng[name] if name in ita2eng else "?"
