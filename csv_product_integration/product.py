@@ -276,6 +276,9 @@ class ProductProduct(orm.Model):
         '''
         _logger.info('Start product integration')
         
+        if context is None:
+            context = {}
+            
         # Load UOM:
         uoms = {}   
         uom_failed = []                 
@@ -425,7 +428,8 @@ class ProductProduct(orm.Model):
                         
                 if product_ids: # only update
                     try: # it_IT
-                        self.write(cr, uid, product_ids, data, context=context)
+                        self.write(cr, uid, product_ids, data, 
+                            context={'lang': 'it_IT'})
                     except: # update via SQL in case of error
                         _logger.warning('Forced product %s uom %s' % (
                             product_ids[0],
@@ -442,8 +446,10 @@ class ProductProduct(orm.Model):
                                 """, (uom_id, uom_id, product_ids[0]))
                             
                     
-                    # Update language
-                    for lang in language: # extra language
+                    # ----------------
+                    # Update language:
+                    # ----------------
+                    for lang in language:
                         name = language.get(lang, False)
                         if name:
                             self.write(cr, uid, product_ids, {
