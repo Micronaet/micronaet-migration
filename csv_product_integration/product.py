@@ -306,7 +306,10 @@ class ProductProduct(orm.Model):
                 # CSV fields:
                 default_code = csv_pool.decode_string(line[0])
                 uom = csv_pool.decode_string(line[2]).upper()
-                #fabric = csv_pool.decode_string(line[18]) # TODO not present!
+                try:
+                    fabric = csv_pool.decode_string(line[18]) # TODO present!?
+                except:
+                    fabric = ''    
                 
                 # TODO move in sql_product CSG_ART_ALT
                 ean = csv_pool.decode_string(line[4]).strip()
@@ -315,9 +318,10 @@ class ProductProduct(orm.Model):
 
                 # Language:
                 name = csv_pool.decode_string(line[1]).title() # it
-                language['en_US'] = csv_pool.decode_string(line[11]).title()
-                #language['fr_FR'] = csv_pool.decode_string(line[12]).title() # fr
-                #language['3'] = csv_pool.decode_string(line[13]).title() # te
+                language['en_US'] = csv_pool.decode_string(line[10]).title()
+                # TODO activate lang in odoo if other:
+                #language['fr_FR'] = csv_pool.decode_string(line[11]).title()
+                #language['3'] = csv_pool.decode_string(line[12]).title()
 
                 try: # sale lot of product
                     lot = eval(csv_pool.decode_string(
@@ -387,12 +391,12 @@ class ProductProduct(orm.Model):
                     'colour': colour,
                     'q_x_pack': lot,
                     'colls': colls,
-                    #'fabric': fabric,
-                    #'description_sale': name,
-                    #'name_template': name, # TODO langs
+                    'name': name,
+                    'description_sale': name,
+                    'fabric': fabric,
+                    'name_template': name,
                     
                     # Other fields not used: 
-                    #'name': name,
                     #'active': active,
                     #'mexal_id': ref,
                     #'import': True,
