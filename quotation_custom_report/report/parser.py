@@ -109,7 +109,7 @@ class Parser(report_sxw.rml_parse):
 
     def get_telaio(self, name, lingua):
         if name:
-            name=name.strip()
+            name = name.strip()
             if name == "STEEL":
                name = "ACCIAIO"
             ita2eng = {

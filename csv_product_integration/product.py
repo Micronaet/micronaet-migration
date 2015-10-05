@@ -288,7 +288,8 @@ class ProductProduct(orm.Model):
         csv_pool = self.pool.get('csv.base')
         csv_file = open(os.path.expanduser(input_file), 'rb')
         counter = -header_line
-        #language = {}
+        language = {}
+        import pdb; pdb.set_trace()
         for line in csv.reader(csv_file, delimiter=delimiter):
             try:
                 if counter < 0:  # jump n lines of header
@@ -313,13 +314,10 @@ class ProductProduct(orm.Model):
                     ean = False
 
                 # Language:
-                #language['it_IT']:
-                name = csv_pool.decode_string(line[1]).title()
-                #language['en_US'] = csv_pool.decode_string(line[10]).title()
-                # TODO: activate language
-                #language['1'] = csv_pool.decode_string(line[11]).title()
-                #language['2'] = csv_pool.decode_string(line[12]).title()
-                #language['3'] = csv_pool.decode_string(line[13]).title()
+                name = csv_pool.decode_string(line[1]).title() # it
+                language['en_US'] = csv_pool.decode_string(line[11]).title()
+                #language['fr_FR'] = csv_pool.decode_string(line[12]).title() # fr
+                #language['3'] = csv_pool.decode_string(line[13]).title() # te
 
                 try: # sale lot of product
                     lot = eval(csv_pool.decode_string(
@@ -422,9 +420,8 @@ class ProductProduct(orm.Model):
                         })
                         
                 if product_ids: # only update
-                    try:
+                    try: # it_IT
                         self.write(cr, uid, product_ids, data, context=context)
-                        #{'lang': 'it_IT'})
                     except: # update via SQL in case of error
                         _logger.warning('Forced product %s uom %s' % (
                             product_ids[0],
@@ -438,19 +435,18 @@ class ProductProduct(orm.Model):
                                     SELECT product_tmpl_id 
                                     FROM product_product
                                     WHERE id = %s);
-                            """, (uom_id, uom_id, product_ids[0]))
+                                """, (uom_id, uom_id, product_ids[0]))
                             
                     
                     # Update language
-                    #for lang in language: # extra language
-                    #    name = language.get(lang, False)
-                    #    if name:
-                    #        self.write(cr, uid, product_ids, {
-                    #            'name': name,
-                    #            'description_sale': name,
-                    #            #'name_template': name,                                
-                    #            }, context={
-                    #                'lang': lang})
+                    for lang in language: # extra language
+                        name = language.get(lang, False)
+                        if name:
+                            self.write(cr, uid, product_ids, {
+                                'name': name,
+                                'description_sale': name,
+                                'name_template': name,                                
+                                }, context={'lang': lang})
 
                 else:
                     _logger.error('Product not present: %s' % default_code)
