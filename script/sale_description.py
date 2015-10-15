@@ -33,17 +33,17 @@ config = ConfigParser.ConfigParser()
 config_file = os.path.expanduser('openerp.cfg')
 config.read([config_file])
 
-# Open connection with 5:
-server5 = config.get('openerp5', 'server')
-port5 = config.get('openerp5', 'port')
-dbname5 = config.get('openerp5', 'dbname')
-user5 = config.get('openerp5', 'user')
-pwd5 = config.get('openerp5', 'pwd')
-erp5 = erppeek.Client(
-    'http://%s:%s' % (server5, port5),
-    db=dbname5,
-    user=user5,
-    password=pwd5,
+# Open connection with 6:
+server6 = config.get('openerp6', 'server')
+port6 = config.get('openerp6', 'port')
+dbname6 = config.get('openerp6', 'dbname')
+user6 = config.get('openerp6', 'user')
+pwd6 = config.get('openerp6', 'pwd')
+erp6 = erppeek.Client(
+    'http://%s:%s' % (server6, port6),
+    db=dbname6,
+    user=user6,
+    password=pwd6,
     )
 
 # Open connection with 8:
@@ -52,21 +52,26 @@ port8 = config.get('openerp8', 'port')
 dbname8 = config.get('openerp8', 'dbname')
 user8 = config.get('openerp8', 'user')
 pwd8 = config.get('openerp8', 'pwd')
-erp8 = erppeek.Client(
-    'http://%s:%s' % (server8, port8),
-    db=dbname8,
-    user=user8,
-    password=pwd8,
-    )
+#erp8 = erppeek.Client(
+#    'http://%s:%s' % (server8, port8),
+#    db=dbname8,
+#    user=user8,
+#    password=pwd8,
+#    )
 
-product_pool = erp.ProductProduct
+product_pool = erp6.ProductProduct
 item_ids = product_pool.search([])
-for item in erp_pool.browse(item_ids, {'lang': 'it_IT'}):
-    print item.description_sale
 
-for item in erp_pool.browse(item_ids, {'lang': 'en_US'}):
-    print item.description_sale
+erp6.context = {'lang': 'it_IT'}
+origin = {}
+for item in product_pool.browse(item_ids[:6]):
+    origin[item.default_code] = [item.description_sale, '']
+
+erp6.context['lang'] = 'en_US'
+for item in product_pool.browse(item_ids[:6]):
+    try:
+        origin[item.default_code][1] = item.description_sale
+    except:
+        print 'Codice %s not found!' % item.default_code   
     
-
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
