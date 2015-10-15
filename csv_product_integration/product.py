@@ -451,7 +451,7 @@ class ProductProduct(orm.Model):
                                     FROM product_product
                                     WHERE id = %s);
                                 """, (uom_id, uom_id, product_ids[0]))
-                            
+
                     # ----------------
                     # Update language:
                     # ----------------
