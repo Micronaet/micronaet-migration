@@ -270,9 +270,15 @@ class ProductProduct(orm.Model):
  
     def schedule_csv_product_integration(self, cr, uid,
             input_file='~/ETL/artioerp.csv', delimiter=';', header_line=0,
-            verbose=100, context=None):
+            verbose=100, with_sale=False, context=None):
         ''' Import product extra fields, this operation override sql schedule
             for add extra fields that could not be reached fast
+            input_file: input file using home folder
+            delimiter: delimiter of CSV file
+            header_line: jump header line
+            verbose: verbose log every X record
+            with_sale: update name also in sale_description
+            context: context data
         '''
         _logger.info('Start product integration')
         
@@ -280,8 +286,8 @@ class ProductProduct(orm.Model):
             context = {}
             
         # Load UOM:
-        uoms = {}   
-        uom_failed = []                 
+        uoms = {}
+        uom_failed = []       
         uom_pool = self.pool.get('product.uom')
         uom_ids = uom_pool.search(cr, uid, []) # no context (english)
         for uom in uom_pool.browse(
@@ -385,7 +391,7 @@ class ProductProduct(orm.Model):
 
                 product_ids = self.search(cr, uid, [
                     ('default_code', '=', default_code)]) #, context=context)
-                    
+
                 data = {
                     'linear_length': linear_length,
                     'weight': weight,
@@ -394,7 +400,6 @@ class ProductProduct(orm.Model):
                     'q_x_pack': lot,
                     'colls': colls,
                     'name': name,
-                    'description_sale': name,
                     'fabric': fabric,
                     'name_template': name,
                     
@@ -415,6 +420,9 @@ class ProductProduct(orm.Model):
                     ##'lst_price'
                     ##'seller_qty'
                     }
+                if with_sale:
+                    data['description_sale'] = name
+
                 if ean:
                     data['ean13'] = ean
 
@@ -444,19 +452,21 @@ class ProductProduct(orm.Model):
                                     WHERE id = %s);
                                 """, (uom_id, uom_id, product_ids[0]))
                             
-                    
                     # ----------------
                     # Update language:
                     # ----------------
                     for lang in language:
                         name = language.get(lang, False)
                         if name:
-                            self.write(cr, uid, product_ids, {
+                            data = {
                                 'name': name,
-                                'description_sale': name,
                                 'name_template': name,                                
-                                }, context={'lang': lang})
+                                }
+                            if with_sale:
+                                data['description_sale'] = name
 
+                            self.write(cr, uid, product_ids, data, 
+                                context={'lang': lang})
                 else:
                     _logger.error('Product not present: %s' % default_code)
 
