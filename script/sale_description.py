@@ -23,46 +23,50 @@
 import os
 import sys
 import ConfigParser
-from openerp.openerp import server
-from analysis.tree import nodes
-
+import erppeek
 
 # -----------------------------------------------------------------------------
 #        Set up parameters (for connection to Open ERP Database) 
 # -----------------------------------------------------------------------------
 config = ConfigParser.ConfigParser()
 
-config_file = os.path.expanduser(
-    os.path.join("~", "etl", "GFC", "openerp.5.cfg"))
+config_file = os.path.expanduser('openerp.cfg')
 config.read([config_file])
-host5 = config.get('dbaccess', 'server')
-dbname5 = config.get('dbaccess', 'dbname')
-orm_user5 = config.get('dbaccess', 'user')
-orm_pwd5 = config.get('dbaccess', 'pwd')
-orm_port5 = config.get('dbaccess', 'port')
-pg_user5 = config.get('postgres', 'user')
-pg_pwd5 = config.get('postgres', 'pwd')
-pg_port5 = config.get('postgres', 'port')
-verbose5 = config.get('import_mode', 'verbose')
 
-# Tables v. 50:
-05 = server(
-    dbname=dbname5, host=host5, verbose=verbose5,
-    orm_user=orm_user5, orm_password=orm_pwd5, orm_port=orm_port5,
-    pg_user=pg_user5, pg_password=pg_pwd5, pg_port=pg_port5)
+# Open connection with 5:
+server5 = config.get('openerp5', 'server')
+port5 = config.get('openerp5', 'port')
+dbname5 = config.get('openerp5', 'dbname')
+user5 = config.get('openerp5', 'user')
+pwd5 = config.get('openerp5', 'pwd')
+erp5 = erppeek.Client(
+    'http://%s:%s' % (server5, port5),
+    db=dbname5,
+    user=user5,
+    password=pwd5,
+    )
 
-# -----------------------------------------------------------------------------
-#                              Tree node analysis:
-# -----------------------------------------------------------------------------
-nl = nodes(05)
+# Open connection with 8:
+server8 = config.get('openerp8', 'server')
+port8 = config.get('openerp8', 'port')
+dbname8 = config.get('openerp8', 'dbname')
+user8 = config.get('openerp8', 'user')
+pwd8 = config.get('openerp8', 'pwd')
+erp8 = erppeek.Client(
+    'http://%s:%s' % (server8, port8),
+    db=dbname8,
+    user=user8,
+    password=pwd8,
+    )
 
-if len(sys.argv) == 1:          # no range (all tree first level)
-    nl.info()
-elif len(sys.argv) == 2:        # tree of a object
-    name = sys.argv[1]
-    nl.draw_tree(name, only_field = 'many2one')
-    #nl.draw_tree(name, only_filed = 'many2many')
-elif len(sys.argv) == 3:        # range (only selected range level)
-    nl.info(score_range = (int(sys.argv[1]), int(sys.argv[2])))
+product_pool = erp.ProductProduct
+item_ids = product_pool.search([])
+for item in erp_pool.browse(item_ids, {'lang': 'it_IT'}):
+    print item.description_sale
+
+for item in erp_pool.browse(item_ids, {'lang': 'en_US'}):
+    print item.description_sale
     
+
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
