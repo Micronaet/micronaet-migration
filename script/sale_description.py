@@ -91,7 +91,7 @@ erp6.context['lang'] = 'en_US'
 out_f.write('Codice%sItaliano%sInglese\n' % (
     separator,
     separator,
-    )
+    ))
 for item in product_pool.browse(item_ids):
     try:
         origin[item.default_code][1] = get_name(item)
