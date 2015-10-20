@@ -25,9 +25,17 @@ import sys
 import ConfigParser
 import erppeek
 
+# Function:
+
+def get_name(item):
+    ''' Get name 3 field and delete code on the left
+    '''
+    name = item.k2_image_caption or item.description_sale or item.name or ''
+    return name.split('] ')[-1]
 # -----------------------------------------------------------------------------
 #        Set up parameters (for connection to Open ERP Database) 
 # -----------------------------------------------------------------------------
+
 config = ConfigParser.ConfigParser()
 
 config_file = os.path.expanduser('openerp.cfg')
@@ -59,20 +67,28 @@ pwd8 = config.get('openerp8', 'pwd')
 #    password=pwd8,
 #    )
 
-import pdb; pdb.set_trace()
 product_pool = erp6.ProductProduct
 item_ids = product_pool.search([])
 
 erp6.context = {'lang': 'it_IT'}
 origin = {}
-for item in product_pool.browse(item_ids[:6]):
-    origin[item.default_code] = [item.description_sale, '']
+out_f = open('lista.csv', 'w')
+for item in product_pool.browse(item_ids):
+    origin[item.default_code] = [get_name(item), '']
+    print 'Italiano:', item.default_code
 
 erp6.context['lang'] = 'en_US'
-for item in product_pool.browse(item_ids[:6]):
+out_f.write('Codice;Italiano;Inglese')
+for item in product_pool.browse(item_ids):
     try:
-        origin[item.default_code][1] = item.description_sale
+        origin[item.default_code][1] = get_name(item)
+        print 'Inglese:', item.default_code
+        out_f.write('%s;%s;%s' % (
+            item.default_code,
+            origin[item.default_code][0],
+            origin[item.default_code][1],
+            ))
     except:
-        print 'Codice %s not found!' % item.default_code   
+        print 'Codice %s not found!' % item.default_code
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
