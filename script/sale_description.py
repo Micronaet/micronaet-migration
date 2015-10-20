@@ -48,6 +48,9 @@ config = ConfigParser.ConfigParser()
 config_file = os.path.expanduser('openerp.cfg')
 config.read([config_file])
 
+# CSV:
+separator = config.get('csv', 'separator') or '|'
+
 # Open connection with 6:
 server6 = config.get('openerp6', 'server')
 port6 = config.get('openerp6', 'port')
@@ -85,7 +88,10 @@ for item in product_pool.browse(item_ids):
     print 'Italiano:', item.default_code
 
 erp6.context['lang'] = 'en_US'
-out_f.write('Codice;Italiano;Inglese\n')
+out_f.write('Codice%sItaliano%sInglese\n' % (
+    separator,
+    separator,
+    )
 for item in product_pool.browse(item_ids):
     try:
         origin[item.default_code][1] = get_name(item)
@@ -94,9 +100,11 @@ for item in product_pool.browse(item_ids):
         print 'Codice %s not found!' % item.default_code
         origin[item.default_code][1] = '#ERR'
 
-    out_f.write('%s;%s;%s\n' % (
+    out_f.write('%s%s%s%s%s\n' % (
         item.default_code,
+        separator,
         origin[item.default_code][0],
+        separator,
         origin[item.default_code][1],
         ))
     
