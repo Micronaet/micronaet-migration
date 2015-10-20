@@ -59,6 +59,7 @@ pwd8 = config.get('openerp8', 'pwd')
 #    password=pwd8,
 #    )
 
+import pdb; pdb.set_trace()
 product_pool = erp6.ProductProduct
 item_ids = product_pool.search([])
 
