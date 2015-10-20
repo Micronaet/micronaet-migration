@@ -33,7 +33,7 @@ def get_name(item):
     res = ''
     name = item.k2_image_caption or item.description_sale or item.name or ''
     for c in name.split('] ')[-1]:
-        if ord(c) <= 128:
+        if ord(c) < 128:
             res += c
         else:
             res += ''
