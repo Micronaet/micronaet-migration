@@ -78,17 +78,19 @@ for item in product_pool.browse(item_ids):
     print 'Italiano:', item.default_code
 
 erp6.context['lang'] = 'en_US'
-out_f.write('Codice;Italiano;Inglese')
+out_f.write('Codice;Italiano;Inglese\n')
 for item in product_pool.browse(item_ids):
     try:
         origin[item.default_code][1] = get_name(item)
         print 'Inglese:', item.default_code
-        out_f.write('%s;%s;%s' % (
-            item.default_code,
-            origin[item.default_code][0],
-            origin[item.default_code][1],
-            ))
     except:
         print 'Codice %s not found!' % item.default_code
+        origin[item.default_code][1] = '#ERR'
+
+    out_f.write('%s;%s;%s\n' % (
+        item.default_code,
+        origin[item.default_code][0],
+        origin[item.default_code][1],
+        ))
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
