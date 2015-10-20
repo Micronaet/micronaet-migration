@@ -30,8 +30,15 @@ import erppeek
 def get_name(item):
     ''' Get name 3 field and delete code on the left
     '''
+    res = ''
     name = item.k2_image_caption or item.description_sale or item.name or ''
-    return name.split('] ')[-1]
+    for c in name.split('] ')[-1]:
+        if ord(c) <= 128:
+            res += c
+        else:
+            res += ''
+    return res
+    
 # -----------------------------------------------------------------------------
 #        Set up parameters (for connection to Open ERP Database) 
 # -----------------------------------------------------------------------------
