@@ -21,27 +21,25 @@
 ###############################################################################
     
 {
-	"name": "Aeroo Reports - Quotation custom",
-	"version": "1.0",
-	"author": "Nicola Riolini - Micronaet",
-    'website': "http://www.micronaet.it",
-	"depends": [
-	    "base",
-        #"account", # TODO needed?
-        "product",
-        "sale",
-        "report_aeroo",
-        #"report_aeroo_ooo",
-        #"sale_layout",
-        "quotation_photo",
+	'name': 'Aeroo Reports - Quotation custom',
+	'version': '1.0',
+	'author': 'Nicola Riolini - Micronaet',
+    'website': 'http://www.micronaet.it',
+	'depends': [
+	    'base',
+        'product',
+        'sale',
+        'order_destination', # Micronaet/micronaet-mx8-git
+        'report_aeroo',
+        'quotation_photo',
         ],
-	"category": "Generic Modules/Aeroo Reporting",
-	"init_xml": [],
-	"demo_xml": [],
-	"data": [
-	    "order_line.xml",
-	    "report/report_order.xml",
+	'category': 'Generic Modules/Aeroo Reporting',
+	'init_xml': [],
+	'demo_xml': [],
+	'data': [
+	    'order_line.xml',
+	    'report/report_order.xml',
 	    ],
-	"installable": True
+	'installable': True
     }
 

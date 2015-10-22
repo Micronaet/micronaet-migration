@@ -42,7 +42,7 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 
 _logger = logging.getLogger(__name__)
 
-class ProductProxuct_Photo(orm.Model):
+class ProductProduct_Photo(orm.Model):
     _inherit = 'product.product'
 
     def get_quotation_image(self, cr, uid, item, context=None):
@@ -136,8 +136,6 @@ class SaleOrderQuotation(orm.Model):
             (1, 'Offerta dettagliata (q.-sconto-subtotali)'),
             (2, 'Offerta breve (solo q.)'),
             ], 'Model'),
-        'destination_partner_id': fields.many2one(
-            'res.partner', 'Destination'),     
         }
     _defaults = {
         'quotation_model': lambda *x: 2, # short
