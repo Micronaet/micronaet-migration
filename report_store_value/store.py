@@ -59,7 +59,8 @@ class StatisticStore(orm.Model):
             file_input2='~/etl/esistoerprogr.CM2',  
             exch_file1='~/etl/cm1-cm2.CM1',
             exch_file2='~/etl/cm1-cm2.CM2',
-            delimiter=';', header=0, verbose=100):
+            delimiter=';', header=0, verbose=100
+            context=None):
         ''' Scheduled importation of existence
         '''
         # TODO test prepare function in csv module    
