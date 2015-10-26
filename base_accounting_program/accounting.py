@@ -185,7 +185,8 @@ class SaleOrderLineExtraFields(orm.Model):
         return super(SaleOrderLineExtraFields, self).write(
             cr, uid, ids, vals, context=context)
 
-    def on_change_multi_discount(self, cr, uid, ids, multi_discount_rates):
+    def on_change_multi_discount(self, cr, uid, ids, multi_discount_rates, 
+            context=None):
         ''' Get multidiscount return compute of discount and better format
             of multi rates
         '''
