@@ -102,6 +102,13 @@
         <field name="inherit_id" ref="product.product_normal_form_view"/>
         <field name='type'>form</field>
         <field name='arch' type='xml'>
+            <field name="description_sale" position="after">
+                <group colspan="4" col="4" name="measure_box">
+                    <separator string="Parameter for delivery" colspan="4"/>
+                    <field name="linear_length" />
+                    <field name="q_x_pack" /> <!--TODO DOPPIONE?-->
+                </group>
+            </field>
             <field name="description_purchase" position="after">
                <separator string="Web Large Description" colspan="4"/>
                <field colspan="4" name="large_description" nolabel="1"/>
