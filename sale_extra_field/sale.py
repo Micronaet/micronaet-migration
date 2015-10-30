@@ -84,22 +84,23 @@ class ProductProduct_Photo(orm.Model):
         return img
 
     # Fields function:
-    def _get_quotation_image(self, cr, uid, ids, field_name, arg, context=None):
+    def _get_quotation_image(self, cr, uid, ids, field_name, arg, 
+            context=None):
         ''' Field function, for every ids test if there's image and return
             base64 format according to code value (images are jpg)
         '''
         res = {}
         for item in ids:
-            res[item] = self.get_quotation_image(cr, uid, item, context=context)
+            res[item] = self.get_quotation_image(cr, uid, item, 
+                context=context)
         return res                
 
     _columns = {
         # TODO remove? not used used default_photo in external module
         'quotation_photo':fields.function( # Second company
-            _get_quotation_image, type="binary",  method=True),
+            _get_quotation_image, type="binary", method=True),
 
-        'telaio': fields.char('Telaio', size=64,
-            translate=True),
+        'telaio': fields.char('Telaio', size=64, translate=True),
         'pipe_diameter':fields.char(
             'Diam. tubo', size=15),
         'weight_packaging':fields.char('Peso imballo', size=20),
