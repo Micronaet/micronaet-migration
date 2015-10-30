@@ -36,7 +36,7 @@
 	"init_xml": [],
 	"demo_xml": [],
 	"data": [
-        "purchase_view.xml",
+        #"purchase_view.xml",
         "report/report_order.xml",
         ],
 	"installable": True

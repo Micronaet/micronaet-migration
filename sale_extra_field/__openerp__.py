@@ -33,7 +33,7 @@
 	'init_xml': [],
 	'demo_xml': [],
 	'data': [
-        'purchase_view.xml',
+        'sale_view.xml',
         ],
 	'installable': True
     }

@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<openerp>
+<data>
+    <record model="ir.ui.view" id="view_product_product_extra_fields">
+        <field name="name">product.product.extra</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view" />
+        <field name="arch" type="xml">
+           <xpath expr="/form/sheet/notebook/page[@string='Sales']/group[@name='sale']" position="after">
+                  <group colspan="4" col="8">
+                      <field name="telaio" />              
+                      <field name="pipe_diameter" />              
+                      <field name="weight_packaging" />              
+                      <newline />
+                      <field name="item_per_box" />              
+                      <field name="item_per_pallet" />              
+                      <field name="item_per_mq" />              
+                      <field name="item_per_camion" />              
+                      <separator string="Descrizione extra" colspan="8" />
+                      <field name="extra_description" nolabel="1" colspan="8"/>
+                  </group>
+           </xpath>
+        </field>
+    </record>
+  </data>
+</openerp>
+
