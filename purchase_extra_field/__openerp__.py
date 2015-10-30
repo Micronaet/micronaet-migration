@@ -20,20 +20,21 @@
 ###############################################################################
 
 {
-	"name": "Purchase - Extra field",
-	"version": "1.0",
-	"author": "Nicola Riolini - Micronaet",
+	'name': 'Purchase - Extra field',
+	'version': '1.0',
+	'author': 'Nicola Riolini - Micronaet',
     'website': 'http://www.micronaet.it',
-	"depends": [
-	    "base", 
-        "purchase",
+	'depends': [
+	    'base', 
+        'purchase',
+        'base_accounting_program',
         ],
-	"category": "Generic Modules/Aeroo Reporting",
-	"init_xml": [],
-	"demo_xml": [],
-	"data": [
-        "purchase_view.xml",
+	'category': 'Generic Modules/Aeroo Reporting',
+	'init_xml': [],
+	'demo_xml': [],
+	'data': [
+        'purchase_view.xml',
         ],
-	"installable": True
+	'installable': True
     }
  

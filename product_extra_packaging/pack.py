@@ -40,7 +40,6 @@ import base64, urllib
 _logger = logging.getLogger(__name__)
 
 
-
 class BaseContainerType(orm.Model):
     '''Type of Container: type of container used for standard total cost
        used for divide for tot article to part cost on unit

@@ -31,7 +31,10 @@
         'sale',
         'order_destination', # Micronaet/micronaet-mx8-git
         'report_aeroo',
+        
+        # Extra field data:
         'quotation_photo',
+        'purchase_extra_field',
         ],
 	'category': 'Generic Modules/Aeroo Reporting',
 	'init_xml': [],
