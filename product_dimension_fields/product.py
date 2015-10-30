@@ -38,7 +38,6 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 
 _logger = logging.getLogger(__name__)
 
-
 class ProductProductExtra(orm.Model):
     _inherit = 'product.product'
     
@@ -51,8 +50,7 @@ class ProductProductExtra(orm.Model):
         'fabric': fields.text('Fabric - Glass'),
         'type_of_material': fields.text('Type of material or fabric'),
 
-        'description_web': fields.text('Web Description',translate=True),
-        
+        'description_web': fields.text('Web Description',translate=True),        
         }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
