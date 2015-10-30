@@ -38,42 +38,6 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 
 _logger = logging.getLogger(__name__)
 
-"""
-# fiam_address.py:
-This block add extra fields for importation of address
-Not present because res.partner.address now is in res.partner
-class res_partner_address_fiam_fields(osv.osv):
-    _name='res.partner.address'
-    _inherit ='res.partner.address'
-
-    _columns = {
-               'import': fields.boolean(
-                   'Imported', required=False), # imported (c, s or d)
-               'mexal_c': fields.char(
-                   'Destinazione cliente', size=9), # destination c
-               'mexal_s': fields.char(
-                   'Destinazione fornitore', size=9), # destination s
-    }
-"""
-
-"""
-# fiam_crm_lead.py:
-This block add fields for import data from access DB for leads
-class crm_lead_micronaet_fields(osv.osv):
-    _name='crm.lead'
-    _inherit ='crm.lead'
-
-    _columns = {
-               'import': fields.boolean('Imported', required=False),
-    }
-"""
-
-"""
-# fiam_product.py:
-This block of code add ID for link to accounting program and some extra fields
-Maybe in the future this link fields will be replaced with field in sync module
-and this fields could be deleted
-"""
 class ProductProductExtraFields(orm.Model):
     _inherit ='product.product'
 

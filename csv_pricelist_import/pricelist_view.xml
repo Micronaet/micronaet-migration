@@ -1,15 +1,5 @@
 <?xml version="1.0" ?>
 <openerp>
 	<data>
-		<record model="ir.ui.view" id="view_partner_pricelist_form">
-		    <field name="name">res.partner.pricelit.form</field>
-		    <field name="model">res.partner</field>
-		    <field name="inherit_id" ref="product.view_partner_property_form" />
-		    <field name="arch" type="xml">
-		        <field name="property_product_pricelist" position="after">
-    		        <field name="ref_pricelist_id" readonly="1"/> 		            
-		        </field>
-		    </field>
-		</record>
 	</data>
 </openerp>
