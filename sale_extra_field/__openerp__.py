@@ -20,7 +20,7 @@
 ###############################################################################
 
 {
-	'name': 'Purchase - Extra field',
+	'name': 'Sale - Extra field',
 	'version': '1.0',
 	'author': 'Nicola Riolini - Micronaet',
     'website': 'http://www.micronaet.it',
@@ -29,7 +29,7 @@
         'purchase',
         'base_accounting_program',
         ],
-	'category': 'Generic Modules/Aeroo Reporting',
+	'category': 'Customization',
 	'init_xml': [],
 	'demo_xml': [],
 	'data': [
