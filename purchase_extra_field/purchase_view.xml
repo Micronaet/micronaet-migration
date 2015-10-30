@@ -25,7 +25,7 @@
            <!--<field name='mes_type' position="after">   
                 <field name='quantity_x_pack' />
            </field>-->
-           <field name='lst_price' position="after">   
+           <field name='default_code' position="after">   
                 <group colspan="4" col="2">
                     <newline />
                     <separator string="Imballo default" colspan="2"/>
