@@ -146,7 +146,6 @@ class StatisticHeader(orm.Model):
         header_id = 0
         old_order_number = ''
         sequence = 0
-        import pdb; pdb.set_trace()
         for line in lines:
             try:
                 counter += 1
@@ -221,7 +220,7 @@ class StatisticHeader(orm.Model):
                     _logger.error('Partner not found %s' % mexal_id)
                     continue
                     
-                if line_type=="a":
+                if line_type == "a":
                     if not colli:
                         colli = quantity # if no cols use quantity (for 20 x 1)
                 if port_code not in ('', 'f', 'a', 'd'):
