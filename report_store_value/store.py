@@ -69,7 +69,6 @@ class StatisticStore(orm.Model):
         stock_ids = self.search(cr, uid, [], context=context)
         self.unlink(cr, uid, stock_ids, context=context)
 
-        import pdb; pdb.set_trace()
         # TODO keep in this form?
         records = {'FIA': {}, 'GPB': {}} 
         q_x_packs = {'FIA': {}, 'GPB': {}}
