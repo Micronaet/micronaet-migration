@@ -35,6 +35,7 @@
                        <field name="easylabel" />
                        
                        <!--<field name="autostock" />-->
+                       <button name="fast_migrate_country" string="Country update" type="object" />
                    </group>
                 </form>
             </field>

@@ -67,6 +67,7 @@
                <field name="user_id" position="after">
                       <field name='type_id' string="Campaign"/>                      
                       <field name='zone_id' />
+                      <field name='country_id' />
                       <filter name='is_mexal' string='Mexal' domain="['|', '|', ('sql_destination_code','!=',False), ('sql_supplier_code','!=',False), ('sql_customer_code','!=',False)]"/>
                       <filter name='is_not_mexal' string='Extra Mexal' domain="[('sql_destination_code','=',False), ('sql_supplier_code','=',False), ('sql_customer_code','=',False)]"/>
                </field>
@@ -75,7 +76,7 @@
                </filter>
             </field>
     </record>
-    
+
    <record model="ir.ui.view" id="view_partner_tree_inherit_fields">
         <field name="name">Partner tree fields</field>
         <field name="model">res.partner</field>
