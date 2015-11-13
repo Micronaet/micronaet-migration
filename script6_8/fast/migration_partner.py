@@ -106,29 +106,26 @@ class SyncroXMLRPC(orm.Model):
         # ------------------------------------
         # Syncro partner with all informations
         # ------------------------------------
-        obj = 'res.partner'
-        _logger.info("Start %s" % obj)
-        item_pool = self.pool.get(obj)
-        erp_pool = erp.ResPartner # v. 6.0
-        item_ids = erp_pool.search([('country', '!=', False)]) 
+        _logger.info("Start res.partner" )
+        item_pool = self.pool.get('res.partner')
+        erp_pool = erp.ResPartnerAddress # v. 6.0
+        item_ids = erp_pool.search([('country_id', '!=', False)]) 
         i = 0    
-        import pdb; pdb.set_trace()        
+        import pdb; pdb.set_trace()
         for item in erp_pool.browse(item_ids):
             try:
                 i += 1                
                 country_id = self._converter['res.country'].get(
-                    item.country.id, False)
+                    item.country_id.id, False)
                 if country_id:
                     partner_ids = item_pool.search(cr, uid, [
-                        ('migration_old_id', '=', item.id)], context=context)
-                    if partner_ids:    
+                        ('migration_old_address_id', '=', item.id)], context=context)
+                    if partner_ids:
                         item_pool.write(cr, uid, partner_ids[0], { 
                             'country_id': country_id,
                             }, context=context)
                     else:
                         print i, "#ERR", obj, "not found:", item.name, item.country
-
-                                
                 else:
                     print i, "#ERR", obj, "country not found:", item.name, item.country
             except:
