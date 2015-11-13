@@ -55,22 +55,6 @@
         </field>
     </record>
 
-   <!--res.partner:-->
-   <!--TODO NOTE Note used!!!<record model="ir.ui.view" id="view_partner_form_inherit_mexal_id">
-        <field name="name">Partner mexal</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base_contact.view_partner_form_inherit"/>
-        <field name="type">form</field>
-        <field name="arch" type="xml">
-           <field name="email" position="after">
-              <field name="mexal_c" />
-              <field name="mexal_s" />
-           </field>
-        </field>
-    </record>-->
-                <field name="partner_id" filter_domain="[('partner_id','=',self)]"/>
-                <filter name="state" string="Draft state" domain="[('state','=','draft')]"/>
-
     <record model="ir.ui.view" id="view_res_partner_tree_filter_mexal_id">
             <field name="name">Partner filter accounting</field>
             <field name="model">res.partner</field>
