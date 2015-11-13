@@ -68,6 +68,8 @@
            </field>
         </field>
     </record>-->
+                <field name="partner_id" filter_domain="[('partner_id','=',self)]"/>
+                <filter name="state" string="Draft state" domain="[('state','=','draft')]"/>
 
     <record model="ir.ui.view" id="view_res_partner_tree_filter_mexal_id">
             <field name="name">Partner filter accounting</field>
@@ -81,6 +83,8 @@
                <field name="user_id" position="after">
                       <field name='type_id' string="Campaign"/>                      
                       <field name='zone_id' />
+                      <filter name='is_mexal' string='Mexal' domain="['|', '|', ('sql_destination_code','!=',False), ('sql_supplier_code','!=',False), ('sql_customer_code','!=',False)]"/>
+                      <filter name='is_not_mexal' string='Extra Mexal' domain="[('sql_destination_code','=',False), ('sql_supplier_code','=',False), ('sql_customer_code','=',False)]"/>
                </field>
                <filter string="Salesperson" position="after">
                    <filter string="Campaign" name="group_type" context="{'group_by': 'type_id'}"/>
