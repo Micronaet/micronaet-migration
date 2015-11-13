@@ -59,6 +59,8 @@ class SyncroXMLRPC(orm.Model):
         #      Common part: connection to old database using ERPEEK v. 6.0
         # ---------------------------------------------------------------------
         item_ids = self.search(cr, uid, [], context=context)
+        print context
+        context['lang'] = 'en_US'
         if not item_ids:
            return False
         openerp = self.browse(cr, uid, item_ids[0], context=context)
@@ -84,6 +86,7 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # res.country (name for get ID)
         # ---------------------------------------------------------------------
+        import pdb; pdb.set_trace()
         obj = 'res.country'
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
@@ -93,10 +96,13 @@ class SyncroXMLRPC(orm.Model):
         item_ids = erp_pool.search([])
         for item in erp_pool.browse(item_ids):
             try:
-                item_ids = item_pool.search(cr, uid, [
-                    ('name', '=', item.name)])
-                if item_ids:
-                    converter[item.id] = item_ids[0]
+                name = item.name # switch_name.get(item.name, item.name)                
+                
+                country_ids = item_pool.search(cr, uid, [
+                    ('name', '=', name)], context=context)
+                if country_ids:
+                    converter[item.id] = country_ids[0]
+                    #print "INFO name found: %s" % item.name    
                 else:
                     print "ERR name not found: %s" % item.name    
             except:
@@ -110,24 +116,26 @@ class SyncroXMLRPC(orm.Model):
         item_pool = self.pool.get('res.partner')
         erp_pool = erp.ResPartnerAddress # v. 6.0
         item_ids = erp_pool.search([('country_id', '!=', False)]) 
-        i = 0    
-        import pdb; pdb.set_trace()
+        i = 0 
+        print "Totale aggiornamenti:", len(item_ids)
         for item in erp_pool.browse(item_ids):
             try:
-                i += 1                
+                i += 1                                
                 country_id = self._converter['res.country'].get(
                     item.country_id.id, False)
                 if country_id:
                     partner_ids = item_pool.search(cr, uid, [
-                        ('migration_old_address_id', '=', item.id)], context=context)
+                        ('migration_old_id', '=', item.partner_id.id)
+                        ], context=context)
                     if partner_ids:
                         item_pool.write(cr, uid, partner_ids[0], { 
                             'country_id': country_id,
                             }, context=context)
                     else:
-                        print i, "#ERR", obj, "not found:", item.name, item.country
+                        print (i, "#ERR parter", item.partner_id.id, 
+                            item.partner_id.name)
                 else:
-                    print i, "#ERR", obj, "country not found:", item.name, item.country
+                    print i, "#ERR country not found:", item.country_id
             except:
                 print i, "#ERR", obj, "jump:", item.name, sys.exc_info()
                 continue

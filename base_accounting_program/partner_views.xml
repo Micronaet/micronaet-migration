@@ -73,6 +73,7 @@
                </field>
                <filter string="Salesperson" position="after">
                    <filter string="Campaign" name="group_type" context="{'group_by': 'type_id'}"/>
+                   <filter string="Type" name="group_partner_type" context="{'group_by': 'type'}"/>
                </filter>
             </field>
     </record>
