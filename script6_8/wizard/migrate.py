@@ -46,6 +46,11 @@ class SyncroMigrationWizard(orm.TransientModel):
     
     _name = "syncro.migration.wizard"
 
+    # Fast procedure:
+    def fast_migrate_country(self, cr, uid, ids, context=None):
+        return self.pool.get('syncro.xmlrpc'). fast_migrate_country(
+            cr, uid, context=context)
+            
     # Wizard button:
     def migrate_database(self, cr, uid, ids, context=None):  
         self.pool.get('syncro.xmlrpc').migrate_database(

@@ -47,7 +47,7 @@ class SyncroXMLRPC(orm.Model):
     ''' Function for migration (and setup parameters for XMLRPC)
         So no file .cfg to setup
     '''
-    _name = 'syncro.xmlrpc'
+    _inherit = 'syncro.xmlrpc'
 
     _converter = {}
 
@@ -80,7 +80,7 @@ class SyncroXMLRPC(orm.Model):
         sock = xmlrpclib.ServerProxy('http://%s:%s/xmlrpc/object' % (
             openerp.hostname,
             openerp.port), allow_none=True)
-        
+
         # ---------------------------------------------------------------------
         # res.country (name for get ID)
         # ---------------------------------------------------------------------
@@ -93,8 +93,9 @@ class SyncroXMLRPC(orm.Model):
         item_ids = erp_pool.search([])
         for item in erp_pool.browse(item_ids):
             try:
-                item_ids = item_pool.search(cr, uid, [('name', '=', item.name)]
-                if item_ids
+                item_ids = item_pool.search(cr, uid, [
+                    ('name', '=', item.name)])
+                if item_ids:
                     converter[item.id] = item_ids[0]
                 else:
                     print "ERR name not found: %s" % item.name    
@@ -109,19 +110,27 @@ class SyncroXMLRPC(orm.Model):
         _logger.info("Start %s" % obj)
         item_pool = self.pool.get(obj)
         erp_pool = erp.ResPartner # v. 6.0
-        item_ids = erp_pool.search([]) 
-        i = 0            
+        item_ids = erp_pool.search([('country', '!=', False)]) 
+        i = 0    
+        import pdb; pdb.set_trace()        
         for item in erp_pool.browse(item_ids):
             try:
                 i += 1                
-                if item.country_id:
-                    country_id = self._converter['res.country'].get(item.country_id.id, False)
-                    if country_id:
-                        item_pool.write(cr, uid, { 
+                country_id = self._converter['res.country'].get(
+                    item.country.id, False)
+                if country_id:
+                    partner_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item.id)], context=context)
+                    if partner_ids:    
+                        item_pool.write(cr, uid, partner_ids[0], { 
                             'country_id': country_id,
                             }, context=context)
-                            
-                    print i, "#INFO", obj, "update:", item.name
+                    else:
+                        print i, "#ERR", obj, "not found:", item.name, item.country
+
+                                
+                else:
+                    print i, "#ERR", obj, "country not found:", item.name, item.country
             except:
                 print i, "#ERR", obj, "jump:", item.name, sys.exc_info()
                 continue
