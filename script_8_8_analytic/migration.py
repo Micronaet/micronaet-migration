@@ -48,8 +48,15 @@ class SyncroXMLRPCAccount(orm.Model):
         So no file .cfg to setup
     '''
     _name = 'syncro.xmlrpc.account'
-
     _converter = {}
+
+    _columns = {
+        'name': fields.char('Source DB name', size=80, required=True),
+        'hostname': fields.char('Source Hostname', size=80, required=True),
+        'port': fields.integer('Source Port', required=True),
+        'username': fields.char('Source Username', size=80, required=True),
+        'password': fields.char('Source Password', size=80, required=True),
+        }
 
     def load_converter(self, cr, uid, converter, obj,
             field_id='account_old_id', context=None):
@@ -71,7 +78,7 @@ class SyncroXMLRPCAccount(orm.Model):
     def migrate_database(self, cr, uid, wiz_proxy, context=None):
         ''' Migrate account production
         '''
-
+        import pdb; pdb.set_trace()
         # ---------------------------------------------------------------------
         #        Common part: connection to old database using ERPEEK
         # ---------------------------------------------------------------------
@@ -163,14 +170,105 @@ class SyncroXMLRPCAccount(orm.Model):
                 context=context)
 
         # ---------------------------------------------------------------------
+        # user: product.product
+        # ---------------------------------------------------------------------
+        obj = 'product.product'
+        _logger.info("Start %s" % obj)
+        self._converter[obj] = {}
+        converter = self._converter[obj] # for use same name
+        if wiz_proxy.user:
+            erp_pool = erp.HrEmployee
+            item_pool = self.pool.get(obj)
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try:
+                    # Create record to insert / update
+                    name = "Costo orario %s" % item.name
+                    data = {
+                        'name': name,
+                        #'user_id': 
+                        'account_old_id': item.id,
+                        'type': 'service',
+                        'list_price': 20.0,
+                        'standard_price': 10.0,
+                        }
+
+                    new_ids = item_pool.search(cr, uid, [
+                        ('name', '=', name)],  # search login
+                            context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        item_pool.write(cr, uid, item_id, data,
+                            context=context)
+                        print "#INFO", obj, "update:", item.name
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO", obj, "create:", item.name
+
+                    converter[item.id] = item_id
+                except:
+                    print "#ERR", obj, "jumped:", item.name
+                    continue
+                # NOTE No contact for this database
+        else: # Load convert list form database
+            self.load_converter(cr, uid, converter, obj=obj,
+                context=context)
+
+        # ---------------------------------------------------------------------
+        # hr.employee >> hr.employee
+        # ---------------------------------------------------------------------
+        obj = 'hr.employee'
+        _logger.info("Start %s" % obj)
+        self._converter[obj] = {}
+        converter = self._converter[obj] # for use same name
+        if wiz_proxy.user:
+            erp_pool = erp.HrEmployee
+            item_pool = self.pool.get(obj)
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try:
+                    # Create record to insert / update
+                    data = {
+                        'name': item.name,
+                        'user_id': self._converter['res.users'].get(
+                            item.user_id.id, False),
+                        # TODO:    
+                        #'product_id': self._converter['product.product'].get(
+                        #    item.id, False)
+                        'account_old_id': item.id,
+                        }
+
+                    new_ids = item_pool.search(cr, uid, [
+                        ('name', '=', item.name)],  # search login
+                            context=context)
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        item_pool.write(cr, uid, item_id, data,
+                            context=context)
+                        print "#INFO", obj, "update:", item.name
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO", obj, "create:", item.name
+
+                    converter[item.id] = item_id
+                except:
+                    print "#ERR", obj, "jumped:", item.name
+                    continue
+                # NOTE No contact for this database
+        else: # Load convert list form database
+            self.load_converter(cr, uid, converter, obj=obj,
+                context=context)
+
+        # ---------------------------------------------------------------------
         # product.category
         # ---------------------------------------------------------------------
-        obj_old = 'product.category'
         obj = 'account.analytic.account'
         self._converter[obj] = {}
         _logger.info("Start %s" % obj)
         converter = self._converter[obj]
-        if wiz_proxy.category:
+        if wiz_proxy.group:
             item_pool = self.pool.get(obj)
             erp_pool = erp.ProductCategory
             item_ids = erp_pool.search([])
@@ -193,7 +291,6 @@ class SyncroXMLRPCAccount(orm.Model):
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
                         print "#INFO", obj, "create:", name
-
                     converter[item.id] = item_id
                 except:
                     print "#ERR", obj, "jumped:", name
@@ -290,7 +387,7 @@ class ResPartner(orm.Model):
         }
 
 class AccountAnaliticAccount(orm.Model):
-    _inherit = 'account.analitic.account'
+    _inherit = 'account.analytic.account'
     # product.category > account.analitic.account 
     # product.product > account.analitic.account (with parent ID)
 
@@ -302,11 +399,10 @@ class AccountAnaliticAccount(orm.Model):
         }
 
 class AccountAnaliticLine(orm.Model):
-    _inherit = 'account.analitic.line'
+    _inherit = 'account.analytic.line'
     # account.analitic.line > account.analitic.line
 
     _columns = {
         'account_old_id': fields.integer('Account migration ID'),
         }
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:class ResPartnerCategory(orm.Model):

@@ -29,6 +29,10 @@
     'depends': [
         'base',
         'product',
+        'analytic',
+        'project',
+        'hr',
+        'hr_timesheet',
         ],
     'init_xml': [], 
     'data': [

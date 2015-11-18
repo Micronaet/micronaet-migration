@@ -41,7 +41,7 @@
     </record>
 
     <!--MENUITEM:-->
-   <menuitem name="Configuration"
+   <menuitem name="Account sync Configuration"
           parent="base.menu_action_res_company_form" 
           id="menu_syncro_xmlrpc_view"
           action="action_syncro_xmlrpc_view" 

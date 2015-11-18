@@ -53,7 +53,7 @@ class SyncroMigrationWizard(orm.TransientModel):
             
     # Wizard button:
     def migrate_database(self, cr, uid, ids, context=None):  
-        self.pool.get('syncro.xmlrpc').migrate_database(
+        self.pool.get('syncro.xmlrpc.account').migrate_database(
             cr, uid, 
             self.browse(cr, uid, ids, context=context)[0], # proxy for param.
             context=context)

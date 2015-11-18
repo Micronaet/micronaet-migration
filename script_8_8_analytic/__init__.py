@@ -27,6 +27,5 @@
 
 import migration
 import wizard
-from fast import migration_partner
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
