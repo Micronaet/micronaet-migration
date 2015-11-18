@@ -17,7 +17,6 @@
 
                        <field name="user" />
                        <field name="product" />
-                       <field name="group" />
                        <field name="partner" />
                        <field name="line" />                       
                    </group>

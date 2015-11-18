@@ -68,7 +68,6 @@ class SyncroMigrationWizard(orm.TransientModel):
 
         'user': fields.boolean('A. User > Product > Employee'),
         'product': fields.boolean('B. Product > Account analytic'),
-        'group': fields.boolean('C. Group > Account analytic parent'),
         'partner': fields.boolean('D. Account analytic > Partner'),
         'line': fields.boolean('E. Account analytic line'),
         }

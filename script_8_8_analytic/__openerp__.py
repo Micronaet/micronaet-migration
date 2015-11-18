@@ -33,6 +33,7 @@
         'project',
         'hr',
         'hr_timesheet',
+        'hr_timesheet_invoice',
         ],
     'init_xml': [], 
     'data': [
