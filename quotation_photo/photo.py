@@ -112,7 +112,7 @@ class ProductProductImage(osv.osv):
         else: # no folder image
            return img # empty!
 
-        product_browse = self.browse(cr, uid, item, context=context)
+        product_browse = self.browse(cr, uid, item)
         code = product_browse.code
         if code:
             # codice originale (tutte le cifre)
