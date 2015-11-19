@@ -228,8 +228,8 @@ class SyncroXMLRPCAccount(orm.Model):
                         'user_id': self._converter['res.users'].get(
                             item.user_id.id, False),
                         # TODO:    
-                        #'product_id': self._converter['product.product'].get(
-                        #    item.id, False)
+                        'product_id': self._converter['product.product'].get(
+                            item.id, False),
                         'account_old_id': item.id,
                         }
 
@@ -377,7 +377,7 @@ class SyncroXMLRPCAccount(orm.Model):
 
                         'unit_amount': item.unit_amount,
                         'product_uom_id': 1, # TODO item.product_uom_id,
-                        'journal_id': 1, # TODO item.journal_id,
+                        'journal_id': 3, # Timesheet journal
                         'amount': item.amount,
                         'to_invoice': 1, # TODO item.to_invoice,
                         'general_account_id': 1, # TODO item.general_account_id,
@@ -395,7 +395,7 @@ class SyncroXMLRPCAccount(orm.Model):
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
                         print "#INFO", obj, "create:", name
-                    converter[item.id] = item_id
+                    #converter[item.id] = item_id
                 except:
                     print "#ERR", obj, "jumped:", name, sys.exc_info()
                     continue

@@ -83,13 +83,14 @@ class ProductProductImage(osv.osv):
     '''
     _inherit = 'product.product'
 
-    def get_image(self, cr, uid, item):
+    def get_image(self, cr, uid, item, context=None):
         ''' Get folder (actually 200 px) and extension from folder obj.
             Calculated dinamically image from module
             image folder + extra path + ext.
             Return image
         '''
         # TODO Better rewrite all this mess function!
+        with_log = True # TODO debug part
         img = ''
         folder_proxy = self.pool.get('product.quotation.folder')
         folder_ids = folder_proxy.search(cr, uid, [('width', '=', 200)])
@@ -107,44 +108,62 @@ class ProductProductImage(osv.osv):
                   (folder_browse.folder_path + "/") % (cr.dbname, )
                       if len(folder_browse.folder_path.split("%s")) == 2
                       else folder_browse.folder_path + "/")
-           _logger.warning('Load image: %s' % image_path) # TODO remove (debug)      
         else: # no folder image
            return img # empty!
 
         product_browse = self.browse(cr, uid, item, context=context)
-        if product_browse.code:
+        code = product_browse.code
+        if code:
             # codice originale (tutte le cifre)
             try:
                 (filename, header) = urllib.urlretrieve(
-                    image_path + product_browse.code.replace(
+                    image_path + code.replace(
                         " ", "_") + extension) # code image
                 f = open(filename , 'rb')
+                if with_log:
+                    _logger.info('>> Load image: %s' % filename) # TODO debug
+
                 img = base64.encodestring(f.read())
                 f.close()
             except:
                 img = ''
 
-            # codice padre (5 cifre):
-            if (not img) and product_browse.code and len(
-                    product_browse.code) >= 5:
+            # codice padre (con spazi):
+            if not img and code:
                 try:
-                    padre = product_browse.code[:5]
+                    (filename, header) = urllib.urlretrieve(
+                        image_path + code + extension) # code image
+                    f = open(filename , 'rb')
+                    if with_log:
+                        _logger.info('>> Load image: %s' % filename) # TODO debug
+                    img = base64.encodestring(f.read())
+                    f.close()
+                except:
+                    img = ''
+
+            # codice padre (5 cifre):
+            if (not img) and code and len(code) >= 5:
+                try:
+                    padre = code[:5]
                     (filename, header) = urllib.urlretrieve(
                         image_path + padre.replace(" ", "_") + extension)
                     f = open(filename , 'rb')
+                    if with_log:
+                        _logger.info('>> Load image: %s' % filename) # TODO debug
                     img = base64.encodestring(f.read())
                     f.close()
                 except:
                     img = ''
 
             # codice padre (3 cifre):
-            if (not img) and product_browse.code and len(
-                    product_browse.code) >= 3:
+            if not img and code and len(code) >= 3:
                 try:
                     padre = product_browse.code[:3]
                     (filename, header) = urllib.urlretrieve(
                         image_path + padre.replace(" ", "_") + extension)
                     f = open(filename , 'rb')
+                    if with_log:
+                        _logger.info('>> Load image: %s' % filename) # TODO debug
                     img = base64.encodestring(f.read())
                     f.close()
                 except:
@@ -171,7 +190,7 @@ class ProductProductImage(osv.osv):
         res = {}
         #_logger.warning('Loading image for product: %s' % (ids, )) # TODO debug
         for item in ids:
-            res[item] = self.get_image(cr, uid, item)
+            res[item] = self.get_image(cr, uid, item, context=context)
         return res
 
     _columns = {
