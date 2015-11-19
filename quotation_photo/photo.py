@@ -83,7 +83,7 @@ class ProductProductImage(osv.osv):
     '''
     _inherit = 'product.product'
 
-    def get_image(self, cr, uid, item):
+    def get_image_quotation(self, cr, uid, item):
         ''' Get folder (actually 200 px) and extension from folder obj.
             Calculated dinamically image from module
             image folder + extra path + ext.
@@ -187,16 +187,14 @@ class ProductProductImage(osv.osv):
                     #img = ''
         return img
 
-    def _get_image(self, cr, uid, ids, field_name, arg, context=None):
+    def _get_image_quotation(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
-        #_logger.warning('Loading image for product: %s' % (ids, )) # TODO debug
-        import pdb; pdb.set_trace()
         for item in ids:
-            res[item] = self.get_image(cr, uid, item)
+            res[item] = self.get_image_quotation(cr, uid, item)
         return res
 
     _columns = {
-        'default_photo': fields.function(_get_image, type="binary", 
+        'default_photo': fields.function(_get_image_quotation, type="binary", 
             method=True),
         }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
