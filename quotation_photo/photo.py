@@ -130,7 +130,7 @@ class ProductProductImage(osv.osv):
                 img = ''
 
             # codice padre (con spazi):
-            if not img and code:
+            if (not img) and code:
                 try:
                     (filename, header) = urllib.urlretrieve(
                         image_path + code + extension) # code image
@@ -157,7 +157,7 @@ class ProductProductImage(osv.osv):
                     img = ''
 
             # codice padre (3 cifre):
-            if not img and code and len(code) >= 3:
+            if (not img) and code and len(code) >= 3:
                 try:
                     padre = product_browse.code[:3]
                     (filename, header) = urllib.urlretrieve(
@@ -171,7 +171,7 @@ class ProductProductImage(osv.osv):
                     img = ''
 
             # Empty image (default or empty in module):
-            if not img:
+            """if (not img):
                 try:
                     (filename, header) = urllib.urlretrieve(
                         image_path + empty_image) # empty setted up on folder
@@ -184,7 +184,7 @@ class ProductProductImage(osv.osv):
                     f = open(filename , 'rb')
                     img = base64.encodestring(f.read())
                     f.close()
-                    #img = ''
+                    #img = ''"""
         return img
 
     def _get_image_quotation(self, cr, uid, ids, field_name, arg, context=None):
