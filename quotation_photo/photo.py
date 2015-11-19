@@ -91,7 +91,7 @@ class ProductProductImage(osv.osv):
         '''
         # TODO Better rewrite all this mess function!
         with_log = True # TODO debug part
-        import pdb; pdb.set_trace()
+
         img = ''
         folder_proxy = self.pool.get('product.quotation.folder')
         folder_ids = folder_proxy.search(cr, uid, [('width', '=', 200)])
@@ -190,6 +190,7 @@ class ProductProductImage(osv.osv):
     def _get_image(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
         #_logger.warning('Loading image for product: %s' % (ids, )) # TODO debug
+        import pdb; pdb.set_trace()
         for item in ids:
             res[item] = self.get_image(cr, uid, item)
         return res
