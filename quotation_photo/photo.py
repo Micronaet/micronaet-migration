@@ -89,6 +89,7 @@ class ProductProductImage(osv.osv):
             image folder + extra path + ext.
             Return image
         '''
+        import pdb; pdb.set_trace()
         # TODO Better rewrite all this mess function!
         with_log = True # TODO debug part
 
@@ -188,6 +189,7 @@ class ProductProductImage(osv.osv):
         return img
 
     def _get_image_quotation(self, cr, uid, ids, field_name, arg, context=None):
+        import pdb; pdb.set_trace()
         res = {}
         for item in ids:
             res[item] = self.get_image_quotation(cr, uid, item)
