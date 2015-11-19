@@ -83,7 +83,7 @@ class ProductProductImage(osv.osv):
     '''
     _inherit = 'product.product'
 
-    def get_image(self, cr, uid, item, context=None):
+    def get_image(self, cr, uid, item):
         ''' Get folder (actually 200 px) and extension from folder obj.
             Calculated dinamically image from module
             image folder + extra path + ext.
@@ -190,7 +190,7 @@ class ProductProductImage(osv.osv):
         res = {}
         #_logger.warning('Loading image for product: %s' % (ids, )) # TODO debug
         for item in ids:
-            res[item] = self.get_image(cr, uid, item, context=context)
+            res[item] = self.get_image(cr, uid, item)
         return res
 
     _columns = {
