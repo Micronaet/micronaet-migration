@@ -164,36 +164,50 @@ class StatisticHeader(orm.Model):
                 # Read data:
                 mexal_id = csv_pool.decode_string(line[0])
                 cliente = csv_pool.decode_string(line[1]) 
+                
                 number = csv_pool.decode_string(line[2])
                 order_date = csv_pool.decode_date(
                     line[3], with_slash=False) or False
                 order_deadline = csv_pool.decode_date(
                     line[4], with_slash=False) or False
+                
                 articolo_id = csv_pool.decode_string(line[5]) 
                 articolo = csv_pool.decode_string(line[6]) 
                 quantity = csv_pool.decode_float(line[7])
+                
                 type_of_line = csv_pool.decode_string(line[8]) 
                 note = csv_pool.decode_string(line[9]) 
+                
                 product_description = csv_pool.decode_string(line[10]) 
                 product_description_eng = csv_pool.decode_string(line[11]) 
+                
                 colli = csv_pool.decode_string(line[12]) 
+                
                 line_type = csv_pool.decode_string(
                     line[13]).lower() # a=art, d=desc
+                
                 port_code = csv_pool.decode_string(line[14]).lower()
                 port_description = csv_pool.decode_string(line[15]) 
+                
                 destination_description = csv_pool.decode_string(line[16]) 
                 destination_address = csv_pool.decode_string(line[17]) 
                 destination_cap = csv_pool.decode_string(line[18]) 
                 destination_loc = csv_pool.decode_string(line[19]) 
                 destination_prov = csv_pool.decode_string(line[20]) 
+                
                 registration_date = csv_pool.decode_date(
                     line[21], with_slash=False) or False
+                
                 extra_note = csv_pool.decode_string(line[22]) 
+                
                 agent_description = csv_pool.decode_string(line[23]) 
 
                 # Dimensional fields:
                 product_ids = product_pool.search(cr, uid, [
-                    ('mexal_id','=', articolo_id)], context=context)
+                    ('default_code','=', articolo_id)], context=context)
+                
+                if len(product_ids) > 1:
+                   _logger.warning('More than one product: %s' % articolo_id)    
 
                 if product_ids and line_type == 'a':
                     product_proxy = product_pool.browse(cr, uid, product_ids, 
@@ -223,19 +237,24 @@ class StatisticHeader(orm.Model):
                 if line_type == "a":
                     if not colli:
                         colli = quantity # if no cols use quantity (for 20 x 1)
+                        
                 if port_code not in ('', 'f', 'a', 'd'):
                     _logger.error('%s) Destination not found: %s' % (
                         counter, port_code))
+                        
                 if line_type not in ('a', 'd'):
                     _logger.error('%s) Line type not found: %s' % (
                         counter, line_type))
+                        
                 if not partner_id:
                     _logger.error('%s) Partner not found: %s' % (
                         counter, mexal_id))
+                        
                 if type_of_line.lower() == 'b':
                     quantity_ok = quantity or 0.0
                 else:
                     quantity_ok = 0.0
+                    
                 if not number:
                     _logger.error('%s) Order number not found: %s' % (
                         counter, number))
@@ -261,6 +280,7 @@ class StatisticHeader(orm.Model):
                         'destination_country': destination_loc,
                         'destination_prov': destination_prov,
                         'agent_description': agent_description,
+                    
                         # extra window:                          
                         'registration_date': registration_date,
                         'extra_note': extra_note,                                 
@@ -429,9 +449,9 @@ class StatisticHeader(orm.Model):
             digits=(16, 2), string='Peso', multi="statistiche", store=False),
 
         'port_code': fields.selection([
-            ('f','Franco'),
-            ('a','Assegnato'),
-            ('d','Addebito'),
+            ('f', 'Franco'),
+            ('a', 'Assegnato'),
+            ('d', 'Addebito'),
             ], 'Port'),
         'port_description': fields.char('Port description', size=40),
         'destination': fields.char('Destination ', size=40),
