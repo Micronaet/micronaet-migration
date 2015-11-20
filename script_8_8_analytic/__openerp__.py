@@ -34,7 +34,8 @@
         'hr',
         'hr_timesheet',
         'hr_timesheet_invoice',
-        'stock',
+        'stock', # uom in product
+        #'timesheet_partner_analytic_report', # report to rewrite
         ],
     'init_xml': [], 
     'data': [

@@ -120,8 +120,8 @@ class SyncroXMLRPCAccount(orm.Model):
         # product.uom >> Hour(s)   Ora(e)
         uom_pool = self.pool.get('product.uom')
         uom_ids = uom_pool.search(cr, uid, ['|',
-            ('name', '=', 'Ora(e)')
-            ('name', '=', 'Hour(s)')
+            ('name', '=', 'Ora(e)'),
+            ('name', '=', 'Hour(s)'),
             ], context=context)
         if uom_ids:
             uom_hour_id = uom_ids[0]
@@ -130,14 +130,14 @@ class SyncroXMLRPCAccount(orm.Model):
                 
         # Timesheet journal: 
         timesheet_pool = self.pool.get('account.analytic.journal')
-        timesheet_ids = uom_pool.search(cr, uid, [
+        timesheet_ids = timesheet_pool.search(cr, uid, [
             ('code', '=', 'TS'),
             ], context=context)
         if timesheet_ids:
-            timesheet_id = timesheet_ids[0]
+            journal_timesheet_id = timesheet_ids[0]
         else:
-            timesheet_id = False
-            
+            journal_timesheet_id = False
+
         # Merci c/vendite
         #
         
@@ -211,6 +211,8 @@ class SyncroXMLRPCAccount(orm.Model):
                         'list_price': 20.0,
                         'standard_price': 10.0,
                         'uom_id': uom_hour_id,
+                        'uos_id': uom_hour_id,
+                        'uom_po_id': uom_hour_id,
                         }
 
                     new_ids = item_pool.search(cr, uid, [
@@ -228,7 +230,7 @@ class SyncroXMLRPCAccount(orm.Model):
 
                     converter[item.id] = item_id
                 except:
-                    print "#ERR", obj, "jumped:", item.name
+                    print "#ERR", obj, "jumped:", item.name, sys.exc_info()
                     continue
                 # NOTE No contact for this database
         else: # Load convert list form database
@@ -256,7 +258,11 @@ class SyncroXMLRPCAccount(orm.Model):
                         'product_id': self._converter['product.product'].get(
                             item.id, False),
                         'account_old_id': item.id,
-                        'timesheet_id': timesheet_id,
+                        'journal_id': journal_timesheet_id,
+                        'work_location': item.work_location,
+                        'birthday': item.birthday,
+                        'gender': item.sex,
+                        'marital': item.marital,
                         }
 
                     new_ids = item_pool.search(cr, uid, [
@@ -284,6 +290,48 @@ class SyncroXMLRPCAccount(orm.Model):
 
 
         # --------------------------------------------------------------------- 
+        #                           ACCOUNT VS PARTNER
+        # --------------------------------------------------------------------- 
+        # ---------------------------------------------------------------------
+        # account.analytic.account  >  res.partner
+        # ---------------------------------------------------------------------
+        obj = 'res.partner'
+        self._converter['partner'] = {}
+        _logger.info("Start %s" % obj)
+        converter = self._converter['partner']
+        if wiz_proxy.partner:
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.AccountAnalyticAccount
+            item_ids = erp_pool.search([])
+            for item in erp_pool.browse(item_ids):
+                try:
+                    # Create record to insert/update
+                    name = item.name
+                    data = {
+                        'name': name,
+                        'is_company': True,
+                        'account_old_id': item.id,
+                        'comment': item.code,
+                        'lang': 'it_IT',
+                        }
+                    new_ids = item_pool.search(cr, uid, [
+                        ('account_old_id', '=', item.id)], context=context) 
+                    if new_ids: # Modify
+                        item_id = new_ids[0]
+                        item_pool.write(cr, uid, item_id, data,
+                            context=context)
+                        print "#INFO", obj, "update:", name
+                    else: # Create
+                        item_id = item_pool.create(cr, uid, data,
+                            context=context)
+                        print "#INFO", obj, "create:", name
+                    converter[item.id] = item_id
+                except:
+                    print "#ERR", obj, "jumped:", name
+                    continue
+
+
+        # --------------------------------------------------------------------- 
         #                           PRODUCT VS ACCOUNT
         # --------------------------------------------------------------------- 
         # ---------------------------------------------------------------------
@@ -304,6 +352,9 @@ class SyncroXMLRPCAccount(orm.Model):
                     data = {
                         'name': name,
                         'account_parent_old_id': item.id,
+                        'use_timesheets': False,
+                        'type': 'view',
+                        #'code': 
                         }
                     new_ids = item_pool.search(cr, uid, [
                         ('name', '=', name)], context=context) # Search name
@@ -345,6 +396,8 @@ class SyncroXMLRPCAccount(orm.Model):
                         'name': name,
                         'account_old_id': item.id,
                         'parent_id': parent_id,
+                        'use_timesheets': True,
+                        'type': 'normal',
                         }
                     new_ids = item_pool.search(cr, uid, [
                         ('account_old_id', '=', item.id)], context=context) 
@@ -372,7 +425,7 @@ class SyncroXMLRPCAccount(orm.Model):
         # ---------------------------------------------------------------------
         #obj = 'account.analytic.line'
         obj = 'hr.analytic.timesheet'
-        temp = 20 # TODO remove:
+        temp = 500 # TODO remove:
         self._converter[obj] = {}
         _logger.info("Start %s" % obj)
         converter = self._converter[obj]
@@ -401,9 +454,13 @@ class SyncroXMLRPCAccount(orm.Model):
                             'account.analytic.account'].get( 
                                 item.product_id.id, False),
 
+                        'partner_id': self._converter[ 
+                            'partner'].get( 
+                                item.account_id.id, False),
+
                         'unit_amount': item.unit_amount,
                         'product_uom_id': uom_hour_id,
-                        'journal_id': journal_id,
+                        'journal_id': journal_timesheet_id,
                         'amount': item.amount,
                         'to_invoice': 1, # TODO item.to_invoice,
                         #'general_account_id': 1, # TODO automated? # expense!
