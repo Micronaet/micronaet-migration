@@ -137,8 +137,7 @@ class SyncroXMLRPCAccount(orm.Model):
             timesheet_id = timesheet_ids[0]
         else:
             timesheet_id = False
-                
-        
+            
         # Merci c/vendite
         #
         
@@ -403,11 +402,11 @@ class SyncroXMLRPCAccount(orm.Model):
                                 item.product_id.id, False),
 
                         'unit_amount': item.unit_amount,
-                        'product_uom_id': 1, # TODO item.product_uom_id,
-                        'journal_id': 3, # Timesheet journal
+                        'product_uom_id': uom_hour_id,
+                        'journal_id': journal_id,
                         'amount': item.amount,
                         'to_invoice': 1, # TODO item.to_invoice,
-                        'general_account_id': 1, # TODO item.general_account_id,
+                        #'general_account_id': 1, # TODO automated? # expense!
 
                         'account_old_id': item.id,
                         }
