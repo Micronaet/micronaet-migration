@@ -425,7 +425,7 @@ class SyncroXMLRPCAccount(orm.Model):
         # ---------------------------------------------------------------------
         #obj = 'account.analytic.line'
         obj = 'hr.analytic.timesheet'
-        temp = 500 # TODO remove:
+        temp = 3000 # TODO remove:
         self._converter[obj] = {}
         _logger.info("Start %s" % obj)
         converter = self._converter[obj]
@@ -454,7 +454,7 @@ class SyncroXMLRPCAccount(orm.Model):
                             'account.analytic.account'].get( 
                                 item.product_id.id, False),
 
-                        'partner_id': self._converter[ 
+                        'analytic_partner_id': self._converter[ 
                             'partner'].get( 
                                 item.account_id.id, False),
 
