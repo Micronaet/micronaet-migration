@@ -34,6 +34,7 @@
         'hr',
         'hr_timesheet',
         'hr_timesheet_invoice',
+        'stock',
         ],
     'init_xml': [], 
     'data': [

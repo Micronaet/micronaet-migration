@@ -116,6 +116,32 @@ class SyncroXMLRPCAccount(orm.Model):
         # --------------------------------------------------------------------- 
         #                        USERS EMPLOPYEE PRODUCT
         # --------------------------------------------------------------------- 
+        # TODO Load extra data:
+        # product.uom >> Hour(s)   Ora(e)
+        uom_pool = self.pool.get('product.uom')
+        uom_ids = uom_pool.search(cr, uid, ['|',
+            ('name', '=', 'Ora(e)')
+            ('name', '=', 'Hour(s)')
+            ], context=context)
+        if uom_ids:
+            uom_hour_id = uom_ids[0]
+        else:
+            uom_hour_id = False
+                
+        # Timesheet journal: 
+        timesheet_pool = self.pool.get('account.analytic.journal')
+        timesheet_ids = uom_pool.search(cr, uid, [
+            ('code', '=', 'TS'),
+            ], context=context)
+        if timesheet_ids:
+            timesheet_id = timesheet_ids[0]
+        else:
+            timesheet_id = False
+                
+        
+        # Merci c/vendite
+        #
+        
         # ---------------------------------------------------------------------
         # res.users >> res.users >> (product.product) (hr.employee)
         # ---------------------------------------------------------------------
@@ -185,6 +211,7 @@ class SyncroXMLRPCAccount(orm.Model):
                         'type': 'service',
                         'list_price': 20.0,
                         'standard_price': 10.0,
+                        'uom_id': uom_hour_id,
                         }
 
                     new_ids = item_pool.search(cr, uid, [
@@ -227,10 +254,10 @@ class SyncroXMLRPCAccount(orm.Model):
                         'name': item.name,
                         'user_id': self._converter['res.users'].get(
                             item.user_id.id, False),
-                        # TODO:    
                         'product_id': self._converter['product.product'].get(
                             item.id, False),
                         'account_old_id': item.id,
+                        'timesheet_id': timesheet_id,
                         }
 
                     new_ids = item_pool.search(cr, uid, [
