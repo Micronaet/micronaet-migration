@@ -53,13 +53,20 @@ class StatisticStore(orm.Model):
     _rec_name = "product_code"
     _order = "product_code,product_description"
 
-    def schedule_csv_import_store(
+    def schedule_csv_import_store(            
             self, cr, uid, 
+            # File import:
             file_input1='~/etl/esistoerprogr.CM1',
             file_input2='~/etl/esistoerprogr.CM2',  
             exch_file1='~/etl/cm1-cm2.CM1',
             exch_file2='~/etl/cm1-cm2.CM2',
             delimiter=';', header=0, verbose=100,
+            
+            # Access XMLRPC database:
+            hostname='localhost', port=18069, database='DB', user='admin', 
+            password='password',
+            
+            # Extra context:
             context=None):
         ''' Scheduled importation of existence
         '''
@@ -75,20 +82,17 @@ class StatisticStore(orm.Model):
 
         csv_pool = self.pool.get('csv.base')
         product_pool = self.pool.get('product.product')
-        pack_ids = product_pool.search(cr, uid, [], context=context)
         
-        # first company:
+        # -----------------------        
+        # First company Q x pack:
+        # -----------------------        
+        pack_ids = product_pool.search(cr, uid, [], context=context)
         for item in product_pool.browse(cr, uid, pack_ids, context=context):
             q_x_packs["FIA"][item.default_code] = item.q_x_pack
-        
-        # second company:
-        # TODO Parametrize
-        hostname = 'localhost'
-        port = 8069
-        database = 'GPB'
-        user = 'admin'
-        password = 'admin'
-        
+
+        # ------------------------        
+        # Second company Q x pack:
+        # ------------------------       
         erp = erppeek.Client(
             'http://%s:%s' % (hostname, port),
             db=database,
