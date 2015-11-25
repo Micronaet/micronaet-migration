@@ -281,7 +281,7 @@ class SyncroXMLRPCAccount(orm.Model):
 
                     converter[item.id] = item_id
                 except:
-                    _logger.error('Obj: % Jumped: %s' % (obj, name))
+                    _logger.error('Obj: % Jumped: %s' % (obj, item.name))
                     continue
                 # NOTE No contact for this database
         else: # Load convert list form database
