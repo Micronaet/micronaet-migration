@@ -181,7 +181,7 @@ class SyncroXMLRPCAccount(orm.Model):
 
                     converter[item.id] = item_id
                 except:
-                    print "#ERR", obj, "jumped:", item.name
+                    _logger.error('Obj: % Jumped: %s' % (obj, item.name))
                     continue
                 # NOTE No contact for this database
         else: # Load convert list form database
@@ -230,7 +230,8 @@ class SyncroXMLRPCAccount(orm.Model):
 
                     converter[item.id] = item_id
                 except:
-                    print "#ERR", obj, "jumped:", item.name, sys.exc_info()
+                    _logger.error('Obj: % Jumped: %s [%s]' % (
+                        obj, name, sys.exc_info()))
                     continue
                 # NOTE No contact for this database
         else: # Load convert list form database
@@ -280,7 +281,7 @@ class SyncroXMLRPCAccount(orm.Model):
 
                     converter[item.id] = item_id
                 except:
-                    print "#ERR", obj, "jumped:", item.name
+                    _logger.error('Obj: % Jumped: %s' % (obj, name))
                     continue
                 # NOTE No contact for this database
         else: # Load convert list form database
@@ -327,7 +328,7 @@ class SyncroXMLRPCAccount(orm.Model):
                         print "#INFO", obj, "create:", name
                     converter[item.id] = item_id
                 except:
-                    print "#ERR", obj, "jumped:", name
+                    _logger.error('Obj: % Jumped: %s' % (obj, name))
                     continue
 
 
@@ -369,7 +370,7 @@ class SyncroXMLRPCAccount(orm.Model):
                         print "#INFO", obj, "create:", name
                     converter[item.id] = item_id
                 except:
-                    print "#ERR", obj, "jumped:", name
+                    _logger.error('Obj: % Jumped: %s' % (obj, name))
                     continue
 
         # ---------------------------------------------------------------------
@@ -412,7 +413,7 @@ class SyncroXMLRPCAccount(orm.Model):
                         print "#INFO", obj, "create:", name
                     converter[item.id] = item_id
                 except:
-                    print "#ERR", obj, "jumped:", name
+                    _logger.error('Obj: % Jumped: %s' % (obj, name))
                     continue
             
             
@@ -480,7 +481,8 @@ class SyncroXMLRPCAccount(orm.Model):
                         print "#INFO", obj, "create:", name
                     #converter[item.id] = item_id
                 except:
-                    print "#ERR", obj, "jumped:", name, sys.exc_info()
+                    _logger.error('Obj: % Jumped: %s [%s]' % (
+                        obj, name, sys.exc_info()))
                     continue
             
 # -----------------------------------------------------------------------------
