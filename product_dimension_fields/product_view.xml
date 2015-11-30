@@ -4,24 +4,21 @@
     <record id='product_normal_form_view_extra' model='ir.ui.view'>
         <field name='name'>Product extra field</field>
         <field name='model'>product.product</field>
-        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <!--<field name="inherit_id" ref="product.product_template_form_view"/>-->
+        <field name="inherit_id" ref="product.product_normal_form_view" />
         <field name='arch' type='xml'>
-            <field name="description_purchase" position="after">
-               <separator string="Web Description" colspan="4"/>
-               <field colspan="4" name="description_web" nolabel="1"/>
-               <separator string="Colour" colspan="4"/>
-               <field name="colour" colspan="4" nolabel="1" />
-               <field name="fabric" />
-               <field name="type_of_material" />        
-            </field>                        
-            <group name="procurement_uom" position="before">
-                <group colspan="2" col="2" groups="base.group_extended" name="dimension">
-                    <separator string="Product dim." colspan="2"/> 
+            <xpath expr="//notebook/page[@string='Information']/group[1]/group[1]" position='before'>
+                <group name="dimension"> <!--groups="base.group_extended"-->
+                    <separator string="Product generic info" colspan="2"/> 
                     <field digits="(14, 3)" name="height" attrs="{'readonly':[('type','=','service')]}"/>
                     <field digits="(14, 3)" name="width" attrs="{'readonly':[('type','=','service')]}"/>
                     <field digits="(14, 3)" name="length" attrs="{'readonly':[('type','=','service')]}"/>
+               <separator string="Description extra" colspan="2"/>
+               <field name="colour" />
+               <field name="fabric" />
+               <field name="type_of_material" />        
                 </group>                
-            </group>            
+            </xpath>
         </field>
     </record>
 
