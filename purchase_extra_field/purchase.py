@@ -119,6 +119,7 @@ class ProductProductPurchase(orm.Model):
 
         'colour_code': fields.char('Codice colore', size=64),
 
+        'first_supplier_id': fields.many2one('res.partner', 'First supplier'),
         'default_supplier': fields.char('Fornitore default', size=64),
         'default_supplier_code': fields.char('Codice forn. default', size=40),
 
