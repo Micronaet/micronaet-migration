@@ -29,6 +29,7 @@
                 <group colspan="4" col="2">
                     <newline />
                     <separator string="Imballo default" colspan="2"/>
+                    <field name="package_type" />
                     <field name='pack_l' />
                     <field name='pack_h' />
                     <field name='pack_p' />
