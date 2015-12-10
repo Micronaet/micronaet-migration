@@ -66,6 +66,7 @@
                                 <field name="sequence" />
                                 <field name="code" />
                                 <field name="article" />
+                                <field name="deadline"/>
                                 <field name="quantity" sum="Totale" />
                                 <field name="colli" />
                                 <field name="type" invisible="1" />                   
