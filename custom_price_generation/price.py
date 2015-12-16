@@ -147,10 +147,13 @@ class PricelistPartnerinfoExtra(orm.Model):
        '''
 
        res = {'value': {'price': 0.0}}
-       exchange = self.pool.get("base.product.exchange").get_last_exchange(
-           cr, uid, ids, context=context)
+       try:
+           exchange = self.pool.get("base.product.exchange").get_last_exchange(
+               cr, uid, ids, context=context)
+       except:
+           exchange = 1        
        if exchange:
-          res['value']['price']=round((price_usd / exchange), 2)
+          res['value']['price'] = round((price_usd / exchange), 2)
 
        return res
 
