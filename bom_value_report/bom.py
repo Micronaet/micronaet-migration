@@ -199,7 +199,8 @@ class PricelistPartnerinfoExtraFields(orm.Model):
         query = """
             SELECT distinct product_id
             FROM mrp_bom
-            WHERE product_id in (%s);""" % (",".join(product_list))
+            WHERE product_id in (%s);
+            """ % (",".join(product_list))
         cr.execute(query)
 
         for item_id in cr.fetchall():
@@ -215,10 +216,11 @@ class PricelistPartnerinfoExtraFields(orm.Model):
                 "UoM if any or the default Unit of Measure of the product "
                 "otherwise"),
         'supplier_id': fields.related(
-            'suppinfo_id','name', type='many2one', relation='res.partner',
-            string='Supplier'),
+            'suppinfo_id', 'name', type='many2one', relation='res.partner',
+            string='Supplier', store=True),
+        # XXX before was product_id not product_tmpl_id!!    
         'product_id': fields.related(
-            'suppinfo_id', 'product_id', type='many2one',
+            'suppinfo_id', 'product_tmpl_id', type='many2one',
             relation='product.template', string='Desc. prod./comp.',
             store=True),
         'product_supp_name': fields.related(
@@ -233,11 +235,11 @@ class PricelistPartnerinfoExtraFields(orm.Model):
             relation='product.uom', string='UM'),
         'has_bom': fields.function(_has_bom_funct, method=True, type='boolean',
             string="Is BOM", store=False),
-    }
+        }
 
     _defaults = {
         'is_active': lambda *a: True,
-    }
+        }
 
 class ProductProductExtraFields(orm.Model):
     _inherit ='product.product'
