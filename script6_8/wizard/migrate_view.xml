@@ -33,6 +33,7 @@
                        <field name="purchase_line" />
                        <field name="productpricelist" />
                        <field name="easylabel" />
+                       <field name="history" />
                        
                        <!--<field name="autostock" />-->
                        <button name="fast_migrate_country" string="Country update" type="object" />

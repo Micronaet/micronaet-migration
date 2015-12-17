@@ -86,7 +86,9 @@ class SyncroMigrationWizard(orm.TransientModel):
         'easylabel': fields.boolean('E. Easylabel'),
         
         # Custom for partner:
-        'autostock': fields.boolean('Z. Autostock'),        
+        'autostock': fields.boolean('Z0. Autostock'),        
+        # Extra:
+        'history': fields.boolean('Z1. Update supplier history pricelist'),
         }
         
     _defaults = {

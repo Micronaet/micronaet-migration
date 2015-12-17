@@ -250,6 +250,26 @@ class SyncroXMLRPC(orm.Model):
                 cr, uid, obj_ids, context=context):
             self._converter[obj][item.name] = item.id
 
+        # -----------------------
+        # Supplier price history:
+        # -----------------------
+        if wiz_proxy.history:
+            _logger.info("Start update history supplier price")
+            history_pool = self.pool.get('pricelist.partnerinfo')
+            history_ids = history_pool.search(cr, uid, [], context=context)
+            _logger.info('Record to update: %s' % len(history_ids))
+            i = 0
+            for item_id in history_ids:
+                i += 1
+                data = history_pool._get_parent_information(
+                    cr, uid, item_id, False, False, context=context)[item_id]                    
+                #data['id'] = item_id
+                history_pool.write(cr, uid, item_id, data, context=context)
+                _logger.info('%s. Update: %s' % (i, data))
+        return True     
+        # TODO history procedure!!
+
+
         # ------------
         # product.ul
         # ------------
