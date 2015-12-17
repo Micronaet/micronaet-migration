@@ -236,11 +236,11 @@ class PricelistPartnerinfoExtraFields(orm.Model):
             'suppinfo_id','product_code', type='char', size=64,
             string="Supplier code"),
         'product_name': fields.related(
-            'product_id', 'name', type='char', string='Desc. prod./comp.'),"""
+            'product_id', 'name', type='char', string='Desc. prod./comp.'),
+        'uom_id': fields.related('product_id','uom_id', type='many2one',
+            relation='product.uom', string='UM'),"""
         # ---------------------------------------------------------------------
             
-        'uom_id': fields.related('product_id','uom_id', type='many2one',
-            relation='product.uom', string='UM'),
         'has_bom': fields.function(_has_bom_funct, method=True, type='boolean',
             string="Is BOM", store=False),
         }

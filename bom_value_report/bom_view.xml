@@ -3,9 +3,18 @@
 <data>
     <!-- MENU AGGIUNTIVI -->
     <!--TODO put in another module with mod: fast_check_supplier_price-->
-    <!--
-    <menuitem action="product.product_normal_action" id="menu_products_bom" parent="menu_products_bom_componenti" sequence="10" groups="bom_value_report.group_bom_manager"/>
-    -->
+    <menuitem 
+        id="menu_products_bom_components"
+        parent="mrp.menu_mrp_bom" 
+        sequence="0" 
+        name="BOM components management" />
+    
+    <menuitem 
+        action="product.product_normal_action" 
+        id="menu_products_bom" 
+        parent="menu_products_bom_componenti" 
+        sequence="10" 
+        groups="bom_value_report.group_bom_manager"/>
     
     <!-- Overrided menu: -->
     <menuitem
