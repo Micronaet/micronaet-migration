@@ -253,6 +253,66 @@ class SyncroXMLRPC(orm.Model):
         # -----------------------
         # Supplier price history:
         # -----------------------
+        supplier_pool = self.pool.get('product.supplierinfo')
+        pl_pool = self.pool.get('pricelist.partnerinfo')
+        history_pool = self.pool.get('pricelist.partnerinfo.history')
+        auto_set_active = []
+        delete_price = []
+        if wiz_proxy.history:
+            _logger.info("Start history supplier price")
+            supplier_ids = supplier_pool.search(cr, uid, [], context=context)
+            _logger.info('Record to update: %s' % len(supplier_ids))
+            i = 0
+            for supplier in supplier_pool.browse(cr, uid, supplier_ids, 
+                    context=context):
+                i += 1
+                
+                # ------------
+                # Find active:
+                # ------------
+                if len(supplier.pricelist_ids) == 1:
+                    # All forced (not test)
+                    auto_set_active.append(supplier.pricelist_ids[0].id)
+                    continue # next record!    
+
+                active_id = False                
+                for price in supplier.pricelist_ids:
+                    if price.is_active:
+                        active_id = price.id
+                        break
+                        
+                if not active_id:
+                    _logger.error('No active price in product: %s' % (
+                        supplier.product_tmpl_id.name))
+                    continue           
+                # --------
+                # History: 
+                # --------
+                for price in supplier.pricelist_ids:
+                    if not price.is_active:
+                        history_data = {
+                            'pricelist_id': active_id,
+                            'price': price.price,
+                            'date_quotation': price.date_quotation,
+                            'min_quantity': price.min_quantity,
+                            }
+                        history_pool.create(
+                            cr, uid, history_data, context=context)     
+                   
+                        # TODO not for now:        
+                        delete_price.append(price.id)
+                        
+                _logger.info('%s History record #: %s' % (
+                    i, supplier.product_tmpl_id.name))
+                    
+        # Set only one record to active:            
+        pl_pool.write(cr, uid, auto_set_active, {
+            'is_active': True}, context=context)
+        
+        # Delete all historied price:    
+        pl_pool.unlink(
+            cr, uid, delete_price, context=context)
+        
         if wiz_proxy.history:
             _logger.info("Start update history supplier price")
             history_pool = self.pool.get('pricelist.partnerinfo')
@@ -266,8 +326,9 @@ class SyncroXMLRPC(orm.Model):
                 #data['id'] = item_id
                 history_pool.write(cr, uid, item_id, data, context=context)
                 _logger.info('%s. Update: %s' % (i, data))
-        return True     
-        # TODO history procedure!!
+        
+
+        return True # TODO history procedure!!
 
 
         # ------------
