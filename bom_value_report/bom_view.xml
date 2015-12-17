@@ -12,7 +12,7 @@
     <menuitem 
         action="product.product_normal_action" 
         id="menu_products_bom" 
-        parent="menu_products_bom_componenti" 
+        parent="menu_products_bom_components" 
         sequence="10" 
         groups="bom_value_report.group_bom_manager"/>
     
@@ -143,7 +143,7 @@
         <menuitem
             action="mrp_bom_form_action_obsolete"
             id="menu_mrp_bom_form_action_obsolete"            
-            parent="menu_products_bom_componenti"
+            parent="menu_products_bom_components"
             sequence="20"/> <!--groups="base.group_extended"-->
        <!-- Form -->
     <record id='mrp_bom_add_fiam_fields' model='ir.ui.view'>
