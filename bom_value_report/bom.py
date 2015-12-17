@@ -208,14 +208,20 @@ class PricelistPartnerinfoExtraFields(orm.Model):
         return res
 
     _columns = {
+        # Old field TODO delete?
         'is_active': fields.boolean("Active", required=False,
             help="Check last price line (only this for every Q)"),
         'date_quotation': fields.date('Date quotation'),
+        
+        # Override for different float precision:
         'price': fields.float('Unit Price', required=True, digits=(8,5),
             help="This price will be considered as a price for the supplier "
                 "UoM if any or the default Unit of Measure of the product "
                 "otherwise"),
-        'supplier_id': fields.related(
+
+        # TODO moved in another module!: --------------------------------------        
+        # fast_check_supplier_price
+        """'supplier_id': fields.related(
             'suppinfo_id', 'name', type='many2one', relation='res.partner',
             string='Supplier', store=True),
         # XXX before was product_id not product_tmpl_id!!    
@@ -230,7 +236,9 @@ class PricelistPartnerinfoExtraFields(orm.Model):
             'suppinfo_id','product_code', type='char', size=64,
             string="Supplier code"),
         'product_name': fields.related(
-            'product_id', 'name', type='char', string='Desc. prod./comp.'),
+            'product_id', 'name', type='char', string='Desc. prod./comp.'),"""
+        # ---------------------------------------------------------------------
+            
         'uom_id': fields.related('product_id','uom_id', type='many2one',
             relation='product.uom', string='UM'),
         'has_bom': fields.function(_has_bom_funct, method=True, type='boolean',

@@ -2,8 +2,10 @@
 <openerp>
 <data>
     <!-- MENU AGGIUNTIVI -->
-    <menuitem id="menu_products_bom_componenti" parent="mrp.menu_mrp_bom" sequence="0" name="Gestione componenti" />
+    <!--TODO put in another module with mod: fast_check_supplier_price-->
+    <!--
     <menuitem action="product.product_normal_action" id="menu_products_bom" parent="menu_products_bom_componenti" sequence="10" groups="bom_value_report.group_bom_manager"/>
+    -->
     
     <!-- Overrided menu: -->
     <menuitem
@@ -94,18 +96,6 @@
             </field>
         </record>
 
-       <!-- Tree -->
-    <!--<record id='mrp_bom_component_tree_view_fiam_fields' model='ir.ui.view'>
-        <field name='name'>Fiam tree BOM</field>
-        <field name='model'>mrp.bom</field>
-        <field name="inherit_id" ref="mrp.mrp_bom_component_tree_view"/>
-        <field name='arch' type='xml'>
-            <field name="routing_id" position="before">
-                <field name="tot_component" />
-            </field>               
-        </field>
-    </record> -->
-
     <record id="mrp_bom_component_tree_view_obsolete_color" model="ir.ui.view">
             <field name="name">MRP BOM componenti obsoleti</field>
             <field name="model">mrp.bom</field>
@@ -193,77 +183,7 @@
             </field>               
         </field>
     </record>
-    <!-- CONTROLLO COSTI: -->            
-       <!-- Search -->
-    <record id='mrp_bom_component_costs_search' model='ir.ui.view'>
-        <field name='name'>Controllo costi search</field>
-        <field name='model'>pricelist.partnerinfo</field>
-        <field name='arch' type='xml'>
-            <search string="Search">
-                <field name="product_name"/>
-                <field name="supplier_id"/>
-                <field name="product_supp_code"/>
-                <field name="product_supp_name"/>
-                <field name="min_quantity"/>
-            </search>
-        </field>
-    </record>        
-      <!-- Tree -->
-    <record id='mrp_bom_component_costs_tree' model='ir.ui.view'>
-        <field name='name'>Controllo costi (blu=ha distinta base)</field>
-        <field name='model'>pricelist.partnerinfo</field>
-        <field name="priority" eval="30" />
-        <field name="arch" type="xml">
-            <tree string="Controllo costi" colors="blue:has_bom==True">            
-                <field name="product_id"/>
-                <field name="supplier_id"/>
-                <field name="product_supp_code"/>
-                <field name="product_supp_name"/>
-                <field name="price"/>
-                <field name="date_quotation"/>
-                <field name="min_quantity"/>
-                <field name="uom_id"/>
-                <field name="has_bom" invisible="1" />
-            </tree>
-        </field>
-    </record>
-       <!-- Form -->
-    <record id='mrp_bom_component_costs_form' model='ir.ui.view'>
-        <field name='name'>Controllo costi</field>
-        <field name='model'>pricelist.partnerinfo</field>
-        <field name="priority" eval="30" />
-        <field name="arch" type="xml">
-            <form string="Controllo costi">
-                <field name="product_id" readonly="1" />
-                <field name="supplier_id" readonly="1" />
-                <field name="product_supp_code" readonly="1" />
-                <field name="product_supp_name" readonly="1" />
-                <group colspan="4" col="8">
-                  <field name="price"/>
-                  <field name="date_quotation"/>
-                  <field name="min_quantity"/>
-                  <field name="uom_id"/>
-                </group>  
-            </form>
-        </field>
-    </record>
-        <!-- Action -->
-    <record id="mrp_bom_component_costs_form_action" model="ir.actions.act_window">
-        <field name="name">Controllo costi</field>
-        <field name="res_model">pricelist.partnerinfo</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="mrp_bom_component_costs_search" />
-        <field name="view_id" ref="mrp_bom_component_costs_tree"/>
-        <field name="context">{'form_view_ref':'bom_value_report.mrp_bom_component_costs_form'}</field>
-        <field name="help">Videata che facilita il controllo dei prezzi componenti all'arrivo delle fatture</field>
-    </record>
     
-    <menuitem
-        action="mrp_bom_component_costs_form_action"
-        id="mrp_bom_component_costs_form_menu"        
-        parent="menu_products_bom_componenti"
-        sequence="20"/> <!--groups="base.group_extended"-->
 </data>
 </openerp>
 
