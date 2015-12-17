@@ -149,7 +149,7 @@ class SyncroXMLRPC(orm.Model):
                     name] = obj_pool.create(cr, uid, {
                         'name': name,
                         }, context=context)
-        
+
         # -----------
         # product.uom
         # -----------
@@ -272,7 +272,9 @@ class SyncroXMLRPC(orm.Model):
                 else:
                     item_id = ul_ids[0]
                 self._converter[obj][item.name] = item_id
-
+ 
+        # TODO removed for pricelist supplier import:
+        '''
         # ----------------------
         # product.pricelist.type
         # ----------------------
@@ -336,7 +338,7 @@ class SyncroXMLRPC(orm.Model):
                     'import': True,
                     'mexal_id': item,                    
                     }, context=context)            
-        
+        ''' # TODO to here!
         # ---------------------------------------------------------------------
         # res.users
         # ---------------------------------------------------------------------
@@ -386,6 +388,7 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # account.tax
         # ---------------------------------------------------------------------
+        ''' # TODO remove for pricelist
         tax_22v = False
         tax_22a = False
         if wiz_proxy.sale_line or wiz_proxy.purchase_line: # TODO or if needed in other tables 
@@ -565,6 +568,8 @@ class SyncroXMLRPC(orm.Model):
         # before: web.category, web.color, product.custom.duty, 
         # web.line, web.tipology, 
         # TODO uom!!!
+        ''' # TODO
+        
         # ---------------------------------------------------------------------
         # product.product
         # ---------------------------------------------------------------------
@@ -850,6 +855,8 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # product.packaging
         # ---------------------------------------------------------------------
+        # TODO remove
+        '''
         obj = 'product.packaging' 
         product_pool = self.pool.get('product.product') # for extra use
         _logger.info("Start %s" % obj)
@@ -1214,7 +1221,7 @@ class SyncroXMLRPC(orm.Model):
                 except:
                     print "#ERR", obj, "jumped:", name
                     continue
-
+        ''' # TODO removed
         # ---------------------------------------------------------------------
         # res.partner and res.partner.address
         # ---------------------------------------------------------------------
@@ -1554,6 +1561,7 @@ class SyncroXMLRPC(orm.Model):
         # ---------------------------------------------------------------------
         # easylabel.easylabel
         # ---------------------------------------------------------------------
+        '''
         obj = 'easylabel.easylabel' 
         _logger.info("Start %s" % obj)
         self._converter[obj] = {}
@@ -2007,7 +2015,8 @@ class SyncroXMLRPC(orm.Model):
             #self.load_converter(cr, uid, converter, obj=obj,
             #     context=context)
             pass
-
+        ''' # TODO remove
+        
         # ---------------------------------------------------------------------
         # product.supplierinfo
         # ---------------------------------------------------------------------
@@ -2021,8 +2030,11 @@ class SyncroXMLRPC(orm.Model):
             item_pool = self.pool.get(obj)
             erp_pool = erp.ProductSupplierinfo
             item_ids = erp_pool.search([])
+            _logger.info('Total supplierinfo: %s' % len(item_ids))
+            i = 0
             for item in erp_pool.browse(item_ids):
                 try: # Create record to insert/update
+                    i += 1
                     name = item.name.id # partner_id
                     partner_id = self._converter['res.partner'].get(
                             name, False)
@@ -2063,15 +2075,15 @@ class SyncroXMLRPC(orm.Model):
                         if wiz_proxy.update:
                             item_pool.write(cr, uid, item_id, data,
                                 context=context)
-                        _logger.info("%s update: %s" % (obj, name))
+                            _logger.info("%s. %s update: %s" % (i, obj, name))
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        _logger.info("%s create: %s" % (obj, name))
+                        _logger.info("%s. %s create: %s" % (i, obj, name))
 
                     converter[item.id] = item_id # not used
                 except:
-                    _logger.error("%s jumped: %s" % (obj, name))
+                    _logger.error("%s. %s jumped: %s" % (i, obj, name))
                     _logger.error(sys.exc_info())
                     continue                    
         else: # Load convert list form database
@@ -2091,8 +2103,11 @@ class SyncroXMLRPC(orm.Model):
             item_pool = self.pool.get(obj)
             erp_pool = erp.PricelistPartnerinfo
             item_ids = erp_pool.search([])
+            _logger.info('Total supplierinfo: %s' % len(item_ids))
+            i = 0
             for item in erp_pool.browse(item_ids):
                 try: # Create record to insert/update
+                    i += 1
                     name = item.name
                     suppinfo_id = self._converter['product.supplierinfo'].get(
                         item.suppinfo_id.id, False)
@@ -2126,21 +2141,22 @@ class SyncroXMLRPC(orm.Model):
                         if wiz_proxy.update:
                             item_pool.write(cr, uid, item_id, data,
                                 context=context)
-                        _logger.info("%s update: %s" % (obj, name))
+                        _logger.info("%s. %s update: %s" % (i, obj, name))
                     else: # Create
                         item_id = item_pool.create(cr, uid, data,
                             context=context)
-                        _logger.info("%s create: %s" % (obj, name))
+                        _logger.info("%s. %s create: %s" % (i, obj, name))
 
                     converter[item.id] = item_id # not used
                 except:
-                    _logger.error("%s jumped: %s" % (obj, name))
+                    _logger.error("%s. %s jumped: %s" % (i, obj, name))
                     _logger.error(sys.exc_info())
                     continue                    
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
                  context=context)
-
+        return True # TODO pricelist importation ******************************
+        
         # ---------------------------------------------------------------------
         # account.payment.term
         # ---------------------------------------------------------------------

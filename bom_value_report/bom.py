@@ -208,9 +208,11 @@ class PricelistPartnerinfoExtraFields(orm.Model):
         return res
 
     _columns = {
-        # Old field TODO delete?
+        # Old field TODO delete? << no more used with history module!!!
         'is_active': fields.boolean("Active", required=False,
             help="Check last price line (only this for every Q)"),
+
+        # Old moved in fast_price_supplier_check TODO delete?
         'date_quotation': fields.date('Date quotation'),
         
         # Override for different float precision:
@@ -218,29 +220,6 @@ class PricelistPartnerinfoExtraFields(orm.Model):
             help="This price will be considered as a price for the supplier "
                 "UoM if any or the default Unit of Measure of the product "
                 "otherwise"),
-
-        # TODO moved in another module!: --------------------------------------        
-        # fast_check_supplier_price
-        """'supplier_id': fields.related(
-            'suppinfo_id', 'name', type='many2one', relation='res.partner',
-            string='Supplier', store=True),
-        # XXX before was product_id not product_tmpl_id!!    
-        'product_id': fields.related(
-            'suppinfo_id', 'product_tmpl_id', type='many2one',
-            relation='product.template', string='Desc. prod./comp.',
-            store=True),
-        'product_supp_name': fields.related(
-            'suppinfo_id','product_name', type='char', size=128,
-            string="Supplier description"),
-        'product_supp_code': fields.related(
-            'suppinfo_id','product_code', type='char', size=64,
-            string="Supplier code"),
-        'product_name': fields.related(
-            'product_id', 'name', type='char', string='Desc. prod./comp.'),
-        'uom_id': fields.related('product_id','uom_id', type='many2one',
-            relation='product.uom', string='UM'),"""
-        # ---------------------------------------------------------------------
-            
         'has_bom': fields.function(_has_bom_funct, method=True, type='boolean',
             string="Is BOM", store=False),
         }
