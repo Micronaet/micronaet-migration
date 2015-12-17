@@ -305,14 +305,17 @@ class SyncroXMLRPC(orm.Model):
                 _logger.info('%s History record #: %s' % (
                     i, supplier.product_tmpl_id.name))
                     
-        # Set only one record to active:            
-        pl_pool.write(cr, uid, auto_set_active, {
-            'is_active': True}, context=context)
+            # Set only one record to active:            
+            pl_pool.write(cr, uid, auto_set_active, {
+                'is_active': True}, context=context)
+            
+            # Delete all historied price:    
+            pl_pool.unlink(
+                cr, uid, delete_price, context=context)
         
-        # Delete all historied price:    
-        pl_pool.unlink(
-            cr, uid, delete_price, context=context)
-        
+        # ------------------
+        # Pricelist history:
+        # ------------------
         if wiz_proxy.history:
             _logger.info("Start update history supplier price")
             history_pool = self.pool.get('pricelist.partnerinfo')
@@ -327,10 +330,6 @@ class SyncroXMLRPC(orm.Model):
                 history_pool.write(cr, uid, item_id, data, context=context)
                 _logger.info('%s. Update: %s' % (i, data))
         
-
-        return True # TODO history procedure!!
-
-
         # ------------
         # product.ul
         # ------------
@@ -2170,6 +2169,43 @@ class SyncroXMLRPC(orm.Model):
         else: # Load convert list form database
             self.load_converter(cr, uid, converter, obj=obj,
                  context=context)
+
+        # ---------------------------------------------------------------------
+        # pricelist.partnerinfo (update only date)
+        # ---------------------------------------------------------------------
+        obj = 'pricelist.partnerinfo' 
+        item_pool = self.pool.get(obj)
+        _logger.info("Start %s" % obj)
+        self._converter[obj] = {}
+        converter = self._converter[obj]
+        if wiz_proxy.partnerinfo:
+            item_pool = self.pool.get(obj)
+            erp_pool = erp.PricelistPartnerinfo
+            item_ids = erp_pool.search([])
+            _logger.info('Total supplierinfo: %s' % len(item_ids))
+            i = 0
+            for item in erp_pool.browse(item_ids):
+                try: # Create record to insert/update
+                    i += 1
+                    name = item.name
+                    data = {
+                        'date_quotation': item.date_quotation,
+                        'min_quantity': item.min_quantity,
+                        'price': item.price,
+                        }
+                    new_ids = item_pool.search(cr, uid, [
+                        ('migration_old_id', '=', item.id)], context=context)
+                    if new_ids: # only update:
+                        item_id = new_ids[0]
+                        item_pool.write(cr, uid, item_id, data,
+                            context={'without_history': True})
+                        _logger.info("%s. %s update: %s" % (i, obj, name))
+                except:
+                    _logger.error("%s. %s jumped: %s" % (i, obj, name))
+                    _logger.error(sys.exc_info())
+                    continue                    
+        return True # TODO pricelist importation ******************************
+
 
         # ---------------------------------------------------------------------
         # pricelist.partnerinfo
