@@ -214,7 +214,8 @@ class PricelistPartnerinfoExtraFields(orm.Model):
 
         # Old moved in fast_price_supplier_check TODO delete?
         'date_quotation': fields.date('Date quotation'),
-        
+
+        # TODO remove:        
         # Override for different float precision:
         'price': fields.float('Unit Price', required=True, digits=(8,5),
             help="This price will be considered as a price for the supplier "
