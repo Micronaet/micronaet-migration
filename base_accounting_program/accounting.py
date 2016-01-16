@@ -128,6 +128,8 @@ class SaleOrderExtraFields(orm.Model):
 class SaleOrderLineExtraFields(orm.Model):
     _inherit ='sale.order.line'
 
+    # TODO remove (put in correct module mx_discount_scale_order
+    # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
     def create(self, cr, uid, vals, context=None):
         """ Multi discount rate
         """
@@ -209,14 +211,19 @@ class SaleOrderLineExtraFields(orm.Model):
               return False
         else:
            return False
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^       
 
     _columns = {
+        # TODO remove (put in correct module mx_discount_scale_order
+        # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
         'multi_discount_rates': fields.char('Discount scale', size=30),
         'price_use_manual': fields.boolean('Use manual net price',
             help="If specificed use manual net price instead of "
                 "lord price - discount"),
         'price_unit_manual': fields.float(
             'Manual net price', digits_compute=dp.get_precision('Sale Price')),
+        # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^    
+
         'image_http': fields.boolean('Has image',
             help="Has link for image on the web"),
         'image_replace_name':fields.char('Override name',
@@ -224,10 +231,14 @@ class SaleOrderLineExtraFields(orm.Model):
             help="Usually the name is art. code + '.PNG', es. 400.PNG"
                 "if you want to change write the name in this field!"),
                }
+
+    # TODO remove (put in correct module mx_discount_scale_order
+    # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
     _defaults = {
         'multi_discount_rates': _discount_rates_get,
         'discount': _discount_value_get,
         }
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^    
 
 """
 # fiam_partner.py
@@ -302,8 +313,12 @@ class ResPartnerExtraFields(orm.Model):
         'fiscal_id_code': fields.char('Fiscal code', size=16),
         'private': fields.boolean('Private'),
         'type_cei': fields.char('Type CEI', size=1),
+        
+        # TODO remove (put in correct module mx_discount_scale_order
+        # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
         'discount_value': fields.float('Discount value', digits=(16, 2)),
         'discount_rates':fields.char('Discount scale', size=30),
+        # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
         # Statistics values:
         'date_last_ddt': fields.datetime('Date last DDT'),

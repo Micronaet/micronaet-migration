@@ -23,11 +23,11 @@
 
                       <separator string="Extra info gestionale" colspan="4" />
 
-                      <field name="mexal_c" />
+                      <!--<field name="mexal_c" />
                       <field name="mexal_s" />
 
                       <field name='discount_rates' />             
-                      <field name='discount_value' />             
+                      <field name='discount_value' />-->
 
                       <field name='type_id' />
                       <field name='zone_id' />
