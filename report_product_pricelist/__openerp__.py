@@ -35,6 +35,7 @@
 	"init_xml": [],
 	"demo_xml": [],
 	"data": [
+	    "security/ir.model.access.csv",
         "report/pricelist.xml", 
         "wizard/create_pricelist_view.xml",	       
         ],
