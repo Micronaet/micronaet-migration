@@ -39,10 +39,20 @@ class Parser(report_sxw.rml_parse):
             'get_price': self.get_price,
             'get_subtotal': self.get_subtotal,
             'get_total': self.get_total,
+            'get_lang_field': self.get_lang_field,
 
             'total_USD':self.total_USD,
             'get_couple': self.get_couple,
         })
+
+    def get_lang_field(self, pool, item_id, field, lang):
+        ''' Get field from obj in lang passed
+        ''' 
+        context = {'lang': lang}
+        obj_pool = self.pool.get(pool)
+        obj_proxy = obj_pool.browse(self.cr, self.uid, item_id, context=context)
+        return obj_proxy.__getattribute__(field)
+            
 
     def get_couple(self, order_line):
         ''' Couple the elements
