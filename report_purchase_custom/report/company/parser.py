@@ -34,7 +34,9 @@ class Parser(report_sxw.rml_parse):
         super(Parser, self).__init__(cr, uid, name, context)
         self.localcontext.update({
             'get_volume_item':self.get_volume_item,
+            # TODO remove:
             'total_volume':self.total_volume,
+            'get_total_volume':self.get_total_volume,
             
             'get_price': self.get_price,
             'get_subtotal': self.get_subtotal,
@@ -119,7 +121,20 @@ class Parser(report_sxw.rml_parse):
             total += float(self.get_subtotal(item, order))
         return "%2.2f"%(total)
         
-    def get_total_volume(self, item_list):
+    def get_total_volume(self, o):
+        ''' Function that compute total volume for 1 or more items
+        '''
+        res = 0.0
+        for item in o.order_line:
+            if item.product_id.packaging_ids:                
+                res += item.product_qty * \
+                    item.product_id.pack_l * \
+                    item.product_id.pack_h * \
+                    item.product_id.pack_p / 1000000.0 / (
+                        item.product_id.packaging_ids[0].qty or 1.0)                        
+        return '%2.2f' % res           
+            
+    """def get_total_volume(self, item_list):
         ''' Function that compute total volume for 1 or more items
         '''
         total = 0.0
@@ -136,7 +151,7 @@ class Parser(report_sxw.rml_parse):
                     item.product_id.packaging_ids[0].height) / 1000000.0
                 total_value =  box * volume
                 total += float("%2.3f"%(total_value))  # for correct aprox value (maybe theres' a best way :) )
-        return "%2.3f"%(total,)
+        return "%2.3f"%(total,)"""
         
     def get_volume_item(self, item_id):
         ''' calculate total volume for item line 
@@ -144,13 +159,10 @@ class Parser(report_sxw.rml_parse):
         '''
         return self.get_total_volume([item_id])
         
-    def total_volume(self, order_id):
+    def total_volume(self, o):
         ''' calculate total volume for all items present in order
         '''
-        item_list = self.pool.get('purchase.order').browse(self.cr, self.uid, order_id).order_line
-        if item_list:
-            return self.get_total_volume([item.id for item in item_list])
-        return ""    
+        return  '' #self.get_total_volume([item.id for item in item_list])
 
     def total_USD(self, order_id):
         ''' calculate total USD for all items present in order
