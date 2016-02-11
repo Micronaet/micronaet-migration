@@ -37,6 +37,7 @@ class Parser(report_sxw.rml_parse):
             # TODO remove:
             'total_volume':self.total_volume,
             'get_total_volume':self.get_total_volume,
+            'get_unit_volume':self.get_unit_volume,
             
             'get_price': self.get_price,
             'get_subtotal': self.get_subtotal,
@@ -120,7 +121,22 @@ class Parser(report_sxw.rml_parse):
         for item in items:
             total += float(self.get_subtotal(item, order))
         return "%2.2f"%(total)
-        
+
+
+
+    def get_unit_volume(self, item):
+        ''' get unit volume
+        '''
+        if len(item.product_id.packaging_ids) == 1:                
+            return "%2.3f" % (
+                item.product_qty * \
+                item.product_id.pack_l * \
+                item.product_id.pack_h * \
+                item.product_id.pack_p / 1000000.0 / (
+                    item.product_id.packaging_ids[0].qty or 1.0)) 
+        else:
+            return '/'
+                                
     def get_total_volume(self, o):
         ''' Function that compute total volume for 1 or more items
         '''
