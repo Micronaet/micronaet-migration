@@ -110,9 +110,13 @@ class Parser(report_sxw.rml_parse):
         try:
             currency = order.partner_id.property_product_pricelist_purchase.currency_id.name
             if currency == "EUR":
-                return "%2.2f"%(float("%2.2f"%(item.product_id.seller_ids[0].pricelist_ids[0].price)) * item.product_qty)
+                return "%2.2f"%(float("%2.2f"%(
+                    item.product_id.seller_ids[
+                        0].pricelist_ids[0].price)) * item.product_qty)
             elif currency == "USD":
-                return "%2.2f"%(float("%2.2f"%(item.product_id.seller_ids[0].pricelist_ids[0].price_usd)) * item.product_qty)
+                return "%2.2f"%(float("%2.2f"%(
+                    item.product_id.seller_ids[
+                        0].pricelist_ids[0].price_usd)) * item.product_qty)
         except:
             pass # on error price is empty    
         return "0.0"  
@@ -132,27 +136,27 @@ class Parser(report_sxw.rml_parse):
     def get_unit_volume(self, item):
         ''' get unit volume
         '''
-        if len(item.product_id.packaging_ids) == 1:                
-            return "%2.3f" % (
-                item.product_qty * \
-                item.product_id.pack_l * \
-                item.product_id.pack_h * \
-                item.product_id.pack_p / 1000000.0 / (
-                    self.get_q_x_pack(item.product_id))) 
-        else:
-            return '/'
+        #if len(item.product_id.packaging_ids) == 1:                
+        return "%2.3f" % ((
+            item.product_qty * \
+            item.product_id.pack_l * \
+            item.product_id.pack_h * \
+            item.product_id.pack_p / 1000000.0 / (
+                self.get_q_x_pack(item.product_id))) or 0.0)
+        #else:
+        #    return '/'
                                 
     def get_total_volume(self, o):
         ''' Function that compute total volume for 1 or more items
         '''
         res = 0.0
         for item in o.order_line:
-            if len(item.product_id.packaging_ids) == 1:                
-                res += item.product_qty * \
-                    item.product_id.pack_l * \
-                    item.product_id.pack_h * \
-                    item.product_id.pack_p / 1000000.0 / (
-                        self.get_q_x_pack(item.product_id))
+            #if len(item.product_id.packaging_ids) == 1:                
+            res += (item.product_qty * \
+                item.product_id.pack_l * \
+                item.product_id.pack_h * \
+                item.product_id.pack_p / 1000000.0 / (
+                    self.get_q_x_pack(item.product_id))) or 0.0
         return '%2.3f' % res           
             
     """def get_total_volume(self, item_list):
