@@ -34,6 +34,7 @@ class Parser(report_sxw.rml_parse):
         super(Parser, self).__init__(cr, uid, name, context)
         self.localcontext.update({
             'get_volume_item':self.get_volume_item,
+            'get_q_x_pack': self.get_q_x_pack,
             # TODO remove:
             'total_volume':self.total_volume,
             'get_total_volume':self.get_total_volume,
@@ -122,7 +123,11 @@ class Parser(report_sxw.rml_parse):
             total += float(self.get_subtotal(item, order))
         return "%2.2f"%(total)
 
-
+    def get_q_x_pack(self, product):
+        if len(product.packaging_ids)==1:
+            return product.packaging_ids[0].qty or 1.0
+        else:
+            return product.q_x_pack or 1.0
 
     def get_unit_volume(self, item):
         ''' get unit volume
@@ -133,7 +138,7 @@ class Parser(report_sxw.rml_parse):
                 item.product_id.pack_l * \
                 item.product_id.pack_h * \
                 item.product_id.pack_p / 1000000.0 / (
-                    item.product_id.q_x_pack or 1.0)) 
+                    self.get_q_x_pack(item.product_id))) 
         else:
             return '/'
                                 
@@ -147,7 +152,7 @@ class Parser(report_sxw.rml_parse):
                     item.product_id.pack_l * \
                     item.product_id.pack_h * \
                     item.product_id.pack_p / 1000000.0 / (
-                        item.product_id.q_x_pack or 1.0)
+                        self.get_q_x_pack(item.product_id))
         return '%2.3f' % res           
             
     """def get_total_volume(self, item_list):
