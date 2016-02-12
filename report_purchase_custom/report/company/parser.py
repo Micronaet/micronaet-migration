@@ -35,6 +35,7 @@ class Parser(report_sxw.rml_parse):
         self.localcontext.update({
             'get_volume_item':self.get_volume_item,
             'get_q_x_pack': self.get_q_x_pack,
+            'get_supplier_code': self.get_supplier_code,
             # TODO remove:
             'total_volume':self.total_volume,
             'get_total_volume':self.get_total_volume,
@@ -49,6 +50,14 @@ class Parser(report_sxw.rml_parse):
             'get_couple': self.get_couple,
         })
 
+    def get_supplier_code(self, product):        
+        if product.default_supplier_code:
+            return '[%s]' % (product.default_supplier_code)
+        elif product.seller_ids and product.seller_ids[0].product_code:
+            return '[%s]' % (product.seller_ids[0].product_code)
+        else:
+            return '/'
+            
     def get_lang_field(self, pool, item_id, field, lang):
         ''' Get field from obj in lang passed
         ''' 
