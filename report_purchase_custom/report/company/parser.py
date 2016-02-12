@@ -133,7 +133,7 @@ class Parser(report_sxw.rml_parse):
                 item.product_id.pack_l * \
                 item.product_id.pack_h * \
                 item.product_id.pack_p / 1000000.0 / (
-                    item.product_id.packaging_ids[0].qty or 1.0)) 
+                    item.product_id.q_x_pack or 1.0)) 
         else:
             return '/'
                                 
@@ -147,7 +147,7 @@ class Parser(report_sxw.rml_parse):
                     item.product_id.pack_l * \
                     item.product_id.pack_h * \
                     item.product_id.pack_p / 1000000.0 / (
-                        item.product_id.packaging_ids[0].qty or 1.0)                        
+                        item.product_id.q_x_pack or 1.0)
         return '%2.3f' % res           
             
     """def get_total_volume(self, item_list):
