@@ -313,8 +313,11 @@ class ResPartnerExtraFields(orm.Model):
         
         'mexal_note': fields.text('Mexal Note'),
         'import': fields.char('ID import', size=10),
+        # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+        # NO MORE USED:
         'mexal_c': fields.char('Mexal cliente', size=9),
         'mexal_s': fields.char('Mexal fornitore', size=9),
+        # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         'fiscal_id_code': fields.char('Fiscal code', size=16),
         'private': fields.boolean('Private'),
         'type_cei': fields.char('Type CEI', size=1),
@@ -326,6 +329,8 @@ class ResPartnerExtraFields(orm.Model):
         # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
         # Statistics values:
+        # TODO Override fields and calculate with internal data not MX data
+        # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
         'date_last_ddt': fields.datetime('Date last DDT'),
         'day_left_ddt': fields.integer('Day left last DDT'),
         'invoiced_current_year': fields.float(
@@ -345,6 +350,8 @@ class ResPartnerExtraFields(orm.Model):
             _function_statistics_invoice, method=True, type='float',
             digits=(16,2), string='Invoice diff. %', store=True, readonly=True,
             multi='invoice_stat'),
+        # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        
         'type_id': fields.many2one(
             'crm.tracking.campaign',
             # NOTE ex: 'crm.case.resource.type', 
