@@ -278,7 +278,7 @@ class statistic_deadline(orm.Model):
         # Data used for FIDO computation
         'invoice_id': fields.many2one('account.invoice', 'Invoice'), 
         'invoice_ref': fields.char('Invoice ref.', size=64),     
-        'invoice_date': fields.date('Invoice date'),            
+        'invoice_date': fields.date('Invoice date'), # TODO change in related!    
     }
     
     _defaults = {
