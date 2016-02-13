@@ -30,7 +30,7 @@
         'base',
         'sale',
         'crm',
-        #'fido_management',
+        #'fido_management', # gives problem!!!!
         ],
     'init_xml': [], 
     'data': [

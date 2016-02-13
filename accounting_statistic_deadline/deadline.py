@@ -118,9 +118,25 @@ class statistic_deadline(orm.Model):
                         mexal_id = csv_pool.decode_string(line[0])
                         deadline = csv_pool.decode_date(
                             line[1], with_slash=False) # YYYYMMDD
-                        total = csv_pool.decode_float(line[2]) # Amount
-                        type_id = csv_pool.decode_string(line[3]).lower() #Type
+                        total = csv_pool.decode_float(line[2])
+                        type_id = csv_pool.decode_string(line[3]).lower()
                         
+                        # Extra data for invoice:
+                        invoice_number = csv_pool.decode_string(line[4])
+                        invoice_date = csv_pool.decode_date(
+                            line[5], with_slash=False)                            
+                        # TODO invoice_series = csv_pool.decode_string(line[5])                        
+                        invoice_series = '1'
+                        
+                        # Calculated fields:
+                        invoice_ref = 'FT/%s/%s/%s' % (
+                            invoice_series,
+                            invoice_date[:4],
+                            invoice_number, # TODO int with 0
+                            )
+                        # TODO search invoice_id
+                        invoice_id = False                                
+                                               
                         if mexal_id[:2] == "20": # Supplier TODO parametrize
                            c_o_s = "s"
                            commento = "Supplier"
@@ -170,6 +186,12 @@ class statistic_deadline(orm.Model):
                             'out': total_out,
                             'type': type_id,
                             'c_o_s': c_o_s, 
+                            
+                            # Extra data:
+                            'invoice_id': invoice_id,
+                            'invoice_ref': invoice_ref,
+                            'invoice_date': invoice_date,
+
                             #'deadline_real': deadline_real,
                             #'actualized': actualized,
                             }
