@@ -30,6 +30,7 @@
         'base',
         'sale',
         'crm',
+        'fido_management',
         ],
     'init_xml': [], 
     'data': [

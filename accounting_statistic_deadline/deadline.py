@@ -88,7 +88,9 @@ class statistic_deadline(orm.Model):
         deadline_ids = self.search(cr, uid, [], context=context)
         self.unlink(cr, uid, deadline_ids, context=context)
         
+        # Pool used:
         partner_pool = self.pool.get('res.partner')
+        invoice_pool = self.pool.get('account.invoice')
         csv_pool = self.pool.get('csv.base')
         
         # Load from CSV file:
@@ -272,6 +274,11 @@ class statistic_deadline(orm.Model):
             ('z', 'Rimessa diretta Z'),
             ('v', 'MAV'),
         ], 'Type', select=True),
+        
+        # Data used for FIDO computation
+        'invoice_id': fields.many2one('account.invoice', 'Invoice'), 
+        'invoice_ref': fields.char('Invoice ref.', size=64),     
+        'invoice_date': fields.date('Invoice date'),            
     }
     
     _defaults = {
@@ -290,6 +297,16 @@ class ResPartnerStatistic(orm.Model):
     _columns = {
         'open_payment_ids': fields.one2many(
             'statistic.deadline', 'partner_id', 'Open payment'),
+        }
+
+class AccountInvoice(orm.Model):
+    """ Add relation to invoice
+    """
+    _inherit = 'account.invoice'
+
+    _columns = {
+        'open_payment_ids': fields.one2many(
+            'statistic.deadline', 'invoice_id', 'Open payment'),
         }
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

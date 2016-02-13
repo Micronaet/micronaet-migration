@@ -9,12 +9,12 @@
         <field name='arch' type='xml'>
           <xpath expr="/form/sheet/notebook/page" position="after">
               <page string="Statistic">
-                  <group colspan="4" col="6">
+                  <!--<group colspan="4" col="6">
                       <separator string="Fido" colspan="6"/>
                       <field name='fido_ko' />   
                       <field name='fido_date' />   
                       <field name='fido_total' />   
-                  </group>
+                  </group>-->
 
                   <group colspan="4" col="4">
                       <separator string="Note gestionale" colspan="4" />
@@ -23,15 +23,10 @@
 
                       <separator string="Extra info gestionale" colspan="4" />
 
-                      <!--<field name="mexal_c" />
-                      <field name="mexal_s" />
-
-                      <field name='discount_rates' />             
-                      <field name='discount_value' />-->
-
                       <field name='type_id' />
                       <field name='zone_id' />
 
+                      <!--TODO create statistic with internal data:
                       <separator string="Invoiced:" colspan="4" />
                       
                       <field name="invoiced_current_year" readonly="1" />
@@ -48,7 +43,7 @@
                       <separator string="Last document:" colspan="4" />
                       
                       <field name="date_last_ddt" readonly="1" />
-                      <field name="day_left_ddt" readonly="1" />
+                      <field name="day_left_ddt" readonly="1" />-->
                   </group>
               </page>
           </xpath>

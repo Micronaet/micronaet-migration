@@ -303,9 +303,14 @@ class ResPartnerExtraFields(orm.Model):
 
     _columns = {
         'zone_id':fields.many2one('res.partner.zone', 'Zone'),
+        
+        # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+        # TODO MOVE IN fido_management:
         'fido_date': fields.date('FIDO Date'),
         'fido_ko': fields.boolean('No FIDO'),
         'fido_total': fields.float('Totale fido', digits=(16, 2)),
+        # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        
         'mexal_note': fields.text('Mexal Note'),
         'import': fields.char('ID import', size=10),
         'mexal_c': fields.char('Mexal cliente', size=9),
