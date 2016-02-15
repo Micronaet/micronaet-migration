@@ -52,7 +52,7 @@
         <field name="inherit_id" ref="purchase.purchase_order_form" />
         <field name="arch" type="xml">
             <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='product_qty']" position="after">
-               <field name="q_x_pack" />
+               <field name="q_x_pack" readonly="1"/>
             </xpath>
         </field>
     </record>
