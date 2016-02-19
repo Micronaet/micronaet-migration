@@ -228,13 +228,13 @@
         </field>
     </record>
 
-    <menuitem
+    <!--<menuitem
         name="Order: Manage delivery" 
         parent="base.menu_sales" 
         id="menu_action_statistic_header_deadline" 
         action="action_statistic_header_deadline" 
         sequence="2"
-        />
+        />-->
 
         <!--<menuitem name="Details" 
             parent="menu_action_statistic_header_deadline" 
