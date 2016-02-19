@@ -245,6 +245,7 @@ class SaleOrderLineExtraFields(orm.Model):
 Add zone manage TODO maybe better put in a single module
 Add extra fields populated from accounting > maybe better in a single module
 """
+# TODO move in new module!!!!
 class ResPartnerZone(orm.Model):
     _name = 'res.partner.zone'
     _description = 'Partner Zone'
@@ -302,7 +303,7 @@ class ResPartnerExtraFields(orm.Model):
         return res
 
     _columns = {
-        'zone_id':fields.many2one('res.partner.zone', 'Zone'),
+        'zone_id': fields.many2one('res.partner.zone', 'Zone'),
         
         # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
         # TODO MOVE IN fido_management:

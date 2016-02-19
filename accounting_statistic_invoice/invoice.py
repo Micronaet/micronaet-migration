@@ -435,6 +435,7 @@ class StatisticInvoice(orm.Model):
             type='boolean', readonly=True, string='Trend stat. cat.', 
             store=True),
 
+        # TODO moved in new module: mx_partner_zone:
         'zone_id': fields.related('partner_id', 'zone_id', type='many2one',
             relation='res.partner.zone', string='Zone', store=True),
         # Related won't work!
