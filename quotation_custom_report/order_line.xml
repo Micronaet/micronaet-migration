@@ -17,7 +17,7 @@
 
            <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/form/group/group/field[@name='product_id']" position="after">
               <field name='insert_photo' />                  
-              <field name='show_notes' />
+              <!--<field name='show_notes' />-->
               <field name='note' attrs="{'invisible':[('show_notes','=',False)]}" />
               <!--<field name='use_amazon_description' /> TODO remove?-->
            </xpath>
