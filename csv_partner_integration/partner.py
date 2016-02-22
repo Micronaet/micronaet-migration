@@ -273,7 +273,10 @@ class ResPartner(orm.Model):
                         # 10 pricelist default:
                         pl_version = csv_pool.decode_string(line[18]) or False
                         ref_pricelist_id = pricelists.get(pl_version, False)
+                        # TODO change for remove customer PL
                         pricelist_id = pricelists.get(ref, ref_pricelist_id)
+                        #pricelist_id = ref_pricelist_id # <<<<<
+                        # mette il listino di riferimento corretto!!!!!!!!!!!!!
                     else:
                         agent_id = False
                         pl_version = False
