@@ -132,6 +132,22 @@ class StatisticInvoice(orm.Model):
     _order = 'month, name'
 
     # ----------------------------------
+    # Utility:
+    # ----------------------------------
+    def append_csv_statistic_delivery_data(self, cr, uid, file_input, 
+            delimiter=';', context=None):
+        ''' Append OC non delivered from ODOO as statistics
+            Append also document delivered from ODOO (from 01/01/2016)
+        '''
+        # Orders:
+        
+        
+        # Delivery:
+        
+        
+        return True
+
+    # ----------------------------------
     # Importation procedure (scheduled):
     # ----------------------------------
     def schedule_csv_statistic_invoice_import(self, cr, uid,
@@ -200,8 +216,7 @@ class StatisticInvoice(orm.Model):
         
         # OC and BC part from ODOO not from accounting:
         # 1. Export on previous file OC and BC elements 
-        # TODO use procedure called after export mexal?
-        
+        # TODO use procedure called after export mexal?        
 
         loop_steps = { # 2 loop for read the 2 files to mix
             1: csv.reader(
@@ -305,11 +320,11 @@ class StatisticInvoice(orm.Model):
                                 counter, line))
 
                         # OC old = today
-                        if (type_document == 'oc') and ('%s%02d' % (
+                        if (type_document in ('oo') and ('%s%02d' % (
                                 year, month) < datetime.now().strftime(
                                     '%Y%m')):
                             _logger.warning(
-                                '%s) Old OC > today: %s%02d, cliente: %s, '
+                                '%s) Old OC OO > today: %s%02d, cliente: %s, '
                                 'totale %s' % (
                                     counter, year, month, mexal_id,
                                     total_invoice))
