@@ -1,0 +1,502 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* base_accounting_program
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-02-17 11:19+0000\n"
+"PO-Revision-Date: 2016-02-17 12:54+0100\n"
+"Last-Translator: Anna <anna@micronaet.it>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: Poedit 1.5.4\n"
+
+#. module: base_accounting_program
+#: help:sale.order.bank,information:0
+msgid "Account description, IBAN etc. linked in the offer"
+msgstr "Descrizione conto, IBAN ecc. allegato all'offerta"
+
+#. module: base_accounting_program
+#: selection:res.partner.zone,type:0
+msgid "Area"
+msgstr "Area"
+
+#. module: base_accounting_program
+#: field:sale.order.bank,name:0
+msgid "Bank account"
+msgstr "Conto bancario"
+
+#. module: base_accounting_program
+#: view:res.partner:base_accounting_program.view_res_partner_tree_filter_mexal_id
+#: field:res.partner,type_id:0
+msgid "Campaign"
+msgstr "Campagna"
+
+#. module: base_accounting_program
+#: model:ir.actions.act_window,name:base_accounting_program.action_view_sale_order_bank
+#: model:ir.ui.menu,name:base_accounting_program.menu_view_sale_order_bank
+#: field:sale.order,bank_id:0
+#: view:sale.order.bank:base_accounting_program.view_sale_order_bank
+#: view:sale.order.bank:base_accounting_program.view_sale_order_bank_tree
+msgid "Conto bancario"
+msgstr "Conto bancario"
+
+#. module: base_accounting_program
+#: field:res.partner.zone,create_uid:0 field:sale.order.bank,create_uid:0
+#: field:sale.product.return,create_uid:0
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: base_accounting_program
+#: field:res.partner.zone,create_date:0 field:sale.order.bank,create_date:0
+#: field:sale.product.return,create_date:0
+msgid "Created on"
+msgstr "Creato il"
+
+#. module: base_accounting_program
+#: field:res.partner,invoiced_current_year:0
+msgid "Current invoiced"
+msgstr "Fattura corrente"
+
+#. module: base_accounting_program
+#: field:res.partner,order_current_year:0
+msgid "Current order"
+msgstr "Ordine corrente"
+
+#. module: base_accounting_program
+#: field:res.partner,date_last_ddt:0
+msgid "Date last DDT"
+msgstr "Data ultimo DDT"
+
+#. module: base_accounting_program
+#: field:res.partner,day_left_ddt:0
+msgid "Day left last DDT"
+msgstr "Giorno ultimo DDT"
+
+#. module: base_accounting_program
+#: field:product.pricelist.item,default_pricelist:0
+msgid "Default pricelist rule"
+msgstr "Regola listino prezzi predefinito"
+
+#. module: base_accounting_program
+#: field:sale.product.return,name:0
+msgid "Description"
+msgstr "Descrizione"
+
+#. module: base_accounting_program
+#: field:res.partner,discount_rates:0
+#: field:sale.order.line,multi_discount_rates:0
+msgid "Discount scale"
+msgstr "Scala sconti"
+
+#. module: base_accounting_program
+#: field:res.partner,discount_value:0
+msgid "Discount value"
+msgstr "Valore sconto"
+
+#. module: base_accounting_program
+#: view:res.partner:base_accounting_program.view_res_partner_tree_filter_mexal_id
+msgid "Extra Mexal"
+msgstr "Extra Mexal"
+
+#. module: base_accounting_program
+#: view:res.partner:base_accounting_program.view_partner_add_custom_fields
+msgid "Extra info gestionale"
+msgstr "Extra info gestionale"
+
+#. module: base_accounting_program
+#: field:res.partner,fido_date:0
+msgid "FIDO from date"
+msgstr "FIDO dalla data"
+
+#. module: base_accounting_program
+#: field:res.partner,fido_ko:0
+msgid "FIDO removed"
+msgstr "FIDO rimosso"
+
+#. module: base_accounting_program
+#: view:res.partner:base_accounting_program.view_partner_add_custom_fields
+msgid "Fido"
+msgstr "FIDO"
+
+#. module: base_accounting_program
+#: field:res.partner,fiscal_id_code:0
+msgid "Fiscal code"
+msgstr "Codice fiscale"
+
+#. module: base_accounting_program
+#: help:product.product,large_description:0
+msgid "For web publishing"
+msgstr "Per la pubblicazione WEB"
+
+#. module: base_accounting_program
+#: field:sale.order.line,image_http:0
+msgid "Has image"
+msgstr "Ha un'immagine"
+
+#. module: base_accounting_program
+#: help:sale.order.line,image_http:0
+msgid "Has link for image on the web"
+msgstr "Ha un link per l'immagine sul WEB"
+
+#. module: base_accounting_program
+#: field:sale.order,has_master_header:0
+msgid "Header master table"
+msgstr "Tabella principale di intestazione"
+
+#. module: base_accounting_program
+#: field:res.partner.zone,id:0 field:sale.order.bank,id:0
+#: field:sale.product.return,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: base_accounting_program
+#: field:res.partner,import:0
+msgid "ID import"
+msgstr "ID import"
+
+#. module: base_accounting_program
+#: help:sale.order.line,price_use_manual:0
+msgid "If specificed use manual net price instead of lord price - discount"
+msgstr ""
+"Se specifico l'utilizzo del prezzo netto manuale invece del prezzo lordo - "
+"sconto"
+
+#. module: base_accounting_program
+#: field:product.pricelist,import:0 field:product.pricelist.version,import:0
+#: field:product.product,import:0
+msgid "Imported"
+msgstr "Importato"
+
+#. module: base_accounting_program
+#: help:sale.order,has_master_header:0
+msgid "In 'only comunication offer' doesn't add header"
+msgstr "In 'solo comunicazione offerta' non aggiungere la testata"
+
+#. module: base_accounting_program
+#: field:sale.order.bank,information:0
+msgid "Information"
+msgstr "Informazione"
+
+#. module: base_accounting_program
+#: view:sale.order.bank:base_accounting_program.view_sale_order_bank
+msgid "Informazioni:"
+msgstr "Informazioni:"
+
+#. module: base_accounting_program
+#: field:res.partner,invoice_trend_perc:0
+msgid "Invoice diff. %"
+msgstr "Diff. fattura in %"
+
+#. module: base_accounting_program
+#: field:res.partner,invoice_trend:0
+msgid "Invoice status"
+msgstr "Stato fattura"
+
+#. module: base_accounting_program
+#: view:res.partner:base_accounting_program.view_partner_add_custom_fields
+msgid "Invoiced:"
+msgstr "Fatturato:"
+
+#. module: base_accounting_program
+#: field:product.product,large_description:0
+msgid "Large Description"
+msgstr "Descrizione estesa"
+
+#. module: base_accounting_program
+#: field:res.partner.zone,write_uid:0 field:sale.order.bank,write_uid:0
+#: field:sale.product.return,write_uid:0
+msgid "Last Updated by"
+msgstr "Ultimo aggiornamento di"
+
+#. module: base_accounting_program
+#: field:res.partner.zone,write_date:0 field:sale.order.bank,write_date:0
+#: field:sale.product.return,write_date:0
+msgid "Last Updated on"
+msgstr "Ultimo aggiornamento del"
+
+#. module: base_accounting_program
+#: view:res.partner:base_accounting_program.view_partner_add_custom_fields
+msgid "Last document:"
+msgstr "Ultimo documento:"
+
+#. module: base_accounting_program
+#: field:res.partner,invoiced_last_year:0
+msgid "Last invoiced"
+msgstr "Ultimo fatturato"
+
+#. module: base_accounting_program
+#: field:res.partner,order_last_year:0
+msgid "Last order"
+msgstr "Ultimo ordine"
+
+#. module: base_accounting_program
+#: field:product.product,linear_length:0
+msgid "Lung. lineare"
+msgstr "Lung. lineare"
+
+#. module: base_accounting_program
+#: field:sale.order.line,price_unit_manual:0
+msgid "Manual net price"
+msgstr "Prezzo netto manuale"
+
+#. module: base_accounting_program
+#: view:res.partner:base_accounting_program.view_res_partner_tree_filter_mexal_id
+msgid "Mexal"
+msgstr "Mexal"
+
+#. module: base_accounting_program
+#: field:res.partner.zone,mexal_id:0
+msgid "Mexal ID"
+msgstr "Mexal ID"
+
+#. module: base_accounting_program
+#: field:res.partner,mexal_note:0
+msgid "Mexal Note"
+msgstr "Note Mexal"
+
+#. module: base_accounting_program
+#: field:product.pricelist,mexal_id:0
+msgid "Mexal Pricelist"
+msgstr "Listino Mexal"
+
+#. module: base_accounting_program
+#: field:product.pricelist.item,mexal_id:0
+msgid "Mexal Pricelist item"
+msgstr "Voce di listino Mexal"
+
+#. module: base_accounting_program
+#: field:product.pricelist.version,mexal_id:0
+msgid "Mexal Pricelist version"
+msgstr "Listino versione Mexal"
+
+#. module: base_accounting_program
+#: field:res.partner,mexal_c:0
+msgid "Mexal cliente"
+msgstr "Mexal cliente"
+
+#. module: base_accounting_program
+#: field:res.partner,mexal_s:0
+msgid "Mexal fornitore"
+msgstr "Mexal fornitore"
+
+#. module: base_accounting_program
+#: view:sale.order:base_accounting_program.view_sales_order_filter_add_cancel_button
+msgid "Non annullato"
+msgstr "Non annullato"
+
+#. module: base_accounting_program
+#: view:res.partner:base_accounting_program.view_partner_add_custom_fields
+msgid "Note gestionale"
+msgstr "Note gestionale"
+
+#. module: base_accounting_program
+#: model:ir.actions.act_window,help:base_accounting_program.action_order_form_no_agent
+msgid "Offerte e Ordini senza filtro di commerciale"
+msgstr "Offerte e Ordini senza filtro di commerciale"
+
+#. module: base_accounting_program
+#: model:ir.actions.act_window,name:base_accounting_program.action_order_form_no_agent
+msgid "Offerte e ordini"
+msgstr "Offerte e ordini"
+
+#. module: base_accounting_program
+#: field:sale.order,print_only_prices:0
+msgid "Only price offer"
+msgstr "Solo prezzo d'offerta"
+
+#. module: base_accounting_program
+#: view:res.partner:base_accounting_program.view_partner_add_custom_fields
+msgid "Orders:"
+msgstr "Ordini:"
+
+#. module: base_accounting_program
+#: field:sale.order.line,image_replace_name:0
+msgid "Override name"
+msgstr "Override name"
+
+#. module: base_accounting_program
+#: view:product.product:base_accounting_program.product_normal_form_view_inherit_extra_field
+msgid "Parameter for delivery"
+msgstr "Parametri di consegna"
+
+#. module: base_accounting_program
+#: model:ir.model,name:base_accounting_program.model_res_partner
+msgid "Partner"
+msgstr "Cliente"
+
+#. module: base_accounting_program
+#: model:ir.model,name:base_accounting_program.model_res_partner_zone
+msgid "Partner Zone"
+msgstr "Zona del partner"
+
+#. module: base_accounting_program
+#: model:ir.model,name:base_accounting_program.model_product_pricelist
+msgid "Pricelist"
+msgstr "Listino Prezzi"
+
+#. module: base_accounting_program
+#: model:ir.model,name:base_accounting_program.model_product_pricelist_version
+msgid "Pricelist Version"
+msgstr "Versione Listino"
+
+#. module: base_accounting_program
+#: model:ir.model,name:base_accounting_program.model_product_pricelist_item
+msgid "Pricelist item"
+msgstr "Oggetto Listino"
+
+#. module: base_accounting_program
+#: field:res.partner,private:0
+msgid "Private"
+msgstr "Privato"
+
+#. module: base_accounting_program
+#: model:ir.model,name:base_accounting_program.model_product_product
+msgid "Product"
+msgstr "Prodotto"
+
+#. module: base_accounting_program
+#: field:product.product,mexal_id:0
+msgid "Product mexal ID"
+msgstr "ID Prodotto Mexal"
+
+#. module: base_accounting_program
+#: model:ir.actions.act_window,name:base_accounting_program.action_sale_product_return
+#: model:ir.ui.menu,name:base_accounting_program.menu_action_sale_product_return
+#: field:sale.order,return_id:0
+msgid "Product return"
+msgstr "Ritorno del prodotto"
+
+#. module: base_accounting_program
+#: field:product.product,q_x_pack:0
+msgid "Q. per collo"
+msgstr "Q. per collo"
+
+#. module: base_accounting_program
+#: view:sale.order:base_accounting_program.view_sales_order_filter_add_cancel_button
+msgid "Quotations"
+msgstr "Preventivi"
+
+#. module: base_accounting_program
+#: selection:res.partner.zone,type:0
+msgid "Region"
+msgstr "Regione"
+
+#. module: base_accounting_program
+#: model:ir.model,name:base_accounting_program.model_sale_order_bank
+msgid "Sale oder bank"
+msgstr "Banca ordini di vendita"
+
+#. module: base_accounting_program
+#: model:ir.model,name:base_accounting_program.model_sale_product_return
+msgid "Sale product return"
+msgstr "Vendita restituzione prodotto"
+
+#. module: base_accounting_program
+#: model:res.groups,name:base_accounting_program.group_sales_cei_italian
+msgid "Sales / CEI as Italian"
+msgstr "Vendite / CEI as Italian"
+
+#. module: base_accounting_program
+#: model:res.groups,name:base_accounting_program.group_sales_import_manager
+msgid "Sales / Import manager"
+msgstr "Vendite / Import manager"
+
+#. module: base_accounting_program
+#: model:ir.model,name:base_accounting_program.model_sale_order
+msgid "Sales Order"
+msgstr "Ordine di vendita"
+
+#. module: base_accounting_program
+#: model:ir.model,name:base_accounting_program.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Linea d'ordine di vendita"
+
+#. module: base_accounting_program
+#: view:res.partner:base_accounting_program.view_res_partner_tree_filter_mexal_id
+msgid "Salesperson"
+msgstr "Commerciale"
+
+#. module: base_accounting_program
+#: selection:res.partner.zone,type:0
+msgid "State"
+msgstr "Stato"
+
+#. module: base_accounting_program
+#: view:res.partner:base_accounting_program.view_partner_add_custom_fields
+msgid "Statistic"
+msgstr "Statistiche"
+
+#. module: base_accounting_program
+#: view:sale.product.return:base_accounting_program.view_sale_product_return_form
+#: field:sale.product.return,text:0
+msgid "Text"
+msgstr "Testo"
+
+#. module: base_accounting_program
+#: field:res.partner.zone,type:0
+msgid "Tipo"
+msgstr "Tipo"
+
+#. module: base_accounting_program
+#: field:res.partner,fido_total:0
+msgid "Total FIDO"
+msgstr "Totale FIDO"
+
+#. module: base_accounting_program
+#: view:res.partner:base_accounting_program.view_res_partner_tree_filter_mexal_id
+msgid "Type"
+msgstr "Tipo"
+
+#. module: base_accounting_program
+#: field:res.partner,type_cei:0
+msgid "Type CEI"
+msgstr "Tipo CEI"
+
+#. module: base_accounting_program
+#: field:sale.order,print_address:0
+msgid "Use extra address"
+msgstr "Utilizza indirizza extra"
+
+#. module: base_accounting_program
+#: field:sale.order.line,price_use_manual:0
+msgid "Use manual net price"
+msgstr "Utilizza prezzo netto manuale"
+
+#. module: base_accounting_program
+#: help:sale.order.line,image_replace_name:0
+msgid ""
+"Usually the name is art. code + '.PNG', es. 400.PNGif you want to change "
+"write the name in this field!"
+msgstr ""
+"Usually the name is art. code + '.PNG', es. 400.PNGif you want to change "
+"write the name in this field!"
+
+#. module: base_accounting_program
+#: view:product.product:base_accounting_program.product_normal_form_view_inherit_extra_field
+msgid "Web Large Description"
+msgstr "Descrizione estesa per WEB"
+
+#. module: base_accounting_program
+#: field:res.partner,zone_id:0
+#: view:res.partner.zone:base_accounting_program.view_res_partner_zone_form
+#: view:res.partner.zone:base_accounting_program.view_res_partner_zone_tree
+#: field:res.partner.zone,name:0
+msgid "Zone"
+msgstr "Zona"
+
+#. module: base_accounting_program
+#: model:ir.actions.act_window,name:base_accounting_program.action_res_partner_zone_tree
+#: model:ir.ui.menu,name:base_accounting_program.menu_action_res_partner_zone_tree
+msgid "Zone partner"
+msgstr "Zona cliente"
+
+#. module: base_accounting_program
+#: view:sale.order:base_accounting_program.view_sales_order_filter_add_cancel_button
+msgid "is_quotation"
+msgstr "è un preventivo"
