@@ -142,7 +142,7 @@ class StatisticInvoice(orm.Model):
         """ Import statistic data from CSV file for invoice, trend, trendoc
             This particular importation are from 2 files (amount)
             (all particularity manage are use if particular = True)
-        """
+        """        
 
         _logger.info('Start invoice statistic for customer')
 
@@ -197,6 +197,11 @@ class StatisticInvoice(orm.Model):
                         self, cr, uid, p2_id)),
                     )}
         # =====================================================================
+        
+        # OC and BC part from ODOO not from accounting:
+        # 1. Export on previous file OC and BC elements 
+        # TODO use procedure called after export mexal?
+        
 
         loop_steps = { # 2 loop for read the 2 files to mix
             1: csv.reader(
@@ -233,7 +238,11 @@ class StatisticInvoice(orm.Model):
                         total_invoice = csv_base.decode_float(
                             line[3]) or 0.0
                         type_document = csv_base.decode_string(
-                            line[4]).lower() # oc/ft
+                            line[4]).lower() # oc/bc/ft >> new: oo bo
+                            
+                        # Jump old mexal elements:    
+                        if type_document in ('oc', 'bc'):
+                            continue    
 
                         if particular and step == 2: # 2nd loop is different:
                             if mexal_id not in customer_replace:
@@ -418,8 +427,11 @@ class StatisticInvoice(orm.Model):
 
         'type_document': fields.selection([
             ('ft', 'Fattura'),
-            ('oc', 'Ordine'),
-            ('bc', 'DDT'), ], 'Tipo doc.', select=True),
+            ('oc', 'Ordine Mexal'),
+            ('oo', 'Ordine ODOO'),
+            ('bc', 'DDT Mexal'), 
+            ('bo', 'DDT ODOO'), 
+            ], 'Tipo doc.', select=True),
 
         'month': fields.selection(month_order_season, 'Mese', select=True),
         'season': fields.selection(seasons, 'Season', select=True),
