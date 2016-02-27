@@ -139,7 +139,19 @@ class StatisticInvoice(orm.Model):
         ''' Append OC non delivered from ODOO as statistics
             Append also document delivered from ODOO (from 01/01/2016)
         '''
-        # Orders:
+        # ---------------------------------------------------------------------
+        #                         Common Part:
+        # ---------------------------------------------------------------------
+        today = datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT)
+
+        f_partner = open(file_partner, 'a')
+        mask_partner = '%s;%s;%s;%s;%s\n'
+        f_product = open(file_product, 'a')
+        mask_product = '%s;%s;%s;%s;%s;%s\n'
+
+        # ---------------------------------------------------------------------
+        #                           Orders:
+        # ---------------------------------------------------------------------
         order_pool = self.pool.get('sale.order')
         order_ids = order_pool.search(cr, uid, [
             ('state', 'not in', ('cancel', 'draft', 'sent')),
@@ -147,14 +159,8 @@ class StatisticInvoice(orm.Model):
             ('mx_closed', '=', False),
             #('forecaster_production_id', '=', False), 
             ], context=context)
-            
-        f_partner = open(file_partner, 'a')
-        mask_partner = '%s;%s;%s;%s;%s\n'
-        f_product = open(file_product, 'a')
-        mask_product = '%s;%s;%s;%s;%s;%s\n'
            
         type_document = 'OO'
-        today = datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT)
         for order in order_pool.browse(cr, uid, order_ids, context=context):
             total = 0.0
             date = order.date_order or today
@@ -194,10 +200,55 @@ class StatisticInvoice(orm.Model):
                 type_document,
                 ))
         
-        # Delivery:
+        # ---------------------------------------------------------------------
+        #                             Delivery:
+        # ---------------------------------------------------------------------
         ddt_pool = self.pool.get('stock.ddt')
-        
-        
+        ddt_ids = ddt_pool.search(cr, uid, [
+            ('invoice_id', '=', False),
+            ], context=context)
+            
+        type_document = 'BO'
+        for ddt in ddt_pool.browse(cr, uid, ddt_ids, context=context):
+            total = 0.0
+            date = ddt.date or today
+            month = date.month
+            year = date.year            
+            
+            for line in ddt.ddt_lines:
+                 if parent_max: # TODO check exist!!!
+                     code = line.product_id.default_code[:parent_max]
+                 else:
+                     code = line.product_id.default_code
+                     
+                 number = line.product_id.product_uom_qty
+                 sol = line.sale_line_id
+                 if not sol.product_uom_qty:
+                     continue
+                     
+                 # Proportional to order subtotal:    
+                 amount = sol.price_subtotal * number / line.product_uom_qty
+                 total += amount
+                 
+                 f_product.write(mask_product % (
+                      code, 
+                      month,
+                      year,
+                      amount,
+                      type_document,
+                      remain_total,                      
+                      ))
+
+            if not total:
+                continue
+                
+            f_partner.write(mask_partner % (
+                order.partner_id.sql_customer_code, # TODO check exist!!!
+                month,
+                year,
+                total,
+                type_document,
+                ))
         
         return True
 
@@ -374,9 +425,9 @@ class StatisticInvoice(orm.Model):
                                 counter, line))
 
                         # OC old = today
-                        if (type_document in ('oo') and ('%s%02d' % (
+                        if type_document == 'oo' and '%s%02d' % (
                                 year, month) < datetime.now().strftime(
-                                    '%Y%m')):
+                                    '%Y%m'):
                             _logger.warning(
                                 '%s) Old OC OO > today: %s%02d, cliente: %s, '
                                 'totale %s' % (
