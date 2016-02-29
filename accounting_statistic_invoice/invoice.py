@@ -161,11 +161,12 @@ class StatisticInvoice(orm.Model):
             ], context=context)
            
         type_document = 'OO'
+        import pdb; pdb.set_trace()
         for order in order_pool.browse(cr, uid, order_ids, context=context):
             total = 0.0
             date = order.date_order or today
-            month = date.month
-            year = date.year            
+            month = int(date[5:7])
+            year = int(date[:4])     
             
             for line in order.order_line:
                  if parent_max: # TODO check exist!!!
@@ -212,8 +213,8 @@ class StatisticInvoice(orm.Model):
         for ddt in ddt_pool.browse(cr, uid, ddt_ids, context=context):
             total = 0.0
             date = ddt.date or today
-            month = date.month
-            year = date.year            
+            month = int(date[5:7])
+            year = int(date[:4])            
             
             for line in ddt.ddt_lines:
                  if parent_max: # TODO check exist!!!
@@ -221,7 +222,7 @@ class StatisticInvoice(orm.Model):
                  else:
                      code = line.product_id.default_code
                      
-                 number = line.product_id.product_uom_qty
+                 number = line.product_uom_qty
                  sol = line.sale_line_id
                  if not sol.product_uom_qty:
                      continue
