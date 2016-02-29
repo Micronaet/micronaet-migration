@@ -151,7 +151,7 @@ class StatisticInvoice(orm.Model):
             
             try:
                 return ('%15.2f' % float(value)).replace('.', ',')    
-            except:    
+            except:  
                 _logger.error('Error convert float: %s' % value)
                 return '0,00'
 
