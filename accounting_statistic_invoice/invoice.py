@@ -161,10 +161,10 @@ class StatisticInvoice(orm.Model):
         today = datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT)
 
         f_partner = open(file_partner, 'a')
-        mask_partner = '%s;%2s;%10s;%s;%s\n'
+        mask_partner = '%s;%2s;%10s;%15s;%s\n'
         f_product = open(file_product, 'a')
-        mask_product = '%s;%s;%s;%s;%s;%s\n'
-
+        mask_product = '%s;%2s;%10s;%10s;%s;%15s\n'
+        
         # ---------------------------------------------------------------------
         #                           Orders:
         # ---------------------------------------------------------------------
@@ -177,7 +177,6 @@ class StatisticInvoice(orm.Model):
             ], context=context)
            
         type_document = 'OO'
-        import pdb; pdb.set_trace()
         i = 0
         for order in order_pool.browse(cr, uid, order_ids, context=context):
             i += 1
@@ -226,7 +225,6 @@ class StatisticInvoice(orm.Model):
                 csv_format_float(total),
                 type_document,
                 ))
-        
         # ---------------------------------------------------------------------
         #                             Delivery:
         # ---------------------------------------------------------------------
@@ -285,7 +283,11 @@ class StatisticInvoice(orm.Model):
                 year,
                 csv_format_float(total),
                 type_document,
-                ))        
+                ))       
+        
+        # Close files:         
+        f_partner.close()
+        f_product.close()        
         return True
 
     # ----------------------------------
