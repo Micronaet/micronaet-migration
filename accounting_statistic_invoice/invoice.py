@@ -25,6 +25,7 @@ import sys
 import logging
 import openerp
 import csv
+import shutil
 import openerp.netsvc as netsvc
 import openerp.addons.decimal_precision as dp
 from openerp.osv import fields, osv, expression, orm
@@ -159,10 +160,19 @@ class StatisticInvoice(orm.Model):
         #                         Common Part:
         # ---------------------------------------------------------------------
         today = datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT)
+        import pdb; pdb.set_trace()
+        # Copy file for write problem:
+        file_partner_local = os.path.expanduser(
+            '~/etl/partner.%s' % file_partner[-3:])
+        file_product_local = os.path.expanduser(
+             '~/etl/product.%s' % file_product[-3:])
+        shutil.copyfile(file_partner, file_partner_local)     
+        shutil.copyfile(file_product, file_product_local)     
 
-        f_partner = open(file_partner, 'a')
+        # Open for append:
+        f_partner = open(file_partner_local, 'a')
         mask_partner = '%s;%2s;%10s;%15s;%s\n'
-        f_product = open(file_product, 'a')
+        f_product = open(file_product_local, 'a')
         mask_product = '%s;%2s;%10s;%10s;%s;%15s\n'
         
         # ---------------------------------------------------------------------
