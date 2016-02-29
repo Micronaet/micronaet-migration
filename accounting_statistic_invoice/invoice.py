@@ -135,17 +135,33 @@ class StatisticInvoice(orm.Model):
     # Utility:
     # ----------------------------------
     def append_csv_statistic_delivery_data(self, cr, uid, file_partner, 
-            file_product, parent_max=False, delimiter=';', context=None):
+            file_product, parent_max=False, delimiter=';', verbose=20,
+            context=None):
         ''' Append OC non delivered from ODOO as statistics
             Append also document delivered from ODOO (from 01/01/2016)
         '''
+        # ---------------------------------------------------------------------
+        # Utility:
+        # ---------------------------------------------------------------------
+        def csv_format_float(value):
+            ''' format 2 dec. comma separator
+            '''
+            if not value:
+                return '0,00'
+            
+            try:
+                return ('%15.2f' % float(value)).replace('.', ',')    
+            except:    
+                _logger.error('Error convert float: %s' % value)
+                return '0,00'
+
         # ---------------------------------------------------------------------
         #                         Common Part:
         # ---------------------------------------------------------------------
         today = datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT)
 
         f_partner = open(file_partner, 'a')
-        mask_partner = '%s;%s;%s;%s;%s\n'
+        mask_partner = '%s;%2s;%10s;%s;%s\n'
         f_product = open(file_product, 'a')
         mask_product = '%s;%s;%s;%s;%s;%s\n'
 
@@ -162,11 +178,16 @@ class StatisticInvoice(orm.Model):
            
         type_document = 'OO'
         import pdb; pdb.set_trace()
+        i = 0
         for order in order_pool.browse(cr, uid, order_ids, context=context):
+            i += 1
+            if i % verbose == 0:
+                _logger.info('OC from ODOO read: %s' % i)
             total = 0.0
             date = order.date_order or today
             month = int(date[5:7])
             year = int(date[:4])     
+            sql_customer_code = order.partner_id.sql_customer_code
             
             for line in order.order_line:
                  if parent_max: # TODO check exist!!!
@@ -185,19 +206,24 @@ class StatisticInvoice(orm.Model):
                       code, 
                       month,
                       year,
-                      remain,
+                      int(remain),
                       type_document,
-                      remain_total,                      
+                      csv_format_float(remain_total),
                       ))
                       
             if not total:
                 continue
-                
+            
+            if not sql_customer_code:
+                _logger.error('Partner code not found: %s' % (
+                    order.partner_id.name, ))
+                continue
+                    
             f_partner.write(mask_partner % (
-                order.partner_id.sql_customer_code, # TODO check exist!!!
+                sql_customer_code, # TODO check exist!!!
                 month,
                 year,
-                total,
+                csv_format_float(total),
                 type_document,
                 ))
         
@@ -210,11 +236,16 @@ class StatisticInvoice(orm.Model):
             ], context=context)
             
         type_document = 'BO'
+        i = 0
         for ddt in ddt_pool.browse(cr, uid, ddt_ids, context=context):
+            i += 1
+            if i % verbose == 0:
+                _logger.info('DDT from ODOO read: %s' % i)
             total = 0.0
             date = ddt.date or today
             month = int(date[5:7])
             year = int(date[:4])            
+            sql_customer_code = ddt.partner_id.sql_customer_code
             
             for line in ddt.ddt_lines:
                  if parent_max: # TODO check exist!!!
@@ -227,7 +258,7 @@ class StatisticInvoice(orm.Model):
                  if not sol.product_uom_qty:
                      continue
                      
-                 # Proportional to order subtotal:    
+                 # Proportional to ddt subtotal:    
                  amount = sol.price_subtotal * number / line.product_uom_qty
                  total += amount
                  
@@ -235,22 +266,26 @@ class StatisticInvoice(orm.Model):
                       code, 
                       month,
                       year,
-                      amount,
+                      int(amount),
                       type_document,
-                      remain_total,                      
+                      csv_format_float(remain_total),                      
                       ))
 
             if not total:
                 continue
                 
+            if not sql_customer_code:
+                _logger.error('Partner code not found: %s' % (
+                    ddt.partner_id.name, ))
+                continue
+
             f_partner.write(mask_partner % (
-                order.partner_id.sql_customer_code, # TODO check exist!!!
+                sql_customer_code, # TODO check exist!!!
                 month,
                 year,
-                total,
+                csv_format_float(total),
                 type_document,
-                ))
-        
+                ))        
         return True
 
     # ----------------------------------
