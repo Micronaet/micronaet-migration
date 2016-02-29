@@ -160,7 +160,7 @@ class StatisticInvoice(orm.Model):
         #                         Common Part:
         # ---------------------------------------------------------------------
         today = datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT)
-        import pdb; pdb.set_trace()
+
         # Copy file for write problem:
         file_partner_local = os.path.expanduser(
             '~/etl/partner.%s' % file_partner[-3:])
