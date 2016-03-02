@@ -746,11 +746,13 @@ class StatisticInvoiceProduct(orm.Model):
                 month_season = transcode_month[month]
 
                 # Calculated field:
-                if type_document not in ('ft', 'bc', 'oc'):
+                if type_document not in ('ft', 'bo', 'oo'):
                     _logger.warning('%s) Type of doc not correct: %s' % (
                         counter, type_document))
                     type_document = False # not jumperd
 
+                # TODO actualize OO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                
                 family_id, categ_id = families.get(name, (False, False))
 
                 data = {
