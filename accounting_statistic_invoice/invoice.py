@@ -401,7 +401,7 @@ class StatisticInvoice(orm.Model):
                     try:
                         mexal_id = csv_base.decode_string(line[0]) # ID
                         month = int(csv_base.decode_string(line[1])) or 0
-                        month_season = transcode_month[month]
+                        month_season = transcode_month[month] 
                         year = csv_base.decode_string(line[2]) or ''
                         total_invoice = csv_base.decode_float(
                             line[3]) or 0.0
@@ -475,7 +475,7 @@ class StatisticInvoice(orm.Model):
                         # OC old = today
                         if type_document == 'oo' and '%s%02d' % (
                                 year, month) < datetime.now().strftime(
-                                    '%Y%m'):
+                                    '%Y%m'):                                    
                             _logger.warning(
                                 '%s) Old OC OO > today: %s%02d, cliente: %s, '
                                 'totale %s' % (
@@ -483,6 +483,7 @@ class StatisticInvoice(orm.Model):
                                     total_invoice))
                             year = datetime.now().strftime('%Y')
                             month = int(datetime.now().strftime('%m'))
+                            month_season = transcode_month[month] # recalculate
 
                         data = {
                             'name': '%s [%s]' % (partner_name, mexal_id),
