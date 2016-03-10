@@ -321,6 +321,7 @@ class StatisticInvoice(orm.Model):
         # statistic.invoice:
         sql_pool = self.pool.get('micronaet.accounting')
         csv_base = self.pool.get('csv.base')
+        partner_pool = self.pool.get('res.partner')
         invoice_ids = self.search(cr, uid, [], context=context)
         self.unlink(cr, uid, invoice_ids, context=context)
 
@@ -383,11 +384,9 @@ class StatisticInvoice(orm.Model):
                 open(os.path.expanduser(file_input2), 'rb'),
                 delimiter=delimiter)
 
-        import pdb; pdb.set_trace()
-        
+        # Current reference:
         current_year = datetime.now().year
         current_month = datetime.now().month
-
         for step, lines in loop_steps.iteritems():
             counter = -header
             tot_col = 0
@@ -572,7 +571,6 @@ class StatisticInvoice(orm.Model):
 
             # Set tot 20 partner:
             # TODO set only current year in test!
-            import pdb; pdb.set_trace()
             _logger.info('Set top 15 partner invoiced in all years')
             cr.execute("""
                 UPDATE statistic_invoice 
@@ -594,12 +592,11 @@ class StatisticInvoice(orm.Model):
                     }, context=context)    
 
             # Update partner stats:
-            import pdb; pdb.set_trace()
             for partner_id in stats:
-                invoice_trend = '='
+                #TODO invoice_trend = '='
                 
                 if stats[partner_id][2]:
-                    invoice_trend_perc = (
+                    invoice_trend_perc = 100.0 * (
                         stats[partner_id][1] - stats[partner_id][2]) / \
                         stats[partner_id][2]
                 else:
@@ -609,7 +606,7 @@ class StatisticInvoice(orm.Model):
                      'last_activity': stats[partner_id][0],
                      'invoiced_current_year': stats[partner_id][1],
                      'invoiced_last_year': stats[partner_id][2],
-                     'invoice_trend': invoice_trend,
+                     #'invoice_trend': invoice_trend,
                      'invoice_trend_perc': invoice_trend_perc,
                      }, context=context)
             _logger.info('Statistic invoice import terminated')
