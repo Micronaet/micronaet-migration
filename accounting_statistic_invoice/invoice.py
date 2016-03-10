@@ -383,6 +383,11 @@ class StatisticInvoice(orm.Model):
                 open(os.path.expanduser(file_input2), 'rb'),
                 delimiter=delimiter)
 
+        import pdb; pdb.set_trace()
+        
+        current_year = datetime.now().year
+        current_month = datetime.now().month
+
         for step, lines in loop_steps.iteritems():
             counter = -header
             tot_col = 0
@@ -504,10 +509,7 @@ class StatisticInvoice(orm.Model):
 
                         # Year to intert invoiced
                         year_month = '%s%02d' % (year, month)
-
-                        current_year = datetime.now().year
-                        current_month = datetime.now().month
-
+                        
                         # Season
                         if current_month >= 1 and current_month <= 8:
                             ref_year = current_year - 1
@@ -570,6 +572,7 @@ class StatisticInvoice(orm.Model):
 
             # Set tot 20 partner:
             # TODO set only current year in test!
+            import pdb; pdb.set_trace()
             _logger.info('Set top 15 partner invoiced in all years')
             cr.execute("""
                 UPDATE statistic_invoice 
@@ -591,6 +594,7 @@ class StatisticInvoice(orm.Model):
                     }, context=context)    
 
             # Update partner stats:
+            import pdb; pdb.set_trace()
             for partner_id in stats:
                 invoice_trend = '='
                 
@@ -745,6 +749,8 @@ class StatisticInvoiceProduct(orm.Model):
         season_total = 0
         item_invoice = {}
         order_ref = datetime.now().strftime('%Y%m') # actualize order
+        current_year = datetime.now().year
+        current_month = datetime.now().month
         csv_base = self.pool.get('csv.base')        
         for line in csv_lines:
             try:
@@ -815,8 +821,6 @@ class StatisticInvoiceProduct(orm.Model):
 
                 season_total += total_invoice
                 year_month = '%s%02d' % (year, month)
-                current_year = datetime.now().year
-                current_month = datetime.now().month
 
                 if current_month >= 1 and current_month <= 8:
                     ref_year = current_year - 1
