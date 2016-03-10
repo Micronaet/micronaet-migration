@@ -744,6 +744,7 @@ class StatisticInvoiceProduct(orm.Model):
         tot_col = 0
         season_total = 0
         item_invoice = {}
+        order_ref = datetime.now().strftime('%Y%m') # actualize order
         csv_base = self.pool.get('csv.base')        
         for line in csv_lines:
             try:
@@ -783,7 +784,14 @@ class StatisticInvoiceProduct(orm.Model):
                         counter, type_document))
                     type_document = False # not jumperd
 
-                # TODO actualize OO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                # Actualize OO
+                if type_document == 'oo' and '%s%02d' % (
+                        year, month) < order_ref:                                    
+                    _logger.warning('%s) Old OO > today: %s%02d totale %s' % (
+                        counter, year, month, total_invoice))
+                    year = datetime.now().strftime('%Y')
+                    month = datetime.now().month
+                    month_season = transcode_month[month] # recalculate
                 
                 family_id, categ_id = families.get(name, (False, False))
 
@@ -807,8 +815,8 @@ class StatisticInvoiceProduct(orm.Model):
 
                 season_total += total_invoice
                 year_month = '%s%02d' % (year, month)
-                current_year = int(datetime.now().strftime('%Y'))
-                current_month = int(datetime.now().strftime('%m'))
+                current_year = datetime.now().year
+                current_month = datetime.now().month
 
                 if current_month >= 1 and current_month <= 8:
                     ref_year = current_year - 1
