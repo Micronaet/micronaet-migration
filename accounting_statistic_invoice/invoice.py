@@ -329,6 +329,7 @@ class StatisticInvoice(orm.Model):
         # -------------------------------------------
         _logger.info('Read parent for destinations conversion')
         convert_destination = {}
+        order_ref = datetime.now().strftime('%Y%m') # actualize order
         cursor = sql_pool.get_parent_partner(cr, uid, context=context)
         if not cursor:
             _logger.error("Unable to connect to parent (destination)!")
@@ -343,6 +344,7 @@ class StatisticInvoice(orm.Model):
         # ---------------------------------------
         # Load tags for create a dict of partner:
         # ---------------------------------------
+        stats = {} # Statistic for partner
         partner_tags = {}
         tag_pool = self.pool.get('res.partner.category')
         tag_ids = tag_pool.search(cr, uid, [
@@ -461,6 +463,12 @@ class StatisticInvoice(orm.Model):
                         else:
                             partner_name = get_partner_name(
                                 self, cr, uid, partner_id)
+                        if partner_id not in stats:
+                            stats[partner_id] = [
+                                False, # Last operation
+                                0.0, # invoiced current
+                                0.0, # invoiced -1                                
+                                ]
 
                         if not total_invoice:
                             _logger.warning('%s Amount not found [%s]' % (
@@ -474,15 +482,14 @@ class StatisticInvoice(orm.Model):
 
                         # OC old = today
                         if type_document == 'oo' and '%s%02d' % (
-                                year, month) < datetime.now().strftime(
-                                    '%Y%m'):                                    
+                                year, month) < order_ref:                                    
                             _logger.warning(
                                 '%s) Old OC OO > today: %s%02d, cliente: %s, '
                                 'totale %s' % (
                                     counter, year, month, mexal_id,
                                     total_invoice))
                             year = datetime.now().strftime('%Y')
-                            month = int(datetime.now().strftime('%m'))
+                            month = datetime.now().month
                             month_season = transcode_month[month] # recalculate
 
                         data = {
@@ -498,8 +505,8 @@ class StatisticInvoice(orm.Model):
                         # Year to intert invoiced
                         year_month = '%s%02d' % (year, month)
 
-                        current_year = int(datetime.now().strftime('%Y'))
-                        current_month = int(datetime.now().strftime('%m'))
+                        current_year = datetime.now().year
+                        current_month = datetime.now().month
 
                         # Season
                         if current_month >= 1 and current_month <= 8:
@@ -514,12 +521,16 @@ class StatisticInvoice(orm.Model):
                         if year_month >= '%s09' % ref_year and \
                                 year_month <= '%s08' % (
                                     ref_year + 1, ): # current
-                            data['season'] = 1
+                            data['season'] = 1                   
+                            # Stat value (current year)         
+                            stats[partner_id][1] += total_invoice
                         elif year_month >= '%s09' % (
                                 ref_year -1, ) and \
                                 year_month <= '%s08' % (
                                     ref_year, ): # year -1
                             data['season'] = -1
+                            # Stat value (year-1)         
+                            stats[partner_id][2] += total_invoice
                         elif year_month >= '%s09' % (
                                 ref_year -2, ) and \
                                 year_month <= '%s08' % (
@@ -540,6 +551,9 @@ class StatisticInvoice(orm.Model):
                                 data['season'] = 100 # new season
                             else:
                                 data['season'] = -100 # old season
+
+                        # TODO find max date for stat last purchase:
+                        #stats[partner_id][0]                         
 
                         # Common part (correct + amount)
                         self.create(cr, uid, data, context=context)
@@ -575,7 +589,25 @@ class StatisticInvoice(orm.Model):
                 self.write(cr, uid, stat.id, {
                     'zone_type': stat.zone_id.type, 
                     }, context=context)    
-                            
+
+            # Update partner stats:
+            for partner_id in stats:
+                invoice_trend = '='
+                
+                if stats[partner_id][2]:
+                    invoice_trend_perc = (
+                        stats[partner_id][1] - stats[partner_id][2]) / \
+                        stats[partner_id][2]
+                else:
+                    invoice_trend_perc = 0.0
+
+                partner_pool.write(cr, uid, partner_id, {
+                     'last_activity': stats[partner_id][0],
+                     'invoiced_current_year': stats[partner_id][1],
+                     'invoiced_last_year': stats[partner_id][2],
+                     'invoice_trend': invoice_trend,
+                     'invoice_trend_perc': invoice_trend_perc,
+                     }, context=context)
             _logger.info('Statistic invoice import terminated')
         return True
 
