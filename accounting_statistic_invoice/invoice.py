@@ -359,6 +359,9 @@ class StatisticInvoice(orm.Model):
             (all particularity manage are use if particular = True)
         """        
 
+        # ---------------------------------------------------------------------
+        #                             Log part:
+        # ---------------------------------------------------------------------
         _logger.info('Start invoice statistic for customer')
         log_file = os.path.expanduser(
             '~/etl/statistic.partner.%s.csv' % file_input1[-3:])
@@ -373,12 +376,15 @@ class StatisticInvoice(orm.Model):
         sql_pool = self.pool.get('micronaet.accounting')
         csv_base = self.pool.get('csv.base')
         partner_pool = self.pool.get('res.partner')
+
+        # Clean database:
         invoice_ids = self.search(cr, uid, [], context=context)
         self.unlink(cr, uid, invoice_ids, context=context)
 
-        # -------------------------------------
+        # ---------------------------------------------------------------------
         # Load dict for swap partner extra data
-        # -------------------------------------
+        # ---------------------------------------------------------------------
+        # Agend and zone:
         _logger.info('Read partner extra info (zone, agent)')
         partner_extra = {}
         partner_ids = partner_pool.search(cr, uid, [], context=context)
@@ -391,9 +397,7 @@ class StatisticInvoice(orm.Model):
                 '', # TODO cat stat!!!                
                 )
 
-        # -------------------------------------------
-        # Load dict for swap destination in parent ID
-        # -------------------------------------------
+        # Destination in parent ID
         _logger.info('Read parent for destinations conversion')
         convert_destination = {}
         order_ref = datetime.now().strftime('%Y%m') # actualize order
@@ -408,9 +412,7 @@ class StatisticInvoice(orm.Model):
         _logger.info(
             'Find %s destinations for conversion' % len(convert_destination))
 
-        # ---------------------------------------
-        # Load tags for create a dict of partner:
-        # ---------------------------------------
+        # Partner tags
         stats = {} # Statistic for partner
         partner_tags = {}
         tag_pool = self.pool.get('res.partner.category')
@@ -459,6 +461,9 @@ class StatisticInvoice(orm.Model):
         current_month = datetime.now().month
         counter = -header
         tot_col = 0
+        # ---------------------------------------------------------------------
+        #                    Read invoice data:
+        # ---------------------------------------------------------------------
         for line in csv_file:
             note = '' # logging
             
@@ -546,13 +551,12 @@ class StatisticInvoice(orm.Model):
                     cr, uid, mexal_id, context=context)
                 if not partner_id:
                     _logger.error(
-                        '%s) Partner not found: %s' % (
-                        counter, mexal_id))
-                    partner_name = '#ERR Partner code %s' % (
-                        mexal_id or '')
+                        '%s) Partner not found: %s' % (counter, mexal_id))
+                    partner_name = '#ERR Partner code %s' % (mexal_id or '')
                 else:
-                    partner_name = get_partner_name(
-                        self, cr, uid, partner_id)
+                    partner_name = get_partner_name(self, cr, uid, partner_id)
+                    
+                # Statistic database:    
                 if partner_id not in stats:
                     stats[partner_id] = [
                         False, # Last operation
@@ -569,7 +573,7 @@ class StatisticInvoice(orm.Model):
 
                 # Not classified (TODO but imported, true?!?!)
                 if not (month or year):
-                    note += 'Data (m or y) not found!'
+                    note += 'Data (m or y) not found! '
                     _logger.error('%s Month / Year not found! %s' % (
                         counter, line))
 
