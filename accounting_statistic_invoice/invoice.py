@@ -159,17 +159,18 @@ class StatisticInvoice(orm.Model):
         # ---------------------------------------------------------------------
         #                         Common Part:
         # ---------------------------------------------------------------------
+        import pdb; pdb.set_trace()
         log_file1 = os.path.expanduser(
-            '~/etl/stats.prod.%s.csv' % file_partner[_3:])
-        log_f1 = open(log_file, 'w')
-        log_f1.write('Code|Month|Year|Remain #|Document|Remain Amount\n')
-        log_mask1 = '%s|%s|%s|%s|%s|%s\n'
+            '~/etl/stats.prod.%s.csv' % file_partner[-3:])
+        log_f1 = open(log_file1, 'w')
+        log_f1.write('Code|Month|Year|Remain #|Document|Remain Amount|Order\n')
+        log_mask1 = '%s|%s|%s|%s|%s|%s|%s\n'
 
         log_file2 = os.path.expanduser(
-            '~/etl/stats.partner.%s.csv' % file_partner[_3:])
-        log_f2 = open(log_file, 'w')
-        log_f2.write('Code|Month|Year|Amount|Document\n')
-        log_mask2 = '%s|%s|%s|%s|%s\n'        
+            '~/etl/stats.partner.%s.csv' % file_partner[-3:])
+        log_f2 = open(log_file2, 'w')
+        log_f2.write('Code|Month|Year|Amount|Document|Num.\n')
+        log_mask2 = '%s|%s|%s|%s|%s|%s\n'        
         
         today = datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT)
 
@@ -223,16 +224,17 @@ class StatisticInvoice(orm.Model):
                      line.price_subtotal * remain / line.product_uom_qty
                  total += remain_total
                  
-                 data = (
+                 data = [
                       code, 
                       month,
                       year,
                       int(remain),
                       type_document,
                       csv_format_float(remain_total),
-                      )
-                 f_product.write(mask_product % data)
-                 log_file1.write(log_mask1 % data)     
+                      ]
+                 f_product.write(mask_product % tuple(data))
+                 data.append(order.name)
+                 log_f1.write(log_mask1 % tuple(data))     
                       
             if not total:
                 continue
@@ -242,15 +244,16 @@ class StatisticInvoice(orm.Model):
                     order.partner_id.name, ))
                 continue
                     
-            data = (
+            data = [
                 sql_customer_code, # TODO check exist!!!
                 month,
                 year,
                 csv_format_float(total),
                 type_document,
-                )
-            f_partner.write(mask_partner % data)
-            log_file2.write(log_mask2 % data)
+                ]
+            f_partner.write(mask_partner % tuple(data))
+            data.append(order.name)
+            log_f2.write(log_mask2 % tuple(data))
 
         # ---------------------------------------------------------------------
         #                             Delivery:
@@ -287,16 +290,17 @@ class StatisticInvoice(orm.Model):
                  amount = sol.price_subtotal * number / line.product_uom_qty
                  total += amount
                  
-                 data = (
+                 data = [
                       code, 
                       month,
                       year,
                       int(amount),
                       type_document,
                       csv_format_float(remain_total),                      
-                      )
-                 f_product.write(mask_product % data)
-                 log_file1.write(log_mask1 % data)     
+                      ]                      
+                 f_product.write(mask_product % tuple(data))
+                 data.append(ddt.name)
+                 log_f1.write(log_mask1 % tuple(data))     
 
             if not total:
                 continue
@@ -306,16 +310,17 @@ class StatisticInvoice(orm.Model):
                     ddt.partner_id.name, ))
                 continue
                 
-            data = (
+            data = [
                 sql_customer_code, # TODO check exist!!!
                 month,
                 year,
                 csv_format_float(total),
                 type_document,
-                )
+                ]
 
-            f_partner.write(mask_partner % data)       
-            log_file2.write(log_mask2 % data)
+            f_partner.write(mask_partner % tuple(data))       
+            data.append(ddt.name)
+            log_f2.write(log_mask2 % tuple(data))
         
         # Close files:         
         f_partner.close()
@@ -336,6 +341,12 @@ class StatisticInvoice(orm.Model):
         """        
 
         _logger.info('Start invoice statistic for customer')
+
+        log_file = os.path.expanduser(
+            '~/etl/statistic.partner.%s.csv' % file_partner[-3:])
+        log_f = open(log_file, 'w')
+        log_f.write('#|Name|Code|Tag|# Month|Year|Season|Doc|Total|Note\n')
+        log_mask = '%s|%s|%s|%s|%s|%s|%s|%s|%s|%s\n'
 
         # File CSV date for future log
         #create_date=time.ctime(os.path.getctime(FileInput))
@@ -413,6 +424,8 @@ class StatisticInvoice(orm.Model):
             counter = -header
             tot_col = 0
             for line in lines:
+                note = '' # logging
+                
                 if tot_col == 0: # set cols (first time)
                     tot_col = len(line)
                     _logger.info('Total columns: %s' % tot_col)
@@ -420,9 +433,11 @@ class StatisticInvoice(orm.Model):
                     counter += 1 # jump header line
                 else:
                     if not(len(line) and (tot_col == len(line))):
-                        _logger.warning(
+                        _logger.error(
                            '%s) Empty or colums different [%s >> %s]' % (
                                counter, tot_col, len(line)))
+                        # Log:       
+                        log_f.write('%s|||||||||column different!\n' % counter)
                         continue
 
                     counter += 1
@@ -438,13 +453,20 @@ class StatisticInvoice(orm.Model):
                             
                         # Jump old mexal elements:    
                         if type_document in ('oc', 'bc'):
-                            continue    
+                            log_f.write(
+                                '%s|||||||||Jump old OC or BC\n' % counter)                        
+                            continue
 
                         if particular and step == 2: # 2nd loop is different:
                             if mexal_id not in customer_replace:
-                                continue # jump if not a replace partner
+                                continue # jump if not a replace partner list
 
                             # =============================================
+                            note += 'Swap partner invoice %s > %s' % (
+                                mexal_id,
+                                customer_replace[old_mexal_id][0][0],
+                                )
+                                                            
                             # Customer replace problem:
                             old_mexal_id = mexal_id
                             mexal_id = customer_replace[
@@ -461,6 +483,7 @@ class StatisticInvoice(orm.Model):
                                 old_mexal_id][1][1]
                             partner_name2 = customer_replace[
                                 old_mexal_id][1][2]
+                             
                             # =============================================
 
                         elif particular: # 1st loop is different:
@@ -473,7 +496,11 @@ class StatisticInvoice(orm.Model):
                                         counter, mexal_id,
                                         convert_destination[mexal_id],
                                         ))
-                                mexal_id = convert_destination[mexal_id]
+                                note += 'Dest. replace: %s > %s' % (
+                                    mexal_id,        
+                                    convert_destination[mexal_id],
+                                    )
+                                mexal_id = convert_destination[mexal_id]                                
                                 
                         # -----------------        
                         # Calculated field:
@@ -499,16 +526,22 @@ class StatisticInvoice(orm.Model):
                         if not total_invoice:
                             _logger.warning('%s Amount not found [%s]' % (
                                 counter, line))
+                            log_f.write(
+                                '%s|||||||||Amount not found!\n' % counter)    
                             continue # Considered and error, jumped
 
                         # Not classified (TODO but imported, true?!?!)
                         if not (month or year):
+                            note += 'Data (m or y) not found!'
                             _logger.error('%s Month / Year not found! %s' % (
                                 counter, line))
 
                         # OC old = today
                         if type_document == 'oo' and '%s%02d' % (
-                                year, month) < order_ref:                                    
+                                year, month) < order_ref:
+                            note += 'Change data ref. %s%s > %s' % (
+                                year, month, order_ref)
+
                             _logger.warning(
                                 '%s) Old OC OO > today: %s%02d, cliente: %s, '
                                 'totale %s' % (
@@ -528,7 +561,7 @@ class StatisticInvoice(orm.Model):
                             'total': total_invoice,
                             }
 
-                        # Year to intert invoiced
+                        # Year to insert invoiced
                         year_month = '%s%02d' % (year, month)
                         
                         # Season
@@ -580,6 +613,21 @@ class StatisticInvoice(orm.Model):
 
                         # Common part (correct + amount)
                         self.create(cr, uid, data, context=context)
+
+                        # Log:
+                        log_f.write(log_mask % (
+                            counter,
+                            partner_name,
+                            mexal_id,
+                            tag_id,
+                            month_season,
+                            year,
+                            data['season'],
+                            type_document,
+                            total_invoice,
+                            note,
+                            ))
+
                         if step == 2: # Second payment negative!
                             # invert sign and setup agent
                             data['name'] = '%s [%s]' % (
@@ -587,6 +635,21 @@ class StatisticInvoice(orm.Model):
                             data['partner_id'] = partner_id2
                             data['total'] = -data.get('total', 0.0)
                             self.create(cr, uid, data, context=context)
+                            
+                            # Log:
+                            note += 'Remove invoiced (2nd loop)'
+                            log_f.write(log_mask % (
+                                counter,
+                                partner_name2,
+                                mexal_id2,
+                                tag_id,
+                                month_season,
+                                year,
+                                data['season'],
+                                type_document,
+                                data['total'],
+                                note,
+                                ))
                     except:
                         _logger.error('%s Error import invoice ID %s: [%s]' % (
                             counter, mexal_id, sys.exc_info()))
