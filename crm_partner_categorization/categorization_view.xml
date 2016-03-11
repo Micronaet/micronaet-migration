@@ -46,7 +46,7 @@
                        <filter string="Salesman" icon="terp-personal" domain="[]" context="{'group_by' : 'agent_id'}" />
                        <filter string="Zone" icon="terp-personal" domain="[]" context="{'group_by' : 'zone_id'}" />
                        <filter string="Country" icon="terp-personal" domain="[]" context="{'group_by' : 'country_id'}" />
-                       <filter string="Category" icon="terp-personal" domain="[]" context="{'group_by' : 'category_id'}" />
+                       <!--<filter string="Category" icon="terp-personal" domain="[]" context="{'group_by' : 'category_id'}" />-->
                        <separator orientation="vertical"/>
                        
                        <filter string="Trend" icon="terp-personal" domain="[]" context="{'group_by' : 'invoice_trend'}" />
