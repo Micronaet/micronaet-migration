@@ -353,9 +353,7 @@ class StatisticInvoice(orm.Model):
     # ----------------------------------
     def schedule_csv_statistic_invoice_import(self, cr, uid,
             file_input1='~/ETL/fatmeseoerp1.csv',
-            file_input2='~/ETL/fatmeseoerp2.csv',
-            delimiter=';', header=0, verbose=100, 
-            particular=True, context=None):
+            delimiter=';', header=0, verbose=100, context=None):
         """ Import statistic data from CSV file for invoice, trend, trendoc
             This particular importation are from 2 files (amount)
             (all particularity manage are use if particular = True)
@@ -424,38 +422,42 @@ class StatisticInvoice(orm.Model):
 
         # TODO portare parametrizzandolo in OpenERP (second loop substitution):
         # =====================================================================
-        if particular:
-            p1_id = csv_base.get_create_partner_lite(
-                cr, uid, '06.02209', context=context)
-            p2_id = csv_base.get_create_partner_lite(
-                cr, uid, '06.01537', context=context)
-            customer_replace = {
-                '06.40533': (
-                    ('06.02209', p1_id, get_partner_name(
-                        self, cr, uid, p1_id)),
-                    ('06.01537', p2_id, get_partner_name(
-                        self, cr, uid, p2_id)),
-                    )}
+        #if particular:
+        #    p1_id = csv_base.get_create_partner_lite(
+        #        cr, uid, '06.02209', context=context)
+        #    p2_id = csv_base.get_create_partner_lite(
+        #        cr, uid, '06.01537', context=context)
+        #    customer_replace = {
+        #        '06.40533': (
+        #            ('06.02209', p1_id, get_partner_name(
+        #                self, cr, uid, p1_id)),
+        #            ('06.01537', p2_id, get_partner_name(
+        #                self, cr, uid, p2_id)),
+        #            )}
         # =====================================================================
         
         # OC and BC part from ODOO not from accounting:
         # 1. Export on previous file OC and BC elements 
         # TODO use procedure called after export mexal?        
 
-        loop_steps = { # 2 loop for read the 2 files to mix
-            1: csv.reader(
-                open(os.path.expanduser(file_input1), 'rb'),
-                delimiter=delimiter),
-            }
-        if particular:
-            loop_steps[2] = csv.reader(
-                open(os.path.expanduser(file_input2), 'rb'),
-                delimiter=delimiter)
+        #loop_steps = { # 2 loop for read the 2 files to mix
+        #    1: csv.reader(
+        #        open(os.path.expanduser(file_input1), 'rb'),
+        #        delimiter=delimiter),
+        #    }
+        #if particular:
+        #    loop_steps[2] = csv.reader(
+        #        open(os.path.expanduser(file_input2), 'rb'),
+        #        delimiter=delimiter)
+        csv_file = csv.reader(
+            open(os.path.expanduser(file_input1), 'rb'),
+            delimiter=delimiter,
+            )
 
         # Current reference:
         current_year = datetime.now().year
         current_month = datetime.now().month
-        for step, lines in loop_steps.iteritems():
+        for lines in csv_file:
             counter = -header
             tot_col = 0
             for line in lines:
@@ -492,51 +494,50 @@ class StatisticInvoice(orm.Model):
                                 '%s|||||||||||||Jump old OC or BC\n' % counter)                        
                             continue
 
-                        if particular and step == 2: # 2nd loop is different:
-                            if mexal_id not in customer_replace:
-                                continue # jump if not a replace partner list
+                        #if particular and step == 2: # 2nd loop is different:
+                        #    if mexal_id not in customer_replace:
+                        #        continue # jump if not a replace partner list
 
-                            # =============================================
-                            old_mexal_id = mexal_id
+                        #    # =============================================
+                        #    old_mexal_id = mexal_id
 
-                            note += 'Swap partner invoice %s > %s' % (
-                                mexal_id,
-                                customer_replace[old_mexal_id][0][0],
-                                )
-                                                            
-                            # Customer replace problem:
-                            mexal_id = customer_replace[
-                                old_mexal_id][0][0]
-                            partner_id = customer_replace[
-                                old_mexal_id][0][1]
-                            partner_name = customer_replace[
-                                old_mexal_id][0][2]
+                        #    note += 'Swap partner invoice %s > %s' % (
+                        #        mexal_id,
+                        #        customer_replace[old_mexal_id][0][0],
+                        #        )                                                            
+                        #    # Customer replace problem:
+                        #    mexal_id = customer_replace[
+                        #        old_mexal_id][0][0]
+                        #    partner_id = customer_replace[
+                        #        old_mexal_id][0][1]
+                        #    partner_name = customer_replace[
+                        #        old_mexal_id][0][2]
 
-                            # Agent with subtract loss
-                            mexal_id2 = customer_replace[
-                                old_mexal_id][1][0]
-                            partner_id2 = customer_replace[
-                                old_mexal_id][1][1]
-                            partner_name2 = customer_replace[
-                                old_mexal_id][1][2]
-                             
-                            # =============================================
+                        #    # Agent with subtract loss
+                        #    mexal_id2 = customer_replace[
+                        #        old_mexal_id][1][0]
+                        #    partner_id2 = customer_replace[
+                        #        old_mexal_id][1][1]
+                        #    partner_name2 = customer_replace[
+                        #        old_mexal_id][1][2]
+                        #     
+                        #    # =============================================
 
-                        elif particular: # 1st loop is different:
-                            # -------------------------------------------
-                            # Swap destination with parent customer code:
-                            # -------------------------------------------
-                            if mexal_id in convert_destination:
-                                _logger.warning(
-                                    '%s: Destination %s >> Customer %s' % (
-                                        counter, mexal_id,
-                                        convert_destination[mexal_id],
-                                        ))
-                                note += 'Dest. replace: %s > %s' % (
-                                    mexal_id,        
-                                    convert_destination[mexal_id],
-                                    )
-                                mexal_id = convert_destination[mexal_id]                                
+                        #elif particular: # 1st loop is different:
+                        #    # -------------------------------------------
+                        #    # Swap destination with parent customer code:
+                        #    # -------------------------------------------
+                        #    if mexal_id in convert_destination:
+                        #        _logger.warning(
+                        #            '%s: Destination %s >> Customer %s' % (
+                        #                counter, mexal_id,
+                        #                convert_destination[mexal_id],
+                        #                ))
+                        #        note += 'Dest. replace: %s > %s' % (
+                        #            mexal_id,        
+                        #            convert_destination[mexal_id],
+                        #            )
+                        #        mexal_id = convert_destination[mexal_id]                                
                                 
                         # -----------------        
                         # Calculated field:
@@ -670,34 +671,34 @@ class StatisticInvoice(orm.Model):
                             note,
                             ))
 
-                        if step == 2: # Second payment negative!
-                            # invert sign and setup agent
-                            data['name'] = '%s [%s]' % (
-                                partner_name2, mexal_id2)
-                            data['partner_id'] = partner_id2
-                            data['total'] = -data.get('total', 0.0)
-                            self.create(cr, uid, data, context=context)
-                            
-                            # Log:
-                            note += 'Remove invoiced (2nd loop)'
-                            partner_extra_one = partner_extra.get(
-                                partner_id2, ['NO', 'NO', 'NO', 'NO'])
-                            log_f.write(log_mask % (
-                                counter,
-                                partner_name2,
-                                mexal_id2,
-                                data['tag_id'],
-                                month_season,
-                                year,
-                                data['season'],
-                                type_document,
-                                log_float(data['total']),
-                                partner_extra_one[0],# zone
-                                partner_extra_one[1],# agent
-                                partner_extra_one[2],# type
-                                partner_extra_one[3],# cat stat                                
-                                note,
-                                ))
+                        #if step == 2: # Second payment negative!
+                        #    # invert sign and setup agent
+                        #    data['name'] = '%s [%s]' % (
+                        #        partner_name2, mexal_id2)
+                        #    data['partner_id'] = partner_id2
+                        #    data['total'] = -data.get('total', 0.0)
+                        #    self.create(cr, uid, data, context=context)
+                        #    
+                        #    # Log:
+                        #    note += 'Remove invoiced (2nd loop)'
+                        #    partner_extra_one = partner_extra.get(
+                        #        partner_id2, ['NO', 'NO', 'NO', 'NO'])
+                        #    log_f.write(log_mask % (
+                        #        counter,
+                        #        partner_name2,
+                        #        mexal_id2,
+                        #        data['tag_id'],
+                        #        month_season,
+                        #        year,
+                        #        data['season'],
+                        #        type_document,
+                        #        log_float(data['total']),
+                        #        partner_extra_one[0],# zone
+                        #        partner_extra_one[1],# agent
+                        #        partner_extra_one[2],# type
+                        #        partner_extra_one[3],# cat stat                                
+                        #        note,
+                        #        ))
                     except:
                         _logger.error('%s Error import invoice ID %s: [%s]' % (
                             counter, mexal_id, sys.exc_info()))
