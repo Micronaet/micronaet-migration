@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
-        <menuitem id="easylabel_menu" parent="base.menu_sales" sequence="0" name="Easylabel" groups="label_easy.group_easylabel_manager"/>
+        <menuitem id="easylabel_menu" parent="base.menu_sales" sequence="80" name="Easylabel" groups="label_easy.group_easylabel_manager"/>
             <menuitem id="easylabel_menu_configuration" parent="easylabel_menu" sequence="0" name="Configuration" />
 
        <!--easylabel.easylabel:-->

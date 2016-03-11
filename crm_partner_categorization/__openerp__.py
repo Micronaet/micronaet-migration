@@ -27,6 +27,7 @@
     'depends': [
         'base',
         'base_accounting_program',
+        'mx_agent',
         ],
     'init_xml': [], 
     'data': [
