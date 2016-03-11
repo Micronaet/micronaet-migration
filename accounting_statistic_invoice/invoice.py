@@ -457,251 +457,250 @@ class StatisticInvoice(orm.Model):
         # Current reference:
         current_year = datetime.now().year
         current_month = datetime.now().month
-        for lines in csv_file:
-            counter = -header
-            tot_col = 0
-            for line in lines:
-                note = '' # logging
-                
-                if tot_col == 0: # set cols (first time)
-                    tot_col = len(line)
-                    _logger.info('Total columns: %s' % tot_col)
-                if counter < 0:
-                    counter += 1 # jump header line
-                else:
-                    if not(len(line) and (tot_col == len(line))):
-                        _logger.error(
-                           '%s) Empty or colums different [%s >> %s]' % (
-                               counter, tot_col, len(line)))
-                        # Log:       
-                        log_f.write('%s|||||||||||||column different!\n' % counter)
+        counter = -header
+        tot_col = 0
+        for line in csv_file:
+            note = '' # logging
+            
+            if tot_col == 0: # set cols (first time)
+                tot_col = len(line)
+                _logger.info('Total columns: %s' % tot_col)
+            if counter < 0:
+                counter += 1 # jump header line
+            else:
+                if not(len(line) and (tot_col == len(line))):
+                    _logger.error(
+                       '%s) Empty or colums different [%s >> %s]' % (
+                           counter, tot_col, len(line)))
+                    # Log:       
+                    log_f.write('%s|||||||||||||column different!\n' % counter)
+                    continue
+
+                counter += 1
+                try:
+                    mexal_id = csv_base.decode_string(line[0]) # ID
+                    month = int(csv_base.decode_string(line[1])) or 0
+                    month_season = transcode_month[month] 
+                    year = csv_base.decode_string(line[2]) or ''
+                    total_invoice = csv_base.decode_float(
+                        line[3]) or 0.0
+                    type_document = csv_base.decode_string(
+                        line[4]).lower() # oc/bc/ft >> new: oo bo
+                        
+                    # Jump old mexal elements:    
+                    if type_document in ('oc', 'bc'):
+                        log_f.write(
+                            '%s|||||||||||||Jump old OC or BC\n' % counter)                        
                         continue
 
-                    counter += 1
-                    try:
-                        mexal_id = csv_base.decode_string(line[0]) # ID
-                        month = int(csv_base.decode_string(line[1])) or 0
-                        month_season = transcode_month[month] 
-                        year = csv_base.decode_string(line[2]) or ''
-                        total_invoice = csv_base.decode_float(
-                            line[3]) or 0.0
-                        type_document = csv_base.decode_string(
-                            line[4]).lower() # oc/bc/ft >> new: oo bo
+                    #if particular and step == 2: # 2nd loop is different:
+                    #    if mexal_id not in customer_replace:
+                    #        continue # jump if not a replace partner list
+
+                    #    # =============================================
+                    #    old_mexal_id = mexal_id
+
+                    #    note += 'Swap partner invoice %s > %s' % (
+                    #        mexal_id,
+                    #        customer_replace[old_mexal_id][0][0],
+                    #        )                                                            
+                    #    # Customer replace problem:
+                    #    mexal_id = customer_replace[
+                    #        old_mexal_id][0][0]
+                    #    partner_id = customer_replace[
+                    #        old_mexal_id][0][1]
+                    #    partner_name = customer_replace[
+                    #        old_mexal_id][0][2]
+
+                    #    # Agent with subtract loss
+                    #    mexal_id2 = customer_replace[
+                    #        old_mexal_id][1][0]
+                    #    partner_id2 = customer_replace[
+                    #        old_mexal_id][1][1]
+                    #    partner_name2 = customer_replace[
+                    #        old_mexal_id][1][2]
+                    #     
+                    #    # =============================================
+
+                    #elif particular: # 1st loop is different:
+                    #    # -------------------------------------------
+                    #    # Swap destination with parent customer code:
+                    #    # -------------------------------------------
+                    #    if mexal_id in convert_destination:
+                    #        _logger.warning(
+                    #            '%s: Destination %s >> Customer %s' % (
+                    #                counter, mexal_id,
+                    #                convert_destination[mexal_id],
+                    #                ))
+                    #        note += 'Dest. replace: %s > %s' % (
+                    #            mexal_id,        
+                    #            convert_destination[mexal_id],
+                    #            )
+                    #        mexal_id = convert_destination[mexal_id]                                
                             
-                        # Jump old mexal elements:    
-                        if type_document in ('oc', 'bc'):
-                            log_f.write(
-                                '%s|||||||||||||Jump old OC or BC\n' % counter)                        
-                            continue
+                    # -----------------        
+                    # Calculated field:
+                    # -----------------        
+                    partner_id = csv_base.get_create_partner_lite(
+                        cr, uid, mexal_id, context=context)
+                    if not partner_id:
+                        _logger.error(
+                            '%s) Partner not found: %s' % (
+                            counter, mexal_id))
+                        partner_name = '#ERR Partner code %s' % (
+                            mexal_id or '')
+                    else:
+                        partner_name = get_partner_name(
+                            self, cr, uid, partner_id)
+                    if partner_id not in stats:
+                        stats[partner_id] = [
+                            False, # Last operation
+                            0.0, # invoiced current
+                            0.0, # invoiced -1                                
+                            ]
 
-                        #if particular and step == 2: # 2nd loop is different:
-                        #    if mexal_id not in customer_replace:
-                        #        continue # jump if not a replace partner list
+                    if not total_invoice:
+                        _logger.warning('%s Amount not found [%s]' % (
+                            counter, line))
+                        log_f.write(
+                            '%s|||||||||||||Amount not found!\n' % counter)    
+                        continue # Considered and error, jumped
 
-                        #    # =============================================
-                        #    old_mexal_id = mexal_id
+                    # Not classified (TODO but imported, true?!?!)
+                    if not (month or year):
+                        note += 'Data (m or y) not found!'
+                        _logger.error('%s Month / Year not found! %s' % (
+                            counter, line))
 
-                        #    note += 'Swap partner invoice %s > %s' % (
-                        #        mexal_id,
-                        #        customer_replace[old_mexal_id][0][0],
-                        #        )                                                            
-                        #    # Customer replace problem:
-                        #    mexal_id = customer_replace[
-                        #        old_mexal_id][0][0]
-                        #    partner_id = customer_replace[
-                        #        old_mexal_id][0][1]
-                        #    partner_name = customer_replace[
-                        #        old_mexal_id][0][2]
+                    # OC old = today
+                    if type_document == 'oo' and '%s%02d' % (
+                            year, month) < order_ref:
+                        note += 'Change data ref. %s%s > %s' % (
+                            year, month, order_ref)
 
-                        #    # Agent with subtract loss
-                        #    mexal_id2 = customer_replace[
-                        #        old_mexal_id][1][0]
-                        #    partner_id2 = customer_replace[
-                        #        old_mexal_id][1][1]
-                        #    partner_name2 = customer_replace[
-                        #        old_mexal_id][1][2]
-                        #     
-                        #    # =============================================
+                        _logger.warning(
+                            '%s) Old OC OO > today: %s%02d, cliente: %s, '
+                            'totale %s' % (
+                                counter, year, month, mexal_id,
+                                total_invoice))
+                        year = datetime.now().strftime('%Y')
+                        month = datetime.now().month
+                        month_season = transcode_month[month] # recalculate
 
-                        #elif particular: # 1st loop is different:
-                        #    # -------------------------------------------
-                        #    # Swap destination with parent customer code:
-                        #    # -------------------------------------------
-                        #    if mexal_id in convert_destination:
-                        #        _logger.warning(
-                        #            '%s: Destination %s >> Customer %s' % (
-                        #                counter, mexal_id,
-                        #                convert_destination[mexal_id],
-                        #                ))
-                        #        note += 'Dest. replace: %s > %s' % (
-                        #            mexal_id,        
-                        #            convert_destination[mexal_id],
-                        #            )
-                        #        mexal_id = convert_destination[mexal_id]                                
-                                
-                        # -----------------        
-                        # Calculated field:
-                        # -----------------        
-                        partner_id = csv_base.get_create_partner_lite(
-                            cr, uid, mexal_id, context=context)
-                        if not partner_id:
-                            _logger.error(
-                                '%s) Partner not found: %s' % (
-                                counter, mexal_id))
-                            partner_name = '#ERR Partner code %s' % (
-                                mexal_id or '')
+                    data = {
+                        'name': '%s [%s]' % (partner_name, mexal_id),
+                        'partner_id': partner_id,
+                        'tag_id': partner_tags.get(partner_id, False),
+                        'month': month_season, # month,
+                        'type_document': type_document,
+                        'year': year,
+                        'total': total_invoice,
+                        }
+
+                    # Year to insert invoiced
+                    year_month = '%s%02d' % (year, month)
+                    
+                    # Season
+                    if current_month >= 1 and current_month <= 8:
+                        ref_year = current_year - 1
+                    elif current_month >= 9 and current_month <= 12:
+                        ref_year = current_year
+                    else:
+                        _logger.error('%s) Month error not [1:12]' % (
+                            counter))
+
+                    # september - current year >> august - next year
+                    if year_month >= '%s09' % ref_year and \
+                            year_month <= '%s08' % (
+                                ref_year + 1, ): # current
+                        data['season'] = 1                   
+                        # Stat value (current year)         
+                        stats[partner_id][1] += total_invoice
+                    elif year_month >= '%s09' % (
+                            ref_year -1, ) and \
+                            year_month <= '%s08' % (
+                                ref_year, ): # year -1
+                        data['season'] = -1
+                        # Stat value (year-1)         
+                        stats[partner_id][2] += total_invoice
+                    elif year_month >= '%s09' % (
+                            ref_year -2, ) and \
+                            year_month <= '%s08' % (
+                                ref_year -1, ): # year -2
+                        data['season'] = -2
+                    elif year_month >= '%s09' % (
+                            ref_year -3, ) and \
+                            year_month <= '%s08' % (
+                                ref_year -2, ): # year -3
+                        data['season'] = -3
+                    elif year_month >= '%s09' % (
+                            ref_year -4, ) and \
+                            year_month <= '%s08' % (
+                                ref_year -3, ): # year -4
+                        data['season'] = -4
+                    else: # extra interval (imported the same)
+                        if year_month > '%s08':
+                            data['season'] = 100 # new season
                         else:
-                            partner_name = get_partner_name(
-                                self, cr, uid, partner_id)
-                        if partner_id not in stats:
-                            stats[partner_id] = [
-                                False, # Last operation
-                                0.0, # invoiced current
-                                0.0, # invoiced -1                                
-                                ]
+                            data['season'] = -100 # old season
 
-                        if not total_invoice:
-                            _logger.warning('%s Amount not found [%s]' % (
-                                counter, line))
-                            log_f.write(
-                                '%s|||||||||||||Amount not found!\n' % counter)    
-                            continue # Considered and error, jumped
+                    # TODO find max date for stat last purchase:
+                    #stats[partner_id][0]                         
 
-                        # Not classified (TODO but imported, true?!?!)
-                        if not (month or year):
-                            note += 'Data (m or y) not found!'
-                            _logger.error('%s Month / Year not found! %s' % (
-                                counter, line))
+                    # Common part (correct + amount)
+                    self.create(cr, uid, data, context=context)
 
-                        # OC old = today
-                        if type_document == 'oo' and '%s%02d' % (
-                                year, month) < order_ref:
-                            note += 'Change data ref. %s%s > %s' % (
-                                year, month, order_ref)
+                    # Log:
+                    partner_extra_one = partner_extra.get(
+                        partner_id, ['NO', 'NO', 'NO', 'NO'])
+                    log_f.write(log_mask % (
+                        counter,
+                        partner_name,
+                        mexal_id,
+                        data['tag_id'],
+                        month_season,
+                        year,
+                        data['season'],
+                        type_document,
+                        log_float(total_invoice),
+                        partner_extra_one[0],# zone
+                        partner_extra_one[1],# agent
+                        partner_extra_one[2],# type
+                        partner_extra_one[3],# cat stat
+                        note,
+                        ))
 
-                            _logger.warning(
-                                '%s) Old OC OO > today: %s%02d, cliente: %s, '
-                                'totale %s' % (
-                                    counter, year, month, mexal_id,
-                                    total_invoice))
-                            year = datetime.now().strftime('%Y')
-                            month = datetime.now().month
-                            month_season = transcode_month[month] # recalculate
-
-                        data = {
-                            'name': '%s [%s]' % (partner_name, mexal_id),
-                            'partner_id': partner_id,
-                            'tag_id': partner_tags.get(partner_id, False),
-                            'month': month_season, # month,
-                            'type_document': type_document,
-                            'year': year,
-                            'total': total_invoice,
-                            }
-
-                        # Year to insert invoiced
-                        year_month = '%s%02d' % (year, month)
-                        
-                        # Season
-                        if current_month >= 1 and current_month <= 8:
-                            ref_year = current_year - 1
-                        elif current_month >= 9 and current_month <= 12:
-                            ref_year = current_year
-                        else:
-                            _logger.error('%s) Month error not [1:12]' % (
-                                counter))
-
-                        # september - current year >> august - next year
-                        if year_month >= '%s09' % ref_year and \
-                                year_month <= '%s08' % (
-                                    ref_year + 1, ): # current
-                            data['season'] = 1                   
-                            # Stat value (current year)         
-                            stats[partner_id][1] += total_invoice
-                        elif year_month >= '%s09' % (
-                                ref_year -1, ) and \
-                                year_month <= '%s08' % (
-                                    ref_year, ): # year -1
-                            data['season'] = -1
-                            # Stat value (year-1)         
-                            stats[partner_id][2] += total_invoice
-                        elif year_month >= '%s09' % (
-                                ref_year -2, ) and \
-                                year_month <= '%s08' % (
-                                    ref_year -1, ): # year -2
-                            data['season'] = -2
-                        elif year_month >= '%s09' % (
-                                ref_year -3, ) and \
-                                year_month <= '%s08' % (
-                                    ref_year -2, ): # year -3
-                            data['season'] = -3
-                        elif year_month >= '%s09' % (
-                                ref_year -4, ) and \
-                                year_month <= '%s08' % (
-                                    ref_year -3, ): # year -4
-                            data['season'] = -4
-                        else: # extra interval (imported the same)
-                            if year_month > '%s08':
-                                data['season'] = 100 # new season
-                            else:
-                                data['season'] = -100 # old season
-
-                        # TODO find max date for stat last purchase:
-                        #stats[partner_id][0]                         
-
-                        # Common part (correct + amount)
-                        self.create(cr, uid, data, context=context)
-
-                        # Log:
-                        partner_extra_one = partner_extra.get(
-                            partner_id, ['NO', 'NO', 'NO', 'NO'])
-                        log_f.write(log_mask % (
-                            counter,
-                            partner_name,
-                            mexal_id,
-                            data['tag_id'],
-                            month_season,
-                            year,
-                            data['season'],
-                            type_document,
-                            log_float(total_invoice),
-                            partner_extra_one[0],# zone
-                            partner_extra_one[1],# agent
-                            partner_extra_one[2],# type
-                            partner_extra_one[3],# cat stat
-                            note,
-                            ))
-
-                        #if step == 2: # Second payment negative!
-                        #    # invert sign and setup agent
-                        #    data['name'] = '%s [%s]' % (
-                        #        partner_name2, mexal_id2)
-                        #    data['partner_id'] = partner_id2
-                        #    data['total'] = -data.get('total', 0.0)
-                        #    self.create(cr, uid, data, context=context)
-                        #    
-                        #    # Log:
-                        #    note += 'Remove invoiced (2nd loop)'
-                        #    partner_extra_one = partner_extra.get(
-                        #        partner_id2, ['NO', 'NO', 'NO', 'NO'])
-                        #    log_f.write(log_mask % (
-                        #        counter,
-                        #        partner_name2,
-                        #        mexal_id2,
-                        #        data['tag_id'],
-                        #        month_season,
-                        #        year,
-                        #        data['season'],
-                        #        type_document,
-                        #        log_float(data['total']),
-                        #        partner_extra_one[0],# zone
-                        #        partner_extra_one[1],# agent
-                        #        partner_extra_one[2],# type
-                        #        partner_extra_one[3],# cat stat                                
-                        #        note,
-                        #        ))
-                    except:
-                        _logger.error('%s Error import invoice ID %s: [%s]' % (
-                            counter, mexal_id, sys.exc_info()))
+                    #if step == 2: # Second payment negative!
+                    #    # invert sign and setup agent
+                    #    data['name'] = '%s [%s]' % (
+                    #        partner_name2, mexal_id2)
+                    #    data['partner_id'] = partner_id2
+                    #    data['total'] = -data.get('total', 0.0)
+                    #    self.create(cr, uid, data, context=context)
+                    #    
+                    #    # Log:
+                    #    note += 'Remove invoiced (2nd loop)'
+                    #    partner_extra_one = partner_extra.get(
+                    #        partner_id2, ['NO', 'NO', 'NO', 'NO'])
+                    #    log_f.write(log_mask % (
+                    #        counter,
+                    #        partner_name2,
+                    #        mexal_id2,
+                    #        data['tag_id'],
+                    #        month_season,
+                    #        year,
+                    #        data['season'],
+                    #        type_document,
+                    #        log_float(data['total']),
+                    #        partner_extra_one[0],# zone
+                    #        partner_extra_one[1],# agent
+                    #        partner_extra_one[2],# type
+                    #        partner_extra_one[3],# cat stat                                
+                    #        note,
+                    #        ))
+                except:
+                    _logger.error('%s Error import invoice ID %s: [%s]' % (
+                        counter, mexal_id, sys.exc_info()))
 
             # Set tot 20 partner:
             # TODO set only current year in test!
