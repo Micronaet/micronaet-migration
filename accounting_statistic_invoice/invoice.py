@@ -236,7 +236,7 @@ class StatisticInvoice(orm.Model):
                      data.append(order.name)
                      log_f1.write(log_mask1 % tuple(data))     
                  except:    
-                     _logger.error('Error: %s' % (sys.exc_info()))
+                     #_logger.error('Error: %s' % (sys.exc_info()))
                      log_f1.write('%s||||||Error writing!!!\n' % counter)
                       
             if not total:
@@ -259,7 +259,7 @@ class StatisticInvoice(orm.Model):
                 data.append(order.name)
                 log_f2.write(log_mask2 % tuple(data))
             except:    
-                _logger.error('Error: %s' % (sys.exc_info()))
+                #_logger.error('Error: %s' % (sys.exc_info()))
                 log_f1.write('%s|||||Error writing!!!\n' % counter)
 
         # ---------------------------------------------------------------------
@@ -310,7 +310,7 @@ class StatisticInvoice(orm.Model):
                      data.append(ddt.name)
                      log_f1.write(log_mask1 % tuple(data))     
                  except:   
-                     _logger.error('Error: %s' % (sys.exc_info()))
+                     #_logger.error('Error: %s' % (sys.exc_info(), ))
                      log_f1.write('%s||||||Error writing!!!\n' % counter)
 
             if not total:
@@ -333,7 +333,7 @@ class StatisticInvoice(orm.Model):
                 data.append(ddt.name)
                 log_f2.write(log_mask2 % tuple(data))
             except:    
-                 _logger.error('Error: %s' % (sys.exc_info()))
+                 #_logger.error('Error: %s' % (sys.exc_info(), ))
                  log_f1.write('%s|||||Error writing!!!\n' % counter)
         
         # Close files:         
