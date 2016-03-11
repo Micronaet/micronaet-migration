@@ -84,6 +84,9 @@ month_order_season = [
     (12, '12*: Ago.'),
     ]
 
+def log_float(value):
+    return ('%s' % value).replace('.', ',')
+    
 # -----------------------------------------------------------------------------
 # Utility: TODO move somewhere!
 # -----------------------------------------------------------------------------
@@ -256,6 +259,7 @@ class StatisticInvoice(orm.Model):
                 ]
             try:    
                 f_partner.write(mask_partner % tuple(data))
+                data[3] = log_float(data[3])
                 data.append(order.name)
                 log_f2.write(log_mask2 % tuple(data))
             except:    
@@ -307,6 +311,8 @@ class StatisticInvoice(orm.Model):
                       ]         
                  try:                  
                      f_product.write(mask_product % tuple(data))
+                     data[3] = log_float(data[3])
+                     data[5] = log_float(data[5])
                      data.append(ddt.name)
                      log_f1.write(log_mask1 % tuple(data))     
                  except:   
@@ -331,6 +337,7 @@ class StatisticInvoice(orm.Model):
             try:
                 f_partner.write(mask_partner % tuple(data))       
                 data.append(ddt.name)
+                data[3] = log_float(data[3])
                 log_f2.write(log_mask2 % tuple(data))
             except:    
                  #_logger.error('Error: %s' % (sys.exc_info(), ))
@@ -638,7 +645,7 @@ class StatisticInvoice(orm.Model):
                             year,
                             data['season'],
                             type_document,
-                            total_invoice,
+                            log_float(total_invoice),
                             note,
                             ))
 
@@ -661,7 +668,7 @@ class StatisticInvoice(orm.Model):
                                 year,
                                 data['season'],
                                 type_document,
-                                data['total'],
+                                log_float(data['total']),
                                 note,
                                 ))
                     except:
