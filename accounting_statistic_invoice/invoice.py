@@ -231,9 +231,13 @@ class StatisticInvoice(orm.Model):
                       type_document,
                       csv_format_float(remain_total),
                       ]
-                 f_product.write(mask_product % tuple(data))
-                 data.append(order.name)
-                 log_f1.write(log_mask1 % tuple(data))     
+                 try:     
+                     f_product.write(mask_product % tuple(data))
+                     data.append(order.name)
+                     log_f1.write(log_mask1 % tuple(data))     
+                 except:    
+                     _logger.error('Error: %s' % (sys.exc_info()))
+                     log_f1.write('%s||||||Error writing!!!\n' % counter)
                       
             if not total:
                 continue
@@ -250,9 +254,13 @@ class StatisticInvoice(orm.Model):
                 csv_format_float(total),
                 type_document,
                 ]
-            f_partner.write(mask_partner % tuple(data))
-            data.append(order.name)
-            log_f2.write(log_mask2 % tuple(data))
+            try:    
+                f_partner.write(mask_partner % tuple(data))
+                data.append(order.name)
+                log_f2.write(log_mask2 % tuple(data))
+            except:    
+                _logger.error('Error: %s' % (sys.exc_info()))
+                log_f1.write('%s|||||Error writing!!!\n' % counter)
 
         # ---------------------------------------------------------------------
         #                             Delivery:
@@ -296,10 +304,14 @@ class StatisticInvoice(orm.Model):
                       int(amount),
                       type_document,
                       csv_format_float(remain_total),                      
-                      ]                      
-                 f_product.write(mask_product % tuple(data))
-                 data.append(ddt.name)
-                 log_f1.write(log_mask1 % tuple(data))     
+                      ]         
+                 try:                  
+                     f_product.write(mask_product % tuple(data))
+                     data.append(ddt.name)
+                     log_f1.write(log_mask1 % tuple(data))     
+                 except:   
+                     _logger.error('Error: %s' % (sys.exc_info()))
+                     log_f1.write('%s||||||Error writing!!!\n' % counter)
 
             if not total:
                 continue
@@ -316,10 +328,13 @@ class StatisticInvoice(orm.Model):
                 csv_format_float(total),
                 type_document,
                 ]
-
-            f_partner.write(mask_partner % tuple(data))       
-            data.append(ddt.name)
-            log_f2.write(log_mask2 % tuple(data))
+            try:
+                f_partner.write(mask_partner % tuple(data))       
+                data.append(ddt.name)
+                log_f2.write(log_mask2 % tuple(data))
+            except:    
+                 _logger.error('Error: %s' % (sys.exc_info()))
+                 log_f1.write('%s|||||Error writing!!!\n' % counter)
         
         # Close files:         
         f_partner.close()
