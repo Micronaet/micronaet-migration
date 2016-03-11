@@ -45,6 +45,7 @@
                         <field name="user_id" select="1">
                             <filter string="My Partners" icon="terp-personal+" domain="[('user_id','=',uid)]"/>
                         </field>
+                        <field name="invoiced_last_year" /> <!--groups="base.group_extended"-->
                         <field name="invoiced_current_year" /> <!--groups="base.group_extended"-->
                         <field name="partner_color" />
                         <field name="invoice_trend" />
@@ -76,6 +77,7 @@
                     <field name="partner_color" />
                     <field name="partner_importance_id" />
                     <field name="last_activity" />                    
+                    <field name="invoiced_last_year" /> <!--groups="base.group_extended"-->
                     <field name="invoiced_current_year" /> <!--groups="base.group_extended"-->
                     <field name="invoice_trend" /> <!--groups="base.group_extended"-->
                     <field name="invoice_trend_perc" /> <!--groups="base.group_extended"-->
