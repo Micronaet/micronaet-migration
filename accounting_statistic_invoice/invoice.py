@@ -159,6 +159,18 @@ class StatisticInvoice(orm.Model):
         # ---------------------------------------------------------------------
         #                         Common Part:
         # ---------------------------------------------------------------------
+        log_file1 = os.path.expanduser(
+            '~/etl/stats.prod.%s.csv' % file_partner[_3:])
+        log_f1 = open(log_file, 'w')
+        log_f1.write('Code|Month|Year|Remain #|Document|Remain Amount\n')
+        log_mask1 = '%s|%s|%s|%s|%s|%s\n'
+
+        log_file2 = os.path.expanduser(
+            '~/etl/stats.partner.%s.csv' % file_partner[_3:])
+        log_f2 = open(log_file, 'w')
+        log_f2.write('Code|Month|Year|Amount|Document\n')
+        log_mask2 = '%s|%s|%s|%s|%s\n'        
+        
         today = datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT)
 
         # Copy file for write problem:
@@ -211,14 +223,16 @@ class StatisticInvoice(orm.Model):
                      line.price_subtotal * remain / line.product_uom_qty
                  total += remain_total
                  
-                 f_product.write(mask_product % (
+                 data = (
                       code, 
                       month,
                       year,
                       int(remain),
                       type_document,
                       csv_format_float(remain_total),
-                      ))
+                      )
+                 f_product.write(mask_product % data)
+                 log_file1.write(log_mask1 % data)     
                       
             if not total:
                 continue
@@ -228,13 +242,16 @@ class StatisticInvoice(orm.Model):
                     order.partner_id.name, ))
                 continue
                     
-            f_partner.write(mask_partner % (
+            data = (
                 sql_customer_code, # TODO check exist!!!
                 month,
                 year,
                 csv_format_float(total),
                 type_document,
-                ))
+                )
+            f_partner.write(mask_partner % data)
+            log_file2.write(log_mask2 % data)
+
         # ---------------------------------------------------------------------
         #                             Delivery:
         # ---------------------------------------------------------------------
@@ -270,14 +287,16 @@ class StatisticInvoice(orm.Model):
                  amount = sol.price_subtotal * number / line.product_uom_qty
                  total += amount
                  
-                 f_product.write(mask_product % (
+                 data = (
                       code, 
                       month,
                       year,
                       int(amount),
                       type_document,
                       csv_format_float(remain_total),                      
-                      ))
+                      )
+                 f_product.write(mask_product % data)
+                 log_file1.write(log_mask1 % data)     
 
             if not total:
                 continue
@@ -286,14 +305,17 @@ class StatisticInvoice(orm.Model):
                 _logger.error('Partner code not found: %s' % (
                     ddt.partner_id.name, ))
                 continue
-
-            f_partner.write(mask_partner % (
+                
+            data = (
                 sql_customer_code, # TODO check exist!!!
                 month,
                 year,
                 csv_format_float(total),
                 type_document,
-                ))       
+                )
+
+            f_partner.write(mask_partner % data)       
+            log_file2.write(log_mask2 % data)
         
         # Close files:         
         f_partner.close()
