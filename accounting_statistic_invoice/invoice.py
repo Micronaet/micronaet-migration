@@ -365,8 +365,8 @@ class StatisticInvoice(orm.Model):
         log_file = os.path.expanduser(
             '~/etl/statistic.partner.%s.csv' % file_input1[-3:])
         log_f = open(log_file, 'w')
-        log_f.write('#|Name|Code|Tag|# Month|Year|Season|Doc|Total|Note\n')
-        log_mask = '%s|%s|%s|%s|%s|%s|%s|%s|%s|%s\n'
+        log_f.write('#|Name|Code|Tag|# Month|Year|Season|Doc|Total|Zone|Agent|Zone type|Cat stat|Note\n')
+        log_mask = '%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s\n'
 
         # File CSV date for future log
         #create_date=time.ctime(os.path.getctime(FileInput))
@@ -377,6 +377,21 @@ class StatisticInvoice(orm.Model):
         partner_pool = self.pool.get('res.partner')
         invoice_ids = self.search(cr, uid, [], context=context)
         self.unlink(cr, uid, invoice_ids, context=context)
+
+        # -------------------------------------
+        # Load dict for swap partner extra data
+        # -------------------------------------
+        _logger.info('Read partner extra info (zone, agent)')
+        partner_extra = {}
+        partner_ids = partner_pool.search(cr, uid, [], context=context)
+        for partner in partner_pool.browse(cr, uid, partner_ids, 
+                context=context):
+            partner_extra[partner.id] = (
+                partner.zone_id.name or '',
+                partner.agent_id.name or '',
+                '', #partner.zone_id.type.name or '',
+                '', # TODO cat stat!!!                
+                )
 
         # -------------------------------------------
         # Load dict for swap destination in parent ID
@@ -457,7 +472,7 @@ class StatisticInvoice(orm.Model):
                            '%s) Empty or colums different [%s >> %s]' % (
                                counter, tot_col, len(line)))
                         # Log:       
-                        log_f.write('%s|||||||||column different!\n' % counter)
+                        log_f.write('%s|||||||||||||column different!\n' % counter)
                         continue
 
                     counter += 1
@@ -474,7 +489,7 @@ class StatisticInvoice(orm.Model):
                         # Jump old mexal elements:    
                         if type_document in ('oc', 'bc'):
                             log_f.write(
-                                '%s|||||||||Jump old OC or BC\n' % counter)                        
+                                '%s|||||||||||||Jump old OC or BC\n' % counter)                        
                             continue
 
                         if particular and step == 2: # 2nd loop is different:
@@ -548,7 +563,7 @@ class StatisticInvoice(orm.Model):
                             _logger.warning('%s Amount not found [%s]' % (
                                 counter, line))
                             log_f.write(
-                                '%s|||||||||Amount not found!\n' % counter)    
+                                '%s|||||||||||||Amount not found!\n' % counter)    
                             continue # Considered and error, jumped
 
                         # Not classified (TODO but imported, true?!?!)
@@ -636,6 +651,8 @@ class StatisticInvoice(orm.Model):
                         self.create(cr, uid, data, context=context)
 
                         # Log:
+                        partner_extra_one = partner_extra.get(
+                            partner_id, ['NO', 'NO', 'NO', 'NO'])
                         log_f.write(log_mask % (
                             counter,
                             partner_name,
@@ -646,6 +663,10 @@ class StatisticInvoice(orm.Model):
                             data['season'],
                             type_document,
                             log_float(total_invoice),
+                            partner_extra_one[0],# zone
+                            partner_extra_one[1],# agent
+                            partner_extra_one[2],# type
+                            partner_extra_one[3],# cat stat
                             note,
                             ))
 
@@ -659,6 +680,8 @@ class StatisticInvoice(orm.Model):
                             
                             # Log:
                             note += 'Remove invoiced (2nd loop)'
+                            partner_extra_one = partner_extra.get(
+                                partner_id2, ['NO', 'NO', 'NO', 'NO'])
                             log_f.write(log_mask % (
                                 counter,
                                 partner_name2,
@@ -669,6 +692,10 @@ class StatisticInvoice(orm.Model):
                                 data['season'],
                                 type_document,
                                 log_float(data['total']),
+                                partner_extra_one[0],# zone
+                                partner_extra_one[1],# agent
+                                partner_extra_one[2],# type
+                                partner_extra_one[3],# cat stat                                
                                 note,
                                 ))
                     except:
