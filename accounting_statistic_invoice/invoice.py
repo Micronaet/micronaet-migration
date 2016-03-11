@@ -644,7 +644,7 @@ class StatisticInvoice(orm.Model):
                             ref_year -3, ): # year -4
                     data['season'] = -4
                 else: # extra interval (imported the same)
-                    if year_month > '%s08':
+                    if year_month > '%s08' % (ref_year + 1):
                         data['season'] = 100 # new season
                     else:
                         data['season'] = -100 # old season
