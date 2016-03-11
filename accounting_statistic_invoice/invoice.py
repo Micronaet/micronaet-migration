@@ -159,7 +159,6 @@ class StatisticInvoice(orm.Model):
         # ---------------------------------------------------------------------
         #                         Common Part:
         # ---------------------------------------------------------------------
-        import pdb; pdb.set_trace()
         log_file1 = os.path.expanduser(
             '~/etl/stats.prod.%s.csv' % file_partner[-3:])
         log_f1 = open(log_file1, 'w')
@@ -341,9 +340,8 @@ class StatisticInvoice(orm.Model):
         """        
 
         _logger.info('Start invoice statistic for customer')
-
         log_file = os.path.expanduser(
-            '~/etl/statistic.partner.%s.csv' % file_partner[-3:])
+            '~/etl/statistic.partner.%s.csv' % file_input1[-3:])
         log_f = open(log_file, 'w')
         log_f.write('#|Name|Code|Tag|# Month|Year|Season|Doc|Total|Note\n')
         log_mask = '%s|%s|%s|%s|%s|%s|%s|%s|%s|%s\n'
@@ -462,13 +460,14 @@ class StatisticInvoice(orm.Model):
                                 continue # jump if not a replace partner list
 
                             # =============================================
+                            old_mexal_id = mexal_id
+
                             note += 'Swap partner invoice %s > %s' % (
                                 mexal_id,
                                 customer_replace[old_mexal_id][0][0],
                                 )
                                                             
                             # Customer replace problem:
-                            old_mexal_id = mexal_id
                             mexal_id = customer_replace[
                                 old_mexal_id][0][0]
                             partner_id = customer_replace[
@@ -619,7 +618,7 @@ class StatisticInvoice(orm.Model):
                             counter,
                             partner_name,
                             mexal_id,
-                            tag_id,
+                            data['tag_id'],
                             month_season,
                             year,
                             data['season'],
@@ -642,7 +641,7 @@ class StatisticInvoice(orm.Model):
                                 counter,
                                 partner_name2,
                                 mexal_id2,
-                                tag_id,
+                                data['tag_id'],
                                 month_season,
                                 year,
                                 data['season'],
