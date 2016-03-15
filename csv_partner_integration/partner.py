@@ -378,6 +378,7 @@ class ResPartner(orm.Model):
                             'fido_date': fido_date,
                             'fido_ko': fido_ko,
                             'zone_id': zone_id,
+                            'mexal_province': prov,                            
                             
                             #'category_id': [(6,0,[category_id])], # m2m
                             #'comment': comment, 
