@@ -304,6 +304,7 @@ class ResPartnerExtraFields(orm.Model):
 
     _columns = {
         'zone_id': fields.many2one('res.partner.zone', 'Zone'),
+        'mexal_province': fields.char('MX province', size=9),
         
         # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
         # TODO MOVE IN fido_management:

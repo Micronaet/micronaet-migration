@@ -43,7 +43,7 @@ class ResPartner(orm.Model):
     ''' Add scheduled operations
     '''
     _inherit = 'res.partner'
-
+    
     # -------------------------------------------------------------------------
     #                          Utility function:
     # -------------------------------------------------------------------------
@@ -354,6 +354,7 @@ class ResPartner(orm.Model):
                         'fax': fax,
                         'street': street,
                         'import': True,
+                        'mexal_province': prov,
                         #'email': email
                         #'type': type_address,
                         }
