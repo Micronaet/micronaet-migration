@@ -335,8 +335,6 @@ class ResPartnerExtraFields(orm.Model):
         # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
         'date_last_ddt': fields.datetime('Date last DDT'),
         'day_left_ddt': fields.integer('Day left last DDT'),
-        'ordered_current_year': fields.float(
-            'Ordered invoiced', digits=(16, 2)),
         'invoiced_current_year': fields.float(
             'Current invoiced', digits=(16, 2)),
         'invoiced_last_year': fields.float('Last invoiced', digits=(16, 2)),

@@ -35,8 +35,9 @@
                     <field name="agent_id"/>
                     <field name="zone_id"/>
 
-                    <field name="invoiced_last_year" /> <!--groups="base.group_extended"-->
-                    <field name="invoiced_current_year" /> <!--groups="base.group_extended"-->
+                    <field name="invoiced_last_year" string="FT-NC (-1)" /> <!--groups="base.group_extended"-->
+                    <field name="invoiced_current_year" string="FT+OC+BC-NC" /> <!--groups="base.group_extended"-->
+                    <field name="order_current_year" string="OC" /> <!--groups="base.group_extended"-->
 
                     <field name="partner_color" />
                     <field name="invoice_trend" />

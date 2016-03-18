@@ -646,7 +646,7 @@ class StatisticInvoice(orm.Model):
                  'last_activity': stats[partner_id][0],
                  'invoiced_current_year': stats[partner_id][1],
                  'invoiced_last_year': stats[partner_id][2],
-                 'ordered_current_year': stats[partner_id][3],
+                 'order_current_year': stats[partner_id][3],
                  
                  #'invoice_trend': invoice_trend,
                  'invoice_trend_perc': invoice_trend_perc,
