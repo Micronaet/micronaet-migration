@@ -75,8 +75,11 @@
                     <field name="partner_color" />
                     <field name="partner_importance_id" />
                     <field name="last_activity" />                    
-                    <field name="invoiced_last_year" /> <!--groups="base.group_extended"-->
-                    <field name="invoiced_current_year" /> <!--groups="base.group_extended"-->
+
+                    <field name="invoiced_last_year" string="FT-NC (-1)" /> <!--groups="base.group_extended"-->
+                    <field name="invoiced_current_year" string="FT+OC+BC-NC" /> <!--groups="base.group_extended"-->
+                    <field name="order_current_year" string="OC" /> <!--groups="base.group_extended"-->
+
                     <field name="invoice_trend" /> <!--groups="base.group_extended"-->
                     <field name="invoice_trend_perc" /> <!--groups="base.group_extended"-->
                 </tree>
