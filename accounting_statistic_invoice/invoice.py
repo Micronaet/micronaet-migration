@@ -549,7 +549,7 @@ class StatisticInvoice(orm.Model):
                     data['season'] = 1                   
                     # Stat value (current year)         
                     stats[partner_id][1] += total_invoice
-                    if type_document == 'oc':
+                    if type_document == 'oo':
                         stats[partner_id][3] += total_invoice
                     
                 elif year_month >= '%s09' % (
