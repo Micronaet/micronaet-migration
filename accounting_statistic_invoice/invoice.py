@@ -380,7 +380,9 @@ class StatisticInvoice(orm.Model):
         # Clean database:
         invoice_ids = self.search(cr, uid, [], context=context)
         self.unlink(cr, uid, invoice_ids, context=context)
-
+        
+        order_ref = datetime.now().strftime('%Y%m') # actualize order
+        
         # ---------------------------------------------------------------------
         # Load dict for swap partner extra data
         # ---------------------------------------------------------------------
@@ -398,19 +400,18 @@ class StatisticInvoice(orm.Model):
                 )
 
         # Destination in parent ID
-        _logger.info('Read parent for destinations conversion')
-        convert_destination = {}
-        order_ref = datetime.now().strftime('%Y%m') # actualize order
-        cursor = sql_pool.get_parent_partner(cr, uid, context=context)
-        if not cursor:
-            _logger.error("Unable to connect to parent (destination)!")
-            return False # Fatal error!
-        else:
-            for record in cursor:
-                convert_destination[record['CKY_CNT']] = record[
-                    'CKY_CNT_CLI_FATT']
-        _logger.info(
-            'Find %s destinations for conversion' % len(convert_destination))
+        #_logger.info('Read parent for destinations conversion')
+        #convert_destination = {}
+        #cursor = sql_pool.get_parent_partner(cr, uid, context=context)
+        #if not cursor:
+        #    _logger.error("Unable to connect to parent (destination)!")
+        #    return False # Fatal error!
+        #else:
+        #    for record in cursor:
+        #        convert_destination[record['CKY_CNT']] = record[
+        #            'CKY_CNT_CLI_FATT']
+        #_logger.info(
+        #    'Find %s destinations for conversion' % len(convert_destination))
 
         # Partner tags
         stats = {} # Statistic for partner
@@ -422,35 +423,6 @@ class StatisticInvoice(orm.Model):
             for partner in tag.partner_ids:
                 partner_tags[partner.id] = tag.id # TODO problem in multi pres.
 
-        # TODO portare parametrizzandolo in OpenERP (second loop substitution):
-        # =====================================================================
-        #if particular:
-        #    p1_id = csv_base.get_create_partner_lite(
-        #        cr, uid, '06.02209', context=context)
-        #    p2_id = csv_base.get_create_partner_lite(
-        #        cr, uid, '06.01537', context=context)
-        #    customer_replace = {
-        #        '06.40533': (
-        #            ('06.02209', p1_id, get_partner_name(
-        #                self, cr, uid, p1_id)),
-        #            ('06.01537', p2_id, get_partner_name(
-        #                self, cr, uid, p2_id)),
-        #            )}
-        # =====================================================================
-        
-        # OC and BC part from ODOO not from accounting:
-        # 1. Export on previous file OC and BC elements 
-        # TODO use procedure called after export mexal?        
-
-        #loop_steps = { # 2 loop for read the 2 files to mix
-        #    1: csv.reader(
-        #        open(os.path.expanduser(file_input1), 'rb'),
-        #        delimiter=delimiter),
-        #    }
-        #if particular:
-        #    loop_steps[2] = csv.reader(
-        #        open(os.path.expanduser(file_input2), 'rb'),
-        #        delimiter=delimiter)
         csv_file = csv.reader(
             open(os.path.expanduser(file_input1), 'rb'),
             delimiter=delimiter,
@@ -485,8 +457,8 @@ class StatisticInvoice(orm.Model):
             counter += 1
             try:
                 mexal_id = csv_base.decode_string(line[0]) # ID
-                month = int(csv_base.decode_string(line[1])) or 0
-                month_season = transcode_month[month] 
+                month = int(csv_base.decode_string(line[1])) or 0 # jump is ''!
+                month_season = transcode_month[month]
                 year = csv_base.decode_string(line[2]) or ''
                 total_invoice = csv_base.decode_float(
                     line[3]) or 0.0
@@ -499,51 +471,6 @@ class StatisticInvoice(orm.Model):
                         '%s|||||||||||||Jump old OC or BC\n' % counter)                        
                     continue
 
-                #if particular and step == 2: # 2nd loop is different:
-                #    if mexal_id not in customer_replace:
-                #        continue # jump if not a replace partner list
-
-                #    # =============================================
-                #    old_mexal_id = mexal_id
-
-                #    note += 'Swap partner invoice %s > %s' % (
-                #        mexal_id,
-                #        customer_replace[old_mexal_id][0][0],
-                #        )                                                            
-                #    # Customer replace problem:
-                #    mexal_id = customer_replace[
-                #        old_mexal_id][0][0]
-                #    partner_id = customer_replace[
-                #        old_mexal_id][0][1]
-                #    partner_name = customer_replace[
-                #        old_mexal_id][0][2]
-
-                #    # Agent with subtract loss
-                #    mexal_id2 = customer_replace[
-                #        old_mexal_id][1][0]
-                #    partner_id2 = customer_replace[
-                #        old_mexal_id][1][1]
-                #    partner_name2 = customer_replace[
-                #        old_mexal_id][1][2]
-                #     
-                #    # =============================================
-
-                #elif particular: # 1st loop is different:
-                #    # -------------------------------------------
-                #    # Swap destination with parent customer code:
-                #    # -------------------------------------------
-                #    if mexal_id in convert_destination:
-                #        _logger.warning(
-                #            '%s: Destination %s >> Customer %s' % (
-                #                counter, mexal_id,
-                #                convert_destination[mexal_id],
-                #                ))
-                #        note += 'Dest. replace: %s > %s' % (
-                #            mexal_id,        
-                #            convert_destination[mexal_id],
-                #            )
-                #        mexal_id = convert_destination[mexal_id]                                
-                        
                 # -----------------        
                 # Calculated field:
                 # -----------------        
@@ -562,6 +489,7 @@ class StatisticInvoice(orm.Model):
                         False, # Last operation
                         0.0, # invoiced current
                         0.0, # invoiced -1                                
+                        0.0, # order current
                         ]
 
                 if not total_invoice:
@@ -621,6 +549,9 @@ class StatisticInvoice(orm.Model):
                     data['season'] = 1                   
                     # Stat value (current year)         
                     stats[partner_id][1] += total_invoice
+                    if type_document == 'oc':
+                        stats[partner_id][3] += total_invoice
+                    
                 elif year_month >= '%s09' % (
                         ref_year -1, ) and \
                         year_month <= '%s08' % (
@@ -674,35 +605,6 @@ class StatisticInvoice(orm.Model):
                     partner_extra_one[3],# cat stat
                     note,
                     ))
-
-                #if step == 2: # Second payment negative!
-                #    # invert sign and setup agent
-                #    data['name'] = '%s [%s]' % (
-                #        partner_name2, mexal_id2)
-                #    data['partner_id'] = partner_id2
-                #    data['total'] = -data.get('total', 0.0)
-                #    self.create(cr, uid, data, context=context)
-                #    
-                #    # Log:
-                #    note += 'Remove invoiced (2nd loop)'
-                #    partner_extra_one = partner_extra.get(
-                #        partner_id2, ['NO', 'NO', 'NO', 'NO'])
-                #    log_f.write(log_mask % (
-                #        counter,
-                #        partner_name2,
-                #        mexal_id2,
-                #        data['tag_id'],
-                #        month_season,
-                #        year,
-                #        data['season'],
-                #        type_document,
-                #        log_float(data['total']),
-                #        partner_extra_one[0],# zone
-                #        partner_extra_one[1],# agent
-                #        partner_extra_one[2],# type
-                #        partner_extra_one[3],# cat stat                                
-                #        note,
-                #        ))
             except:
                 _logger.error('%s Error import invoice ID %s: [%s]' % (
                     counter, mexal_id, sys.exc_info()))
@@ -744,6 +646,8 @@ class StatisticInvoice(orm.Model):
                  'last_activity': stats[partner_id][0],
                  'invoiced_current_year': stats[partner_id][1],
                  'invoiced_last_year': stats[partner_id][2],
+                 'ordered_current_year': stats[partner_id][3],
+                 
                  #'invoice_trend': invoice_trend,
                  'invoice_trend_perc': invoice_trend_perc,
                  }, context=context)
