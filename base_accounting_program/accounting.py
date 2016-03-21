@@ -148,6 +148,8 @@ class SaleOrderLineExtraFields(orm.Model):
             res = self.on_change_multi_discount(
                 cr, uid, 0, vals.get('multi_discount_rates'))['value']
             vals['discount'] = res.get('discount', '')
+
+        # TODO raise error when update (need restart server)    
         return super(SaleOrderLineExtraFields, self).write(
             cr, uid, ids, vals, context=context)
 
