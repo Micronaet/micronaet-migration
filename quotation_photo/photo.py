@@ -83,12 +83,21 @@ class ProductProductImage(osv.osv):
     '''
     _inherit = 'product.product'
 
-    def get_image_quotation(self, cr, uid, item):
+    def get_image_quotation(self, cr, uid, item, context=None):
         ''' Get folder (actually 200 px) and extension from folder obj.
             Calculated dinamically image from module
             image folder + extra path + ext.
             Return image
         '''
+        context = context or {}
+        if not context.get('aeroo_docs', False):
+            # Check parameters:
+            user_id = context.get('uid', False)
+            if user_id:
+                if not self.pool.get('res.users').browse(
+                    cr, uid, user_id, context=context).always_show_photo:
+                    return ''
+            
         # TODO Better rewrite all this mess function!
         with_log = True # TODO debug part
 
@@ -187,10 +196,12 @@ class ProductProductImage(osv.osv):
                     #img = ''"""
         return img
 
-    def _get_image_quotation(self, cr, uid, ids, field_name, arg, context=None):
+    def _get_image_quotation(self, cr, uid, ids, field_name, arg, 
+            context=None):
         res = {}
         for item in ids:
-            res[item] = self.get_image_quotation(cr, uid, item)
+            res[item] = self.get_image_quotation(
+                cr, uid, item, context=context)
         return res
 
     _columns = {
