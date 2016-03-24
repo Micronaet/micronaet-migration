@@ -123,6 +123,8 @@ class ProductProductImage(osv.osv):
 
         product_browse = self.browse(cr, uid, item)
         code = product_browse.default_code
+        if with_log:
+            _logger.info('>> Image path: %s' % image_path)
         if code:
             # codice originale (tutte le cifre)
             try:
