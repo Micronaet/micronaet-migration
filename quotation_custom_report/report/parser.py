@@ -58,7 +58,7 @@ class Parser(report_sxw.rml_parse):
                     item.product_id.pack_l * 
                     item.product_id.pack_h * 
                     item.product_id.pack_p / 1000000.0)
-        return '%2.3f' % total
+        return '%2.2f' % total
         
     def total_volume(self, order_id):
         ''' calculate total volume for all items present in order
