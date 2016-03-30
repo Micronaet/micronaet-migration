@@ -39,11 +39,36 @@ class Parser(report_sxw.rml_parse):
             'get_fabric': self.get_fabric,
             'set_counter': self.set_counter,
             'get_counter': self.get_counter,
+
+            'get_total_volume': self.get_total_volume,
+            'total_volume': self.total_volume,
             
             # TODO remove
             'temp_get_order': self.temp_get_order,
         })
 
+    def get_total_volume(self, order_line):
+        ''' Function that compute total volume for 1 or more items
+        '''
+        total = 0.0
+
+        for item in order_line:
+            if item.product_id: 
+                total += item.product_uom_qty * (
+                    item.product_id.pack_l * 
+                    item.product_id.pack_h * 
+                    item.product_id.pack_p / 1000000.0)
+        return '%2.3f' % total
+        
+    def total_volume(self, order_id):
+        ''' calculate total volume for all items present in order
+        '''
+        #item_list = self.pool.get('purchase.order').browse(
+        #    self.cr, self.uid, order_id).order_line
+        #if item_list:
+        #    return self.get_total_volume([item.id for item in item_list])
+        return ''
+         
     def temp_get_order(self):
         pool = self.pool.get('product.product')
         item_ids = pool.search(self.cr, self.uid, [])
