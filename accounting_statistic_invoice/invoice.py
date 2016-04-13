@@ -213,7 +213,7 @@ class StatisticInvoice(orm.Model):
             order_date_deadline = order.date_deadline or today
             for line in order.order_line:
                 # Deadline in line data:
-                date = line.date_order or order_date_deadline
+                date = line.date_deadline or order_date_deadline
                 month = int(date[5:7])
                 year = int(date[:4])    
                  
