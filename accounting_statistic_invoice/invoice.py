@@ -208,39 +208,42 @@ class StatisticInvoice(orm.Model):
             if i % verbose == 0:
                 _logger.info('OC from ODOO read: %s' % i)
             total = 0.0
-            date = order.date_order or today
-            month = int(date[5:7])
-            year = int(date[:4])     
             sql_customer_code = order.partner_id.sql_customer_code
             
+            order_date_deadline = order.date_deadline or today
             for line in order.order_line:
-                 if parent_max: # TODO check exist!!!
-                     code = line.product_id.default_code[:parent_max]
-                 else:    
-                     code = line.product_id.default_code
-                     
-                 remain = line.product_uom_qty - line.delivered_qty
-                 if remain <= 0 or not line.product_uom_qty: # all delivered
-                     continue
-                 remain_total = \
-                     line.price_subtotal * remain / line.product_uom_qty
-                 total += remain_total
+                # Deadline in line data:
+                date = line.date_order or order_date_deadline
+                month = int(date[5:7])
+                year = int(date[:4])    
                  
-                 data = [
-                      code, 
-                      month,
-                      year,
-                      int(remain),
-                      type_document,
-                      csv_format_float(remain_total),
-                      ]
-                 try:     
-                     f_product.write(mask_product % tuple(data))
-                     data.append(order.name)
-                     log_f1.write(log_mask1 % tuple(data))     
-                 except:    
-                     #_logger.error('Error: %s' % (sys.exc_info()))
-                     log_f1.write('||||||Error writing: %s!!!\n' % order.name)
+                if parent_max: # TODO check exist!!!
+                    code = line.product_id.default_code[:parent_max]
+                else:    
+                    code = line.product_id.default_code
+                     
+                remain = line.product_uom_qty - line.delivered_qty
+                if remain <= 0 or not line.product_uom_qty: # all delivered
+                    continue
+                remain_total = \
+                    line.price_subtotal * remain / line.product_uom_qty
+                total += remain_total
+                 
+                data = [
+                     code, 
+                     month,
+                     year,
+                     int(remain),
+                     type_document,
+                     csv_format_float(remain_total),
+                     ]
+                try:     
+                    f_product.write(mask_product % tuple(data))
+                    data.append(order.name)
+                    log_f1.write(log_mask1 % tuple(data))     
+                except:    
+                    #_logger.error('Error: %s' % (sys.exc_info()))
+                    log_f1.write('||||||Error writing: %s!!!\n' % order.name)
                       
             if not total:
                 continue
@@ -599,10 +602,10 @@ class StatisticInvoice(orm.Model):
                     data['season'],
                     type_document,
                     log_float(total_invoice),
-                    partner_extra_one[0],# zone
-                    partner_extra_one[1],# agent
-                    partner_extra_one[2],# type
-                    partner_extra_one[3],# cat stat
+                    partner_extra_one[0], # zone
+                    partner_extra_one[1], # agent
+                    partner_extra_one[2], # type
+                    partner_extra_one[3], # cat stat
                     note,
                     ))
             except:
