@@ -207,8 +207,12 @@ class StatisticInvoice(orm.Model):
             i += 1
             if i % verbose == 0:
                 _logger.info('OC from ODOO read: %s' % i)
-            total = 0.0
+            #total = 0.0
             sql_customer_code = order.partner_id.sql_customer_code
+            if not sql_customer_code:
+                _logger.error('Partner code not found: %s' % (
+                    order.partner_id.name, ))
+                continue
             
             order_date_deadline = order.date_deadline or today
             for line in order.order_line:
@@ -227,9 +231,9 @@ class StatisticInvoice(orm.Model):
                     continue
                 remain_total = \
                     line.price_subtotal * remain / line.product_uom_qty
-                total += remain_total
+                total = remain_total # += # TODO remove keep remain_total
                  
-                data = [
+                data = [ # product
                      code, 
                      month,
                      year,
@@ -237,37 +241,37 @@ class StatisticInvoice(orm.Model):
                      type_document,
                      csv_format_float(remain_total),
                      ]
+                     
                 try:     
                     f_product.write(mask_product % tuple(data))
                     data.append(order.name)
-                    log_f1.write(log_mask1 % tuple(data))     
+                    log_f1.write(log_mask1 % tuple(data)) # product log
                 except:    
                     #_logger.error('Error: %s' % (sys.exc_info()))
                     log_f1.write('||||||Error writing: %s!!!\n' % order.name)
                       
-            if not total:
-                continue
+                if not total:
+                    continue
             
-            if not sql_customer_code:
-                _logger.error('Partner code not found: %s' % (
-                    order.partner_id.name, ))
-                continue
                     
-            data = [
-                sql_customer_code, # TODO check exist!!!
-                month,
-                year,
-                csv_format_float(total),
-                type_document,
-                ]
-            try:    
-                f_partner.write(mask_partner % tuple(data))
-                data[3] = log_float(data[3])
-                data.append(order.name)
-                log_f2.write(log_mask2 % tuple(data))
-            except:    
-                #_logger.error('Error: %s' % (sys.exc_info()))
-                log_f1.write('%s|||||Error writing!!!\n' % order.name)
+                data = [ # partner
+                    sql_customer_code, # TODO check exist!!!
+                    month,
+                    year,
+                    csv_format_float(total),
+                    type_document,
+                    ]
+
+                try:    
+                    # Append data on schedule import file:
+                    f_partner.write(mask_partner % tuple(data))
+                    
+                    data[3] = log_float(data[3])
+                    data.append(order.name)
+                    log_f2.write(log_mask2 % tuple(data))
+                except:    
+                    #_logger.error('Error: %s' % (sys.exc_info()))
+                    log_f1.write('%s|||||Error writing!!!\n' % order.name)
 
         # ---------------------------------------------------------------------
         #                             Delivery:
