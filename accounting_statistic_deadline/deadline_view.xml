@@ -21,7 +21,7 @@
                     <filter string="Deadlined" domain="[('deadline','&lt;=', datetime.datetime.now().strftime('%Y-%m-%d'))]" />
                     <filter string="Not deadlined" domain="[('deadline','&gt;', datetime.datetime.now().strftime('%Y-%m-%d'))]" />
                     <separator />
-                    <filter string="Uncovered" name="scoperti" icon="terp-personal" domain="[('scoperto_c', '&lt;', 0.0)]" help="Only over credit limit"/>
+                    <!--<filter string="Uncovered" name="scoperti" icon="terp-personal" domain="[('scoperto_c', '&lt;', 0.0)]" help="Only over credit limit"/>-->
                 </group>
                 <newline/>
 
@@ -65,7 +65,7 @@
                     <field name="ddt_e_oc_s" />
                     <newline />
 
-                    <field name="scoperto_c" />
+                    <!--<field name="scoperto_c" />-->
                     <newline />
                   </group>
                 </sheet>
@@ -78,14 +78,16 @@
         <field name="name">statistic.deadline.tree</field>
         <field name="model">statistic.deadline</field>
         <field name="arch" type="xml">
-            <tree string="Pagamenti scaduti (verde=saldo cliente + saldo fornitore>0)" colors="green:saldo_c+saldo_s&gt;=0;">
+            <!--<tree string="Pagamenti scaduti (verde=saldo cliente + saldo fornitore>0)" colors="green:saldo_c+saldo_s&gt;=0;">-->
+            <tree string="Pagamenti scaduti">
                 <field name="partner_id"/>
                 <field name="deadline"/>
-                <field name="in" sum="Entrate" string="Importo"  />
-                <field name="saldo_c" />
-                <field name="saldo_s" />
+                <field name="in" sum="Entrate" string="Entrata"  />
+                <field name="saldo_c" string="Tot. Entrate" invisible="1"/>
+                <field name="out" sum="Uscite" string="Uscita"  />
+                <field name="saldo_s" string="Tot. Uscite" invisible="1"/>
                 
-                <field name="scoperto_c" />
+                <!--<field name="scoperto_c" />-->
                 
                 <field name="type"/>
                 <field name="property_account_position"/>
@@ -143,14 +145,16 @@
 
     <!--TODO action to put in menuitem or dashboard  VVVVVVVVVVVVVVVVVVVVVVV-->
     <!-- Action per statistic.deadline -->   
-    <record model="ir.actions.act_window" id="action_statistic_deadline_passed_dashboard">
+        <!--<field name="context">{'graph_view_ref':'mexal_order_statistic.view_statistic_deadline_in_graph', 'lang':'it_IT'}</field>-->
+        <!--<field name="context">{'graph_view_ref':'mexal_order_statistic.view_statistic_deadline_in_graph', 'lang':'it_IT'}</field>-->
+        <!--<field name="context">{'graph_view_ref':'mexal_order_statistic.view_statistic_deadline_in_graph', 'lang':'it_IT'}</field>-->
+    <!--<record model="ir.actions.act_window" id="action_statistic_deadline_passed_dashboard">
         <field name="name">Pagamenti scaduti diviso per cliente con scoperto</field>
         <field name="res_model">statistic.deadline</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="view_statistic_deadline_search"/>
         <field name="domain">[('scoperto_c','&lt;',-10000.0),]</field>
-        <!--<field name="context">{'graph_view_ref':'mexal_order_statistic.view_statistic_deadline_in_graph', 'lang':'it_IT'}</field>-->
     </record>
     <record model="ir.actions.act_window" id="action_statistic_deadline_passed_dashboard_estero">
         <field name="name">Pagamenti scaduti diviso per cliente con scoperto estero</field>
@@ -159,7 +163,6 @@
         <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="view_statistic_deadline_search"/>
         <field name="domain">[('scoperto_c','&lt;',-10000.0),('property_account_position','!=',1)]</field>
-        <!--<field name="context">{'graph_view_ref':'mexal_order_statistic.view_statistic_deadline_in_graph', 'lang':'it_IT'}</field>-->
     </record>
     <record model="ir.actions.act_window" id="action_statistic_deadline_passed_dashboard_italia">
         <field name="name">Pagamenti scaduti diviso per cliente con scoperto italia</field>
@@ -168,8 +171,7 @@
         <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="view_statistic_deadline_search"/>
         <field name="domain">[('scoperto_c','&lt;',-10000.0),('property_account_position','=',1)]</field>
-        <!--<field name="context">{'graph_view_ref':'mexal_order_statistic.view_statistic_deadline_in_graph', 'lang':'it_IT'}</field>-->
-    </record>
+    </record>-->
 
     <record model="ir.actions.act_window" id="action_statistic_deadline_passed_tree_dashboard">
         <field name="name">Deadlined payment</field>
