@@ -267,7 +267,7 @@
                 <filter name="hide_statistic_off" domain="[('hide_statistic','=',False)]" string="Import. agent"/>
                 <newline />
 
-                <filter name="trend_on" domain="[('trend','=',True)]" string="Trenf on"/>
+                <filter name="trend_on" domain="[('trend','=',True)]" string="Trend on"/>
                 <filter name="trend_off" domain="[('trend','=',False)]" string="Trend off"/>
                 <newline />
 

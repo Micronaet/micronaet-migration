@@ -671,7 +671,7 @@ class StatisticInvoice(orm.Model):
             type='many2one', relation='statistic.invoice.agent',
             string='Invoice agent', store=True),
         'hide_statistic': fields.related('invoice_agent_id', 'hide_statistic',
-            type='boolean', string='Nascondi statistica', store=True),
+            type='boolean', string='Nascondi statistica', store=False),
         'type_cei': fields.related('partner_id', 'type_cei', type='char',
             size=1, string='C E I', store=True),
         'total': fields.float('Stag. attuale', digits=(16, 2)),
