@@ -33,6 +33,7 @@
         'accounting_statistic_base',
         'production_family',
         'product_categorization',
+        'sql_partner_agent', # for partner management
         ],
     'init_xml': [],
     'demo_xml': [],

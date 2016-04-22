@@ -665,13 +665,22 @@ class StatisticInvoice(orm.Model):
         'name': fields.char('Descrizione', size=64),
         'visible': fields.boolean('Visible'), # TODO remove
         'top': fields.boolean('Top'),
-        'partner_id': fields.many2one('res.partner', 'Partner'),
         'tag_id': fields.many2one('res.partner.category', 'Tag'),
+        'partner_id': fields.many2one('res.partner', 'Partner'),
+                
+        # TODO remove old agent management
         'invoice_agent_id': fields.related('partner_id', 'invoice_agent_id',
             type='many2one', relation='statistic.invoice.agent',
             string='Invoice agent', store=True),
         'hide_statistic': fields.related('invoice_agent_id', 'hide_statistic',
             type='boolean', string='Nascondi statistica', store=False),
+        #'invoice_agent_id': fields.related('partner_id', 'agent_id',
+        #    type='many2one', relation='res.partner', 
+        #    domain=[('is_agent', '=', True)],
+        #    string='Invoice agent', store=True),
+        #'hide_statistic': fields.related('invoice_agent_id', 'hide_statistic',
+        #    type='boolean', string='Hide statistic', store=True),
+            
         'type_cei': fields.related('partner_id', 'type_cei', type='char',
             size=1, string='C E I', store=True),
         'total': fields.float('Stag. attuale', digits=(16, 2)),
