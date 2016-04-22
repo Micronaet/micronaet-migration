@@ -680,7 +680,7 @@ class StatisticInvoice(orm.Model):
         #    string='Invoice agent', store=True),
         #'hide_statistic': fields.related('invoice_agent_id', 'hide_statistic',
         #    type='boolean', string='Hide statistic', store=True),
-            
+
         'type_cei': fields.related('partner_id', 'type_cei', type='char',
             size=1, string='C E I', store=True),
         'total': fields.float('Stag. attuale', digits=(16, 2)),
@@ -799,7 +799,7 @@ class StatisticInvoiceProduct(orm.Model):
             item.name.upper() for item in remove_pool.browse(
                 cr, uid, item_ids, context=context)]
 
-        top_limit = 0.005 # TODO parametrize
+        top_limit = 0.01 # TODO parametrize
         tot_col = 0
         season_total = 0
         item_invoice = {}
