@@ -253,6 +253,7 @@
                     <field name="zone_id"/>
                     <field name="zone_type"/>
                     <field name="partner_id"/>
+                    <field name="group_tag_id"/>                    
                     <field name="tag_id"/>
                     <field name="invoice_agent_id"/>
                     <field name="season"/>                    
@@ -275,6 +276,14 @@
                 <filter name="low_sale" domain="[('top','=',False)]" string="Low partner"/>
                 <newline />
 
+                <filter name="agent_id_off" domain="[('invoice_agent_id','=',False)]" string="No agent"/>
+                <filter name="agent_id_on" domain="[('invoice_agent_id','!=',False)]" string="With Agent"/>
+                <newline />
+
+                <filter name="group_tag_off" domain="[('group_tag_id','=',False)]" string="No group"/>
+                <filter name="group_tag_on" domain="[('group_tag_id','!=',False)]" string="With group"/>
+                <newline />
+
                 <filter name="season" domain="[('season','in',(-2,-1,1))]" string="3 season"/>
                 <filter name="seasonB3" domain="[('season','=',-3)]" string="S. -3"/>
                 <filter name="seasonB2" domain="[('season','=',-1)]" string="S. -2"/>
@@ -294,6 +303,7 @@
                     <filter string="Type of doc" domain="[]" context="{'group_by':'type_document'}"/>
                     <filter string="Agent" domain="[]" context="{'group_by':'invoice_agent_id'}"/>
                     <filter string="Statistic category" domain="[]" context="{'group_by':'statistic_category_id'}"/>
+                    <filter string="Tag group" domain="[]" context="{'group_by':'group_tag_id'}"/>                    
                     <filter string="Zone" domain="[]" context="{'group_by':'zone_id'}"/>
                     <filter string="Type of zone" domain="[]" context="{'group_by':'zone_type'}"/>
                     <filter string="Country" domain="[]" context="{'group_by':'country_id'}"/>

@@ -666,7 +666,11 @@ class StatisticInvoice(orm.Model):
         'visible': fields.boolean('Visible'), # TODO remove
         'top': fields.boolean('Top'),
         'tag_id': fields.many2one('res.partner.category', 'Tag'),
-        'partner_id': fields.many2one('res.partner', 'Partner'),
+        'partner_id': fields.many2one('res.partner', 'Partner'),        
+        'group_tag_id': fields.related(
+            'partner_id', 'group_tag_id', 
+            type='many2one', relation='res.partner.category', 
+            string='Tag group', store=True), 
                 
         # TODO remove old agent management
         #'invoice_agent_id': fields.related('partner_id', 'invoice_agent_id',

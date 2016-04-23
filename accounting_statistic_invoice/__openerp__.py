@@ -34,6 +34,7 @@
         'production_family',
         'product_categorization',
         'sql_partner_agent', # for partner management
+        'partner_tags',
         ],
     'init_xml': [],
     'demo_xml': [],
