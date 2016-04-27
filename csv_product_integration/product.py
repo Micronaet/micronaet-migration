@@ -320,9 +320,10 @@ class ProductProduct(orm.Model):
                     fabric = ''    
                 
                 # TODO move in sql_product CSG_ART_ALT
-                ean = csv_pool.decode_string(line[4]).strip()
-                if len(ean) != 13 or ean[:2] != '80':
-                    ean = False
+                # XXX REMOVED!!! IMPORTED AND MANAGED IN ODOO (company 1 and 2)
+                #ean = csv_pool.decode_string(line[4]).strip()
+                #if len(ean) != 13 or ean[:2] != '80':
+                #    ean = False
 
                 # Language:
                 name = csv_pool.decode_string(line[1]).title() # it
@@ -423,8 +424,8 @@ class ProductProduct(orm.Model):
                 if with_sale:
                     data['description_sale'] = name
 
-                if ean:
-                    data['ean13'] = ean
+                #if ean:
+                #    data['ean13'] = ean
 
                 if uom_id: 
                     data.update({
