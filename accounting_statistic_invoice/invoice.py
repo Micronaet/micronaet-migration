@@ -667,10 +667,34 @@ class StatisticInvoice(orm.Model):
         'top': fields.boolean('Top'),
         'tag_id': fields.many2one('res.partner.category', 'Tag'),
         'partner_id': fields.many2one('res.partner', 'Partner'),        
+        
+        # Partner related data:
         'group_tag_id': fields.related(
             'partner_id', 'group_tag_id', 
             type='many2one', relation='res.partner.category', 
             string='Tag group', store=True), 
+        'state_id': fields.related(
+            'partner_id', 'state_id', 
+            type='many2one', relation='res.country.state', 
+            string='Partner state', store=True), 
+        'country_id': fields.related(
+            'partner_id', 'country_id', 
+            type='many2one', relation='res.country',
+            string='Partner country', store=True), 
+
+        # TODO moved in new module: mx_partner_zone:
+        'zone_id': fields.related('partner_id', 'zone_id', type='many2one',
+            relation='res.partner.zone', string='Zone', store=True),
+        # Related won't work!
+        #'zone_type': fields.related('zone_id', 'type', type='selection',
+        #    selection=[
+        #        ('region', 'Region'),
+        #        ('state', 'State'),
+        #        ('area', 'Area'), ], string='Type', store=True),
+        'zone_type': fields.selection([
+            ('region', 'Region'),
+            ('state', 'State'),
+            ('area', 'Area'), ], 'Zone type'),
                 
         # TODO remove old agent management
         #'invoice_agent_id': fields.related('partner_id', 'invoice_agent_id',
@@ -709,23 +733,6 @@ class StatisticInvoice(orm.Model):
 
         'trend': fields.related('statistic_category_id', 'trend', 
             type='boolean', readonly=True, string='Trend stat. cat.', 
-            store=True),
-
-        # TODO moved in new module: mx_partner_zone:
-        'zone_id': fields.related('partner_id', 'zone_id', type='many2one',
-            relation='res.partner.zone', string='Zone', store=True),
-        # Related won't work!
-        #'zone_type': fields.related('zone_id', 'type', type='selection',
-        #    selection=[
-        #        ('region', 'Region'),
-        #        ('state', 'State'),
-        #        ('area', 'Area'), ], string='Type', store=True),
-        'zone_type': fields.selection([
-            ('region', 'Region'),
-            ('state', 'State'),
-            ('area', 'Area'), ], 'Zone type'),
-        'country_id': fields.related('partner_id', 'country_id',
-            type='many2one', relation='res.country', string='Country',
             store=True),
         }
 

@@ -35,6 +35,7 @@
         'product_categorization',
         'sql_partner_agent', # for partner management
         'partner_tags',
+        'base_location', # zip_id and other fields
         ],
     'init_xml': [],
     'demo_xml': [],
