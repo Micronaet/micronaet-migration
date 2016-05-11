@@ -65,6 +65,8 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
             for c in value:
                 if ord(c) < 127:
                     res += c
+                else:
+                    res += ' '    
             return res                
             
         # ---------------------------------------------------------------------
