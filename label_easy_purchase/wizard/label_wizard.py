@@ -58,6 +58,15 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
             After this the label employee have to launch the link on his 
             desktop PC 
         '''
+        def clean_ascii(value):
+            value = value or ''
+            value = value.strip()
+            res = ''
+            for c in value:
+                if ord(c) < 127:
+                    res += c
+            return res                
+            
         # ---------------------------------------------------------------------
         #                               Pool used
         # ---------------------------------------------------------------------
@@ -119,6 +128,7 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
                 q_x_pack = 1
 
             # Write record in database:
+            name = clean_ascii(name)
             table.append((
                 default_code, 
                 name, 
