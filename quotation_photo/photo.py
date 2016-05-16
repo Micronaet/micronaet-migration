@@ -97,7 +97,7 @@ class ProductProductImage(osv.osv):
                 if not self.pool.get('res.users').browse(
                     cr, uid, user_id, context=context).always_show_photo:
                     return ''
-            
+
         # TODO Better rewrite all this mess function!
         with_log = True # TODO debug part
 
