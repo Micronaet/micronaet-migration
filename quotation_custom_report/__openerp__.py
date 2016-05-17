@@ -33,7 +33,7 @@
         'report_aeroo',
         
         # Extra field data:
-        'quotation_photo',
+        'quotation_photo', # TODO change dep when use new
         'purchase_extra_field',
         'sale_extra_field',
         ],
