@@ -64,6 +64,9 @@
             <field eval="20" name="priority"/>
             <field name="arch" type="xml">
                 <tree string="Partners" colors="green:partner_color=='green';red:partner_color=='red';orange:partner_color=='yellow';">
+                    <field name="hide_partner" invisible="1" />
+                    <button name="button_hide_off" string="Show" type="object" attrs="{'invisible':[('hide_partner','=',True)]}" icon="gtk-normal"/>
+                    <button name="button_hide_on" string="Hide" type="object" attrs="{'invisible':[('hide_partner','=',False)]}" icon="gtk-yes" />
                     <field name="name"/>
                     <field name="ref" /> <!--groups="base.group_extended"-->
                     <!--<field name="phone"/>
@@ -94,6 +97,7 @@
             <field name="view_id" ref="view_partner_tree_color"/>
             <field name="search_view_id" ref="view_res_partner_color_filter"/>
             <field name="context">{"search_default_customer":1, 'order_by':'partner_color'}</field> 
+            <field name="domain">[('hide_partner', '=', False)]</field>
             <field name="help">A customer is an entity you do business with, like a company or an organization. A customer can have several contacts or addresses which are the people working for this company. You can use the history tab, to follow all transactions related to a customer: sales order, emails, opportunities, claims, etc. If you use the email gateway, the Outlook or the Thunderbird plugin, don't forget to register emails to each contact so that the gateway will automatically attach incoming emails to the right partner.</field>
         </record>
         <menuitem

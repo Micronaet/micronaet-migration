@@ -28,6 +28,7 @@
         'base',
         'base_accounting_program',
         'mx_agent',
+        'hide_partner', # to hide partner
         ],
     'init_xml': [], 
     'data': [
