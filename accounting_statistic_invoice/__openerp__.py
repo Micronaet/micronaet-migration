@@ -36,6 +36,7 @@
         'sql_partner_agent', # for partner management
         'partner_tags',
         'base_location', # zip_id and other fields
+        'purchase_extra_field', # first supplier filter
         ],
     'init_xml': [],
     'demo_xml': [],
