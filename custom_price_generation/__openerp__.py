@@ -30,6 +30,7 @@
         'base',
         'product',
         'product_extra_packaging', # moved for instal in 2 company this part
+        'duty_management', # Move here part for duty (TODO object)
         'product_dimension_fields',
         'base_accounting_program',
         'sale',

@@ -249,7 +249,8 @@
               sequence="4" />  
                                      
     <!-- product.custom.duty: -->
-    <record id='product_custom_duty_search' model='ir.ui.view'>
+    <!--REMOVED PUT IN: duty_management module-->
+    <!--<record id='product_custom_duty_search' model='ir.ui.view'>
         <field name='name'>Product custom duty search</field>
         <field name='model'>product.custom.duty</field>
         <field name='arch' type='xml'>
@@ -298,7 +299,7 @@
     <menuitem id="product_custom_duty_action_menu" 
               parent="product.prod_config_main" 
               action="product_custom_duty_action"
-              sequence="2" />                
+              sequence="2" />-->
 </data>
 </openerp>
 

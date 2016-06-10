@@ -39,7 +39,7 @@ import base64, urllib
 
 _logger = logging.getLogger(__name__)
 
-
+# MOVED IN duty_management TODO ###############################################
 class ProductCustomDuty(orm.Model):
     '''Anagrafic to calculate product custom duty depending of his category
        (using % of tax per supplier cost)
@@ -70,6 +70,7 @@ class ProductCustomDutyTax(orm.Model):
     _defaults = {
         'tax': lambda *a: 0.0,
     }
+# MOVED IN duty_management TODO ###############################################
 
 class BaseImageFolder(orm.Model):
     _name = 'base.image.folder'
