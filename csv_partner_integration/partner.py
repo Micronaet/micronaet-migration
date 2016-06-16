@@ -204,7 +204,6 @@ class ResPartner(orm.Model):
                 open(os.path.expanduser(input_file), 'rb'), 
                 delimiter=delimiter)
 
-            import pdb; pdb.set_trace()
             for line in lines:
                 try:
                     # Jump header lines:
