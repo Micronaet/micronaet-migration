@@ -168,7 +168,6 @@ class ResPartner(orm.Model):
         # Pricelist importation:
         # ---------------------------------------------------------------------
         
-        
         # ---------------------------------------------------------------------
         # Partner importation (customer, cust. dest, supplier, supp. dest):
         # ---------------------------------------------------------------------
@@ -205,6 +204,7 @@ class ResPartner(orm.Model):
                 open(os.path.expanduser(input_file), 'rb'), 
                 delimiter=delimiter)
 
+            import pdb; pdb.set_trace()
             for line in lines:
                 try:
                     # Jump header lines:
@@ -442,48 +442,13 @@ class ResPartner(orm.Model):
                                     cr, uid, partner_id, data, context=context)
                                 """
 
-                        else: # create
-                            #try:
+                        else: # no create
                             continue # TODO not created only updated
-                            """ partner_id = self.create(
-                                    cr, uid, data, context=context)
-                            except: # if error go to master error in loop:
-                                del data['vat']
-                                partner_id = self.create(
-                                    cr, uid, data, context=context)
-                            """
 
                     if not partner_id:
                         _logger.error('No partner [%s] rif: "%s" << [%s] ' % (
                             mode, ref, parent))
                         continue # next record
-
-                    # ADDRESS CREATION ***************
-                    # TODO
-                    """if is_destination:
-                        # TODO Duplication if same in c or s
-                        item_address = self.search(cr, uid, [
-                            ('is_address', '=', 'true'), # TODO remove
-                            ('type', '=', type_address_destination),
-                            ('sql_%s_code' % mode, '=', ref)
-                            ], context=context)
-                    else:
-                        item_address = self.search(cr, uid, [
-                            ('is_address', '=', 'true'),
-                            ('type', '=', type_address),
-                            ('partner_id','=',partner_id)
-                            ], context=context)
-
-                    if item_address:
-                        self.write(
-                            cr, uid, item_address, data_address, 
-                            context=context)
-                    else:
-                        data_address['partner_id'] = partner_id # only creation
-                        item_address_new = self.create(
-                            cr, uid, data_address, context=context)
-                    """
-
                 except:
                     _logger.error('%s. Error import line: [%s]' % (
                             counter, sys.exc_info(), ))
