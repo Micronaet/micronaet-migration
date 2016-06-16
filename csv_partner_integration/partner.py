@@ -417,19 +417,6 @@ class ResPartner(orm.Model):
                     else: # partner
                         item_ids = self.search(cr, uid, [
                             ('sql_%s_code' % mode, '=', ref)], context=context)
-                        # partner not found with 'sql_customer_code', 
-                        # try with vat  <<<< TODO problem 2 client w/same vat!!
-                        """if not item_ids: 
-                            if vat:
-                                item_ids = self.search(cr, uid, [
-                                    ('vat', '=', vat),
-                                    ('sql_%s_code' % mode, '=', False)
-                                    ], context=context)
-                                if not item_ids and mode == 'supplier':
-                                   data['customer'] = False
-                            else:
-                                if mode == 'supplier':
-                                    data['customer'] = False"""
 
                         if item_ids: # modify
                             #try:
