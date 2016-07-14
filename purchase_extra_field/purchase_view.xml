@@ -80,6 +80,17 @@
            </field>     
         </field>
     </record>
+    <record id='product_product_form_view_extra_fields' model='ir.ui.view'>
+        <field name='name'>Extra product tree field</field>
+        <field name='model'>product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name='arch' type='xml'>
+           <field name='seller_ids' position="after">
+                <field name='first_supplier_id' />
+                <newline/>
+           </field>     
+        </field>
+    </record>
     
 </data>
 </openerp>
