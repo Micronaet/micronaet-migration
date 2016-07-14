@@ -86,8 +86,9 @@
         <field name="inherit_id" ref="product.product_normal_form_view"/>
         <field name='arch' type='xml'>
            <field name='seller_ids' position="after">
-                <field name='first_supplier_id' />
-                <newline/>
+               <group colspan="4" col="4">
+                    <field name='first_supplier_id' />
+               </group>     
            </field>     
         </field>
     </record>
