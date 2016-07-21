@@ -19,29 +19,24 @@
     <record id='product_product_form_view_extra_fields' model='ir.ui.view'>
         <field name='name'>Product pack</field>
         <field name='model'>product.product</field>
-        <!--<field name="inherit_id" ref="product.product_template_form_view" />-->
         <field name="inherit_id" ref="product.product_normal_form_view" />
         <field name='arch' type='xml'>
-           <!--<field name='mes_type' position="after">   
-                <field name='quantity_x_pack' />
-           </field>-->
-           <field name='default_code' position="after">   
+           <field name="seller_ids" position="after">
                 <group colspan="4" col="2">
-                    <newline />
                     <separator string="Imballo default" colspan="2"/>
                     <field name="package_type" />
                     <field name='pack_l' />
                     <field name='pack_h' />
                     <field name='pack_p' />
                     <field name='colls' />
-               <!--</field>             
-               <field name='seller_ids' position="before">-->
                     <separator string="Info fornitura" colspan="2"/>
-                   <field name="default_supplier" />
-                   <field name="default_supplier_code" />
+                    <field name="default_supplier" />
+                    <field name="default_supplier_code" />
+
                     <separator string="Extra info" colspan="2"/>
                     <field name='colour_code' />
-               </group>
+                    <field name='first_supplier_id' />
+               </group>     
            </field>
        </field>
     </record>   
@@ -77,18 +72,6 @@
         <field name='arch' type='xml'>
            <field name='state' position="before">
                 <field name='first_supplier_id' />
-           </field>     
-        </field>
-    </record>
-    <record id='product_product_form_view_extra_fields' model='ir.ui.view'>
-        <field name='name'>Extra product tree field</field>
-        <field name='model'>product.product</field>
-        <field name="inherit_id" ref="product.product_normal_form_view"/>
-        <field name='arch' type='xml'>
-           <field name='seller_ids' position="after">
-               <group colspan="4" col="4">
-                    <field name='first_supplier_id' />
-               </group>     
            </field>     
         </field>
     </record>
