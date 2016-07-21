@@ -27,6 +27,7 @@
 	'depends': [
 	    'base', 
         'purchase',
+        'product',
         'base_accounting_program',
         ],
 	'category': 'Generic Modules/Aeroo Reporting',
