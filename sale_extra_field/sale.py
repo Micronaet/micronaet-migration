@@ -70,6 +70,7 @@ class ProductProduct_Photo(orm.Model):
                 f = open(filename , 'rb')
                 img = base64.encodestring(f.read())
                 f.close()
+                _logger.warning(filename)
             except:
                 img = ''
             
