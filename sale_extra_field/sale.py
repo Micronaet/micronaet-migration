@@ -73,6 +73,7 @@ class ProductProduct_Photo(orm.Model):
                 f.close()
                 _logger.warning(filename)
             except:
+                _logger.error('Image not found %s' % (err.sys_exc(), )
                 img = ''
             
             if not img: # empty image:
