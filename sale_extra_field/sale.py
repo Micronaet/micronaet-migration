@@ -55,7 +55,6 @@ class ProductProduct_Photo(orm.Model):
         extension = "jpg"
         image_path = os.path.expanduser(
             "~/photo/%s/product/default" % cr.dbname)
-        _logger.warning('Search image: %s' % image_path)
         empty_image= "%s/%s.%s" % (
             image_path, 
             "empty", 
