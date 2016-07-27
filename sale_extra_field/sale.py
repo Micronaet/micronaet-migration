@@ -23,7 +23,7 @@ import os
 import sys
 import logging
 import openerp
-import urllib
+#import urllib
 import base64
 import openerp.netsvc as netsvc
 import openerp.addons.decimal_precision as dp
@@ -52,27 +52,29 @@ class ProductProduct_Photo(orm.Model):
             (default path is ~/photo/db_name/quotation
         '''        
         img = ''         
-        extension = "jpg"
+        extension = 'jpg'
         image_path = os.path.expanduser(
-            "~/photo/%s/product/default" % cr.dbname)
-        empty_image= "%s/%s.%s" % (
-            image_path, 
-            "empty", 
-            extension)
+            '~/photo/%s/product/default' % cr.dbname)
+        empty_image= "%s/%s.%s" % (image_path, 'empty', extension)
 
         product_browse=self.browse(cr, uid, item, context=context)
-        # Image compoesed with code format (code.jpg)
+        # Image composed with code format (code.jpg)
         if product_browse.default_code:
             try:
-                (filename, header) = urllib.urlretrieve(
-                    "%s/%s.%s" % (
-                        image_path, 
-                        product_browse.default_code.replace(" ", "_"), 
-                        extension)) # code image
+                #(filename, header) = urllib.urlretrieve(
+                #    "%s/%s.%s" % (
+                #        image_path, 
+                #        product_browse.default_code.replace(" ", "_"), 
+                #        extension)) # code image
+                filename = '%s/%s.%s' % (
+                    image_path,
+                    product_browse.default_code.replace(' ', '_'), 
+                    extension,
+                    )
                 f = open(filename , 'rb')
                 img = base64.encodestring(f.read())
                 f.close()
-                _logger.warning(filename)
+                _logger.info(filename)
             except:
                 _logger.error('Image not found %s' % (sys.exc_info(), ))
                 img = ''
