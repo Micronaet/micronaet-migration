@@ -98,21 +98,21 @@ class ProductProduct_Photo(orm.Model):
 
     _columns = {
         # TODO remove? not used used default_photo in external module
-        'quotation_photo':fields.function( # Second company
+        'quotation_photo': fields.function( # Second company
             _get_quotation_image, type="binary", method=True),
 
         'telaio': fields.char('Telaio', size=64, translate=True),
-        'pipe_diameter':fields.char(
+        'pipe_diameter': fields.char(
             'Diam. tubo', size=15),
-        'weight_packaging':fields.char('Peso imballo', size=20),
-        'item_per_box':fields.char('Pezzi per scatola', size=20),
-        'item_per_pallet':fields.char('Pezzi per bancale', size=20),
-        'item_per_mq':fields.char('Pezzi per metro cubo', size=20),
-        'item_per_camion':fields.char('Pezzi per camion 13,6 mt.', size=20),
-        'extra_description':fields.text('Extra description', translate=True),
+        'weight_packaging': fields.char('Peso imballo', size=20),
+        'item_per_box': fields.char('Pezzi per scatola', size=20),
+        'item_per_pallet': fields.char('Pezzi per bancale', size=20),
+        'item_per_mq': fields.char('Pezzi per metro cubo', size=20),
+        'item_per_camion': fields.char('Pezzi per camion 13,6 mt.', size=20),
+        'extra_description': fields.text('Extra description', translate=True),
         # Non visibili attualmente nella vista
-        'dim_article':fields.char('Dim. art.', size=20),
-        'dim_pack':fields.char('Dim. scatola', size=20),
-        'dim_pallet':fields.char('Dim. pallet', size=20),
+        'dim_article': fields.char('Dim. art.', size=20),
+        'dim_pack': fields.char('Dim. scatola', size=20),
+        'dim_pallet': fields.char('Dim. pallet', size=20),
         }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
