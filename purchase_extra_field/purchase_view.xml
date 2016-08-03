@@ -29,13 +29,13 @@
                     <field name='pack_h' />
                     <field name='pack_p' />
                     <field name='colls' />
-                    <separator string="Info fornitura" colspan="2"/>
+                    <!--<separator string="Info fornitura" colspan="2"/>
                     <field name="default_supplier" />
                     <field name="default_supplier_code" />
-
+                    <field name='first_supplier_id' />-->
                     <separator string="Extra info" colspan="2"/>
                     <field name='colour_code' />
-                    <field name='first_supplier_id' />
+                    
                </group>     
            </field>
        </field>
@@ -64,18 +64,6 @@
             </xpath>
         </field>
     </record>
-
-    <record id='product_product_tree_view_extra_fields' model='ir.ui.view'>
-        <field name='name'>Extra product tree field</field>
-        <field name='model'>product.product</field>
-        <field name="inherit_id" ref="product.product_product_tree_view"/>
-        <field name='arch' type='xml'>
-           <field name='state' position="before">
-                <field name='first_supplier_id' />
-           </field>     
-        </field>
-    </record>
-    
 </data>
 </openerp>
 
