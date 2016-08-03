@@ -29,6 +29,7 @@
         'purchase',
         'product',
         'base_accounting_program',
+        'product_first_supplier', # Micronaet/micronaet-product.git
         ],
 	'category': 'Generic Modules/Aeroo Reporting',
 	'init_xml': [],

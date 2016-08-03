@@ -119,9 +119,12 @@ class ProductProductPurchase(orm.Model):
 
         'colour_code': fields.char('Codice colore', size=64),
 
+        # TODO moved in Micronaet/micronaet-product product_fist_supplier
         'first_supplier_id': fields.many2one('res.partner', 'First supplier'),
         'default_supplier': fields.char('Fornitore default', size=64),
         'default_supplier_code': fields.char('Codice forn. default', size=40),
+        # TODO moved in Micronaet/micronaet-product product_fist_supplier
+        
         'package_type': fields.char('Package type', size=80),
 
         'pack_l': fields.float('L. Imb.', digits=(16, 2)),
@@ -130,7 +133,7 @@ class ProductProductPurchase(orm.Model):
         }
 
     _defaults = {
-        'quantity_x_pack': lambda *a: 1,
+        #'quantity_x_pack': lambda *a: 1,
         }
 
 class PurchaseOrderLine(orm.Model):
