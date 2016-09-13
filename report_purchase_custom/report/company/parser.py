@@ -65,27 +65,36 @@ class Parser(report_sxw.rml_parse):
         ''' Extract data from product detail
             data:  
                 'list' for list of elements
-                'volume' volume total 
+                'volume' volume total
+                'total' volume total
             
         '''
         res = []
         volume = 0
         product = detail.product_id
+        qty= detail.product_qty or 0
         if product.has_multipackage:
             for pack in product.multi_pack_ids:
                 for loop in range(0, pack.number or 1):
                     res.append('%s x %s x %s' % (
                         pack.height, pack.width, pack.length,
                         ))
-                    volume += \
-                        pack.height * pack.width * pack.length / 1000000.0
+                    volume_1 = pack.height * pack.width * pack.length / 1000000.0
+                    if data == 'total':    
+                        volume += qty * volume_1
+                    elif data == 'volume':
+                        volume += volume_1
         else:
             res.append('%s x %s x %s' % (
                 product.pack_l, product.pack_h, product.pack_p
                 ))
             
-            volume = \
+            volume_1 = \
                 product.pack_l * product.pack_h * product.pack_p / 1000000.0
+            if data == 'volume':
+                volume = volume_1
+            elif data == 'total':
+                volume = qty * volume_1 
                             
         if data == 'list':
             return res                
@@ -104,10 +113,11 @@ class Parser(report_sxw.rml_parse):
             return res
 
     # Get volume
-    def multipack_dimension_volume(self, detail):
+    def multipack_dimension_volume(self, detail, data='volume'):
         ''' Calculate volume multipack or product pack data
+            data: 'volume' for one 'totat' for total
         '''
-        volume = self.multipack_extract_info(detail, data='volume')
+        volume = self.multipack_extract_info(detail, data=data)
         return '%2.3f' % volume
 
     # Get total volume
@@ -116,7 +126,7 @@ class Parser(report_sxw.rml_parse):
         '''
         volume = 0.0
         for detail in order.order_line:
-            volume += self.multipack_extract_info(detail, data='volume')
+            volume += self.multipack_extract_info(detail, data='total')
         return '%2.3f' % volume
 
     def get_q_x_pack(self, product):
