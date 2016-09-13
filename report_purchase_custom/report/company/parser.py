@@ -36,6 +36,13 @@ class Parser(report_sxw.rml_parse):
             'get_volume_item':self.get_volume_item,
             'get_q_x_pack': self.get_q_x_pack,
             'get_supplier_code': self.get_supplier_code,
+            
+            # Multi pack insert depend on Campaign module:
+            'multipack_dimension_list': self.multipack_dimension_list,
+            'multipack_dimension_volume': self.multipack_dimension_volume,            
+            'multipack_dimension_volume_total': 
+                self.multipack_dimension_volume_total,
+            
             # TODO remove:
             'total_volume':self.total_volume,
             'get_total_volume':self.get_total_volume,
@@ -48,8 +55,80 @@ class Parser(report_sxw.rml_parse):
 
             'total_USD':self.total_USD,
             'get_couple': self.get_couple,
-        })
+            })
 
+    # -------------------------------------------------------------------------
+    # Multipack block:
+    # -------------------------------------------------------------------------
+    # Utility:
+    def multipack_extract_info(self, detail, data='list'):
+        ''' Extract data from product detail
+            data:  
+                'list' for list of elements
+                'volume' volume total 
+            
+        '''
+        res = []
+        volume = 0
+        product = detail.product_id
+        if product.has_multipackage:
+            for pack in product.multi_pack_ids:
+                for loop in range(0, pack.number or 1):
+                    res.append('%s x %s x %s' % (
+                        pack.height, pack.width, pack.length,
+                        ))
+                    volume += \
+                        pack.height * pack.width * pack.length / 1000000.0
+        else:
+            res.append('%s x %s x %s' % (
+                product.pack_l, product.pack_h, product.pack_p
+                ))
+            
+            volume = \
+                product.pack_l * product.pack_h * product.pack_p / 1000000.0
+                            
+        if data == 'list':
+            return res                
+        # elif 'volume':
+        return volume
+        
+    # Get pack list:
+    def multipack_dimension_list(self, detail, as_list=True):
+        ''' Create list of elements
+            return as_list or as text formatted
+        '''
+        res = self.multipack_extract_info(detail, data='list')
+        if as_list:
+            return '\n'.join(res)
+        else:    
+            return res
+
+    # Get volume
+    def multipack_dimension_volume(self, detail):
+        ''' Calculate volume multipack or product pack data
+        '''
+        volume = self.multipack_extract_info(detail, data='volume')
+        return '%2.3f' % volume
+
+    # Get total volume
+    def multipack_dimension_volume_total(self, order):
+        ''' Get total volume        
+        '''
+        volume = 0.0
+        for detail in order.order_line:
+            volume += self.multipack_extract_info(detail, data='volume')
+        return '%2.3f' % volume
+
+    def get_q_x_pack(self, product):
+        # Old method after where saved here
+        if product.has_multipackage:
+            return 1
+        elif len(product.packaging_ids) == 1:
+            return int(product.packaging_ids[0].qty or 1.0)
+        else:
+            return int(product.q_x_pack or 1)
+    # -------------------------------------------------------------------------
+        
     def get_supplier_code(self, product):        
         if product.default_supplier_code:
             return '[%s]' % (product.default_supplier_code)
@@ -136,12 +215,6 @@ class Parser(report_sxw.rml_parse):
             total += float(self.get_subtotal(item, order))
         return "%2.2f"%(total)
 
-    def get_q_x_pack(self, product):
-        if len(product.packaging_ids)==1:
-            return product.packaging_ids[0].qty or 1.0
-        else:
-            return product.q_x_pack or 1.0
-
     def get_unit_volume(self, item):
         ''' get unit volume
         '''
@@ -168,25 +241,6 @@ class Parser(report_sxw.rml_parse):
                     self.get_q_x_pack(item.product_id))) or 0.0
         return '%2.3f' % res           
             
-    """def get_total_volume(self, item_list):
-        ''' Function that compute total volume for 1 or more items
-        '''
-        total = 0.0
-        for item in self.pool.get('purchase.order.line').browse(
-                self.cr, self.uid, item_list):
-            if item.product_id and len(
-                    item.product_id.packaging_ids)==1 and item.product_id.packaging_ids[0].qty:  # only one package!
-                #     total order      / total per box                     1 box if there's a rest            
-                box = item.product_qty // item.product_id.packaging_ids[0].qty + (
-                    0.0 if item.product_qty % item.product_id.packaging_ids[0].qty == 0.0 else 1.0) 
-                volume = item.product_id.packaging_ids[0].pack_volume if item.product_id.packaging_ids[0].pack_volume_manual else (
-                    item.product_id.packaging_ids[0].length *
-                    item.product_id.packaging_ids[0].width *
-                    item.product_id.packaging_ids[0].height) / 1000000.0
-                total_value =  box * volume
-                total += float("%2.3f"%(total_value))  # for correct aprox value (maybe theres' a best way :) )
-        return "%2.3f"%(total,)"""
-        
     def get_volume_item(self, item_id):
         ''' calculate total volume for item line 
             Pz / Pz. x box * (volume of the box => l x w x h)
