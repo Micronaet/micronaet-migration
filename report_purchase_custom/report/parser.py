@@ -36,6 +36,12 @@ class Parser(report_sxw.rml_parse):
             'get_total_volume': self.get_total_volume,
             'total_volume': self.total_volume,
             'get_supplier_code': self.get_supplier_code,
+
+            # Multi pack insert depend on Campaign module:
+            'multipack_dimension_list': self.multipack_dimension_list,
+            'multipack_dimension_volume': self.multipack_dimension_volume,            
+            'multipack_dimension_volume_total': 
+                self.multipack_dimension_volume_total,
             
             'get_price': self.get_price,
             'get_lang_field': self.get_lang_field,
@@ -45,6 +51,88 @@ class Parser(report_sxw.rml_parse):
             'total_USD': self.total_USD,
             'get_couple': self.get_couple,
         })
+
+    # -------------------------------------------------------------------------
+    # Multipack block:
+    # -------------------------------------------------------------------------
+    # Utility:
+    def multipack_extract_info(self, detail, data='list'):
+        ''' Extract data from product detail
+            data:  
+                'list' for list of elements
+                'volume' volume total
+                'total' volume total
+            
+        '''
+        res = []
+        volume = 0
+        product = detail.product_id
+        qty= detail.product_qty or 0
+        if product.has_multipackage:
+            for pack in product.multi_pack_ids:
+                for loop in range(0, pack.number or 1):
+                    res.append('%s x %s x %s' % (
+                        pack.height, pack.width, pack.length,
+                        ))
+                    volume_1 = pack.height * pack.width * pack.length / 1000000.0
+                    if data == 'total':    
+                        volume += qty * volume_1
+                    elif data == 'volume':
+                        volume += volume_1
+        else:
+            res.append('%s x %s x %s' % (
+                product.pack_l, product.pack_h, product.pack_p
+                ))
+            
+            volume_1 = \
+                product.pack_l * product.pack_h * product.pack_p / 1000000.0
+            if data == 'volume':
+                volume = volume_1
+            elif data == 'total':
+                volume = qty * volume_1 
+                            
+        if data == 'list':
+            return res                
+        # elif 'volume':
+        return volume
+        
+    # Get pack list:
+    def multipack_dimension_list(self, detail, as_list=True):
+        ''' Create list of elements
+            return as_list or as text formatted
+        '''
+        res = self.multipack_extract_info(detail, data='list')
+        if as_list:
+            return '\n'.join(res)
+        else:    
+            return res
+
+    # Get volume
+    def multipack_dimension_volume(self, detail, data='volume'):
+        ''' Calculate volume multipack or product pack data
+            data: 'volume' for one 'totat' for total
+        '''
+        volume = self.multipack_extract_info(detail, data=data)
+        return '%2.3f' % volume
+
+    # Get total volume
+    def multipack_dimension_volume_total(self, order):
+        ''' Get total volume        
+        '''
+        volume = 0.0
+        for detail in order.order_line:
+            volume += self.multipack_extract_info(detail, data='total')
+        return '%2.3f' % volume
+
+    def get_q_x_pack(self, product):
+        # Old method after where saved here
+        if product.has_multipackage:
+            return 1
+        elif len(product.packaging_ids) == 1:
+            return int(product.packaging_ids[0].qty or 1.0)
+        else:
+            return int(product.q_x_pack or 1)
+    # -------------------------------------------------------------------------
 
     def get_lang_field(self, pool, item_id, field, lang):
         ''' Get field from obj in lang passed
