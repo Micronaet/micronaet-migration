@@ -90,12 +90,11 @@ class Parser(report_sxw.rml_parse):
                 ))
             q_x_pack = self.get_q_x_pack(product)
             volume_1 = \
-                product.pack_l * product.pack_h * product.pack_p \
-                / 1000000.0 / q_x_pack
+                product.pack_l * product.pack_h * product.pack_p / 1000000.0
             if data == 'volume':
                 volume = volume_1
             elif data == 'total':
-                volume = qty * volume_1 
+                volume = qty * volume_1 / q_x_pack
                             
         if data == 'list':
             return res                
