@@ -35,6 +35,7 @@ class Parser(report_sxw.rml_parse):
         self.localcontext.update({
             'get_total_volume': self.get_total_volume,
             'total_volume': self.total_volume,
+            'get_supplier_code': self.get_supplier_code,
             
             'get_price': self.get_price,
             'get_lang_field': self.get_lang_field,
@@ -105,6 +106,14 @@ class Parser(report_sxw.rml_parse):
             pass # on error price is empty    
         return "0.0"    
         
+    def get_supplier_code(self, product):        
+        if product.default_supplier_code:
+            return '[%s]' % (product.default_supplier_code)
+        elif product.seller_ids and product.seller_ids[0].product_code:
+            return '[%s]' % (product.seller_ids[0].product_code)
+        else:
+            return '/'
+
     def get_subtotal(self, item, order):
         try:
             currency = order.partner_id.property_product_pricelist_purchase.currency_id.name
