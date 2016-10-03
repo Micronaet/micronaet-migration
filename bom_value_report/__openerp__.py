@@ -26,6 +26,7 @@
     'depends': [
         'base',
         'mrp',
+        'bom_total_component', # for bom component
         'report_aeroo',
         ],
     'init_xml': [], 

@@ -115,7 +115,6 @@ class MrpBomExtraFields(orm.Model):
             datetime.now(), "%Y"))-2) + "-01-01"
         for item in self.browse(cr, uid, ids, context=context):
             res[item.id] = {}
-            res[item.id]['tot_component'] = len(item.bom_line_ids)
             res[item.id]['old_cost'] = False
             res[item.id]['actual_price'] = 0.0
             res[item.id]['first_supplier'] = False
@@ -158,10 +157,6 @@ class MrpBomExtraFields(orm.Model):
             help='Is better do not use this component!'),
         'note': fields.text('Note'),
 
-        # Fields function: 
-        'tot_component': fields.function(
-            _get_fields_component, method=True, type='integer',
-            string="Tot comp", store= True, multi=True),
         'old_cost': fields.function(
             _get_fields_component, method=True, type='boolean',
             string="Old price", store=True, multi=True),

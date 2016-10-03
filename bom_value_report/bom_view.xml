@@ -180,20 +180,6 @@
               </xpath>
         </field>
     </record>
-       <!-- Search -->
-    <record id='view_mrp_bom_filter_fiam_fields' model='ir.ui.view'>
-        <field name='name'>Fiam search BOM</field>
-        <field name='model'>mrp.bom</field>
-        <field name="inherit_id" ref="mrp.view_mrp_bom_filter"/>
-        <field name='arch' type='xml'>
-            <field name="name" position="before">
-                <!--<field name="tot_component" />-->
-                <filter string="Ha componenti" icon="terp-stock_align_left_24" domain="[('tot_component','>',0)]" context="{}"/>                
-                <filter string="No componenti" icon="terp-stock_align_left_24" domain="[('tot_component','=',0)]" context="{}"/>                
-            </field>               
-        </field>
-    </record>
-    
 </data>
 </openerp>
 
