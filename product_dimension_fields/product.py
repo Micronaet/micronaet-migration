@@ -46,9 +46,10 @@ class ProductProductExtra(orm.Model):
         'width': fields.float('Width', help='The max width of the product'),
         'length': fields.float('Length', help='The max length of the product'),
 
-        'colour': fields.text('Colour'),
-        'fabric': fields.text('Fabric - Glass'),
-        'type_of_material': fields.text('Type of material or fabric'),
+        'colour': fields.text('Colour', translate=True),
+        'fabric': fields.text('Fabric - Glass', translate=True),
+        'type_of_material': fields.text('Type of material or fabric', 
+            translate=True),
 
         'description_web': fields.text('Web Description',translate=True),        
         }
