@@ -117,7 +117,8 @@ class ProductProductPurchase(orm.Model):
         'colls_number': fields.integer('Colli'),
         'colls': fields.char('Colli', size=30),
 
-        'colour_code': fields.char('Codice colore', size=64),
+        'colour_code': fields.char(
+            'Codice colore fornitore', size=64, translate=True),
 
         # TODO moved in Micronaet/micronaet-product product_fist_supplier
         'first_supplier_id': fields.many2one('res.partner', 'First supplier'),
