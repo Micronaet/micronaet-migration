@@ -160,7 +160,7 @@ class PricelistPartnerinfoExtra(orm.Model):
 
     _columns = {
         'price_usd': fields.float(
-            'Unit Price USD', required=True,
+            'Unit Price USD',
             digits_compute=dp.get_precision('Purchase Price'))
         }
 
