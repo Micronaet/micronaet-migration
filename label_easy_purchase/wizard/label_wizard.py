@@ -131,8 +131,8 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
 
             # Write record in database:
             name = clean_ascii(name)
-            try:
-                table.append((
+            try: # ascii problem!!
+                record = (
                     default_code, 
                     name, 
                     item.product_id.colour, 
@@ -141,9 +141,13 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
                     str(colls or 0), # Pack TODO not used, remove!!! (also in label)
                     str(q_x_pack), # Pieces
                     item.order_id.name,
-                    ))
+                    )
+                table.append(record)
             except:
-                import pdb; pdb.set_trace()        
+                raise osv.except_osv(
+                    _('Error'), 
+                    _('Error write record (CHAR problem?):\n%s') % (record, ),
+                    )
 
             # Windows path:
             path_label = "%s\\%s\\%s" % (
