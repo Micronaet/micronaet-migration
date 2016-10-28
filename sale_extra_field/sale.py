@@ -107,7 +107,7 @@ class ProductProduct_Photo(orm.Model):
             _get_quotation_image, type="binary", method=True),
 
         'telaio': fields.char('Telaio', size=64, translate=True),
-        'pipe_diameter': fields.char(
+        'pipe_diameter_sale': fields.char(
             'Diam. tubo', size=15),
         'weight_packaging': fields.char('Peso imballo', size=20),
         'item_per_box': fields.char('Pezzi per scatola', size=20),

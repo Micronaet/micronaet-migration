@@ -9,7 +9,7 @@
            <xpath expr="/form/sheet/notebook/page[@string='Sales']/group[@name='sale']" position="after">
                   <group colspan="4" col="8">
                       <field name="telaio" />              
-                      <field name="pipe_diameter" />              
+                      <field name="pipe_diameter_sale" />              
                       <field name="weight_packaging" />              
                       <newline />
                       <field name="item_per_box" />              
