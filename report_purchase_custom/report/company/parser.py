@@ -72,14 +72,15 @@ class Parser(report_sxw.rml_parse):
         res = []
         volume = 0
         product = detail.product_id
-        qty= detail.product_qty or 0
+        qty = detail.product_qty or 0
         if product.has_multipackage:
             for pack in product.multi_pack_ids:
                 for loop in range(0, pack.number or 1):
                     res.append('%s x %s x %s' % (
                         pack.height, pack.width, pack.length,
                         ))
-                    volume_1 = pack.height * pack.width * pack.length / 1000000.0
+                    volume_1 = pack.height * pack.width * pack.length / \
+                        1000000.0
                     if data == 'total':    
                         volume += qty * volume_1
                     elif data == 'volume':
