@@ -3,7 +3,7 @@
 <data>
     <!-- INHERIT VIEW: -->
     <!-- PRODUCT.SUPPLIERINFO -->
-    <record id='pdocut_supplierinfo_add_extra_base_fields' model='ir.ui.view'>
+    <!--<record id='pdocut_supplierinfo_add_extra_base_fields' model='ir.ui.view'>
         <field name='name'>USD quotation</field>
         <field name='model'>product.supplierinfo</field>
         <field name="inherit_id" ref="product.product_supplierinfo_form_view"/>
@@ -12,7 +12,7 @@
                <field name="price_usd" on_change="on_change_price_usd(price_usd)" />
             </field>
         </field>
-    </record>
+    </record>-->
     
     <!-- PRODUCT.PRODUCT (for image preview) -->    
 	<record id="base_product_image_preview_form" model="ir.ui.view">
