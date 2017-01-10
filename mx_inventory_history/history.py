@@ -65,31 +65,24 @@ class ProductProduct(orm.Model):
         ctx = context.copy()
         ctx['limit_up_date'] = '2016-12-31 23:59:59' # set limit
 
-        log_file = open('/home/administrator/photo/update_history.txt', 'w')
-        not_update = ''   
         i = 0
+        product_db = {}
         for product in self.browse(         
                 cr, uid, product_ids, context=ctx):
             i += 1
-            try:    
-                mx_net_qty = product.mx_net_qty
-                default_code = product.default_code or ''
-                if mx_net_qty:
-                    self.write(cr, uid, product.id, {
-                        'mx_history_net_qty': product.mx_net_qty,
-                        }, context=ctx)
-                    _logger.info('Update: %s > %s' % (
-                        i, default_code))
-                else:        
-                    _logger.info('Jumped: %s > %s' % (
-                        i, default_code))
+            mx_net_qty = product.mx_net_qty
+            if mx_net_qty:
+                product_db[product.id] = mx_net_qty
+                _logger.info('%s. Found product' % i)
+        
+        for item, qty in product_db.iteritems(): 
+            try:
+                self.write(cr, uid, item, {
+                    'mx_history_net_qty': qty,
+                    }, context=ctx)
             except:
-                _logger.error('Error: %s > %s' % (
-                    product.id,
-                    default_code,
-                    ))
-                log_file.write('not update: %s\n' % product.id)                        
-        log_file.close()
+                _logger.error('Error: %s' % item)
+                continue
         return True
         
     _columns = {
