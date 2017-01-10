@@ -64,13 +64,25 @@ class ProductProduct(orm.Model):
         product_ids = self.search(cr, uid, [], context=context)
         ctx = context.copy()
         ctx['limit_up_date'] = '2016-12-31 23:59:59' # set limit
-        
-        for product in self.browse(
+
+        log_file = open('/home/administrator/photo/update_history.txt', 'w')
+        not_update = ''   
+        i = 0
+        for product in self.browse(         
                 cr, uid, product_ids, context=ctx):
-            self.write(cr, uid, product.id, {
-                'mx_history_net_qty': product.mx_net_qty,
-                }, context=ctx)
-        
+            i += 1
+            try:    
+                self.write(cr, uid, product.id, {
+                    'mx_history_net_qty': product.mx_net_qty,
+                    }, context=ctx)
+                _logger.info('Update counter: %s' % i)
+            except:
+                _logger.error('Cannot update: %s > %s' % (
+                    product.id,
+                    product.default_code,
+                    ))
+                log_file.write('not update: %s\n' % product.id)                        
+        log_file.close()
         return True
         
     _columns = {
