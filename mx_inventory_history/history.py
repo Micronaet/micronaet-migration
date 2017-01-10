@@ -95,8 +95,4 @@ class ProductProduct(orm.Model):
         'mx_history_net_qty': fields.float('History net', digits=(16, 2)),
         }
     
-    _defaults = {
-        'mx_history_net_qty': lambda *x: 0.0,
-        }    
-    
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
