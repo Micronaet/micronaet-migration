@@ -73,19 +73,20 @@ class ProductProduct(orm.Model):
             i += 1
             try:    
                 mx_net_qty = product.mx_net_qty
+                default_code = product.default_code or ''
                 if mx_net_qty:
                     self.write(cr, uid, product.id, {
                         'mx_history_net_qty': product.mx_net_qty,
                         }, context=ctx)
                     _logger.info('Update: %s > %s' % (
-                        i, product.default_code))
+                        i, default_code))
                 else:        
                     _logger.info('Jumped: %s > %s' % (
-                        i, product.default_code))
+                        i, default_code))
             except:
                 _logger.error('Error: %s > %s' % (
                     product.id,
-                    product.default_code,
+                    default_code,
                     ))
                 log_file.write('not update: %s\n' % product.id)                        
         log_file.close()
