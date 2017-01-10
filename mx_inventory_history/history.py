@@ -38,6 +38,18 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 
 _logger = logging.getLogger(__name__)
 
+class ResCompany(orm.Model):
+    """ Model name: ResCompany
+    """
+    _inherit = 'res.company'
+
+    def history_previous_year_net(self, cr, uid, ids, context=None):
+        ''' Call procedure in product obj
+        ''' 
+        return self.pool.get('product.product').history_previous_year_net(
+            cr, uid, False, context=context)
+
+
 class ProductProduct(orm.Model):
     """ Model name: ProductProduct
     """    
