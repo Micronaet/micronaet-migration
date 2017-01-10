@@ -72,12 +72,18 @@ class ProductProduct(orm.Model):
                 cr, uid, product_ids, context=ctx):
             i += 1
             try:    
-                self.write(cr, uid, product.id, {
-                    'mx_history_net_qty': product.mx_net_qty,
-                    }, context=ctx)
-                _logger.info('Update counter: %s' % i)
+                mx_net_qty = product.mx_net_qty
+                if mx_net_qty:
+                    self.write(cr, uid, product.id, {
+                        'mx_history_net_qty': product.mx_net_qty,
+                        }, context=ctx)
+                    _logger.info('Update: %s > %s' % (
+                        i, product.default_code))
+                else:        
+                    _logger.info('Jumped: %s > %s' % (
+                        i, product.default_code))
             except:
-                _logger.error('Cannot update: %s > %s' % (
+                _logger.error('Error: %s > %s' % (
                     product.id,
                     product.default_code,
                     ))
@@ -88,5 +94,9 @@ class ProductProduct(orm.Model):
     _columns = {
         'mx_history_net_qty': fields.float('History net', digits=(16, 2)),
         }
+    
+    _defaults = {
+        'mx_history_net_qty': lambda *x: 0.0,
+        }    
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
