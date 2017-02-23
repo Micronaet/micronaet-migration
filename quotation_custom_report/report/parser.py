@@ -167,7 +167,8 @@ class Parser(report_sxw.rml_parse):
            "ALLUMINIO ANODIZZATO": "ANODIZED ALUMINIUM",
            "CROMATO FERRO": "IRON CHROMED",  
            "TINTO FERRO": "IRON PAINTED",
-           "FERRO": "IRON",           
+           "FERRO": "IRON",
+           "ROBINIA": "ROBINIA",
            }
         if lingua == 'it_IT':
            return name
