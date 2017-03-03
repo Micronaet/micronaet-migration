@@ -34,6 +34,10 @@ class Parser(report_sxw.rml_parse):
         super(Parser, self).__init__(cr, uid, name, context)
         self.counters = {}
         self.localcontext.update({
+            # Company2: 
+            'get_item_photo_context': self.get_item_photo_context,
+            
+            # Company 1: 
             'clean_description': self.clean_description,
             'get_telaio': self.get_telaio,
             'get_fabric': self.get_fabric,
@@ -47,6 +51,18 @@ class Parser(report_sxw.rml_parse):
             'temp_get_order': self.temp_get_order,
         })
 
+    def get_item_photo_context(self, o):
+        ''' Update context for load particular photo
+        '''
+        order_pool = self.pool.get('sale.order')
+        cr = self.cr
+        uid  = self.uid
+        context = {
+            'album_code': 'QUOTATION',
+            }
+        
+        return order_pool.browse(cr, uid, o.id, context=context).order_line
+                
     def get_total_volume(self, order_line):
         ''' Function that compute total volume for 1 or more items
         '''
