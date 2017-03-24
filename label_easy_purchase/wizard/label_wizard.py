@@ -169,7 +169,11 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
                         path_label.replace("\\\\", "\\")))
 
                 # TODO check the total of label to print
-                tot_label = 1 if wiz_proxy.test else int(item.product_qty) 
+                if product.q_x_pack > 1:
+                    product_qty = int(item.product_qty / item.q_x_pack)
+                else:
+                    product_qty = int(item.product_qty)
+                tot_label = 1 if wiz_proxy.test else product_qty
                 label_file.write("formatcount=%s\r\n" % tot_label)
 
                 if i == 1 and part == 1: # first loop first part number
