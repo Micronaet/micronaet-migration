@@ -169,7 +169,7 @@ class EasyLabelPurchaseWizard(orm.TransientModel):
                         path_label.replace("\\\\", "\\")))
 
                 # TODO check the total of label to print
-                if product.q_x_pack > 1:
+                if item.q_x_pack > 1:
                     product_qty = int(item.product_qty / item.q_x_pack)
                 else:
                     product_qty = int(item.product_qty)
