@@ -216,15 +216,17 @@ class StatisticInvoice(orm.Model):
             
             order_date_deadline = order.date_deadline or today
             for line in order.order_line:
+                default_code = line.product_id.default_code or ''
+                
                 # Deadline in line data:
                 date = line.date_deadline or order_date_deadline
                 month = int(date[5:7])
                 year = int(date[:4])    
                  
                 if parent_max: # TODO check exist!!!
-                    code = line.product_id.default_code[:parent_max]
+                    code = default_code[:parent_max]
                 else:    
-                    code = line.product_id.default_code
+                    code = default_code
                      
                 remain = line.product_uom_qty - line.delivered_qty
                 if remain <= 0 or not line.product_uom_qty: # all delivered
