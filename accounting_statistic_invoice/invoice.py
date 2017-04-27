@@ -24,7 +24,7 @@ import os
 import sys
 import logging
 import openerp
-import xlrd
+import xlsxwriter
 import csv
 import shutil
 import openerp.netsvc as netsvc
@@ -148,14 +148,14 @@ class StatisticInvoice(orm.Model):
         # ---------------------------------------------------------------------
         # Log file:
         # ---------------------------------------------------------------------
-        logfile = '/home/administrator/photo/xls/statistic/%s_invoce.log'
+        logfile = '/home/administrator/photo/xls/statistic/%s_invoce.xlsx'
         company_pool = self.pool.get('res.company')
         company_ids = company_pool.search(cr, uid, [], context=context)
         company_proxy = company_pool.browse(
             cr, uid, company_ids, context=context)[0]
         logfile = logfile % company_proxy.partner_id.name
         try:
-            WB = xlrd.open_workbook(logfile)
+            WB = xlsxwriter.Workbook(logfile)
             WS =  WB.add_worksheet('Statistics')
             log = True
             _logger.info('Log file: %s' % logfile)
