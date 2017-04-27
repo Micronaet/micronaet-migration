@@ -813,13 +813,16 @@ class StatisticInvoiceProduct(orm.Model):
         self.unlink(cr, uid, item_ids, context=context)
 
         # Family categorization (create dict for association):
-        import pdb; pdb.set_trace()
         template_pool = self.pool.get('product.template')
         family_ids = template_pool.search(cr, uid, [
             ('is_family', '=', True)], context=context)
         families = {}
         for family in template_pool.browse(
                 cr, uid, family_ids, context=context):
+            family_list = family.family_list
+            if not family_list:
+                _logger.info('Family %s without family list!' % family.name)
+                continue    
             families.update(
                 dict.fromkeys(
                     family.family_list.split('|'), (
