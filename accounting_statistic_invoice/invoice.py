@@ -872,6 +872,8 @@ class StatisticInvoiceProduct(orm.Model):
                     continue
 
                 counter += 1
+                if counter == 2784:
+                    import pdb; pdb.set_trace()
                 # Read fields from csv file:
                 name = csv_base.decode_string(line[0]).upper() # Family
                 if name in family_blacklist:
