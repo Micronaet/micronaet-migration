@@ -509,7 +509,7 @@ class StatisticInvoice(orm.Model):
             counter += 1            
             try:
                 mexal_id = csv_base.decode_string(line[0]) # ID
-                month = int(csv_base.decode_string(line[1])) or 0 # jump is ''!
+                month = int(csv_base.decode_string(line[1]) or '0') # jump is ''!
                 month_season = transcode_month[month]
                 year = csv_base.decode_string(line[2]) or ''
                 total_invoice = csv_base.decode_float(
