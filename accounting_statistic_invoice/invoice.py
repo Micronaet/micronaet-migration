@@ -144,6 +144,24 @@ class StatisticInvoice(orm.Model):
         ''' Append OC non delivered from ODOO as statistics
             Append also document delivered from ODOO (from 01/01/2016)
         '''
+        logfile = '/home/administrator/photo/xls/statistic/%s_invoce.log'
+        company_pool = self.pool.get('res.company')
+        company_ids = company_pool.search(cr, uid, [], context=context)
+        company_proxy = company_pool.browse(
+            cr, uid, company_ids, context=context)[0]
+        logfile = logfile % company_proxy.partner_id.name
+        try:
+            WB = xlrd.open_workbook(logfile)
+            WS =  WB.add_worksheet('Statistics')
+            log = True
+        except:
+            log = False
+            error = 'Cannot open log file %s [%s]' % (
+                logfile,
+                sys.exc_info(), 
+                )
+        xls_i = 1
+         
         # ---------------------------------------------------------------------
         # Utility:
         # ---------------------------------------------------------------------
@@ -210,8 +228,12 @@ class StatisticInvoice(orm.Model):
             #total = 0.0
             sql_customer_code = order.partner_id.sql_customer_code
             if not sql_customer_code:
-                _logger.error('Partner code not found: %s' % (
-                    order.partner_id.name, ))
+                error = 'Partner code not found: %s' % (
+                    order.partner_id.name, )
+                _logger.error(error)
+                if log:
+                    WS.write(0, xls_i, error)
+                    xls_i += 1    
                 continue
             
             order_date_deadline = order.date_deadline or today
