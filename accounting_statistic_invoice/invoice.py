@@ -644,7 +644,7 @@ class StatisticInvoice(orm.Model):
                 try: # manage error for log (else dont' write stat data)
                     log_f.write(log_mask % (
                         counter,
-                        clean_ascii(partner_name),
+                        self.clean_ascii(partner_name),
                         mexal_id,
                         data['tag_id'],
                         month_season,
