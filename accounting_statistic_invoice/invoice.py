@@ -506,7 +506,9 @@ class StatisticInvoice(orm.Model):
                 log_f.write('%s|||||||||||||column different!\n' % counter)
                 continue
 
-            counter += 1
+            if counter in (4561, 4566):
+                import pdb; pdb.set_trace()
+            counter += 1            
             try:
                 mexal_id = csv_base.decode_string(line[0]) # ID
                 month = int(csv_base.decode_string(line[1])) or 0 # jump is ''!
