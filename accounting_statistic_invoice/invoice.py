@@ -240,7 +240,7 @@ class StatisticInvoice(orm.Model):
                     )
                 _logger.error(error)
                 if log:
-                    WS.write(0, xls_i, error)
+                    WS.write(xls_i, 0, error)
                     xls_i += 1    
                 continue
             
