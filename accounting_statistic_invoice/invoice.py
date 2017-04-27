@@ -872,8 +872,7 @@ class StatisticInvoiceProduct(orm.Model):
                     continue
 
                 counter += 1
-                if counter == 2784:
-                    import pdb; pdb.set_trace()
+
                 # Read fields from csv file:
                 name = csv_base.decode_string(line[0]).upper() # Family
                 if name in family_blacklist:
@@ -1020,8 +1019,10 @@ class StatisticInvoiceProduct(orm.Model):
 
         'type_document': fields.selection([
             ('ft', 'Fattura'),
-            ('oc', 'Ordine'),
-            ('bc', 'DDT'),
+            ('oc', 'Ordine Mexal'), # Needed?
+            ('oo', 'Ordine ODOO'),
+            ('bc', 'DDT Mexal'),
+            ('bo', 'DDT ODOO'),
             ], 'Doc. type', select=True), # togliere?
 
         'month': fields.selection(month_order_season, 'Month', select=True),
