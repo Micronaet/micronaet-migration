@@ -821,11 +821,11 @@ class StatisticInvoiceProduct(orm.Model):
                 cr, uid, family_ids, context=context):
             family_list = family.family_list
             if not family_list:
-                _logger.info('Family %s without family list!' % family.name)
+                _logger.error('Family %s without family list!' % family.name)
+                import pdb; pdb.set_trace()
                 continue    
             families.update(
-                dict.fromkeys(
-                    family.family_list.split('|'), (
+                dict.fromkeys(family_list.split('|'), (
                         family.id, family.categ_id.id)))
                         
         # Load line if necessary (family = code, not parent part!)
@@ -904,7 +904,6 @@ class StatisticInvoiceProduct(orm.Model):
                     month_season = transcode_month[month] # recalculate
                 
                 family_id, categ_id = families.get(name, (False, False))
-
                 data = {
                     'name': name,
                     'month': month_season,
@@ -960,6 +959,7 @@ class StatisticInvoiceProduct(orm.Model):
 
                 self.create(cr, uid, data, context=context)
             except:
+                import pdb; pdb.set_trace()
                 _logger.error('%s) Error import record [%s]' % (
                    counter, sys.exc_info()))
 
