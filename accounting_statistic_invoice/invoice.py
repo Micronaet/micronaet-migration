@@ -498,8 +498,6 @@ class StatisticInvoice(orm.Model):
                 counter += 1 # jump header line
                 continue
                     
-            if counter == 1556:
-                import pdb; pdb.set_trace()
             if not(len(line) and (tot_col == len(line))):
                 _logger.error(
                    '%s) Empty or colums different [%s >> %s]' % (
@@ -648,14 +646,14 @@ class StatisticInvoice(orm.Model):
                         counter,
                         self.clean_ascii(partner_name),
                         mexal_id,
-                        data['tag_id'],
+                        self.clean_ascii(data.get('tag_id', '')),
                         month_season,
                         year,
                         data['season'],
                         type_document,
                         log_float(total_invoice),
-                        partner_extra_one[0], # zone
-                        partner_extra_one[1], # agent
+                        self.clean_ascii(partner_extra_one[0]), # zone
+                        self.clean_ascii(partner_extra_one[1]), # agent
                         partner_extra_one[2], # type
                         partner_extra_one[3], # cat stat
                         note,
