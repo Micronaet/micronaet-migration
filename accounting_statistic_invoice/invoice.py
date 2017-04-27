@@ -159,12 +159,13 @@ class StatisticInvoice(orm.Model):
             WS =  WB.add_worksheet('Statistics')
             log = True
             _logger.info('Log file: %s' % logfile)
+            WS.write(0, 0, 'Error')
         except:
             log = False
             _logger.error('Cannot open log file %s [%s]' % (
                 logfile,
                 sys.exc_info(), 
-                ))
+                ))                
         xls_i = 1
          
         # ---------------------------------------------------------------------
