@@ -497,9 +497,9 @@ class StatisticInvoice(orm.Model):
             if counter < 0:
                 counter += 1 # jump header line
                 continue
+                    
             if counter == 1557:
                 import pdb; pdb.set_trace()
-                    
             if not(len(line) and (tot_col == len(line))):
                 _logger.error(
                    '%s) Empty or colums different [%s >> %s]' % (
