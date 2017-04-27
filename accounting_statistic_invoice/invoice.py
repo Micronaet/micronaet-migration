@@ -659,11 +659,15 @@ class StatisticInvoice(orm.Model):
                         note,
                         ))
                 except:
+                    import pdb; pdb.set_trace()
                     _logger.error('%s Error write log file ID %s: [%s]' % (
                         counter, mexal_id, sys.exc_info()))                        
+                    continue    
             except:
+                import pdb; pdb.set_trace()
                 _logger.error('%s Error import invoice ID %s: [%s]' % (
                     counter, mexal_id, sys.exc_info()))
+                continue    
 
         # Set tot 20 partner:
         # TODO set only current year in test!
