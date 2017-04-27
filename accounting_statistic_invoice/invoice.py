@@ -24,6 +24,7 @@ import os
 import sys
 import logging
 import openerp
+import xlrd
 import csv
 import shutil
 import openerp.netsvc as netsvc
@@ -147,7 +148,6 @@ class StatisticInvoice(orm.Model):
         # ---------------------------------------------------------------------
         # Log file:
         # ---------------------------------------------------------------------
-        import pdb; pdb.set_trace()
         logfile = '/home/administrator/photo/xls/statistic/%s_invoce.log'
         company_pool = self.pool.get('res.company')
         company_ids = company_pool.search(cr, uid, [], context=context)
