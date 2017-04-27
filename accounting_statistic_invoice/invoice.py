@@ -822,7 +822,6 @@ class StatisticInvoiceProduct(orm.Model):
             family_list = family.family_list
             if not family_list:
                 _logger.error('Family %s without family list!' % family.name)
-                import pdb; pdb.set_trace()
                 continue    
             families.update(
                 dict.fromkeys(family_list.split('|'), (
@@ -960,7 +959,6 @@ class StatisticInvoiceProduct(orm.Model):
 
                 self.create(cr, uid, data, context=context)
             except:
-                import pdb; pdb.set_trace()
                 _logger.error('%s) Error import record [%s]' % (
                    counter, sys.exc_info()))
 
