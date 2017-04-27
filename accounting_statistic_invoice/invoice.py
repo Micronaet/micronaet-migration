@@ -139,6 +139,17 @@ class StatisticInvoice(orm.Model):
     # ----------------------------------
     # Utility:
     # ----------------------------------
+    def clean_ascii(self, data):
+        ''' Remove not ascii char
+        '''
+        if not data:
+            return ''
+        res = ''
+        for c in data:
+            if ord(c) < 127:
+                res += c
+        return res
+        
     def append_csv_statistic_delivery_data(self, cr, uid, file_partner, 
             file_product, parent_max=False, delimiter=';', verbose=20,
             context=None):
@@ -630,22 +641,26 @@ class StatisticInvoice(orm.Model):
                 # Log:
                 partner_extra_one = partner_extra.get(
                     partner_id, ['NO', 'NO', 'NO', 'NO'])
-                log_f.write(log_mask % (
-                    counter,
-                    partner_name,
-                    mexal_id,
-                    data['tag_id'],
-                    month_season,
-                    year,
-                    data['season'],
-                    type_document,
-                    log_float(total_invoice),
-                    partner_extra_one[0], # zone
-                    partner_extra_one[1], # agent
-                    partner_extra_one[2], # type
-                    partner_extra_one[3], # cat stat
-                    note,
-                    ))
+                try: # manage error for log (else dont' write stat data)
+                    log_f.write(log_mask % (
+                        counter,
+                        clean_ascii(partner_name),
+                        mexal_id,
+                        data['tag_id'],
+                        month_season,
+                        year,
+                        data['season'],
+                        type_document,
+                        log_float(total_invoice),
+                        partner_extra_one[0], # zone
+                        partner_extra_one[1], # agent
+                        partner_extra_one[2], # type
+                        partner_extra_one[3], # cat stat
+                        note,
+                        ))
+                except:
+                    _logger.error('%s Error write log file ID %s: [%s]' % (
+                        counter, mexal_id, sys.exc_info()))                        
             except:
                 _logger.error('%s Error import invoice ID %s: [%s]' % (
                     counter, mexal_id, sys.exc_info()))
