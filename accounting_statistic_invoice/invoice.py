@@ -229,8 +229,10 @@ class StatisticInvoice(orm.Model):
             #total = 0.0
             sql_customer_code = order.partner_id.sql_customer_code
             if not sql_customer_code:
-                error = 'Partner code not found: %s' % (
-                    order.partner_id.name, )
+                error = 'Order: %s Partner code not found: %s' % (
+                    order.name,
+                    order.partner_id.name, 
+                    )
                 _logger.error(error)
                 if log:
                     WS.write(0, xls_i, error)
@@ -377,7 +379,9 @@ class StatisticInvoice(orm.Model):
         
         # Close files:         
         f_partner.close()
-        f_product.close()        
+        f_product.close()      
+        if log:
+            WB.close()  
         return True
 
     # ----------------------------------
