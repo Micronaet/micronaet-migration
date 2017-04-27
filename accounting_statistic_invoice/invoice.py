@@ -144,6 +144,10 @@ class StatisticInvoice(orm.Model):
         ''' Append OC non delivered from ODOO as statistics
             Append also document delivered from ODOO (from 01/01/2016)
         '''
+        # ---------------------------------------------------------------------
+        # Log file:
+        # ---------------------------------------------------------------------
+        import pdb; pdb.set_trace()
         logfile = '/home/administrator/photo/xls/statistic/%s_invoce.log'
         company_pool = self.pool.get('res.company')
         company_ids = company_pool.search(cr, uid, [], context=context)
