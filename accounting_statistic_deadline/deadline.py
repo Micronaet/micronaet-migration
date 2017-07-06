@@ -129,10 +129,10 @@ class statistic_deadline(orm.Model):
                         invoice_series = '1'
                         
                         # Calculated fields:
-                        invoice_ref = 'FT/%s/%s/%s' % (
+                        invoice_ref = 'FT/%s/%s/%06d' % (
                             invoice_series,
                             invoice_date[:4],
-                            invoice_number, # TODO int with 0
+                            int(invoice_number), # TODO int with 0
                             )
                             
                         # TODO search invoice_id
