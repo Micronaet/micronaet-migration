@@ -134,16 +134,17 @@ class statistic_deadline(orm.Model):
                             invoice_date[:4],
                             invoice_number, # TODO int with 0
                             )
+                            
                         # TODO search invoice_id
                         invoice_id = False                                
                                                
-                        if mexal_id[:2] == "20": # Supplier TODO parametrize
-                           c_o_s = "s"
-                           commento = "Supplier"
+                        if mexal_id[:2] == '20': # Supplier TODO parametrize
+                           c_o_s = 's'
+                           commento = 'Supplier'
                            total = -total
                         else:   
-                           c_o_s = "c"
-                           commento = "Customer"
+                           c_o_s = 'c'
+                           commento = 'Customer'
                            
                         # Calculated field:               
                         if total > 0:
@@ -175,7 +176,7 @@ class statistic_deadline(orm.Model):
                             self, cr, uid, partner_ids[0], context=context) 
                         
                         # Import: statistic.order
-                        name = "%s [%s]: %s (%s EUR)" % (
+                        name = '%s [%s]: %s (%s EUR)' % (
                             partner_proxy.name, mexal_id, deadline, total)
                         data = {
                             'name': name,
@@ -195,7 +196,7 @@ class statistic_deadline(orm.Model):
                             #'deadline_real': deadline_real,
                             #'actualized': actualized,
                             }
-                        if c_o_s == "c":
+                        if c_o_s == 'c':
                             data['scoperto_c'] = scoperto_c
                            
                         try:
@@ -253,14 +254,14 @@ class statistic_deadline(orm.Model):
         'deadline': fields.date('Dead line'),
 
         'fido_date': fields.related(
-            'partner_id', 'fido_date', type="date", 
-            string="Credit limit date"),
+            'partner_id', 'fido_date', type='date', 
+            string='Credit limit date'),
         'fido_ko': fields.related(
-            'partner_id', 'fido_ko', type="boolean", 
-            string="Credit limit granted"),
+            'partner_id', 'fido_ko', type='boolean', 
+            string='Credit limit granted'),
         'fido_total': fields.related(
-            'partner_id', 'fido_total',  type="float", digits=(16, 2),
-            string="Credit limit amount"),
+            'partner_id', 'fido_total',  type='float', digits=(16, 2),
+            string='Credit limit amount'),
 
         'total': fields.float('Total', digits=(16, 2)),
         'in': fields.float('Income', digits=(16, 2)),
