@@ -96,6 +96,7 @@ class statistic_deadline(orm.Model):
         # Load from CSV file:
         tot_col = 0
         account_balance = {}
+        _logger.info('Start import payment')
         for line in lines:
             try:
                 if tot_col == 0: # the first time (for tot col)
@@ -115,6 +116,10 @@ class statistic_deadline(orm.Model):
                                 ))
                         continue                        
                     try:
+                        if counter % 50 == 0:
+                            _logger.info('%s imported payment' % counter)
+                         
+                        # Read parameters:    
                         mexal_id = csv_pool.decode_string(line[0])
                         deadline = csv_pool.decode_date(
                             line[1], with_slash=False) # YYYYMMDD
