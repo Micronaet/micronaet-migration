@@ -97,6 +97,8 @@ class statistic_deadline(orm.Model):
         tot_col = 0
         account_balance = {}
         _logger.info('Start import payment')
+        jumped_line = []
+        jumped = 0
         for line in lines:
             try:
                 if tot_col == 0: # the first time (for tot col)
@@ -114,11 +116,12 @@ class statistic_deadline(orm.Model):
                                 tot_col, 
                                 len(line),
                                 ))
-                        continue                        
+                        jumped += 1        
+                        continue                   
                     try:
                         if counter % 50 == 0:
                             _logger.info('%s imported payment' % counter)
-                         
+
                         # Read parameters:    
                         mexal_id = csv_pool.decode_string(line[0])
                         deadline = csv_pool.decode_date(
@@ -173,6 +176,9 @@ class statistic_deadline(orm.Model):
                         if not partner_ids:    
                             _logger.error(
                                 'Partner not found: %s' % mexal_id)
+                            jumped += 1        
+                            continue
+                                
                         partner_proxy = partner_pool.browse(
                             cr, uid, partner_ids, context=context)[0]
                         
@@ -215,6 +221,7 @@ class statistic_deadline(orm.Model):
                             counter, sys.exc_info()))
             except:
                 _logger.error('Error import deadline')
+                jumped += 1        
                 continue
                 
         _logger.info('Update partner information')
@@ -240,6 +247,7 @@ class statistic_deadline(orm.Model):
             else:
                _logger.error('Not partner found: %s' % mexal_id)
 
+        _logger.error('Jumped: %s partner' % jumped)
         _logger.info('Tot. deadline: %s' % counter)
         return True
          

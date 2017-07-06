@@ -93,7 +93,7 @@ class CsvBase(orm.Model):
         '''
         valore = valore.strip() 
         if valore: 
-           return float(valore.replace(",", "."))
+           return float(valore.replace(',', '.'))
         else:
            return 0.0   # for empty values
 
