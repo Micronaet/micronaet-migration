@@ -81,14 +81,17 @@
             <!--<tree string="Pagamenti scaduti (verde=saldo cliente + saldo fornitore>0)" colors="green:saldo_c+saldo_s&gt;=0;">-->
             <tree string="Pagamenti scaduti">
                 <field name="partner_id"/>
+                <field name="fido_date" />
+                <field name="fido_total" />
+                <field name="invoice_ref" />
                 <field name="deadline"/>
+
                 <field name="in" sum="Entrate" string="Entrata"  />
                 <field name="saldo_c" string="Tot. Entrate" invisible="1"/>
                 <field name="out" sum="Uscite" string="Uscita"  />
                 <field name="saldo_s" string="Tot. Uscite" invisible="1"/>
                 
                 <!--<field name="scoperto_c" />-->
-                
                 <field name="type"/>
                 <field name="property_account_position"/>
             </tree>

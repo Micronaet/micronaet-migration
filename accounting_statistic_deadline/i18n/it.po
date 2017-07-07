@@ -1,0 +1,372 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* accounting_statistic_deadline
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-07 12:37+0000\n"
+"PO-Revision-Date: 2017-07-07 14:42+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_search
+msgid "Abroad"
+msgstr "Estero"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_search
+msgid "Abroad payment"
+msgstr "Pagamenti estero"
+
+#. module: accounting_statistic_deadline
+#: selection:statistic.deadline,type:0
+msgid "Addebito"
+msgstr "Addebito"
+
+#. module: accounting_statistic_deadline
+#: field:statistic.deadline,saldo_c:0 field:statistic.deadline,saldo_s:0
+msgid "Balance (customer)"
+msgstr "Bilancio (cliente)"
+
+#. module: accounting_statistic_deadline
+#: selection:statistic.deadline,type:0
+msgid "Bank transfer"
+msgstr "Bonifico"
+
+#. module: accounting_statistic_deadline
+#: selection:statistic.deadline,type:0
+msgid "Cach"
+msgstr "Cassa"
+
+#. module: accounting_statistic_deadline
+#: field:statistic.deadline,create_uid:0
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: accounting_statistic_deadline
+#: field:statistic.deadline,create_date:0
+msgid "Created on"
+msgstr "Creata il"
+
+#. module: accounting_statistic_deadline
+#: field:statistic.deadline,fido_date:0
+msgid "Credit limit date"
+msgstr "Limite data credito"
+
+#. module: accounting_statistic_deadline
+#: field:statistic.deadline,fido_ko:0
+msgid "Credit limit granted"
+msgstr "Limite credito garantito"
+
+#. module: accounting_statistic_deadline
+#: field:statistic.deadline,c_o_s:0
+msgid "Cust. or Supp."
+msgstr "Cliente o Fornitore"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_search
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: accounting_statistic_deadline
+#: field:statistic.deadline,ddt_e_oc_c:0
+msgid "DDT + OC opened (customer)"
+msgstr "DDT + OC aperti (cliente)"
+
+#. module: accounting_statistic_deadline
+#: field:statistic.deadline,ddt_e_oc_s:0
+msgid "DDT + OC opened (supplier)"
+msgstr "DDT + OC aperti (fornitore)"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_form
+msgid "Dati scheda cliente"
+msgstr "Dati scheda cliente"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_form
+msgid "Dati scrittura contabile"
+msgstr "Dati scrittura contabile"
+
+#. module: accounting_statistic_deadline
+#: field:statistic.deadline,deadline:0
+msgid "Dead line"
+msgstr "Scadenza"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_search
+#: field:statistic.deadline,name:0
+msgid "Deadline"
+msgstr "Scadenza"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_search
+msgid "Deadlined"
+msgstr "Scaduto"
+
+#. module: accounting_statistic_deadline
+#: model:ir.actions.act_window,name:accounting_statistic_deadline.action_statistic_deadline_passed_tree_dashboard
+msgid "Deadlined payment"
+msgstr "Pagamenti scaduti"
+
+#. module: accounting_statistic_deadline
+#: model:ir.actions.act_window,name:accounting_statistic_deadline.action_statistic_deadline
+msgid "Deadlined payment (green=customer balance + supplier balance > 0 )"
+msgstr "Pagamenti scaduti"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_tree
+msgid "Entrata"
+msgstr "Entrata"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_tree
+msgid "Entrate"
+msgstr "Entrate"
+
+#. module: accounting_statistic_deadline
+#: model:ir.actions.act_window,name:accounting_statistic_deadline.action_statistic_deadline_dashboard
+msgid "Entrate prossima settimana"
+msgstr "Entrate prossima settimana"
+
+#. module: accounting_statistic_deadline
+#: field:statistic.deadline,out:0
+msgid "Expense"
+msgstr "Spese"
+
+#. module: accounting_statistic_deadline
+#: field:statistic.deadline,fido_total:0
+msgid "FIDO Total"
+msgstr "Totale FIDO"
+
+#. module: accounting_statistic_deadline
+#: field:statistic.deadline,property_account_position:0
+#: field:statistic.deadline,type_cei:0
+msgid "Fiscal position"
+msgstr "Posizione fiscale"
+
+#. module: accounting_statistic_deadline
+#: field:statistic.deadline,scoperto_c:0
+msgid "Found out customer"
+msgstr "Found out customer"
+
+#. module: accounting_statistic_deadline
+#: field:statistic.deadline,scoperto_s:0
+msgid "Found out supplier"
+msgstr "Found out supplier"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_search
+msgid "Group By..."
+msgstr "Raggruppa per..."
+
+#. module: accounting_statistic_deadline
+#: field:statistic.deadline,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_form
+msgid "Importo"
+msgstr "Importo"
+
+#. module: accounting_statistic_deadline
+#: field:statistic.deadline,in:0
+msgid "Income"
+msgstr "Dare"
+
+#. module: accounting_statistic_deadline
+#: model:ir.model,name:accounting_statistic_deadline.model_account_invoice
+#: field:statistic.deadline,invoice_id:0
+msgid "Invoice"
+msgstr "Fattura"
+
+#. module: accounting_statistic_deadline
+#: field:statistic.deadline,invoice_date:0
+msgid "Invoice date"
+msgstr "Data fattura"
+
+#. module: accounting_statistic_deadline
+#: field:statistic.deadline,invoice_ref:0
+msgid "Invoice ref."
+msgstr "Rif. fattura"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_search
+msgid "Italian payment"
+msgstr "Pagamenti italia"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_search
+msgid "Italy"
+msgstr "Italia"
+
+#. module: accounting_statistic_deadline
+#: field:statistic.deadline,write_uid:0
+msgid "Last Updated by"
+msgstr "Ultimo aggiornamento di"
+
+#. module: accounting_statistic_deadline
+#: field:statistic.deadline,write_date:0
+msgid "Last Updated on"
+msgstr "Ultimo aggiornamento il"
+
+#. module: accounting_statistic_deadline
+#: selection:statistic.deadline,type:0
+msgid "MAV"
+msgstr "MAV"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_search
+msgid "Not deadlined"
+msgstr "Non scaduti"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_search
+msgid "Only customer"
+msgstr "Solo clienti"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_search
+msgid "Only supplier"
+msgstr "Solo fornitori"
+
+#. module: accounting_statistic_deadline
+#: field:account.invoice,open_payment_ids:0
+#: field:res.partner,open_payment_ids:0
+msgid "Open payment"
+msgstr "Pagamenti aperti"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_calendar
+msgid "Order"
+msgstr "Ordine"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_graph
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_in_graph
+msgid "Order by date"
+msgstr "Ordini per data"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_tree
+msgid "Pagamenti scaduti"
+msgstr "Pagamenti scaduti"
+
+#. module: accounting_statistic_deadline
+#: model:ir.model,name:accounting_statistic_deadline.model_res_partner
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_search
+#: field:statistic.deadline,partner_id:0
+msgid "Partner"
+msgstr "Partner"
+
+#. module: accounting_statistic_deadline
+#: model:ir.ui.menu,name:accounting_statistic_deadline.menu_accounting_deadline_deadlined
+msgid "Payment deadlined"
+msgstr "Pagamenti scaduti"
+
+#. module: accounting_statistic_deadline
+#: model:ir.ui.menu,name:accounting_statistic_deadline.menu_accounting_deadline_root
+msgid "Payment statistic"
+msgstr "Statistiche pagamento"
+
+#. module: accounting_statistic_deadline
+#: selection:statistic.deadline,type:0
+msgid "RIBA"
+msgstr "RIBA"
+
+#. module: accounting_statistic_deadline
+#: selection:statistic.deadline,type:0
+msgid "Rimessa diretta"
+msgstr "Rimessa diretta"
+
+#. module: accounting_statistic_deadline
+#: selection:statistic.deadline,type:0
+msgid "Rimessa diretta X"
+msgstr "Rimessa diretta X"
+
+#. module: accounting_statistic_deadline
+#: selection:statistic.deadline,type:0
+msgid "Rimessa diretta Y"
+msgstr "Rimessa diretta Y"
+
+#. module: accounting_statistic_deadline
+#: selection:statistic.deadline,type:0
+msgid "Rimessa diretta Z"
+msgstr "Rimessa diretta Z"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_form
+msgid "Saldo (cliente)"
+msgstr "Saldo (cliente)"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_form
+msgid "Saldo (fornitore)"
+msgstr "Saldo (fornitore)"
+
+#. module: accounting_statistic_deadline
+#: model:ir.model,name:accounting_statistic_deadline.model_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_search
+msgid "Statistic deadline"
+msgstr "Scadenze"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_form
+msgid "Statistic deadline Form"
+msgstr "Scadenze (form)"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_search
+msgid "Supplier"
+msgstr "Fornitore"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_tree
+msgid "Tot. Entrate"
+msgstr "Tot. Entrate"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_tree
+msgid "Tot. Uscite"
+msgstr "Tot. Uscite"
+
+#. module: accounting_statistic_deadline
+#: field:statistic.deadline,total:0
+msgid "Total"
+msgstr "Totale"
+
+#. module: accounting_statistic_deadline
+#: selection:statistic.deadline,type:0
+msgid "Tratta"
+msgstr "Tratta"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_search
+#: field:statistic.deadline,type:0
+msgid "Type"
+msgstr "Tipo"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_tree
+msgid "Uscita"
+msgstr "Uscita"
+
+#. module: accounting_statistic_deadline
+#: view:statistic.deadline:accounting_statistic_deadline.view_statistic_deadline_tree
+msgid "Uscite"
+msgstr "Uscite"
+
+#. module: accounting_statistic_deadline
+#: field:statistic.deadline,visible:0
+msgid "Visible"
+msgstr "Visible"
