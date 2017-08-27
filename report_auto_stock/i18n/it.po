@@ -1,0 +1,85 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* report_auto_stock
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-27 16:32+0000\n"
+"PO-Revision-Date: 2017-08-04 14:01+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#. module: report_auto_stock
+#: model:ir.actions.report.xml,name:report_auto_stock.aeroo_store_auto_report_id
+msgid "Auto report store supplier"
+msgstr "Report automatico magazzino fornitore"
+
+#. module: report_auto_stock
+#: field:auto.stock.supplier,name:0
+msgid "Code"
+msgstr "Codice"
+
+#. module: report_auto_stock
+#: field:auto.stock.supplier,create_uid:0
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: report_auto_stock
+#: field:auto.stock.supplier,create_date:0
+msgid "Created on"
+msgstr "Creato il"
+
+#. module: report_auto_stock
+#: field:auto.stock.supplier,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: report_auto_stock
+#: field:auto.stock.supplier,write_uid:0
+msgid "Last Updated by"
+msgstr "Aggiornato da"
+
+#. module: report_auto_stock
+#: field:auto.stock.supplier,write_date:0
+msgid "Last Updated on"
+msgstr "Aggiornato il"
+
+#. module: report_auto_stock
+#: model:ir.actions.act_window,help:report_auto_stock.auto_stock_supplier_action
+msgid "List of supplier for elaboration of stock list report"
+msgstr "Lista fornitori per elaborazione report magazzino"
+
+#. module: report_auto_stock
+#: view:auto.stock.supplier:report_auto_stock.view_auto_stock_supplier_form
+#: view:auto.stock.supplier:report_auto_stock.view_auto_stock_supplier_tree
+msgid "Partner list"
+msgstr "Lista clienti"
+
+#. module: report_auto_stock
+#: view:auto.stock.supplier:report_auto_stock.view_auto_stock_supplier_search
+msgid "Search partner"
+msgstr "Cerca partner"
+
+#. module: report_auto_stock
+#: model:ir.actions.act_window,name:report_auto_stock.auto_stock_supplier_action
+#: model:ir.ui.menu,name:report_auto_stock.auto_stock_supplier_menu
+msgid "Stock report configuration"
+msgstr "Configurazione report magazzino"
+
+#. module: report_auto_stock
+#: model:ir.model,name:report_auto_stock.model_auto_stock_supplier
+msgid "Supplier list"
+msgstr "Lista fornitori"
+
+#. module: report_auto_stock
+#: field:auto.stock.supplier,suspended:0
+msgid "Suspended"
+msgstr "Sospeso"

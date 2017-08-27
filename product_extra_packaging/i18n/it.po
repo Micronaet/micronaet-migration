@@ -1,0 +1,62 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* product_extra_packaging
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-27 16:31+0000\n"
+"PO-Revision-Date: 2017-08-04 14:00+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#. module: product_extra_packaging
+#: view:base.container.type:product_extra_packaging.base_container_type_form_view
+#: view:base.container.type:product_extra_packaging.base_container_type_tree_view
+#: model:ir.actions.act_window,name:product_extra_packaging.base_container_type_action
+#: model:ir.model,name:product_extra_packaging.model_base_container_type
+#: model:ir.ui.menu,name:product_extra_packaging.base_container_type_action_menu
+msgid "Container type"
+msgstr "Tipo container"
+
+#. module: product_extra_packaging
+#: field:product.packaging,height:0
+msgid "Height"
+msgstr "Altezza"
+
+#. module: product_extra_packaging
+#: field:product.packaging,migration_old_id:0
+msgid "ID v.6"
+msgstr "ID v.6"
+
+#. module: product_extra_packaging
+#: field:product.packaging,length:0
+msgid "Length"
+msgstr "Lunghezza"
+
+#. module: product_extra_packaging
+#: model:ir.model,name:product_extra_packaging.model_product_packaging
+msgid "Packaging"
+msgstr "Confezionamento"
+
+#. module: product_extra_packaging
+#: model:ir.actions.act_window,help:product_extra_packaging.base_container_type_action
+msgid "Type of container, to compute transport cost for each product"
+msgstr "Tipo di container, per calcolare il costo trasporto per ogni prodotto"
+
+#. module: product_extra_packaging
+#: field:product.packaging,weight_ul:0
+msgid "Weight UL"
+msgstr "Altezza UL"
+
+#. module: product_extra_packaging
+#: field:product.packaging,width:0
+msgid "Width"
+msgstr "Larghezza"

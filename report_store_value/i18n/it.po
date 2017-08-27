@@ -1,46 +1,21 @@
-# Translation of OpenERP Server.
+# Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # 	* report_store_value
-# <> <>, 2012.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 6.0.3\n"
-"Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2012-01-23 12:30+0000\n"
-"PO-Revision-Date: 2012-01-24 14:22+0100\n"
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-27 16:32+0000\n"
+"PO-Revision-Date: 2017-08-04 14:03+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-
-#. module: report_store_value
-#: model:ir.actions.act_window,name:report_store_value.action_statistic_store
-#: view:statistic.store:0
-msgid "Statistic store"
-msgstr "Statistiche di magazzino"
-
-#. module: report_store_value
-#: field:statistic.store,product_um2:0
-msgid "UM2"
-msgstr "UM2"
-
-#. module: report_store_value
-#: selection:statistic.store,company:0
-msgid "G.P.B."
-msgstr "G.P.B."
-
-#. module: report_store_value
-#: field:statistic.store,product_code:0
-msgid "Product code"
-msgstr "Codice prodotto"
-
-#. module: report_store_value
-#: field:statistic.store,supplier_order:0
-msgid "OF"
-msgstr "OF"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
 
 #. module: report_store_value
 #: field:statistic.store,company:0
@@ -48,44 +23,29 @@ msgid "Company"
 msgstr "Compagnia"
 
 #. module: report_store_value
-#: model:ir.ui.menu,name:report_store_value.menu_base_mexal_report
-msgid "Report"
-msgstr "Report"
+#: field:statistic.store,create_uid:0
+msgid "Created by"
+msgstr "Creato da"
 
 #. module: report_store_value
-#: field:statistic.store,product_description:0
-msgid "Product description"
-msgstr "Descrizione prodotto"
+#: field:statistic.store,create_date:0
+msgid "Created on"
+msgstr "Creato il"
 
 #. module: report_store_value
-#: field:statistic.store,customer_order_suspended:0
-msgid "OC suspended"
-msgstr "OC sospesi"
+#: field:statistic.store,availability:0
+msgid "Dispo lord"
+msgstr "Disponibilità lorda"
 
 #. module: report_store_value
-#: field:statistic.store,customer_order:0
-msgid "OC imp."
-msgstr "OC impieg."
+#: field:statistic.store,both:0
+msgid "Entrambe"
+msgstr "Entrambe"
 
 #. module: report_store_value
-#: model:ir.model,name:report_store_value.model_statistic_store
-msgid "Store info"
-msgstr "Info magazzino"
-
-#. module: report_store_value
-#: model:ir.ui.menu,name:report_store_value.menu_statistic_statistic_store
-msgid "Report product balance"
-msgstr "Stampa bilancio prodotti"
-
-#. module: report_store_value
-#: field:statistic.store,customer_order_auto:0
-msgid "OC automatic in prod."
-msgstr "OC automat. in prod."
-
-#. module: report_store_value
-#: field:statistic.store,in:0
-msgid "In"
-msgstr "Carico"
+#: help:statistic.store,both:0
+msgid "Esiste in entrambe le aziende"
+msgstr "Esiste in entrambe le aziende"
 
 #. module: report_store_value
 #: field:statistic.store,balance:0
@@ -98,21 +58,123 @@ msgid "Fiam"
 msgstr "Fiam"
 
 #. module: report_store_value
+#: selection:statistic.store,company:0
+msgid "G.P.B."
+msgstr "G.P.B."
+
+#. module: report_store_value
+#: field:statistic.store,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: report_store_value
+#: field:statistic.store,q_in:0
+msgid "In"
+msgstr "In"
+
+#. module: report_store_value
 #: field:statistic.store,inventary:0
 msgid "Inventary"
 msgstr "Inventario"
 
 #. module: report_store_value
-#: field:statistic.store,disponibility:0
-msgid "Dispo lord"
-msgstr "Dispon. lorda"
+#: field:statistic.store,write_uid:0
+msgid "Last Updated by"
+msgstr "Aggiornato da"
+
+#. module: report_store_value
+#: field:statistic.store,write_date:0
+msgid "Last Updated on"
+msgstr "Aggiornato il"
+
+#. module: report_store_value
+#: field:statistic.store,inventary_last:0
+msgid "Manual inventary"
+msgstr "Inventario manuale"
+
+#. module: report_store_value
+#: field:statistic.store,mexal_s:0
+msgid "Mexal ID"
+msgstr "ID Mexal"
+
+#. module: report_store_value
+#: field:statistic.store,customer_order_auto:0
+msgid "OC automatic in prod."
+msgstr "OC automat. in prod."
+
+#. module: report_store_value
+#: field:statistic.store,customer_order:0
+msgid "OC imp."
+msgstr "OC impieg."
+
+#. module: report_store_value
+#: field:statistic.store,customer_order_suspended:0
+msgid "OC suspended"
+msgstr "OC sospesi"
+
+#. module: report_store_value
+#: field:statistic.store,supplier_order:0
+msgid "OF"
+msgstr "OF"
+
+#. module: report_store_value
+#: field:statistic.store,q_out:0
+msgid "Out"
+msgstr "Uscita"
+
+#. module: report_store_value
+#: field:statistic.store,product_code:0
+msgid "Product code"
+msgstr "Codice prodotto"
+
+#. module: report_store_value
+#: field:statistic.store,product_description:0
+msgid "Product description"
+msgstr "Descrizione prodotto"
+
+#. module: report_store_value
+#: model:ir.actions.report.xml,name:report_store_value.aeroo_store_report_id
+msgid "Progressivi di magazzino"
+msgstr "Progressivi di magazzino"
+
+#. module: report_store_value
+#: field:statistic.store,q_x_pack:0
+msgid "Q. x pack"
+msgstr "Q. x scatola"
+
+#. module: report_store_value
+#: model:ir.ui.menu,name:report_store_value.menu_statistic_statistic_store
+msgid "Report product balance"
+msgstr "Stampa bilancio prodotti"
+
+#. module: report_store_value
+#: model:ir.actions.act_window,name:report_store_value.action_statistic_store
+msgid "Stampa progressivi di magazzino"
+msgstr "Stampa progressivi di magazzino"
+
+#. module: report_store_value
+#: view:statistic.store:report_store_value.view_statistic_store_form
+#: view:statistic.store:report_store_value.view_statistic_store_search
+#: view:statistic.store:report_store_value.view_statistic_store_tree
+msgid "Statistic store"
+msgstr "Statistiche di magazzino"
+
+#. module: report_store_value
+#: model:ir.model,name:report_store_value.model_statistic_store
+msgid "Store info"
+msgstr "Info magazzino"
+
+#. module: report_store_value
+#: field:statistic.store,supplier:0
+msgid "Supplier"
+msgstr "Fornitore"
+
+#. module: report_store_value
+#: field:statistic.store,product_um2:0
+msgid "UM2"
+msgstr "UM2"
 
 #. module: report_store_value
 #: field:statistic.store,product_um:0
 msgid "UOM"
 msgstr "UM"
-
-#. module: report_store_value
-#: field:statistic.store,out:0
-msgid "Out"
-msgstr "Scarico"

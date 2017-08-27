@@ -6,15 +6,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-17 11:19+0000\n"
-"PO-Revision-Date: 2016-02-17 12:54+0100\n"
-"Last-Translator: Anna <anna@micronaet.it>\n"
+"POT-Creation-Date: 2017-07-27 16:23+0000\n"
+"PO-Revision-Date: 2017-07-28 16:44+0100\n"
+"Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 1.5.4\n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"A bordo della piscina, in terrazzo, sull'erba Marea è un lettino da esterno "
+"particolarmente adatto per prendere il sole o per leggere all' ombra. Di "
+"linea molto elegante è però solido nella struttura in alluminio e molto "
+"resistente e comodo nella seduta in textilene. . Agevole cambiare "
+"inclinazione allo schienale (5 posizioni), facile nella manutenzione, "
+"leggera da spostare, Marea è la sdraio ideale per estivi momenti di relax."
+msgstr ""
+"Lettino per arredo esterno, classico lettino da mare , sdraio da sole marea "
+"struttura in alluminio  color antracite e tessuto in textilene  color Bianco "
+"reclinabile in 2 posizioni, gambe pieghevoli, ottima soluzione per piscine, "
+"arredo per giardino"
 
 #. module: base_accounting_program
 #: help:sale.order.bank,information:0
@@ -36,6 +52,17 @@ msgstr "Conto bancario"
 #: field:res.partner,type_id:0
 msgid "Campaign"
 msgstr "Campagna"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Comoda sedia per esterno con braccioli in acciaio verniciato, con seduta e "
+"schienale in textilene.Sedia da giardino chiudibile completamente, molto "
+"pratica: una volta chiusa occupa pochissimo spazio. Made in italy"
+msgstr ""
+"Comoda sedia per esterno con braccioli in acciaio verniciato, con seduta e "
+"schienale in textilene.Sedia da giardino chiudibile completamente, molto "
+"pratica: una volta chiusa occupa pochissimo spazio. Made in italy"
 
 #. module: base_accounting_program
 #: model:ir.actions.act_window,name:base_accounting_program.action_view_sale_order_bank
@@ -120,9 +147,17 @@ msgid "FIDO removed"
 msgstr "FIDO rimosso"
 
 #. module: base_accounting_program
-#: view:res.partner:base_accounting_program.view_partner_add_custom_fields
-msgid "Fido"
-msgstr "FIDO"
+#: model:product.product,large_description:0
+msgid ""
+"Fiam PICCOLINA e' la sdraio da spiaggia per eccellenza con struttura in "
+"alluminio e tessuto in Texfil il quale e' resisente a raggi UV ed agenti "
+"atmosferici. Fiam PICCOLINA ha lo schienale regolabile in 3 posizioni. È "
+"pieghevole e salva spazio. "
+msgstr ""
+"Fiam PICCOLINA e' la sdraio da spiaggia per eccellenza con struttura in "
+"alluminio e tessuto in Texfil il quale e' resisente a raggi UV ed agenti "
+"atmosferici. Fiam PICCOLINA ha lo schienale regolabile in 3 posizioni. È "
+"pieghevole e salva spazio. "
 
 #. module: base_accounting_program
 #: field:res.partner,fiscal_id_code:0
@@ -161,11 +196,252 @@ msgid "ID import"
 msgstr "ID import"
 
 #. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid "IMPORTO CANONE"
+msgstr "IMPORTO CANONE"
+
+#. module: base_accounting_program
 #: help:sale.order.line,price_use_manual:0
 msgid "If specificed use manual net price instead of lord price - discount"
 msgstr ""
 "Se specifico l'utilizzo del prezzo netto manuale invece del prezzo lordo - "
 "sconto"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Il lettino basculante reclinabile Fiam Tango e' un lettino regolabile in due "
+"posizioni realizzato con attenzione a qualita' e comfort. La posizione "
+"rialzata Relax porta le le gambe all'altezza del cuore, favorendo il "
+"rilassamento ed il benessere circolatorio. Incredibilmente facile da pulire, "
+"grazie a un tessuto particolarmente resistente anche ai raggi UV. Tango e' "
+"un lettino di tipo contract che si addice quindi agli esercizi pubblici ma "
+"e' anche raccomandato per il giardino, il terrazzo o la casa vacanze. Grazie "
+"all'originale sistema salva spazio e' facile da riporre. Il telaio e' "
+"Realizzato in lega di acciaio  ad alta resistenza verniciato a polveri "
+"termoindurenti che ne garantiscono un'ottima protezione. La seduta, in "
+"tessuto italiano Texfil microforato (rete di filo in pvc con anima di nylon "
+"ad alta tenacita'),coniuga un ottimo comfort tattile ad un'elevata "
+"resistenza agli agenti atmosferici. "
+msgstr ""
+"Il lettino basculante reclinabile Fiam Tango e' un lettino regolabile in due "
+"posizioni realizzato con attenzione a qualita' e comfort. La posizione "
+"rialzata Relax porta le le gambe all'altezza del cuore, favorendo il "
+"rilassamento ed il benessere circolatorio. Incredibilmente facile da pulire, "
+"grazie a un tessuto particolarmente resistente anche ai raggi UV. Tango e' "
+"un lettino di tipo contract che si addice quindi agli esercizi pubblici ma "
+"e' anche raccomandato per il giardino, il terrazzo o la casa vacanze. Grazie "
+"all'originale sistema salva spazio e' facile da riporre. Il telaio e' "
+"Realizzato in lega di acciaio  ad alta resistenza verniciato a polveri "
+"termoindurenti che ne garantiscono un'ottima protezione. La seduta, in "
+"tessuto italiano Texfil microforato (rete di filo in pvc con anima di nylon "
+"ad alta tenacita'),coniuga un ottimo comfort tattile ad un'elevata "
+"resistenza agli agenti atmosferici. "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Il lettino basculante reclinabile Fiam Tango e' un lettino regolabile in due "
+"posizioni realizzato con attenzione a qualita' e comfort. La posizione "
+"rialzata Relax porta le le gambe all'altezza del cuore, favorendo il "
+"rilassamento ed il benessere circolatorio. Incredibilmente facile da pulire, "
+"grazie a un tessuto particolarmente resistente anche ai raggi UV. Tango e' "
+"un lettino di tipo contract che si addice quindi agli esercizi pubblici ma "
+"e' anche raccomandato per il giardino, il terrazzo o la casa vacanze. Grazie "
+"all'originale sistema salva spazio e' facile da riporre. Il telaio e' "
+"Realizzato in lega di acciaio  ad alta resistenza verniciato a polveri "
+"termoindurenti che ne garantiscono un'ottima protezione. La seduta, in "
+"tessuto italiano Texfil microforato termosaldato (rete di filo in pvc con "
+"anima di nylon ad alta tenacita'),coniuga un ottimo comfort tattile ad "
+"un'elevata resistenza agli agenti atmosferici. "
+msgstr ""
+"Il lettino basculante reclinabile Fiam Tango e' un lettino regolabile in due "
+"posizioni realizzato con attenzione a qualita' e comfort. La posizione "
+"rialzata Relax porta le le gambe all'altezza del cuore, favorendo il "
+"rilassamento ed il benessere circolatorio. Incredibilmente facile da pulire, "
+"grazie a un tessuto particolarmente resistente anche ai raggi UV. Tango e' "
+"un lettino di tipo contract che si addice quindi agli esercizi pubblici ma "
+"e' anche raccomandato per il giardino, il terrazzo o la casa vacanze. Grazie "
+"all'originale sistema salva spazio e' facile da riporre. Il telaio e' "
+"Realizzato in lega di acciaio  ad alta resistenza verniciato a polveri "
+"termoindurenti che ne garantiscono un'ottima protezione. La seduta, in "
+"tessuto italiano Texfil microforato termosaldato (rete di filo in pvc con "
+"anima di nylon ad alta tenacita'),coniuga un ottimo comfort tattile ad "
+"un'elevata resistenza agli agenti atmosferici. "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Il lettino basculante reclinabile Fiam Tango e' un lettino regolabile in due "
+"posizioni realizzato con attenzione a qualita' e comfort. La posizione "
+"rialzata Relax porta le le gambe all'altezza del cuore, favorendo il "
+"rilassamento ed il benessere circolatorio. Incredibilmente facile da pulire, "
+"grazie a un tessuto particolarmente resistente anche ai raggi UV. Tango e' "
+"un lettino di tipo contract che si addice quindi agli esercizi pubblici ma "
+"e' anche raccomandato per il giardino, il terrazzo o la casa vacanze. Grazie "
+"all'originale sistema salva spazio e' facile da riporre. Il telaio "
+"realizzato in lega d'alluminio italiano ad alta resistenza, estremamente "
+"robusto e leggero. La seduta, in tessuto italiano Texfil microforato (rete "
+"di filo in pvc con anima di nylon ad alta tenacita'),coniuga un ottimo "
+"comfort tattile ad un'elevata resistenza agli agenti atmosferici. "
+msgstr ""
+"Il lettino basculante reclinabile Fiam Tango e' un lettino regolabile in due "
+"posizioni realizzato con attenzione a qualita' e comfort. La posizione "
+"rialzata Relax porta le le gambe all'altezza del cuore, favorendo il "
+"rilassamento ed il benessere circolatorio. Incredibilmente facile da pulire, "
+"grazie a un tessuto particolarmente resistente anche ai raggi UV. Tango e' "
+"un lettino di tipo contract che si addice quindi agli esercizi pubblici ma "
+"e' anche raccomandato per il giardino, il terrazzo o la casa vacanze. Grazie "
+"all'originale sistema salva spazio e' facile da riporre. Il telaio "
+"realizzato in lega d'alluminio italiano ad alta resistenza, estremamente "
+"robusto e leggero. La seduta, in tessuto italiano Texfil microforato (rete "
+"di filo in pvc con anima di nylon ad alta tenacita'),coniuga un ottimo "
+"comfort tattile ad un'elevata resistenza agli agenti atmosferici. "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Il lettino da sole Fiam Amigo top e' chiudibile e salva spazio munito di "
+"parasole universale . La struttura é in acciaio verniciato o alluminio con "
+"tubo di diametro da 22 mm. Lettino dallo schienale regolabile in tre "
+"posizioni con sistema di elastici brevettato ad alta resistenza.  "
+msgstr ""
+"Il lettino da sole Fiam Amigo top e' chiudibile e salva spazio munito di "
+"parasole universale . La struttura é in acciaio verniciato o alluminio con "
+"tubo di diametro da 22 mm. Lettino dallo schienale regolabile in tre "
+"posizioni con sistema di elastici brevettato ad alta resistenza.  "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Il lettino da sole XL richiudibile FIAM AMIGO H40 e' un modello di lettino "
+"prendisole molto resistente completo di cuscino poggiatesta (opzionale). "
+"Questo lettino da sole e' alto 40 cm. Grazie al pratico sistema di chiusura "
+"non occupa molto spazio e puo' essere riposto in maniera pratica in garage o "
+"in ripostiglio. È un lettino molto leggero perché la sua struttura e' "
+"realizzata completamente in alluminio. Nonostante la sua leggerezza, la "
+"seduta e' molto comoda e sicura, Lo schienale e' regolabile in 3 posizioni "
+"ed e' reso piu' confortevole grazie al sistema di elastici brevettato ad "
+"alta resistenza. Il lettino da sole FIAM H40 e' disponibile in differenti "
+"colori ed integrabile con un cuscino poggiatesta e parasole universale. "
+msgstr ""
+"Il lettino da sole XL richiudibile FIAM AMIGO H40 e' un modello di lettino "
+"prendisole molto resistente completo di cuscino poggiatesta (opzionale). "
+"Questo lettino da sole e' alto 40 cm. Grazie al pratico sistema di chiusura "
+"non occupa molto spazio e puo' essere riposto in maniera pratica in garage o "
+"in ripostiglio. È un lettino molto leggero perché la sua struttura e' "
+"realizzata completamente in alluminio. Nonostante la sua leggerezza, la "
+"seduta e' molto comoda e sicura, Lo schienale e' regolabile in 3 posizioni "
+"ed e' reso piu' confortevole grazie al sistema di elastici brevettato ad "
+"alta resistenza. Il lettino da sole FIAM H40 e' disponibile in differenti "
+"colori ed integrabile con un cuscino poggiatesta e parasole universale. "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Il lettino da sole XL richiudibile FIAM BIG 50 e' un modello di lettino "
+"prendisole molto resistente completo di cuscino poggiatesta (opzionale). "
+"Questo lettino da sole e' alto 50 cm.Grazie al pratico sistema di chiusura "
+"non occupa molto spazio e puo' essere riposto in maniera pratica in garage o "
+"in ripostiglio. È un lettino molto leggero perché la sua struttura e' "
+"realizzata completamente in alluminio. Nonostante la sua leggerezza, la "
+"seduta e' molto comoda e sicura, Lo schienale e' regolabile in 3 posizioni "
+"ed e' reso piu' confortevole grazie al sistema di elastici brevettato ad "
+"alta resistenza. Il lettino da sole FIAM BIG 50 e' disponibile in differenti "
+"colori ed integrabile con un parasole universale. "
+msgstr ""
+"Il lettino da sole XL richiudibile FIAM BIG 50 e' un modello di lettino "
+"prendisole molto resistente completo di cuscino poggiatesta (opzionale). "
+"Questo lettino da sole e' alto 50 cm.Grazie al pratico sistema di chiusura "
+"non occupa molto spazio e puo' essere riposto in maniera pratica in garage o "
+"in ripostiglio. È un lettino molto leggero perché la sua struttura e' "
+"realizzata completamente in alluminio. Nonostante la sua leggerezza, la "
+"seduta e' molto comoda e sicura, Lo schienale e' regolabile in 3 posizioni "
+"ed e' reso piu' confortevole grazie al sistema di elastici brevettato ad "
+"alta resistenza. Il lettino da sole FIAM BIG 50 e' disponibile in differenti "
+"colori ed integrabile con un parasole universale. "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Il lettino da sole richiudibile FIAM XXL e' disponibile in differenti colori "
+"e puo' essere integrato con cuscino poggiatesta e parasole universale."
+msgstr ""
+"Lettino Casanova FIAM: lettino prendisole maxi, lettino XXL per arredo "
+"esterno chiudibile regolabile in 3 posizioni per schienale e 2 posizioni per "
+"poggiagambe.Lettino mare con struttura in alluminio tubo diametro 25 mm e "
+"tela in tessuto textilene cordonato con elastico sul telaio per rendere la "
+"seduta molto piu confortevole ed elastica.Lettino mare rilassante, leggero, "
+"robusto e resistento. Lettino prendisole originale FIAM, prodotto in Italia: "
+"100% made in Italy.Il lettino FIAM Casanova pu&ograve; essere utilizzato "
+"come:lettino prendisole da giardinolettino prendisole per terrazzolettino "
+"marelettino prendisole per piscinalettino da campeggio"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Il lettino da sole richiudibile richiudibile FIAM XXL e' un modello di "
+"lettino prendisole molto resistente. Grazie al pratico sistema di chiusura "
+"non occupa molto spazio e puo' essere riposto in maniera pratica in garage o "
+"in ripostiglio. È un lettino molto leggero perché la sua struttura e' "
+"realizzata completamente in alluminio. Nonostante la sua leggerezza, la "
+"seduta e' molto comoda e sicura. Lo schienale e' regolabile in 3 posizioni. "
+"Il rivestimento e' disponbile in diversi tessuti ideali per l'asterno in "
+"quanto resistenti agli agenti atmosferici ed ai raggi UV, sono inoltre molto "
+"resistenti allo sporco e facili da pulire."
+msgstr ""
+"Il lettino da sole richiudibile richiudibile FIAM XXL e' un modello di "
+"lettino prendisole molto resistente. Grazie al pratico sistema di chiusura "
+"non occupa molto spazio e puo' essere riposto in maniera pratica in garage o "
+"in ripostiglio. È un lettino molto leggero perché la sua struttura e' "
+"realizzata completamente in alluminio. Nonostante la sua leggerezza, la "
+"seduta e' molto comoda e sicura. Lo schienale e' regolabile in 3 posizioni. "
+"Il rivestimento e' disponbile in diversi tessuti ideali per l'asterno in "
+"quanto resistenti agli agenti atmosferici ed ai raggi UV, sono inoltre molto "
+"resistenti allo sporco e facili da pulire."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Il lettino prendisole compatto Fiam Jolly ha uno schienale regolabile in 3 "
+"posizioni ed e' senza poggiapiedi. Ha una struttura pieghevole e "
+"salvaspazio  in  acciaio con tubo da 20mm. Dotato di sistema brevettato con "
+"elastici ad alta resistenza. Disponibile in vari colori. "
+msgstr ""
+"Il lettino prendisole compatto Fiam Jolly ha uno schienale regolabile in 3 "
+"posizioni ed e' senza poggiapiedi. Ha una struttura pieghevole e "
+"salvaspazio  in  acciaio con tubo da 20mm. Dotato di sistema brevettato con "
+"elastici ad alta resistenza. Disponibile in vari colori. "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Il lettino prendisole compatto Fiam Jolly ha uno schienale regolabile in 3 "
+"posizioni ed e' senza poggiapiedi. Ha una struttura pieghevole e salvaspazio "
+"in alluminio con tubo da 20mm. Dotato di sistema brevettato con elastici ad "
+"alta resistenza. Disponibile in vari colori. "
+msgstr ""
+"Il lettino prendisole compatto Fiam Jolly ha uno schienale regolabile in 3 "
+"posizioni ed e' senza poggiapiedi. Ha una struttura pieghevole e salvaspazio "
+"in alluminio con tubo da 20mm. Dotato di sistema brevettato con elastici ad "
+"alta resistenza. Disponibile in vari colori. "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Il lettino prendisole impilabile Fiam River ha uno schienale regolabile in 3 "
+"posizioni relax con braccioli. Struttura in alluminio con diametro da 30mm. "
+"Tessuto in texfil che garantisce il massimo comfort con un' ottima "
+"resistenza agli agenti atmosferici ed ai raggi UV. La particolarita di Fiam "
+"river e' quella di essere un lettino pieghevole ed impilabile.  Disponibile "
+"in vari colori. "
+msgstr ""
+"Il lettino prendisole impilabile Fiam River ha uno schienale regolabile in 3 "
+"posizioni relax con braccioli. Struttura in alluminio con diametro da 30mm. "
+"Tessuto in texfil che garantisce il massimo comfort con un' ottima "
+"resistenza agli agenti atmosferici ed ai raggi UV. La particolarita di Fiam "
+"river e' quella di essere un lettino pieghevole ed impilabile.  Disponibile "
+"in vari colori. "
 
 #. module: base_accounting_program
 #: field:product.pricelist,import:0 field:product.pricelist.version,import:0
@@ -199,9 +475,131 @@ msgid "Invoice status"
 msgstr "Stato fattura"
 
 #. module: base_accounting_program
-#: view:res.partner:base_accounting_program.view_partner_add_custom_fields
-msgid "Invoiced:"
-msgstr "Fatturato:"
+#: model:product.product,large_description:0
+msgid ""
+"La poltrona Samba è ideale arredo esterno. È una poltrona da giardino a "
+"sistema basculante ideale per un ottimo rilassamento delle gambe. Struttura "
+"in acciaio verniciato con tela in tessuto textilene termosaldato. Poltrona "
+"relax molto confortevole, leggera, robusta e resistente. La poltrona FIAM "
+"Samba è prodotta interamente in Italia. L`acciaio e` verniciato con polveri "
+"epossidiche per garantirne la massima prestazione e durata nel tempo. Il "
+"tessuto textilene è composto da PVC e anima in Nylon. Resistente al carico, "
+"brillante nei colori. "
+msgstr ""
+"La poltrona Samba è ideale arredo esterno. È una poltrona da giardino a "
+"sistema basculante ideale per un ottimo rilassamento delle gambe. Struttura "
+"in acciaio verniciato con tela in tessuto textilene termosaldato. Poltrona "
+"relax molto confortevole, leggera, robusta e resistente. La poltrona FIAM "
+"Samba è prodotta interamente in Italia. L`acciaio e` verniciato con polveri "
+"epossidiche per garantirne la massima prestazione e durata nel tempo. Il "
+"tessuto textilene è composto da PVC e anima in Nylon. Resistente al carico, "
+"brillante nei colori. "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"La poltrona Samba è ideale arredo esterno. È una poltrona da giardino a "
+"sistema basculante ideale per un ottimo rilassamento delle gambe. Struttura "
+"in acciaio verniciato con tela in tessuto textilene. Poltrona relax molto "
+"confortevole, leggera, robusta e resistente. La poltrona FIAM Samba è "
+"prodotta interamente in Italia. L`acciaio e` verniciato con polveri "
+"epossidiche per garantirne la massima prestazione e durata nel tempo. Il "
+"tessuto textilene è composto da PVC e anima in Nylon. Resistente al carico, "
+"brillante nei colori. "
+msgstr ""
+"La poltrona Samba è ideale arredo esterno. È una poltrona da giardino a "
+"sistema basculante ideale per un ottimo rilassamento delle gambe. Struttura "
+"in acciaio verniciato con tela in tessuto textilene. Poltrona relax molto "
+"confortevole, leggera, robusta e resistente. La poltrona FIAM Samba è "
+"prodotta interamente in Italia. L`acciaio e` verniciato con polveri "
+"epossidiche per garantirne la massima prestazione e durata nel tempo. Il "
+"tessuto textilene è composto da PVC e anima in Nylon. Resistente al carico, "
+"brillante nei colori. "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"La poltrona basculante Dondolina Twin e' una seduta doppia da esterno dal "
+"design semplice ma di grande comodita'. Poltrona pieghevole e salva spazio "
+"disponibile in vari tessuti resistenti agli agenti atmosferici e "
+"estremamente facili da pulire. "
+msgstr ""
+"La poltrona basculante Dondolina Twin e' una seduta doppia da esterno dal "
+"design semplice ma di grande comodita'. Poltrona pieghevole e salva spazio "
+"disponibile in vari tessuti resistenti agli agenti atmosferici e "
+"estremamente facili da pulire. "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"La poltrona basculante Dondolina e' una seduta da esterno dal design "
+"semplice, ma di grande comodita'. Poltrona pieghevole e salva spazio "
+"disponibile in vari tessuti resistenti agli agenti atmosferici e "
+"estremamente facili da pulire. "
+msgstr ""
+"La poltrona basculante Dondolina e' una seduta da esterno dal design "
+"semplice, ma di grande comodita'. Poltrona pieghevole e salva spazio "
+"disponibile in vari tessuti resistenti agli agenti atmosferici e "
+"estremamente facili da pulire. "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"La sdraio FIAM Linda Soft Spaghetti ; una poltrona per esterno in legno di "
+"faggio, regolabile in due posizioni tramite il bracciolo. La poltrona per "
+"esterno Linda Soft Spaghetti ; una sdraio made in Italy prodotta da FIAM La "
+"Dolce Vita.La sedia per esterno Linda Soft Spaghetti ; una sdraio chiudibile "
+"per ottimizzare gli spazi.Il tessuto portante Spaghetti ; in poliestere con "
+"cuscino imbottito e copertura in dralon.La sdraio LINDA Soft Spaghetti ; "
+"elegante e di grande effetto, l`ideale per rilassarsi in terrazza o sotto ad "
+"un portico."
+msgstr ""
+"La sdraio FIAM Linda Soft Spaghetti ; una poltrona per esterno in legno di "
+"faggio, regolabile in due posizioni tramite il bracciolo. La poltrona per "
+"esterno Linda Soft Spaghetti ; una sdraio made in Italy prodotta da FIAM La "
+"Dolce Vita.La sedia per esterno Linda Soft Spaghetti ; una sdraio chiudibile "
+"per ottimizzare gli spazi.Il tessuto portante Spaghetti ; in poliestere con "
+"cuscino imbottito e copertura in dralon.La sdraio LINDA Soft Spaghetti ; "
+"elegante e di grande effetto, l`ideale per rilassarsi in terrazza o sotto ad "
+"un portico."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"La sdraio FIAM Linda Spaghetti ; una poltrona per esterno in legno di "
+"faggio, regolabile in due posizioni tramite il bracciolo. La poltrona per "
+"esterno Linda Spaghetti ; una sdraio made in Italy prodotta da FIAM La Dolce "
+"Vita.La sedia per esterno Linda Spaghetti ; una sdraio chiudibile per "
+"ottimizzare gli spazi.Il tessuto portante Spaghetti ; in acrilico, con "
+"piccola imbottitura come poggiatesta.La sdraio LINDA Spaghetti ; elegante e "
+"di grande effetto, l`ideale per rilassarsi in terrazza o sotto ad un portico."
+msgstr ""
+"La sdraio FIAM Linda Spaghetti ; una poltrona per esterno in legno di "
+"faggio, regolabile in due posizioni tramite il bracciolo. La poltrona per "
+"esterno Linda Spaghetti ; una sdraio made in Italy prodotta da FIAM La Dolce "
+"Vita.La sedia per esterno Linda Spaghetti ; una sdraio chiudibile per "
+"ottimizzare gli spazi.Il tessuto portante Spaghetti ; in acrilico, con "
+"piccola imbottitura come poggiatesta.La sdraio LINDA Spaghetti ; elegante e "
+"di grande effetto, l`ideale per rilassarsi in terrazza o sotto ad un portico."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"La sdraio FIAM Linda è una poltrona per esterno in legno di faggio, "
+"regolabile in due posizioni tramite il bracciolo. La poltrona per esterno "
+"Linda è una sdraio made in Italy prodotta da FIAM La Dolce Vita.La sedia per "
+"esterno Linda è una sdraio chiudibile per ottimizzare gli spazi.Il tessuto "
+"portante è in acrilico, con piccola imbottitura come poggiatesta.La sdraio "
+"LINDA è elegante e di grande effetto, l`ideale per rilassarsi in terrazza o "
+"sotto ad un portico."
+msgstr ""
+"La sdraio FIAM Linda è una poltrona per esterno in legno di faggio, "
+"regolabile in due posizioni tramite il bracciolo. La poltrona per esterno "
+"Linda è una sdraio made in Italy prodotta da FIAM La Dolce Vita.La sedia per "
+"esterno Linda è una sdraio chiudibile per ottimizzare gli spazi.Il tessuto "
+"portante è in acrilico, con piccola imbottitura come poggiatesta.La sdraio "
+"LINDA è elegante e di grande effetto, l`ideale per rilassarsi in terrazza o "
+"sotto ad un portico."
 
 #. module: base_accounting_program
 #: field:product.product,large_description:0
@@ -221,11 +619,6 @@ msgid "Last Updated on"
 msgstr "Ultimo aggiornamento del"
 
 #. module: base_accounting_program
-#: view:res.partner:base_accounting_program.view_partner_add_custom_fields
-msgid "Last document:"
-msgstr "Ultimo documento:"
-
-#. module: base_accounting_program
 #: field:res.partner,invoiced_last_year:0
 msgid "Last invoiced"
 msgstr "Ultimo fatturato"
@@ -236,9 +629,152 @@ msgid "Last order"
 msgstr "Ultimo ordine"
 
 #. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Lettino Fiam Big 50. Con telaio in alluminio, tessuto in texfil e regolabile "
+"in 3 posizioni. Munito di parasole e poggiatesta. Altezza della seduta: 50 cm"
+msgstr ""
+"Lettino Fiam Big 50. Con telaio in alluminio, tessuto in texfil e regolabile "
+"in 3 posizioni. Munito di parasole e poggiatesta. Altezza della seduta: 50 cm"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Lettino da sole chiudibile salva spazio con braccioli in legno europeo "
+"certificato.Struttura in acciaio verniciato o alluminio, tubo di diametro 22 "
+"mm Lettino con schienale regolabile in tre posizioni. Sistema di elastici "
+"brevettato ad alta resistenza.  "
+msgstr ""
+"Lettino da sole chiudibile salva spazio con braccioli in legno europeo "
+"certificato.Struttura in acciaio verniciato o alluminio, tubo di diametro 22 "
+"mm Lettino con schienale regolabile in tre posizioni. Sistema di elastici "
+"brevettato ad alta resistenza.  "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Lettino da sole chiudibile salva spazio.Struttura in acciaio verniciato o "
+"alluminio, tubo di diametro 22 mm Lettino con schienale regolabile in 3 "
+"posizioni. Sistema di elastici brevettato ad alta resistenza. "
+msgstr ""
+"Lettino prendisole FIAM Amigo. Lettino da sole chiudibile salva spazio."
+"Struttura in alluminio, tubo di diametro 22 mm, e tessuti in textilene. "
+"Lettino con schienale regolabile in 3 posizioni. Sistema di elastici "
+"brevettato ad alta resistenza."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Lettino per arredo esterno, classico lettino da mare , sdraio da sole marea "
+"struttura in alluminio  color bianco e tessuto in textilene  color Tortora "
+"reclinabile in 2 posizioni, gambe pieghevoli, ottima soluzione per piscine, "
+"arredo per giardino"
+msgstr ""
+"Lettino per arredo esterno, classico lettino da mare , sdraio da sole marea "
+"struttura in alluminio  color bianco e tessuto in textilene  color Tortora "
+"reclinabile in 2 posizioni, gambe pieghevoli, ottima soluzione per piscine, "
+"arredo per giardino"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Lettino per arredo esterno, classico lettino da mare , sdraio da sole marea "
+"struttura in alluminio  color antracite e tessuto in textilene  color "
+"Tortora reclinabile in 2 posizioni, gambe pieghevoli, ottima soluzione per "
+"piscine, arredo per giardino"
+msgstr ""
+"Lettino per arredo esterno, classico lettino da mare , sdraio da sole marea "
+"struttura in alluminio  color antracite e tessuto in textilene  color "
+"Tortora reclinabile in 2 posizioni, gambe pieghevoli, ottima soluzione per "
+"piscine, arredo per giardino"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Lettino per arredo esterno, classico lettino da mare , sdraio da sole marea "
+"struttura in alluminio  color bianco e tessuto in textilene  color Tortora "
+"reclinabile in 2 posizioni, gambe pieghevoli, ottima soluzione per piscine, "
+"arredo per giardino"
+msgstr ""
+"Lettino per arredo esterno, classico lettino da mare , sdraio da sole marea "
+"struttura in alluminio  color bianco e tessuto in textilene  color Tortora "
+"reclinabile in 2 posizioni, gambe pieghevoli, ottima soluzione per piscine, "
+"arredo per giardino"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Lettino prendisole fiam Quick con struttura in alluminio con tubo da 22mm. "
+"Pieghevole, senza poggiapiedi."
+msgstr ""
+"Lettino prendisole fiam Quick con struttura in alluminio con tubo da 22mm. "
+"Pieghevole, senza poggiapiedi."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Lettino/spiaggina/sdraio con schienale regolabile in 3 posizioni con "
+"struttura pieghevole e salvaspazio.  Struttura in acciaio con tubo mm 20. "
+"Dotato di sistema brevettato con elastici ad alta resistenza. Disponibile in "
+"vari colori. Il lettino Jolly è prodotto da FIAM La dolce vita: 100% made in "
+"Italy "
+msgstr ""
+"Lettino/spiaggina/sdraio con schienale regolabile in 3 posizioni con "
+"struttura pieghevole e salvaspazio.  Struttura in acciaio con tubo mm 20. "
+"Dotato di sistema brevettato con elastici ad alta resistenza. Disponibile in "
+"vari colori. Il lettino Jolly è prodotto da FIAM La dolce vita: 100% made in "
+"Italy "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Lettio prendisole trasportabile wheely e' un lettino regolabile in 3 "
+"posizioni.Il tessuto e' in texfil, materiale che garantisce un connubio tra "
+"comfort e resistenza alle intemperie ed ai raggi UV. Munito di ruote il "
+"lettino prendisole fiam Wheely risulta essere comodo, pratico ed efficiente, "
+"pieghevole salva spazio. "
+msgstr ""
+"Lettio prendisole trasportabile wheely e' un lettino regolabile in 3 "
+"posizioni.Il tessuto e' in texfil, materiale che garantisce un connubio tra "
+"comfort e resistenza alle intemperie ed ai raggi UV. Munito di ruote il "
+"lettino prendisole fiam Wheely risulta essere comodo, pratico ed efficiente, "
+"pieghevole salva spazio. "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Lo sgabello-poggiapiedi-tavolino pieghevole salva spazio Fiam Chico Soft con "
+"la sua struttura in alluminio e' l'ideale per l'arredo outdoor. Fiam Chico "
+"e' disponibile vari tessuti fra cui: Olefine e Triplex, che garantiscono "
+"comodita' e durevolezza."
+msgstr ""
+"Lo sgabello-poggiapiedi-tavolino pieghevole salva spazio Fiam Chico Soft con "
+"la sua struttura in alluminio e' l'ideale per l'arredo outdoor. Fiam Chico "
+"e' disponibile vari tessuti fra cui: Olefine e Triplex, che garantiscono "
+"comodita' e durevolezza."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Lo sgabello-poggiapiedi-tavolino pieghevole salva spazio Fiam Chico Soft con "
+"la sua struttura in ferro verniciato e' l'ideale per l'arredo outdoor. Fiam "
+"Chico e' disponibile vari tessuti fra cui: Olefine e Triplex, che "
+"garantiscono comodita' e durevolezza."
+msgstr ""
+"Lo sgabello-poggiapiedi-tavolino pieghevole salva spazio Fiam Chico Soft con "
+"la sua struttura in ferro verniciato e' l'ideale per l'arredo outdoor. Fiam "
+"Chico e' disponibile vari tessuti fra cui: Olefine e Triplex, che "
+"garantiscono comodita' e durevolezza."
+
+#. module: base_accounting_program
 #: field:product.product,linear_length:0
 msgid "Lung. lineare"
 msgstr "Lung. lineare"
+
+#. module: base_accounting_program
+#: field:res.partner,mexal_province:0
+msgid "MX province"
+msgstr "MX province"
 
 #. module: base_accounting_program
 #: field:sale.order.line,price_unit_manual:0
@@ -297,8 +833,8 @@ msgstr "Note gestionale"
 
 #. module: base_accounting_program
 #: model:ir.actions.act_window,help:base_accounting_program.action_order_form_no_agent
-msgid "Offerte e Ordini senza filtro di commerciale"
-msgstr "Offerte e Ordini senza filtro di commerciale"
+msgid "Offerte e Ordini senza filtro di commerciale aperti"
+msgstr "Offerte e Ordini senza filtro di commerciale aperti"
 
 #. module: base_accounting_program
 #: model:ir.actions.act_window,name:base_accounting_program.action_order_form_no_agent
@@ -311,11 +847,6 @@ msgid "Only price offer"
 msgstr "Solo prezzo d'offerta"
 
 #. module: base_accounting_program
-#: view:res.partner:base_accounting_program.view_partner_add_custom_fields
-msgid "Orders:"
-msgstr "Ordini:"
-
-#. module: base_accounting_program
 #: field:sale.order.line,image_replace_name:0
 msgid "Override name"
 msgstr "Override name"
@@ -326,14 +857,487 @@ msgid "Parameter for delivery"
 msgstr "Parametri di consegna"
 
 #. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid "Parasole per lettino Casanova / Amigo XXL"
+msgstr "Parasole per lettino Casanova / Amigo XXL"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid "Parasole universale FIAM in texfil"
+msgstr "Parasole universale FIAM in texfil"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Paravento/Separè FIAM con telaio in acciaio verniciato e tela in tessuto "
+"acrypol. Separé made in Italy prodotto da FIAM "
+msgstr ""
+"Paravento/Separè FIAM con telaio in acciaio verniciato e tela in tessuto "
+"acrypol. Separé made in Italy prodotto da FIAM "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Paravento/Separè FIAM con telaio in acciaio verniciato e tela in tessuto "
+"textilene. Separé made in Italy prodotto da FIAM "
+msgstr ""
+"Paravento/Separè FIAM con telaio in acciaio verniciato e tela in tessuto "
+"textilene. Separé made in Italy prodotto da FIAM "
+
+#. module: base_accounting_program
 #: model:ir.model,name:base_accounting_program.model_res_partner
 msgid "Partner"
-msgstr "Cliente"
+msgstr "Partner"
 
 #. module: base_accounting_program
 #: model:ir.model,name:base_accounting_program.model_res_partner_zone
 msgid "Partner Zone"
 msgstr "Zona del partner"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Poggiatesta originale Fiam, made in Italy. Lunghezza 58 cm. Poggiatesta in "
+"spugna con rivestimento in textilene disponibile in vari colori. Prodotti "
+"compatibili FIAM: Amigo XXL, Casanova, Big 50, River"
+msgstr ""
+"Poggiatesta originale Fiam, made in Italy. Lunghezza 58 cm. Poggiatesta in "
+"spugna con rivestimento in textilene disponibile in vari colori. Prodotti "
+"compatibili FIAM: Amigo XXL, Casanova, Big 50, River"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Poggiatesta originale Fiam, made in Italy. lunghezza 50 cm.Poggiatesta in "
+"spugna con rivestimento in textilene disponibile in vari colori. Prodotti "
+"compatibili FIAM: Amigo, Samba, Jolly, Jack, Fiesta, Tango, Playa"
+msgstr ""
+"Poggiatesta originale Fiam, made in Italy. lunghezza 50 cm.Poggiatesta in "
+"spugna con rivestimento in textilene disponibile in vari colori. Prodotti "
+"compatibili FIAM: Amigo, Samba, Jolly, Jack, Fiesta, Tango, Playa"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid "Poggiatesta originale poltrona FIAM Movida"
+msgstr "Poggiatesta originale poltrona FIAM Movida"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Poltrona Fiesta Soft con bracciolo ricoperto, anatomica, reclinabile e multi "
+"posizione. Lo schienale e' sagomato in modo da garantire il massimo comfort "
+"della seduta e del tratto cervicale. Ideale per la lettura, per il riposo e "
+"per la conversazione all'aria aperta. Incredibilmente facile da pulire, "
+"grazie a un tessuto particolarmente resistente anche ai raggi UV. La "
+"poltrona relax Fiesta soft e' munita di cuscino che rende la seduta ancora "
+"piu' confortevole. Fiesta e' raccomandata per il giardino, terrazzo o casa "
+"vacanze. Se abbinata allo sgabello Chico, le gambe possono essere tenute in "
+"posizione sollevata e facilitare la circolazione. Il telaio puo' essere "
+"realizzato in lega di acciaio ad alta resistenza verniciato a polveri "
+"termoindurenti che ne garantiscono un'ottima protezione o in lega "
+"d'alluminio ad alta resistenza, estremamente robusto e leggero. La seduta, "
+"in tessuto italiano Texfil microforato (rete di filo in pvc con anima di "
+"nylon ad alta tenacita'), coniuga un ottimo comfort tattile ad un'elevata "
+"resistenza agli agenti atmosferici. La poltrona Fiesta e' interamente made "
+"in Italy. "
+msgstr ""
+"Poltrona Fiesta Soft con bracciolo ricoperto, anatomica, reclinabile e multi "
+"posizione. Lo schienale e' sagomato in modo da garantire il massimo comfort "
+"della seduta e del tratto cervicale. Ideale per la lettura, per il riposo e "
+"per la conversazione all'aria aperta. Incredibilmente facile da pulire, "
+"grazie a un tessuto particolarmente resistente anche ai raggi UV. La "
+"poltrona relax Fiesta soft e' munita di cuscino che rende la seduta ancora "
+"piu' confortevole. Fiesta e' raccomandata per il giardino, terrazzo o casa "
+"vacanze. Se abbinata allo sgabello Chico, le gambe possono essere tenute in "
+"posizione sollevata e facilitare la circolazione. Il telaio puo' essere "
+"realizzato in lega di acciaio ad alta resistenza verniciato a polveri "
+"termoindurenti che ne garantiscono un'ottima protezione o in lega "
+"d'alluminio ad alta resistenza, estremamente robusto e leggero. La seduta, "
+"in tessuto italiano Texfil microforato (rete di filo in pvc con anima di "
+"nylon ad alta tenacita'), coniuga un ottimo comfort tattile ad un'elevata "
+"resistenza agli agenti atmosferici. La poltrona Fiesta e' interamente made "
+"in Italy. "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Poltrona Samba FIAM: poltrona per esterno a sistema basculante ideale per un "
+"ottimo rilassamento delle gambe. Poltrona da giardino con struttura in "
+"acciaio verniciato tubo diametro 25 mm con tela in tessuto textilene. "
+"Poltrona per esterno molto confortevole, leggera, robusta e resistente.La "
+"poltrona FIAM Samba è  prodotta interamente in Italia.La poltrona Samba, può "
+"essere utilizzata come:poltrona relax, poltrona da giardino, poltrona per "
+"terrazzo, poltrona rilassante per portico, poltrona per bordo piscina"
+msgstr ""
+"Poltrona Samba FIAM: poltrona per esterno a sistema basculante ideale per un "
+"ottimo rilassamento delle gambe. Poltrona da giardino con struttura in "
+"acciaio verniciato tubo diametro 25 mm con tela in tessuto textilene. "
+"Poltrona per esterno molto confortevole, leggera, robusta e resistente.La "
+"poltrona FIAM Samba è  prodotta interamente in Italia.La poltrona Samba, può "
+"essere utilizzata come:poltrona relax, poltrona da giardino, poltrona per "
+"terrazzo, poltrona rilassante per portico, poltrona per bordo piscina"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Poltrona Samba FIAM: poltrona per esterno a sistema basculante ideale per un "
+"ottimo rilassamento delle gambe. Poltrona da giardino con struttura in "
+"acciaio verniciato tubo diametro 25 mm con tela in tessuto textilene. "
+"Poltrona per esterno molto confortevole, leggera, robusta e resistente.La "
+"poltrona FIAM Samba è prodotta interamente in Italia.La poltrona Samba, può "
+"essere utilizzata come:poltrona relax, poltrona da giardino, poltrona per "
+"terrazzo, poltrona rilassante per portico, poltrona per bordo piscina"
+msgstr ""
+"Poltrona Samba FIAM: poltrona per esterno a sistema basculante ideale per un "
+"ottimo rilassamento delle gambe. Poltrona da giardino con struttura in "
+"acciaio verniciato tubo diametro 25 mm con tela in tessuto textilene. "
+"Poltrona per esterno molto confortevole, leggera, robusta e resistente.La "
+"poltrona FIAM Samba è prodotta interamente in Italia.La poltrona Samba, può "
+"essere utilizzata come:poltrona relax, poltrona da giardino, poltrona per "
+"terrazzo, poltrona rilassante per portico, poltrona per bordo piscina"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Poltrona Zero Gravity dal design esclusivo, reclinabile multiposizioni "
+"realizzata con attenzione a qualita' e comfort. La posizione rialzata Relax "
+"porta le gambe all'altezza del cuore, favorendo il rilassamento e il "
+"benessere circolatorio. Grazie all'efficace sistema di regolazione, e' "
+"possibile accomodarsi nella posizione desiderata e fissarla con un semplice "
+"gesto delle dita. Il poggiatesta, incluso nel prodotto, puo' essere regolato "
+"a piacimento ed eventualmente rimosso. La geometria della sedia e' studiata "
+"per permettere anche a persone con mobilita' limitata il minimo sforzo per "
+"sedersi ed alzarsi, grazie in particolare al poggiapiedi che si appoggia in "
+"maniera perfettamente verticale al terreno. Incredibilmente facile da "
+"pulire, grazie a un tessuto particolarmente resistente. Fiam Amida e' "
+"raccomandata per il tuo giardino, terrazzo o casa vacanze. Il telaio e' "
+"realizzato in lega di acciaio ad alta resistenza verniciato a polveri "
+"termoindurenti che ne garantiscono un'ottima protezione. La seduta, in "
+"tessuto italiano Texfil microforato (rete di filo in pvc con anima di nylon "
+"ad alta tenacita'),coniuga un ottimo comfort tattile ad un'elevata "
+"resistenza agli agenti atmosferici ed ai raggi UV."
+msgstr ""
+"Poltrona Zero Gravity dal design esclusivo, reclinabile multiposizioni "
+"realizzata con attenzione a qualita' e comfort. La posizione rialzata Relax "
+"porta le gambe all'altezza del cuore, favorendo il rilassamento e il "
+"benessere circolatorio. Grazie all'efficace sistema di regolazione, e' "
+"possibile accomodarsi nella posizione desiderata e fissarla con un semplice "
+"gesto delle dita. Il poggiatesta, incluso nel prodotto, puo' essere regolato "
+"a piacimento ed eventualmente rimosso. La geometria della sedia e' studiata "
+"per permettere anche a persone con mobilita' limitata il minimo sforzo per "
+"sedersi ed alzarsi, grazie in particolare al poggiapiedi che si appoggia in "
+"maniera perfettamente verticale al terreno. Incredibilmente facile da "
+"pulire, grazie a un tessuto particolarmente resistente. Fiam Amida e' "
+"raccomandata per il tuo giardino, terrazzo o casa vacanze. Il telaio e' "
+"realizzato in lega di acciaio ad alta resistenza verniciato a polveri "
+"termoindurenti che ne garantiscono un'ottima protezione. La seduta, in "
+"tessuto italiano Texfil microforato (rete di filo in pvc con anima di nylon "
+"ad alta tenacita'),coniuga un ottimo comfort tattile ad un'elevata "
+"resistenza agli agenti atmosferici ed ai raggi UV."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Poltrona Zero Gravity dal design esclusivo, reclinabile multiposizioni "
+"realizzata con attenzione a qualita' e comfort. La posizione rialzata Relax "
+"porta le gambe all'altezza del cuore, favorendo il rilassamento e il "
+"benessere circolatorio. Grazie all'efficace sistema di regolazione, e' "
+"possibile accomodarsi nella posizione desiderata e fissarla con un semplice "
+"gesto delle dita. Il poggiatesta, incluso nel prodotto, puo' essere regolato "
+"a piacimento ed eventualmente rimosso. La geometria della sedia e' studiata "
+"per permettere anche a persone con mobilita' limitata il minimo sforzo per "
+"sedersi ed alzarsi, grazie in particolare al poggiapiedi che si appoggia in "
+"maniera perfettamente verticale al terreno. Incredibilmente facile da "
+"pulire, grazie a un tessuto particolarmente resistente. Fiam Amida e' "
+"raccomandata per il tuo giardino, terrazzo o casa vacanze. Il telaio "
+"realizzato  in lega d'alluminio ad alta resistenza, estremamente robusto e "
+"leggero. La seduta, in tessuto italiano Texfil microforato (rete di filo in "
+"pvc con anima di nylon ad alta tenacita'),coniuga un ottimo comfort tattile "
+"ad un'elevata resistenza agli agenti atmosferici ed ai raggi UV."
+msgstr ""
+"Poltrona Zero Gravity dal design esclusivo, reclinabile multiposizioni "
+"realizzata con attenzione a qualita' e comfort. La posizione rialzata Relax "
+"porta le gambe all'altezza del cuore, favorendo il rilassamento e il "
+"benessere circolatorio. Grazie all'efficace sistema di regolazione, e' "
+"possibile accomodarsi nella posizione desiderata e fissarla con un semplice "
+"gesto delle dita. Il poggiatesta, incluso nel prodotto, puo' essere regolato "
+"a piacimento ed eventualmente rimosso. La geometria della sedia e' studiata "
+"per permettere anche a persone con mobilita' limitata il minimo sforzo per "
+"sedersi ed alzarsi, grazie in particolare al poggiapiedi che si appoggia in "
+"maniera perfettamente verticale al terreno. Incredibilmente facile da "
+"pulire, grazie a un tessuto particolarmente resistente. Fiam Amida e' "
+"raccomandata per il tuo giardino, terrazzo o casa vacanze. Il telaio "
+"realizzato  in lega d'alluminio ad alta resistenza, estremamente robusto e "
+"leggero. La seduta, in tessuto italiano Texfil microforato (rete di filo in "
+"pvc con anima di nylon ad alta tenacita'),coniuga un ottimo comfort tattile "
+"ad un'elevata resistenza agli agenti atmosferici ed ai raggi UV."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Poltrona Zero Gravity design reclinabile a due posizioni realizzata con "
+"attenzione a qualità e comfort. La posizione rialzata Relax porta le le "
+"gambe all’altezza del cuore,  favorendo il rilassamento e il benessere "
+"circolatorio. Grazie all’efficace sistema di regolazione, è possibile "
+"accomodarsi nella posizione desiderata e fissarla con un semplice gesto "
+"delle dita. Il poggiatesta, incluso nel prodotto, può essere regolato a "
+"piacimento ed eventualmente rimosso.  Il sistema di elastici ad alta "
+"resistenza sfrutta lo scorrimento sul tubo per garantire ad ogni zona del "
+"corpo il corretto supporto e benessere . La geometria della sedia è studiata "
+"per permettere anche a persone con mobilità limitata il minimo sforzo per "
+"sedersi ed alzarsi, grazie in particolare al poggiapiedi che si appoggia in "
+"maniera perfettamente verticale al terreno.  Incredibilmente facile da "
+"pulire, grazie a un tessuto particolarmente resistente. La poltrona Movida è "
+"raccomandata per il tuo giardino, terrazzo o casa vacanze. Il telaio è "
+"realizzato in lega di acciaio ad alta resistenza verniciato  a polveri "
+"termoindurenti che ne garantiscono un’ottima protezione. La seduta, in "
+"tessuto italiano Texfil microforato (rete di filo in pvc con anima di nylon "
+"ad alta tenacità),coniuga un ottimo comfort tattile ad un’elevata resistenza "
+"agli agenti atmosferici ed ai raggi UV. Prodotto 100% made in Italy"
+msgstr ""
+"Poltrona da esterno Movida FIAM con telaio in acciaio verniciato. Poltrona "
+"relax multiposizione, reclinabile con fermo posizionamento. Prodotta in "
+"Italia. Poltrona da giardino con struttura in accaio verniciato e tela in "
+"tessuto textilene disponibile in varie colorazioni. Poltrona per esterno "
+"Movida leggera, robusta e resistente. Il cuscino della poltrona Movida è "
+"regolabile. L'acciaio è verniciato con polveri epossidiche per garantirne la "
+"massima prestazione e durata nel tempo. Il tessuto textilene è composto da "
+"PVC e anima in Nylon. Resistente al carico, brillante nei colori."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Poltrona da esterno Movida FIAM con telaio in acciaio verniciato. Poltrona "
+"relax multiposizione, reclinabile con fermo posizionamento. Prodotta in "
+"Italia. Poltrona da giardino con struttura in accaio verniciato e tela in "
+"tessuto textilene disponibile in varie colorazioni. Poltrona per esterno "
+"Movida leggera, robusta e resistente. Il cuscino della poltrona Movida è "
+"regolabile. L''acciaio è verniciato con polveri epossidiche per garantirne "
+"la massima prestazione e durata nel tempo. Il tessuto textilene è composto "
+"da PVC e anima in Nylon. Resistente al carico, brillante nei colori."
+msgstr ""
+"Poltrona da esterno Movida FIAM con telaio in acciaio verniciato. Poltrona "
+"relax multiposizione, reclinabile con fermo posizionamento. Prodotta in "
+"Italia. Poltrona da giardino con struttura in accaio verniciato e tela in "
+"tessuto textilene disponibile in varie colorazioni. Poltrona per esterno "
+"Movida leggera, robusta e resistente. Il cuscino della poltrona Movida è "
+"regolabile. L''acciaio è verniciato con polveri epossidiche per garantirne "
+"la massima prestazione e durata nel tempo. Il tessuto textilene è composto "
+"da PVC e anima in Nylon. Resistente al carico, brillante nei colori."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Poltrona da esterno Movida FIAM con telaio in acciaio verniciato. Poltrona "
+"relax multiposizione, reclinabile con fermo posizionamento. Prodotta in "
+"Italia. Poltrona da giardino con struttura in accaio verniciato e tela in "
+"tessuto textilene disponibile in varie colorazioni. Poltrona per esterno "
+"Movida leggera, robusta e resistente. Il cuscino della poltrona Movida è "
+"regolabile. L'acciaio è verniciato con polveri epossidiche per garantirne la "
+"massima prestazione e durata nel tempo. Il tessuto textilene è composto da "
+"PVC e anima in Nylon. Resistente al carico, brillante nei colori."
+msgstr ""
+"Poltrona da esterno Movida FIAM con telaio in acciaio verniciato. Poltrona "
+"relax multiposizione, reclinabile con fermo posizionamento. Prodotta in "
+"Italia. Poltrona da giardino con struttura in accaio verniciato e tela in "
+"tessuto textilene disponibile in varie colorazioni. Poltrona per esterno "
+"Movida leggera, robusta e resistente. Il cuscino della poltrona Movida è "
+"regolabile. L'acciaio è verniciato con polveri epossidiche per garantirne la "
+"massima prestazione e durata nel tempo. Il tessuto textilene è composto da "
+"PVC e anima in Nylon. Resistente al carico, brillante nei colori."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Poltrona da esterno Movida FIAM con telaio in acciaio verniciato. Poltrona "
+"relax multiposizione, reclinabile con fermo posizionamento. Prodotta in "
+"Italia. Poltrona da giardino con struttura in accaio verniciato e tela in "
+"tessuto textilene disponibile in varie colorazioni. Poltrona per esterno "
+"Movida leggera, robusta e resistente. Il cuscino della poltrona Movida è "
+"regolabile. L'acciaio è verniciato con polveri epossidiche per garantirne la "
+"massima prestazione e durata nel tempo. Il tessuto textilene è composto da "
+"PVC e anima in Nylon. Resistente al carico, brillante nei colori.\n"
+msgstr ""
+"Poltrona da esterno Movida FIAM con telaio in acciaio verniciato. Poltrona "
+"relax multiposizione, reclinabile con fermo posizionamento. Prodotta in "
+"Italia. Poltrona da giardino con struttura in accaio verniciato e tela in "
+"tessuto textilene disponibile in varie colorazioni. Poltrona per esterno "
+"Movida leggera, robusta e resistente. Il cuscino della poltrona Movida è "
+"regolabile. L'acciaio è verniciato con polveri epossidiche per garantirne la "
+"massima prestazione e durata nel tempo. Il tessuto textilene è composto da "
+"PVC e anima in Nylon. Resistente al carico, brillante nei colori.\n"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Poltrona da esterno Movida FIAM con telaio in alluminio. Poltrona relax "
+"multiposizione, reclinabile con fermo posizionamento. Prodotta in Italia. "
+"Poltrona da giardino con struttura inalluminio e tela in tessuto textilene "
+"disponibile in varie colorazioni. Poltrona per esterno Movida leggera, "
+"robusta e resistente. Il cuscino della poltrona Movida è regolabile.. Il "
+"tessuto textilene è composto da PVC e anima in Nylon. Resistente al carico, "
+"brillante nei colori."
+msgstr ""
+"Poltrona da esterno Movida FIAM con telaio in alluminio. Poltrona relax "
+"multiposizione, reclinabile con fermo posizionamento. Prodotta in Italia. "
+"Poltrona da giardino con struttura inalluminio e tela in tessuto textilene "
+"disponibile in varie colorazioni. Poltrona per esterno Movida leggera, "
+"robusta e resistente. Il cuscino della poltrona Movida è regolabile.. Il "
+"tessuto textilene è composto da PVC e anima in Nylon. Resistente al carico, "
+"brillante nei colori."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Poltrona da esterno Movida. Poltrona da giardino multiposizione, reclinabile "
+"con fermo posizione con telaio in accaio verniciato e con tela in tessuto "
+"Olefin.\n"
+"Poltrona da giardino chiudibile e salva spazio con braccioli in legno.\n"
+"Fabbricata in Italia da FIAM.\n"
+"La poltrona per esterno Movida con braccioli in legno è leggera, robusta e "
+"resistente.\n"
+"L'acciaio è verniciato con polveri epossidiche per garantirne la massima "
+"prestazione e durata nel tempo.\n"
+"Il cuscino della poltrona Movida è realizzato con tessuto traspirante, "
+"idrorepellente e lavabile e presenta elevata resistenza alla luce ed alle "
+"abrasioni.\n"
+"L`acciaio è verniciato con polveri epossidiche per garantirne la massima "
+"prestazione e durata nel tempo.\n"
+"Tessuto in fibra tessile Olefin, tessuto antiacaro che che inibisce la "
+"proliferazione dei microorganismi tra le fibre, eliminando il pericolo di "
+"allergie respiratorie e cutanee. La sua particolare struttura inoltre lo "
+"rende inattaccabile da muffe, funghi e batteri dannosi alla salute e causa "
+"di sgradevoli odori. Ha superato i più avanzati test di laboratorio, a "
+"garanzia di un'elevata resistenza anche alla luce e alle abrasioni. I "
+"cuscini realizzati con questo tessuto e imbottiti in poliestere sono "
+"traspiranti, idrorepellenti e lavabili.\n"
+msgstr ""
+"Poltrona da esterno Movida. Poltrona da giardino multiposizione, reclinabile "
+"con fermo posizione con telaio in accaio verniciato e con tela in tessuto "
+"Olefin.\n"
+"Poltrona da giardino chiudibile e salva spazio con braccioli in legno.\n"
+"Fabbricata in Italia da FIAM.\n"
+"La poltrona per esterno Movida con braccioli in legno è leggera, robusta e "
+"resistente.\n"
+"L'acciaio è verniciato con polveri epossidiche per garantirne la massima "
+"prestazione e durata nel tempo.\n"
+"Il cuscino della poltrona Movida è realizzato con tessuto traspirante, "
+"idrorepellente e lavabile e presenta elevata resistenza alla luce ed alle "
+"abrasioni.\n"
+"L`acciaio è verniciato con polveri epossidiche per garantirne la massima "
+"prestazione e durata nel tempo.\n"
+"Tessuto in fibra tessile Olefin, tessuto antiacaro che che inibisce la "
+"proliferazione dei microorganismi tra le fibre, eliminando il pericolo di "
+"allergie respiratorie e cutanee. La sua particolare struttura inoltre lo "
+"rende inattaccabile da muffe, funghi e batteri dannosi alla salute e causa "
+"di sgradevoli odori. Ha superato i più avanzati test di laboratorio, a "
+"garanzia di un'elevata resistenza anche alla luce e alle abrasioni. I "
+"cuscini realizzati con questo tessuto e imbottiti in poliestere sono "
+"traspiranti, idrorepellenti e lavabili.\n"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Poltrona da esterno Movida. Poltrona da giardino multiposizione, reclinabile "
+"con fermo posizione con telaio in accaio verniciato e con tela in tessuto "
+"Olefin. Poltrona per esterno Movida leggera, robusta e resistente. Il "
+"cuscino della poltrona Movida è regolabile. L'acciaio è verniciato con "
+"polveri epossidiche per garantirne la massima prestazione e durata nel tempo."
+msgstr ""
+"Poltrona da esterno Movida. Poltrona da giardino multiposizione, reclinabile "
+"con fermo posizione con telaio in accaio verniciato e con tela in tessuto "
+"Olefin. Poltrona per esterno Movida leggera, robusta e resistente. Il "
+"cuscino della poltrona Movida è regolabile. L'acciaio è verniciato con "
+"polveri epossidiche per garantirne la massima prestazione e durata nel tempo."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Poltrona in alluminio da esterno FIAM LIDO spaghetti. Ispirata alle panchine "
+"pubbliche degli anni cinquanta, la serie LIDO è caratterizzata dalla "
+"struttura in tondino di metallo che, in un segno fluido, si snoda per "
+"descrivere la silhouette di ogni variante. Per il rivestimento sono previste "
+"differenti soluzioni, dai tessuti sintetici outdoor alle corde di pvc (i "
+"cosiddetti spaghetti)."
+msgstr ""
+"Poltrona in alluminio da esterno FIAM LIDO spaghetti. Ispirata alle panchine "
+"pubbliche degli anni cinquanta, la serie LIDO è caratterizzata dalla "
+"struttura in tondino di metallo che, in un segno fluido, si snoda per "
+"descrivere la silhouette di ogni variante. Per il rivestimento sono previste "
+"differenti soluzioni, dai tessuti sintetici outdoor alle corde di pvc (i "
+"cosiddetti spaghetti)."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Poltrona per esterno relax con 5 posizioni regolabili , schienale alto, "
+"chiudibile con telaio in alluminio tubo di 22 mm e tela in tessuto textilene "
+"o. Confortevole, leggera, robusta e resistente. La Poltrona Luna ; un`ottima "
+"soluzione per l`esterno. Prodotta in Italia da FIAM "
+msgstr ""
+"Poltrona per esterno relax con 5 posizioni regolabili , schienale alto, "
+"chiudibile con telaio in alluminio tubo di 22 mm e tela in tessuto textilene "
+"o. Confortevole, leggera, robusta e resistente. La Poltrona Luna ; un`ottima "
+"soluzione per l`esterno. Prodotta in Italia da FIAM "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Poltrona relax in alluminio  regolabile in 5 posizioni. Dotata di "
+"poggiapiedi a scomparsa. Schienale anatomico per garantire assieme alla "
+"cordonatura il massimo comfort. Cordonatura con tondino in PVC disponibile "
+"in vari colori."
+msgstr ""
+"Poltrona relax in alluminio  regolabile in 5 posizioni. Dotata di "
+"poggiapiedi a scomparsa. Schienale anatomico per garantire assieme alla "
+"cordonatura il massimo comfort. Cordonatura con tondino in PVC disponibile "
+"in vari colori."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Poltrona relax, regolabile in 5 posizioni. Dotata di poggiapiedi a "
+"scomparsa. Schienale anatomico per garantire assieme alla cordonatura il "
+"massimo comfort. Cordonatura con tondino in PVC"
+msgstr ""
+"Poltrona relax, regolabile in 5 posizioni. Dotata di poggiapiedi a "
+"scomparsa. Schienale anatomico per garantire assieme alla cordonatura il "
+"massimo comfort. Cordonatura con tondino in PVC"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Poltrona sdraio FIAM Betty trasformabile in comodo lettino. Struttura in "
+"alluminio e tessuto in poliestere. Prodotto made in Italy by FIAM"
+msgstr ""
+"Poltrona sdraio FIAM Betty trasformabile in comodo lettino. Struttura in "
+"alluminio e tessuto in poliestere. Prodotto made in Italy by FIAM"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Poltroncina/lettino con schienale regolabile 5 posizioni comfort. La "
+"poltroncina Betty e' pieghevole e regolandosi in 5 posizioni permette di "
+"portare lo schienale orizzontale alla seduta così da potersi distendere "
+"completamente. La struttura e' in alluminio con tubo di diametro da 22mm.  "
+msgstr ""
+"Poltroncina/lettino con schienale regolabile 5 posizioni comfort. La "
+"poltroncina Betty e' pieghevole e regolandosi in 5 posizioni permette di "
+"portare lo schienale orizzontale alla seduta così da potersi distendere "
+"completamente. La struttura e' in alluminio con tubo di diametro da 22mm.  "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Pratica sedia da esterno modello bistrò FIAM Spring in acciaio zincato e "
+"verniciato a polvere epossidica. Sedia da giardino completamente "
+"richiudibile e di facile manutenzione. Sedia per esterno made in Italy "
+"prodotta da FIAM La Dolce Vita. "
+msgstr ""
+"Pratica sedia da esterno modello bistrò FIAM Spring in acciaio zincato e "
+"verniciato a polvere epossidica. Sedia da giardino completamente "
+"richiudibile e di facile manutenzione. Sedia per esterno made in Italy "
+"prodotta da FIAM La Dolce Vita. "
 
 #. module: base_accounting_program
 #: model:ir.model,name:base_accounting_program.model_product_pricelist
@@ -400,12 +1404,12 @@ msgstr "Vendita restituzione prodotto"
 #. module: base_accounting_program
 #: model:res.groups,name:base_accounting_program.group_sales_cei_italian
 msgid "Sales / CEI as Italian"
-msgstr "Vendite / CEI as Italian"
+msgstr "Vendite / CEI come Italia"
 
 #. module: base_accounting_program
 #: model:res.groups,name:base_accounting_program.group_sales_import_manager
 msgid "Sales / Import manager"
-msgstr "Vendite / Import manager"
+msgstr "Vendite / Gestione import."
 
 #. module: base_accounting_program
 #: model:ir.model,name:base_accounting_program.model_sale_order
@@ -423,6 +1427,386 @@ msgid "Salesperson"
 msgstr "Commerciale"
 
 #. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sdraio da giardino Fiesta FIAM, poltrona per esterno regolabile in 4 "
+"posizioni con telaio in acciaio tubo diametro 25 mm verniciato. Sdraio da "
+"giardino made in Italy. La poltrona per esterno FIAM Fiesta è chiudibile, "
+"salva spazio, robusta e resistente. La sdraio da esterno per giardino Fiesta "
+"è prodotta in Italia da FIAM. L''acciaio è verniciato con polveri "
+"epossidiche per garantirne la massima prestazione e durata nel tempo. Il "
+"tessuto textilene è composto da PVC e anima in Nylon. Resistente al carico, "
+"brillante nei colori."
+msgstr ""
+"Sdraio da giardino Fiesta FIAM, poltrona per esterno regolabile in 4 "
+"posizioni con telaio in acciaio tubo diametro 25 mm verniciato. Sdraio da "
+"giardino made in Italy. La poltrona per esterno FIAM Fiesta è chiudibile, "
+"salva spazio, robusta e resistente. La sdraio da esterno per giardino Fiesta "
+"è prodotta in Italia da FIAM. L''acciaio è verniciato con polveri "
+"epossidiche per garantirne la massima prestazione e durata nel tempo. Il "
+"tessuto textilene è composto da PVC e anima in Nylon. Resistente al carico, "
+"brillante nei colori."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sdraio da giardino Fiesta FIAM, poltrona per esterno regolabile in 4 "
+"posizioni con telaio in acciaio tubo diametro 25 mm verniciato. Sdraio da "
+"giardino made in Italy. La poltrona per esterno FIAM Fiesta è chiudibile, "
+"salva spazio, robusta e resistente. La sdraio da esterno per giardino Fiesta "
+"è prodotta in Italia da FIAM. L'acciaio è verniciato con polveri epossidiche "
+"per garantirne la massima prestazione e durata nel tempo. Il tessuto "
+"textilene è composto da PVC e anima in Nylon. Resistente al carico, "
+"brillante nei colori."
+msgstr ""
+"Sdraio da giardino Fiesta FIAM, poltrona per esterno regolabile in 4 "
+"posizioni con telaio in acciaio tubo diametro 25 mm verniciato. Sdraio da "
+"giardino made in Italy. La poltrona per esterno FIAM Fiesta è chiudibile, "
+"salva spazio, robusta e resistente. La sdraio da esterno per giardino Fiesta "
+"è prodotta in Italia da FIAM. L'acciaio è verniciato con polveri epossidiche "
+"per garantirne la massima prestazione e durata nel tempo. Il tessuto "
+"textilene è composto da PVC e anima in Nylon. Resistente al carico, "
+"brillante nei colori."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sdraio per esterno FIAM Fiesta, poltrona sdraio da giardino chiudibile e "
+"regolabile in 4 posizioni con telaio in alluminio diametro 22 mm con tela in "
+"tessuto textilene. La sdraio da giardino Fiesta è confortevole, leggera, "
+"robusta e resistente. L'alluminio è un materiale leggero e resistente, "
+"utilizzato in lega ad alta resistenza per garantirne la massima prestazione. "
+"L'alluminio è un materiale leggero e resistente, utilizzato in lega ad alta "
+"resistenza per garantirne la massima prestazione. Il tessuto textilene "
+"retato non trattiene l'acqua, è composto da PVC e anima in Nylon, resistente "
+"al carico, brillante nei colori. "
+msgstr ""
+"Sdraio per esterno FIAM Fiesta, poltrona sdraio da giardino chiudibile e "
+"regolabile in 4 posizioni con telaio in alluminio diametro 22 mm con tela in "
+"tessuto textilene. La sdraio da giardino Fiesta è confortevole, leggera, "
+"robusta e resistente. L'alluminio è un materiale leggero e resistente, "
+"utilizzato in lega ad alta resistenza per garantirne la massima prestazione. "
+"L'alluminio è un materiale leggero e resistente, utilizzato in lega ad alta "
+"resistenza per garantirne la massima prestazione. Il tessuto textilene "
+"retato non trattiene l'acqua, è composto da PVC e anima in Nylon, resistente "
+"al carico, brillante nei colori. "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sdraio per esterno FIAM Fiesta, poltrona sdraio da giardino chiudibile e "
+"regolabile in 4 posizioni con telaio in alluminio diametro 22 mm con tela in "
+"tessuto textilene. La sdraio da giardino Fiesta è confortevole, leggera, "
+"robusta e resistente. L'alluminio è un materiale leggero e resistente, "
+"utilizzato in lega ad alta resistenza per garantirne la massima prestazione. "
+"L'alluminio è un materiale leggero e resistente, utilizzato in lega ad alta "
+"resistenza per garantirne la massima prestazione. Il tessuto textilene "
+"retato non trattiene l'acqua, è composto da PVC e anima in Nylon, resistente "
+"al carico, brillante nei colori. \n"
+msgstr ""
+"Sdraio per esterno FIAM Fiesta, poltrona sdraio da giardino chiudibile e "
+"regolabile in 4 posizioni con telaio in alluminio diametro 22 mm con tela in "
+"tessuto textilene. La sdraio da giardino Fiesta è confortevole, leggera, "
+"robusta e resistente. L'alluminio è un materiale leggero e resistente, "
+"utilizzato in lega ad alta resistenza per garantirne la massima prestazione. "
+"L'alluminio è un materiale leggero e resistente, utilizzato in lega ad alta "
+"resistenza per garantirne la massima prestazione. Il tessuto textilene "
+"retato non trattiene l'acqua, è composto da PVC e anima in Nylon, resistente "
+"al carico, brillante nei colori. \n"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sedia da esterno FIAM modello Regista, struttura in faggio verniciato color "
+"noce e tessuto in textilene.Sedia da giardino pieghevole, made in Italy, "
+"prodotta da FIAM. La sedia per esterno Regista FIAM può essere utilizzata "
+"come: sedia per terrazzo sedia da giardino -sedia da campeggio -sedia per "
+"portico -sedia per terrazzo"
+msgstr ""
+"Sedia da esterno FIAM modello Regista, struttura in faggio verniciato color "
+"noce e tessuto in textilene.Sedia da giardino pieghevole, made in Italy, "
+"prodotta da FIAM. La sedia per esterno Regista FIAM può essere utilizzata "
+"come: sedia per terrazzo sedia da giardino -sedia da campeggio -sedia per "
+"portico -sedia per terrazzo"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sedia da esterno pieghevole FIAM DIRECTOR disponibile con tessuto in olefine "
+"o texfil, telaio in legno di Robinia. Legno europeo di origine certificata "
+"che garantisce un'elevata resistenza all'aperto e caratterizzato dalla "
+"tipica \"stagionatura cromatica\" in cui i colori se lasciati al naturale "
+"virano dal biondo chiaro a toni piu' scuri e grigi. Seduta da esterno "
+"certificata PEFC, che attesta che le forme di gestione boschiva rispondono a "
+"determinati requisiti di “sostenibilita'”. "
+msgstr ""
+"Sedia da esterno pieghevole FIAM DIRECTOR disponibile con tessuto in olefine "
+"o texfil, telaio in legno di Robinia. Legno europeo di origine certificata "
+"che garantisce un'elevata resistenza all'aperto e caratterizzato dalla "
+"tipica \"stagionatura cromatica\" in cui i colori se lasciati al naturale "
+"virano dal biondo chiaro a toni piu' scuri e grigi. Seduta da esterno "
+"certificata PEFC, che attesta che le forme di gestione boschiva rispondono a "
+"determinati requisiti di “sostenibilita'”. "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sedia da esterno pieghevole FIAM DIRECTOR disponibile con tessuto in olefine "
+"o texfil, telaio in legno di Robinia. Legno europeo di origine certificata "
+"che garantisce un'elevata resistenza all'aperto e caratterizzato dalla "
+"tipica \"stagionatura cromatica\" in cui i colori se lasciati al naturale "
+"virano dal biondo chiaro a toni più scuri e grigi. Seduta da esterno "
+"certificata PEFC, che attesta che le forme di gestione boschiva rispondono a "
+"determinati requisiti di “sostenibilità”."
+msgstr ""
+"Sedia da esterno pieghevole FIAM DIRECTOR disponibile con tessuto in olefine "
+"o texfil, telaio in legno di Robinia. Legno europeo di origine certificata "
+"che garantisce un'elevata resistenza all'aperto e caratterizzato dalla "
+"tipica \"stagionatura cromatica\" in cui i colori se lasciati al naturale "
+"virano dal biondo chiaro a toni più scuri e grigi. Seduta da esterno "
+"certificata PEFC, che attesta che le forme di gestione boschiva rispondono a "
+"determinati requisiti di “sostenibilità”."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sedia in alluminio con braccioli da esterno FIAM LIDO spaghetti. Ispirata "
+"alle panchine pubbliche degli anni cinquanta, la serie LIDO è caratterizzata "
+"dalla struttura in tondino di metallo che, in un segno fluido, si snoda per "
+"descrivere la silhouette di ogni variante. Per il rivestimento sono previste "
+"differenti soluzioni, dai tessuti sintetici outdoor alle corde di pvc "
+"(spaghetti). Sono previste anche soluzioni a listelli plastici, metallici o "
+"in legno."
+msgstr ""
+"Sedia in alluminio con braccioli da esterno FIAM LIDO spaghetti. Ispirata "
+"alle panchine pubbliche degli anni cinquanta, la serie LIDO è caratterizzata "
+"dalla struttura in tondino di metallo che, in un segno fluido, si snoda per "
+"descrivere la silhouette di ogni variante. Per il rivestimento sono previste "
+"differenti soluzioni, dai tessuti sintetici outdoor alle corde di pvc "
+"(spaghetti). Sono previste anche soluzioni a listelli plastici, metallici o "
+"in legno."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sedia in alluminio da esterno FIAM LIDO spaghetti. Ispirata alle panchine "
+"pubbliche degli anni cinquanta, la serie LIDO è caratterizzata dalla "
+"struttura in tondino di metallo che, in un segno fluido, si snoda per "
+"descrivere la silhouette di ogni variante. Per il rivestimento sono previste "
+"differenti soluzioni, dai tessuti sintetici outdoor alle corde di pvc "
+"(spaghetti). Sono previste anche soluzioni a listelli plastici, metallici o "
+"in legno."
+msgstr ""
+"Sedia in alluminio da esterno FIAM LIDO spaghetti. Ispirata alle panchine "
+"pubbliche degli anni cinquanta, la serie LIDO è caratterizzata dalla "
+"struttura in tondino di metallo che, in un segno fluido, si snoda per "
+"descrivere la silhouette di ogni variante. Per il rivestimento sono previste "
+"differenti soluzioni, dai tessuti sintetici outdoor alle corde di pvc "
+"(spaghetti). Sono previste anche soluzioni a listelli plastici, metallici o "
+"in legno."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sedia modello regista chiudibile salva spazio Struttura in  Il telaio e' "
+"realizzato in lega di acciaio ad alta resistenza verniciato a polveri "
+"termoindurenti che ne garantiscono un'ottima protezione. La seduta, in "
+"tessuto italiano Texfil microforato (rete di filo in pvc con anima di nylon "
+"ad alta tenacita'),coniuga un ottimo comfort tattile ad un'elevata "
+"resistenza agli agenti atmosferici ed ai raggi UV: tubo di diam mm 22, "
+"Tessuto Texfil microforato (rete di filo in pvc con anima di nylon ad alta "
+"tenacita'),coniuga un ottimo comfort tattile ad un'elevata resistenza agli "
+"agenti atmosferici ed ai raggi UV."
+msgstr ""
+"Sedia modello regista chiudibile salva spazio Struttura in  Il telaio e' "
+"realizzato in lega di acciaio ad alta resistenza verniciato a polveri "
+"termoindurenti che ne garantiscono un'ottima protezione. La seduta, in "
+"tessuto italiano Texfil microforato (rete di filo in pvc con anima di nylon "
+"ad alta tenacita'),coniuga un ottimo comfort tattile ad un'elevata "
+"resistenza agli agenti atmosferici ed ai raggi UV: tubo di diam mm 22, "
+"Tessuto Texfil microforato (rete di filo in pvc con anima di nylon ad alta "
+"tenacita'),coniuga un ottimo comfort tattile ad un'elevata resistenza agli "
+"agenti atmosferici ed ai raggi UV."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sedia modello regista chiudibile salva spazio Struttura in alluminiO: tubo "
+"di diam mm 22, Tessuto Texfil microforato (rete di filo in pvc con anima di "
+"nylon ad alta tenacita'),coniuga un ottimo comfort tattile ad un'elevata "
+"resistenza agli agenti atmosferici ed ai raggi UV."
+msgstr ""
+"Sedia modello regista chiudibile salva spazio Struttura in alluminiO: tubo "
+"di diam mm 22, Tessuto Texfil microforato (rete di filo in pvc con anima di "
+"nylon ad alta tenacita'),coniuga un ottimo comfort tattile ad un'elevata "
+"resistenza agli agenti atmosferici ed ai raggi UV."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sedia per bambini pieghevole salva spazio. La struttura e' in acciaio "
+"verniciato con tubo di diametro da 20 mm."
+msgstr ""
+"Sedia per bambini pieghevole salva spazio. La struttura e' in acciaio "
+"verniciato con tubo di diametro da 20 mm."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sedia per esterno FIAM modello sedia Regista.\n"
+"Sedia da giardino richiudibile con struttura in legno europeo certificato e "
+"seduta e schienale in tessuto textilene . Sedia made in Italy prodotta da "
+"FIAM"
+msgstr ""
+"Sedia per esterno FIAM modello sedia Regista.\n"
+"Sedia da giardino pieghevole con struttura in legno europeo certificato e "
+"seduta e schienale in tessuto textilene . Sedia made in Italy prodotta da "
+"FIAM"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sgabello bar con telaio in acciaio cromato con piano in legno di faggio "
+"colore bianco . Sgabello chiudibile salvaspazio per ottimizzazione degli "
+"spazi. Altezza sedile cm. 62. Made in Italy "
+msgstr ""
+"Sgabello bar con telaio in acciaio cromato con piano in legno di faggio "
+"colore bianco . Sgabello chiudibile salvaspazio per ottimizzazione degli "
+"spazi. Altezza sedile cm. 62. Made in Italy "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sgabello bar con telaio in acciaio cromato con piano in legno di faggio "
+"colore naturale . Sgabello chiudibile salvaspazio per ottimizzazione degli "
+"spazi. Altezza sedile cm. 62. Made in Italy "
+msgstr ""
+"Sgabello bar con telaio in acciaio cromato con piano in legno di faggio "
+"colore naturale . Sgabello chiudibile salvaspazio per ottimizzazione degli "
+"spazi. Altezza sedile cm. 62. Made in Italy "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sgabello bar con telaio in acciaio cromato con piano in legno di faggio "
+"colore naturale . Sgabello chiudibile salvaspazio per ottimizzazione degli "
+"spazi. Altezza sedile cm. 72. Made in Italy"
+msgstr ""
+"Sgabello bar con telaio in acciaio cromato con piano in legno di faggio "
+"colore naturale . Sgabello chiudibile salvaspazio per ottimizzazione degli "
+"spazi. Altezza sedile cm. 72. Made in Italy"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sgabello bar con telaio in acciaio cromato con piano in legno di faggio "
+"colore wengè . Sgabello chiudibile salvaspazio per ottimizzazione degli "
+"spazi. Altezza sedile cm. 62. Made in Italy "
+msgstr ""
+"Sgabello bar con telaio in acciaio cromato con piano in legno di faggio "
+"colore wengè . Sgabello chiudibile salvaspazio per ottimizzazione degli "
+"spazi. Altezza sedile cm. 62. Made in Italy "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sgabello bar con telaio in acciaio cromato con piano in legno di faggio "
+"colore wengè . Sgabello chiudibile salvaspazio per ottimizzazione degli "
+"spazi. Altezza sedile cm. 72. Made in Italy 2. Made in Italy "
+msgstr ""
+"Sgabello bar con telaio in acciaio cromato con piano in legno di faggio "
+"colore wengè . Sgabello chiudibile salvaspazio per ottimizzazione degli "
+"spazi. Altezza sedile cm. 72. Made in Italy 2. Made in Italy "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sgabello bar con telaio in acciaio verniciato con piano in legno di faggio "
+"colore bianco. Sgabello chiudibile salvaspazio per ottimizzazione degli "
+"spazi. Altezza sedile cm. 62. Made in Italy "
+msgstr ""
+"Sgabello bar con telaio in acciaio verniciato con piano in legno di faggio "
+"colore bianco. Sgabello chiudibile salvaspazio per ottimizzazione degli "
+"spazi. Altezza sedile cm. 62. Made in Italy "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sgabello bar con telaio in acciaio verniciato con piano in legno di faggio "
+"colore bianco. Sgabello chiudibile salvaspazio per ottimizzazione degli "
+"spazi. Altezza sedile cm. 72. Made in Italy "
+msgstr ""
+"Sgabello bar con telaio in acciaio verniciato con piano in legno di faggio "
+"colore bianco. Sgabello chiudibile salvaspazio per ottimizzazione degli "
+"spazi. Altezza sedile cm. 72. Made in Italy "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sgabello bar con telaio in acciaio verniciato con piano in legno di faggio "
+"colore naturale . Sgabello chiudibile salvaspazio per ottimizzazione degli "
+"spazi. Altezza sedile cm. 62. Made in Italy "
+msgstr ""
+"Sgabello bar con telaio in acciaio verniciato con piano in legno di faggio "
+"colore naturale . Sgabello chiudibile salvaspazio per ottimizzazione degli "
+"spazi. Altezza sedile cm. 62. Made in Italy "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sgabello bar con telaio in acciaio verniciato con piano in legno di faggio "
+"colore naturale . Sgabello chiudibile salvaspazio per ottimizzazione degli "
+"spazi. Altezza sedile cm. 72. Made in Italy"
+msgstr ""
+"Sgabello bar con telaio in acciaio verniciato con piano in legno di faggio "
+"colore naturale . Sgabello chiudibile salvaspazio per ottimizzazione degli "
+"spazi. Altezza sedile cm. 72. Made in Italy"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sgabello con telaio in acciaio cromato colore nero e piano in legno di "
+"faggio colore naturale.Sgabello chiudibile per l`ottimizzazione degli spazi. "
+"Altezza sedile cm. 46. "
+msgstr ""
+"Sgabello con telaio in acciaio cromato colore nero e piano in legno di "
+"faggio colore naturale.Sgabello chiudibile per l`ottimizzazione degli spazi. "
+"Altezza sedile cm. 46. "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sgabello con telaio in acciaio cromato colore nero e piano in legno di "
+"faggio colore nero.Sgabello chiudibile per l`ottimizzazione degli spazi. "
+"Altezza sedile cm. 46. "
+msgstr ""
+"Sgabello con telaio in acciaio cromato colore nero e piano in legno di "
+"faggio colore nero.Sgabello chiudibile per l`ottimizzazione degli spazi. "
+"Altezza sedile cm. 46. "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sgabello con telaio in acciaio verniciato colore nero e piano in legno di "
+"faggio colore naturale.Sgabello chiudibile per l`ottimizzazione degli spazi. "
+"Altezza sedile cm. 46. "
+msgstr ""
+"Sgabello con telaio in acciaio verniciato colore nero e piano in legno di "
+"faggio colore naturale.Sgabello chiudibile per l`ottimizzazione degli spazi. "
+"Altezza sedile cm. 46. "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Sgabello con telaio in acciaio verniciato colore nero e piano in legno di "
+"faggio colore nero.Sgabello chiudibile per l`ottimizzazione degli spazi. "
+"Altezza sedile cm. 46. "
+msgstr ""
+"Sgabello con telaio in acciaio verniciato colore nero e piano in legno di "
+"faggio colore nero.Sgabello chiudibile per l`ottimizzazione degli spazi. "
+"Altezza sedile cm. 46. "
+
+#. module: base_accounting_program
 #: selection:res.partner.zone,type:0
 msgid "State"
 msgstr "Stato"
@@ -431,6 +1815,101 @@ msgstr "Stato"
 #: view:res.partner:base_accounting_program.view_partner_add_custom_fields
 msgid "Statistic"
 msgstr "Statistiche"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid "Supporto tablet per poltrona FIAM Movida "
+msgstr "Supporto tablet per poltrona FIAM Movida "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Tavolino per esterni di design in acciaio zincato e verniciato con polveri "
+"epossidiche. Tavolino da esterno Made in italy prodotto da FIAM. Il Tavolino "
+"FIAM CLUB è ideale da affiancare ad un lettino in piscina o da utilizzare "
+"come appoggio per il PC portatile."
+msgstr ""
+"Tavolino per esterni di design in acciaio zincato e verniciato con polveri "
+"epossidiche. Tavolino da esterno Made in italy prodotto da FIAM. Il Tavolino "
+"FIAM CLUB è ideale da affiancare ad un lettino in piscina o da utilizzare "
+"come appoggio per il PC portatile."
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Tavolino per esterni quadrato FIAM Sirio: tavolo richiudibile in acciaio "
+"zincato e verniciato. Il tavolino da giardino FIAM Sirio è un prodotto made "
+"in Italy realizzato da FIAM La Dolce Vita. Il tavolino da caffè Sirio è "
+"molto robusto, pratico ed utile in ogni occasione"
+msgstr ""
+"Tavolino per esterni quadrato FIAM Sirio: tavolo richiudibile in acciaio "
+"zincato e verniciato. Il tavolino da giardino FIAM Sirio è un prodotto made "
+"in Italy realizzato da FIAM La Dolce Vita. Il tavolino da caffè Sirio è "
+"molto robusto, pratico ed utile in ogni occasione"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Tavolino per esterni rettangolare FIAM Sirio: tavolo richiudibile in acciaio "
+"zincato e verniciato. Il tavolino da giardino FIAM Sirio è un prodotto made "
+"in Italy realizzato da FIAM La Dolce Vita. Il tavolino da caffè Sirio è "
+"molto robusto, pratico ed utile in ogni occasione"
+msgstr ""
+"Tavolino per esterni rettangolare FIAM Sirio: tavolo richiudibile in acciaio "
+"zincato e verniciato. Il tavolino da giardino FIAM Sirio è un prodotto made "
+"in Italy realizzato da FIAM La Dolce Vita. Il tavolino da caffè Sirio è "
+"molto robusto, pratico ed utile in ogni occasione"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Tavolino per esterni tondo FIAM Sirio: tavolo richiudibile in acciaio "
+"zincato e verniciato. Il tavolino da giardino FIAM Sirio è un prodotto made "
+"in Italy realizzato da FIAM La Dolce Vita. Il tavolino da caffè Sirio è "
+"molto robusto, pratico ed utile in ogni occasione"
+msgstr ""
+"Tavolino per esterni tondo FIAM Sirio: tavolo richiudibile in acciaio "
+"zincato e verniciato. Il tavolino da giardino FIAM Sirio è un prodotto made "
+"in Italy realizzato da FIAM La Dolce Vita. Il tavolino da caffè Sirio è "
+"molto robusto, pratico ed utile in ogni occasione"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Tavolino per esterni tondo FIAM Tris: tavolo richiudibile in acciaio zincato "
+"e verniciato. Il tavolino da giardino FIAM Tris è un prodotto made in Italy "
+"realizzato da FIAM La Dolce Vita. Il tavolino da caffè Tris è molto robusto, "
+"pratico ed utile in ogni occasione; "
+msgstr ""
+"Tavolino per esterni tondo FIAM Tris: tavolo richiudibile in acciaio zincato "
+"e verniciato. Il tavolino da giardino FIAM Tris è un prodotto made in Italy "
+"realizzato da FIAM La Dolce Vita. Il tavolino da caffè Tris è molto robusto, "
+"pratico ed utile in ogni occasione; "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid "Tavolo pieghevole Robin in acacia, adatto per uso esterno "
+msgstr "Tavolo pieghevole Robin in acacia, adatto per uso esterno "
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Tela di ricambio per lettino River dell' azienda Fiam in tessuto in "
+"textilene termosaldato colore Bianco"
+msgstr ""
+"Tela di ricambio per lettino River dell' azienda Fiam in tessuto in "
+"textilene termosaldato colore Bianco"
+
+#. module: base_accounting_program
+#: model:product.product,large_description:0
+msgid ""
+"Tela di ricambio per lettino River dell' azienda Fiam in tessuto in "
+"textilene termosaldato colore Bianco tramato Beige \n"
+"\n"
+msgstr ""
+"Tela di ricambio per lettino River dell' azienda Fiam in tessuto in "
+"textilene termosaldato colore Bianco tramato Beige \n"
+"\n"
 
 #. module: base_accounting_program
 #: view:sale.product.return:base_accounting_program.view_sale_product_return_form
@@ -474,8 +1953,8 @@ msgid ""
 "Usually the name is art. code + '.PNG', es. 400.PNGif you want to change "
 "write the name in this field!"
 msgstr ""
-"Usually the name is art. code + '.PNG', es. 400.PNGif you want to change "
-"write the name in this field!"
+"DI solito il nome è il codice articolo + '.PNG', es. 400.PNG se volete "
+"cambiare basta scrivere in questo campo il nome da utilizzare!"
 
 #. module: base_accounting_program
 #: view:product.product:base_accounting_program.product_normal_form_view_inherit_extra_field

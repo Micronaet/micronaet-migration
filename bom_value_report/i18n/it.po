@@ -1,0 +1,318 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* bom_value_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-27 16:23+0000\n"
+"PO-Revision-Date: 2017-07-28 16:49+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#. module: bom_value_report
+#: field:pricelist.partnerinfo,is_active:0
+msgid "Active"
+msgstr "Attivo"
+
+#. module: bom_value_report
+#: model:res.groups,name:bom_value_report.group_bom_manager
+msgid "BOM Manager"
+msgstr "Gestione DB"
+
+#. module: bom_value_report
+#: model:ir.ui.menu,name:bom_value_report.menu_products_bom_components
+msgid "BOM components management"
+msgstr "Gestione componenti DB"
+
+#. module: bom_value_report
+#: field:product.product,best_cost:0
+msgid "Best cost"
+msgstr "Costo migliore"
+
+#. module: bom_value_report
+#: model:ir.model,name:bom_value_report.model_mrp_bom
+msgid "Bill of Material"
+msgstr "Distinta Base"
+
+#. module: bom_value_report
+#: view:mrp.bom:bom_value_report.mrp_bom_component_tree_view_obsolete_color
+msgid "BoM Structure"
+msgstr "Struttura DB"
+
+#. module: bom_value_report
+#: view:duplicate.bom.wizard:bom_value_report.duplicate_bom_wizard_form
+msgid "Cancel"
+msgstr "Annulla"
+
+#. module: bom_value_report
+#: field:duplicate.bom.wizard,clear:0
+msgid "Cancella componenti"
+msgstr "Cancella componenti"
+
+#. module: bom_value_report
+#: help:pricelist.partnerinfo,is_active:0
+msgid "Check last price line (only this for every Q)"
+msgstr "Controlla il prezzo ultimo (solo questo per ogni Q.)"
+
+#. module: bom_value_report
+#: field:pricelist.partnerinfo,product_name:0
+msgid "Company product"
+msgstr "Prodotto azienda"
+
+#. module: bom_value_report
+#: view:mrp.bom:bom_value_report.mrp_bom_component_tree_view_obsolete_color
+msgid "Component Name"
+msgstr "Nome componente"
+
+#. module: bom_value_report
+#: view:mrp.bom:bom_value_report.mrp_bom_component_tree_view_obsolete_color
+msgid "Component Product"
+msgstr "Componente prodotto"
+
+#. module: bom_value_report
+#: model:ir.actions.act_window,help:bom_value_report.mrp_bom_form_action_obsolete
+msgid ""
+"Componenti obsoleti abbinati alle distinte, dove presenti (impostato "
+"obsoleto oppure con prezzo oltre l'1/1 di 2 anni fa)"
+msgstr ""
+"Componenti obsoleti abbinati alle distinte, dove presenti (impostato "
+"obsoleto oppure con prezzo oltre l'1/1 di 2 anni fa)"
+
+#. module: bom_value_report
+#: field:duplicate.bom.wizard,create_duplicate_to:0
+msgid "Crea distinta prodotto"
+msgstr "Crea distinta prodotto"
+
+#. module: bom_value_report
+#: field:duplicate.bom.wizard,create_uid:0
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: bom_value_report
+#: field:duplicate.bom.wizard,create_date:0
+msgid "Created on"
+msgstr "Creato il"
+
+#. module: bom_value_report
+#: view:mrp.bom:bom_value_report.view_mrp_bom_filter_component
+msgid "Date"
+msgstr "Data"
+
+#. module: bom_value_report
+#: field:pricelist.partnerinfo,date_quotation:0
+msgid "Date quotation"
+msgstr "Data offerta"
+
+#. module: bom_value_report
+#: view:mrp.bom:bom_value_report.view_mrp_bom_filter_component
+msgid "Default UOM"
+msgstr "UM predefinita"
+
+#. module: bom_value_report
+#: model:ir.actions.report.xml,name:bom_value_report.aeroo_fiam_bom_custom
+msgid "Distinta base"
+msgstr "Distinta base"
+
+#. module: bom_value_report
+#: model:ir.actions.report.xml,name:bom_value_report.aeroo_fiam_bom_custom_no_cost
+msgid "Distinta base (no costi)"
+msgstr "Distinta base (no costi)"
+
+#. module: bom_value_report
+#: view:duplicate.bom.wizard:bom_value_report.duplicate_bom_wizard_form
+msgid "Duplica"
+msgstr "Duplica"
+
+#. module: bom_value_report
+#: model:ir.actions.act_window,name:bom_value_report.action_duplicate_bom_wizard
+msgid "Duplica distinta base"
+msgstr "Duplica distinta base"
+
+#. module: bom_value_report
+#: field:duplicate.bom.wizard,duplicate_to:0
+msgid "Duplica su"
+msgstr "Duplica su"
+
+#. module: bom_value_report
+#: view:duplicate.bom.wizard:bom_value_report.duplicate_bom_wizard_form
+msgid "Duplicazione distinta base"
+msgstr "Duplicazione distinta base"
+
+#. module: bom_value_report
+#: help:duplicate.bom.wizard,clear:0
+msgid ""
+"Elimina tutti gli eventuali componenti presenti nella Distinta selezionata."
+msgstr ""
+"Elimina tutti gli eventuali componenti presenti nella Distinta selezionata."
+
+#. module: bom_value_report
+#: model:ir.actions.report.xml,name:bom_value_report.aeroo_fiam_bom_list_custom
+msgid "Fiam: Distinte totali"
+msgstr "Fiam: Distinte totali"
+
+#. module: bom_value_report
+#: model:ir.actions.report.xml,name:bom_value_report.aeroo_fiam_bom_cost_list_custom
+msgid "Fiam: Elenco completo costi"
+msgstr "Fiam: Elenco completo costi"
+
+#. module: bom_value_report
+#: field:product.product,first_code:0
+msgid "First code"
+msgstr "Primo codice"
+
+#. module: bom_value_report
+#: view:mrp.bom:bom_value_report.view_mrp_bom_filter_component
+msgid "Group By..."
+msgstr "Raggruppa per..."
+
+#. module: bom_value_report
+#: field:duplicate.bom.wizard,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: bom_value_report
+#: field:pricelist.partnerinfo,has_bom:0
+msgid "Is BOM"
+msgstr "E' una DB"
+
+#. module: bom_value_report
+#: help:mrp.bom,obsolete:0 help:mrp.bom.line,obsolete:0
+msgid "Is better do not use this component!"
+msgstr "E' meglio non utilizzare questo componente"
+
+#. module: bom_value_report
+#: field:duplicate.bom.wizard,write_uid:0
+msgid "Last Updated by"
+msgstr "Ultimo aggiornamento di"
+
+#. module: bom_value_report
+#: field:duplicate.bom.wizard,write_date:0
+msgid "Last Updated on"
+msgstr "Ultimo aggiornamento il"
+
+#. module: bom_value_report
+#: model:ir.actions.act_window,name:bom_value_report.mrp_bom_form_action_obsolete
+#: model:ir.ui.menu,name:bom_value_report.menu_mrp_bom_form_action_obsolete
+msgid "Lista componenti obsoleti"
+msgstr "Lista componenti obsoleti"
+
+#. module: bom_value_report
+#: view:product.product:bom_value_report.product_search_form_view_fiam_fields
+msgid "Nessun componente"
+msgstr "Nessun componente"
+
+#. module: bom_value_report
+#: view:product.product:bom_value_report.product_search_form_view_fiam_fields
+msgid "Non in Mexal"
+msgstr "Non in Mexal"
+
+#. module: bom_value_report
+#: view:mrp.bom:bom_value_report.mrp_bom_add_fiam_fields field:mrp.bom,note:0
+#: field:mrp.bom.line,note:0
+msgid "Note"
+msgstr "Note"
+
+#. module: bom_value_report
+#: field:mrp.bom,obsolete:0 field:mrp.bom.line,obsolete:0
+msgid "Obsolete"
+msgstr "Obsoleto"
+
+#. module: bom_value_report
+#: field:mrp.bom,old_cost:0 field:mrp.bom.line,old_cost:0
+msgid "Old price"
+msgstr "Prezzo vecchio"
+
+#. module: bom_value_report
+#: field:mrp.bom,actual_price:0
+msgid "Price"
+msgstr "Prezzo"
+
+#. module: bom_value_report
+#: field:mrp.bom,first_supplier:0
+msgid "Primo forn."
+msgstr "Primo forn."
+
+#. module: bom_value_report
+#: field:product.product,first_supplier:0
+msgid "Primo fornitore"
+msgstr "Primo fornitore"
+
+#. module: bom_value_report
+#: model:ir.model,name:bom_value_report.model_product_product
+#: view:mrp.bom:bom_value_report.view_mrp_bom_filter_component
+#: field:pricelist.partnerinfo,product_id:0
+msgid "Product"
+msgstr "Prodotto"
+
+#. module: bom_value_report
+#: model:ir.ui.menu,name:bom_value_report.menu_products_bom
+msgid "Product Variants"
+msgstr "Varianti di prodotto"
+
+#. module: bom_value_report
+#: view:mrp.bom:bom_value_report.view_mrp_bom_filter_component
+msgid "Reference"
+msgstr "Riferimento"
+
+#. module: bom_value_report
+#: view:mrp.bom:bom_value_report.view_mrp_bom_filter_component
+msgid "Routing"
+msgstr "Routing"
+
+#. module: bom_value_report
+#: view:mrp.bom:bom_value_report.view_mrp_bom_filter_component
+msgid "Search component"
+msgstr "Ricerca componente"
+
+#. module: bom_value_report
+#: view:mrp.bom:bom_value_report.view_mrp_bom_filter_component
+msgid "Starting Date"
+msgstr "Data partenza"
+
+#. module: bom_value_report
+#: field:mrp.bom,actual_total:0
+msgid "Subtotal"
+msgstr "Subtotale"
+
+#. module: bom_value_report
+#: field:pricelist.partnerinfo,supplier_id:0
+msgid "Supplier"
+msgstr "Fornitore"
+
+#. module: bom_value_report
+#: field:pricelist.partnerinfo,product_supp_code:0
+msgid "Supplier code"
+msgstr "Codice fornitore"
+
+#. module: bom_value_report
+#: field:pricelist.partnerinfo,product_supp_name:0
+msgid "Supplier description"
+msgstr "Descrizione forntiore"
+
+#. module: bom_value_report
+#: field:mrp.bom,tot_component:0
+msgid "Tot comp."
+msgstr "Tot. comp."
+
+#. module: bom_value_report
+#: field:product.product,bom_len:0
+msgid "Tot. comp."
+msgstr "Tot. comp."
+
+#. module: bom_value_report
+#: view:mrp.bom:bom_value_report.view_mrp_bom_filter_component
+msgid "Type"
+msgstr "Tipo"
+
+#. module: bom_value_report
+#: field:pricelist.partnerinfo,uom_id:0
+msgid "UOM"
+msgstr "UM"

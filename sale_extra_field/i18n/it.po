@@ -1,14 +1,13 @@
-# Translation of OpenERP Server.
+# Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* report_purchase_gpb
-# <> <>, 2013.
+#	* sale_extra_field
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 6.0.4\n"
-"Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2013-03-15 12:08+0000\n"
-"PO-Revision-Date: 2013-03-15 13:09+0100\n"
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-27 16:32+0000\n"
+"PO-Revision-Date: 2017-07-27 16:32+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,33 +15,18 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: report_purchase_gpb
-#: model:ir.model,name:report_purchase_gpb.model_purchase_order_line
-msgid "Purchase Order Line"
-msgstr "Riga Ordine d'Acquisto"
+#. module: sale_extra_field
+#: view:product.product:sale_extra_field.view_product_product_extra_fields
+msgid "Descrizione extra"
+msgstr "Descrizione extra"
 
-#. module: report_purchase_gpb
-#: field:purchase.order.line,q_x_pack:0
-msgid "Package"
-msgstr "Pz. per imballo"
+#. module: sale_extra_field
+#: field:product.product,pipe_diameter_sale:0
+msgid "Diam. tubo"
+msgstr "Diam. tubo"
 
-#. module: report_purchase_gpb
-#: field:purchase.order.line,colour:0
-msgid "Color"
-msgstr "Colore"
+#. module: sale_extra_field
+#: model:ir.model,name:sale_extra_field.model_product_product
+msgid "Product"
+msgstr "Prodotto"
 
-#. module: report_purchase_gpb
-#: model:ir.actions.report.xml,name:report_purchase_gpb.aeroo_purchase_gpb_report_id
-msgid "G.P.B.: Stampa documento"
-msgstr "G.P.B.: Stampa documento"
-
-#. module: report_purchase_gpb
-#: report:ir.actions.report.xml:report_purchase_gpb.aeroo_purchase_gpb_report_id
-#: report:ir.actions.report.xml,Date:report_purchase_gpb.aeroo_purchase_gpb_report_id
-msgid "Date"
-msgstr "Data"
-
-#. module: report_purchase_gpb
-#: model:ir.actions.report.xml,name:report_purchase_gpb.aeroo_purchase_gpb_report_id_ods
-msgid "G.P.B.: Stampa ODS"
-msgstr "G.P.B.: Stampa ODS"

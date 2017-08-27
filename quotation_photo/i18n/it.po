@@ -1,0 +1,176 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* quotation_photo
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-27 16:32+0000\n"
+"PO-Revision-Date: 2017-08-04 13:58+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#. module: quotation_photo
+#: field:product.quotation.folder,addons:0
+msgid "Addons root path"
+msgstr "Percorso base addons"
+
+#. module: quotation_photo
+#: model:ir.actions.act_window,name:quotation_photo.product_quotation_folder_action
+#: model:ir.ui.menu,name:quotation_photo.product_quotation_folder_action_menu
+msgid "Cartella immagini"
+msgstr "Cartella immagini"
+
+#. module: quotation_photo
+#: help:product.quotation.folder,empty_image:0
+msgid "Complete name + ext. of empty image, ex.: 0.png"
+msgstr "Nome completo + estens. dell'immagine vuota, es.: 0.png"
+
+#. module: quotation_photo
+#: view:product.product:quotation_photo.product_product_with_preview_form
+msgid "Container type"
+msgstr "Tipo contenitore"
+
+#. module: quotation_photo
+#: field:product.quotation.folder,create_uid:0
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: quotation_photo
+#: field:product.quotation.folder,create_date:0
+msgid "Created on"
+msgstr "Creato il"
+
+#. module: quotation_photo
+#: field:product.quotation.folder,default:0
+msgid "Default"
+msgstr "Predefinito"
+
+#. module: quotation_photo
+#: view:product.product:quotation_photo.product_product_with_preview_form
+#: field:product.quotation.folder,name:0
+msgid "Description"
+msgstr "Descrizione"
+
+#. module: quotation_photo
+#: field:product.quotation.folder,empty_image:0
+msgid "Empty image"
+msgstr "Immagine vuota"
+
+#. module: quotation_photo
+#: field:product.quotation.folder,extension_image:0
+msgid "Extension"
+msgstr "Estensione"
+
+#. module: quotation_photo
+#: field:product.quotation.folder,folder_path:0
+#: field:product.quotation.folder,root_path:0
+msgid "Folder extra path"
+msgstr "Percorso extra cartella"
+
+#. module: quotation_photo
+#: field:product.quotation.folder,height:0
+msgid "Height in px."
+msgstr "Altezza in px."
+
+#. module: quotation_photo
+#: field:product.quotation.folder,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: quotation_photo
+#: view:product.quotation.folder:quotation_photo.product_quotation_folder_form_view
+#: view:product.quotation.folder:quotation_photo.product_quotation_folder_tree_view
+msgid "Image Folder"
+msgstr "Cartella immagine"
+
+#. module: quotation_photo
+#: field:product.quotation.folder,write_uid:0
+msgid "Last Updated by"
+msgstr "Ultimo aggiornamento di"
+
+#. module: quotation_photo
+#: field:product.quotation.folder,write_date:0
+msgid "Last Updated on"
+msgstr "Ultimo aggiornamento il"
+
+#. module: quotation_photo
+#: model:ir.actions.act_window,help:quotation_photo.product_quotation_folder_action
+msgid "Lista delle cartelle per mettere le immagini"
+msgstr "Lista delle cartelle per mettere le immagini"
+
+#. module: quotation_photo
+#: help:product.quotation.folder,root_path:0
+msgid "Path extra default root folder, ex.: http://server/openerp"
+msgstr "Percorso extra predefinito cartella base, es.: http://server/openerp"
+
+#. module: quotation_photo
+#: help:product.quotation.folder,folder_path:0
+msgid ""
+"Path extra default root folder, ex.: thumb/400/color, or complete path: /"
+"home/admin/photo"
+msgstr ""
+"Percorso extra oltre la cartella base: es.:thumb/400/color, o percorso "
+"completo: /home/admin/photo"
+
+#. module: quotation_photo
+#: view:product.product:quotation_photo.product_product_with_preview_form
+msgid "Preview"
+msgstr "Anteprima"
+
+#. module: quotation_photo
+#: view:product.product:quotation_photo.base_product_image_preview_form
+msgid "Preview (Only when saved)"
+msgstr "Anteprima (visibile solo quando salvato)"
+
+#. module: quotation_photo
+#: model:ir.model,name:quotation_photo.model_product_product
+msgid "Product"
+msgstr "Prodotto"
+
+#. module: quotation_photo
+#: view:product.product:quotation_photo.base_product_image_preview_form
+msgid "Product images preview"
+msgstr "Anteprima immagine prodotto"
+
+#. module: quotation_photo
+#: model:ir.actions.act_window,name:quotation_photo.product_product_with_preview_action
+#: model:ir.ui.menu,name:quotation_photo.product_product_with_preview_menu
+msgid "Product with preview"
+msgstr "Prodotto con anteprima"
+
+#. module: quotation_photo
+#: model:ir.actions.act_window,help:quotation_photo.product_product_with_preview_action
+msgid "Short form with product info and preview images"
+msgstr "Scheda breve con info prodotto e anteprima immagini"
+
+#. module: quotation_photo
+#: help:product.quotation.folder,addons:0
+msgid ""
+"Start from addons path, extra path is append to addons folder, instead of "
+"extra is complete path"
+msgstr ""
+"Parte da percorso addon, viene aggiunto il percorso extra altrimenti extra "
+"viene considerato il percorso completo"
+
+#. module: quotation_photo
+#: field:product.quotation.folder,width:0
+msgid "Witdh in px."
+msgstr "Larghezza in px."
+
+#. module: quotation_photo
+#: field:product.product,default_photo:0
+msgid "unknown"
+msgstr "sconosciuto"
+
+#. module: quotation_photo
+#: help:product.quotation.folder,extension_image:0
+msgid "without dot, for ex.: jpg"
+msgstr "con i punti, per esempio: jpg"

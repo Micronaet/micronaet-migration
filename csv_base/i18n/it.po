@@ -1,0 +1,48 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* csv_base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-27 16:24+0000\n"
+"PO-Revision-Date: 2017-08-04 15:45+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#. module: csv_base
+#: model:ir.model,name:csv_base.model_csv_base
+msgid "Base function"
+msgstr "Funzioni base"
+
+#. module: csv_base
+#: field:csv.base,create_uid:0
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: csv_base
+#: field:csv.base,create_date:0
+msgid "Created on"
+msgstr "Creato il"
+
+#. module: csv_base
+#: field:csv.base,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: csv_base
+#: field:csv.base,write_uid:0
+msgid "Last Updated by"
+msgstr "Aggiornato da"
+
+#. module: csv_base
+#: field:csv.base,write_date:0
+msgid "Last Updated on"
+msgstr "Aggiornato il"

@@ -1,0 +1,382 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* script6_8
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-27 16:32+0000\n"
+"PO-Revision-Date: 2017-08-04 14:17+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,campaign:0
+msgid "A. Campaign"
+msgstr "A. Campagna"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,category:0
+msgid "A. Partner category"
+msgstr "A. Partner categoria"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,user:0
+msgid "A. User"
+msgstr "A. Utente"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,bom:0
+msgid "B. BOM"
+msgstr "B. DB"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,bomline:0
+msgid "B. BOM line"
+msgstr "B. Riga DB"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,package:0
+msgid "B. Package"
+msgstr "B. Scatola"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,partner:0
+msgid "B. Partner"
+msgstr "B. Partner"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,partnerinfo:0
+msgid "B. Partnerinfo"
+msgstr "B. Info partner"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,pricelist:0
+msgid "B. Pricelist"
+msgstr "B. Listino"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,product:0
+msgid "B. Product"
+msgstr "B. Prodotto"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,supplierinfo:0
+msgid "B. Supplierinfo"
+msgstr "B. Info fornitore"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_easylabel_batch_line
+msgid "Batch block lines of labels job"
+msgstr "Linea blocco etichette da stampare"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_easylabel_batch
+msgid "Batch block of labels job"
+msgstr "Blocco/Lotto di etichette da stampare"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_mrp_bom
+msgid "Bill of Material"
+msgstr "Distinta Base"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,purchase:0
+msgid "C. Purchase"
+msgstr "C. Acquisti"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,purchase_line:0
+msgid "C. Purchase order line"
+msgstr "C. Righe ordini di acquisto"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,sale:0
+msgid "C. Sale"
+msgstr "C. Vendite"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,sale_line:0
+msgid "C. Sale order line"
+msgstr "C. Riga ordine vendita"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_crm_tracking_campaign
+msgid "Campaign"
+msgstr "Campagna"
+
+#. module: script6_8
+#: model:ir.ui.menu,name:script6_8.menu_syncro_xmlrpc_view
+msgid "Configuration"
+msgstr "Configurazione"
+
+#. module: script6_8
+#: view:syncro.migration.wizard:script6_8.syncro_migration_wizard_view
+msgid "Country update"
+msgstr "Aggiorna paesi"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,to_create:0
+msgid "Create if not present"
+msgstr "Crea se non presente"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,create_uid:0 field:syncro.xmlrpc,create_uid:0
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,create_date:0
+#: field:syncro.xmlrpc,create_date:0
+msgid "Created on"
+msgstr "Creato il"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,productpricelist:0
+msgid "D. Product Pricelist"
+msgstr "D. Listino prodotto"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,easylabel:0
+msgid "E. Easylabel"
+msgstr "E. Easylabel"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_easylabel_easylabel
+msgid "Easylabel"
+msgstr "Easylabel"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,from_date:0
+msgid "From date"
+msgstr "Dalla data"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,id:0 field:syncro.xmlrpc,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: script6_8
+#: field:product.product,migration_old_tmpl_id:0
+msgid "ID tmpl v.6"
+msgstr "ID template v.6"
+
+#. module: script6_8
+#: field:auto.stock.supplier,migration_old_id:0
+#: field:crm.tracking.campaign,migration_old_id:0
+#: field:easylabel.batch,migration_old_id:0
+#: field:easylabel.batch.line,migration_old_id:0
+#: field:easylabel.easylabel,migration_old_id:0
+#: field:easylabel.label,migration_old_id:0
+#: field:easylabel.parameter,migration_old_id:0
+#: field:easylabel.particularity,migration_old_id:0
+#: field:easylabel.path,migration_old_id:0
+#: field:easylabel.printer,migration_old_id:0 field:mrp.bom,migration_old_id:0
+#: field:mrp.bom.line,migration_old_id:0
+#: field:pricelist.partnerinfo,migration_old_id:0
+#: field:product.category,migration_old_id:0
+#: field:product.pricelist,migration_old_id:0
+#: field:product.pricelist.version,migration_old_id:0
+#: field:product.product,migration_old_id:0
+#: field:product.supplierinfo,migration_old_id:0
+#: field:product.template,migration_old_id:0
+#: field:purchase.order,migration_old_id:0
+#: field:purchase.order.line,migration_old_id:0
+#: field:res.partner,migration_old_address_id:0
+#: field:res.partner,migration_old_id:0
+#: field:res.partner.category,migration_old_id:0
+#: field:res.users,migration_old_id:0 field:sale.order,migration_old_id:0
+#: field:sale.order.line,migration_old_id:0
+msgid "ID v.6"
+msgstr "ID v.6"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_product_supplierinfo
+msgid "Information about a product supplier"
+msgstr "Informazioni su un Fornitore Prodotto"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_easylabel_parameter
+msgid "Label command file parameter"
+msgstr "Parametri etichetta per file comandi"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,write_uid:0 field:syncro.xmlrpc,write_uid:0
+msgid "Last Updated by"
+msgstr "Aggiornato da"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,write_date:0 field:syncro.xmlrpc,write_date:0
+msgid "Last Updated on"
+msgstr "Aggiornato il"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,link:0
+msgid "Link"
+msgstr "Collegamento"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_easylabel_label
+msgid "List of label in Easylabel"
+msgstr "Lista etichette in Easylabel"
+
+#. module: script6_8
+#: view:syncro.migration.wizard:script6_8.syncro_migration_wizard_view
+#: view:syncro.xmlrpc:script6_8.syncro_xmlrpc_form_view
+#: view:syncro.xmlrpc:script6_8.syncro_xmlrpc_tree_view
+msgid "Migrate"
+msgstr "Migra"
+
+#. module: script6_8
+#: model:ir.actions.act_window,name:script6_8.action_syncro_migration_wizard_view
+#: model:ir.actions.act_window,name:script6_8.action_syncro_xmlrpc_view
+#: model:ir.ui.menu,name:script6_8.menu_syncro_migration_wizard_view
+msgid "Migration wizard"
+msgstr "Wizard migrazione"
+
+#. module: script6_8
+#: help:syncro.migration.wizard,link:0
+msgid "Only soft link to record"
+msgstr "Solo collegamento al record"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_product_packaging
+msgid "Packaging"
+msgstr "Confezionamento"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_easylabel_particularity
+msgid "Particularity"
+msgstr "Particolarità"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_res_partner
+msgid "Partner"
+msgstr "Partner"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_res_partner_category
+msgid "Partner Tags"
+msgstr "Partner tag"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_product_pricelist
+msgid "Pricelist"
+msgstr "Listino Prezzi"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_product_pricelist_version
+msgid "Pricelist Version"
+msgstr "Versione Listino"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_easylabel_printer
+msgid "Printers"
+msgstr "Stampanti"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_product_product
+msgid "Product"
+msgstr "Prodotto"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_product_category
+msgid "Product Category"
+msgstr "Categoria Prodotto"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_product_template
+msgid "Product Template"
+msgstr "Modello Prodotto"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_purchase_order
+msgid "Purchase Order"
+msgstr "Ordine Acquisto"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Riga Ordine d'Acquisto"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_easylabel_path
+msgid "Root path of label's folder"
+msgstr "Percorso base per la cartella etichette"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_sale_order
+msgid "Sales Order"
+msgstr "Ordine di vendita"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Linea d'ordine di vendita"
+
+#. module: script6_8
+#: field:syncro.xmlrpc,name:0
+msgid "Source DB name"
+msgstr "Nome DB sorgente"
+
+#. module: script6_8
+#: field:syncro.xmlrpc,hostname:0
+msgid "Source Hostname"
+msgstr "Nome host sorgente"
+
+#. module: script6_8
+#: field:syncro.xmlrpc,password:0
+msgid "Source Password"
+msgstr "Password sorgente"
+
+#. module: script6_8
+#: field:syncro.xmlrpc,port:0
+msgid "Source Port"
+msgstr "Porta sorgente"
+
+#. module: script6_8
+#: field:syncro.xmlrpc,username:0
+msgid "Source Username"
+msgstr "Utente sorgente"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_auto_stock_supplier
+msgid "Supplier list"
+msgstr "Lista fornitori"
+
+#. module: script6_8
+#: view:syncro.migration.wizard:script6_8.syncro_migration_wizard_view
+msgid "Syncro / Migrate"
+msgstr "Sincro / Migrazione"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,to_date:0
+msgid "To date"
+msgstr "Alla data"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,update:0
+msgid "Update if present"
+msgstr "Aggiorna se presente"
+
+#. module: script6_8
+#: model:ir.model,name:script6_8.model_res_users
+msgid "Users"
+msgstr "Utenti"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,autostock:0
+msgid "Z0. Autostock"
+msgstr "Z0. Magazzino automatico"
+
+#. module: script6_8
+#: field:syncro.migration.wizard,history:0
+msgid "Z1. Update supplier history pricelist"
+msgstr "Z1. Aggiorna listino prezzi storici"

@@ -1,37 +1,325 @@
-# Translation of OpenERP Server.
+# Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* report_aeroo_fiam
+# 	* quotation_custom_report
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 6.0.2\n"
-"Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2011-05-24 11:50+0000\n"
-"PO-Revision-Date: 2011-05-24 11:50+0000\n"
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-27 16:32+0000\n"
+"PO-Revision-Date: 2017-08-05 23:24+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
 
-#. module: report_aeroo_fiam
-#: help:sale.order.line,repeat_header_line:0
-msgid "Spuntare quando e' richiesta l'intestazione, tipo dopo una riga titolo."
-msgstr "Spuntare quando e' richiesta l'intestazione, tipo dopo una riga titolo."
+#. module: quotation_custom_report
+#: model:product.product,extra_description:0
+msgid "(€ 14,00 + TELO € 5,00) EV.SCATOLA € 0,50"
+msgstr "(€ 14,00 + TELO € 5,00) EV.SCATOLA € 0,50"
 
-#. module: report_aeroo_fiam
+#. module: quotation_custom_report
+#: model:product.product,telaio:0
+msgid "ACACIA"
+msgstr "ROBINIA"
+
+#. module: quotation_custom_report
+#: model:product.product,telaio:0
+msgid "ACCIACIO"
+msgstr "ACCIACIO"
+
+#. module: quotation_custom_report
+#: model:product.product,telaio:0
+msgid "ACCIAIO"
+msgstr "ACCIAIO"
+
+#. module: quotation_custom_report
+#: model:product.product,telaio:0
+msgid "ALLUMINIO"
+msgstr "ALLUMINIO"
+
+#. module: quotation_custom_report
+#: model:product.product,telaio:0
+msgid "ALUMINIUM"
+msgstr "ALLUMINIO"
+
+#. module: quotation_custom_report
+#: model:product.product,telaio:0
+msgid "ANODIZED ALUMINIUM"
+msgstr "ANODIZED ALUMINIUM"
+
+#. module: quotation_custom_report
+#: field:sale.order.line,use_amazon_description:0
+msgid "Amazon description"
+msgstr "Descrizione Amazon"
+
+#. module: quotation_custom_report
+#: report:ir.actions.report.xml:quotation_custom_report.aeroo_order_custom_report_id
+msgid ""
+"Banca Cooperativa Valsabbina\n"
+"Agency of Ghedi\n"
+"IBAN: IT49 T051 1654 5700 0000 0000 130"
+msgstr ""
+"Banca Cooperativa Valsabbina\n"
+"Agenzia di Ghedi\n"
+"IBAN: IT49 T051 1654 5700 0000 0000 130"
+
+#. module: quotation_custom_report
+#: model:product.product,extra_description:0
+msgid "Chaise Longue \"Tango\" Allum. 2 Pos."
+msgstr "Chaise Longue \"Tango\" Allum. 2 Pos."
+
+#. module: quotation_custom_report
+#: model:product.product,extra_description:0
+msgid "Cinghia poliprop. tela mm.28 bianco"
+msgstr "Cinghia poliprop. tela mm.28 bianco"
+
+#. module: quotation_custom_report
+#: field:sale.order.line,insert_photo:0
+msgid "Con foto"
+msgstr "Con foto"
+
+#. module: quotation_custom_report
+#: model:product.product,extra_description:0
+msgid "Coni filato Permacore 35/500 Nero W99999"
+msgstr "Coni filato Permacore 35/500 Naturale W490093"
+
+#. module: quotation_custom_report
+#: model:product.product,extra_description:0
+msgid "Cuscino Ulisse cm. 100x140"
+msgstr "Cuscino Ulisse cm. 100x140"
+
+#. module: quotation_custom_report
+#: field:sale.order,destination_partner_id:0
+msgid "Destination"
+msgstr "Destinazione"
+
+#. module: quotation_custom_report
+#: field:product.product,dim_article:0
+msgid "Dim. art."
+msgstr "Dim. art."
+
+#. module: quotation_custom_report
+#: field:product.product,dim_pallet:0
+msgid "Dim. pallet"
+msgstr "Dim. pallet"
+
+#. module: quotation_custom_report
+#: field:product.product,dim_pack:0
+msgid "Dim. scatola"
+msgstr "Dim. scatola"
+
+#. module: quotation_custom_report
+#: field:product.product,extra_description:0
+msgid "Extra description"
+msgstr "Descrizione extra"
+
+#. module: quotation_custom_report
+#: model:product.product,telaio:0
+msgid "FAGGIO"
+msgstr "FAGGIO"
+
+#. module: quotation_custom_report
+#: model:product.product,telaio:0
+msgid "FERRO"
+msgstr "FERRO"
+
+#. module: quotation_custom_report
+#: model:product.product,extra_description:0
+msgid "Fabric: Olefine"
+msgstr "Tessuto: Olefine"
+
+#. module: quotation_custom_report
+#: model:product.product,extra_description:0
+msgid "Fabric: Triplex "
+msgstr "Tessuto: Triplex"
+
+#. module: quotation_custom_report
+#: model:product.product,extra_description:0
+msgid "IMPORTO CANONE"
+msgstr "IMPORTO CANONE"
+
+#. module: quotation_custom_report
+#: model:product.product,telaio:0
+msgid "IRON"
+msgstr "IRON"
+
+#. module: quotation_custom_report
+#: model:product.product,telaio:0
+msgid "IRON PAINTED"
+msgstr "ACCIAIO"
+
+#. module: quotation_custom_report
 #: field:sale.order.line,repeat_header_line:0
 msgid "Intest."
 msgstr "Intest."
 
-#. module: report_aeroo_fiam
-#: model:ir.model,name:report_aeroo_fiam.model_sale_order_line
+#. module: quotation_custom_report
+#: model:product.product,telaio:0
+msgid "LEGNO"
+msgstr "LEGNO"
+
+#. module: quotation_custom_report
+#: field:sale.order,quotation_model:0
+msgid "Model"
+msgstr "Modello"
+
+#. module: quotation_custom_report
+#: model:product.product,telaio:0
+msgid "NOCE"
+msgstr "NOCE"
+
+#. module: quotation_custom_report
+#: field:sale.order.line,note:0
+msgid "Note"
+msgstr "Note"
+
+#. module: quotation_custom_report
+#: selection:sale.order,quotation_model:0
+msgid "Offerta breve (solo q.)"
+msgstr "Offerta breve (solo q.)"
+
+#. module: quotation_custom_report
+#: selection:sale.order,quotation_model:0
+msgid "Offerta dettagliata (q.-sconto-subtotali)"
+msgstr "Offerta dettagliata (q.-sconto-subtotali)"
+
+#. module: quotation_custom_report
+#: model:product.product,extra_description:0
+msgid "PINZE MM. 18 ANTRACITE"
+msgstr "PINZE MM. 18 ANTRACITE"
+
+#. module: quotation_custom_report
+#: field:product.product,weight_packaging:0
+msgid "Peso imballo"
+msgstr "Peso imballo"
+
+#. module: quotation_custom_report
+#: field:product.product,item_per_pallet:0
+msgid "Pezzi per bancale"
+msgstr "Pezzi per bancale"
+
+#. module: quotation_custom_report
+#: field:product.product,item_per_camion:0
+msgid "Pezzi per camion 13,6 mt."
+msgstr "Pezzi per camion 13,6 mt."
+
+#. module: quotation_custom_report
+#: field:product.product,item_per_mq:0
+msgid "Pezzi per metro cubo"
+msgstr "Pezzi per metro cubo"
+
+#. module: quotation_custom_report
+#: field:product.product,item_per_box:0
+msgid "Pezzi per scatola"
+msgstr "Pezzi per scatola"
+
+#. module: quotation_custom_report
+#: field:product.product,pipe_diameter:0
+msgid "Pipe diameter mm."
+msgstr "Diametro tubo mm."
+
+#. module: quotation_custom_report
+#: model:ir.model,name:quotation_custom_report.model_product_product
+msgid "Product"
+msgstr "Prodotto"
+
+#. module: quotation_custom_report
+#: model:ir.actions.report.xml,name:quotation_custom_report.aeroo_order_custom_report_id
+msgid "Quotation custom"
+msgstr "Offerta fotografica"
+
+#. module: quotation_custom_report
+#: model:product.product,telaio:0
+msgid "ROBINIA"
+msgstr "ROBINIA"
+
+#. module: quotation_custom_report
+#: model:product.product,extra_description:0
+msgid "SCONTO INCONDIZIONATO"
+msgstr "SCONTO INCONDIZIONATO"
+
+#. module: quotation_custom_report
+#: model:product.product,telaio:0
+msgid "STEEL"
+msgstr "STEEL"
+
+#. module: quotation_custom_report
+#: model:ir.model,name:quotation_custom_report.model_sale_order
+msgid "Sales Order"
+msgstr "Ordine di vendita"
+
+#. module: quotation_custom_report
+#: model:ir.model,name:quotation_custom_report.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "Riga ordine di vendita"
+msgstr "Linea d'ordine di vendita"
 
-#. module: report_aeroo_fiam
-#: model:ir.actions.report.xml,name:report_aeroo_fiam.aeroo_order_fiam_report_id
-msgid "Fiam: Ordine di vendita"
-msgstr "Fiam: Stampa documento"
+#. module: quotation_custom_report
+#: model:product.product,extra_description:0
+msgid "Scatola per art. 036TXB mm. 710x180x775"
+msgstr "Scatola per art. 036TXB mm. 710x180x775"
 
+#. module: quotation_custom_report
+#: field:sale.order.line,show_notes:0
+msgid "Show notes"
+msgstr "Mostra note"
+
+#. module: quotation_custom_report
+#: help:sale.order.line,show_notes:0
+msgid "Show notes after description"
+msgstr "Mostra note dopo descrizione"
+
+#. module: quotation_custom_report
+#: help:sale.order.line,repeat_header_line:0
+msgid "Spuntare quando e' richiesta l'intestazione, tipo dopo una riga titolo."
+msgstr ""
+"Spuntare quando e' richiesta l'intestazione, tipo dopo una riga titolo."
+
+#. module: quotation_custom_report
+#: help:sale.order.line,insert_photo:0
+msgid "Spuntare quando e' richiesto l'inserimento della foto a preventivo."
+msgstr "Spuntare quando e' richiesto l'inserimento della foto a preventivo."
+
+#. module: quotation_custom_report
+#: model:product.product,telaio:0
+msgid "TINTO NOCE"
+msgstr "TINTO NOCE"
+
+#. module: quotation_custom_report
+#: help:sale.order.line,use_amazon_description:0
+msgid "Take amazon description instead of product's one"
+msgstr "Prende descrizione amazon al posto di quella del prodotto"
+
+#. module: quotation_custom_report
+#: field:product.product,telaio:0
+msgid "Telaio"
+msgstr "Telaio"
+
+#. module: quotation_custom_report
+#: model:product.product,telaio:0
+msgid "WALNUT"
+msgstr "WALNUT"
+
+#. module: quotation_custom_report
+#: model:product.product,telaio:0
+msgid "WOOD"
+msgstr "WOOD"
+
+#. module: quotation_custom_report
+#: model:product.product,telaio:0
+msgid "WOODEN"
+msgstr "WOODEN"
+
+#. module: quotation_custom_report
+#: model:product.product,extra_description:0
+msgid "With Thermolwelded cloth"
+msgstr "With Thermolwelded cloth"
+
+#. module: quotation_custom_report
+#: view:sale.order.line:quotation_custom_report.view_order_line_tree_quotation
+msgid "top"
+msgstr "top"

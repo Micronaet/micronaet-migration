@@ -1,0 +1,169 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* extra_search
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-27 16:25+0000\n"
+"PO-Revision-Date: 2017-08-04 13:48+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#. module: extra_search
+#: view:search.database.wizard:extra_search.search_database_wizard
+msgid "Annulla"
+msgstr "Annulla"
+
+#. module: extra_search
+#: view:search.database.wizard:extra_search.search_database_wizard
+msgid "Apri corrente"
+msgstr "Apri corrente"
+
+#. module: extra_search
+#: view:search.database.wizard:extra_search.search_database_wizard
+msgid "Attuale:"
+msgstr "Attuale:"
+
+#. module: extra_search
+#: view:search.database.wizard:extra_search.search_database_wizard
+msgid "Cerca"
+msgstr "Cerca"
+
+#. module: extra_search
+#: view:search.database.wizard:extra_search.search_database_wizard
+msgid "Chiudi"
+msgstr "Chiudi"
+
+#. module: extra_search
+#: field:search.database,create_uid:0
+#: field:search.database.wizard,create_uid:0
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: extra_search
+#: field:search.database,create_date:0
+#: field:search.database.wizard,create_date:0
+msgid "Created on"
+msgstr "Creato il\t\t\t\t\t\t\t\t\t\t\t"
+
+#. module: extra_search
+#: field:search.database,name:0
+msgid "Database name"
+msgstr "Nome database"
+
+#. module: extra_search
+#: view:search.database.wizard:extra_search.search_database_wizard
+msgid "Elementi trovati in altri DB:"
+msgstr "Elementi trovati in altri DB:"
+
+#. module: extra_search
+#: model:ir.actions.act_window,name:extra_search.search_database_wizard_action
+msgid "Extra search partner string"
+msgstr "Ricerca extra stringa partner"
+
+#. module: extra_search
+#: field:search.database.wizard,current:0
+msgid "Find current DB"
+msgstr "Cerca DB corrente"
+
+#. module: extra_search
+#: selection:search.database.wizard,state:0
+msgid "Find in other DB"
+msgstr "Cerca in altro DB"
+
+#. module: extra_search
+#: field:search.database.wizard,find:0
+msgid "Finded in other DB"
+msgstr "Trovato nell'altro DB"
+
+#. module: extra_search
+#: field:search.database,id:0 field:search.database.wizard,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: extra_search
+#: field:search.database,write_uid:0 field:search.database.wizard,write_uid:0
+msgid "Last Updated by"
+msgstr "Ultimo aggiornamento di"
+
+#. module: extra_search
+#: field:search.database,write_date:0
+#: field:search.database.wizard,write_date:0
+msgid "Last Updated on"
+msgstr "Ultimo aggiornamento il"
+
+#. module: extra_search
+#: view:search.database.wizard:extra_search.search_database_wizard
+msgid "Ricerca extra DB"
+msgstr "Ricerca extra DB"
+
+#. module: extra_search
+#: view:search.database.wizard:extra_search.search_database_wizard
+msgid "Risultati:"
+msgstr "Risultati:"
+
+#. module: extra_search
+#: field:search.database,search:0 selection:search.database.wizard,state:0
+msgid "Search"
+msgstr "Ricerca"
+
+#. module: extra_search
+#: model:ir.actions.act_window,name:extra_search.action_search_database
+msgid "Search database"
+msgstr "Ricerca database"
+
+#. module: extra_search
+#: view:search.database:extra_search.view_search_database_form
+msgid "Search database form"
+msgstr "Ricerca database"
+
+#. module: extra_search
+#: view:search.database:extra_search.view_search_database_tree
+msgid "Search database tree"
+msgstr "Ricerca database"
+
+#. module: extra_search
+#: model:ir.model,name:extra_search.model_search_database
+msgid "Search databases"
+msgstr "Ricerca database"
+
+#. module: extra_search
+#: model:ir.ui.menu,name:extra_search.menu_search_database
+msgid "Search extra database"
+msgstr "Ricerca extra database"
+
+#. module: extra_search
+#: view:search.database.wizard:extra_search.search_database_wizard
+msgid ""
+"Search string in partner name for this DB and DB selected in config set up"
+msgstr ""
+"Cerca stringa nel nome partner per questo database e quello selezionato "
+"nella configurazione"
+
+#. module: extra_search
+#: view:search.database.wizard:extra_search.search_database_wizard
+msgid "Search string:"
+msgstr "Stringa ricerca"
+
+#. module: extra_search
+#: model:ir.ui.menu,name:extra_search.menu_search_database_wizard
+msgid "Search wizard"
+msgstr "Wizard ricerca"
+
+#. module: extra_search
+#: field:search.database.wizard,state:0
+msgid "State"
+msgstr "Stato"
+
+#. module: extra_search
+#: field:search.database.wizard,name:0
+msgid "Text to search"
+msgstr "Testo da cercare"

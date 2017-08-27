@@ -1,0 +1,335 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* crm_partner_categorization
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-27 16:24+0000\n"
+"PO-Revision-Date: 2017-07-28 16:56+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#. module: crm_partner_categorization
+#: model:ir.actions.act_window,help:crm_partner_categorization.action_partner_color_form
+msgid ""
+"A customer is an entity you do business with, like a company or an "
+"organization. A customer can have several contacts or addresses which are "
+"the people working for this company. You can use the history tab, to follow "
+"all transactions related to a customer: sales order, emails, opportunities, "
+"claims, etc. If you use the email gateway, the Outlook or the Thunderbird "
+"plugin, don't forget to register emails to each contact so that the gateway "
+"will automatically attach incoming emails to the right partner."
+msgstr ""
+"Un cliente è una entità con cui fi effettuano affari, puoi essere un "
+"contatto, indirizzo o persone che lavorano per la azienda. Si può utilizzare "
+"la scheda storico per seguire tutte le transazioni relative ad un cliente: "
+"ordini, email, opportunità, reclami, ecc. Se utilizzi un server mail, il "
+"plug in di Outlook e Thunderbird, non dimenticarti di registrare le email "
+"per ogni contatto così il server potrà automaticamente agganciare le mail in "
+"ingresso al partner corretto."
+
+#. module: crm_partner_categorization
+#: model:ir.ui.menu,name:crm_partner_categorization.menu_base_config_categorization
+msgid "CRM Categorization"
+msgstr "Categorizzazione CRM"
+
+#. module: crm_partner_categorization
+#: model:ir.actions.act_window,name:crm_partner_categorization.action_base_config_categorization_partner_importance
+#: model:ir.ui.menu,name:crm_partner_categorization.menu_base_config_categorization_partner_importance
+msgid "CRM Partner importance"
+msgstr "Importanza partner CRM"
+
+#. module: crm_partner_categorization
+#: view:crm.partner.importance:crm_partner_categorization.crm_partner_importance_form
+msgid "CRM contact importance"
+msgstr "Importanza contatto CRM"
+
+#. module: crm_partner_categorization
+#: view:crm.partner.importance:crm_partner_categorization.crm_partner_importance_tree
+msgid "CRM partner importance"
+msgstr "Importanza partner CRM"
+
+#. module: crm_partner_categorization
+#: view:crm.partner.importance:crm_partner_categorization.crm_partner_importance_search
+msgid "CRM partner importance search"
+msgstr "Ricerca importanza partner CRM"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "Color"
+msgstr "Colore"
+
+#. module: crm_partner_categorization
+#: field:res.partner,partner_color:0
+msgid "Color classification"
+msgstr "Classificazione colore"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "Country"
+msgstr "Nazione"
+
+#. module: crm_partner_categorization
+#: field:crm.partner.importance,create_uid:0
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: crm_partner_categorization
+#: field:crm.partner.importance,create_date:0
+msgid "Created on"
+msgstr "Creato il"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "Customer Partners"
+msgstr "Partner clienti"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "Customers"
+msgstr "Clienti"
+
+#. module: crm_partner_categorization
+#: model:ir.actions.act_window,name:crm_partner_categorization.action_partner_color_form
+#: model:ir.ui.menu,name:crm_partner_categorization.menu_partner_color_form
+msgid "Customers analisys"
+msgstr "Analisi clienti"
+
+#. module: crm_partner_categorization
+#: view:crm.partner.importance:crm_partner_categorization.crm_partner_importance_form
+#: view:crm.partner.importance:crm_partner_categorization.crm_partner_importance_tree
+msgid "Descrizione"
+msgstr "Descrizione"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_partner_tree_color
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "FT+OC+BC-NC"
+msgstr "FT+OC+BC-NC"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_partner_tree_color
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "FT-NC (-1)"
+msgstr "FT-NC (-1)"
+
+#. module: crm_partner_categorization
+#: selection:res.partner,partner_color:0
+msgid "Green"
+msgstr "Verde"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "Group By..."
+msgstr "Raggruppa per..."
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_partner_tree_color
+msgid "Hide"
+msgstr "Nascondi"
+
+#. module: crm_partner_categorization
+#: field:crm.partner.importance,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "ID mexal c."
+msgstr "ID mexal c."
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+#: field:res.partner,partner_importance_id:0
+msgid "Importance"
+msgstr "Importanza"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "Imported from Mexal"
+msgstr "Importato da Mexal"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "Interesting"
+msgstr "Interessante"
+
+#. module: crm_partner_categorization
+#: field:crm.partner.importance,invoiced_less_than:0
+msgid "Invoice less than"
+msgstr "Fatturato minore di"
+
+#. module: crm_partner_categorization
+#: field:crm.partner.importance,invoiced_over_than:0
+msgid "Invoice over than"
+msgstr "Fatturato oltre il"
+
+#. module: crm_partner_categorization
+#: field:crm.partner.importance,write_uid:0
+msgid "Last Updated by"
+msgstr "Ultimo aggiornamento di"
+
+#. module: crm_partner_categorization
+#: field:crm.partner.importance,write_date:0
+msgid "Last Updated on"
+msgstr "Ultimo aggiornamento il"
+
+#. module: crm_partner_categorization
+#: field:res.partner,last_activity:0
+msgid "Last activity"
+msgstr "Ultima attività"
+
+#. module: crm_partner_categorization
+#: model:ir.actions.act_window,help:crm_partner_categorization.action_base_config_categorization_partner_importance
+msgid "List of partner importance"
+msgstr "Lista importanza partner"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "Mexal"
+msgstr "Mexal"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "Moved"
+msgstr "Spostato"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "Moved partner"
+msgstr "Partner spostati"
+
+#. module: crm_partner_categorization
+#: field:crm.partner.importance,name:0
+msgid "Name"
+msgstr "Nome"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "No activity now"
+msgstr "Nessuna attività ora"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "No activity this year partner"
+msgstr "Nessuna attività per questo partner quest'anno"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "Not Moved"
+msgstr "Non movimentato"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "Not moved partner"
+msgstr "Partner non movimentato"
+
+#. module: crm_partner_categorization
+#: view:crm.partner.importance:crm_partner_categorization.crm_partner_importance_form
+#: field:crm.partner.importance,note:0
+msgid "Note"
+msgstr "Note"
+
+#. module: crm_partner_categorization
+#: help:crm.partner.importance,sequence:0
+msgid "Order of importance level"
+msgstr "Ordini per livello di importanza"
+
+#. module: crm_partner_categorization
+#: model:ir.model,name:crm_partner_categorization.model_res_partner
+msgid "Partner"
+msgstr "Partner"
+
+#. module: crm_partner_categorization
+#: model:ir.model,name:crm_partner_categorization.model_crm_partner_importance
+msgid "Partner importance"
+msgstr "Importanza partner"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_partner_tree_color
+msgid "Partners"
+msgstr "Partner"
+
+#. module: crm_partner_categorization
+#: selection:res.partner,partner_color:0
+msgid "Red"
+msgstr "Rosso"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "Salesman"
+msgstr "Commerciale"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "Search Partner highlighted"
+msgstr "Ricerca partner selezionati"
+
+#. module: crm_partner_categorization
+#: field:crm.partner.importance,sequence:0
+msgid "Sequence"
+msgstr "Sequenza"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_partner_tree_color
+msgid "Show"
+msgstr "Mostra"
+
+#. module: crm_partner_categorization
+#: view:crm.partner.importance:crm_partner_categorization.crm_partner_importance_form
+#: view:crm.partner.importance:crm_partner_categorization.crm_partner_importance_tree
+msgid "Simbolo"
+msgstr "Simbolo"
+
+#. module: crm_partner_categorization
+#: help:crm.partner.importance,note:0
+msgid "Some information to this level behaviours"
+msgstr "Alcune informazioni a questo caratteristico livello"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "Supplier Partners"
+msgstr "Partner fornitori"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "Suppliers"
+msgstr "Fornitori"
+
+#. module: crm_partner_categorization
+#: field:crm.partner.importance,symbol_description:0
+msgid "Symbol description"
+msgstr "Descrizione simbolo"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "Trend"
+msgstr "Tendenza"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "View only green or yellow partner"
+msgstr "Mostra solo i partner gialli o verdi"
+
+#. module: crm_partner_categorization
+#: selection:res.partner,partner_color:0
+msgid "Yellow"
+msgstr "Giallo"
+
+#. module: crm_partner_categorization
+#: view:res.partner:crm_partner_categorization.view_res_partner_color_filter
+msgid "Zone"
+msgstr "Zona"
+
+#. module: crm_partner_categorization
+#: help:crm.partner.importance,name:0
+msgid "ex.: **** or xxxx"
+msgstr "es.: **** o xxxx"

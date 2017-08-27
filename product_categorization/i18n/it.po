@@ -1,0 +1,129 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* product_categorization
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-27 16:31+0000\n"
+"PO-Revision-Date: 2017-08-04 14:04+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#. module: product_categorization
+#: field:product.line,create_uid:0 field:product.material,create_uid:0
+#: field:product.tipology,create_uid:0
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: product_categorization
+#: field:product.line,create_date:0 field:product.material,create_date:0
+#: field:product.tipology,create_date:0
+msgid "Created on"
+msgstr "Creato il"
+
+#. module: product_categorization
+#: field:product.line,id:0 field:product.material,id:0
+#: field:product.tipology,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: product_categorization
+#: field:product.line,write_uid:0 field:product.material,write_uid:0
+#: field:product.tipology,write_uid:0
+msgid "Last Updated by"
+msgstr "Aggiornato da"
+
+#. module: product_categorization
+#: field:product.line,write_date:0 field:product.material,write_date:0
+#: field:product.tipology,write_date:0
+msgid "Last Updated on"
+msgstr "Aggiornato il"
+
+#. module: product_categorization
+#: field:product.line,name:0 field:product.template,line_id:0
+msgid "Line"
+msgstr "Linea"
+
+#. module: product_categorization
+#: field:product.material,name:0 field:product.template,material_id:0
+msgid "Material"
+msgstr "Materiale"
+
+#. module: product_categorization
+#: view:product.line:product_categorization.view_product_line_form
+#: field:product.line,note:0
+#: view:product.material:product_categorization.view_product_material_form
+#: field:product.material,note:0
+#: view:product.tipology:product_categorization.view_product_tipology_form
+#: field:product.tipology,note:0
+msgid "Note"
+msgstr "Note"
+
+#. module: product_categorization
+#: model:ir.model,name:product_categorization.model_product_product
+msgid "Product"
+msgstr "Prodotto"
+
+#. module: product_categorization
+#: model:ir.model,name:product_categorization.model_product_template
+msgid "Product Template"
+msgstr "Modello Prodotto"
+
+#. module: product_categorization
+#: model:ir.actions.act_window,name:product_categorization.action_product_line
+#: model:ir.model,name:product_categorization.model_product_line
+#: model:ir.ui.menu,name:product_categorization.menu_product_line
+#: view:product.line:product_categorization.view_product_line_form
+#: view:product.line:product_categorization.view_product_line_tree
+msgid "Product line"
+msgstr "Linea prodotto"
+
+#. module: product_categorization
+#: model:ir.actions.act_window,name:product_categorization.action_product_material
+#: model:ir.model,name:product_categorization.model_product_material
+#: model:ir.ui.menu,name:product_categorization.menu_product_material
+#: view:product.material:product_categorization.view_product_material_form
+#: view:product.material:product_categorization.view_product_material_tree
+msgid "Product material"
+msgstr "Materiale prodotto"
+
+#. module: product_categorization
+#: model:ir.actions.act_window,name:product_categorization.action_product_tipology
+#: model:ir.model,name:product_categorization.model_product_tipology
+#: view:product.tipology:product_categorization.view_product_tipology_form
+#: view:product.tipology:product_categorization.view_product_tipology_tree
+msgid "Product tipology"
+msgstr "Tipologia prodotto"
+
+#. module: product_categorization
+#: view:product.line:product_categorization.view_product_line_search
+msgid "Search product line"
+msgstr "Cerca linea prodotto"
+
+#. module: product_categorization
+#: view:product.material:product_categorization.view_product_material_search
+msgid "Search product material"
+msgstr "Cerca materiale prodotto"
+
+#. module: product_categorization
+#: view:product.tipology:product_categorization.view_product_tipology_search
+msgid "Search product tipology"
+msgstr "Cerca tipologia prodotto"
+
+#. module: product_categorization
+#: field:product.template,tipology_id:0
+msgid "Tipology"
+msgstr "Tipologia"
+
+#. module: product_categorization
+#: field:product.tipology,name:0
+msgid "tipology"
+msgstr "tipologia"

@@ -1,0 +1,43 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* mx_inventory_history
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-27 16:28+0000\n"
+"PO-Revision-Date: 2017-08-06 10:46+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#. module: mx_inventory_history
+#: model:ir.model,name:mx_inventory_history.model_res_company
+msgid "Companies"
+msgstr "Aziende"
+
+#. module: mx_inventory_history
+#: field:product.product,mx_history_net_qty:0
+msgid "History net"
+msgstr "Netto storicizzato"
+
+#. module: mx_inventory_history
+#: model:ir.model,name:mx_inventory_history.model_product_product
+msgid "Product"
+msgstr "Prodotto"
+
+#. module: mx_inventory_history
+#: view:res.company:mx_inventory_history.view_res_company_save_stock_status_form
+msgid "Save stock 2016"
+msgstr "Salva magazzino 2016"
+
+#. module: mx_inventory_history
+#: view:res.company:mx_inventory_history.view_res_company_save_stock_status_form
+msgid "Stock status"
+msgstr "Stato magazzino"

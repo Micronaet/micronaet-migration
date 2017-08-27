@@ -1,0 +1,154 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* label_easy_purchase
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-27 16:25+0000\n"
+"PO-Revision-Date: 2017-08-05 23:43+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#. module: label_easy_purchase
+#: code:addons/label_easy_purchase/wizard/label_wizard.py:254
+#, python-format
+msgid "@echo Job detail"
+msgstr "@echo Dettaglio lavoro"
+
+#. module: label_easy_purchase
+#: code:addons/label_easy_purchase/wizard/label_wizard.py:252
+#, python-format
+msgid "@echo Print note: %"
+msgstr "@echo Print note: %"
+
+#. module: label_easy_purchase
+#: code:addons/label_easy_purchase/wizard/label_wizard.py:251
+#, python-format
+msgid "@echo Start printing... %"
+msgstr "@echo Inizio stampa... %"
+
+#. module: label_easy_purchase
+#: view:easylabel.purchase.wizard:label_easy_purchase.view_easylabel_purchase_wizard_form
+msgid "Cancel"
+msgstr "Annulla"
+
+#. module: label_easy_purchase
+#: field:easylabel.purchase.wizard,create_uid:0
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: label_easy_purchase
+#: field:easylabel.purchase.wizard,create_date:0
+msgid "Created on"
+msgstr "Creato il"
+
+#. module: label_easy_purchase
+#: code:addons/label_easy_purchase/wizard/label_wizard.py:148
+#, python-format
+msgid "Error"
+msgstr "Errore"
+
+#. module: label_easy_purchase
+#: code:addons/label_easy_purchase/wizard/label_wizard.py:149
+#, python-format
+msgid ""
+"Error write record (CHAR problem?):\n"
+"%s"
+msgstr ""
+"Errore scrivendo il record (problema CARATTERI?):\n"
+"%s"
+
+#. module: label_easy_purchase
+#: model:ir.actions.act_window,name:label_easy_purchase.act_windows_easylabel_purchase_wizard
+#: model:ir.actions.act_window,name:label_easy_purchase.action_easylabel_purchase_wizard
+#: view:purchase.order:label_easy_purchase.view_purchase_order_label
+msgid "Export label"
+msgstr "Esporta etichette"
+
+#. module: label_easy_purchase
+#: help:easylabel.purchase.wizard,run_note:0
+msgid "Help user with the procedure"
+msgstr "Aiuta utente con procedura"
+
+#. module: label_easy_purchase
+#: field:easylabel.purchase.wizard,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: label_easy_purchase
+#: field:easylabel.purchase.wizard,label_id:0
+msgid "Label"
+msgstr "Etichetta"
+
+#. module: label_easy_purchase
+#: field:easylabel.purchase.wizard,write_uid:0
+msgid "Last Updated by"
+msgstr "Aggiornato da"
+
+#. module: label_easy_purchase
+#: field:easylabel.purchase.wizard,write_date:0
+msgid "Last Updated on"
+msgstr "Aggiornato il"
+
+#. module: label_easy_purchase
+#: code:addons/label_easy_purchase/wizard/label_wizard.py:253
+#, python-format
+msgid "No note!"
+msgstr "No note!"
+
+#. module: label_easy_purchase
+#: field:easylabel.purchase.wizard,note:0
+msgid "Note"
+msgstr "Note"
+
+#. module: label_easy_purchase
+#: view:easylabel.purchase.wizard:label_easy_purchase.view_easylabel_purchase_wizard_form
+#: help:easylabel.purchase.wizard,note:0
+msgid "Note for label employee"
+msgstr "Note per etichette impiegato"
+
+#. module: label_easy_purchase
+#: view:easylabel.purchase.wizard:label_easy_purchase.view_easylabel_purchase_wizard_form
+msgid "Print"
+msgstr "Stampa"
+
+#. module: label_easy_purchase
+#: field:easylabel.purchase.wizard,test:0
+msgid "Print test"
+msgstr "Stampa test"
+
+#. module: label_easy_purchase
+#: field:easylabel.purchase.wizard,printer_id:0
+msgid "Printer"
+msgstr "Stampante"
+
+#. module: label_easy_purchase
+#: view:easylabel.purchase.wizard:label_easy_purchase.view_easylabel_purchase_wizard_form
+#: field:easylabel.purchase.wizard,run_note:0
+msgid "Procedure"
+msgstr "Procedura"
+
+#. module: label_easy_purchase
+#: help:easylabel.purchase.wizard,test:0
+msgid "The print test launch a batch job with 1 label for all"
+msgstr "Il test di stampa lancia uno lavoro con una etichetta per tutti"
+
+#. module: label_easy_purchase
+#: view:easylabel.purchase.wizard:label_easy_purchase.view_easylabel_purchase_wizard_form
+msgid "Wizard export label for printing"
+msgstr "Wizard esporta etichette per la stampa"
+
+#. module: label_easy_purchase
+#: code:addons/label_easy_purchase/wizard/label_wizard.py:204
+#, python-format
+msgid "jobdescription=\"Order: %s (%s Part: %s)\""
+msgstr "jobdescription=\"Ordine: %s (%s Parte: %s)\""
+

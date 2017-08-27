@@ -1,0 +1,262 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* report_product_pricelist
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-27 16:32+0000\n"
+"PO-Revision-Date: 2017-08-05 23:28+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#. module: report_product_pricelist
+#: view:product.pricelist.customer:report_product_pricelist.product_pricelist_customer_view
+msgid "Add custom price for partner"
+msgstr "Aggiunge prezzo personalizzato per cliente"
+
+#. module: report_product_pricelist
+#: view:product.pricelist.customer:report_product_pricelist.product_pricelist_customer_view
+#: view:product.pricelist.generator:report_product_pricelist.product_pricelist_generator_view
+msgid "Cancel"
+msgstr "Annulla"
+
+#. module: report_product_pricelist
+#: help:product.pricelist.customer,pricelist_id:0
+#: help:product.pricelist.generator,pricelist_org_id:0
+msgid ""
+"Choose original pricelist used to calculate new complete pricelist/version"
+msgstr ""
+"Sceglie listino originale utilizzato per calcolare nuovi listino / versioni "
+"complete"
+
+#. module: report_product_pricelist
+#: help:product.pricelist.customer,partner_id:0
+msgid "Choose partner to create custom pricelist or add quotations"
+msgstr ""
+"Scegliere partner per creare un listino personalizzato o aggiungere una "
+"quotazione"
+
+#. module: report_product_pricelist
+#: field:product.pricelist.customer,comment:0
+msgid "Comment"
+msgstr "Commento"
+
+#. module: report_product_pricelist
+#: view:product.pricelist.generator:report_product_pricelist.product_pricelist_generator_view
+msgid "Create / Update"
+msgstr "Crea / Aggiorna"
+
+#. module: report_product_pricelist
+#: model:ir.actions.act_window,name:report_product_pricelist.product_pricelist_customer_action
+#: model:ir.ui.menu,name:report_product_pricelist.product_pricelist_customer_menuitem
+msgid "Create / Update custom partner price"
+msgstr "Crea / Aggiorna prezzo partner personalizzato"
+
+#. module: report_product_pricelist
+#: model:ir.actions.act_window,name:report_product_pricelist.product_pricelist_generator_right_action
+msgid "Create / Update pricelist"
+msgstr "Crea / Aggiorna listino"
+
+#. module: report_product_pricelist
+#: view:product.pricelist.generator:report_product_pricelist.product_pricelist_generator_view
+msgid "Create / Update pricelist version"
+msgstr "Crea / Aggiorna versione listino"
+
+#. module: report_product_pricelist
+#: field:micronaet.invoice.line,create_uid:0
+#: field:product.pricelist.customer,create_uid:0
+#: field:product.pricelist.generator,create_uid:0
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: report_product_pricelist
+#: field:micronaet.invoice.line,create_date:0
+#: field:product.pricelist.customer,create_date:0
+#: field:product.pricelist.generator,create_date:0
+msgid "Created on"
+msgstr "Creato il"
+
+#. module: report_product_pricelist
+#: field:product.pricelist.customer,pricelist_id:0
+msgid "Current pricelist"
+msgstr "Attuale listino"
+
+#. module: report_product_pricelist
+#: field:product.pricelist.generator,pricelist_des_id:0
+msgid "Destination pricelist"
+msgstr "Listino destinazione"
+
+#. module: report_product_pricelist
+#: model:ir.actions.report.xml,name:report_product_pricelist.aeroo_pricelist_codebar_report
+msgid "Elenco (codice a barre)"
+msgstr "Elenco (codice a barre)"
+
+#. module: report_product_pricelist
+#: model:ir.actions.report.xml,name:report_product_pricelist.aeroo_pricelist_codebar_report_ods
+msgid "Excel (codice a barre)"
+msgstr "Excel (codice a barre)"
+
+#. module: report_product_pricelist
+#: help:product.pricelist.generator,new:0
+msgid "Generate a new pricelist with this name"
+msgstr "Genera un nuovo listino con questo nome"
+
+#. module: report_product_pricelist
+#: field:micronaet.invoice.line,id:0 field:product.pricelist.customer,id:0
+#: field:product.pricelist.generator,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: report_product_pricelist
+#: help:product.pricelist.generator,pricelist_des_id:0
+msgid "If no new pricelist, use this pricelist to upgrade fields"
+msgstr ""
+"Se non c'è il nuovo listino utilizza questo listino per aggiornare i campi"
+
+#. module: report_product_pricelist
+#: view:product.pricelist.customer:report_product_pricelist.product_pricelist_customer_view
+msgid "Insert / Update"
+msgstr "Inserisci / Aggiorna"
+
+#. module: report_product_pricelist
+#: model:ir.model,name:report_product_pricelist.model_micronaet_invoice_line
+msgid "Invoice line"
+msgstr "Riga fattura"
+
+#. module: report_product_pricelist
+#: field:micronaet.invoice.line,date:0 field:micronaet.invoice.line,name:0
+#: field:micronaet.invoice.line,partner:0 field:micronaet.invoice.line,price:0
+#: field:micronaet.invoice.line,product:0
+#: field:micronaet.invoice.line,quantity:0
+msgid "Invoice number"
+msgstr "Numero fattura"
+
+#. module: report_product_pricelist
+#: field:micronaet.invoice.line,write_uid:0
+#: field:product.pricelist.customer,write_uid:0
+#: field:product.pricelist.generator,write_uid:0
+msgid "Last Updated by"
+msgstr "Aggiornato da"
+
+#. module: report_product_pricelist
+#: field:micronaet.invoice.line,write_date:0
+#: field:product.pricelist.customer,write_date:0
+#: field:product.pricelist.generator,write_date:0
+msgid "Last Updated on"
+msgstr "Aggiornato il"
+
+#. module: report_product_pricelist
+#: view:product.pricelist.customer:report_product_pricelist.product_pricelist_customer_view
+msgid "Listino attuale"
+msgstr "Listino attuale"
+
+#. module: report_product_pricelist
+#: field:product.pricelist.customer,pricelist_model_id:0
+msgid "Listino di paragone"
+msgstr "Listino di paragone"
+
+#. module: report_product_pricelist
+#: help:product.pricelist.customer,pricelist_model_id:0
+msgid ""
+"Listino di paragone per avere un raffronto con il prezzo attuale del prodotto"
+msgstr ""
+"Listino di paragone per avere un raffronto con il prezzo attuale del prodotto"
+
+#. module: report_product_pricelist
+#: field:product.pricelist.customer,pricelist_model_history_id:0
+msgid "Listino di riferimento"
+msgstr "Listino di riferimento"
+
+#. module: report_product_pricelist
+#: help:product.pricelist.customer,pricelist_model_history_id:0
+msgid ""
+"Listino di riferimento applicato nel caso mancassero degli articoli nel "
+"listino di base (usato per avere un raffronto nel caso esistessero "
+"particolarità"
+msgstr ""
+"Listino di riferimento applicato nel caso mancassero degli articoli nel "
+"listino di base (usato per avere un raffronto nel caso esistessero "
+"particolarità"
+
+#. module: report_product_pricelist
+#: help:product.pricelist.customer,comment:0
+msgid "Need to be created or updated"
+msgstr "Richiede di essere aggiornato o crato"
+
+#. module: report_product_pricelist
+#: field:product.pricelist.generator,new:0
+msgid "New"
+msgstr "Nuovo"
+
+#. module: report_product_pricelist
+#: field:product.pricelist.generator,new_name:0
+msgid "New version name"
+msgstr "Nome nuova versione"
+
+#. module: report_product_pricelist
+#: field:product.pricelist.generator,pricelist_org_id:0
+msgid "Original pricelist"
+msgstr "Listino originale"
+
+#. module: report_product_pricelist
+#: field:product.pricelist.customer,partner_id:0
+msgid "Partner"
+msgstr "Partner"
+
+#. module: report_product_pricelist
+#: view:product.pricelist.customer:report_product_pricelist.product_pricelist_customer_view
+msgid "Prezzi storici"
+msgstr "Prezzi storici"
+
+#. module: report_product_pricelist
+#: view:product.pricelist.customer:report_product_pricelist.product_pricelist_customer_view
+msgid "Prezzi storici fatturati"
+msgstr "Prezzi storici fatturati"
+
+#. module: report_product_pricelist
+#: field:product.pricelist.customer,price_model:0
+msgid "Prezzo di paragone"
+msgstr "Prezzo di paragone"
+
+#. module: report_product_pricelist
+#: field:product.pricelist.customer,price_model_history:0
+msgid "Prezzo list di rif."
+msgstr "Prezzo list di rif."
+
+#. module: report_product_pricelist
+#: field:product.pricelist.customer,price_history:0
+msgid "Prezzo storico"
+msgstr "Prezzo storico"
+
+#. module: report_product_pricelist
+#: field:product.pricelist.customer,price_invoice_history:0
+msgid "Prezzo storico fatturato"
+msgstr "Prezzo storico fatturato"
+
+#. module: report_product_pricelist
+#: field:product.pricelist.customer,price:0
+msgid "Price listino cliente"
+msgstr "Prezzo listino cliente"
+
+#. module: report_product_pricelist
+#: field:product.pricelist.customer,product_id:0
+msgid "Product"
+msgstr "Prodotto"
+
+#. module: report_product_pricelist
+#: model:ir.model,name:report_product_pricelist.model_product_pricelist_customer
+msgid "Product pricelist customer"
+msgstr "Listino prodotti cliente"
+
+#. module: report_product_pricelist
+#: model:ir.model,name:report_product_pricelist.model_product_pricelist_generator
+msgid "Product pricelist generator"
+msgstr "Generatore listino prodotti"

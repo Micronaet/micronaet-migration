@@ -1,0 +1,501 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* accounting_statistic_order
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-27 16:23+0000\n"
+"PO-Revision-Date: 2017-07-28 16:42+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#. module: accounting_statistic_order
+#: selection:statistic.header,port_code:0
+msgid "Addebito"
+msgstr "Addebito"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,agent_description:0
+msgid "Agent description"
+msgstr "Descrizione agente"
+
+#. module: accounting_statistic_order
+#: selection:statistic.order,type:0
+msgid "Annullato"
+msgstr "Annullato"
+
+#. module: accounting_statistic_order
+#: model:ir.actions.report.xml,name:accounting_statistic_order.aeroo_order_report_id
+msgid "Approntamento consegna (reset selez.)"
+msgstr "2. Approntamento consegna (reset)"
+
+#. module: accounting_statistic_order
+#: view:statistic.order:accounting_statistic_order.view_statistic_order_deadline_tree
+msgid "Art. tot."
+msgstr "Art. tot."
+
+#. module: accounting_statistic_order
+#: field:statistic.order,article:0
+msgid "Article"
+msgstr "Articolo"
+
+#. module: accounting_statistic_order
+#: selection:statistic.order,line_type:0
+msgid "Articolo"
+msgstr "Articolo"
+
+#. module: accounting_statistic_order
+#: selection:statistic.header,port_code:0
+msgid "Assegnato"
+msgstr "Assegnato"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_form
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_tree
+msgid "Cancel print"
+msgstr "Annulla stampa"
+
+#. module: accounting_statistic_order
+#: field:statistic.order,code:0
+msgid "Code"
+msgstr "Codice"
+
+#. module: accounting_statistic_order
+#: field:statistic.order,colli:0
+msgid "Colli"
+msgstr "Colli"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_tree
+msgid "Completi"
+msgstr "Completi"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,complete:0
+msgid "Completo"
+msgstr "Completo"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_search
+#: view:statistic.order:accounting_statistic_order.view_statistic_order_deadline_search
+msgid "Consegne all'estero"
+msgstr "Consegne all'estero"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_search
+#: view:statistic.order:accounting_statistic_order.view_statistic_order_deadline_search
+msgid "Consegne in Italia"
+msgstr "Consegne in Italia"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,country_id:0 field:statistic.order,country_id:0
+msgid "Country"
+msgstr "Nazione"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,create_uid:0 field:statistic.order,create_uid:0
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,create_date:0 field:statistic.order,create_date:0
+msgid "Created on"
+msgstr "Creato il"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,date:0 field:statistic.order,date:0
+msgid "Date"
+msgstr "Data"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_search
+#: view:statistic.order:accounting_statistic_order.view_statistic_order_deadline_search
+msgid "Deadline"
+msgstr "Scadenza"
+
+#. module: accounting_statistic_order
+#: field:statistic.order,name:0
+msgid "Description"
+msgstr "Descrizione"
+
+#. module: accounting_statistic_order
+#: selection:statistic.order,line_type:0
+msgid "Descrizione"
+msgstr "Descrizione"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,destination:0
+msgid "Destination "
+msgstr "Destinazione"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,destination_address:0
+msgid "Destination address "
+msgstr "Indirizzo destinazione"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,destination_cap:0
+msgid "Destination cap"
+msgstr "CAP destinazione"
+
+#. module: accounting_statistic_order
+#: field:statistic.order,header_id:0
+msgid "Dettagli"
+msgstr "Dettagli"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_search
+#: view:statistic.order:accounting_statistic_order.view_statistic_order_deadline_search
+msgid "Estero"
+msgstr "Estero"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,extra_note:0
+msgid "Extra Note"
+msgstr "Note extra"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_search
+msgid "Filter:"
+msgstr "Filtro:"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,property_account_position:0
+#: field:statistic.order,property_account_position:0
+msgid "Fiscal position"
+msgstr "Posizione fiscale"
+
+#. module: accounting_statistic_order
+#: selection:statistic.header,port_code:0
+msgid "Franco"
+msgstr "Franco"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_search
+#: view:statistic.order:accounting_statistic_order.view_statistic_order_deadline_search
+msgid "Group By..."
+msgstr "Raggruppa per..."
+
+#. module: accounting_statistic_order
+#: field:statistic.header,id:0 field:statistic.order,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_search
+#: view:statistic.order:accounting_statistic_order.view_statistic_order_deadline_search
+msgid "Italia"
+msgstr "Italia"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,write_uid:0 field:statistic.order,write_uid:0
+msgid "Last Updated by"
+msgstr "Ultimo aggiornamento di"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,write_date:0 field:statistic.order,write_date:0
+msgid "Last Updated on"
+msgstr "Ultimo aggiornamento il"
+
+#. module: accounting_statistic_order
+#: field:statistic.order,line_type:0
+msgid "Line type"
+msgstr "Tipo linea"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,line_ids:0
+msgid "Linee dettaglio"
+msgstr "Linee dettaglio"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,total_linear_meter:0
+msgid "Mt. lineari"
+msgstr "Mt. lineari"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,total_linear_meter_ready:0
+msgid "Mt. lineari (pronti)"
+msgstr "Mt. lineari (pronti)"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,total_item_complete:0
+msgid "N. Art. (pronti)"
+msgstr "N. Art. (pronti)"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,total_item:0
+msgid "N. art."
+msgstr "N. art."
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_tree
+#: field:statistic.header,note:0 field:statistic.order,note:0
+msgid "Note"
+msgstr "Note"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_tree
+msgid "Num. ord."
+msgstr "Num. ord."
+
+#. module: accounting_statistic_order
+#: field:statistic.header,name:0
+msgid "Numero ordine"
+msgstr "Numero ordine"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_search
+#: view:statistic.order:accounting_statistic_order.view_statistic_order_deadline_search
+msgid "Order"
+msgstr "Ordine"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_graph
+#: view:statistic.order:accounting_statistic_order.view_statistic_order_deadline_graph
+msgid "Order by deadline"
+msgstr "Ordinato per scadenza"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_search
+msgid "Ordini selezionati per la stampa"
+msgstr "Ordini selezionati per la stampa"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_search
+#: field:statistic.header,partner_id:0
+#: view:statistic.order:accounting_statistic_order.view_statistic_order_deadline_search
+#: field:statistic.order,partner_id:0
+msgid "Partner"
+msgstr "Partner"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_form
+#: field:statistic.header,total_weight:0
+msgid "Peso"
+msgstr "Peso"
+
+#. module: accounting_statistic_order
+#: view:statistic.order:accounting_statistic_order.view_statistic_order_deadline_tree
+msgid "Peso tot."
+msgstr "Peso tot."
+
+#. module: accounting_statistic_order
+#: field:statistic.header,port_code:0
+msgid "Port"
+msgstr "Porto"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,port_description:0
+msgid "Port description"
+msgstr "Descrizione porto"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_search
+msgid "Posizione"
+msgstr "Posizione"
+
+#. module: accounting_statistic_order
+#: view:statistic.order:accounting_statistic_order.view_statistic_order_deadline_graph
+#: view:statistic.order:accounting_statistic_order.view_statistic_order_deadline_search
+#: field:statistic.order,quantity_ok:0
+msgid "Prodotti"
+msgstr "Prodotti"
+
+#. module: accounting_statistic_order
+#: selection:statistic.order,type:0
+msgid "Prodotto"
+msgstr "Prodotto"
+
+#. module: accounting_statistic_order
+#: field:statistic.order,quantity:0
+msgid "Quantity"
+msgstr "Quantità"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,registration_date:0
+msgid "Registration date"
+msgstr "Data registrazione"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,deadline:0 field:statistic.order,deadline:0
+msgid "Scadenza"
+msgstr "Scadenza"
+
+#. module: accounting_statistic_order
+#: field:statistic.order,sequence:0
+msgid "Sequence"
+msgstr "Sequenza"
+
+#. module: accounting_statistic_order
+#: view:statistic.order:accounting_statistic_order.view_statistic_order_deadline_search
+msgid "Solo le righe ordine prodotte"
+msgstr "Solo le righe ordine prodotte"
+
+#. module: accounting_statistic_order
+#: model:ir.actions.report.xml,name:accounting_statistic_order.aeroo_order_report_summary_id
+msgid "Sommario consegna (prima)"
+msgstr "1. Sommario consegna"
+
+#. module: accounting_statistic_order
+#: view:statistic.order:accounting_statistic_order.view_statistic_order_deadline_search
+msgid "Statistic Order"
+msgstr "Statistiche ordine"
+
+#. module: accounting_statistic_order
+#: view:statistic.order:accounting_statistic_order.view_statistic_order_deadline_form
+msgid "Statistic Order Form"
+msgstr "Form Statistiche ordine"
+
+#. module: accounting_statistic_order
+#: view:statistic.order:accounting_statistic_order.view_statistic_order_deadline_tree
+msgid "Statistic Order Tree"
+msgstr "Lista Statistiche ordine"
+
+#. module: accounting_statistic_order
+#: model:ir.actions.act_window,name:accounting_statistic_order.action_statistic_header_deadline
+msgid "Statistic Order header Deadline"
+msgstr "Statistiche ordine scadenza testata"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_form
+msgid "Statistic Order header Form"
+msgstr "Statistica testate ordine"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_tree
+msgid "Statistic Order header tree"
+msgstr "Statistica testate ordine"
+
+#. module: accounting_statistic_order
+#: model:ir.model,name:accounting_statistic_order.model_statistic_order
+msgid "Statistic order"
+msgstr "Statistiche ordini"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_search
+msgid "Statistic order header"
+msgstr "Statistica testate ordine"
+
+#. module: accounting_statistic_order
+#: model:ir.model,name:accounting_statistic_order.model_statistic_header
+msgid "Testate ordini"
+msgstr "Testate ordini"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_form
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_search
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_tree
+#: field:statistic.header,print:0
+msgid "To print"
+msgstr "Da stampare"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,total:0 field:statistic.order,total:0
+msgid "Total"
+msgstr "Totale"
+
+#. module: accounting_statistic_order
+#: field:statistic.order,total_linear_meter:0
+msgid "Total m/l"
+msgstr "Total m/l"
+
+#. module: accounting_statistic_order
+#: field:statistic.order,total_volume:0
+msgid "Total volume"
+msgstr "Volume totale"
+
+#. module: accounting_statistic_order
+#: field:statistic.order,total_weight:0
+msgid "Total weight"
+msgstr "Peso totale"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_form
+msgid "Totale"
+msgstr "Totale"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_tree
+#: view:statistic.order:accounting_statistic_order.view_statistic_order_deadline_graph
+msgid "Totali"
+msgstr "Totali"
+
+#. module: accounting_statistic_order
+#: field:statistic.order,type:0
+msgid "Type of line"
+msgstr "Tipo di voce"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,visible:0 field:statistic.order,visible:0
+msgid "Visible"
+msgstr "Visibile"
+
+#. module: accounting_statistic_order
+#: view:statistic.order:accounting_statistic_order.view_statistic_order_deadline_tree
+msgid "Vol. tot."
+msgstr "Vol. tot."
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_form
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_tree
+#: field:statistic.header,total_volume:0
+msgid "Volume"
+msgstr "Volume"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_tree
+msgid "Volume (pronti)"
+msgstr "Volume (pronti)"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,total_volume_ready:0
+msgid "Volume (pronto)"
+msgstr "Volume (pronto)"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,zone_id:0 field:statistic.order,zone_id:0
+msgid "Zona"
+msgstr "Zona"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_search
+msgid "Zone"
+msgstr "Zone"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,destination_country:0
+msgid "destination country"
+msgstr "Nazione destinazione"
+
+#. module: accounting_statistic_order
+#: field:statistic.header,destination_prov:0
+msgid "destination province"
+msgstr "provincia destinazione"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_tree
+msgid "m/l"
+msgstr "m/l"
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_tree
+msgid "m/l (pronti)"
+msgstr "m/l (pronti)"
+
+#. module: accounting_statistic_order
+#: view:statistic.order:accounting_statistic_order.view_statistic_order_deadline_tree
+msgid "m/l tot."
+msgstr "m/l tot."
+
+#. module: accounting_statistic_order
+#: view:statistic.header:accounting_statistic_order.view_statistic_header_deadline_form
+msgid "mt. lin."
+msgstr "mt. lin."

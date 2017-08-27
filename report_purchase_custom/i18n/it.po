@@ -1,48 +1,308 @@
-# Translation of OpenERP Server.
+# Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* report_purchase_gpb
-# <> <>, 2013.
+# 	* report_purchase_custom
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 6.0.4\n"
-"Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2013-03-15 12:08+0000\n"
-"PO-Revision-Date: 2013-03-15 13:09+0100\n"
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-27 16:32+0000\n"
+"PO-Revision-Date: 2017-08-05 23:28+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
 
-#. module: report_purchase_gpb
-#: model:ir.model,name:report_purchase_gpb.model_purchase_order_line
-msgid "Purchase Order Line"
-msgstr "Riga Ordine d'Acquisto"
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "ALESSIA 08-ARANCIO"
+msgstr "ALESSIA 08-ARANCIO"
 
-#. module: report_purchase_gpb
-#: field:purchase.order.line,q_x_pack:0
-msgid "Package"
-msgstr "Pz. per imballo"
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "ALESSIA 11-ROSSO"
+msgstr "ALESSIA 11-ROSSO"
 
-#. module: report_purchase_gpb
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "ALESSIA 34-VERDE"
+msgstr "ALESSIA 34-VERDE"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "ALYA 02"
+msgstr "ALYA 02"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "ALYA 03"
+msgstr "ALYA 03"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "AMBER 5314"
+msgstr "AMBER 5314"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "AMBER 5315"
+msgstr "AMBER 5315"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "AMBER 9181"
+msgstr "AMBER 9181"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "AMBER 9601"
+msgstr "AMBER 9601"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "COTONE 05-GRIGIO S"
+msgstr "COTONE 05-GRIGIO S"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "COTONE 17-BIANCO"
+msgstr "COTONE 17-BIANCO"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "COTONE 39-TORTORA"
+msgstr "COTONE 39-TORTORA"
+
+#. module: report_purchase_custom
+#: field:product.product,colour_code:0
+msgid "Codice colore fornitore"
+msgstr "Codice colore fornitore"
+
+#. module: report_purchase_custom
+#: field:product.product,default_supplier_code:0
+msgid "Codice forn. default"
+msgstr "Codice forn. default"
+
+#. module: report_purchase_custom
+#: field:product.product,colls:0 field:product.product,colls_number:0
+msgid "Colli"
+msgstr "Colli"
+
+#. module: report_purchase_custom
 #: field:purchase.order.line,colour:0
 msgid "Color"
 msgstr "Colore"
 
-#. module: report_purchase_gpb
-#: model:ir.actions.report.xml,name:report_purchase_gpb.aeroo_purchase_gpb_report_id
-msgid "G.P.B.: Stampa documento"
-msgstr "G.P.B.: Stampa documento"
-
-#. module: report_purchase_gpb
-#: report:ir.actions.report.xml:report_purchase_gpb.aeroo_purchase_gpb_report_id
-#: report:ir.actions.report.xml,Date:report_purchase_gpb.aeroo_purchase_gpb_report_id
+#. module: report_purchase_custom
+#: report:ir.actions.report.xml:report_purchase_custom.aeroo_purchase_report_id
 msgid "Date"
-msgstr "Data"
+msgstr "Date"
 
-#. module: report_purchase_gpb
-#: model:ir.actions.report.xml,name:report_purchase_gpb.aeroo_purchase_gpb_report_id_ods
-msgid "G.P.B.: Stampa ODS"
-msgstr "G.P.B.: Stampa ODS"
+#. module: report_purchase_custom
+#: field:product.product,default_supplier:0
+msgid "Fornitore default"
+msgstr "Fornitore default"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "GREY PVC"
+msgstr "GREY PVC"
+
+#. module: report_purchase_custom
+#: field:product.product,pack_h:0
+msgid "H. Imb."
+msgstr "H. Imb."
+
+#. module: report_purchase_custom
+#: field:product.product,pack_l:0
+msgid "L. Imb."
+msgstr "L. Imb."
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "MICRO MARRONE SCURO"
+msgstr "MICRO MARRONE SCURO"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "MIL.26/PVC WHITE"
+msgstr "MIL.26/PVC WHITE"
+
+#. module: report_purchase_custom
+#: field:product.product,pack_p:0
+msgid "P. Imb."
+msgstr "P. Imb."
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "PVC BLACK"
+msgstr "PVC BLACK"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "PVC RED"
+msgstr "PVC RED"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "PVC TAUPE"
+msgstr "PVC TAUPE"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "PVC WHITE"
+msgstr "PVC WHITE"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "PVC ZEBRA"
+msgstr "PVC ZEBRA"
+
+#. module: report_purchase_custom
+#: field:purchase.order.line,q_x_pack:0
+msgid "Package"
+msgstr "Pz. per imballo"
+
+#. module: report_purchase_custom
+#: model:ir.model,name:report_purchase_custom.model_product_product
+msgid "Product"
+msgstr "Prodotto"
+
+#. module: report_purchase_custom
+#: model:ir.model,name:report_purchase_custom.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Riga Ordine d'Acquisto"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "SAV D.GR/PVC WH"
+msgstr "SAV D.GR/PVC WH"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "SAV D.GREY/PVC WHITE"
+msgstr "SAV D.GREY/PVC WHITE"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "SCOCCA 1021 CUSCINI 1022"
+msgstr "SCOCCA 1021 CUSCINI 1022"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "SERENITY 1471"
+msgstr "SERENITY 1471"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "SERENITY 1490"
+msgstr "SERENITY 1490"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "SERENITY 2113"
+msgstr "SERENITY 2113"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "SERENITY 5485"
+msgstr "SERENITY 5485"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "SERENITY 7001"
+msgstr "SERENITY 7001"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "SERENITY 9314"
+msgstr "SERENITY 9314"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "SILVIA 01 ECOPELLE BIANCO"
+msgstr "SILVIA 01 ECOPELLE BIANCO"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "SILVIA 1-BIANCO"
+msgstr "SILVIA 1-BIANCO"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "SILVIA 1-BIANCO ECO"
+msgstr "SILVIA 1-BIANCO ECO"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "SILVIA 18-NERO ECO"
+msgstr "SILVIA 18-NERO ECO"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "SILVIA 19-ARGENTO"
+msgstr "SILVIA 19-ARGENTO"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "SILVIA 1900 ECOPELLE TORTORA"
+msgstr "SILVIA 1900 ECOPELLE TORTORA"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "SILVIA 23-BEIGE"
+msgstr "SILVIA 23-BEIGE"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "SILVIA 24-TORTORA"
+msgstr "SILVIA 24-TORTORA"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "STRUTTURA IN TUBOLARE AVORIO"
+msgstr "STRUTTURA IN TUBOLARE AVORIO"
+
+#. module: report_purchase_custom
+#: model:ir.actions.report.xml,name:report_purchase_custom.aeroo_purchase_report_id_label
+msgid "Stampa Etichette"
+msgstr "Stampa Etichette"
+
+#. module: report_purchase_custom
+#: model:ir.actions.report.xml,name:report_purchase_custom.aeroo_purchase_report_id_ods
+msgid "Stampa Excel"
+msgstr "Stampa Excel"
+
+#. module: report_purchase_custom
+#: model:ir.actions.report.xml,name:report_purchase_custom.aeroo_purchase_report_id
+msgid "Stampa Word"
+msgstr "Stampa Word"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "TESSUTO BEIGE"
+msgstr "TESSUTO BEIGE"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "THIAGO 5246 CAT.5-GRIGIO CHIARO"
+msgstr "THIAGO 5246 CAT.5-GRIGIO CHIARO"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "THIAGO 5454 CAT.5-GRIGIO SCURO"
+msgstr "THIAGO 5454 CAT.5-GRIGIO SCURO"
+
+#. module: report_purchase_custom
+#: model:product.product,colour_code:0
+msgid "ZEBROID 47"
+msgstr "ZEBROID 47"
+
+#. module: report_purchase_custom
+#: field:product.product,quotation_photo:0
+msgid "unknown"
+msgstr "sconosciuto"
