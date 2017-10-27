@@ -295,7 +295,7 @@ msgstr "Codice fornitore"
 #. module: bom_value_report
 #: field:pricelist.partnerinfo,product_supp_name:0
 msgid "Supplier description"
-msgstr "Descrizione forntiore"
+msgstr "Descrizione fornitore"
 
 #. module: bom_value_report
 #: field:mrp.bom,tot_component:0
