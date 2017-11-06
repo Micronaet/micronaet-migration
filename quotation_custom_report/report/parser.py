@@ -35,7 +35,7 @@ class Parser(report_sxw.rml_parse):
         self.counters = {}
         self.localcontext.update({
             # Company2: 
-            'get_item_photo_context': self.get_item_photo_context,
+            'get_item_photo_context': self.get_item_photo_context,            
             
             # Company 1: 
             'clean_description': self.clean_description,
@@ -57,9 +57,7 @@ class Parser(report_sxw.rml_parse):
         order_pool = self.pool.get('sale.order')
         cr = self.cr
         uid  = self.uid
-        context = {
-            'album_code': 'QUOTATION',
-            }
+        context = {'album_code': 'QUOTATION', }
         
         return order_pool.browse(cr, uid, o.id, context=context).order_line
                 
