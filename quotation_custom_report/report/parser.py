@@ -25,9 +25,29 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ##############################################################################
-
+import os
+import sys
+import logging
+import openerp
+import openerp.netsvc as netsvc
+import openerp.addons.decimal_precision as dp
 from openerp.report import report_sxw
 from openerp.report.report_sxw import rml_parse
+from openerp.osv import fields, osv, expression, orm
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
+from openerp import SUPERUSER_ID#, api
+from openerp import tools
+from openerp.tools.translate import _
+from openerp.tools.float_utils import float_round as round
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
+    DEFAULT_SERVER_DATETIME_FORMAT, 
+    DATETIME_FORMATS_MAP, 
+    float_compare)
+
+
+_logger = logging.getLogger(__name__)
+
 
 class Parser(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):
@@ -41,6 +61,7 @@ class Parser(report_sxw.rml_parse):
             'clean_description': self.clean_description,
             'get_telaio': self.get_telaio,
             'get_fabric': self.get_fabric,
+            'get_fabric_description': self.get_fabric_description,
             'set_counter': self.set_counter,
             'get_counter': self.get_counter,
 
@@ -103,6 +124,17 @@ class Parser(report_sxw.rml_parse):
     def clean_description(self, name):
         return name.split("]")[-1:]
 
+    def get_fabric_description(self, product):
+        ''' Return correct description depend on code
+            (write only for TS TL MS TS PO
+        '''
+        if not product:
+            return ''
+        default_code = product.default_code
+        if default_code[:2].upper() in ('TL', 'TS', 'MT', 'MS', 'PO'):
+            return u' %s' % product.fabric
+        return ''
+        
     def get_fabric(self, code, language):
         ''' Return type of fabric depend on start code
         '''
