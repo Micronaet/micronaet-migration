@@ -132,7 +132,7 @@ class Parser(report_sxw.rml_parse):
             return ''
         default_code = product.default_code
         if default_code[:2].upper() in ('TL', 'TS', 'MT', 'MS', 'PO'):
-            return u' %s' % product.fabric
+            return u' %s' % (product.fabric or '')
         return ''
         
     def get_fabric(self, code, language):
