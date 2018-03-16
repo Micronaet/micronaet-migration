@@ -55,6 +55,8 @@ class Parser(report_sxw.rml_parse):
         self.counters = {}
         self.localcontext.update({
             # Company2: 
+            'get_partner_address': self.get_partner_address,
+            'get_partner_return_info': self.get_partner_return_info,
             'get_item_photo_context': self.get_item_photo_context,            
             
             # Company 1: 
@@ -72,6 +74,32 @@ class Parser(report_sxw.rml_parse):
             'temp_get_order': self.temp_get_order,
         })
 
+    def get_partner_address(self, order):
+        ''' Return format destination address or current address
+        '''
+        if order.destination_partner_id: # destination address
+            partner = order.destination_partner_id
+        else: # partner address
+            partner = order.partner_id
+        return '%s\n%s %s %s %s' % (
+            partner.name, 
+            partner.street or '',  
+            partner.zip or '', 
+            partner.city or '', 
+            partner.country_id.name or '',
+            )
+    def get_partner_return_info(self, order):
+        ''' Extra data for return goods
+        '''
+        if (order.partner_id.lang or 'en_US') == 'en_US':
+            mask = 'Delivery terms: %s\nPayment terms: %s'        
+        else:
+            mask = 'Resa merce: %s\nPagamento: %s'
+        return mask % (
+            order.return_id.text or '',
+            o.payment_term.name or '',
+            )    
+        
     def get_item_photo_context(self, o):
         ''' Update context for load particular photo
         '''
