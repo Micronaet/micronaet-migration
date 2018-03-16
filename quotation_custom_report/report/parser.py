@@ -97,8 +97,7 @@ class Parser(report_sxw.rml_parse):
             mask = 'Resa merce: %s\nPagamento: %s'
         return mask % (
             order.return_id.text or '',
-            o.payment_term.name or '',
-            _(o.bank_id.information) + "\n" if o.bank_id else ""
+            order.payment_term.name or '',
             )    
         
     def get_item_photo_context(self, o):
