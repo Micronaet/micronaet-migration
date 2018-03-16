@@ -98,6 +98,7 @@ class Parser(report_sxw.rml_parse):
         return mask % (
             order.return_id.text or '',
             o.payment_term.name or '',
+            _(o.bank_id.information) + "\n" if o.bank_id else ""
             )    
         
     def get_item_photo_context(self, o):
