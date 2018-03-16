@@ -233,7 +233,7 @@ class StatisticInvoice(orm.Model):
             ('state', 'not in', ('cancel', 'draft', 'sent')),
             ('pricelist_order', '=', False), 
             ('mx_closed', '=', False),
-            #('forecaster_production_id', '=', False), 
+            #('forecasted_production_id', '=', False), 
             ], context=context)
            
         type_document = 'OO'
