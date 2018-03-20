@@ -283,7 +283,6 @@ class ResPartnerExtraFields(orm.Model):
 
         res = {}
         for partner in self.browse(cr, uid, ids, context=context):
-            #import pdb; pdb.set_trace()
             if partner.invoiced_current_year == partner.invoiced_last_year:
                segno="equal"
                valore=0.0

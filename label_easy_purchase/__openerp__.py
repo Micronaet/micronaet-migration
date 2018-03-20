@@ -32,11 +32,14 @@
         'base', 
         'force_colls',
         'label_easy',
-        'purchase', 
+        'purchase',
+        'report_aeroo', 
         ],
     'data': [
         'wizard/label_view.xml',
         'view/purchase_view.xml',
+        
+        'report/label_report.xml',
         ],
     'qweb': [],
     'demo': [],
