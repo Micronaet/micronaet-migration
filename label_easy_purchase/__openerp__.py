@@ -37,9 +37,9 @@
         ],
     'data': [
         'wizard/label_view.xml',
-        'view/purchase_view.xml',
-        
         'report/label_report.xml',
+
+        'view/purchase_view.xml',        
         ],
     'qweb': [],
     'demo': [],

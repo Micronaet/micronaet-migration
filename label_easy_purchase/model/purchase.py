@@ -38,5 +38,28 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 
 _logger = logging.getLogger(__name__)
 
+class PurchaseOrder(orm.Model):
+    """ Model name: PurchaseOrder
+    """
+    
+    _inherit = 'purchase.order'
+    
+    def open_purchase_report_label(self, cr, uid, ids, context=None):
+        ''' Open report action
+        '''
+        datas = {}
+        report_name = 'purchase_order_label_pack'
 
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_name': report_name, 
+            'datas': datas,
+            'context': context,
+            }
+
+    _columns = {
+        'label_date': fields.date('Data etichetta', 
+            help='Da considerare la data di scarico per stampa etichetta'),
+        }        
+            
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

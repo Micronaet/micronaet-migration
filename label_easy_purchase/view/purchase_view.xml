@@ -8,8 +8,14 @@
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
             <field name="arch" type="xml">
                 <field name="date_order" position="before">
-                    <button name="%(act_windows_easylabel_purchase_wizard)d" string="Export label" type="action" class="oe_highlight" />
-                    <newline />
+                    <field name="label_date" />
+                </field>
+                <field name="date_order" position="before">
+                    <group colspan="4" col="4">
+                        <button name="%(act_windows_easylabel_purchase_wizard)d" string="Export label" type="action" class="oe_highlight" icon="gtk-save" />
+                        <button name="open_purchase_report_label" string="Etichetta PDF" type="object" icon="gtk-print" class="oe_highlight" />
+                        <newline/>                        
+                    </group>    
                 </field>
             </field>
         </record>
