@@ -67,7 +67,7 @@ class Parser(report_sxw.rml_parse):
         res = []
         volume = 0
         product = detail.product_id
-        qty= detail.product_qty or 0
+        qty = detail.product_qty or 0
         if product.has_multipackage:
             for pack in product.multi_pack_ids:
                 for loop in range(0, pack.number or 1):

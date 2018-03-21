@@ -137,7 +137,11 @@ class Parser(report_sxw.rml_parse):
         #elif len(product.packaging_ids) == 1:
         #    return int(product.packaging_ids[0].qty or 1.0)
         else:
-            return int(product.q_x_pack or 1)
+            if product.q_x_pack and product.q_x_pack < 1:
+                return 1 # XXX for 0.5 1 x pack
+            else:    
+                return int(product.q_x_pack or 1)
+
     # -------------------------------------------------------------------------
         
     def get_supplier_code(self, product):        
