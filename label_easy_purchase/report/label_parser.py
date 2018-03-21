@@ -29,7 +29,7 @@ import openerp.netsvc as netsvc
 import openerp.addons.decimal_precision as dp
 from openerp.osv import fields, osv, expression, orm
 from datetime import datetime, timedelta
-from openerp import SUPERUSER_ID#, api
+from openerp import SUPERUSER_ID
 from openerp import tools
 from openerp.report import report_sxw
 from openerp.report.report_sxw import rml_parse
@@ -55,6 +55,30 @@ class Parser(report_sxw.rml_parse):
         '''
         res = []
         for line in o.order_line:
-            res.append((int(line.product_qty), line))
+            total = int(line.product_qty)
+            for i in range(0, total):
+                # Get Pz value:
+                if line.product_id.q_x_pack >= 1:
+                    pz = int(line.product_id.q_x_pack)
+                else:     
+                    pz = 1
+
+                # Get part number if present:
+                if line.product_id.force_coll:
+                    colls = item.product_id.force_coll
+                else:
+                    try:
+                        colls = float(line.product_id.colls.replace(',', '.'))
+                    except:
+                        colls = 1.0    
+                if colls and colls < 1:
+                    parts = int(round(1 / colls, 0))
+                else:
+                    parts = 1    
+                
+                # Multiply part number label:
+                for part in range(1, parts + 1):
+                    part_no = '%s / %s' % (part, parts)
+                    res.append((part_no, pz, line))
         return res
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
