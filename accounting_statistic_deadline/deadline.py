@@ -251,6 +251,18 @@ class statistic_deadline(orm.Model):
         _logger.info('Tot. deadline: %s' % counter)
         return True
          
+    def _payment_is_deadlined(self, cr, uid, ids, fields, args, context=None):
+        ''' Fields function for calculate 
+        '''
+        res = {}
+        now = datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT)
+        for payment in self.browse(cr, uid, ids, context=context):
+            if payment.deadline < now:
+                res[payment.id] = True
+            else:
+                res[payment.id] = False
+        return res        
+
     _columns = {
         'name': fields.char('Deadline', size=64),
         'visible': fields.boolean('Visible'),
@@ -265,7 +277,11 @@ class statistic_deadline(orm.Model):
             string='Fiscal position'),
         'c_o_s': fields.char('Cust. or Supp.', size=1),
         'deadline': fields.date('Dead line'),
-
+        'is_deadlined': fields.function(
+            _payment_is_deadlined, method=True, 
+            type='boolean', string='E\' scaduto', 
+            store=True), 
+                        
         'fido_date': fields.related(
             'partner_id', 'fido_date', type='date', 
             string='Credit limit date'),
@@ -315,7 +331,7 @@ class statistic_deadline(orm.Model):
         'invoice_id': fields.many2one('account.invoice', 'Invoice'), 
         'invoice_ref': fields.char('Invoice ref.', size=64),     
         'invoice_date': fields.date('Invoice date'), # TODO change in related!    
-    }
+        }
     
     _defaults = {
         'total': lambda *a: 0,
