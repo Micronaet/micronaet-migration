@@ -145,6 +145,15 @@
         <field name="view_mode">tree,calendar,graph,form</field>
         <field name="search_view_id" ref="view_statistic_deadline_search"/>
     </record>  
+    <record model="ir.actions.act_window" id="action_statistic_deadline_0">
+        <field name="name">Deadlined payment (green=customer balance + supplier balance &gt; 0 )</field>
+        <field name="res_model">statistic.deadline</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,calendar,graph,form</field>
+        <field name="search_view_id" ref="view_statistic_deadline_search"/>
+        <field name="domain">[('is_deadlined','=', True)]</field>
+    </record>  
+    
 
     <!--TODO action to put in menuitem or dashboard vvvvvvvvvvvvvvvvvvvvvvvv-->
     <record model="ir.actions.act_window" id="action_statistic_deadline_passed_tree_dashboard">
@@ -176,6 +185,11 @@
        sequence="10" 
        action="action_statistic_deadline" />
 
+   <menuitem name="Pagamenti solo scaduti" 
+       parent="menu_accounting_deadline_root" 
+       id="menu_accounting_deadline_deadlined_0"
+       sequence="20" 
+       action="action_statistic_deadline_0" />
     
   </data>
 </openerp>
