@@ -205,7 +205,7 @@
            parent="menu_accounting_deadline_deadlined" 
            id="menu_accounting_deadline_deadlined_0_c"
            sequence="10" 
-           action="action_statistic_deadline_0_s" />
+           action="action_statistic_deadline_0_c" />
        <menuitem name="Pagamenti scaduti cliente" 
            parent="menu_accounting_deadline_deadlined" 
            id="menu_accounting_deadline_deadlined_0_s"
