@@ -169,7 +169,6 @@
         <field name="search_view_id" ref="view_statistic_deadline_search"/>
         <field name="domain">[('is_deadlined','=', True),('c_o_s','=','s')]</field>
     </record>  
-    
 
     <!--TODO action to put in menuitem or dashboard vvvvvvvvvvvvvvvvvvvvvvvv-->
     <record model="ir.actions.act_window" id="action_statistic_deadline_passed_tree_dashboard">
