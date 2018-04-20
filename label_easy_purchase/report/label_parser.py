@@ -55,14 +55,19 @@ class Parser(report_sxw.rml_parse):
         '''
         res = []
         for line in o.order_line:
-            total = int(line.product_qty)
-            for i in range(0, total):
-                # Get Pz value:
-                if line.product_id.q_x_pack >= 1:
-                    pz = int(line.product_id.q_x_pack)
-                else:     
-                    pz = 1
 
+            # Get Pz value:
+            if line.product_id.q_x_pack >= 1:
+                pz = int(line.product_id.q_x_pack)
+            else:     
+                pz = 1
+
+            # Force total depend on q x pack:            
+            total = int(line.product_qty)
+            if pz > 1:
+                total = int(total / pz) + (0 if total % pz == 0 else 1)
+                            
+            for i in range(0, total):
                 # Get part number if present:
                 if line.product_id.force_coll:
                     colls = item.product_id.force_coll
