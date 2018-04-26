@@ -114,13 +114,15 @@ class Parser(report_sxw.rml_parse):
         ''' Function that compute total volume for 1 or more items
         '''
         total = 0.0
-
         for item in order_line:
-            if item.product_id: 
+            product = item.product_id
+            if not product.q_x_pack: 
+                continue
+                
+            if product:
                 total += item.product_uom_qty * (
-                    item.product_id.pack_l * 
-                    item.product_id.pack_h * 
-                    item.product_id.pack_p / 1000000.0)
+                    product.pack_l * product.pack_h * product.pack_p / \
+                    1000000.0) / product.q_x_pack
         return '%2.2f' % total
         
     def total_volume(self, order_id):
