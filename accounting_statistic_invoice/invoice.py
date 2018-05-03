@@ -233,6 +233,7 @@ class StatisticInvoice(orm.Model):
             ('state', 'not in', ('cancel', 'draft', 'sent')),
             ('pricelist_order', '=', False), 
             ('mx_closed', '=', False),
+            ('previsional', '=', False), # No previsional order
             #('forecasted_production_id', '=', False), 
             ], context=context)
            
