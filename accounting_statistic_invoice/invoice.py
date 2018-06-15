@@ -583,58 +583,50 @@ class StatisticInvoice(orm.Model):
                     'total': total_invoice,
                     }
 
-                # Year to insert invoiced
-                year_month = '%s%02d' % (year, month)
-                
+                # -------------------------------------------------------------                
                 # Season
+                # -------------------------------------------------------------                
                 if current_month >= 1 and current_month <= 8:
-                    ref_year = current_year - 1
+                    ref_year = current_year - 1 # Ref. is previous year
                 elif current_month >= 9 and current_month <= 12:
-                    ref_year = current_year
+                    ref_year = current_year # Ref. is current year
                 else:
                     _logger.error('%s) Month error not [1:12]' % (
                         counter))
 
+                # Year to insert invoiced
+                year_month = '%s%02d' % (year, month)
+
                 # september - current year >> august - next year
                 if year_month >= '%s09' % ref_year and \
-                        year_month <= '%s08' % (
-                            ref_year + 1, ): # current
+                        year_month <= '%s08' % (ref_year + 1): # current
                     data['season'] = 1                   
-                    # Stat value (current year)         
                     stats[partner_id][1] += total_invoice
                     if type_document == 'oo':
                         stats[partner_id][3] += total_invoice
                     
-                elif year_month >= '%s09' % (
-                        ref_year -1, ) and \
-                        year_month <= '%s08' % (
-                            ref_year, ): # year -1
+                elif year_month >= '%s09' % (ref_year -1) and \
+                        year_month <= '%s08' % ref_year: # year -1
                     data['season'] = -1
-                    # Stat value (year-1)         
                     stats[partner_id][2] += total_invoice
-                elif year_month >= '%s09' % (
-                        ref_year -2, ) and \
-                        year_month <= '%s08' % (
-                            ref_year -1, ): # year -2
+                    
+                elif year_month >= '%s09' % (ref_year -2) and \
+                        year_month <= '%s08' % (ref_year -1): # year -2
                     data['season'] = -2
-                elif year_month >= '%s09' % (
-                        ref_year -3, ) and \
-                        year_month <= '%s08' % (
-                            ref_year -2, ): # year -3
+                    
+                elif year_month >= '%s09' % (ref_year -3) and \
+                        year_month <= '%s08' % (ref_year -2): # year -3
                     data['season'] = -3
-                elif year_month >= '%s09' % (
-                        ref_year -4, ) and \
-                        year_month <= '%s08' % (
-                            ref_year -3, ): # year -4
+                    
+                elif year_month >= '%s09' % (ref_year -4) and \
+                        year_month <= '%s08' % (ref_year -3): # year -4
                     data['season'] = -4
+                    
                 else: # extra interval (imported the same)
                     if year_month > '%s08' % (ref_year + 1):
                         data['season'] = 100 # new season
                     else:
                         data['season'] = -100 # old season
-
-                # TODO find max date for stat last purchase:
-                #stats[partner_id][0]                         
 
                 # Common part (correct + amount)
                 self.create(cr, uid, data, context=context)

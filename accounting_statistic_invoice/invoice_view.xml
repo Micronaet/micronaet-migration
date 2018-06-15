@@ -60,11 +60,13 @@
                 <filter name="top_sale" domain="[('top','=',True)]" string="Top sale"/>
                 <filter name="low_sale" domain="[('top','=',False)]" string="Low sale"/>
 
-                <filter name="season" domain="[('season','in',(-2,-1,1))]" string="3 season"/>
-                <filter name="seasonB3" domain="[('season','=',-3)]" string="S. -3"/>
-                <filter name="seasonB1" domain="[('season','=',-2)]" string="S. -2"/>
-                <filter name="seasonB2" domain="[('season','=',-1)]" string="S. -1"/>
-                <filter name="season" domain="[('season','=',1)]" string="S. 0"/>
+                <filter name="season" domain="[('season','in',(-2, -1, 1))]" string="3 season"/>
+                
+                <filter name="season_back_3" domain="[('season','=',-3)]" string="S. -3"/>
+                <filter name="season_back_2" domain="[('season','=',-2)]" string="S. -2"/>
+                <filter name="season_back_1" domain="[('season','=',-1)]" string="S. -1"/>
+                <filter name="season_current_0" domain="[('season', '=', 1)]" string="S. 0"/>
+                
                 <filter name="season_old" domain="[('season','=',-100)]" string="&lt; S."/>
                 <filter name="season_new" domain="[('season','=',100)]" string="&gt; S."/>
 
@@ -287,8 +289,8 @@
 
                 <filter name="season" domain="[('season','in',(-2,-1,1))]" string="3 season"/>
                 <filter name="seasonB3" domain="[('season','=',-3)]" string="S. -3"/>
-                <filter name="seasonB2" domain="[('season','=',-1)]" string="S. -2"/>
-                <filter name="seasonB1" domain="[('season','=',-2)]" string="S. -1"/>
+                <filter name="seasonB2" domain="[('season','=',-2)]" string="S. -2"/>
+                <filter name="seasonB1" domain="[('season','=',-1)]" string="S. -1"/>
                 <filter name="season" domain="[('season','=',1)]" string="S. 0"/>
                 <filter name="season_old" domain="[('season','=',-100)]" string="&lt; S."/>
                 <filter name="season_new" domain="[('season','=',100)]" string="&gt; S."/>
