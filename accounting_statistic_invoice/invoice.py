@@ -702,6 +702,24 @@ class StatisticInvoice(orm.Model):
                  #'invoice_trend': invoice_trend,
                  'invoice_trend_perc': invoice_trend_perc,
                  }, context=context)
+        
+        # ---------------------------------------------------------------------
+        # Reset partner not touched in this importation:
+        # ---------------------------------------------------------------------
+        partner_ids = partner_pool.search(cr, uid, [
+            ('sql_customer_code', '!=', False), # account partner only
+            ('id', 'not in', stats.keys()), # partner not touched
+            ], context=context)
+        _logger.warning('Reset not touched %s partner' % len(partner_ids))
+        partner_pool.write(cr, uid, partner_ids, {
+             'last_activity': False,
+             'invoiced_current_year': False,
+             'invoiced_last_year': False,
+             'order_current_year': False,
+             'invoice_trend': 'equal',
+             'invoice_trend_perc': invoice_trend_perc,
+            }, context=context)
+            
         _logger.info('Statistic invoice import terminated')
         return True
 
