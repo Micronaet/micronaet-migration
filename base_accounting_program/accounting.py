@@ -284,8 +284,8 @@ class ResPartnerExtraFields(orm.Model):
         res = {}
         for partner in self.browse(cr, uid, ids, context=context):
             if partner.invoiced_current_year == partner.invoiced_last_year:
-               segno="equal"
-               valore=0.0
+               segno = 'equal'
+               valore = 0.0
             else:
                if partner.invoiced_last_year:
                   valore = 100.0 * (
@@ -294,9 +294,9 @@ class ResPartnerExtraFields(orm.Model):
                else:
                   valore = 100.0
                if partner.invoiced_current_year < partner.invoiced_last_year:
-                  segno="down"
+                  segno = 'down'
                else:
-                  segno="up"
+                  segno = 'up'
 
             res[partner.id] = {}
             res[partner.id]['invoice_trend'] = segno
