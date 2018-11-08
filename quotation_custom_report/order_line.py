@@ -544,7 +544,7 @@ class SaleOrderQuotation(orm.Model):
             # -----------------------------------------------------------------    
             if item.insert_photo:
                 data = item.product_id.default_photo or False
-                _logger._warning('Loading image: %s' % data)
+                _logger.warning('Loading image: %s' % data)
                 if data:
                     excel_pool.write_image(ws_name, row, 0, 
                         filename=u'%s.png' % code, 
