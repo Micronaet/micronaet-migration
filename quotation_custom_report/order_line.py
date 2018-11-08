@@ -335,6 +335,7 @@ class SaleOrderQuotation(orm.Model):
                     u'Imagine', 
                     u'Item ref.', 
                     u'Description', 
+                    u'',
                     u'Price',
                     u'Frame', 
                     u'Pipe Φ', 
