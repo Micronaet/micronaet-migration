@@ -170,44 +170,44 @@ class SaleOrderQuotation(orm.Model):
             ''' Return type of fabric depend on start code
             '''
             code = code.upper()
-            if code[3:6] == "TXI":
+            if code[3:6] == 'TXI':
                 if language == 'it_IT':
-                    return "Texfil ignifugo"
+                    return 'Texfil ignifugo'
                 else:    
-                    return "Texfil fire retardant"
+                    return 'Texfil fire retardant'
                     
-            elif code[3:6] == "TXR" or code[3:5] == "TX":
+            elif code[3:6] == 'TXR' or code[3:5] == 'TX':
                 if language == 'it_IT':
-                    return "Texfil"
+                    return 'Texfil'
                 else:    
-                    return "Texfil"
+                    return 'Texfil'
 
-            elif code[3:5] == "PE":
+            elif code[3:5] == 'PE':
                 if language == 'it_IT':
-                    return "Poliestere"
+                    return 'Poliestere'
                 else:    
-                    return "Polyester"
+                    return 'Polyester'
 
-            elif code[3:5] == "S3":
+            elif code[3:5] == 'S3':
                 if language == 'it_IT':
-                    return "Triplex"
+                    return 'Triplex'
                 else:    
-                    return "Triplex"
+                    return 'Triplex'
         
-            elif code[3:5] == "SB" or code[3:4] == "S":
+            elif code[3:5] == 'SB' or code[3:4] == 'S':
                 if language == 'it_IT':
-                    return "Olefine"
+                    return 'Olefine'
                 else:    
-                    return "Olefine"
+                    return 'Olefine'
 
-            elif code[3:4] == "L" or code[3:5] == "IL":
+            elif code[3:4] == 'L' or code[3:5] == 'IL':
                 if language == 'it_IT':
-                    return "Acrypol"
+                    return 'Acrypol'
                 else:    
-                    return "Acrypol"
+                    return 'Acrypol'
 
             else:        
-                return "/"        
+                return '/'        
 
         """    
         def get_telaio(name, lingua):
@@ -215,43 +215,43 @@ class SaleOrderQuotation(orm.Model):
             '''
             name = name.strip()
             if not name:
-                return ""
+                return ''
             # If name is originally in english translate in italian
-            if name == "STEEL":
-               name = "ACCIAIO"
-            elif name == "WOOD":
-               name = "LEGNO"
-            elif name == "WOODEN":
-               name = "LEGNO"
-            elif name == "IRON PAINTED":
-               name = "TINTO FERRO"
-            elif name == "IRON CHROMED":
-               name = "CROMATO FERRO"
-            elif name == "ANODIZED ALUMINIUM":
-               name = "ALLUMINIO ANODIZZATO"
-            elif name == "ALUMINIUM":
-               name = "ALLUMINIO"
-            elif name == "IRON":
-               name = "FERRO"
-            elif name == "WALNUT":
-               name = "NOCE"
+            if name == 'STEEL':
+               name = 'ACCIAIO'
+            elif name == 'WOOD':
+               name = 'LEGNO'
+            elif name == 'WOODEN':
+               name = 'LEGNO'
+            elif name == 'IRON PAINTED':
+               name = 'TINTO FERRO'
+            elif name == 'IRON CHROMED':
+               name = 'CROMATO FERRO'
+            elif name == 'ANODIZED ALUMINIUM':
+               name = 'ALLUMINIO ANODIZZATO'
+            elif name == 'ALUMINIUM':
+               name = 'ALLUMINIO'
+            elif name == 'IRON':
+               name = 'FERRO'
+            elif name == 'WALNUT':
+               name = 'NOCE'
 
             ita2eng = {
-               "ALLUMINIO": "ALUMINIUM", 
-               "LEGNO": "WOOD", 
-               "ACCIAIO": "STEEL",
-               "TINTO NOCE": "PAINTED WALNUT",
-               "NOCE": "WALNUT",           
-               "ALLUMINIO ANODIZZATO": "ANODIZED ALUMINIUM",
-               "CROMATO FERRO": "IRON CHROMED",  
-               "TINTO FERRO": "IRON PAINTED",
-               "FERRO": "IRON",
-               "ROBINIA": "ROBINIA",
+               'ALLUMINIO': 'ALUMINIUM', 
+               'LEGNO': 'WOOD', 
+               'ACCIAIO': 'STEEL',
+               'TINTO NOCE': 'PAINTED WALNUT',
+               'NOCE': 'WALNUT',           
+               'ALLUMINIO ANODIZZATO': 'ANODIZED ALUMINIUM',
+               'CROMATO FERRO': 'IRON CHROMED',  
+               'TINTO FERRO': 'IRON PAINTED',
+               'FERRO': 'IRON',
+               'ROBINIA': 'ROBINIA',
                }
             if lingua == 'it_IT':
                return name
             else:   
-               return ita2eng[name] if name in ita2eng else "?"
+               return ita2eng[name] if name in ita2eng else '?'
                    
         # ---------------------------------------------------------------------
         # Start procedure:
@@ -269,9 +269,9 @@ class SaleOrderQuotation(orm.Model):
         # ---------------------------------------------------------------------
         lang_text = {
             'it_IT' : {
-                'subject': 'Offerta n.: %s del %s',
-                'terms': 'Resa merce:',
-                'payment': 'Pagamento:',                
+                'subject': u'Offerta n.: %s del %s',
+                'terms': u'Resa merce:',
+                'payment': u'Pagamento:',                
 
                 'header_1': [
                     u'Immagine', 
@@ -309,9 +309,9 @@ class SaleOrderQuotation(orm.Model):
                 },                
 
             'en_US' : {
-                'subject': 'Offer n.: %s dated %s',
-                'terms': 'Delivery terms:',
-                'payment': 'Payment terms:',
+                'subject': u'Offer n.: %s dated %s',
+                'terms': u'Delivery terms:',
+                'payment': u'Payment terms:',
 
                 'header_1': [
                     u'Imagine', 
@@ -359,7 +359,7 @@ class SaleOrderQuotation(orm.Model):
         # ---------------------------------------------------------------------
         #                          Excel export:
         # ---------------------------------------------------------------------
-        ws_name = _('Dettaglio offerta')
+        ws_name = _(u'Dettaglio offerta')
         ws = excel_pool.create_worksheet(name=ws_name)
         
         # ---------------------------------------------------------------------
@@ -408,7 +408,7 @@ class SaleOrderQuotation(orm.Model):
         row += 1
         excel_pool.write_xls_line(
             ws_name, row, [
-                '%s %s %s' % (
+                u'%s %s %s' % (
                     o.destination_partner_id.zip or '', 
                     o.destination_partner_id.city or '', 
                     o.destination_partner_id.country_id.name or ' ') \
@@ -439,7 +439,7 @@ class SaleOrderQuotation(orm.Model):
                     o.name, 
                     o.date_order,#TODO format_lang(o.date_order),                
                     ),
-                '%s\n' % (o.bank_id.information or '') if o.bank_id else '',
+                u'%s\n' % (o.bank_id.information or '') if o.bank_id else '',
                 ], default_format=f_title)
 
         # ---------------------------------------------------------------------
@@ -485,9 +485,9 @@ class SaleOrderQuotation(orm.Model):
             # Line detail:
             # -----------------------------------------------------------------
             if item.insert_photo:
-                photo = '' # TODO item.product_id.default_photo
+                photo = u'' # TODO item.product_id.default_photo
             else:
-                photo = ''    
+                photo = u''    
             
             # -----------------------------------------------------------------
             # Line depend on model:
@@ -495,8 +495,8 @@ class SaleOrderQuotation(orm.Model):
             symbol = o.partner_id.property_product_pricelist.currency_id.symbol
             line = [            
                 photo,
-                product.code or '',
-                ('%s%s\n%s' % (
+                product.code or u'',
+                (u'%s%s\n%s' % (
                     item.name if item.use_text_description else \
                         item.product_id.name,
                     get_fabric_description(item.product_id),
@@ -572,7 +572,7 @@ class SaleOrderQuotation(orm.Model):
                 ], default_format=f_title_center, col=from_col)
 
         return excel_pool.return_attachment(
-            cr, uid, 'Offerta', context=context)
+            cr, uid, u'Offerta', context=context)
 
     # Override fake wizard button event for print this report:
     def print_quotation(self, cr, uid, ids, context=None):
@@ -602,17 +602,17 @@ class SaleOrderLineQuotation(orm.Model):
     _columns={
         'insert_photo': fields.boolean(
             'Con foto',
-            help="Spuntare quando e' richiesto l'inserimento della foto "
-                "a preventivo."),
+            help='Spuntare quando e' richiesto l'inserimento della foto '
+                'a preventivo.'),
         'repeat_header_line': fields.boolean(
             'Intest.',
-            help="Spuntare quando e' richiesta l'intestazione, tipo dopo una "
-                "riga titolo."),
+            help='Spuntare quando e' richiesta l'intestazione, tipo dopo una '
+                'riga titolo.'),
         'use_amazon_description': fields.boolean(
             'Amazon description',
-            help="Take amazon description instead of product's one"),
+            help='Take amazon description instead of product's one'),
         'show_notes': fields.boolean(
-            'Show notes', help="Show notes after description"),
+            'Show notes', help='Show notes after description'),
         'note': fields.text( 'Note'),    
         }
         
