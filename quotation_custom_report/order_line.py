@@ -21,6 +21,7 @@
 ###############################################################################
 import os
 import sys
+import io
 import logging
 import openerp
 import openerp.netsvc as netsvc
@@ -356,7 +357,7 @@ class SaleOrderQuotation(orm.Model):
         context['lang'] = lang
         o = self.browse(cr, uid, ids, context=context)[0] # reload data in lang
         company = o.company_id
-                            
+
         # ---------------------------------------------------------------------
         #                          Excel export:
         # ---------------------------------------------------------------------
@@ -386,6 +387,19 @@ class SaleOrderQuotation(orm.Model):
                 # TODO Logo
                 o.partner_id.name,
                 ], default_format=f_title, col=from_col)
+
+        # -----------------------------------------------------------------    
+        # Write company logo:
+        # -----------------------------------------------------------------    
+        data = company.logo or False
+        if data:            
+            excel_pool.write_image(ws_name, row, 0, 
+                #filename='/home/thebrush/logo.png', 
+                filename='company.png', 
+                data=excel_pool.clean_odoo_binary(data), 
+                positioning=0,
+                tip='Image company',
+                )
 
         # Partner address:                
         if o.destination_partner_id:
@@ -531,9 +545,10 @@ class SaleOrderQuotation(orm.Model):
             if item.insert_photo:
                 data = item.product_id.default_photo or False
                 if data:
-                    excel_pool.write_image(self, WS_name, row, col, 
+                    excel_pool.write_image(ws_name, row, 0, 
                         filename='%s.png' % code, 
-                        data=data, tip='Image %s' % code,
+                        tip='Image %s' % code,
+                        data=excel_pool.clean_odoo_binary(data), 
                         )
 
             # -----------------------------------------------------------------
@@ -565,6 +580,7 @@ class SaleOrderQuotation(orm.Model):
                     )], default_format=f_title_center, col=from_col)
 
         row += 1
+
         # Company info: 
         excel_pool.write_xls_line(
             ws_name, row, [
