@@ -486,7 +486,7 @@ class SaleOrderQuotation(orm.Model):
         # ---------------------------------------------------------------------
         # DETAIL:
         # ---------------------------------------------------------------------
-        row_height = 50
+        row_height = 65
         for item in o.order_line:
             product = item.product_id
             
@@ -546,7 +546,6 @@ class SaleOrderQuotation(orm.Model):
             # -----------------------------------------------------------------    
             if item.insert_photo:
                 data = item.product_id.default_photo or False
-                _logger.warning('Loading image: %s' % data)
                 if data:
                     excel_pool.write_image(ws_name, row, 0, 
                         filename=u'%s.png' % code, 
