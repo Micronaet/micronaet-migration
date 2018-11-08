@@ -485,7 +485,7 @@ class SaleOrderQuotation(orm.Model):
         # ---------------------------------------------------------------------
         # DETAIL:
         # ---------------------------------------------------------------------
-        row_height = 70
+        row_height = 76
         for item in o.order_line:
             product = item.product_id
             
