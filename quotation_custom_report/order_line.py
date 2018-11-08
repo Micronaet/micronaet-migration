@@ -355,6 +355,8 @@ class SaleOrderQuotation(orm.Model):
             lang = 'it_IT'
 
         context['lang'] = lang
+        context['aeroo_docs'] = True # To load image
+        
         o = self.browse(cr, uid, ids, context=context)[0] # reload data in lang
         company = o.company_id
 
