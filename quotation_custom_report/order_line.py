@@ -602,15 +602,15 @@ class SaleOrderLineQuotation(orm.Model):
     _columns={
         'insert_photo': fields.boolean(
             'Con foto',
-            help='Spuntare quando e' richiesto l'inserimento della foto '
-                'a preventivo.'),
+            help="Spuntare quando e' richiesto l'inserimento della foto "
+                "a preventivo."),
         'repeat_header_line': fields.boolean(
             'Intest.',
-            help='Spuntare quando e' richiesta l'intestazione, tipo dopo una '
-                'riga titolo.'),
+            help="Spuntare quando e' richiesta l'intestazione, tipo dopo una "
+                "riga titolo."),
         'use_amazon_description': fields.boolean(
             'Amazon description',
-            help='Take amazon description instead of product's one'),
+            help="Take amazon description instead of product's one"),
         'show_notes': fields.boolean(
             'Show notes', help='Show notes after description'),
         'note': fields.text( 'Note'),    
