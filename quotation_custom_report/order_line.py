@@ -156,6 +156,15 @@ class SaleOrderQuotation(orm.Model):
             if default_code[:2].upper() in ('TL', 'TS', 'MT', 'MS', 'PO'):
                 return u' %s' % (product.fabric or '')
             return ''
+            
+        def try_int(value):    
+            ''' Try convert in int intead return normal data
+            '''
+            try: 
+                return int(value)
+            except:
+                return value or ''
+                
         """    
         def get_fabric(code, language):
             ''' Return type of fabric depend on start code
@@ -265,15 +274,36 @@ class SaleOrderQuotation(orm.Model):
                 'payment': 'Pagamento:',                
 
                 'header_1': [
-                    'Immagine', 'Codice', 'Articolo', 'Quantità',
-                    '', 'Prezzo IVA escl', 'Sc.', '', 'Importo',
-                    'Telaio', u'Φ tubo', 'Peso imballo', 'Pezzi per scatola',
-                    'Pezzi per bancale', 'Pezzi per m3', 'Pezzi per camion',
+                    u'Immagine', 
+                    u'Codice', 
+                    u'Articolo', 
+                    u'Quantità',
+                    u'', 
+                    u'Prezzo IVA escl', 
+                    u'Sc.', 
+                    u'', 
+                    u'Importo',
+                    u'Telaio', 
+                    u'Φ tubo', 
+                    u'Peso imballo', 
+                    u'Pezzi per scatola',
+                    u'Pezzi per bancale', 
+                    u'Pezzi per m3', 
+                    u'Pezzi per camion',
                     ],
                 'header_2': [
-                    'Immagine', 'Codice', 'Articolo', '', 'Prezzo IVA escl',
-                    'Telaio', u'Φ tubo', 'Peso imballo', 'Pezzi per scatola',
-                    'Pezzi per bancale', 'Pezzi per m3', 'Pezzi per camion',
+                    u'Immagine', 
+                    u'Codice', 
+                    u'Articolo', 
+                    u'', 
+                    u'Prezzo IVA escl',
+                    u'Telaio', 
+                    u'Φ tubo', 
+                    u'Peso imballo', 
+                    u'Pezzi per scatola',
+                    u'Pezzi per bancale', 
+                    u'Pezzi per m3', 
+                    u'Pezzi per camion',
                     ],
                 
                 },                
@@ -284,15 +314,35 @@ class SaleOrderQuotation(orm.Model):
                 'payment': 'Payment terms:',
 
                 'header_1': [
-                    'Immagine', 'Codice', 'Articolo', 'Quantity',
-                    '', 'Prezzo IVA escl', 'Disc.', '', 'Amount',
-                    'Telaio', u'Φ tubo', 'Peso imballo', 'Pezzi per scatola',
-                    'Pezzi per bancale', 'Pezzi per m3', 'Pezzi per camion',
+                    u'Imagine', 
+                    u'Item ref.', 
+                    u'Description', 
+                    u'Quantity',
+                    u'',
+                    u'Price', 
+                    u'Disc.', 
+                    u'', 
+                    u'Amount',
+                    u'Frame', 
+                    u'Pipe Φ', 
+                    u'Weight / box', 
+                    u'Pcs / box',
+                    u'Pcs / pallet', 
+                    u'Pcs / m3', 
+                    u'Pcs / truck',
                     ],
                 'header_2': [
-                    'Imagine', 'Item ref.', 'Description', 'Price',
-                    'Frame', 'Pipe Φ', 'Weight / box', 'Pcs / box',
-                    'Pcs / pallet', 'Pcs / m3', 'Pcs / truck',
+                    u'Imagine', 
+                    u'Item ref.', 
+                    u'Description', 
+                    u'Price',
+                    u'Frame', 
+                    u'Pipe Φ', 
+                    u'Weight / box', 
+                    u'Pcs / box',
+                    u'Pcs / pallet', 
+                    u'Pcs / m3', 
+                    u'Pcs / truck',
                     ],
                 },
             }
@@ -317,10 +367,12 @@ class SaleOrderQuotation(orm.Model):
         # ---------------------------------------------------------------------
         excel_pool.set_format()
         f_title = excel_pool.get_format(key='title')
+        f_title_center = excel_pool.get_format(key='title_center')
         f_header = excel_pool.get_format(key='header')
         f_text = excel_pool.get_format(key='text')
         f_center = excel_pool.get_format(key='text_center_all')
         f_number = excel_pool.get_format(key='number')
+        f_number_center = excel_pool.get_format(key='number_center')
         
         # ---------------------------------------------------------------------
         # QUOTATION HEADER:
@@ -395,12 +447,18 @@ class SaleOrderQuotation(orm.Model):
         # ---------------------------------------------------------------------
         row += 2
         # Setup:
-        if o.quotation_model == 2: # Short offer
+        if o.quotation_model == 1: # Short offer
+            header = lang_text[lang]['header_1']
+            width = [
+                18, 12, 30, # description
+                8, # Q.
+                1, 10, # Unit price
+                10, # Discount
+                1, 10, # Subtotal
+                10, 10, 10, 10, 10, 10, 10] 
+        else:    
             header = lang_text[lang]['header_2']
             width = [18, 15, 30, 1, 12, 10, 10, 10, 10, 10, 10, 10] 
-        else:    
-            header = lang_text[lang]['header_1']
-            width = [18, 12, 20, 1, 8, 8, 1, 4, 5, 8, 4, 4, 4, 4, 4, 4] 
 
         # Write data:
         excel_pool.write_xls_line(
@@ -435,34 +493,43 @@ class SaleOrderQuotation(orm.Model):
             # Line depend on model:
             # -----------------------------------------------------------------
             symbol = o.partner_id.property_product_pricelist.currency_id.symbol
-            if o.quotation_model == 2: # Short offer
-                line = [            
-                    photo,
-                    (product.code or '', f_center),
-                    '%s%s\n%s' % (
-                        item.name if item.use_text_description else \
-                            item.product_id.name,
-                        get_fabric_description(item.product_id),
-                        item.note or '',
-                        ),
-                    (symbol, f_center), 
-                    (item.price_subtotal, f_number),
-                    (get_telaio(item.product_id.telaio or '', lang), f_center),
-                    (item.product_id.pipe_diameter_sale or '', f_center),
-                    (item.product_id.weight_packaging or '', f_center),
-                    (item.product_id.item_per_box or '', f_center),
-                    (item.product_id.item_per_pallet or '', f_center),
-                    (item.product_id.item_per_mq or '', f_center),
-                    (item.product_id.item_per_camion or '', f_center),
-                    ]
-            else: # quotation detailed:
-                line = [
-                    ]
+            line = [            
+                photo,
+                product.code or '',
+                ('%s%s\n%s' % (
+                    item.name if item.use_text_description else \
+                        item.product_id.name,
+                    get_fabric_description(item.product_id),
+                    item.note or '',
+                    ), f_text),
                     
+                symbol, 
+                (item.price_subtotal, f_number_center),
+                get_telaio(item.product_id.telaio or '', lang),
+                try_int(item.product_id.pipe_diameter_sale),
+                try_int(item.product_id.weight_packaging),
+                try_int(item.product_id.item_per_box),
+                try_int(item.product_id.item_per_pallet),
+                try_int(item.product_id.item_per_mq),
+                try_int(item.product_id.item_per_camion),
+                ]
+
+            if o.quotation_model == 1: # Detail offer:
+                line = line[:3] + [
+                    # Extra:              
+                    (try_int(item.product_uom_qty), f_number_center),
+
+                    symbol,
+                    (item.price_unit, f_number_center),    
+
+                    item.multi_discount_rates or '/',
+
+                    ] + line[3:]
+
             row += 1
             excel_pool.row_height(ws_name, [row], height=row_height)
             excel_pool.write_xls_line(
-                ws_name, row, line, default_format=f_text)
+                ws_name, row, line, default_format=f_center)
 
             # -----------------------------------------------------------------
             # Pre note:
@@ -490,8 +557,7 @@ class SaleOrderQuotation(orm.Model):
                     company.phone or '',
                     company.fax or '',
                     company.email or '',
-                    )
-                ], default_format=f_center, col=from_col)
+                    )], default_format=f_title_center, col=from_col)
 
         row += 1
         # Company info: 
@@ -501,11 +567,12 @@ class SaleOrderQuotation(orm.Model):
                     company.vat or '',
                     company.header_rea or '',
                     company.header_mecc or '',
-                    int(company.header_capital),
+                    int(company.header_capital or 0.0),
                     )
-                ], default_format=f_center, col=from_col)
+                ], default_format=f_title_center, col=from_col)
 
-        return excel_pool.return_attachment(cr, uid, _('prodotti'))
+        return excel_pool.return_attachment(
+            cr, uid, 'Offerta', context=context)
 
     # Override fake wizard button event for print this report:
     def print_quotation(self, cr, uid, ids, context=None):
