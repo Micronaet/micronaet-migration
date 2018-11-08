@@ -542,6 +542,7 @@ class SaleOrderQuotation(orm.Model):
             # -----------------------------------------------------------------    
             # Write photo: (after)    
             # -----------------------------------------------------------------    
+            import pdb; pdb.set_trace()
             if item.insert_photo:
                 data = item.product_id.default_photo or False
                 if data:
