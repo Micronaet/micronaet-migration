@@ -448,7 +448,7 @@ class SaleOrderQuotation(orm.Model):
                 ], default_format=f_title, col=from_col)
         
         # Subject:                
-        row += 1
+        row += 2
         excel_pool.write_xls_line(
             ws_name, row, [
                 # TODO Logo
