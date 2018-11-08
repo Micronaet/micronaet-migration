@@ -482,20 +482,13 @@ class SaleOrderQuotation(orm.Model):
                     ws_name, row, [item.text_note_pre], default_format=f_text)
              
             # -----------------------------------------------------------------
-            # Line detail:
-            # -----------------------------------------------------------------
-            if item.insert_photo:
-                photo = u'' # TODO item.product_id.default_photo
-            else:
-                photo = u''    
-            
-            # -----------------------------------------------------------------
             # Line depend on model:
             # -----------------------------------------------------------------
             symbol = o.partner_id.property_product_pricelist.currency_id.symbol
-            line = [            
-                photo,
-                product.code or u'',
+            code = product.code or u''
+            line = [
+                '', # photo place
+                code,
                 (u'%s%s\n%s' % (
                     item.name if item.use_text_description else \
                         item.product_id.name,
@@ -530,6 +523,17 @@ class SaleOrderQuotation(orm.Model):
             excel_pool.row_height(ws_name, [row], height=row_height)
             excel_pool.write_xls_line(
                 ws_name, row, line, default_format=f_center)
+            
+            # -----------------------------------------------------------------    
+            # Write photo: (after)    
+            # -----------------------------------------------------------------    
+            if item.insert_photo:
+                data = item.product_id.default_photo or False
+                if data:
+                    excel_pool.write_image(self, WS_name, row, col, 
+                        filename='%s.png' % code, 
+                        data=data, tip='Image %s' % code,
+                        )
 
             # -----------------------------------------------------------------
             # Pre note:
