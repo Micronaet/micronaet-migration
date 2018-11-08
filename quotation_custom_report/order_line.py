@@ -482,11 +482,10 @@ class SaleOrderQuotation(orm.Model):
             ws_name, row, header, default_format=f_header)
         excel_pool.column_width(ws_name, width)
         
-        
         # ---------------------------------------------------------------------
         # DETAIL:
         # ---------------------------------------------------------------------
-        row_height = 65
+        row_height = 70
         for item in o.order_line:
             product = item.product_id
             
@@ -548,7 +547,8 @@ class SaleOrderQuotation(orm.Model):
                 data = item.product_id.default_photo or False
                 if data:
                     excel_pool.write_image(ws_name, row, 0, 
-                        filename=u'%s.png' % code, 
+                        filename=u'%s.png' % code,
+                        x_offset=1, y_offset=1,
                         #tip=u'Image %s' % code,
                         data=excel_pool.clean_odoo_binary(data), 
                         )
