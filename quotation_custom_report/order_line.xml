@@ -11,7 +11,8 @@
         
            <xpath expr="/form/sheet/notebook" position="before">
               <group name="extra_parameters" colspan="4" col="4"> 
-                  <field name="quotation_model" />              
+                  <field name="quotation_model" />
+                  <button name="extract_quotation_excel" string="Excel extract" type="object" icon="gtk-print" class="oe_highlight" colspan="1"/> 
               </group>    
            </xpath>
 

@@ -36,6 +36,8 @@
         'quotation_photo', # TODO change dep when use new
         'purchase_extra_field',
         'sale_extra_field',
+        
+        'excel_export', # For excel report
         ],
 	'category': 'Generic Modules/Aeroo Reporting',
 	'init_xml': [],
