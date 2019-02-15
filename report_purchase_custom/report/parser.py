@@ -26,8 +26,123 @@
 #
 ##############################################################################
 
+
+import os
+import sys
+import logging
+import openerp
+import openerp.netsvc as netsvc
+import openerp.addons.decimal_precision as dp
 from openerp.report import report_sxw
 from openerp.report.report_sxw import rml_parse
+from openerp.osv import fields, osv, expression, orm
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
+from openerp import SUPERUSER_ID
+from openerp import tools
+from openerp.tools.translate import _
+from openerp.tools.float_utils import float_round as round
+from openerp.tools import (
+    DEFAULT_SERVER_DATE_FORMAT, 
+    DEFAULT_SERVER_DATETIME_FORMAT, 
+    DATETIME_FORMATS_MAP, 
+    float_compare,
+    )
+
+
+_logger = logging.getLogger(__name__)
+
+
+class PurchaseOrder(orm.Model):
+    """ Model name: PurchaseOrder
+    """
+    
+    _inherit = 'purchase.order'
+
+    def _get_total_volume_report(self, cr, uid, ids, fields, args, 
+            context=None):
+        ''' Fields function for calculate 
+        '''
+        res = {}
+        if len(ids) > 1:
+            # Used only in form view:
+            return res
+
+        _logger.warning('Calculate volume')
+        res[ids[0]] = self._report_multipack_dimension_volume_total(
+            self.browse(cr, uid, ids, context=context)[0])
+        return res
+            
+    _columns = {
+        'total_volume_report': fields.function(
+            _get_total_volume_report, method=True, 
+            type='float', string='Tot. Vol.', store=False),                         
+        }
+    # -------------------------------------------------------------------------
+    # Report utility:
+    # -------------------------------------------------------------------------
+    def _report_multipack_dimension_volume_total(self, purchase):
+        ''' Report utility:
+        '''
+        volume = 0.0
+        for detail in purchase.order_line:
+            current = self._report_multipack_extract_info(detail, data='total')
+            volume += current
+            # XXX Debug:
+            #print detail.product_id.default_code, ('%s' % current).replace('.', ',')
+        #print volume    
+        return volume
+
+    def _report_get_q_x_pack(self, product):
+        ''' Old method after where saved here
+        '''
+        if product.has_multipackage:
+            return 1
+        elif len(product.packaging_ids) == 1:
+            return int(product.packaging_ids[0].qty or 1.0)
+        else:
+            return int(product.q_x_pack or 1)
+
+    def _report_multipack_extract_info(self, detail, data='list'):
+        ''' Extract data from product detail
+            data:  
+                'list' for list of elements
+                'volume' volume total
+                'total' volume total            
+        '''
+        res = []
+        volume = 0
+        product = detail.product_id
+        qty = detail.product_qty or 0
+        if product.has_multipackage:
+            for pack in product.multi_pack_ids:
+                for loop in range(0, pack.number or 1):
+                    res.append('%s x %s x %s' % (
+                        pack.height, pack.width, pack.length,
+                        ))
+                    volume_1 = \
+                        pack.height * pack.width * pack.length / 1000000.0
+                    if data == 'total':    
+                        volume += qty * volume_1
+                    elif data == 'volume':
+                        volume += volume_1
+        else:
+            res.append('%s x %s x %s' % (
+                product.pack_l, product.pack_h, product.pack_p
+                ))
+            
+            q_x_pack = self._report_get_q_x_pack(product)
+            volume_1 = \
+                product.pack_l * product.pack_h * product.pack_p / 1000000.0
+            if data == 'volume':
+                volume = volume_1
+            elif data == 'total':
+                volume = qty * volume_1 / q_x_pack
+                            
+        if data == 'list':
+            return res                
+        # elif 'volume':
+        return volume
 
 class Parser(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):
@@ -64,45 +179,16 @@ class Parser(report_sxw.rml_parse):
                 'total' volume total
             
         '''
-        res = []
-        volume = 0
-        product = detail.product_id
-        qty = detail.product_qty or 0
-        if product.has_multipackage:
-            for pack in product.multi_pack_ids:
-                for loop in range(0, pack.number or 1):
-                    res.append('%s x %s x %s' % (
-                        pack.height, pack.width, pack.length,
-                        ))
-                    volume_1 = pack.height * pack.width * pack.length / 1000000.0
-                    if data == 'total':    
-                        volume += qty * volume_1
-                    elif data == 'volume':
-                        volume += volume_1
-        else:
-            res.append('%s x %s x %s' % (
-                product.pack_l, product.pack_h, product.pack_p
-                ))
-            
-            q_x_pack = self.get_q_x_pack(product)
-            volume_1 = \
-                product.pack_l * product.pack_h * product.pack_p / 1000000.0
-            if data == 'volume':
-                volume = volume_1
-            elif data == 'total':
-                volume = qty * volume_1 / q_x_pack
-                            
-        if data == 'list':
-            return res                
-        # elif 'volume':
-        return volume
+        return self.pool.get('purchase.order')._report_multipack_extract_info(
+            detail, data=data)
         
     # Get pack list:
     def multipack_dimension_list(self, detail, as_list=True):
         ''' Create list of elements
             return as_list or as text formatted
         '''
-        res = self.multipack_extract_info(detail, data='list')
+        res = self.pool.get('purchase.order')._report_multipack_extract_info(
+            detail, data=data)
         if as_list:
             return '\n'.join(res)
         else:    
@@ -113,26 +199,23 @@ class Parser(report_sxw.rml_parse):
         ''' Calculate volume multipack or product pack data
             data: 'volume' for one 'totat' for total
         '''
-        volume = self.multipack_extract_info(detail, data=data)
+        purchase_pool = self.pool.get('purchase.order')
+        volume = purchase_pool._report_multipack_extract_info(
+            detail, data=data)
         return '%2.3f' % volume
 
     # Get total volume
     def multipack_dimension_volume_total(self, order):
         ''' Get total volume        
         '''
-        volume = 0.0
-        for detail in order.order_line:
-            volume += self.multipack_extract_info(detail, data='total')
+        purchase_pool = self.pool.get('purchase.order')
+        volume = purchase_pool._report_multipack_dimension_volume_total(order)
         return '%2.3f' % volume
 
     def get_q_x_pack(self, product):
-        # Old method after where saved here
-        if product.has_multipackage:
-            return 1
-        elif len(product.packaging_ids) == 1:
-            return int(product.packaging_ids[0].qty or 1.0)
-        else:
-            return int(product.q_x_pack or 1)
+        ''' Old method after where saved here
+        '''
+        return self.pool.get('purchase.order')._report_get_q_x_pack(product)
     # -------------------------------------------------------------------------
 
     def get_lang_field(self, pool, item_id, field, lang):
@@ -182,7 +265,8 @@ class Parser(report_sxw.rml_parse):
         ''' Return cost price from pricelist in currency indicated
         '''
         try: 
-            currency = order.partner_id.property_product_pricelist_purchase.currency_id.name
+            partner = order.partner_id
+            currency = partner.property_product_pricelist_purchase.currency_id.name
             if currency == "EUR":
                 return "%2.2f" % (
                     item.product_id.standard_price or (
