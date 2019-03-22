@@ -131,7 +131,7 @@ class PurchaseOrder(orm.Model):
                 product.pack_l, product.pack_h, product.pack_p
                 ))
             
-            q_x_pack = self._report_get_q_x_pack(product)
+            q_x_pack = self._report_get_q_x_pack(product) or 1.0
             volume_1 = \
                 product.pack_l * product.pack_h * product.pack_p / 1000000.0
             if data == 'volume':
