@@ -50,7 +50,7 @@ class ProductProductStartHistory(orm.Model):
             context=None):
         ''' Save current history
         '''
-        if not date:
+        if not mx_start_date:
             _logger.error('Cannoy history without start date!')
             return True
         
