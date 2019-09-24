@@ -55,14 +55,12 @@ class ProductProductStartHistory(orm.Model):
             return True
         
         # Remove previous history values:
-        import pdb; pdb.set_trace()
         history_ids = self.search(cr, uid, [
             ('mx_start_date', '=', mx_start_date),
             ], context=context)
         _logger.warning('Delete previous record: %s' % len(history_ids))
         self.unlink(cr, uid, history_ids, context=context)
 
-        import pdb; pdb.set_trace()
         # Update with current:
         product_pool = self.pool.get('product.product')
         product_ids = product_pool.search(cr, uid, [], context=context)
