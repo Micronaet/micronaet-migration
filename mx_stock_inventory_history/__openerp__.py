@@ -34,6 +34,7 @@
     'init_xml': [],
     'demo': [],
     'data': [
+        'security/ir.model.access.csv',
         'inventory_view.xml',
         ],
     'active': False,
