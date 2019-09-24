@@ -59,7 +59,7 @@ class ProductProductStartHistory(orm.Model):
         history_ids = self.search(cr, uid, [
             ('mx_start_date', '=', mx_start_date),
             ], context=context)
-        _logger.warning('Delete previous record: %s' % len(product_ids))
+        _logger.warning('Delete previous record: %s' % len(history_ids))
         self.unlink(cr, uid, history_ids, context=context)
 
         import pdb; pdb.set_trace()
