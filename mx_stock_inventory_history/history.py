@@ -64,6 +64,7 @@ class ProductProductStartHistory(orm.Model):
 
         import pdb; pdb.set_trace()
         # Update with current:
+        product_pool = self.pool.get('product.product')
         product_ids = product_pool.search(cr, uid, [], context=context)
         total = len(product_ids)
         i = 0
