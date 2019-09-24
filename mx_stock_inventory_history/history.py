@@ -52,7 +52,7 @@ class ProductProductStartHistory(orm.Model):
         '''
         if not date:
             _logger.error('Cannoy history without start date!')
-            continue
+            return True
         
         # Remove previous history values:
         product_pool = self.pool.get('product.product')
