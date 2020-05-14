@@ -111,7 +111,6 @@ class PurchaseOrder(orm.Model):
         volume = 0
         product = detail.product_id
         qty = detail.product_qty or 0
-        import pdb; pdb.set_trace()
         if product.has_multipackage:
             for pack in product.multi_pack_ids:
                 for loop in range(0, pack.number or 1):
