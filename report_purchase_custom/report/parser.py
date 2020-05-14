@@ -139,6 +139,7 @@ class PurchaseOrder(orm.Model):
         if data == 'list':
             return res                
         # elif 'volume':
+        print volume
         return volume
 
 class Parser(report_sxw.rml_parse):
