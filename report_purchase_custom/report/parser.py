@@ -88,9 +88,6 @@ class PurchaseOrder(orm.Model):
         for detail in purchase.order_line:
             current = self._report_multipack_extract_info(detail, data='total')
             volume += current
-            # XXX Debug:
-            #print detail.product_id.default_code, ('%s' % current).replace('.', ',')
-        #print volume    
         return volume
 
     def _report_get_q_x_pack(self, product):
