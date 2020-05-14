@@ -95,8 +95,8 @@ class PurchaseOrder(orm.Model):
         '''
         if product.has_multipackage:
             return 1
-        elif len(product.packaging_ids) == 1:
-            return int(product.packaging_ids[0].qty or 1.0)
+        #elif len(product.packaging_ids) == 1:
+        #    return int(product.packaging_ids[0].qty or 1.0)
         else:
             return int(product.q_x_pack or 1)
 
