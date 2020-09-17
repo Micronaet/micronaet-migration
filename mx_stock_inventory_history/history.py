@@ -79,7 +79,7 @@ class ProductProductStartHistory(orm.Model):
                 'mx_start_date': product.mx_start_date,
                 'mx_start_qty': product.mx_start_qty,
                 }, context=context)    
-            
+        return True    
     
     _columns = {
         'product_id': fields.many2one(
