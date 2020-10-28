@@ -184,7 +184,7 @@ class Parser(report_sxw.rml_parse):
             return as_list or as text formatted
         '''
         res = self.pool.get('purchase.order')._report_multipack_extract_info(
-            detail, data=data)
+            detail, data='list')
         if as_list:
             return '\n'.join(res)
         else:    
