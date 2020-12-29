@@ -517,7 +517,7 @@ class StatisticInvoice(orm.Model):
                     line[3]) or 0.0
                 type_document = csv_base.decode_string(
                     line[4]).lower() # oc/bc/ft >> new: oo bo
-                    
+                
                 # Jump old mexal elements:    
                 if type_document in ('oc', 'bc'):
                     log_f.write(
