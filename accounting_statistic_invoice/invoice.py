@@ -414,6 +414,7 @@ class StatisticInvoice(orm.Model):
         """        
         # Import log:
         self.pool.get('etl.log.importation').etl_log_event(
+            cr, uid, 
             name='Fatturato cliente', 
             filename=file_input1, 
             note='Il file viene generato da mexal e integrato da ODOO con OC', 
