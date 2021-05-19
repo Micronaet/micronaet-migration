@@ -26,6 +26,7 @@ import logging
 import openerp
 import xlsxwriter
 import csv
+import time
 import shutil
 import openerp.netsvc as netsvc
 import openerp.addons.decimal_precision as dp
@@ -411,7 +412,14 @@ class StatisticInvoice(orm.Model):
             This particular importation are from 2 files (amount)
             (all particularity manage are use if particular = True)
         """        
-
+        # Import log:
+        self.pool.get('etl.log.importation').etl_log_event(
+            name='Fatturato cliente', 
+            filename=file_input1, 
+            note='Il file viene generato da mexal e integrato da ODOO con OC', 
+            error='NON DISPONIBILE PER ORA')
+        return False
+            
         # ---------------------------------------------------------------------
         #                             Log part:
         # ---------------------------------------------------------------------
@@ -479,7 +487,7 @@ class StatisticInvoice(orm.Model):
         csv_file = csv.reader(
             open(os.path.expanduser(file_input1), 'rb'),
             delimiter=delimiter,
-            )
+            )        
 
         # Current reference:
         current_year = datetime.now().year
@@ -721,8 +729,16 @@ class StatisticInvoice(orm.Model):
             }, context=context)
             
         _logger.info('Statistic invoice import terminated')
+        
+        # Import log:
+        self.pool.get('etl.log.importation').etl_log_event(
+            name='Fatturato cliente', 
+            filename=file_input1, 
+            note='Il file viene generato da mexal e integrato da ODOO con OC', 
+            error='NON DISPONIBILE PER ORA')
         return True
 
+        
     _columns = {
         'name': fields.char('Descrizione', size=64),
         'visible': fields.boolean('Visible'), # TODO remove

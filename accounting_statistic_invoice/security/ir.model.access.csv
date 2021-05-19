@@ -3,4 +3,5 @@
 "access_statistic_invoice_product_manager","statistic.invoice.product","model_statistic_invoice_product","base.group_sale_manager",1,1,1,1
 "access_statistic_invoice_product_removed_manager","statistic.invoice.product.removed","model_statistic_invoice_product_removed","base.group_sale_manager",1,1,1,1
 "access_statistic_invoice_agent_manager","statistic.invoice.agent","model_statistic_invoice_agent","base.group_sale_manager",1,1,1,1
+"access_etl_log_importation_manager","etl.log.importation","model_etl_log_importation","base.group_sale_manager",1,1,1,1
 

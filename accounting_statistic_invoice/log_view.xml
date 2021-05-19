@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+       <!-- etl.log.importation-->
+       <record id="etl_log_importation_form_view" model="ir.ui.view">
+            <field name="name">ETL Log</field>
+            <field name="model">etl.log.importation</field>
+            <field name="arch" type="xml">
+                <form string="ETL Log" version="7.0">
+                   <sheet>
+                       <group colspan="4" col="4">
+                            <field name="name" readonly="1" />
+                            <field name="date_file" readonly="1" />
+                            <field name="filename" readonly="1" />
+                            <notebook colspan="4">
+                                <page string="Note">
+                                    <group colspan="4" col="4">
+                                        <separator string="Import note:" colspan="4"/>
+                                        <field name="note" colspan="4" nolabel="1" widget="html" readonly="1"/>
+                                    </group>
+                                </page>
+                                <page string="Error" attrs="{'invisible':[('error','=',False)]}">
+                                    <group colspan="4" col="4">
+                                        <separator string="Error log:" colspan="4"/>
+                                        <field name="error" colspan="4" nolabel="1" widget="html" readonly="1"/>
+                                    </group>
+                                </page>
+                             </notebook>                            
+                       </group>
+                   </sheet>
+                </form>
+            </field>
+      </record>
+      <record id="etl_log_importation_tree_view" model="ir.ui.view">
+          <field name="name">ETL Log</field>
+          <field name="model">etl.log.importation</field>
+          <field name="arch" type="xml">
+              <tree string="Product import log">
+                  <field name="name" />
+                  <field name="date_file" />
+              </tree>
+          </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_etl_log_importation_view">
+        <field name="name">Product import log</field>
+        <field name="res_model">etl.log.importation</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="view_id" ref="etl_log_importation_tree_view"/>
+    </record>
+    
+    <menuitem 
+        parent="base.menu_reporting_dashboard" 
+        id="menu_etl_log_importation" 
+        action="action_etl_log_importation_view"
+        name="ETL Log"
+        sequence="10"            
+        />    
+    </data>
+</openerp>
+

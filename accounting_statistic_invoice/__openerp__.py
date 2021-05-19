@@ -41,8 +41,9 @@
     'init_xml': [],
     'demo_xml': [],
     'data': [
-        'security/ir.model.access.csv',
-        'invoice_view.xml',
+        'security/ir.model.access.csv',        
+        'invoice_view.xml',        
+        'log_view.xml',
         'scheduler.xml',
         ],
     'active': False,
