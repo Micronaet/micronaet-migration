@@ -63,6 +63,7 @@ class EtlLogImportation(orm.Model):
             ], context=context)
         data = {
             'name': name,
+            'filename': filename,
             'note': note,
             'error': error,
             'date_file': date_file,
