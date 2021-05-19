@@ -38,6 +38,8 @@
               <tree string="Product import log">
                   <field name="name" />
                   <field name="date_file" />
+                  <field name="note" />
+                  <field name="error" />
               </tree>
           </field>
     </record>

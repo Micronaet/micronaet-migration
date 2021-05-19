@@ -412,7 +412,7 @@ class StatisticInvoice(orm.Model):
             This particular importation are from 2 files (amount)
             (all particularity manage are use if particular = True)
         """        
-        # Import log:
+        # Import log: 
         import pdb; pdb.set_trace()
         self.pool.get('etl.log.importation').etl_log_event(
             cr, uid, 
