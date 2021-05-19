@@ -1018,6 +1018,15 @@ class StatisticInvoiceProduct(orm.Model):
         except:
             _logger.error('%s) Error create record [%s]' % (
                 counter, sys.exc_info()))
+
+        # Import log:
+        self.pool.get('etl.log.importation').etl_log_event(
+            cr, uid, 
+            name='Fatturato prodotto', 
+            filename=input_file, 
+            note='Il file viene generato da mexal', 
+            error='NON DISPONIBILE PER ORA',
+            context=context)
         return True
 
     _columns = {

@@ -57,6 +57,7 @@ class EtlLogImportation(orm.Model):
         """
         date_file = 'Data file: %s' % time.ctime(
             os.path.getctime(filename))
+        _logger.warning('Log %s with %s [%s]' % (name, date_file, filename))    
         log_ids = self.search(cr, uid, [
             ('name', '=', name),
             ], context=context)
