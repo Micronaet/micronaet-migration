@@ -67,9 +67,9 @@ class EtlLogImportation(orm.Model):
             'date_file': date_file,
         } 
         if log_ids:
-            self.create(cr, uid, data, context=context)
-        else:    
             self.write(cr, uid, log_ids, data, context=context)
+        else:    
+            self.create(cr, uid, data, context=context)
 
     _columns = {
         'name': fields.char('Sorgente ETL', size=90),
