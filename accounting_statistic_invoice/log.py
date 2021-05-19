@@ -56,7 +56,7 @@ class EtlLogImportation(orm.Model):
         """ Log ETL data
         """
         date_file = 'Data file: %s' % time.ctime(
-            os.path.getctime(file_input1))
+            os.path.getctime(filename))
         log_ids = self.search(cr, uid, [
             ('name', '=', name),
             ], context=context)
