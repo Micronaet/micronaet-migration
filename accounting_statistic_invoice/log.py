@@ -55,6 +55,7 @@ class EtlLogImportation(orm.Model):
             context=None):
         """ Log ETL data
         """
+        import pdb; pdb.set_trace()
         date_file = 'Data file: %s' % time.ctime(
             os.path.getctime(filename))
         log_ids = self.search(cr, uid, [
