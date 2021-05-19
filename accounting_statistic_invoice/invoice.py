@@ -413,6 +413,7 @@ class StatisticInvoice(orm.Model):
             (all particularity manage are use if particular = True)
         """        
         # Import log:
+        import pdb; pdb.set_trace()
         self.pool.get('etl.log.importation').etl_log_event(
             cr, uid, 
             name='Fatturato cliente', 
