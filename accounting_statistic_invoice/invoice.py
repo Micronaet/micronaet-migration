@@ -206,7 +206,7 @@ class StatisticInvoice(orm.Model):
         # ---------------------------------------------------------------------
         now = str(datetime.now())[:10].replace(':', '_').replace('/', '_')
         log_file1 = os.path.expanduser(
-            '~/etl/log/stats.prod.%s.%s.csv' % (
+            '~/etl/log/dashboard/stats.prod.%s.%s.csv' % (
                 file_partner[-3:],
                 now,
             ))
@@ -215,7 +215,7 @@ class StatisticInvoice(orm.Model):
         log_mask1 = '%s|%s|%s|%s|%s|%s|%s\n'
 
         log_file2 = os.path.expanduser(
-            '~/etl/stats.partner.%s.%s.csv' % (
+            '~/etl/log/dashboard/stats.partner.%s.%s.csv' % (
                 file_partner[-3:],
                 now,
         ))
@@ -431,7 +431,7 @@ class StatisticInvoice(orm.Model):
         _logger.info('Start invoice statistic for customer')
         now = str(datetime.now())[:10].replace(':', '_').replace('/', '_')
         log_file = os.path.expanduser(
-            '~/etl/log/statistic.partner.%s.%s.csv' % (
+            '~/etl/log/dashboard/statistic.partner.%s.%s.csv' % (
                 file_input1[-3:],
                 now,
             ))
