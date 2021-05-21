@@ -204,8 +204,12 @@ class StatisticInvoice(orm.Model):
         # ---------------------------------------------------------------------
         #                         Common Part:
         # ---------------------------------------------------------------------
+        now = str(datetime.now())[:10].replace(':', '_').replace('/', '_')
         log_file1 = os.path.expanduser(
-            '~/etl/stats.prod.%s.csv' % file_partner[-3:])
+            '~/etl/log/stats.prod.%s.%s.csv' % (
+                file_partner[-3:],
+                now,
+            ))
         log_f1 = open(log_file1, 'w')
         log_f1.write('Code|Month|Year|Remain #|Document|Remain Amount|Order\n')
         log_mask1 = '%s|%s|%s|%s|%s|%s|%s\n'
@@ -272,7 +276,7 @@ class StatisticInvoice(orm.Model):
                 month = int(date[5:7])
                 year = int(date[:4])
 
-                if parent_max: # TODO check exist!!!
+                if parent_max:  # TODO check exist!!!
                     code = default_code[:parent_max]
                 else:
                     code = default_code
@@ -422,14 +426,15 @@ class StatisticInvoice(orm.Model):
         #                             Log part:
         # ---------------------------------------------------------------------
         _logger.info('Start invoice statistic for customer')
+        now = str(datetime.now())[:10].replace(':', '_').replace('/', '_')
         log_file = os.path.expanduser(
-            '~/etl/statistic.partner.%s.csv' % file_input1[-3:])
+            '~/etl/log/statistic.partner.%s.%s.csv' % (
+                file_input1[-3:],
+                now,
+            ))
         log_f = open(log_file, 'w')
         log_f.write('#|Name|Code|Tag|# Month|Year|Season|Doc|Total|Zone|Agent|Zone type|Cat stat|Note\n')
         log_mask = '%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s\n'
-
-        # File CSV date for future log
-        # create_date=time.ctime(os.path.getctime(FileInput))
 
         # statistic.invoice:
         sql_pool = self.pool.get('micronaet.accounting')
