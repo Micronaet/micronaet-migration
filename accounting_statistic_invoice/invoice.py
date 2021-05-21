@@ -215,7 +215,10 @@ class StatisticInvoice(orm.Model):
         log_mask1 = '%s|%s|%s|%s|%s|%s|%s\n'
 
         log_file2 = os.path.expanduser(
-            '~/etl/stats.partner.%s.csv' % file_partner[-3:])
+            '~/etl/stats.partner.%s.%s.csv' % (
+                file_partner[-3:],
+                now,
+        ))
         log_f2 = open(log_file2, 'w')
         log_f2.write('Code|Month|Year|Amount|Document|Num.\n')
         log_mask2 = '%s|%s|%s|%s|%s|%s\n'
@@ -309,7 +312,7 @@ class StatisticInvoice(orm.Model):
                     continue
 
                 data = [  # partner
-                    sql_customer_code, # TODO check exist!!!
+                    sql_customer_code,  # TODO check exist!!!
                     month,
                     year,
                     csv_format_float(total),
@@ -389,7 +392,7 @@ class StatisticInvoice(orm.Model):
                 continue
 
             data = [
-                sql_customer_code, # TODO check exist!!!
+                sql_customer_code,  # TODO check exist!!!
                 month,
                 year,
                 csv_format_float(total),
@@ -401,8 +404,8 @@ class StatisticInvoice(orm.Model):
                 data[3] = log_float(data[3])
                 log_f2.write(log_mask2 % tuple(data))
             except:
-                 # _logger.error('Error: %s' % (sys.exc_info(), ))
-                 log_f1.write('|||||Error writing: %s!!!\n' % ddt.name)
+                # _logger.error('Error: %s' % (sys.exc_info(), ))
+                log_f1.write('|||||Error writing: %s!!!\n' % ddt.name)
 
         # Close files:
         f_partner.close()
@@ -852,8 +855,6 @@ class StatisticInvoiceProduct(orm.Model):
             context:
 
         """
-        # TODO for log check:
-        # create_date=time.ctime(os.path.getctime(FileInput))
         input_file = os.path.expanduser(input_file)
         _logger.info('Start importation product invoice stats: %s' % (
             input_file))
@@ -898,7 +899,7 @@ class StatisticInvoiceProduct(orm.Model):
             item.name.upper() for item in remove_pool.browse(
                 cr, uid, item_ids, context=context)]
 
-        top_limit = 0.01 # TODO parametrize
+        top_limit = 0.01  # TODO parametrize
         tot_col = 0
         season_total = 0
         item_invoice = {}
@@ -912,7 +913,7 @@ class StatisticInvoiceProduct(orm.Model):
                     counter += 1
                     continue
 
-                if not tot_col: # save total cols
+                if not tot_col:  # save total cols
                    tot_col = len(line)
                    _logger.info('Total cols %s' % tot_col)
 
@@ -924,7 +925,7 @@ class StatisticInvoiceProduct(orm.Model):
                 counter += 1
 
                 # Read fields from csv file:
-                name = csv_base.decode_string(line[0]).upper() # Family
+                name = csv_base.decode_string(line[0]).upper()  # Family
                 if name in family_blacklist:
                     continue # jump record
                 month = csv_base.decode_string(line[1])
@@ -952,7 +953,7 @@ class StatisticInvoiceProduct(orm.Model):
                         counter, year, month, total_invoice))
                     year = datetime.now().strftime('%Y')
                     month = datetime.now().month
-                    month_season = transcode_month[month] # recalculate
+                    month_season = transcode_month[month]  # recalculate
 
                 family_id, categ_id = families.get(name, (False, False))
                 data = {
