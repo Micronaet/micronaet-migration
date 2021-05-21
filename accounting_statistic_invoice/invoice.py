@@ -204,7 +204,7 @@ class StatisticInvoice(orm.Model):
         # ---------------------------------------------------------------------
         #                         Common Part:
         # ---------------------------------------------------------------------
-        now = str(datetime.now())[:10].replace(':', '_').replace('/', '_')
+        now = str(datetime.now())[:19].replace(':', '_').replace('/', '_')
         log_file1 = os.path.expanduser(
             '~/etl/log/dashboard/stats.prod.%s.%s.csv' % (
                 file_partner[-3:],
@@ -247,8 +247,8 @@ class StatisticInvoice(orm.Model):
             ('state', 'not in', ('cancel', 'draft', 'sent')),
             ('pricelist_order', '=', False),
             ('mx_closed', '=', False),
-            ('previsional', '=', False),  # No previsional order
-            ('forecasted_production_id', '=', False),
+            ('previsional', '=', False),  # No provisioning order
+            ('forecasted_production_id', '=', False),  # No forecast order
             ], context=context)
 
         type_document = 'OO'
@@ -429,7 +429,7 @@ class StatisticInvoice(orm.Model):
         #                             Log part:
         # ---------------------------------------------------------------------
         _logger.info('Start invoice statistic for customer')
-        now = str(datetime.now())[:10].replace(':', '_').replace('/', '_')
+        now = str(datetime.now())[:19].replace(':', '_').replace('/', '_')
         log_file = os.path.expanduser(
             '~/etl/log/dashboard/statistic.partner.%s.%s.csv' % (
                 file_input1[-3:],
