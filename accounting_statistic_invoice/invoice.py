@@ -44,30 +44,30 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 
 _logger = logging.getLogger(__name__)
 
-transcode_month = { # to season element
-    9: 1, # Sept
+transcode_month = {  # to season element
+    9: 1,  # Sept
     10: 2,
     11: 3,
     12: 4,
     1: 5,
-    2: 6, 
+    2: 6,
     3: 7,
     4: 8,
     5: 9,
     6: 10,
-    7: 11, 
+    7: 11,
     8: 12,
     }
 
-# fields selection:    
+# fields selection:
 seasons = [
-    (-100, 'Season old'), # all old seasons ex -1
+    (-100, 'Season old'),  # all old seasons ex -1
     (-4, 'Season -4'),
     (-3, 'Season -3'),
-    (-2, 'Season -2'), # ex 1
-    (-1, 'Season -1'), # ex 2
-    (1, 'Season current'), # ex 3
-    (100, 'Season new'), # all new seasons ex 4
+    (-2, 'Season -2'),  # ex 1
+    (-1, 'Season -1'),  # ex 2
+    (1, 'Season current'),  # ex 3
+    (100, 'Season new'),  # all new seasons ex 4
     ]
 
 month_order_season = [
@@ -75,7 +75,7 @@ month_order_season = [
     (1, '01: Set.'),
     (2, '02: Ott.'),
     (3, '03: Nov.'),
-    (4, '04: Dic.'), 
+    (4, '04: Dic.'),
     (5, '05*: Gen.'),
     (6, '06*: Feb.'),
     (7, '07*: Mar.'),
@@ -86,9 +86,11 @@ month_order_season = [
     (12, '12*: Ago.'),
     ]
 
+
 def log_float(value):
     return ('%s' % value).replace('.', ',')
-    
+
+
 # -----------------------------------------------------------------------------
 # Utility: TODO move somewhere!
 # -----------------------------------------------------------------------------
@@ -100,6 +102,7 @@ def get_partner_name(self, cr, uid, partner_id, context=None):
     partner_proxy = self.pool.get('res.partner').browse(
         cr, uid, partner_id, context=context)
     return partner_proxy.name or False
+
 
 # -----------------------------------------------------------------------------
 #                              Objects:
@@ -117,6 +120,7 @@ class StatisticInvoiceAgent(orm.Model):
         'hide_statistic': fields.boolean('Hide statistic'),
         }
 
+
 class ResPartnerStatistic(orm.Model):
     """ res_partner_extra_fields
     """
@@ -126,6 +130,7 @@ class ResPartnerStatistic(orm.Model):
         'invoice_agent_id': fields.many2one(
             'statistic.invoice.agent', 'Invoice Agent'),
         }
+
 
 # -----------------------------------------------------------------------------
 #                            INVOICE:
@@ -141,8 +146,8 @@ class StatisticInvoice(orm.Model):
     # Utility:
     # ----------------------------------
     def clean_ascii(self, data):
-        ''' Remove not ascii char
-        '''
+        """ Remove not ascii char
+        """
         if not data:
             return ''
         res = ''
@@ -150,13 +155,14 @@ class StatisticInvoice(orm.Model):
             if ord(c) < 127:
                 res += c
         return res
-        
-    def append_csv_statistic_delivery_data(self, cr, uid, file_partner, 
+
+    def append_csv_statistic_delivery_data(
+            self, cr, uid, file_partner,
             file_product, parent_max=False, delimiter=';', verbose=20,
             context=None):
-        ''' Append OC non delivered from ODOO as statistics
+        """ Append OC non delivered from ODOO as statistics
             Append also document delivered from ODOO (from 01/01/2016)
-        '''
+        """
         # ---------------------------------------------------------------------
         # Log file:
         # ---------------------------------------------------------------------
@@ -168,7 +174,7 @@ class StatisticInvoice(orm.Model):
         logfile = logfile % company_proxy.partner_id.name
         try:
             WB = xlsxwriter.Workbook(logfile)
-            WS =  WB.add_worksheet('Statistics')
+            WS = WB.add_worksheet('Statistics')
             log = True
             _logger.info('Log file: %s' % logfile)
             WS.write(0, 0, 'Error')
@@ -176,22 +182,22 @@ class StatisticInvoice(orm.Model):
             log = False
             _logger.error('Cannot open log file %s [%s]' % (
                 logfile,
-                sys.exc_info(), 
-                ))                
+                sys.exc_info(),
+                ))
         xls_i = 1
-         
+
         # ---------------------------------------------------------------------
         # Utility:
         # ---------------------------------------------------------------------
         def csv_format_float(value):
-            ''' format 2 dec. comma separator
-            '''
+            """ format 2 dec. comma separator
+            """
             if not value:
                 return '0,00'
-            
+
             try:
-                return ('%15.2f' % float(value)).replace('.', ',')    
-            except:  
+                return ('%15.2f' % float(value)).replace('.', ',')
+            except:
                 _logger.error('Error convert float: %s' % value)
                 return '0,00'
 
@@ -208,8 +214,8 @@ class StatisticInvoice(orm.Model):
             '~/etl/stats.partner.%s.csv' % file_partner[-3:])
         log_f2 = open(log_file2, 'w')
         log_f2.write('Code|Month|Year|Amount|Document|Num.\n')
-        log_mask2 = '%s|%s|%s|%s|%s|%s\n'        
-        
+        log_mask2 = '%s|%s|%s|%s|%s|%s\n'
+
         today = datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT)
 
         # Copy file for write problem:
@@ -217,89 +223,88 @@ class StatisticInvoice(orm.Model):
             '~/etl/partner.%s' % file_partner[-3:])
         file_product_local = os.path.expanduser(
              '~/etl/product.%s' % file_product[-3:])
-        shutil.copyfile(file_partner, file_partner_local)     
-        shutil.copyfile(file_product, file_product_local)     
+        shutil.copyfile(file_partner, file_partner_local)
+        shutil.copyfile(file_product, file_product_local)
 
         # Open for append:
         f_partner = open(file_partner_local, 'a')
         mask_partner = '%s;%2s;%10s;%15s;%s\n'
         f_product = open(file_product_local, 'a')
         mask_product = '%s;%2s;%10s;%10s;%s;%15s\n'
-        
+
         # ---------------------------------------------------------------------
         #                           Orders:
         # ---------------------------------------------------------------------
         order_pool = self.pool.get('sale.order')
         order_ids = order_pool.search(cr, uid, [
             ('state', 'not in', ('cancel', 'draft', 'sent')),
-            ('pricelist_order', '=', False), 
+            ('pricelist_order', '=', False),
             ('mx_closed', '=', False),
-            ('previsional', '=', False), # No previsional order
-            #('forecasted_production_id', '=', False), 
+            ('previsional', '=', False),  # No previsional order
+            # ('forecasted_production_id', '=', False),
             ], context=context)
-           
+
         type_document = 'OO'
         i = 0
         for order in order_pool.browse(cr, uid, order_ids, context=context):
             i += 1
             if i % verbose == 0:
                 _logger.info('OC from ODOO read: %s' % i)
-            #total = 0.0
+            # total = 0.0
             sql_customer_code = order.partner_id.sql_customer_code
             if not sql_customer_code:
                 error = 'Order: %s Partner code not found: %s' % (
                     order.name,
-                    order.partner_id.name, 
+                    order.partner_id.name,
                     )
                 _logger.error(error)
                 if log:
                     WS.write(xls_i, 0, error)
-                    xls_i += 1    
+                    xls_i += 1
                 continue
-            
+
             order_date_deadline = order.date_deadline or today
             for line in order.order_line:
                 default_code = line.product_id.default_code or ''
-                
+
                 # Deadline in line data:
                 date = line.date_deadline or order_date_deadline
                 month = int(date[5:7])
-                year = int(date[:4])    
-                 
+                year = int(date[:4])
+
                 if parent_max: # TODO check exist!!!
                     code = default_code[:parent_max]
-                else:    
+                else:
                     code = default_code
-                     
+
                 remain = line.product_uom_qty - line.delivered_qty
-                if remain <= 0 or not line.product_uom_qty: # all delivered
+                if remain <= 0 or not line.product_uom_qty:  # all delivered
                     continue
                 remain_total = \
                     line.price_subtotal * remain / line.product_uom_qty
-                total = remain_total # += # TODO remove keep remain_total
-                 
-                data = [ # product
-                     code, 
+                total = remain_total  # += # TODO remove keep remain_total
+
+                data = [  # product
+                     code,
                      month,
                      year,
                      int(remain),
                      type_document,
                      csv_format_float(remain_total),
                      ]
-                     
-                try:     
+
+                try:
                     f_product.write(mask_product % tuple(data))
                     data.append(order.name)
-                    log_f1.write(log_mask1 % tuple(data)) # product log
-                except:    
-                    #_logger.error('Error: %s' % (sys.exc_info()))
+                    log_f1.write(log_mask1 % tuple(data))  # product log
+                except:
+                    # _logger.error('Error: %s' % (sys.exc_info()))
                     log_f1.write('||||||Error writing: %s!!!\n' % order.name)
-                      
+
                 if not total:
                     continue
-            
-                    
-                data = [ # partner
+
+                data = [  # partner
                     sql_customer_code, # TODO check exist!!!
                     month,
                     year,
@@ -307,15 +312,15 @@ class StatisticInvoice(orm.Model):
                     type_document,
                     ]
 
-                try:    
+                try:
                     # Append data on schedule import file:
                     f_partner.write(mask_partner % tuple(data))
-                    
+
                     data[3] = log_float(data[3])
                     data.append(order.name)
                     log_f2.write(log_mask2 % tuple(data))
-                except:    
-                    #_logger.error('Error: %s' % (sys.exc_info()))
+                except:
+                    # _logger.error('Error: %s' % (sys.exc_info()))
                     log_f1.write('%s|||||Error writing!!!\n' % order.name)
 
         # ---------------------------------------------------------------------
@@ -325,7 +330,7 @@ class StatisticInvoice(orm.Model):
         ddt_ids = ddt_pool.search(cr, uid, [
             ('invoice_id', '=', False),
             ], context=context)
-            
+
         type_document = 'BO'
         i = 0
         for ddt in ddt_pool.browse(cr, uid, ddt_ids, context=context):
@@ -335,50 +340,50 @@ class StatisticInvoice(orm.Model):
             total = 0.0
             date = ddt.date or today
             month = int(date[5:7])
-            year = int(date[:4])            
+            year = int(date[:4])
             sql_customer_code = ddt.partner_id.sql_customer_code
-            
+
             for line in ddt.ddt_lines:
-                 if parent_max: # TODO check exist!!!
-                     code = line.product_id.default_code[:parent_max]
-                 else:
-                     code = line.product_id.default_code
-                     
-                 number = line.product_uom_qty
-                 sol = line.sale_line_id
-                 if not sol.product_uom_qty:
-                     continue
-                     
-                 # Proportional to ddt subtotal:    
-                 amount = sol.price_subtotal * number / line.product_uom_qty
-                 total += amount
-                 
-                 data = [
-                      code, 
-                      month,
-                      year,
-                      int(amount),
-                      type_document,
-                      csv_format_float(remain_total),                      
-                      ]         
-                 try:                  
-                     f_product.write(mask_product % tuple(data))
-                     data[3] = log_float(data[3])
-                     data[5] = log_float(data[5])
-                     data.append(ddt.name)
-                     log_f1.write(log_mask1 % tuple(data))     
-                 except:   
-                     #_logger.error('Error: %s' % (sys.exc_info(), ))
-                     log_f1.write('||||||Error writing: %s!!!\n' % ddt.name)
+                if parent_max:  # TODO check exist!!!
+                    code = line.product_id.default_code[:parent_max]
+                else:
+                    code = line.product_id.default_code
+
+                number = line.product_uom_qty
+                sol = line.sale_line_id
+                if not sol.product_uom_qty:
+                    continue
+
+                # Proportional to ddt subtotal:
+                amount = sol.price_subtotal * number / line.product_uom_qty
+                total += amount
+
+                data = [
+                    code,
+                    month,
+                    year,
+                    int(amount),
+                    type_document,
+                    csv_format_float(remain_total),
+                    ]
+                try:
+                    f_product.write(mask_product % tuple(data))
+                    data[3] = log_float(data[3])
+                    data[5] = log_float(data[5])
+                    data.append(ddt.name)
+                    log_f1.write(log_mask1 % tuple(data))
+                except:
+                    # _logger.error('Error: %s' % (sys.exc_info(), ))
+                    log_f1.write('||||||Error writing: %s!!!\n' % ddt.name)
 
             if not total:
                 continue
-                
+
             if not sql_customer_code:
                 _logger.error('Partner code not found: %s' % (
                     ddt.partner_id.name, ))
                 continue
-                
+
             data = [
                 sql_customer_code, # TODO check exist!!!
                 month,
@@ -387,31 +392,32 @@ class StatisticInvoice(orm.Model):
                 type_document,
                 ]
             try:
-                f_partner.write(mask_partner % tuple(data))       
+                f_partner.write(mask_partner % tuple(data))
                 data.append(ddt.name)
                 data[3] = log_float(data[3])
                 log_f2.write(log_mask2 % tuple(data))
-            except:    
-                 #_logger.error('Error: %s' % (sys.exc_info(), ))
+            except:
+                 # _logger.error('Error: %s' % (sys.exc_info(), ))
                  log_f1.write('|||||Error writing: %s!!!\n' % ddt.name)
-        
-        # Close files:         
+
+        # Close files:
         f_partner.close()
-        f_product.close()      
+        f_product.close()
         if log:
-            WB.close()  
+            WB.close()
         return True
 
     # ----------------------------------
     # Importation procedure (scheduled):
     # ----------------------------------
-    def schedule_csv_statistic_invoice_import(self, cr, uid,
+    def schedule_csv_statistic_invoice_import(
+            self, cr, uid,
             file_input1='~/ETL/fatmeseoerp1.csv',
             delimiter=';', header=0, verbose=100, context=None):
         """ Import statistic data from CSV file for invoice, trend, trendoc
             This particular importation are from 2 files (amount)
             (all particularity manage are use if particular = True)
-        """        
+        """
         # ---------------------------------------------------------------------
         #                             Log part:
         # ---------------------------------------------------------------------
@@ -423,7 +429,7 @@ class StatisticInvoice(orm.Model):
         log_mask = '%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s\n'
 
         # File CSV date for future log
-        #create_date=time.ctime(os.path.getctime(FileInput))
+        # create_date=time.ctime(os.path.getctime(FileInput))
 
         # statistic.invoice:
         sql_pool = self.pool.get('micronaet.accounting')
@@ -433,9 +439,9 @@ class StatisticInvoice(orm.Model):
         # Clean database:
         invoice_ids = self.search(cr, uid, [], context=context)
         self.unlink(cr, uid, invoice_ids, context=context)
-        
+
         order_ref = datetime.now().strftime('%Y%m') # actualize order
-        
+
         # ---------------------------------------------------------------------
         # Load dict for swap partner extra data
         # ---------------------------------------------------------------------
@@ -443,27 +449,27 @@ class StatisticInvoice(orm.Model):
         _logger.info('Read partner extra info (zone, agent)')
         partner_extra = {}
         partner_ids = partner_pool.search(cr, uid, [], context=context)
-        for partner in partner_pool.browse(cr, uid, partner_ids, 
+        for partner in partner_pool.browse(cr, uid, partner_ids,
                 context=context):
             partner_extra[partner.id] = (
                 partner.zone_id.name or '',
                 partner.agent_id.name or '',
-                '', #partner.zone_id.type.name or '',
-                '', # TODO cat stat!!!                
+                '',  # partner.zone_id.type.name or '',
+                '',  # TODO cat stat!!!
                 )
 
         # Destination in parent ID
-        #_logger.info('Read parent for destinations conversion')
-        #convert_destination = {}
-        #cursor = sql_pool.get_parent_partner(cr, uid, context=context)
-        #if not cursor:
+        # _logger.info('Read parent for destinations conversion')
+        # convert_destination = {}
+        # cursor = sql_pool.get_parent_partner(cr, uid, context=context)
+        # if not cursor:
         #    _logger.error("Unable to connect to parent (destination)!")
         #    return False # Fatal error!
-        #else:
+        # else:
         #    for record in cursor:
         #        convert_destination[record['CKY_CNT']] = record[
         #            'CKY_CNT_CLI_FATT']
-        #_logger.info(
+        # _logger.info(
         #    'Find %s destinations for conversion' % len(convert_destination))
 
         # Partner tags
@@ -471,7 +477,7 @@ class StatisticInvoice(orm.Model):
         partner_tags = {}
         tag_pool = self.pool.get('res.partner.category')
         tag_ids = tag_pool.search(cr, uid, [
-            ('statistic', '=', True)], context=context)        
+            ('statistic', '=', True)], context=context)
         for tag in tag_pool.browse(cr, uid, tag_ids, context=context):
             for partner in tag.partner_ids:
                 partner_tags[partner.id] = tag.id # TODO problem in multi pres.
@@ -479,7 +485,7 @@ class StatisticInvoice(orm.Model):
         csv_file = csv.reader(
             open(os.path.expanduser(file_input1), 'rb'),
             delimiter=delimiter,
-            )        
+            )
 
         # Current reference:
         current_year = datetime.now().year
@@ -490,43 +496,43 @@ class StatisticInvoice(orm.Model):
         #                    Read invoice data:
         # ---------------------------------------------------------------------
         for line in csv_file:
-            note = '' # logging
-            
+            note = ''  # logging
+
             if tot_col == 0: # set cols (first time)
                 tot_col = len(line)
                 _logger.info('Total columns: %s' % tot_col)
             if counter < 0:
-                counter += 1 # jump header line
+                counter += 1  # jump header line
                 continue
-                    
+
             if not(len(line) and (tot_col == len(line))):
                 _logger.error(
                    '%s) Empty or colums different [%s >> %s]' % (
                        counter, tot_col, len(line)))
-                # Log:       
+                # Log:
                 log_f.write('%s|||||||||||||column different!\n' % counter)
                 continue
 
-            counter += 1            
+            counter += 1
             try:
-                mexal_id = csv_base.decode_string(line[0]) # ID
-                month = int(csv_base.decode_string(line[1]) or '0') # jump is ''!
+                mexal_id = csv_base.decode_string(line[0])  # ID
+                month = int(csv_base.decode_string(line[1]) or '0')  # jump is ''!
                 month_season = transcode_month[month]
                 year = csv_base.decode_string(line[2]) or ''
                 total_invoice = csv_base.decode_float(
                     line[3]) or 0.0
                 type_document = csv_base.decode_string(
                     line[4]).lower() # oc/bc/ft >> new: oo bo
-                
-                # Jump old mexal elements:    
+
+                # Jump old mexal elements:
                 if type_document in ('oc', 'bc'):
                     log_f.write(
-                        '%s|||||||||||||Jump old OC or BC\n' % counter)                        
+                        '%s|||||||||||||Jump old OC or BC\n' % counter)
                     continue
 
-                # -----------------        
+                # -----------------
                 # Calculated field:
-                # -----------------        
+                # -----------------
                 partner_id = csv_base.get_create_partner_lite(
                     cr, uid, mexal_id, context=context)
                 if not partner_id:
@@ -535,22 +541,22 @@ class StatisticInvoice(orm.Model):
                     partner_name = '#ERR Partner code %s' % (mexal_id or '')
                 else:
                     partner_name = get_partner_name(self, cr, uid, partner_id)
-                    
-                # Statistic database:    
+
+                # Statistic database:
                 if partner_id not in stats:
                     stats[partner_id] = [
-                        False, # Last operation
-                        0.0, # invoiced current
-                        0.0, # invoiced -1                                
-                        0.0, # order current
+                        False,  # Last operation
+                        0.0,  # invoiced current
+                        0.0,  # invoiced -1
+                        0.0,  # order current
                         ]
 
                 if not total_invoice:
                     _logger.warning('%s Amount not found [%s]' % (
                         counter, line))
                     log_f.write(
-                        '%s|||||||||||||Amount not found!\n' % counter)    
-                    continue # Considered and error, jumped
+                        '%s|||||||||||||Amount not found!\n' % counter)
+                    continue  # Considered and error, jumped
 
                 # Not classified (TODO but imported, true?!?!)
                 if not (month or year):
@@ -571,25 +577,25 @@ class StatisticInvoice(orm.Model):
                             total_invoice))
                     year = datetime.now().strftime('%Y')
                     month = datetime.now().month
-                    month_season = transcode_month[month] # recalculate
+                    month_season = transcode_month[month]  # recalculate
 
                 data = {
                     'name': '%s [%s]' % (partner_name, mexal_id),
                     'partner_id': partner_id,
                     'tag_id': partner_tags.get(partner_id, False),
-                    'month': month_season, # month,
+                    'month': month_season,  # month,
                     'type_document': type_document,
                     'year': year,
                     'total': total_invoice,
                     }
 
-                # -------------------------------------------------------------                
+                # -------------------------------------------------------------
                 # Season
-                # -------------------------------------------------------------                
+                # -------------------------------------------------------------
                 if current_month >= 1 and current_month <= 8:
-                    ref_year = current_year - 1 # Ref. is previous year
+                    ref_year = current_year - 1  # Ref. is previous year
                 elif current_month >= 9 and current_month <= 12:
-                    ref_year = current_year # Ref. is current year
+                    ref_year = current_year  # Ref. is current year
                 else:
                     _logger.error('%s) Month error not [1:12]' % (
                         counter))
@@ -599,34 +605,34 @@ class StatisticInvoice(orm.Model):
 
                 # september - current year >> august - next year
                 if year_month >= '%s09' % ref_year and \
-                        year_month <= '%s08' % (ref_year + 1): # current
-                    data['season'] = 1                   
+                        year_month <= '%s08' % (ref_year + 1):  # current
+                    data['season'] = 1
                     stats[partner_id][1] += total_invoice
                     if type_document == 'oo':
                         stats[partner_id][3] += total_invoice
-                    
+
                 elif year_month >= '%s09' % (ref_year -1) and \
-                        year_month <= '%s08' % ref_year: # year -1
+                        year_month <= '%s08' % ref_year:  # year -1
                     data['season'] = -1
                     stats[partner_id][2] += total_invoice
-                    
+
                 elif year_month >= '%s09' % (ref_year -2) and \
-                        year_month <= '%s08' % (ref_year -1): # year -2
+                        year_month <= '%s08' % (ref_year -1):  # year -2
                     data['season'] = -2
-                    
+
                 elif year_month >= '%s09' % (ref_year -3) and \
-                        year_month <= '%s08' % (ref_year -2): # year -3
+                        year_month <= '%s08' % (ref_year -2):  # year -3
                     data['season'] = -3
-                    
+
                 elif year_month >= '%s09' % (ref_year -4) and \
-                        year_month <= '%s08' % (ref_year -3): # year -4
+                        year_month <= '%s08' % (ref_year -3):  # year -4
                     data['season'] = -4
-                    
+
                 else: # extra interval (imported the same)
                     if year_month > '%s08' % (ref_year + 1):
-                        data['season'] = 100 # new season
+                        data['season'] = 100  # new season
                     else:
-                        data['season'] = -100 # old season
+                        data['season'] = -100  # old season
 
                 # Common part (correct + amount)
                 self.create(cr, uid, data, context=context)
@@ -645,20 +651,20 @@ class StatisticInvoice(orm.Model):
                         data['season'],
                         type_document,
                         log_float(total_invoice),
-                        self.clean_ascii(partner_extra_one[0]), # zone
-                        self.clean_ascii(partner_extra_one[1]), # agent
-                        partner_extra_one[2], # type
-                        partner_extra_one[3], # cat stat
+                        self.clean_ascii(partner_extra_one[0]),  # zone
+                        self.clean_ascii(partner_extra_one[1]),  # agent
+                        partner_extra_one[2],  # type
+                        partner_extra_one[3],  # cat stat
                         note,
                         ))
                 except:
                     _logger.error('%s Error write log file ID %s: [%s]' % (
-                        counter, mexal_id, sys.exc_info()))                        
-                    continue    
+                        counter, mexal_id, sys.exc_info()))
+                    continue
             except:
                 _logger.error('%s Error import invoice ID %s: [%s]' % (
                     counter, mexal_id, sys.exc_info()))
-                continue    
+                continue
 
         # Set tot 20 partner:
         # TODO set only current year in test!
@@ -672,20 +678,20 @@ class StatisticInvoice(orm.Model):
                 GROUP BY partner_id 
                 ORDER BY sum(total) desc 
                 LIMIT 15);""")
-                
+
         # For a bug: update zone_type:
         _logger.info('Update zone type for a bug')
         stat_ids = self.search(cr, uid, [
             ('zone_id', '!=', False)], context=context)
         for stat in self.browse(cr, uid, stat_ids, context=context):
             self.write(cr, uid, stat.id, {
-                'zone_type': stat.zone_id.type, 
-                }, context=context)    
+                'zone_type': stat.zone_id.type,
+                }, context=context)
 
         # Update partner stats:
         for partner_id in stats:
-            #TODO invoice_trend = '='
-            
+            # TODO invoice_trend = '='
+
             if stats[partner_id][2]:
                 invoice_trend_perc = 100.0 * (
                     stats[partner_id][1] - stats[partner_id][2]) / \
@@ -698,11 +704,11 @@ class StatisticInvoice(orm.Model):
                  'invoiced_current_year': stats[partner_id][1],
                  'invoiced_last_year': stats[partner_id][2],
                  'order_current_year': stats[partner_id][3],
-                 
-                 #'invoice_trend': invoice_trend,
+
+                 # 'invoice_trend': invoice_trend,
                  'invoice_trend_perc': invoice_trend_perc,
                  }, context=context)
-        
+
         # ---------------------------------------------------------------------
         # Reset partner not touched in this importation:
         # ---------------------------------------------------------------------
@@ -719,46 +725,45 @@ class StatisticInvoice(orm.Model):
              'invoice_trend': 'equal',
              'invoice_trend_perc': invoice_trend_perc,
             }, context=context)
-            
+
         _logger.info('Statistic invoice import terminated')
-        
+
         # Import log:
         self.pool.get('etl.log.importation').etl_log_event(
-            cr, uid, 
-            name='Fatturato cliente', 
-            filename=file_input1, 
-            note='Il file viene generato da mexal e integrato da ODOO con OC', 
+            cr, uid,
+            name='Fatturato cliente',
+            filename=file_input1,
+            note='Il file viene generato da mexal e integrato da ODOO con OC',
             error='NON DISPONIBILE PER ORA',
             context=context)
         return True
 
-        
     _columns = {
         'name': fields.char('Descrizione', size=64),
         'visible': fields.boolean('Visible'), # TODO remove
         'top': fields.boolean('Top'),
         'tag_id': fields.many2one('res.partner.category', 'Tag'),
-        'partner_id': fields.many2one('res.partner', 'Partner'),        
-        
+        'partner_id': fields.many2one('res.partner', 'Partner'),
+
         # Partner related data:
         'group_tag_id': fields.related(
-            'partner_id', 'group_tag_id', 
-            type='many2one', relation='res.partner.category', 
-            string='Tag group', store=True), 
+            'partner_id', 'group_tag_id',
+            type='many2one', relation='res.partner.category',
+            string='Tag group', store=True),
         'state_id': fields.related(
-            'partner_id', 'state_id', 
-            type='many2one', relation='res.country.state', 
-            string='Partner state', store=True), 
+            'partner_id', 'state_id',
+            type='many2one', relation='res.country.state',
+            string='Partner state', store=True),
         'country_id': fields.related(
-            'partner_id', 'country_id', 
+            'partner_id', 'country_id',
             type='many2one', relation='res.country',
-            string='Partner country', store=True), 
+            string='Partner country', store=True),
 
         # TODO moved in new module: mx_partner_zone:
         'zone_id': fields.related('partner_id', 'zone_id', type='many2one',
             relation='res.partner.zone', string='Zone', store=True),
         # Related won't work!
-        #'zone_type': fields.related('zone_id', 'type', type='selection',
+        # 'zone_type': fields.related('zone_id', 'type', type='selection',
         #    selection=[
         #        ('region', 'Region'),
         #        ('state', 'State'),
@@ -767,15 +772,15 @@ class StatisticInvoice(orm.Model):
             ('region', 'Region'),
             ('state', 'State'),
             ('area', 'Area'), ], 'Zone type'),
-                
+
         # TODO remove old agent management
-        #'invoice_agent_id': fields.related('partner_id', 'invoice_agent_id',
+        # 'invoice_agent_id': fields.related('partner_id', 'invoice_agent_id',
         #    type='many2one', relation='statistic.invoice.agent',
         #    string='Invoice agent', store=True),
-        #'hide_statistic': fields.related('invoice_agent_id', 'hide_statistic',
+        # 'hide_statistic': fields.related('invoice_agent_id', 'hide_statistic',
         #    type='boolean', string='Nascondi statistica', store=False),
         'invoice_agent_id': fields.related('partner_id', 'agent_id',
-            type='many2one', relation='res.partner', 
+            type='many2one', relation='res.partner',
             domain=[('is_agent', '=', True)],
             string='Invoice agent', store=True),
         'hide_statistic': fields.related('invoice_agent_id', 'hide_statistic',
@@ -789,8 +794,8 @@ class StatisticInvoice(orm.Model):
             ('ft', 'Fattura'),
             ('oc', 'Ordine Mexal'),
             ('oo', 'Ordine ODOO'),
-            ('bc', 'DDT Mexal'), 
-            ('bo', 'DDT ODOO'), 
+            ('bc', 'DDT Mexal'),
+            ('bo', 'DDT ODOO'),
             ], 'Tipo doc.', select=True),
 
         'month': fields.selection(month_order_season, 'Mese', select=True),
@@ -798,13 +803,14 @@ class StatisticInvoice(orm.Model):
         'year': fields.char('Anno', size=4),
 
         # Extra info for filter graph:
-        'statistic_category_id': fields.related('partner_id', 
+        'statistic_category_id': fields.related(
+            'partner_id',
             'statistic_category_id', type='many2one',
-            relation='statistic.category', string='Statistic category', 
+            relation='statistic.category', string='Statistic category',
             store=True),
 
-        'trend': fields.related('statistic_category_id', 'trend', 
-            type='boolean', readonly=True, string='Trend stat. cat.', 
+        'trend': fields.related('statistic_category_id', 'trend',
+            type='boolean', readonly=True, string='Trend stat. cat.',
             store=True),
         }
 
@@ -812,6 +818,7 @@ class StatisticInvoice(orm.Model):
         'total': lambda *a: 0.0,
         'visible': lambda *a: False,
         }
+
 
 # -----------------------------------------------------------------------------
 #                            PRODUCT
@@ -824,8 +831,9 @@ class StatisticInvoiceProduct(orm.Model):
     _description = 'Statistic invoice'
     _order = 'month, name'
 
-    def schedule_csv_statistic_invoice_product_import(self, cr, uid,
-            input_file, delimiter=';', header=0, verbose=100, load_line=False, 
+    def schedule_csv_statistic_invoice_product_import(
+            self, cr, uid,
+            input_file, delimiter=';', header=0, verbose=100, load_line=False,
             context=None):
         """ Schedule procedure for import statistic.invoice.product
             self: instance
@@ -837,10 +845,10 @@ class StatisticInvoiceProduct(orm.Model):
             verbose: every X record print log (0 = no log)
             load_line: if present load family element and get line
             context:
-            
+
         """
         # TODO for log check:
-        #create_date=time.ctime(os.path.getctime(FileInput))
+        # create_date=time.ctime(os.path.getctime(FileInput))
         input_file = os.path.expanduser(input_file)
         _logger.info('Start importation product invoice stats: %s' % (
             input_file))
@@ -860,23 +868,23 @@ class StatisticInvoiceProduct(orm.Model):
             family_list = family.family_list
             if not family_list:
                 _logger.error('Family %s without family list!' % family.name)
-                continue    
+                continue
             families.update(
                 dict.fromkeys(family_list.split('|'), (
                         family.id, family.categ_id.id)))
-                        
+
         # Load line if necessary (family = code, not parent part!)
         lines = {}
         if load_line:
             product_pool = self.pool.get('product.product')
-            product_ids = product_pool.search(cr, uid, [], context=context)            
+            product_ids = product_pool.search(cr, uid, [], context=context)
             for product in product_pool.browse(
-                    cr, uid, product_ids, context=context):                    
-                try:    
+                    cr, uid, product_ids, context=context):
+                try:
                     if product.line_id.id:
                         lines[product.default_code] = product.line_id.id
                 except:
-                    continue # jump error    
+                    continue  # jump error
 
         # Create list for family to remove:
         remove_pool = self.pool.get('statistic.invoice.product.removed')
@@ -889,10 +897,10 @@ class StatisticInvoiceProduct(orm.Model):
         tot_col = 0
         season_total = 0
         item_invoice = {}
-        order_ref = datetime.now().strftime('%Y%m') # actualize order
+        order_ref = datetime.now().strftime('%Y%m')  # actualize order
         current_year = datetime.now().year
         current_month = datetime.now().month
-        csv_base = self.pool.get('csv.base')        
+        csv_base = self.pool.get('csv.base')
         for line in csv_lines:
             try:
                 if counter < 0:
@@ -930,27 +938,27 @@ class StatisticInvoiceProduct(orm.Model):
                 if type_document not in ('ft', 'bo', 'oo'):
                     _logger.warning('%s) Type of doc not correct: %s' % (
                         counter, type_document))
-                    type_document = False # not jumperd
+                    type_document = False  # not jumped
 
                 # Actualize OO
                 if type_document == 'oo' and '%s%02d' % (
-                        year, month) < order_ref:                                    
+                        year, month) < order_ref:
                     _logger.warning('%s) Old OO > today: %s%02d totale %s' % (
                         counter, year, month, total_invoice))
                     year = datetime.now().strftime('%Y')
                     month = datetime.now().month
                     month_season = transcode_month[month] # recalculate
-                
+
                 family_id, categ_id = families.get(name, (False, False))
                 data = {
                     'name': name,
                     'month': month_season,
                     'type_document': type_document,
-                    'total': total_invoice, # now for all seasons
+                    'total': total_invoice,  # now for all seasons
                     'year': year,
                     'family_id': family_id,
                     'categ_id': categ_id,
-                    'line_id': lines.get(name, False), # if not request is {}
+                    'line_id': lines.get(name, False),  # if not request is {}
                     }
 
                 # Which year
@@ -1021,10 +1029,10 @@ class StatisticInvoiceProduct(orm.Model):
 
         # Import log:
         self.pool.get('etl.log.importation').etl_log_event(
-            cr, uid, 
-            name='Fatturato prodotto', 
-            filename=input_file, 
-            note='Il file viene generato da mexal', 
+            cr, uid,
+            name='Fatturato prodotto',
+            filename=input_file,
+            note='Il file viene generato da mexal',
             error='NON DISPONIBILE PER ORA',
             context=context)
         return True
@@ -1036,24 +1044,24 @@ class StatisticInvoiceProduct(orm.Model):
         'total': fields.float('Amount', digits=(16, 2)),
 
         'family_id': fields.many2one('product.template', 'Family'),
-        'categ_id': fields.many2one('product.category', 'Family'), 
-        
+        'categ_id': fields.many2one('product.category', 'Family'),
+
         # Categorization fields:
-        'line_id': fields.many2one('product.line', 'Line'), 
-        #'line_id': fields.related(
-        #    'family_id', 'line_id', 
-        #    type='many2one', relation='product.line', 
-        #    string='Line', store=True),             
-        
-        # Not used for now:    
+        'line_id': fields.many2one('product.line', 'Line'),
+        # 'line_id': fields.related(
+        #    'family_id', 'line_id',
+        #    type='many2one', relation='product.line',
+        #    string='Line', store=True),
+
+        # Not used for now:
         'tipology_id': fields.related(
-            'family_id', 'tipology_id', 
-            type='many2one', relation='product.tipology', 
-            string='Tipology', store=True), 
+            'family_id', 'tipology_id',
+            type='many2one', relation='product.tipology',
+            string='Tipology', store=True),
         'material_id': fields.related(
-            'family_id', 'material_id', 
-            type='many2one', relation='product.material', 
-            string='Material', store=True), 
+            'family_id', 'material_id',
+            type='many2one', relation='product.material',
+            string='Material', store=True),
 
         'percentage': fields.float(
             '% 3 season total', digits=(16, 5)),
@@ -1078,6 +1086,7 @@ class StatisticInvoiceProduct(orm.Model):
         'top': lambda *a: False,
         }
 
+
 class ResPartnerCategory(orm.Model):
     """ Add fields for statistic purpose
     """
@@ -1087,6 +1096,7 @@ class ResPartnerCategory(orm.Model):
         'statistic': fields.boolean('Statistic')
         # TODO m2m per partner tags
         }
+
 
 class StatisticInvoiceProductRemoved(orm.Model):
     """ Product not present in statistic
@@ -1098,6 +1108,7 @@ class StatisticInvoiceProductRemoved(orm.Model):
         'name': fields.char('Family', size=64, required=True),
         }
 
+
 class ResPartnerStatistic(orm.Model):
     """ res_partner_extra_fields
     """
@@ -1107,6 +1118,5 @@ class ResPartnerStatistic(orm.Model):
         'trend': fields.boolean(
             'Trend',
             help='Insert in trend statistic, used for get only interesting '
-                'partner in statistic graph'),
+                 'partner in statistic graph'),
         }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
