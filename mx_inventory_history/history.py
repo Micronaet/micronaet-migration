@@ -30,13 +30,14 @@ from openerp import SUPERUSER_ID, api
 from openerp import tools
 from openerp.tools.translate import _
 from openerp.tools.float_utils import float_round as round
-from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
-    DEFAULT_SERVER_DATETIME_FORMAT, 
-    DATETIME_FORMATS_MAP, 
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
+    DEFAULT_SERVER_DATETIME_FORMAT,
+    DATETIME_FORMATS_MAP,
     float_compare)
 
 
 _logger = logging.getLogger(__name__)
+
 
 class ResCompany(orm.Model):
     """ Model name: ResCompany
@@ -44,38 +45,38 @@ class ResCompany(orm.Model):
     _inherit = 'res.company'
 
     def history_previous_year_net(self, cr, uid, ids, context=None):
-        ''' Call procedure in product obj
-        ''' 
+        """ Call procedure in product obj
+        """
         return self.pool.get('product.product').history_previous_year_net(
             cr, uid, False, context=context)
 
 
 class ProductProduct(orm.Model):
     """ Model name: ProductProduct
-    """    
+    """
     _inherit = 'product.product'
-    
+
     def history_previous_year_net(self, cr, uid, ids, context=None):
-        ''' History previous data for new management
-        '''
+        """ History previous data for new management
+        """
         if context is None:
             context = {}
-            
+
         product_ids = self.search(cr, uid, [], context=context)
         ctx = context.copy()
-        ctx['limit_up_date'] = '2016-12-31 23:59:59' # set limit
+        ctx['limit_up_date'] = '2016-12-31 23:59:59'  # set limit
 
         i = 0
         product_db = {}
-        for product in self.browse(         
+        for product in self.browse(
                 cr, uid, product_ids, context=ctx):
             i += 1
             mx_net_qty = product.mx_net_qty
             if mx_net_qty:
                 product_db[product.id] = mx_net_qty
                 _logger.info('%s. Found product' % i)
-        
-        for item, qty in product_db.iteritems(): 
+
+        for item, qty in product_db.iteritems():
             try:
                 self.write(cr, uid, item, {
                     'mx_history_net_qty': qty,
@@ -84,9 +85,7 @@ class ProductProduct(orm.Model):
                 _logger.error('Error: %s' % item)
                 continue
         return True
-        
+
     _columns = {
         'mx_history_net_qty': fields.float('History net', digits=(16, 2)),
         }
-    
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
