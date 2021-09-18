@@ -30,9 +30,9 @@ from openerp import SUPERUSER_ID, api
 from openerp import tools
 from openerp.tools.translate import _
 from openerp.tools.float_utils import float_round as round
-from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
-    DEFAULT_SERVER_DATETIME_FORMAT, 
-    DATETIME_FORMATS_MAP, 
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
+    DEFAULT_SERVER_DATETIME_FORMAT,
+    DATETIME_FORMATS_MAP,
     float_compare)
 
 
@@ -41,19 +41,19 @@ _logger = logging.getLogger(__name__)
 class ProductProductStartHistory(orm.Model):
     """ Model name: ProductProductStartHistory
     """
-    
+
     _name = 'product.product.start.history'
     _description = 'Start history'
     _rec_name = 'product_id'
-    
-    def history_start_elements(self, cr, uid, mx_start_date=False, 
-            context=None):
-        ''' Save current history
-        '''
+
+    def history_start_elements(
+            self, cr, uid, mx_start_date=False, context=None):
+        """ Save current history
+        """
         if not mx_start_date:
             _logger.error('Cannoy history without start date!')
             return True
-        
+
         # Remove previous history values:
         history_ids = self.search(cr, uid, [
             ('mx_start_date', '=', mx_start_date),
@@ -69,26 +69,24 @@ class ProductProductStartHistory(orm.Model):
         for product in product_pool.browse(
                 cr, uid, product_ids, context=context):
             i += 1
-            if i % 100 == 0:    
+            if i % 100 == 0:
                 _logger.warning('Updated %s of %s' % (
                     i, total,
-                    ))    
+                    ))
 
             self.create(cr, uid, {
                 'product_id': product.id,
                 'mx_start_date': product.mx_start_date,
                 'mx_start_qty': product.mx_start_qty,
-                }, context=context)    
-        return True    
-    
+                }, context=context)
+        return True
+
     _columns = {
         'product_id': fields.many2one(
             'product.product', 'Product', required=True),
-            
+
         'mx_start_date': fields.date('Start date'),
-        'mx_start_qty': fields.float('Inventory start qty', 
+        'mx_start_qty': fields.float('Inventory start qty',
             digits=(16, 2), # TODO parametrize
             help='Inventory at 1/1 for current year'),
     }
-    
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
