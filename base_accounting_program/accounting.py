@@ -38,6 +38,7 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 
 _logger = logging.getLogger(__name__)
 
+
 class ProductProductExtraFields(orm.Model):
     _inherit ='product.product'
 
@@ -53,6 +54,7 @@ class ProductProductExtraFields(orm.Model):
             'Large Description', translate=True, help="For web publishing"),
         }
 
+
 class ProductPricelistExtraFields(orm.Model):
     _inherit ='product.pricelist'
 
@@ -62,6 +64,7 @@ class ProductPricelistExtraFields(orm.Model):
             'Mexal Pricelist', size=9, required=False, readonly=False),
         }
 
+
 class PricelistVersionExtraFields(orm.Model):
     _inherit ='product.pricelist.version'
 
@@ -70,6 +73,7 @@ class PricelistVersionExtraFields(orm.Model):
         'mexal_id': fields.char(
             'Mexal Pricelist version', size=9, required=False, readonly=False),
     }
+
 
 class PricelistItemExtraFields(orm.Model):
     _inherit ='product.pricelist.item'
@@ -85,6 +89,8 @@ Extra fields for object used in sale orders
 Maybe this new objects are not necessary and will be replaced in the future
 TODO Maybe discount part is better move in a single module
 """
+
+
 class SaleOrderBank(orm.Model):
     _name = 'sale.order.bank'
     _description = 'Sale oder bank'
@@ -96,10 +102,11 @@ class SaleOrderBank(orm.Model):
             help="Account description, IBAN etc. linked in the offer"),
         }
 
+
 class SaleProductReturn(orm.Model):
-    ''' List of text sentences for the return of the product, this list are
+    """ List of text sentences for the return of the product, this list are
         show in offer modules
-    '''
+    """
     _name = 'sale.product.return'
     _description = 'Sale product return'
 
@@ -108,8 +115,9 @@ class SaleProductReturn(orm.Model):
         'text': fields.text('Text', translate=True),
         }
 
+
 class SaleOrderExtraFields(orm.Model):
-    _inherit='sale.order'
+    _inherit = 'sale.order'
 
     _columns = {
          'bank_id': fields.many2one('sale.order.bank', 'Conto bancario'),
@@ -121,9 +129,10 @@ class SaleOrderExtraFields(orm.Model):
          'return_id': fields.many2one('sale.product.return', 'Product return'),
          }
 
-    _defaults={
+    _defaults = {
         'has_master_header': lambda *a: True,
         }
+
 
 class SaleOrderLineExtraFields(orm.Model):
     _inherit ='sale.order.line'
@@ -149,15 +158,15 @@ class SaleOrderLineExtraFields(orm.Model):
                 cr, uid, 0, vals.get('multi_discount_rates'))['value']
             vals['discount'] = res.get('discount', '')
 
-        # TODO raise error when update (need restart server)    
+        # TODO raise error when update (need restart server)
         return super(SaleOrderLineExtraFields, self).write(
             cr, uid, ids, vals, context=context)
 
-    def on_change_multi_discount(self, cr, uid, ids, multi_discount_rates, 
+    def on_change_multi_discount(self, cr, uid, ids, multi_discount_rates,
             context=None):
-        ''' Get multidiscount return compute of discount and better format
+        """ Get multidiscount return compute of discount and better format
             of multi rates
-        '''
+        """
         res = {}
         if multi_discount_rates:
            disc = multi_discount_rates.replace(' ', '')
@@ -213,7 +222,7 @@ class SaleOrderLineExtraFields(orm.Model):
               return False
         else:
            return False
-    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^       
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     _columns = {
         # TODO remove (put in correct module mx_discount_scale_order
@@ -224,7 +233,7 @@ class SaleOrderLineExtraFields(orm.Model):
                 "lord price - discount"),
         'price_unit_manual': fields.float(
             'Manual net price', digits_compute=dp.get_precision('Sale Price')),
-        # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^    
+        # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
         'image_http': fields.boolean('Has image',
             help="Has link for image on the web"),
@@ -240,7 +249,8 @@ class SaleOrderLineExtraFields(orm.Model):
         'multi_discount_rates': _discount_rates_get,
         'discount': _discount_value_get,
         }
-    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^    
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 
 """
 # fiam_partner.py
@@ -248,6 +258,8 @@ Add zone manage TODO maybe better put in a single module
 Add extra fields populated from accounting > maybe better in a single module
 """
 # TODO move in new module!!!!
+
+
 class ResPartnerZone(orm.Model):
     _name = 'res.partner.zone'
     _description = 'Partner Zone'
@@ -266,18 +278,19 @@ class ResPartnerZone(orm.Model):
         'type': lambda *a: 'state',
     }
 
+
 class ResPartnerExtraFields(orm.Model):
     _inherit ='res.partner'
 
     def _function_statistics_invoice(
             self, cr, uid, ids, args, field_list, context=None):
-        '''
+        """
         Calculate up or down of invoice:
         @param cr: the current row, from the database cursor,
         @param uid: the current user’s ID for security checks,
         @param context: A standard dictionary for contextual values
         @return: list of dictionary which contain partner id, colour
-        '''
+        """
         if context is None:
            context = {}
 
@@ -306,14 +319,14 @@ class ResPartnerExtraFields(orm.Model):
     _columns = {
         'zone_id': fields.many2one('res.partner.zone', 'Zone'),
         'mexal_province': fields.char('MX province', size=9),
-        
+
         # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
         # TODO MOVE IN fido_management:
         'fido_date': fields.date('FIDO Date'),
         'fido_ko': fields.boolean('No FIDO'),
         'fido_total': fields.float('Totale fido', digits=(16, 2)),
         # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        
+
         'mexal_note': fields.text('Mexal Note'),
         'import': fields.char('ID import', size=10),
         # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
@@ -324,7 +337,7 @@ class ResPartnerExtraFields(orm.Model):
         'fiscal_id_code': fields.char('Fiscal code', size=16),
         'private': fields.boolean('Private'),
         'type_cei': fields.char('Type CEI', size=1),
-        
+
         # TODO remove (put in correct module mx_discount_scale_order
         # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
         'discount_value': fields.float('Discount value', digits=(16, 2)),
@@ -354,11 +367,9 @@ class ResPartnerExtraFields(orm.Model):
             digits=(16,2), string='Invoice diff. %', store=True, readonly=True,
             multi='invoice_stat'),
         # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        
+
         'type_id': fields.many2one(
             'crm.tracking.campaign',
-            # NOTE ex: 'crm.case.resource.type', 
+            # NOTE ex: 'crm.case.resource.type',
             'Campaign'),
         }
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

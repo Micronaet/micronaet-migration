@@ -87,6 +87,6 @@ class ProductProductStartHistory(orm.Model):
 
         'mx_start_date': fields.date('Start date'),
         'mx_start_qty': fields.float('Inventory start qty',
-            digits=(16, 2), # TODO parametrize
+            digits=(16, 2),  # TODO parametrize
             help='Inventory at 1/1 for current year'),
     }
