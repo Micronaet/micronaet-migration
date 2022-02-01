@@ -21,6 +21,7 @@
 ###############################################################################
 
 import os
+import pdb
 import sys
 import logging
 import openerp
@@ -166,6 +167,7 @@ class StatisticInvoice(orm.Model):
         # ---------------------------------------------------------------------
         # Log file:
         # ---------------------------------------------------------------------
+        pdb.set_trace()
         logfile = '/home/administrator/photo/xls/statistic/%s_invoce.xlsx'
         company_pool = self.pool.get('res.company')
         company_ids = company_pool.search(cr, uid, [], context=context)
@@ -453,7 +455,7 @@ class StatisticInvoice(orm.Model):
         # ---------------------------------------------------------------------
         # Load dict for swap partner extra data
         # ---------------------------------------------------------------------
-        # Agend and zone:
+        # Agent and zone:
         _logger.info('Read partner extra info (zone, agent)')
         partner_extra = {}
         partner_ids = partner_pool.search(cr, uid, [], context=context)
@@ -488,7 +490,7 @@ class StatisticInvoice(orm.Model):
             ('statistic', '=', True)], context=context)
         for tag in tag_pool.browse(cr, uid, tag_ids, context=context):
             for partner in tag.partner_ids:
-                partner_tags[partner.id] = tag.id # TODO problem in multi pres.
+                partner_tags[partner.id] = tag.id  # todo problem in multi pres
 
         csv_file = csv.reader(
             open(os.path.expanduser(file_input1), 'rb'),
@@ -698,7 +700,7 @@ class StatisticInvoice(orm.Model):
 
         # Update partner stats:
         for partner_id in stats:
-            # TODO invoice_trend = '='
+            # todo invoice_trend = '='
 
             if stats[partner_id][2]:
                 invoice_trend_perc = 100.0 * (
@@ -721,8 +723,8 @@ class StatisticInvoice(orm.Model):
         # Reset partner not touched in this importation:
         # ---------------------------------------------------------------------
         partner_ids = partner_pool.search(cr, uid, [
-            ('sql_customer_code', '!=', False), # account partner only
-            ('id', 'not in', stats.keys()), # partner not touched
+            ('sql_customer_code', '!=', False),  # account partner only
+            ('id', 'not in', stats.keys()),  # partner not touched
             ], context=context)
         _logger.warning('Reset not touched %s partner' % len(partner_ids))
         partner_pool.write(cr, uid, partner_ids, {
@@ -748,7 +750,7 @@ class StatisticInvoice(orm.Model):
 
     _columns = {
         'name': fields.char('Descrizione', size=64),
-        'visible': fields.boolean('Visible'), # TODO remove
+        'visible': fields.boolean('Visible'),  # todo remove
         'top': fields.boolean('Top'),
         'tag_id': fields.many2one('res.partner.category', 'Tag'),
         'partner_id': fields.many2one('res.partner', 'Partner'),

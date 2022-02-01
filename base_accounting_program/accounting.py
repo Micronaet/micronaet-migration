@@ -266,7 +266,7 @@ class ResPartnerZone(orm.Model):
     _order = 'type,name'
 
     _columns = {
-        'name':fields.char('Zone', size=64, required=True),
+        'name': fields.char('Zone', size=64, required=True),
         'mexal_id': fields.integer('Mexal ID'),
         'type': fields.selection([
             ('region', 'Region'),
@@ -280,7 +280,7 @@ class ResPartnerZone(orm.Model):
 
 
 class ResPartnerExtraFields(orm.Model):
-    _inherit ='res.partner'
+    _inherit = 'res.partner'
 
     def _function_statistics_invoice(
             self, cr, uid, ids, args, field_list, context=None):
