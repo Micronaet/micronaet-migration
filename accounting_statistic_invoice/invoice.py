@@ -220,7 +220,7 @@ class StatisticInvoice(orm.Model):
             '~/etl/log/dashboard/stats.partner.%s.%s.csv' % (
                 file_partner[-3:],
                 now,
-        ))
+                ))
         log_f2 = open(log_file2, 'w')
         log_f2.write('Code|Month|Year|Amount|Document|Num.\n')
         log_mask2 = '%s|%s|%s|%s|%s|%s\n'
@@ -245,13 +245,23 @@ class StatisticInvoice(orm.Model):
         #                           Orders:
         # ---------------------------------------------------------------------
         order_pool = self.pool.get('sale.order')
-        order_ids = order_pool.search(cr, uid, [
+        domain = [
             ('state', 'not in', ('cancel', 'draft', 'sent')),
             ('pricelist_order', '=', False),
             ('mx_closed', '=', False),
             ('previsional', '=', False),  # No provisioning order
-            ('forecasted_production_id', '=', False),  # No forecast order
-            ], context=context)
+            # ('forecasted_production_id', '=', False),  # No forecast order
+            ]
+        pdb.set_trace()
+        if 'forecasted_production_id' in order_pool._columns:
+            _logger.warning('Also with forecasted order')
+            domain.append(
+                ('forecasted_production_id', '=', False),  # No forecast order
+                )
+        else:
+            _logger.warning('Without forecasted order')
+
+        order_ids = order_pool.search(cr, uid, domain, context=context)
 
         type_document = 'OO'
         i = 0
