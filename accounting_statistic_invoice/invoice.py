@@ -275,6 +275,8 @@ class StatisticInvoice(orm.Model):
 
             order_date_deadline = order.date_deadline or today
             for line in order.order_line:
+                if verbose:
+                    _logger.info('OC from ODOO read: %s riga' % i)
                 default_code = line.product_id.default_code or ''
 
                 # Deadline in line data:
