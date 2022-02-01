@@ -252,7 +252,6 @@ class StatisticInvoice(orm.Model):
             ('previsional', '=', False),  # No provisioning order
             # ('forecasted_production_id', '=', False),  # No forecast order
             ]
-        pdb.set_trace()
         if 'forecasted_production_id' in order_pool._columns:
             _logger.warning('Also with forecasted order')
             domain.append(
