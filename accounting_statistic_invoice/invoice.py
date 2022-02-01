@@ -255,7 +255,6 @@ class StatisticInvoice(orm.Model):
 
         type_document = 'OO'
         i = 0
-        pdb.set_trace()
         for order in order_pool.browse(cr, uid, order_ids, context=context):
             i += 1
             if i % verbose == 0:
