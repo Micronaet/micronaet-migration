@@ -214,7 +214,7 @@ class Parser(report_sxw.rml_parse):
         """ Last minute function for convert name (not translated in product)
         """
         if lingua not in ['en_US', 'it_IT']:
-            lingua = 'it_IT'
+            lingua = 'it_IT'  # Default lang IT
         terms = {
             'it_IT': {
                 'ALLUMINIO': 'ALLUMINIO',
