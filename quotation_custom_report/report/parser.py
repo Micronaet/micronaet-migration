@@ -215,6 +215,7 @@ class Parser(report_sxw.rml_parse):
         name = name.strip()
         if not name:
             return ""
+
         # If name is originally in english translate in italian
         if name == "STEEL":
            name = "ACCIAIO"
@@ -250,5 +251,5 @@ class Parser(report_sxw.rml_parse):
         if lingua == 'it_IT':
             return name
         else:
-            _logger.error('Errore recuperando il codice: [%s]' % name)
+            _logger.error('Errore telaio recuperando: [%s]' % name)
             return ita2eng[name] if name in ita2eng else "?"
