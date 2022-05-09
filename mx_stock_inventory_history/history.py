@@ -51,7 +51,7 @@ class ProductProductStartHistory(orm.Model):
         """ Save current history
         """
         if not mx_start_date:
-            _logger.error('Cannoy history without start date!')
+            _logger.error('Cannot history without start date!')
             return True
 
         # Remove previous history values:
