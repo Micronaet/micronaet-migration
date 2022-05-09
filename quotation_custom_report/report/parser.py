@@ -26,6 +26,7 @@
 #
 ##############################################################################
 import os
+import pdb
 import sys
 import logging
 import openerp
@@ -215,26 +216,28 @@ class Parser(report_sxw.rml_parse):
         name = name.strip()
         if not name:
             return ""
+        if name == 'ACCIAIO':
+            pdb.set_trace()
 
         # If name is originally in english translate in italian
         if name == "STEEL":
-           name = "ACCIAIO"
+            name = "ACCIAIO"
         elif name == "WOOD":
-           name = "LEGNO"
+            name = "LEGNO"
         elif name == "WOODEN":
-           name = "LEGNO"
+            name = "LEGNO"
         elif name == "IRON PAINTED":
-           name = "TINTO FERRO"
+            name = "TINTO FERRO"
         elif name == "IRON CHROMED":
-           name = "CROMATO FERRO"
+            name = "CROMATO FERRO"
         elif name == "ANODIZED ALUMINIUM":
-           name = "ALLUMINIO ANODIZZATO"
+            name = "ALLUMINIO ANODIZZATO"
         elif name == "ALUMINIUM":
-           name = "ALLUMINIO"
+            name = "ALLUMINIO"
         elif name == "IRON":
-           name = "FERRO"
+            name = "FERRO"
         elif name == "WALNUT":
-           name = "NOCE"
+            name = "NOCE"
 
         ita2eng = {
            "ALLUMINIO": "ALUMINIUM",
