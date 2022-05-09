@@ -206,7 +206,7 @@ class Parser(report_sxw.rml_parse):
                 return "Acrypol"
 
         else:
-            _logger.error('Errore recuperando il codice: %s' % code)
+            _logger.error('Errore recuperando il codice: [%s]' % code)
             return "/"
 
     def get_telaio(self, name, lingua):
@@ -250,5 +250,5 @@ class Parser(report_sxw.rml_parse):
         if lingua == 'it_IT':
             return name
         else:
-            _logger.error('Errore recuperando il codice: %s' % name)
+            _logger.error('Errore recuperando il codice: [%s]' % name)
             return ita2eng[name] if name in ita2eng else "?"
