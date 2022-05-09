@@ -213,46 +213,51 @@ class Parser(report_sxw.rml_parse):
     def get_telaio(self, name, lingua):
         """ Last minute function for convert name (not translated in product)
         """
+        if lingua not in ['en_US', 'it_IT']:
+            lingua = 'it_IT'
+        terms = {
+            'it_IT': {
+                'ALLUMINIO': 'ALLUMINIO',
+                'ALUMINIUM': 'ALLUMINIO',
+                'LEGNO': 'LEGNO',
+                'WOOD': 'LEGNO',
+                'ACCIAIO': 'ACCIAIO',
+                'STEEL': 'ACCIAIO',
+                'TINTO NOCE': 'TINTO NOCE',
+                'PAINTED WALNUT': 'TINTO NOCE',
+                'NOCE': 'NOCE',
+                'WALNUT': 'NOCE',
+                'ALLUMINIO ANODIZZATO': 'ALLUMINIO ANODIZZATO',
+                'ANODIZED ALUMINIUM': 'ALLUMINIO ANODIZZATO',
+                'CROMATO FERRO': 'CROMATO FERRO',
+                'IRON CHROMED': 'CROMATO FERRO',
+                'IRON PAINTED': 'TINTO FERRO',
+                'TINTO FERRO': 'TINTO FERRO',
+                'FERRO': 'FERRO',
+                'IRON': 'FERRO',
+                'ROBINIA': 'ROBINIA',
+            },
+            'en_US': {
+                'ALLUMINIO': 'ALUMINIUM',
+                'ALUMINIUM': 'ALUMINIUM',
+                'LEGNO': 'WOOD',
+                'WOOD': 'WOOD',
+                'ACCIAIO': 'STEEL',
+                'STEEL': 'STEEL',
+                'TINTO NOCE': 'PAINTED WALNUT',
+                'PAINTED WALNUT': 'PAINTED WALNUT',
+                'NOCE': 'WALNUT',
+                'WALNUT': 'WALNUT',
+                'ALLUMINIO ANODIZZATO': 'ANODIZED ALUMINIUM',
+                'ANODIZED ALUMINIUM': 'ANODIZED ALUMINIUM',
+                'CROMATO FERRO': 'IRON CHROMED',
+                'IRON CHROMED': 'IRON CHROMED',
+                'IRON PAINTED': 'IRON PAINTED',
+                'TINTO FERRO': 'IRON PAINTED',
+                'FERRO': 'IRON',
+                'IRON': 'IRON',
+                'ROBINIA': 'ROBINIA',
+            }
+        }
         name = name.strip()
-        if not name:
-            return ""
-        if name == 'ACCIAIO':
-            pdb.set_trace()
-
-        # If name is originally in english translate in italian
-        if name == "STEEL":
-            name = "ACCIAIO"
-        elif name == "WOOD":
-            name = "LEGNO"
-        elif name == "WOODEN":
-            name = "LEGNO"
-        elif name == "IRON PAINTED":
-            name = "TINTO FERRO"
-        elif name == "IRON CHROMED":
-            name = "CROMATO FERRO"
-        elif name == "ANODIZED ALUMINIUM":
-            name = "ALLUMINIO ANODIZZATO"
-        elif name == "ALUMINIUM":
-            name = "ALLUMINIO"
-        elif name == "IRON":
-            name = "FERRO"
-        elif name == "WALNUT":
-            name = "NOCE"
-
-        ita2eng = {
-           "ALLUMINIO": "ALUMINIUM",
-           "LEGNO": "WOOD",
-           "ACCIAIO": "STEEL",
-           "TINTO NOCE": "PAINTED WALNUT",
-           "NOCE": "WALNUT",
-           "ALLUMINIO ANODIZZATO": "ANODIZED ALUMINIUM",
-           "CROMATO FERRO": "IRON CHROMED",
-           "TINTO FERRO": "IRON PAINTED",
-           "FERRO": "IRON",
-           "ROBINIA": "ROBINIA",
-           }
-        if lingua == 'it_IT':
-            return name
-        else:
-            _logger.error('Errore telaio recuperando: [%s]' % name)
-            return ita2eng[name] if name in ita2eng else "?"
+        return terms[lingua].get(name, name)
