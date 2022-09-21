@@ -20,23 +20,10 @@
 import os
 import sys
 import logging
-import openerp
-import openerp.netsvc as netsvc
-import openerp.addons.decimal_precision as dp
 from openerp.osv import fields, osv, expression, orm
-from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
-from openerp import SUPERUSER_ID, api
-from openerp import tools
-from openerp.tools.translate import _
-from openerp.tools.float_utils import float_round as round
-from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
-    DEFAULT_SERVER_DATETIME_FORMAT,
-    DATETIME_FORMATS_MAP,
-    float_compare)
-
 
 _logger = logging.getLogger(__name__)
+
 
 class ProductProductStartHistory(orm.Model):
     """ Model name: ProductProductStartHistory
@@ -52,13 +39,14 @@ class ProductProductStartHistory(orm.Model):
         """
         if not mx_start_date:
             _logger.error('Cannot history without start date!')
-            return True
+            return False
 
         # Remove previous history values:
         history_ids = self.search(cr, uid, [
             ('mx_start_date', '=', mx_start_date),
             ], context=context)
-        _logger.warning('Delete previous record: %s' % len(history_ids))
+        _logger.warning(
+            'Delete previous record (in history): %s' % len(history_ids))
         self.unlink(cr, uid, history_ids, context=context)
 
         # Update with current:
@@ -86,7 +74,8 @@ class ProductProductStartHistory(orm.Model):
             'product.product', 'Product', required=True),
 
         'mx_start_date': fields.date('Start date'),
-        'mx_start_qty': fields.float('Inventory start qty',
+        'mx_start_qty': fields.float(
+            'Inventory start qty',
             digits=(16, 2),  # TODO parametrize
             help='Inventory at 1/1 for current year'),
     }
