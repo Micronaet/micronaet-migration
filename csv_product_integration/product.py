@@ -133,7 +133,7 @@ class ProductProduct(orm.Model):
         """ Force group (custom for a particular client)
         """
         # TODO remove, not used (with family)
-        return True # TODO <<< stop the procedure here!
+        return True  # TODO <<< stop the procedure here!
         product_group = {
             'Prodotti': {
                 'Amaca': ('Amaca','Amache',),
@@ -267,7 +267,8 @@ class ProductProduct(orm.Model):
                         })
         return True
 
-    def schedule_csv_product_integration(self, cr, uid,
+    def schedule_csv_product_integration(
+            self, cr, uid,
             input_file='~/ETL/artioerp.csv', delimiter=';', header_line=0,
             verbose=100, with_sale=False, context=None):
         """ Import product extra fields, this operation override sql schedule
@@ -320,16 +321,16 @@ class ProductProduct(orm.Model):
 
                 # TODO move in sql_product CSG_ART_ALT
                 # XXX REMOVED!!! IMPORTED AND MANAGED IN ODOO (company 1 and 2)
-                #ean = csv_pool.decode_string(line[4]).strip()
-                #if len(ean) != 13 or ean[:2] != '80':
+                # ean = csv_pool.decode_string(line[4]).strip()
+                # if len(ean) != 13 or ean[:2] != '80':
                 #    ean = False
 
                 # Language:
                 name = csv_pool.decode_string(line[1]).title() # it
                 language['en_US'] = csv_pool.decode_string(line[10]).title()
                 # TODO activate lang in odoo if other:
-                #language['fr_FR'] = csv_pool.decode_string(line[11]).title()
-                #language['3'] = csv_pool.decode_string(line[12]).title()
+                # language['fr_FR'] = csv_pool.decode_string(line[11]).title()
+                # language['3'] = csv_pool.decode_string(line[12]).title()
 
                 try: # sale lot of product
                     lot = eval(csv_pool.decode_string(

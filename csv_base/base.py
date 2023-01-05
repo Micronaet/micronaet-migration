@@ -30,31 +30,33 @@ from openerp import SUPERUSER_ID, api
 from openerp import tools
 from openerp.tools.translate import _
 from openerp.tools.float_utils import float_round as round
-from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
-    DEFAULT_SERVER_DATETIME_FORMAT, 
-    DATETIME_FORMATS_MAP, 
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
+    DEFAULT_SERVER_DATETIME_FORMAT,
+    DATETIME_FORMATS_MAP,
     float_compare)
 
 
 _logger = logging.getLogger(__name__)
 
+
 class CsvBase(orm.Model):
-    ''' Add common function without fields/table
-    '''
+    """ Add common function without fields/table
+    """
     _name = 'csv.base'
     _description = 'Base function'
-    
-    def get_create_partner_lite(self, cr, uid, ref, record=None, customer=True, 
+
+    def get_create_partner_lite(
+            self, cr, uid, ref, record=None, customer=True,
             context=None):
-        ''' Search a partner with accounting code
+        """ Search a partner with accounting code
             If not present create one partner with a lite record
-        '''
+        """
         partner_pool = self.pool.get('res.partner')
         if customer:
             key = 'sql_customer_code'
-        else:    
-            key = 'sql_supplier_code'            
-            
+        else:
+            key = 'sql_supplier_code'
+
         partner_ids = partner_pool.search(cr, uid, [
             (key, '=', ref)], context=context)
         if partner_ids:
@@ -62,23 +64,23 @@ class CsvBase(orm.Model):
         if record is None:
             record = {
                 'name': 'Partner %s' % ref,
-                key: ref,                
-                }          
+                key: ref,
+                }
         _logger.warning("Create a lite partner: %s" % (record, ))
-        return partner_pool.create(cr, uid, record, context=context)        
-        
-    def decode_string(self, valore):  
-        ''' Return string value of asc passed
-        '''
-        if not valore: 
+        return partner_pool.create(cr, uid, record, context=context)
+
+    def decode_string(self, valore):
+        """ Return string value of asc passed
+        """
+        if not valore:
             return ''
         valore = valore.decode('cp1252')
         valore = valore.encode('utf-8')
         return valore.strip()
 
     def decode_date(self, valore, with_slash=True):
-        ''' Return date value of asc passed
-        '''
+        """ Return date value of asc passed
+        """
         valore = valore.strip()
         if with_slash: # yet correct YYYY/MM/DD
             return valore or False
@@ -89,23 +91,21 @@ class CsvBase(orm.Model):
         return False # when error
 
     def decode_float(self, valore):
-        ''' Return float value of asc passed
-        '''
-        valore = valore.strip() 
-        if valore: 
+        """ Return float value of asc passed
+        """
+        valore = valore.strip()
+        if valore:
            return float(valore.replace(',', '.'))
         else:
            return 0.0   # for empty values
 
     def decode_int(self, valore):
-        ''' Return int value of asc passed
-        '''
-        valore = valore.strip() 
-        if valore: 
+        """ Return int value of asc passed
+        """
+        valore = valore.strip()
+        if valore:
            try:
                return int(valore)
            except:
-               pass # next line:    
+               pass # next line:
         return False   # for empty values
-    
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

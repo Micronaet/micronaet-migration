@@ -39,9 +39,10 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 
 _logger = logging.getLogger(__name__)
 
+
 class ResPartner(orm.Model):
-    ''' Extra fields for manage pricelist
-    '''
+    """ Extra fields for manage pricelist
+    """
     _inherit = 'res.partner'
 
     _columns = {
@@ -49,28 +50,30 @@ class ResPartner(orm.Model):
             'product.pricelist', 'Ref. pricelist'),
         }
 
+
 class ProductPricelistItem(orm.Model):
-    ''' Extra fields
-    '''
+    """ Extra fields
+    """
     _inherit = 'product.pricelist.item'
 
     _columns = {
         'default_pricelist': fields.boolean('Default pricelist rule'),
         }
 
+
 class ProductPricelist(orm.Model):
-    ''' Add scheduled operations
-    '''
+    """ Add scheduled operations
+    """
     _inherit = 'product.pricelist'
 
     # --------
     # Utility:
     # --------
     def create_default_pricelist(self, cr, uid, versions, context=None):
-        ''' Default pricelist creation (from 0 to 9)
+        """ Default pricelist creation (from 0 to 9)
             Create if not exist base pricelist - version
             Update versions converter for future purpose
-        '''
+        """
         version_pool = self.pool.get('product.pricelist.version')
 
         # Create pricelist 1-9
@@ -82,12 +85,12 @@ class ProductPricelist(orm.Model):
                 # There's only one pricelist:
                 if len(pl_ids) > 1:
                     _logger.error('Found more than one pricelist')
-                    
+
                 pl_id = pl_ids[0]
             else:
                 pl_id = self.create(cr, uid, {
                     'name': "Listino Mexal n. " + mexal_id,
-                    #'currency_id': 
+                    #'currency_id':
                     'type': 'sale',
                     'mexal_id': mexal_id,
                     })
@@ -99,9 +102,9 @@ class ProductPricelist(orm.Model):
                 # There's only one pricelist:
                 if len(version_ids) > 1:
                     _logger.error('Found more than one pricelist version')
-                    
+
                 versions[mexal_id] = version_ids[0]
-            else:    
+            else:
                versions[mexal_id] = version_pool.create(cr, uid, {
                    'name': "Versione base " + mexal_id,
                    'pricelist_id': pl_id,
@@ -110,17 +113,17 @@ class ProductPricelist(orm.Model):
         return
 
     def get_partner_pricelist(self, cr, uid, partner_code, context=None):
-        ''' Search or Create a partner pricelist and a pricelist version
+        """ Search or Create a partner pricelist and a pricelist version
             return version ID
             Set also as default pricelist for partner
             Set default rule in version pricelist (always update)
-        '''
+        """
         # --------
         # Utility:
         # --------
         def update_reference_pl(self, cr, uid, pricelist_id, ref, context=None):
-            ''' Update last rule of pricelist with default partner
-            '''
+            """ Update last rule of pricelist with default partner
+            """
             if not ref:
                 _logger.error(
                     'Create partner Pl default reference, ref, not found!')
@@ -128,7 +131,7 @@ class ProductPricelist(orm.Model):
 
             item_pool = self.pool.get('product.pricelist.item')
             item_ids = item_pool.search(cr, uid, [
-                ('price_version_id', '=', pricelist_id),                
+                ('price_version_id', '=', pricelist_id),
                 ('default_pricelist', '=', True),
                 ], context=context)
             data = {
@@ -142,25 +145,25 @@ class ProductPricelist(orm.Model):
                 'price_surcharge': 0.0,
                 'price_round': 0.01,
                 'default_pricelist': True,
-                }    
+                }
             if item_ids:
                 item_pool.write(cr, uid, item_ids, data, context=context)
             else:
                 item_pool.create(cr, uid, data, context=context)
             return True
-            
+
         # ---------------------------------------------------------------------
         #                        Partner pricelist
         # ---------------------------------------------------------------------
         # Associate pricelist after create (get partner here)
         partner_pool = self.pool.get('res.partner')
-        
-        # Note: error because partner_sql not in dependencies:        
+
+        # Note: error because partner_sql not in dependencies:
         partner_ids = partner_pool.search(cr, uid, [
             '|',
             ('sql_customer_code', '=', partner_code),
-            #('sql_supplier_code', '=', partner_code), 
-            ('sql_destination_code', '=', partner_code), 
+            #('sql_supplier_code', '=', partner_code),
+            ('sql_destination_code', '=', partner_code),
             # Added for not create partner for destination TODO check case!!
             ], context=context)
         if partner_ids:
@@ -181,12 +184,12 @@ class ProductPricelist(orm.Model):
         version_pool = self.pool.get('product.pricelist.version')
         version_ids = version_pool.search(cr, uid, [
             ('mexal_id', '=', partner_code)], context=context)
-        if version_ids: # TODO update?            
+        if version_ids: # TODO update?
             if not partner_proxy.ref_pricelist_id.id:
                 _logger.warning(
                     'Ref. pricelist not present, run partner integration')
             update_reference_pl( # Update last rule:
-                self, cr, uid, version_ids[0], 
+                self, cr, uid, version_ids[0],
                 partner_proxy.ref_pricelist_id.id, context=context)
             return version_ids[0]
 
@@ -225,7 +228,7 @@ class ProductPricelist(orm.Model):
         # ---------------
         version_id = version_pool.create(cr, uid, {
             'name': "Versione base partner [%s]" % partner_proxy.name,
-            'pricelist_id': pricelist_id, 
+            'pricelist_id': pricelist_id,
             'mexal_id': partner_code,
             }, context=context)
 
@@ -233,7 +236,7 @@ class ProductPricelist(orm.Model):
         # Update last rule:
         # -----------------
         update_reference_pl(
-            self, cr, uid, version_id, partner_proxy.ref_pricelist_id.id, 
+            self, cr, uid, version_id, partner_proxy.ref_pricelist_id.id,
             context=context)
         return
 
@@ -241,7 +244,7 @@ class ProductPricelist(orm.Model):
             input_file="~/ETL/artioerp.csv", delimiter=";", header_line=0,
             input_file_part="~/ETL/partioerp.csv", delimiter_part=";",
             header_line_part=0, verbose=100, context=None):
-        ''' Import pricelist and setup particular price for partners
+        """ Import pricelist and setup particular price for partners
             (the partners are imported with SQL methods)
 
             This importation is generated from product csv file for standard
@@ -249,7 +252,7 @@ class ProductPricelist(orm.Model):
             particular price (not imported here)
 
             Note: pricelist yet present here (only item are unlink / create)
-        '''
+        """
         # ---------------------------------------------------------------------
         #                            Common part
         # ---------------------------------------------------------------------
@@ -312,15 +315,15 @@ class ProductPricelist(orm.Model):
                 for pl in price_list:
                     if price_list[pl]:
                         item_pool.create(cr, uid, {
-                        'price_version_id': versions[str(pl)],
-                        'sequence': 10,
-                        'name': default_code,
-                        'base': 2, # 1 pl 2 cost
-                        'min_quantity': 1,
-                        'product_id': product_ids[0],
-                        'price_discount': -1,
-                        'price_surcharge': price_list[pl],
-                        'price_round': 0.01,
+                            'price_version_id': versions[str(pl)],
+                            'sequence': 10,
+                            'name': default_code,
+                            'base': 2, # 1 pl 2 cost
+                            'min_quantity': 1,
+                            'product_id': product_ids[0],
+                            'price_discount': -1,
+                            'price_surcharge': price_list[pl],
+                            'price_round': 0.01,
                         }, context=context)
         except:
             _logger.error("Stopped pricelist import %s" % (sys.exc_info(), ))
@@ -356,7 +359,7 @@ class ProductPricelist(orm.Model):
                     _logger.warning(
                         'Jumped, not a customer: %s' % partner_code)
                     continue
-                
+
                 # Get product:
                 product_ids = product_pool.search(cr, uid, [
                     ('default_code', '=', default_code),
@@ -370,9 +373,9 @@ class ProductPricelist(orm.Model):
 
                 # Get pricelist version:
                 if not partner_code:
-                    _logger.error("Partner code empty!") # TODO create?                    
+                    _logger.error("Partner code empty!") # TODO create?
                     continue
-                    
+
                 if partner_code not in versions: # Save in versions converter
                     versions[partner_code] = self.get_partner_pricelist(
                         cr, uid, partner_code, context=context)
@@ -400,5 +403,3 @@ class ProductPricelist(orm.Model):
 
         _logger.info("End pricelist import!")
         return True
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
