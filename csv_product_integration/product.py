@@ -40,54 +40,53 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 _logger = logging.getLogger(__name__)
 
 class ProductProduct(orm.Model):
-    ''' Add scheduled operations
-    '''
+    """ Add scheduled operations
+    """
     _inherit = 'product.product'
 
     def schedule_csv_import_note(self, cr, uid, input_file, context=None):
-        ''' Import note from mexal file:
+        """ Import note from mexal file:
             format: NN.NNNNN lNNN
-        '''
-        def prepare(valore):  
-            
+        """
+        def prepare(valore):
+
             #valore = unicode(valore, 'ISO-8859-1')
             # Windows-cp1252 ISO-8859-1
-            valore=valore.decode('cp1252')
-            valore=valore.encode('utf-8')
-            valore=valore.replace("   ","")
-            valore=valore.replace("\x00","")  
-            valore=valore.replace("-------","-")  
-            valore=valore.replace("*******","*")  
+            valore = valore.decode('cp1252')
+            valore = valore.encode('utf-8')
+            valore = valore.replace("   ","")
+            valore = valore.replace("\x00","")
+            valore = valore.replace("-------","-")
+            valore = valore.replace("*******","*")
             return valore.strip()
 
         def is_correct_code(MexalCode, LenCode):
-            ''' Check format for code (TODO use re)
-            '''
-            try: 
-               numeri="0123456789"
-               lettere="abcdefghijklmnopqrstuvwxyz"  
-               if len(MexalCode)<>LenCode: 
-                  return False
-               else:
-                  #print "Testing: ", MexalCode  
-                  if (MexalCode[0] in numeri) and \
-                     (MexalCode[1] in numeri) and \
-                     (MexalCode[2] == ".") and \
-                     (MexalCode[3] in numeri) and \
-                     (MexalCode[4] in numeri) and \
-                     (MexalCode[5] in numeri) and \
-                     (MexalCode[6] in numeri) and \
-                     (MexalCode[7] in numeri) and \
-                     (MexalCode[8] == " ") and \
-                     (MexalCode[9].lower() in lettere) and \
-                     (MexalCode[10] in numeri) and \
-                     (MexalCode[11] in numeri) and \
-                     (MexalCode[12] in numeri):
-                     return True
-                  else:
-                     return False 
-            except: 
-               return False # in case of error test failed
+            """ Check format for code (TODO use re)
+            """
+            try:
+                numeri = "0123456789"
+                lettere = "abcdefghijklmnopqrstuvwxyz"
+                if len(MexalCode) != LenCode:
+                    return False
+                else: # print "Testing: ", MexalCode
+                    if (MexalCode[0] in numeri) and \
+                            (MexalCode[1] in numeri) and \
+                            (MexalCode[2] == ".") and \
+                            (MexalCode[3] in numeri) and \
+                            (MexalCode[4] in numeri) and \
+                            (MexalCode[5] in numeri) and \
+                            (MexalCode[6] in numeri) and \
+                            (MexalCode[7] in numeri) and \
+                            (MexalCode[8] == " ") and \
+                            (MexalCode[9].lower() in lettere) and \
+                            (MexalCode[10] in numeri) and \
+                            (MexalCode[11] in numeri) and \
+                            (MexalCode[12] in numeri):
+                        return True
+                    else:
+                        return False
+            except:
+               return False  # in case of error test failed
 
         f = open(input_file, 'r')
         total = prepare(f.read())
@@ -110,15 +109,15 @@ class ProductProduct(orm.Model):
                            old_code[8:],
                            total[old_i:i].strip()
                            )
-                    old_code = total[i: (i + old_code)] # Actual begin old          
+                    old_code = total[i: (i + old_code)]  # Actual begin old
                 else:
                     old_code = total[i: (i + old_code)]
                     old_i = i
-                old_i = i + old_code # save actual i + len of code for value 
+                old_i = i + old_code # save actual i + len of code for value
                 i += old_code # jump len code char
 
         partner_pool = self.pool.get('res.partner')
-        for key in note.keys():            
+        for key in note.keys():
             partner_ids = partner_pool.search(cr, uid, [
                 ('sql_customer_code', '=', key[:8])])
             if partner_ids:
@@ -130,9 +129,9 @@ class ProductProduct(orm.Model):
             else:
                 _logger.error("Partner not found: %s" % key[8:])
 
-    def schedule_csv_group_force(self, cr, uid, context=None):        
-        ''' Force group (custom for a particular client)        
-        '''
+    def schedule_csv_group_force(self, cr, uid, context=None):
+        """ Force group (custom for a particular client)
+        """
         # TODO remove, not used (with family)
         return True # TODO <<< stop the procedure here!
         product_group = {
@@ -142,7 +141,7 @@ class ProductProduct(orm.Model):
                 'Bauli': ('Baule','Bauli',),
                 'Birrerie': ('Birreri',),
                 'Brandine': ('Brandin',),
-                'Cantinette': ('Cantinett', ' Botte', ' Botti', 'Botti ', 
+                'Cantinette': ('Cantinett', ' Botte', ' Botti', 'Botti ',
                     'Botte '),
                 'Carrelli': ('Carrell',),
                 'Chaise Longue': ('Chaise Longue',),
@@ -173,7 +172,7 @@ class ProductProduct(orm.Model):
                 'Spiaggine': ('Spiaggin', ),
                 'Strutture': ('Struttur', ),
                 'Tavoli': ('Tavol', ),
-                }, 
+                },
             'Materie prime': {
                 'Accessori': ('Accessori', ),
                 'Aghi': ('Aghi', ),
@@ -198,7 +197,7 @@ class ProductProduct(orm.Model):
                 'Distanziali': ('Distanzial', ),
                 'Elastici': (' Elastic', 'Elastico ', 'Elastici '),
                 'Etichette': ('Etichett', ),
-                'Finta pelle': ('Finta pelle', ), 
+                'Finta pelle': ('Finta pelle', ),
                 'Fondelli': ('Fondell', ),
                 'Gambe': ('Gambe', 'Gamba', 'Gambetta'),
                 'Ganci': ('Ganci', ),
@@ -220,7 +219,7 @@ class ProductProduct(orm.Model):
                 'Puntali': ('Puntali','Puntale',),
                 'Rettangoli': ('Rettangoli', 'Rettangolo'),
                 'Ribattini': ('Ribattin', ),
-                'Rivetti': ('Rivett', ), 
+                'Rivetti': ('Rivett', ),
                 'Rondelle': ('Rondell', ),
                 'Sacchi': ('Sacchi','Sacco',),
                 'Saldature': ('Saldatur',),
@@ -233,7 +232,7 @@ class ProductProduct(orm.Model):
                 'Telai': ('Telai', 'Telaio',),
                 'Teli': ('Tela ','Teli ', 'Tele ','Telo '),
                 'Tende': ('Tende', 'Tendaggi',),
-                'Tessuti': ('Tessuti', 'Tessuto', 'Texplast', 'Texfil', 
+                'Tessuti': ('Tessuti', 'Tessuto', 'Texplast', 'Texfil',
                     'Canapone', 'Juta',),
                 'Tondini': ('Tondin', ),
                 'Tovagliette': ('Tovagliett', ),
@@ -243,7 +242,7 @@ class ProductProduct(orm.Model):
                 'Velcri': ('Velcr', ),
                 'Verghe': ('Verga', 'Verghe', ),
                 'Viti': ('Viti ','Vite '),
-                }, 
+                },
             'Lavorazioni': {
                 'Cromature': ('Cromatur', ),
                 'Zincature': ('Zincatur', ),
@@ -253,25 +252,25 @@ class ProductProduct(orm.Model):
             }
 
         group_pool = self.pool.get('product.group')
-        for group in product_group:            
+        for group in product_group:
             for item in product_group[group]:
                 group_ids = group_pool.search(cr, uid, [
                     ('name', '=', group)], context=context)
                 if not group_ids:
                    continue # TODO error
-              
+
                 for kw in product_group[group][item]:
                     product_ids = self.search(cr, uid, [
                         ('name', 'ilike', kw)], context=context)
                     self.write(cr, uid, product_ids, {
                         'categ_id': group_ids[0],
-                        })  
+                        })
         return True
- 
+
     def schedule_csv_product_integration(self, cr, uid,
             input_file='~/ETL/artioerp.csv', delimiter=';', header_line=0,
             verbose=100, with_sale=False, context=None):
-        ''' Import product extra fields, this operation override sql schedule
+        """ Import product extra fields, this operation override sql schedule
             for add extra fields that could not be reached fast
             input_file: input file using home folder
             delimiter: delimiter of CSV file
@@ -279,15 +278,15 @@ class ProductProduct(orm.Model):
             verbose: verbose log every X record
             with_sale: update name also in sale_description
             context: context data
-        '''
+        """
         _logger.info('Start product integration')
-        
+
         if context is None:
             context = {}
-            
+
         # Load UOM:
         uoms = {}
-        uom_failed = []       
+        uom_failed = []
         uom_pool = self.pool.get('product.uom')
         uom_ids = uom_pool.search(cr, uid, []) # no context (english)
         for uom in uom_pool.browse(
@@ -317,8 +316,8 @@ class ProductProduct(orm.Model):
                 try:
                     fabric = csv_pool.decode_string(line[18]) # TODO present!?
                 except:
-                    fabric = ''    
-                
+                    fabric = ''
+
                 # TODO move in sql_product CSG_ART_ALT
                 # XXX REMOVED!!! IMPORTED AND MANAGED IN ODOO (company 1 and 2)
                 #ean = csv_pool.decode_string(line[4]).strip()
@@ -338,15 +337,15 @@ class ProductProduct(orm.Model):
                 except:
                     lot = 1
                 if lot < 0:
-                    lot = - lot    
-                    
+                    lot = - lot
+
                 try:
                     if lot < 1.0:
-                        colls = int(0.5 + (1 / lot)) # approx to int 
+                        colls = int(0.5 + (1 / lot)) # approx to int
                     else:
-                        colls = 1    
+                        colls = 1
                 except:
-                    colls = 1    
+                    colls = 1
 
                 # Anagraphic fields:
                 linear_length = csv_pool.decode_float(line[14])
@@ -360,29 +359,29 @@ class ProductProduct(orm.Model):
                     colour = ''
 
                 # Get UOM depend on ref:
-                if uom in ['NR', 'N.', 'PZ', 'RT']: 
+                if uom in ['NR', 'N.', 'PZ', 'RT']:
                     uom_id = uoms.get('Unit(s)', False) # TODO remain unit(s)?
-                elif uom in ['M2', 'MQ']: 
+                elif uom in ['M2', 'MQ']:
                     uom_id = uoms.get('M2', False)
-                elif uom in ['M', 'MT', 'ML']: # NOTE: after M2!! 
+                elif uom in ['M', 'MT', 'ML']: # NOTE: after M2!!
                     uom_id = uoms.get('m', False)
-                elif uom == 'HR': 
+                elif uom == 'HR':
                     uom_id = uoms.get('Hour(s)', False)
-                elif uom == 'KG': 
+                elif uom == 'KG':
                     uom_id = uoms.get('kg', False)
-                elif uom == 'LT': 
+                elif uom == 'LT':
                     uom_id = uoms.get('Liter(s)', False)
-                elif uom == 'KW': 
+                elif uom == 'KW':
                     uom_id = uoms.get('KW', False)
-                elif uom in ['M3', 'MC']: 
+                elif uom in ['M3', 'MC']:
                     uom_id = uoms.get('M3', False)
-                elif uom in ['PA', 'CO', 'CP']: 
+                elif uom in ['PA', 'CO', 'CP']:
                     uom_id = uoms.get('P2', False) #pair
-                elif uom == 'PC': 
+                elif uom == 'PC':
                     uom_id = uoms.get('P10', False)
                 elif uom in ['', 'CN', 'MG', 'CM', 'CF', ]: # TODO ??
                     uom_id = uoms.get('Unit(s)', False)
-                else: 
+                else:
                     if uom not in uom_failed:
                         uom_failed.append(uom)
                     uom_id = uoms.get('Unit(s)', False)
@@ -403,8 +402,8 @@ class ProductProduct(orm.Model):
                     'name': name,
                     'fabric': fabric,
                     'name_template': name,
-                    
-                    # Other fields not used: 
+
+                    # Other fields not used:
                     #'active': active,
                     #'mexal_id': ref,
                     #'import': True,
@@ -427,23 +426,23 @@ class ProductProduct(orm.Model):
                 #if ean:
                 #    data['ean13'] = ean
 
-                if uom_id: 
+                if uom_id:
                     data.update({
                         #'uos_id': uom_id,
                         'uom_id': uom_id,
                         'uom_po_id': uom_id,
                         })
-                        
+
                 if product_ids: # only update
                     try: # it_IT
-                        self.write(cr, uid, product_ids, data, 
+                        self.write(cr, uid, product_ids, data,
                             context={'lang': 'it_IT'})
                     except: # update via SQL in case of error
                         _logger.warning('Forced product %s uom %s' % (
                             product_ids[0],
                             uom_id,
                             ))
-                        if uom_id: # update via SQL (ODOO not possibile!) 
+                        if uom_id: # update via SQL (ODOO not possibile!)
                             cr.execute(""" 
                                 UPDATE product_template
                                 SET uom_id = %s, uom_po_id = %s 
@@ -461,12 +460,12 @@ class ProductProduct(orm.Model):
                         if name:
                             data = {
                                 'name': name,
-                                'name_template': name,                                
+                                'name_template': name,
                                 }
                             if with_sale:
                                 data['description_sale'] = name
 
-                            self.write(cr, uid, product_ids, data, 
+                            self.write(cr, uid, product_ids, data,
                                 context={'lang': lang})
                 else:
                     _logger.error('Product not present: %s' % default_code)
