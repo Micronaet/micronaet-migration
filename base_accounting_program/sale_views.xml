@@ -94,6 +94,11 @@
                     <separator string="Parameter for delivery" colspan="4"/>
                     <field name="linear_length" />
                     <field name="q_x_pack" /> <!--TODO DOPPIONE?-->
+
+                    <separator string="Forza pesi per tabella peso dogane" colspan="4"/>
+                    <field name="force_weight" />
+                    <field name="force_weight_net" />
+                    <field name="force_package_weight" />
                 </group>
             </field>
             <field name="description_purchase" position="after">

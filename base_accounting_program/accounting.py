@@ -40,7 +40,7 @@ _logger = logging.getLogger(__name__)
 
 
 class ProductProductExtraFields(orm.Model):
-    _inherit ='product.product'
+    _inherit = 'product.product'
 
     _columns = {
         'import': fields.boolean('Imported'),
@@ -52,6 +52,23 @@ class ProductProductExtraFields(orm.Model):
             'Lung. lineare', digits=(16, 3)),
         'large_description': fields.text(
             'Large Description', translate=True, help="For web publishing"),
+
+        # Extra fields for manage duty calc of total weight:
+        'force_weight': fields.float(
+            'Forza peso lordo', digits=(16, 3),
+            help='Forza il peso lordo unitario da utilizzare nella tabella di '
+                 'calcolo automatico peso per le dogane'
+            ),
+        'force_weight_net': fields.float(
+            'Forza peso netto', digits=(16, 3),
+            help='Forza il peso netto unitario da utilizzare nella tabella di '
+                 'calcolo automatico peso per le dogane'
+            ),
+        'force_package_weight': fields.float(
+            'Forza peso imballo', digits=(16, 3),
+            help='Forza il peso imballo unitario da utilizzare nella tabella '
+                 'di calcolo automatico peso per le dogane'
+            ),
         }
 
 
