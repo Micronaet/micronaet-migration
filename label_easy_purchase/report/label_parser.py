@@ -51,9 +51,15 @@ class Parser(report_sxw.rml_parse):
             'get_ean': self.get_ean,
             })
 
-    def get_ean(self, line):
+    def get_ean(self, line, verbose=True):
         """ Explode label for purchase order
         """
+        product = line.product_id
+        if product:
+            _logger.warning('>> Printing %s EAN %s' % (
+                product.default_code,
+                product.ean13,
+            ))
         return line.product_id.ean13
 
     def get_objects(self, o):
