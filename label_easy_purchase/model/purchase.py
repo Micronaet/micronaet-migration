@@ -30,36 +30,35 @@ from openerp import SUPERUSER_ID, api
 from openerp import tools
 from openerp.tools.translate import _
 from openerp.tools.float_utils import float_round as round
-from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
-    DEFAULT_SERVER_DATETIME_FORMAT, 
-    DATETIME_FORMATS_MAP, 
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
+    DEFAULT_SERVER_DATETIME_FORMAT,
+    DATETIME_FORMATS_MAP,
     float_compare)
 
 
 _logger = logging.getLogger(__name__)
 
+
 class PurchaseOrder(orm.Model):
     """ Model name: PurchaseOrder
     """
-    
+
     _inherit = 'purchase.order'
-    
+
     def open_purchase_report_label(self, cr, uid, ids, context=None):
-        ''' Open report action
-        '''
+        """ Open report action
+        """
         datas = {}
         report_name = 'purchase_order_label_pack'
 
         return {
             'type': 'ir.actions.report.xml',
-            'report_name': report_name, 
+            'report_name': report_name,
             'datas': datas,
             'context': context,
             }
 
     _columns = {
-        'label_date': fields.date('Data etichetta', 
+        'label_date': fields.date('Data etichetta',
             help='Da considerare la data di scarico per stampa etichetta'),
-        }        
-            
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+        }

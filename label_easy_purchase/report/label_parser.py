@@ -35,55 +35,60 @@ from openerp.report import report_sxw
 from openerp.report.report_sxw import rml_parse
 from datetime import datetime, timedelta
 from openerp.tools.translate import _
-from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
-    DEFAULT_SERVER_DATETIME_FORMAT, 
-    DATETIME_FORMATS_MAP, 
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
+    DEFAULT_SERVER_DATETIME_FORMAT,
+    DATETIME_FORMATS_MAP,
     float_compare)
 
 _logger = logging.getLogger(__name__)
 
 
 class Parser(report_sxw.rml_parse):
-    def __init__(self, cr, uid, name, context):        
+    def __init__(self, cr, uid, name, context):
         super(Parser, self).__init__(cr, uid, name, context)
         self.localcontext.update({
             'get_objects': self.get_objects,
+            'get_ean': self.get_ean,
             })
 
+    def get_ean(self, line):
+        """ Explode label for purchase order
+        """
+        return line.product_id.ean13
+
     def get_objects(self, o):
-        ''' Explode label for purchase order
-        '''
+        """ Explode label for purchase order
+        """
         res = []
         for line in o.order_line:
 
             # Get Pz value:
             if line.product_id.q_x_pack >= 1:
                 pz = int(line.product_id.q_x_pack)
-            else:     
+            else:
                 pz = 1
 
-            # Force total depend on q x pack:            
+            # Force total depend on q x pack:
             total = int(line.product_qty)
             if pz > 1:
                 total = int(total / pz) + (0 if total % pz == 0 else 1)
-                            
+
             for i in range(0, total):
                 # Get part number if present:
                 if line.product_id.force_coll:
-                    colls = item.product_id.force_coll
+                    colls = line.product_id.force_coll
                 else:
                     try:
                         colls = float(line.product_id.colls.replace(',', '.'))
                     except:
-                        colls = 1.0    
+                        colls = 1.0
                 if colls and colls < 1:
                     parts = int(round(1 / colls, 0))
                 else:
-                    parts = 1    
-                
+                    parts = 1
+
                 # Multiply part number label:
                 for part in range(1, parts + 1):
                     part_no = '%s / %s' % (part, parts)
                     res.append((part_no, pz, line))
         return res
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
