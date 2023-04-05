@@ -364,7 +364,7 @@ class StatisticInvoice(orm.Model):
             sql_customer_code = ddt.partner_id.sql_customer_code
 
             for line in ddt.ddt_lines:
-                if parent_max:  # TODO check exist!!!
+                if parent_max:  # todo check exist!!!
                     code = line.product_id.default_code[:parent_max]
                 else:
                     code = line.product_id.default_code
@@ -375,7 +375,7 @@ class StatisticInvoice(orm.Model):
                     continue
 
                 # Proportional to ddt subtotal:
-                amount = sol.price_subtotal * number / line.product_uom_qty
+                amount = sol.price_subtotal * number / sol.product_uom_qty
                 total += amount
 
                 data = [
@@ -405,7 +405,7 @@ class StatisticInvoice(orm.Model):
                 continue
 
             data = [
-                sql_customer_code,  # TODO check exist!!!
+                sql_customer_code,  # todo check exist!!!
                 month,
                 year,
                 csv_format_float(total),
