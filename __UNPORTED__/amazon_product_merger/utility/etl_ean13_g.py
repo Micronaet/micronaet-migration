@@ -17,7 +17,7 @@ port=config.get('dbaccess','port')   # verify if it's necessary: getint
 separator=config.get('dbaccess','separator') # test
 verbose=eval(config.get('import_mode','verbose'))
 
-# XMLRPC connection for autentication (UID) and proxy 
+# XMLRPC connection for autentication (UID) and proxy
 sock = xmlrpclib.ServerProxy('http://' + server + ':' + port + '/xmlrpc/common', allow_none=True)
 uid = sock.login(dbname ,user ,pwd)
 sock = xmlrpclib.ServerProxy('http://' + server + ':' + port + '/xmlrpc/object', allow_none=True)
@@ -25,7 +25,7 @@ sock = xmlrpclib.ServerProxy('http://' + server + ':' + port + '/xmlrpc/object',
 def get_checksum_ean(eancode12):
     ''' Generate checksum char for 12 char EAN passed
     '''
-    
+
     '''if not eancode12 or len(eancode12) <> 12:
         return False
     try:
@@ -37,7 +37,7 @@ def get_checksum_ean(eancode12):
     reverseean=eancode12[::-1]
 
     for i in range(len(reverseean)):
-        if i%2:
+        if i % 2:
             evensum += int(reverseean[i])
         else:
             oddsum += int(reverseean[i])
@@ -45,7 +45,7 @@ def get_checksum_ean(eancode12):
 
     check = int(10 - math.ceil(total % 10.0)) %10
     return check
-    
+
 
 product_ids = sock.execute(dbname, uid, pwd, 'product.product', 'search', [('ean13', '=', False)])
 
@@ -54,8 +54,8 @@ for product in sock.execute(dbname, uid, pwd, 'product.product', 'read', product
     try:
         test = int(code) # for raise error!
         if len(code)==5:
-            ean12 = "8004467%s"%(code,)
-            ean13 = "%s%s"%(ean12, get_checksum_ean(ean12))
+            ean12 = "8004467%s" % code
+            ean13 = "%s%s" % (ean12, get_checksum_ean(ean12))
             sock.execute(dbname, uid, pwd, 'product.product', 'write', product['id'], {'ean13': ean13,})
             print "UPDATED: %s EAN13:%s"%(code, ean13)
     except:

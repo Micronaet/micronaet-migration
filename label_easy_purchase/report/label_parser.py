@@ -60,6 +60,7 @@ class Parser(report_sxw.rml_parse):
                 product.default_code,
                 product.ean13,
             ))
+        # todo add a checksum here?
         return line.product_id.ean13
 
     def get_objects(self, o):

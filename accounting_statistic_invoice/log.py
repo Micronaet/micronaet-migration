@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #
-# ODOO (ex OpenERP) 
+# ODOO (ex OpenERP)
 # Open Source Management Solution
 # Copyright (C) 2001-2015 Micronaet S.r.l. (<https://micronaet.com>)
 # Developer: Nicola Riolini @thebrush (<https://it.linkedin.com/in/thebrush>)
@@ -13,7 +13,7 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU Affero General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
@@ -35,9 +35,9 @@ from openerp import SUPERUSER_ID, api
 from openerp import tools
 from openerp.tools.translate import _
 from openerp.tools.float_utils import float_round as round
-from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
-    DEFAULT_SERVER_DATETIME_FORMAT, 
-    DATETIME_FORMATS_MAP, 
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
+    DEFAULT_SERVER_DATETIME_FORMAT,
+    DATETIME_FORMATS_MAP,
     float_compare)
 
 
@@ -45,19 +45,19 @@ _logger = logging.getLogger(__name__)
 
 
 class EtlLogImportation(orm.Model):
-    ''' Importation log element
-    ''' 
+    """ Importation log element
+    """
     _name = 'etl.log.importation'
     _description = 'ETL Importation log'
     _order = 'datetime desc'
 
-    def etl_log_event(self, cr, uid, name, filename, note, error, 
-            context=None):
+    def etl_log_event(
+            self, cr, uid, name, filename, note, error, context=None):
         """ Log ETL data
         """
         date_file = 'Data file: %s' % time.ctime(
             os.path.getctime(filename))
-        _logger.warning('Log %s with %s [%s]' % (name, date_file, filename))    
+        _logger.warning('Log %s with %s [%s]' % (name, date_file, filename))
         log_ids = self.search(cr, uid, [
             ('name', '=', name),
             ], context=context)
@@ -67,10 +67,10 @@ class EtlLogImportation(orm.Model):
             'note': note,
             'error': error,
             'date_file': date_file,
-        } 
+        }
         if log_ids:
             self.write(cr, uid, log_ids, data, context=context)
-        else:    
+        else:
             self.create(cr, uid, data, context=context)
 
     _columns = {
@@ -79,7 +79,7 @@ class EtlLogImportation(orm.Model):
         'date_file': fields.char('Data file', size=90),
         'note': fields.char('Note'),
         'error': fields.char('Error'),
-        
+
         # File information:
         'filename': fields.char('Filename', size=80),
         }

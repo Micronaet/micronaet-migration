@@ -461,7 +461,7 @@ class StatisticInvoice(orm.Model):
         invoice_ids = self.search(cr, uid, [], context=context)
         self.unlink(cr, uid, invoice_ids, context=context)
 
-        order_ref = datetime.now().strftime('%Y%m') # actualize order
+        order_ref = datetime.now().strftime('%Y%m')  # actualize order
 
         # ---------------------------------------------------------------------
         # Load dict for swap partner extra data
@@ -470,8 +470,8 @@ class StatisticInvoice(orm.Model):
         _logger.info('Read partner extra info (zone, agent)')
         partner_extra = {}
         partner_ids = partner_pool.search(cr, uid, [], context=context)
-        for partner in partner_pool.browse(cr, uid, partner_ids,
-                context=context):
+        for partner in partner_pool.browse(
+                cr, uid, partner_ids, context=context):
             partner_extra[partner.id] = (
                 partner.zone_id.name or '',
                 partner.agent_id.name or '',
@@ -543,7 +543,7 @@ class StatisticInvoice(orm.Model):
                 total_invoice = csv_base.decode_float(
                     line[3]) or 0.0
                 type_document = csv_base.decode_string(
-                    line[4]).lower() # oc/bc/ft >> new: oo bo
+                    line[4]).lower()  # oc/bc/ft >> new: oo bo
 
                 # Jump old mexal elements:
                 if type_document in ('oc', 'bc'):
