@@ -112,14 +112,21 @@ for root, folders, files in os.walk('./data'):
 # Compare file:
 
 f_out = open('./result/documenti_totali.csv', 'w')
-f_out.write('Data ora|OC|BC|FT|Totale\n')
+f_out.write('Data ora|OC|BC|FT|Totale|Differenza\n')
+previous = False
 for file_code in sorted(compare):
     oc = compare[file_code].get('oo', 0.0)
     bc = compare[file_code].get('bo', 0.0)
     ft = compare[file_code].get('ft', 0.0)
     total = oc + bc + ft
 
-    line = '%s|%s|%s|%s|%s\n' % (file_code, oc, bc, ft, total)
+    # Difference managament:
+    if not previous:
+        previous = total
+    difference = total - previous
+    previous = total
+
+    line = '%s|%s|%s|%s|%s|%s\n' % (file_code, oc, bc, ft, total, difference)
     line = line.replace('.', ',')
     f_out.write(line)
 
