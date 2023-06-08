@@ -39,6 +39,7 @@ else:
     print('No 2 files passed and not path passed!: %s' % (parameter, ))
     sys.exit()
 
+print('File used: %s' % str(files))
 compare_partner = {}
 compare_document = {}
 partners = {}
