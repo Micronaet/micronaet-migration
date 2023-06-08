@@ -321,7 +321,7 @@ class StatisticInvoice(orm.Model):
                      year,
                      int(remain),
                      type_document,
-                     csv_format_float(remain_total),
+                     csv_format_float(remain_total),  # Used?
                      ]
 
                 try:
