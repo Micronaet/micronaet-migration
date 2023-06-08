@@ -168,7 +168,9 @@ class StatisticInvoice(orm.Model):
         # ---------------------------------------------------------------------
         # Log file:
         # ---------------------------------------------------------------------
+        # Error log file:
         logfile = '/home/administrator/photo/xls/statistic/%s_invoce.xlsx'
+
         company_pool = self.pool.get('res.company')
         company_ids = company_pool.search(cr, uid, [], context=context)
         company_proxy = company_pool.browse(
