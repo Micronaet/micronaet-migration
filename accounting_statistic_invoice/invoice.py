@@ -257,16 +257,17 @@ class StatisticInvoice(orm.Model):
             ('previsional', '=', False),  # No provisioning order
             # ('forecasted_production_id', '=', False),  # No forecast order
             ]
+
+        # Database different filters:
         if 'forecasted_production_id' in order_pool._columns:
-            _logger.warning('Also with forecasted order')
+            _logger.warning('Also with filter for excluded forecasted order')
             domain.append(
                 ('forecasted_production_id', '=', False),  # No forecast order
                 )
         else:
-            _logger.warning('Without forecasted order')
+            _logger.warning('Without forecasted order management')
 
         order_ids = order_pool.search(cr, uid, domain, context=context)
-
         type_document = 'OO'
         i = 0
         for order in order_pool.browse(cr, uid, order_ids, context=context):
@@ -304,7 +305,9 @@ class StatisticInvoice(orm.Model):
 
                 remain = line.product_uom_qty - line.delivered_qty
                 if remain <= 0 or not line.product_uom_qty:  # all delivered
-                    continue
+                    continue  # Jump order line
+
+                # Proportional remain value:
                 remain_total = \
                     line.price_subtotal * remain / line.product_uom_qty
                 total = remain_total  # += # todo remove keep remain_total
@@ -317,13 +320,16 @@ class StatisticInvoice(orm.Model):
                         order.name, default_code, remain_total))
                     continue
 
-                data = [  # product
+                # -------------------------------------------------------------
+                # Product record:
+                # -------------------------------------------------------------
+                data = [
                      code,
                      month,
                      year,
-                     int(remain),
+                     int(remain),  # Q.
                      type_document,
-                     csv_format_float(remain_total),  # Used?
+                     csv_format_float(remain_total),  # Value (Used?)
                      ]
 
                 try:
@@ -337,8 +343,11 @@ class StatisticInvoice(orm.Model):
                 if not total:
                     continue
 
-                data = [  # partner
-                    sql_customer_code,  # TODO check exist!!!
+                # -------------------------------------------------------------
+                # Partner record
+                # -------------------------------------------------------------
+                data = [
+                    sql_customer_code,  # todo check exist!!!
                     month,
                     year,
                     csv_format_float(total),
@@ -349,12 +358,13 @@ class StatisticInvoice(orm.Model):
                     # Append data on schedule import file:
                     f_partner.write(mask_partner % tuple(data))
 
+                    # Write data in log file also (some changes):
                     data[3] = log_float(data[3])
                     data.append(order.name)
                     log_f2.write(log_mask2 % tuple(data))
                 except:
                     # _logger.error('Error: %s' % (sys.exc_info()))
-                    log_f1.write('%s|||||Error writing!!!\n' % order.name)
+                    log_f2.write('%s|||||Error writing!!!\n' % order.name)
 
         # ---------------------------------------------------------------------
         #                             Delivery:
@@ -384,14 +394,14 @@ class StatisticInvoice(orm.Model):
                 else:
                     code = default_code
 
-                number = line.product_uom_qty
+                number = line.product_uom_qty  # all q. was delivered in BC
                 sol = line.sale_line_id
                 if not sol.product_uom_qty:
                     continue
 
                 # Proportional to ddt subtotal:
                 amount = sol.price_subtotal * number / sol.product_uom_qty
-                total += amount
+                total += amount  # for partner stats
 
                 # -------------------------------------------------------------
                 # Micronaet 08-06-2023 Excluded ANTICIPATO:
@@ -401,13 +411,14 @@ class StatisticInvoice(orm.Model):
                         ddt.name, default_code, amount))
                     continue
 
+                # Product data:
                 data = [
                     code,
                     month,
                     year,
                     int(amount),
                     type_document,
-                    csv_format_float(remain_total),
+                    csv_format_float(remain_total),  # Needed? wrong data!
                     ]
                 try:
                     f_product.write(mask_product % tuple(data))
@@ -419,9 +430,10 @@ class StatisticInvoice(orm.Model):
                     # _logger.error('Error: %s' % (sys.exc_info(), ))
                     log_f1.write('||||||Error writing: %s!!!\n' % ddt.name)
 
-            if not total:
+            if not total:  # No partner part if no total!
                 continue
 
+            # Partner data
             if not sql_customer_code:
                 _logger.error('Partner code not found: %s' % (
                     ddt.partner_id.name, ))
@@ -435,13 +447,16 @@ class StatisticInvoice(orm.Model):
                 type_document,
                 ]
             try:
+                # Append partner data:
                 f_partner.write(mask_partner % tuple(data))
+
+                # Write also log part (with some changes)
                 data.append(ddt.name)
                 data[3] = log_float(data[3])
                 log_f2.write(log_mask2 % tuple(data))
             except:
                 # _logger.error('Error: %s' % (sys.exc_info(), ))
-                log_f1.write('|||||Error writing: %s!!!\n' % ddt.name)
+                log_f2.write('|||||Error writing: %s!!!\n' % ddt.name)
 
         # Close files:
         f_partner.close()
