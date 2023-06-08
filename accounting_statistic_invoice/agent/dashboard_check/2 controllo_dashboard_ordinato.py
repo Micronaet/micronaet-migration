@@ -22,6 +22,7 @@
 ###############################################################################
 
 import os
+import pdb
 import sys
 
 start = 'statistic.partner.FIA.2023'
@@ -38,7 +39,7 @@ elif len(parameter) == 1:  # Path and use last 2:
 else:
     print('No 2 files passed and not path passed!: %s' % (parameter, ))
     sys.exit()
-
+pdb.set_trace()
 print('File used: %s' % str(files))
 compare_partner = {}
 compare_document = {}
