@@ -28,7 +28,7 @@ import sys
 
 files = sys.argv[1:]
 if len(files) != 2:
-    print('No files passed: %s' % (files ,))
+    print('No files passed: %s' % (files, ))
     sys.exit()
 
 compare_partner = {}
@@ -84,7 +84,6 @@ for fullname in files:
                 print('%s. stagione non corrente %s' % (counter, season))
             continue
 
-
         if partner_code not in compare_partner:
             compare_partner[partner_code] = [0.0, 0.0]
             compare_document[partner_code] = {}
@@ -117,9 +116,14 @@ for partner_code in compare_partner:
     else:
         error = ''
 
-    f_out.write('%s|%s|%s|%s|%s\n' % (
+    partner_name = partners[partner_code]
+
+    f_out.write('%s|%s|%s|%s|%s|%s\n' % (
         partner_code,
-        last, current, difference,
+        partner_name,
+        str(last).replace('.', ','),
+        str(current).replace('.', ','),
+        str(difference).replace('.', ','),
         error,
         ))
 
