@@ -206,6 +206,9 @@ class StatisticInvoice(orm.Model):
         # ---------------------------------------------------------------------
         #                         Common Part:
         # ---------------------------------------------------------------------
+        excluded_code = [
+            'ANTICIPATO',
+        ]
         now = str(datetime.now())[:19].replace(':', '_').replace('/', '_')
         log_file1 = os.path.expanduser(
             '~/etl/log/dashboard/stats.prod.%s.%s.csv' % (
@@ -285,14 +288,20 @@ class StatisticInvoice(orm.Model):
             for line in order.order_line:
                 if verbose:
                     _logger.info('OC from ODOO read: %s riga' % i)
-                default_code = line.product_id.default_code or ''
+                default_code = (line.product_id.default_code or '').upper()
+
+                # Remove unused product line:
+                if default_code and default_code in excluded_code:
+                    log_f1.write('|||||Excluded code %s: %s !!!\n' % (
+                        order.name, default_code))
+                    continue
 
                 # Deadline in line data:
                 date = line.date_deadline or order_date_deadline
                 month = int(date[5:7])
                 year = int(date[:4])
 
-                if parent_max:  # TODO check exist!!!
+                if parent_max:  # todo check exist!!!
                     code = default_code[:parent_max]
                 else:
                     code = default_code
@@ -364,10 +373,18 @@ class StatisticInvoice(orm.Model):
             sql_customer_code = ddt.partner_id.sql_customer_code
 
             for line in ddt.ddt_lines:
+                default_code = (line.product_id.default_code or '').upper()
+
+                # Remove unused product line:
+                if default_code and default_code in excluded_code:
+                    log_f1.write('|||||Excluded code %s: %s !!!\n' % (
+                        ddt.name, default_code))
+                    continue
+
                 if parent_max:  # todo check exist!!!
-                    code = line.product_id.default_code[:parent_max]
+                    code = default_code[:parent_max]
                 else:
-                    code = line.product_id.default_code
+                    code = default_code
 
                 number = line.product_uom_qty
                 sol = line.sale_line_id
@@ -1103,7 +1120,7 @@ class StatisticInvoiceProduct(orm.Model):
             ('oo', 'Ordine ODOO'),
             ('bc', 'DDT Mexal'),
             ('bo', 'DDT ODOO'),
-            ], 'Doc. type', select=True), # togliere?
+            ], 'Doc. type', select=True),  # togliere?
 
         'month': fields.selection(month_order_season, 'Month', select=True),
         }
