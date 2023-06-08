@@ -24,16 +24,23 @@
 import os
 import sys
 
-# mask = 'statistic.partner.FIA.%s.csv'
+start = 'statistic.partner.FIA.2023'
 
-files = sys.argv[1:]
-if len(files) != 2:
-    print('No files passed: %s' % (files, ))
+parameter = sys.argv[1:]
+if len(parameter) == 2:
+    files = parameter
+elif len(parameter) == 1:  # Path and use last 2:
+    path = parameter[0]
+    for root, folders, files in os.path.walk(path):
+        files = sorted(
+            [f for f in files if f.startswith(start)])[-2]
+        break
+else:
+    print('No 2 files passed and not path passed!: %s' % (parameter, ))
     sys.exit()
 
 compare_partner = {}
 compare_document = {}
-
 partners = {}
 
 verbose = False
