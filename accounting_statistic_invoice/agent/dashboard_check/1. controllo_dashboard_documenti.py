@@ -22,6 +22,7 @@
 ###############################################################################
 
 import os
+import pdb
 
 start = 'statistic.partner.FIA.2023'
 partner_db = {}
@@ -144,7 +145,7 @@ for file_code in sorted(compare):
         ft,
         total,
     ]
-
+    pdb.set_trace()
     line = '%s|%s|%s|%s|%s|%s|%s|%s|%s\n' % list(record)
     line = line.replace('.', ',')
     f_out.write(line)
