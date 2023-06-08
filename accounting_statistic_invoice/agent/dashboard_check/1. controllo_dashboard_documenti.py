@@ -131,7 +131,7 @@ for file_code in sorted(compare):
             total,
         ]
     record = [file_code, oc, bc, ft, total]
-    record.update([
+    record.extend([
         oc - previous[oc],
         bc - previous[bc],
         ft - previous[ft],
