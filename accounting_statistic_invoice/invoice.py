@@ -208,7 +208,7 @@ class StatisticInvoice(orm.Model):
         # ---------------------------------------------------------------------
         excluded_code = [
             'ANTICIPATO',
-        ]
+            ]
         now = str(datetime.now())[:19].replace(':', '_').replace('/', '_')
         log_file1 = os.path.expanduser(
             '~/etl/log/dashboard/stats.prod.%s.%s.csv' % (
@@ -290,14 +290,6 @@ class StatisticInvoice(orm.Model):
                     _logger.info('OC from ODOO read: %s riga' % i)
                 default_code = (line.product_id.default_code or '').upper()
 
-                # -------------------------------------------------------------
-                # Micronaet 08-06-2023 Excluded ANTICIPATO:
-                # -------------------------------------------------------------
-                if default_code and default_code in excluded_code:
-                    log_f1.write('|||||Excluded code %s: %s !!!\n' % (
-                        order.name, default_code))
-                    continue
-
                 # Deadline in line data:
                 date = line.date_deadline or order_date_deadline
                 month = int(date[5:7])
@@ -313,7 +305,15 @@ class StatisticInvoice(orm.Model):
                     continue
                 remain_total = \
                     line.price_subtotal * remain / line.product_uom_qty
-                total = remain_total  # += # TODO remove keep remain_total
+                total = remain_total  # += # todo remove keep remain_total
+
+                # -------------------------------------------------------------
+                # Micronaet 08-06-2023 Excluded ANTICIPATO:
+                # -------------------------------------------------------------
+                if default_code and default_code in excluded_code:
+                    log_f1.write('|||||Excluded code %s: %s [%s]!!!\n' % (
+                        order.name, default_code, remain_total))
+                    continue
 
                 data = [  # product
                      code,
@@ -377,14 +377,6 @@ class StatisticInvoice(orm.Model):
             for line in ddt.ddt_lines:
                 default_code = (line.product_id.default_code or '').upper()
 
-                # -------------------------------------------------------------
-                # Micronaet 08-06-2023 Excluded ANTICIPATO:
-                # -------------------------------------------------------------
-                if default_code and default_code in excluded_code:
-                    log_f1.write('|||||Excluded code %s: %s !!!\n' % (
-                        ddt.name, default_code))
-                    continue
-
                 if parent_max:  # todo check exist!!!
                     code = default_code[:parent_max]
                 else:
@@ -398,6 +390,14 @@ class StatisticInvoice(orm.Model):
                 # Proportional to ddt subtotal:
                 amount = sol.price_subtotal * number / sol.product_uom_qty
                 total += amount
+
+                # -------------------------------------------------------------
+                # Micronaet 08-06-2023 Excluded ANTICIPATO:
+                # -------------------------------------------------------------
+                if default_code and default_code in excluded_code:
+                    log_f1.write('|||||Excluded code %s: %s [%s]!!!\n' % (
+                        ddt.name, default_code, amount))
+                    continue
 
                 data = [
                     code,
