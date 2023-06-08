@@ -132,10 +132,10 @@ for file_code in sorted(compare):
         ]
     record = [file_code, oc, bc, ft, total]
     record.extend([
-        oc - previous[oc],
-        bc - previous[bc],
-        ft - previous[ft],
-        total - previous[total],
+        oc - previous[0],
+        bc - previous[1],
+        ft - previous[2],
+        total - previous[3],
     ])
     # Save this as previous:
     previous = [
