@@ -290,7 +290,9 @@ class StatisticInvoice(orm.Model):
                     _logger.info('OC from ODOO read: %s riga' % i)
                 default_code = (line.product_id.default_code or '').upper()
 
-                # Remove unused product line:
+                # -------------------------------------------------------------
+                # Micronaet 08-06-2023 Excluded ANTICIPATO:
+                # -------------------------------------------------------------
                 if default_code and default_code in excluded_code:
                     log_f1.write('|||||Excluded code %s: %s !!!\n' % (
                         order.name, default_code))
@@ -375,7 +377,9 @@ class StatisticInvoice(orm.Model):
             for line in ddt.ddt_lines:
                 default_code = (line.product_id.default_code or '').upper()
 
-                # Remove unused product line:
+                # -------------------------------------------------------------
+                # Micronaet 08-06-2023 Excluded ANTICIPATO:
+                # -------------------------------------------------------------
                 if default_code and default_code in excluded_code:
                     log_f1.write('|||||Excluded code %s: %s !!!\n' % (
                         ddt.name, default_code))
