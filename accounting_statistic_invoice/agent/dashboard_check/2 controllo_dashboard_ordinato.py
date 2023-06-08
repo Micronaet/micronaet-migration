@@ -31,7 +31,7 @@ if len(parameter) == 2:
     files = parameter
 elif len(parameter) == 1:  # Path and use last 2:
     path = parameter[0]
-    for root, folders, files in os.path.walk(path):
+    for root, folders, files in os.walk(path):
         files = sorted(
             [f for f in files if f.startswith(start)])[-2]
         break
