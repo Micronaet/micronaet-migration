@@ -519,7 +519,7 @@ class StatisticInvoice(orm.Model):
         for line in csv_file:
             note = ''  # logging
 
-            if tot_col == 0: # set cols (first time)
+            if tot_col == 0:  # set cols (first time)
                 tot_col = len(line)
                 _logger.info('Total columns: %s' % tot_col)
             if counter < 0:
@@ -537,7 +537,8 @@ class StatisticInvoice(orm.Model):
             counter += 1
             try:
                 mexal_id = csv_base.decode_string(line[0])  # ID
-                month = int(csv_base.decode_string(line[1]) or '0')  # jump is ''!
+                # jump is '':
+                month = int(csv_base.decode_string(line[1]) or '0')
                 month_season = transcode_month[month]
                 year = csv_base.decode_string(line[2]) or ''
                 total_invoice = csv_base.decode_float(
@@ -613,43 +614,50 @@ class StatisticInvoice(orm.Model):
                 # -------------------------------------------------------------
                 # Season
                 # -------------------------------------------------------------
-                if current_month >= 1 and current_month <= 8:
+                if 1 <= current_month <= 8:
                     ref_year = current_year - 1  # Ref. is previous year
-                elif current_month >= 9 and current_month <= 12:
+                elif 9 <= current_month <= 12:
                     ref_year = current_year  # Ref. is current year
                 else:
                     _logger.error('%s) Month error not [1:12]' % (
                         counter))
+                    # todo no ref_year, continue?
 
+                # -------------------------------------------------------------
                 # Year to insert invoiced
+                # -------------------------------------------------------------
                 year_month = '%s%02d' % (year, month)
 
                 # september - current year >> august - next year
-                if year_month >= '%s09' % ref_year and \
-                        year_month <= '%s08' % (ref_year + 1):  # current
+                if '%s09' % ref_year <= year_month <= '%s08' % (ref_year + 1):
+                    # current
                     data['season'] = 1
                     stats[partner_id][1] += total_invoice
                     if type_document == 'oo':
                         stats[partner_id][3] += total_invoice
 
-                elif year_month >= '%s09' % (ref_year -1) and \
-                        year_month <= '%s08' % ref_year:  # year -1
+                elif '%s09' % (ref_year - 1) <= year_month <= \
+                        '%s08' % ref_year:
+                    # year -1
                     data['season'] = -1
                     stats[partner_id][2] += total_invoice
 
-                elif year_month >= '%s09' % (ref_year -2) and \
-                        year_month <= '%s08' % (ref_year -1):  # year -2
+                elif '%s09' % (ref_year - 2) <= year_month <= '%s08' % \
+                        (ref_year - 1):
+                    # year -2
                     data['season'] = -2
 
-                elif year_month >= '%s09' % (ref_year -3) and \
-                        year_month <= '%s08' % (ref_year -2):  # year -3
+                elif '%s09' % (ref_year - 3) <= year_month <= '%s08' % \
+                        (ref_year - 2):
+                    # year -3
                     data['season'] = -3
 
-                elif year_month >= '%s09' % (ref_year -4) and \
-                        year_month <= '%s08' % (ref_year -3):  # year -4
+                elif '%s09' % (ref_year - 4) <= year_month <= '%s08' % \
+                        (ref_year - 3):
+                    # year -4
                     data['season'] = -4
 
-                else: # extra interval (imported the same)
+                else:   # extra interval (imported the same)
                     if year_month > '%s08' % (ref_year + 1):
                         data['season'] = 100  # new season
                     else:
@@ -661,7 +669,7 @@ class StatisticInvoice(orm.Model):
                 # Log:
                 partner_extra_one = partner_extra.get(
                     partner_id, ['NO', 'NO', 'NO', 'NO'])
-                try: # manage error for log (else dont' write stat data)
+                try:  # manage error for log (else don't write stat data)
                     log_f.write(log_mask % (
                         counter,
                         self.clean_ascii(partner_name),
@@ -688,7 +696,7 @@ class StatisticInvoice(orm.Model):
                 continue
 
         # Set tot 20 partner:
-        # TODO set only current year in test!
+        # todo set only current year in test!
         _logger.info('Set top 15 partner invoiced in all years')
         cr.execute("""
             UPDATE statistic_invoice 
