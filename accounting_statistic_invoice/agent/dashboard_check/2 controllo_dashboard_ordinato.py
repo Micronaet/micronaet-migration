@@ -34,12 +34,12 @@ elif len(parameter) == 1:  # Path and use last 2:
     path = parameter[0]
     for root, folders, files in os.walk(path):
         files = sorted(
-            [os.path.join(root, f) for f in files if f.startswith(start)])[-2]
+            [os.path.join(root, f) for f in files if f.startswith(start)])[-2:]
         break
 else:
     print('No 2 files passed and not path passed!: %s' % (parameter, ))
     sys.exit()
-pdb.set_trace()
+
 print('File used: %s' % str(files))
 compare_partner = {}
 compare_document = {}
