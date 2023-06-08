@@ -145,7 +145,7 @@ for file_code in sorted(compare):
         total,
     ]
 
-    line = '%s|%s|%s|%s|%s|%s\n' % list(record)
+    line = '%s|%s|%s|%s|%s|%s|%s|%s|%s\n' % list(record)
     line = line.replace('.', ',')
     f_out.write(line)
 
