@@ -23,7 +23,7 @@
 
 import os
 
-
+start = 'statistic.partner.FIA.2023'
 partner_db = {}
 compare_partner = {}
 compare_document = {}
@@ -33,11 +33,12 @@ verbose = False
 columns = 0
 for root, folders, files in os.walk('./data'):
     for filename in files:
-        file_code = filename[22:-4]
-        if not file_code.startswith('2023'):
-            # print('Jumped %s' % file_code)
-            continue  # Only 2023
+        if not filename.startswith(start):
+            print('>> Jump %s' % filename)
+            continue
 
+        print('Checking %s' % filename)
+        file_code = filename[22:-4]
         fullname = os.path.join(root, filename)
         compare[file_code] = {}
 
