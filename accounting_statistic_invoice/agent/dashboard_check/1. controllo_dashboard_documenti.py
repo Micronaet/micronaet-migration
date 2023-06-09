@@ -155,7 +155,6 @@ ws.title = total_sheet
 ws.column_dimensions['A'].width = 20
 for col_name in 'BCDEFGHI':
     ws.column_dimensions[col_name].width = 12
-# ws.column_dimensions['J'].width = 40
 
 # -----------------------------------------------------------------------------
 # Header:
@@ -187,7 +186,7 @@ for file_code in sorted(compare):
     ft = compare[file_code].get('ft', 0.0)
     total = oc + bc + ft
 
-    # Integarte data:
+    # Integate data:
     if not previous:  # Difference:
         previous = [
             oc,
@@ -221,6 +220,8 @@ wb.save(filename)
 
 sys.exit()
 
+
+'''
 f_out = open('./result/documenti_totali.csv', 'w')
 f_out.write('Data ora|OC|BC|FT|Totale|Delta OC|Delta BC|Delta FT|Delta Tot.\n')
 previous = False
@@ -259,7 +260,10 @@ for file_code in sorted(compare):
     f_out.write(line)
 
 
-'''
+
+
+
+
     # Create partner compare:
     f_out = open('./result/partner.csv', 'w')
     f_out.write('Codice|Nome|Da|A|Differenza|Note\n')
