@@ -24,6 +24,10 @@
 import os
 import pdb
 
+# Excel:
+import openpyxl
+from openpyxl.styles import Border, Alignment, Font, numbers
+
 start = 'statistic.partner.FIA.2023'
 partner_db = {}
 compare_partner = {}
@@ -111,6 +115,105 @@ for root, folders, files in os.walk('./data'):
         print('TOTALI: %s = %s' % (fullname, total))
 
 # Compare file:
+
+# -----------------------------------------------------------------------------
+# Style:
+# -----------------------------------------------------------------------------
+format_euro = numbers.FORMAT_NUMBER_COMMA_SEPARATED2
+
+font = Font(
+    name='Verdana', size=10, bold=False, italic=False,
+    vertAlign=None, underline='none', strike=False,
+    color='FF000000')
+font_bold = Font(
+    name='Verdana', size=10, bold=True, italic=False,
+    vertAlign=None, underline='none', strike=False,
+    color='FF000000')
+
+alignment = Alignment(
+    horizontal='general', vertical='bottom', text_rotation=0,
+    wrap_text=False, shrink_to_fit=False, indent=0)
+alignment_center = Alignment(
+    horizontal='center', vertical='bottom', text_rotation=0,
+    wrap_text=False, shrink_to_fit=False, indent=0)
+
+# -----------------------------------------------------------------------------
+#                         Open Excel file:
+# -----------------------------------------------------------------------------
+filename = './result/documenti_totali.xlsx'
+filename = os.path.expanduser(filename)
+total_sheet = 'Totali'
+
+wb = openpyxl.load_workbook(filename=filename)
+ws = wb.create_sheet(total_sheet)
+
+# Setup columns:
+ws.column_dimensions['A'].width = 30
+ws.column_dimensions['B:I'].width = 25
+ws.column_dimensions['L'].width = 40
+
+# -----------------------------------------------------------------------------
+# Header:
+# -----------------------------------------------------------------------------
+header = [
+    'Data ora',
+    'OC', 'BC', 'FT', 'Totale',
+    'Delta OC', 'Delta BC', 'Delta FT', 'Delta Tot.',
+    ]
+row = 1
+col = 0
+for title in header:
+    col += 1
+    cell = ws.cell(row=row, column=col)
+    cell.font = font_bold
+    cell.alignment = alignment_center
+    cell.value = title
+
+# -----------------------------------------------------------------------------
+# Data
+# -----------------------------------------------------------------------------
+previous = False
+for file_code in sorted(compare):
+    oc = compare[file_code].get('oo', 0.0)
+    bc = compare[file_code].get('bo', 0.0)
+    ft = compare[file_code].get('ft', 0.0)
+    total = oc + bc + ft
+
+    # -------------------------------------------------------------------------
+    # Difference management:
+    # -------------------------------------------------------------------------
+    if not previous:
+        previous = [
+            oc,
+            bc,
+            ft,
+            total,
+        ]
+    record = [file_code, oc, bc, ft, total]
+    record.extend([
+        oc - previous[0],
+        bc - previous[1],
+        ft - previous[2],
+        total - previous[3],
+    ])
+    # Save this as previous:
+    previous = [
+        oc,
+        bc,
+        ft,
+        total,
+    ]
+
+    col = 0
+    for data in record:
+        col += 1
+        cell = ws.cell(row=row, column=col)
+        cell.font = font
+        cell.alignment = alignment
+        cell.value = data
+wb.save(filename)
+
+sys.exit()
 
 f_out = open('./result/documenti_totali.csv', 'w')
 f_out.write('Data ora|OC|BC|FT|Totale|Delta OC|Delta BC|Delta FT|Delta Tot.\n')
