@@ -22,6 +22,7 @@
 ###############################################################################
 
 import os
+import sys
 import pdb
 
 # Excel:
@@ -144,7 +145,8 @@ filename = './result/documenti_totali.xlsx'
 filename = os.path.expanduser(filename)
 total_sheet = 'Totali'
 
-wb = openpyxl.load_workbook(filename=filename)
+# wb = openpyxl.load_workbook(filename=filename)
+wb = openpyxl.Workbook()
 ws = wb.create_sheet(total_sheet)
 
 # Setup columns:
