@@ -152,10 +152,10 @@ ws.title = total_sheet
 # ws = wb.create_sheet(total_sheet)
 
 # Setup columns:
-ws.column_dimensions['A'].width = 30
+ws.column_dimensions['A'].width = 20
 for col_name in 'BCDEFGHI':
-    ws.column_dimensions[col_name].width = 25
-ws.column_dimensions['L'].width = 40
+    ws.column_dimensions[col_name].width = 12
+# ws.column_dimensions['J'].width = 40
 
 # -----------------------------------------------------------------------------
 # Header:
