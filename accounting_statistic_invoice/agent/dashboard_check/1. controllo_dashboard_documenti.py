@@ -147,7 +147,9 @@ total_sheet = 'Totali'
 
 # wb = openpyxl.load_workbook(filename=filename)
 wb = openpyxl.Workbook()
-ws = wb.create_sheet(total_sheet)
+ws = wb.active
+ws.title = total_sheet
+# ws = wb.create_sheet(total_sheet)
 
 # Setup columns:
 ws.column_dimensions['A'].width = 30
@@ -177,15 +179,16 @@ for title in header:
 # -----------------------------------------------------------------------------
 previous = False
 for file_code in sorted(compare):
+    row += 1
+
+    # Read data:
     oc = compare[file_code].get('oo', 0.0)
     bc = compare[file_code].get('bo', 0.0)
     ft = compare[file_code].get('ft', 0.0)
     total = oc + bc + ft
 
-    # -------------------------------------------------------------------------
-    # Difference management:
-    # -------------------------------------------------------------------------
-    if not previous:
+    # Integarte data:
+    if not previous:  # Difference:
         previous = [
             oc,
             bc,
