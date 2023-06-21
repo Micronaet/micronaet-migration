@@ -60,14 +60,14 @@ class SaleOrderQuotation(orm.Model):
             '''
             if not value:
                 return ''
-                
+
             if lang == 'it_IT':
                 return '%s/%s/%s' % (
                     o.date_order[8:10],
                     o.date_order[5:7],
                     o.date_order[2:4],
                     )
-            else:                
+            else:
                 return  '%s/%s/%s' % (
                     o.date_order[8:10],
                     o.date_order[5:7],
@@ -146,7 +146,7 @@ class SaleOrderQuotation(orm.Model):
 
         def clean_description(self, name):
             return name.split("]")[-1:]
-        """    
+        """
         def get_fabric_description(product):
             ''' Return correct description depend on code
                 (write only for TS TL MS TS PO
@@ -157,15 +157,15 @@ class SaleOrderQuotation(orm.Model):
             if default_code[:2].upper() in ('TL', 'TS', 'MT', 'MS', 'PO'):
                 return u' %s' % (product.fabric or '')
             return ''
-            
-        def try_int(value):    
+
+        def try_int(value):
             ''' Try convert in int intead return normal data
             '''
-            try: 
+            try:
                 return int(value)
             except:
                 return value or ''
-                
+
         """    
         def get_fabric(code, language):
             ''' Return type of fabric depend on start code
@@ -210,7 +210,7 @@ class SaleOrderQuotation(orm.Model):
             else:        
                 return '/'        
 
-        """    
+        """
         def get_telaio(name, lingua):
             ''' Last minute function for confert name (not translated in product)
             '''
@@ -238,28 +238,28 @@ class SaleOrderQuotation(orm.Model):
                name = 'NOCE'
 
             ita2eng = {
-               'ALLUMINIO': 'ALUMINIUM', 
-               'LEGNO': 'WOOD', 
+               'ALLUMINIO': 'ALUMINIUM',
+               'LEGNO': 'WOOD',
                'ACCIAIO': 'STEEL',
                'TINTO NOCE': 'PAINTED WALNUT',
-               'NOCE': 'WALNUT',           
+               'NOCE': 'WALNUT',
                'ALLUMINIO ANODIZZATO': 'ANODIZED ALUMINIUM',
-               'CROMATO FERRO': 'IRON CHROMED',  
+               'CROMATO FERRO': 'IRON CHROMED',
                'TINTO FERRO': 'IRON PAINTED',
                'FERRO': 'IRON',
                'ROBINIA': 'ROBINIA',
                }
             if lingua == 'it_IT':
                return name
-            else:   
+            else:
                return ita2eng[name] if name in ita2eng else '?'
-                   
+
         # ---------------------------------------------------------------------
         # Start procedure:
         # ---------------------------------------------------------------------
         if context is None:
             context = {}
-                        
+
         # Pool used:
         excel_pool = self.pool.get('excel.writer')
 
@@ -272,42 +272,42 @@ class SaleOrderQuotation(orm.Model):
             'it_IT' : {
                 'subject': u'Offerta n.: %s del %s',
                 'terms': u'Resa merce:',
-                'payment': u'Pagamento:',                
+                'payment': u'Pagamento:',
 
                 'header_1': [
-                    u'Immagine', 
-                    u'Codice', 
-                    u'Articolo', 
+                    u'Immagine',
+                    u'Codice',
+                    u'Articolo',
                     u'Quantità',
-                    u'', 
-                    u'Prezzo IVA escl', 
-                    u'Sc.', 
-                    u'', 
+                    u'',
+                    u'Prezzo IVA escl',
+                    u'Sc.',
+                    u'',
                     u'Importo',
-                    u'Telaio', 
-                    u'Φ tubo', 
-                    u'Peso imballo', 
+                    u'Telaio',
+                    u'Φ tubo',
+                    u'Peso imballo',
                     u'Pezzi per scatola',
-                    u'Pezzi per bancale', 
-                    u'Pezzi per m3', 
+                    u'Pezzi per bancale',
+                    u'Pezzi per m3',
                     u'Pezzi per camion',
                     ],
                 'header_2': [
-                    u'Immagine', 
-                    u'Codice', 
-                    u'Articolo', 
-                    u'', 
+                    u'Immagine',
+                    u'Codice',
+                    u'Articolo',
+                    u'',
                     u'Prezzo IVA escl',
-                    u'Telaio', 
-                    u'Φ tubo', 
-                    u'Peso imballo', 
+                    u'Telaio',
+                    u'Φ tubo',
+                    u'Peso imballo',
                     u'Pezzi per scatola',
-                    u'Pezzi per bancale', 
-                    u'Pezzi per m3', 
+                    u'Pezzi per bancale',
+                    u'Pezzi per m3',
                     u'Pezzi per camion',
                     ],
-                
-                },                
+
+                },
 
             'en_US' : {
                 'subject': u'Offer n.: %s dated %s',
@@ -315,35 +315,35 @@ class SaleOrderQuotation(orm.Model):
                 'payment': u'Payment terms:',
 
                 'header_1': [
-                    u'Imagine', 
-                    u'Item ref.', 
-                    u'Description', 
+                    u'Imagine',
+                    u'Item ref.',
+                    u'Description',
                     u'Quantity',
                     u'',
-                    u'Price', 
-                    u'Disc.', 
-                    u'', 
+                    u'Price',
+                    u'Disc.',
+                    u'',
                     u'Amount',
-                    u'Frame', 
-                    u'Pipe Φ', 
-                    u'Weight / box', 
+                    u'Frame',
+                    u'Pipe Φ',
+                    u'Weight / box',
                     u'Pcs / box',
-                    u'Pcs / pallet', 
-                    u'Pcs / m3', 
+                    u'Pcs / pallet',
+                    u'Pcs / m3',
                     u'Pcs / truck',
                     ],
                 'header_2': [
-                    u'Imagine', 
-                    u'Item ref.', 
-                    u'Description', 
+                    u'Imagine',
+                    u'Item ref.',
+                    u'Description',
                     u'',
                     u'Price',
-                    u'Frame', 
-                    u'Pipe Φ', 
-                    u'Weight / box', 
+                    u'Frame',
+                    u'Pipe Φ',
+                    u'Weight / box',
                     u'Pcs / box',
-                    u'Pcs / pallet', 
-                    u'Pcs / m3', 
+                    u'Pcs / pallet',
+                    u'Pcs / m3',
                     u'Pcs / truck',
                     ],
                 },
@@ -356,7 +356,7 @@ class SaleOrderQuotation(orm.Model):
 
         context['lang'] = lang
         context['aeroo_docs'] = True # To load image
-        
+
         o = self.browse(cr, uid, ids, context=context)[0] # reload data in lang
         company = o.company_id
 
@@ -365,7 +365,7 @@ class SaleOrderQuotation(orm.Model):
         # ---------------------------------------------------------------------
         ws_name = _(u'Dettaglio offerta')
         ws = excel_pool.create_worksheet(name=ws_name)
-        
+
         # ---------------------------------------------------------------------
         # Generate format used:
         # ---------------------------------------------------------------------
@@ -377,33 +377,33 @@ class SaleOrderQuotation(orm.Model):
         f_center = excel_pool.get_format(key='text_center_all')
         f_number = excel_pool.get_format(key='number')
         f_number_center = excel_pool.get_format(key='number_center')
-        
+
         # ---------------------------------------------------------------------
         # QUOTATION HEADER:
         # ---------------------------------------------------------------------
         from_col = 4
-        row = 0        
-        # Partner name: 
+        row = 0
+        # Partner name:
         excel_pool.write_xls_line(
             ws_name, row, [
                 # TODO Logo
                 o.partner_id.name,
                 ], default_format=f_title, col=from_col)
 
-        # -----------------------------------------------------------------    
+        # -----------------------------------------------------------------
         # Write company logo:
-        # -----------------------------------------------------------------    
+        # -----------------------------------------------------------------
         data = company.logo or False
-        if data:            
-            excel_pool.write_image(ws_name, row, 0, 
-                #filename='/home/thebrush/logo.png', 
-                filename='company.png', 
-                data=excel_pool.clean_odoo_binary(data), 
+        if data:
+            excel_pool.write_image(ws_name, row, 0,
+                #filename='/home/thebrush/logo.png',
+                filename='company.png',
+                data=excel_pool.clean_odoo_binary(data),
                 positioning=0,
                 tip='Image company',
                 )
 
-        # Partner address:                
+        # Partner address:
         if o.destination_partner_id:
             select_partner = o.destination_partner_id
         else:
@@ -421,13 +421,13 @@ class SaleOrderQuotation(orm.Model):
             ws_name, row, [
                 o.destination_partner_id.street or '',
                 ], default_format=f_title, col=from_col)
-            
+
         row += 1
         excel_pool.write_xls_line(
             ws_name, row, [
                 u'%s %s %s' % (
-                    o.destination_partner_id.zip or '', 
-                    o.destination_partner_id.city or '', 
+                    o.destination_partner_id.zip or '',
+                    o.destination_partner_id.city or '',
                     o.destination_partner_id.country_id.name or ' ') \
                         if o.partner_id.street else '',
                 ], default_format=f_title, col=from_col)
@@ -446,15 +446,15 @@ class SaleOrderQuotation(orm.Model):
                 lang_text[lang]['payment'],
                 o.payment_term.name or '',
                 ], default_format=f_title, col=from_col)
-        
-        # Subject:                
+
+        # Subject:
         row += 2
         excel_pool.write_xls_line(
             ws_name, row, [
                 # TODO Logo
                 lang_text[lang]['subject'] % (
-                    o.name, 
-                    o.date_order,#TODO format_lang(o.date_order),                
+                    o.name,
+                    o.date_order,#TODO format_lang(o.date_order),
                     ),
                 u'%s\n' % (o.bank_id.information or '') if o.bank_id else '',
                 ], default_format=f_title)
@@ -472,23 +472,23 @@ class SaleOrderQuotation(orm.Model):
                 1, 10, # Unit price
                 10, # Discount
                 1, 10, # Subtotal
-                10, 10, 10, 10, 10, 10, 10] 
-        else:    
+                10, 10, 10, 10, 10, 10, 10]
+        else:
             header = lang_text[lang]['header_2']
-            width = [18, 15, 30, 1, 12, 10, 10, 10, 10, 10, 10, 10] 
+            width = [18, 15, 30, 1, 12, 10, 10, 10, 10, 10, 10, 10]
 
         # Write data:
         excel_pool.write_xls_line(
             ws_name, row, header, default_format=f_header)
         excel_pool.column_width(ws_name, width)
-        
+
         # ---------------------------------------------------------------------
         # DETAIL:
         # ---------------------------------------------------------------------
         row_height = 76
         for item in o.order_line:
             product = item.product_id
-            
+
             # -----------------------------------------------------------------
             # Pre note:
             # -----------------------------------------------------------------
@@ -496,7 +496,7 @@ class SaleOrderQuotation(orm.Model):
                 row += 1
                 excel_pool.write_xls_line(
                     ws_name, row, [item.text_note_pre], default_format=f_text)
-             
+
             # -----------------------------------------------------------------
             # Line depend on model:
             # -----------------------------------------------------------------
@@ -511,8 +511,8 @@ class SaleOrderQuotation(orm.Model):
                     get_fabric_description(item.product_id),
                     item.note or '',
                     ), f_text),
-                    
-                symbol, 
+
+                symbol,
                 (item.price_subtotal, f_number_center),
                 get_telaio(item.product_id.telaio or '', lang),
                 try_int(item.product_id.pipe_diameter_sale),
@@ -525,11 +525,11 @@ class SaleOrderQuotation(orm.Model):
 
             if o.quotation_model == 1: # Detail offer:
                 line = line[:3] + [
-                    # Extra:              
+                    # Extra:
                     (try_int(item.product_uom_qty), f_number_center),
 
                     symbol,
-                    (item.price_unit, f_number_center),    
+                    (item.price_unit, f_number_center),
 
                     item.multi_discount_rates or '/',
 
@@ -539,18 +539,19 @@ class SaleOrderQuotation(orm.Model):
             excel_pool.row_height(ws_name, [row], height=row_height)
             excel_pool.write_xls_line(
                 ws_name, row, line, default_format=f_center)
-            
-            # -----------------------------------------------------------------    
-            # Write photo: (after)    
-            # -----------------------------------------------------------------    
+
+            # -----------------------------------------------------------------
+            # Write photo: (after)
+            # -----------------------------------------------------------------
             if item.insert_photo:
                 data = item.product_id.default_photo or False
                 if data:
-                    excel_pool.write_image(ws_name, row, 0, 
+                    excel_pool.write_image(
+                        ws_name, row, 0,
                         filename=u'%s.png' % code,
                         x_offset=1, y_offset=1,
-                        #tip=u'Image %s' % code,
-                        data=excel_pool.clean_odoo_binary(data), 
+                        # tip=u'Image %s' % code,
+                        data=excel_pool.clean_odoo_binary(data),
                         )
 
             # -----------------------------------------------------------------
@@ -565,8 +566,8 @@ class SaleOrderQuotation(orm.Model):
         # QUOTATION FOOTER:
         # ---------------------------------------------------------------------
         from_col = 4 # can be different
-        row += 2        
-        # Company info: 
+        row += 2
+        # Company info:
         excel_pool.write_xls_line(
             ws_name, row, [
                 u'%s %s - %s %s (%s) %s T. %s F. %s - %s' % (
@@ -583,7 +584,7 @@ class SaleOrderQuotation(orm.Model):
 
         row += 1
 
-        # Company info: 
+        # Company info:
         excel_pool.write_xls_line(
             ws_name, row, [
                 u'C.F. - P. IVA e Reg. Imp  %s - R.E.A. n. %s - Cod. Mecc. %s - Cap. Soc. € %s>' % (
@@ -599,8 +600,8 @@ class SaleOrderQuotation(orm.Model):
 
     # Override fake wizard button event for print this report:
     def print_quotation(self, cr, uid, ids, context=None):
-        ''' Override originaL function that prints the sales order and mark it 
-            as sent, so that we can see more easily the next step of the 
+        ''' Override originaL function that prints the sales order and mark it
+            as sent, so that we can see more easily the next step of the
             workflow
         '''
         assert len(ids) == 1, \
@@ -636,10 +637,10 @@ class SaleOrderLineQuotation(orm.Model):
             help="Take amazon description instead of product's one"),
         'show_notes': fields.boolean(
             'Show notes', help='Show notes after description'),
-        'note': fields.text( 'Note'),    
+        'note': fields.text( 'Note'),
         }
-        
+
     _defaults = {
         'insert_photo': lambda *x: True,
         }
-        
+

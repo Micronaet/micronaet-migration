@@ -8,7 +8,7 @@
 #
 #############################################################################
 #
-#    OpenERP, Open Source Management Solution	
+#    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
 #    $Id$
 #
@@ -78,104 +78,111 @@ class ProductQuotationFolder(osv.osv):
         'default': lambda *x: False,
         }
 
+
 class ProductProductImage(osv.osv):
-    ''' Add extra function and fields for manage picture for product
-    '''
+    """ Add extra function and fields for manage picture for product
+    """
     _inherit = 'product.product'
 
     def get_image_quotation(self, cr, uid, item, context=None):
-        ''' Get folder (actually 200 px) and extension from folder obj.
-            Calculated dinamically image from module
+        """ Get folder (actually 200 px) and extension from folder obj.
+            Calculated dynamically image from module
             image folder + extra path + ext.
             Return image
-        '''
+        """
+        folder_proxy = self.pool.get('product.quotation.folder')
+        user_pool = self.pool.get('res.users')
+
         context = context or {}
         if not context.get('aeroo_docs', False):
             # Check parameters:
             user_id = context.get('uid', False)
             if user_id:
-                if not self.pool.get('res.users').browse(
+                if not user_pool.browse(
                     cr, uid, user_id, context=context).always_show_photo:
                     return ''
 
-        # TODO Better rewrite all this mess function!
-        with_log = True # TODO debug part
+        # todo Better rewrite all this mess function!
+        with_log = True  # TODO debug part
 
         img = ''
-        folder_proxy = self.pool.get('product.quotation.folder')
-        folder_ids = folder_proxy.search(cr, uid, [('width', '=', 200)])
+        folder_ids = folder_proxy.search(cr, uid, [
+            ('width', '=', 200),
+        ], context=context)
 
-        if folder_ids:
-           folder_browse = folder_proxy.browse(cr, uid, folder_ids)[0]
-           extension = "." + folder_browse.extension_image
-           empty_image = folder_browse.empty_image
-           if folder_browse.addons:
-              image_path = tools.config[
-                  'addons_path'] + '/quotation_photo/images/' + \
-                  folder_browse.folder_path + "/"
-           else:
-              image_path = os.path.expanduser(
-                  (folder_browse.folder_path + "/") % (cr.dbname, )
-                      if len(folder_browse.folder_path.split("%s")) == 2
-                      else folder_browse.folder_path + "/")
-        else: # no folder image
-           return img # empty!
+        if folder_ids:  # Choose the first with 200 width
+            folder_browse = folder_proxy.browse(cr, uid, folder_ids)[0]
+            extension = "." + folder_browse.extension_image
+            empty_image = folder_browse.empty_image
+            if folder_browse.addons:
+                image_path = tools.config[
+                    'addons_path'] + '/quotation_photo/images/' + \
+                    folder_browse.folder_path + "/"
+            else:
+                if len(folder_browse.folder_path.split('%s')) == 2:
+                    image_path = (folder_browse.folder_path + '/') % cr.dbname
+                else:
+                    image_path = folder_browse.folder_path + '/'
+                image_path = os.path.expanduser(image_path)
+        else:  # no folder image return empty:
+            return img
 
-        product_browse = self.browse(cr, uid, item)
+        product_browse = self.browse(cr, uid, item, context=context)
         code = product_browse.default_code
         if with_log:
             _logger.info('>> Image path: %s' % image_path)
         if code:
-            # codice originale (tutte le cifre)
+            # A. Original code with all char:
+            # for code in (code.replace(" ", "_"), code, )
             try:
-                (filename, header) = urllib.urlretrieve(
-                    image_path + code.replace(
-                        " ", "_") + extension) # code image
-                f = open(filename , 'rb')
+                # code image:
+                filename, header = urllib.urlretrieve(
+                    image_path + code.replace(" ", "_") + extension)
+                f = open(filename, 'rb')
                 if with_log:
-                    _logger.info('>> Load image: %s' % filename) # TODO debug
+                    _logger.info('>> Load image: %s' % filename)  # todo debug
 
                 img = base64.encodestring(f.read())
                 f.close()
             except:
                 img = ''
 
-            # codice padre (con spazi):
+            # B. Parent code (with spaces):
             if (not img) and code:
                 try:
                     (filename, header) = urllib.urlretrieve(
-                        image_path + code + extension) # code image
-                    f = open(filename , 'rb')
+                        image_path + code + extension)  # code image
+                    f = open(filename, 'rb')
                     if with_log:
-                        _logger.info('>> Load image: %s' % filename) # TODO debug
+                        _logger.info('>> Load image: %s' % filename)
                     img = base64.encodestring(f.read())
                     f.close()
                 except:
                     img = ''
 
-            # codice padre (5 cifre):
+            # C. Parent code (5 char):
             if (not img) and code and len(code) >= 5:
                 try:
                     padre = code[:5]
                     (filename, header) = urllib.urlretrieve(
                         image_path + padre.replace(" ", "_") + extension)
-                    f = open(filename , 'rb')
+                    f = open(filename, 'rb')
                     if with_log:
-                        _logger.info('>> Load image: %s' % filename) # TODO debug
+                        _logger.info('>> Load image: %s' % filename)
                     img = base64.encodestring(f.read())
                     f.close()
                 except:
                     img = ''
 
-            # codice padre (3 cifre):
+            # D. Parent code (3 char):
             if (not img) and code and len(code) >= 3:
                 try:
                     padre = product_browse.code[:3]
                     (filename, header) = urllib.urlretrieve(
                         image_path + padre.replace(" ", "_") + extension)
-                    f = open(filename , 'rb')
+                    f = open(filename, 'rb')
                     if with_log:
-                        _logger.info('>> Load image: %s' % filename) # TODO debug
+                        _logger.info('>> Load image: %s' % filename)
                     img = base64.encodestring(f.read())
                     f.close()
                 except:
@@ -185,7 +192,7 @@ class ProductProductImage(osv.osv):
             """if (not img):
                 try:
                     (filename, header) = urllib.urlretrieve(
-                        image_path + empty_image) # empty setted up on folder
+                        image_path + empty_image) # empty set up on folder
                     f = open(filename , 'rb')
                     img = base64.encodestring(f.read())
                     f.close()
@@ -198,7 +205,8 @@ class ProductProductImage(osv.osv):
                     #img = ''"""
         return img
 
-    def _get_image_quotation(self, cr, uid, ids, field_name, arg, 
+    def _get_image_quotation(
+            self, cr, uid, ids, field_name, arg,
             context=None):
         res = {}
         for item in ids:
@@ -207,7 +215,6 @@ class ProductProductImage(osv.osv):
         return res
 
     _columns = {
-        'default_photo': fields.function(_get_image_quotation, type="binary", 
-            method=True),
+        'default_photo': fields.function(
+            _get_image_quotation, type="binary", method=True),
         }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
