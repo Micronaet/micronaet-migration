@@ -28,6 +28,7 @@
 ##############################################################################
 
 import os
+import pdb
 import sys
 import logging
 import openerp
@@ -111,14 +112,15 @@ class ProductProductImage(osv.osv):
             # ('code', '=', 'QUOTATION'),
         ], context=context)
 
+        pdb.set_trace()
         if folder_ids:  # Choose the first with 200 width
             folder_browse = folder_proxy.browse(cr, uid, folder_ids)[0]
-            extension = "." + folder_browse.extension_image
+            extension = '.%s' % folder_browse.extension_image
             empty_image = folder_browse.empty_image
             if folder_browse.addons:
-                image_path = tools.config[
-                    'addons_path'] + '/quotation_photo/images/' + \
-                    folder_browse.folder_path + "/"
+                image_path = tools.config['addons_path'] + \
+                             '/quotation_photo/images/' + \
+                             folder_browse.folder_path + '/'
             else:
                 if len(folder_browse.folder_path.split('%s')) == 2:
                     image_path = (folder_browse.folder_path + '/') % cr.dbname
