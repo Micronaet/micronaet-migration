@@ -107,7 +107,8 @@ class ProductProductImage(osv.osv):
 
         img = ''
         folder_ids = folder_proxy.search(cr, uid, [
-            ('width', '=', 200),
+            # ('width', '=', 200),
+            ('code', '=', 'QUOTATION'),
         ], context=context)
 
         if folder_ids:  # Choose the first with 200 width
