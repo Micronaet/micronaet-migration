@@ -52,26 +52,31 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 
 _logger = logging.getLogger(__name__)
 
+
 class ProductQuotationFolder(osv.osv):
     _name = 'product.quotation.folder'
 
     _columns = {
         'name': fields.char('Description', size=64, required=True),
-        'addons': fields.boolean('Addons root path', required=False,
+        'addons': fields.boolean(
+            'Addons root path', required=False,
             help="Start from addons path, extra path is append to addons "
-                "folder, instead of extra is complete path"),
-        'root_path': fields.char('Folder extra path', size=128,required=False,
+                 "folder, instead of extra is complete path"),
+        'root_path': fields.char('Folder extra path', size=128, required=False,
             help="Path extra default root folder, ex.: http://server/openerp"),
-        'folder_path': fields.char('Folder extra path', size=128,
+        'folder_path': fields.char(
+            'Folder extra path', size=128,
             required=True,
             help="Path extra default root folder, ex.: thumb/400/color, or "
                 "complete path: /home/admin/photo"),
-        'extension_image': fields.char('Extension', size=15, required=True,
+        'extension_image': fields.char(
+            'Extension', size=15, required=True,
             help="without dot, for ex.: jpg"),
         'default': fields.boolean('Default'),
         'width': fields.integer('Witdh in px.'),
         'height': fields.integer('Height in px.'),
-        'empty_image': fields.char('Empty image', size=64, required=True,
+        'empty_image': fields.char(
+            'Empty image', size=64, required=True,
             help="Complete name + ext. of empty image, ex.: 0.png"),
         }
 
@@ -104,7 +109,7 @@ class ProductProductImage(osv.osv):
                     return ''
 
         # todo Better rewrite all this mess function!
-        with_log = True  # TODO debug part
+        with_log = True  # todo debug part
 
         img = ''
         folder_ids = folder_proxy.search(cr, uid, [
@@ -112,7 +117,6 @@ class ProductProductImage(osv.osv):
             # ('code', '=', 'QUOTATION'),
         ], context=context)
 
-        pdb.set_trace()
         if folder_ids:  # Choose the first with 200 width
             folder_browse = folder_proxy.browse(cr, uid, folder_ids)[0]
             extension = '.%s' % folder_browse.extension_image
