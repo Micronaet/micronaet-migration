@@ -555,8 +555,8 @@ class SaleOrderQuotation(orm.Model):
                     excel_pool.write_image(
                         ws_name, row, 0,
                         filename=u'%s.png' % code,
-                        x_offset=1, y_offset=1,
-                        x_scale=0.35, y_scale=0.35,
+                        x_offset=4, y_offset=4,
+                        x_scale=0.33, y_scale=0.33,
                         # tip=u'Image %s' % code,
                         data=excel_pool.clean_odoo_binary(data),
                         )
