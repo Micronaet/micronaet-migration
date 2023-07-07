@@ -216,7 +216,6 @@ class SaleOrderQuotation(orm.Model):
             """ Last minute function for convert name
                 (not translated in product)
             """
-            pdb.set_trace()
             name = name.strip()
             if not name:
                 return ''
@@ -233,7 +232,7 @@ class SaleOrderQuotation(orm.Model):
                 name = 'CROMATO FERRO'
             elif name == 'ANODIZED ALUMINIUM':
                 name = 'ALLUMINIO ANODIZZATO'
-            elif name == 'ALUMINIUM':
+            elif name in ('ALUMINIUM', 'ALUMINUM'):
                 name = 'ALLUMINIO'
             elif name == 'IRON':
                 name = 'FERRO'
