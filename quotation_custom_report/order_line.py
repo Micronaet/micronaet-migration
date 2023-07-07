@@ -219,7 +219,7 @@ class SaleOrderQuotation(orm.Model):
             name = name.strip()
             if not name:
                 _logger.error('Frame %s not found!' % name)
-                return ''
+                return '/'
 
             # If name is originally in english translate in italian
             if name == 'STEEL':
