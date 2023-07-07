@@ -556,7 +556,7 @@ class SaleOrderQuotation(orm.Model):
                         ws_name, row, 0,
                         filename=u'%s.png' % code,
                         x_offset=1, y_offset=1,
-                        x_scale=0.5, y_scale=0.5,
+                        x_scale=0.2, y_scale=0.2,
                         # tip=u'Image %s' % code,
                         data=excel_pool.clean_odoo_binary(data),
                         )
