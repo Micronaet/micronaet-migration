@@ -20,6 +20,7 @@
 #
 ###############################################################################
 import os
+import pdb
 import sys
 import io
 import logging
@@ -50,14 +51,14 @@ class SaleOrderQuotation(orm.Model):
     _inherit = 'sale.order'
 
     def extract_quotation_excel(self, cr, uid, ids, context=None):
-        ''' Extract quotation
-        '''
+        """ Extract quotation
+        """
         # ---------------------------------------------------------------------
         # Utility:
         # ---------------------------------------------------------------------
         def format_lang(value, lang):
-            ''' Format date in lang
-            '''
+            """ Format date in lang
+            """
             if not value:
                 return ''
 
@@ -148,9 +149,9 @@ class SaleOrderQuotation(orm.Model):
             return name.split("]")[-1:]
         """
         def get_fabric_description(product):
-            ''' Return correct description depend on code
+            """ Return correct description depend on code
                 (write only for TS TL MS TS PO
-            '''
+            """
             if not product:
                 return ''
             default_code = product.default_code
@@ -159,8 +160,8 @@ class SaleOrderQuotation(orm.Model):
             return ''
 
         def try_int(value):
-            ''' Try convert in int intead return normal data
-            '''
+            """ Try convert in int intead return normal data
+            """
             try:
                 return int(value)
             except:
@@ -212,30 +213,31 @@ class SaleOrderQuotation(orm.Model):
 
         """
         def get_telaio(name, lingua):
-            ''' Last minute function for confert name (not translated in product)
-            '''
+            """ Last minute function for convert name
+                (not translated in product)
+            """
             name = name.strip()
             if not name:
                 return ''
             # If name is originally in english translate in italian
             if name == 'STEEL':
-               name = 'ACCIAIO'
+                name = 'ACCIAIO'
             elif name == 'WOOD':
-               name = 'LEGNO'
+                name = 'LEGNO'
             elif name == 'WOODEN':
-               name = 'LEGNO'
+                name = 'LEGNO'
             elif name == 'IRON PAINTED':
-               name = 'TINTO FERRO'
+                name = 'TINTO FERRO'
             elif name == 'IRON CHROMED':
-               name = 'CROMATO FERRO'
+                name = 'CROMATO FERRO'
             elif name == 'ANODIZED ALUMINIUM':
-               name = 'ALLUMINIO ANODIZZATO'
+                name = 'ALLUMINIO ANODIZZATO'
             elif name == 'ALUMINIUM':
-               name = 'ALLUMINIO'
+                name = 'ALLUMINIO'
             elif name == 'IRON':
-               name = 'FERRO'
+                name = 'FERRO'
             elif name == 'WALNUT':
-               name = 'NOCE'
+                name = 'NOCE'
 
             ita2eng = {
                'ALLUMINIO': 'ALUMINIUM',
@@ -269,7 +271,7 @@ class SaleOrderQuotation(orm.Model):
         # Dictionary:
         # ---------------------------------------------------------------------
         lang_text = {
-            'it_IT' : {
+            'it_IT': {
                 'subject': u'Offerta n.: %s del %s',
                 'terms': u'Resa merce:',
                 'payment': u'Pagamento:',
@@ -309,7 +311,7 @@ class SaleOrderQuotation(orm.Model):
 
                 },
 
-            'en_US' : {
+            'en_US': {
                 'subject': u'Offer n.: %s dated %s',
                 'terms': u'Delivery terms:',
                 'payment': u'Payment terms:',
@@ -351,11 +353,11 @@ class SaleOrderQuotation(orm.Model):
 
         # Setup lang:
         lang = o.partner_id.lang or 'it_IT'
-        if lang not in lang_text: # only authorized:
+        if lang not in lang_text:  # only authorized:
             lang = 'it_IT'
 
         context['lang'] = lang
-        context['aeroo_docs'] = True # To load image
+        context['aeroo_docs'] = True  # To load image
 
         o = self.browse(cr, uid, ids, context=context)[0] # reload data in lang
         company = o.company_id
@@ -386,7 +388,7 @@ class SaleOrderQuotation(orm.Model):
         # Partner name:
         excel_pool.write_xls_line(
             ws_name, row, [
-                # TODO Logo
+                # todo Logo
                 o.partner_id.name,
                 ], default_format=f_title, col=from_col)
 
@@ -395,8 +397,9 @@ class SaleOrderQuotation(orm.Model):
         # -----------------------------------------------------------------
         data = company.logo or False
         if data:
-            excel_pool.write_image(ws_name, row, 0,
-                #filename='/home/thebrush/logo.png',
+            excel_pool.write_image(
+                ws_name, row, 0,
+                # filename='/home/thebrush/logo.png',
                 filename='company.png',
                 data=excel_pool.clean_odoo_binary(data),
                 positioning=0,
@@ -428,8 +431,8 @@ class SaleOrderQuotation(orm.Model):
                 u'%s %s %s' % (
                     o.destination_partner_id.zip or '',
                     o.destination_partner_id.city or '',
-                    o.destination_partner_id.country_id.name or ' ') \
-                        if o.partner_id.street else '',
+                    o.destination_partner_id.country_id.name or ' ')
+                    if o.partner_id.street else '',
                 ], default_format=f_title, col=from_col)
 
         # Extra info:
@@ -451,10 +454,10 @@ class SaleOrderQuotation(orm.Model):
         row += 2
         excel_pool.write_xls_line(
             ws_name, row, [
-                # TODO Logo
+                # todo Logo
                 lang_text[lang]['subject'] % (
                     o.name,
-                    o.date_order,#TODO format_lang(o.date_order),
+                    o.date_order,  # todo format_lang(o.date_order),
                     ),
                 u'%s\n' % (o.bank_id.information or '') if o.bank_id else '',
                 ], default_format=f_title)
@@ -464,14 +467,14 @@ class SaleOrderQuotation(orm.Model):
         # ---------------------------------------------------------------------
         row += 2
         # Setup:
-        if o.quotation_model == 1: # Short offer
+        if o.quotation_model == 1:  # Short offer
             header = lang_text[lang]['header_1']
             width = [
-                18, 12, 30, # description
-                8, # Q.
-                1, 10, # Unit price
-                10, # Discount
-                1, 10, # Subtotal
+                18, 12, 30,  # description
+                8,  # Q.
+                1, 10,  # Unit price
+                10,  # Discount
+                1, 10,  # Subtotal
                 10, 10, 10, 10, 10, 10, 10]
         else:
             header = lang_text[lang]['header_2']
@@ -486,6 +489,9 @@ class SaleOrderQuotation(orm.Model):
         # DETAIL:
         # ---------------------------------------------------------------------
         row_height = 76
+        if uid == 1:
+            pdb.set_trace()
+
         for item in o.order_line:
             product = item.product_id
 
@@ -503,11 +509,11 @@ class SaleOrderQuotation(orm.Model):
             symbol = o.partner_id.property_product_pricelist.currency_id.symbol
             code = product.code or u''
             line = [
-                '', # photo place
+                '',  # photo place
                 code,
                 (u'%s%s\n%s' % (
                     item.name if item.use_text_description else \
-                        item.product_id.name,
+                    item.product_id.name,
                     get_fabric_description(item.product_id),
                     item.note or '',
                     ), f_text),
@@ -565,7 +571,7 @@ class SaleOrderQuotation(orm.Model):
         # ---------------------------------------------------------------------
         # QUOTATION FOOTER:
         # ---------------------------------------------------------------------
-        from_col = 4 # can be different
+        from_col = 4  # can be different
         row += 2
         # Company info:
         excel_pool.write_xls_line(
@@ -600,10 +606,10 @@ class SaleOrderQuotation(orm.Model):
 
     # Override fake wizard button event for print this report:
     def print_quotation(self, cr, uid, ids, context=None):
-        ''' Override originaL function that prints the sales order and mark it
+        """ Override originaL function that prints the sales order and mark it
             as sent, so that we can see more easily the next step of the
             workflow
-        '''
+        """
         assert len(ids) == 1, \
             'This option should only be used for a single id at a time'
         self.signal_workflow(cr, uid, ids, 'quotation_sent')
