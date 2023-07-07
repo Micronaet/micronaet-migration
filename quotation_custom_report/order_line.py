@@ -216,6 +216,7 @@ class SaleOrderQuotation(orm.Model):
             """ Last minute function for convert name
                 (not translated in product)
             """
+            pdb.set_trace()
             name = name.strip()
             if not name:
                 return ''
