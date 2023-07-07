@@ -512,13 +512,6 @@ class SaleOrderQuotation(orm.Model):
             symbol = o.partner_id.property_product_pricelist.currency_id.symbol
             code = product.code or u''
 
-            _logger.warning(
-                '>>> Da %s a %s' % (
-                item.product_id.pipe_diameter_sale,
-                try_int(item.product_id.pipe_diameter_sale),
-                )
-            )
-            # pdb.set_trace()
             line = [
                 '',  # photo place
                 code,
