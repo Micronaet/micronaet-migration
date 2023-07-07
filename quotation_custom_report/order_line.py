@@ -218,7 +218,9 @@ class SaleOrderQuotation(orm.Model):
             """
             name = name.strip()
             if not name:
+                _logger.error('Frame %s not found!' % name)
                 return ''
+
             # If name is originally in english translate in italian
             if name == 'STEEL':
                 name = 'ACCIAIO'
@@ -252,9 +254,13 @@ class SaleOrderQuotation(orm.Model):
                'ROBINIA': 'ROBINIA',
                }
             if lingua == 'it_IT':
-               return name
+                return name
             else:
-               return ita2eng[name] if name in ita2eng else '?'
+                if name in ita2eng:
+                    return ita2eng[name]
+                else:
+                    _logger.error('Frame %s not found in dict!' % name)
+                    return '?'
 
         # ---------------------------------------------------------------------
         # Start procedure:
