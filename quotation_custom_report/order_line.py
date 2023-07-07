@@ -490,9 +490,6 @@ class SaleOrderQuotation(orm.Model):
         # DETAIL:
         # ---------------------------------------------------------------------
         row_height = 78
-        if uid == 1:
-            pdb.set_trace()
-
         for item in o.order_line:
             product = item.product_id
 
