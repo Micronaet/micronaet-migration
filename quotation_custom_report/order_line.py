@@ -160,7 +160,7 @@ class SaleOrderQuotation(orm.Model):
             return ''
 
         def try_int(value):
-            """ Try convert in int intead return normal data
+            """ Try convert in int instead return normal data
             """
             try:
                 return int(value)
@@ -627,31 +627,34 @@ class SaleOrderQuotation(orm.Model):
             (2, 'Offerta breve (solo q.)'),
             ], 'Model'),
         }
+
     _defaults = {
-        'quotation_model': lambda *x: 2, # short
+        'quotation_model': lambda *x: 2,  # short
         }
 
-class SaleOrderLineQuotation(orm.Model):
-    _inherit='sale.order.line'
 
-    _columns={
+class SaleOrderLineQuotation(orm.Model):
+    """ Sale order line
+    """
+    _inherit = 'sale.order.line'
+
+    _columns = {
         'insert_photo': fields.boolean(
             'Con foto',
             help="Spuntare quando e' richiesto l'inserimento della foto "
-                "a preventivo."),
+            "a preventivo."),
         'repeat_header_line': fields.boolean(
             'Intest.',
             help="Spuntare quando e' richiesta l'intestazione, tipo dopo una "
-                "riga titolo."),
+            "riga titolo."),
         'use_amazon_description': fields.boolean(
             'Amazon description',
             help="Take amazon description instead of product's one"),
         'show_notes': fields.boolean(
             'Show notes', help='Show notes after description'),
-        'note': fields.text( 'Note'),
+        'note': fields.text('Note'),
         }
 
     _defaults = {
         'insert_photo': lambda *x: True,
         }
-

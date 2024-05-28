@@ -77,7 +77,7 @@ class Parser(report_sxw.rml_parse):
     def get_partner_address(self, order):
         """ Return format destination address or current address
         """
-        if order.destination_partner_id: # destination address
+        if order.destination_partner_id:  # destination address
             partner = order.destination_partner_id
         else:  # partner address
             partner = order.partner_id
