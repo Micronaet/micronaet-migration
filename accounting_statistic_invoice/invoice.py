@@ -205,9 +205,9 @@ class StatisticInvoice(orm.Model):
                 _logger.error('Error convert float: %s' % value)
                 return '0,00'
 
-        # ---------------------------------------------------------------------
+        # --------------------------------------------------------------------------------------------------------------
         #                         Common Part:
-        # ---------------------------------------------------------------------
+        # --------------------------------------------------------------------------------------------------------------
         excluded_code = [
             'ANTICIPATO',
             ]
@@ -465,13 +465,11 @@ class StatisticInvoice(orm.Model):
             WB.close()
         return True
 
-    # ----------------------------------
+    # ------------------------------------------------------------------------------------------------------------------
     # Importation procedure (scheduled):
-    # ----------------------------------
+    # ------------------------------------------------------------------------------------------------------------------
     def schedule_csv_statistic_invoice_import(
-            self, cr, uid,
-            file_input1='~/ETL/fatmeseoerp1.csv',
-            delimiter=';', header=0, verbose=100, context=None):
+            self, cr, uid, file_input1='~/ETL/fatmeseoerp1.csv', delimiter=';', header=0, verbose=100, context=None):
         """ Import statistic data from CSV file for invoice, trend, trendoc
             This particular importation are from 2 files (amount)
             (all particularity manage are use if particular = True)
@@ -551,9 +549,10 @@ class StatisticInvoice(orm.Model):
         current_month = datetime.now().month
         counter = -header
         tot_col = 0
-        # ---------------------------------------------------------------------
+
+        # --------------------------------------------------------------------------------------------------------------
         #                    Read invoice data:
-        # ---------------------------------------------------------------------
+        # --------------------------------------------------------------------------------------------------------------
         for line in csv_file:
             note = ''  # logging
 
@@ -705,8 +704,7 @@ class StatisticInvoice(orm.Model):
                 self.create(cr, uid, data, context=context)
 
                 # Log:
-                partner_extra_one = partner_extra.get(
-                    partner_id, ['NO', 'NO', 'NO', 'NO'])
+                partner_extra_one = partner_extra.get(partner_id, ['NO', 'NO', 'NO', 'NO'])
                 try:  # manage error for log (else don't write stat data)
                     log_f.write(log_mask % (
                         counter,
