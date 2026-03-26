@@ -208,6 +208,7 @@ class StatisticInvoice(orm.Model):
         # --------------------------------------------------------------------------------------------------------------
         #                         Common Part:
         # --------------------------------------------------------------------------------------------------------------
+        # ANTICIPO invoice are passed from account, remove from ODOO
         excluded_code = [
             'ANTICIPATO',
             ]
