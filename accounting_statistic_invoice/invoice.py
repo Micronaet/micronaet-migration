@@ -481,10 +481,7 @@ class StatisticInvoice(orm.Model):
         _logger.info('Start invoice statistic for customer')
         now = str(datetime.now())[:19].replace(':', '_').replace('/', '_')
         log_file = os.path.expanduser(
-            '~/etl/log/dashboard/statistic.partner.%s.%s.csv' % (
-                file_input1[-3:],
-                now,
-            ))
+            '~/etl/log/dashboard/statistic.partner.%s.%s.csv' % (file_input1[-3:], now))
         log_f = open(log_file, 'w')
         log_f.write('#|Name|Code|Tag|# Month|Year|Season|Doc|Total|Zone|Agent|Zone type|Cat stat|Note\n')
         log_mask = '%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s\n'
@@ -498,11 +495,11 @@ class StatisticInvoice(orm.Model):
         invoice_ids = self.search(cr, uid, [], context=context)
         self.unlink(cr, uid, invoice_ids, context=context)
 
-        order_ref = datetime.now().strftime('%Y%m')  # actualize order
-
         # ---------------------------------------------------------------------
         # Load dict for swap partner extra data
         # ---------------------------------------------------------------------
+        order_ref = datetime.now().strftime('%Y%m')  # actualize order
+
         # Agent and zone:
         _logger.info('Read partner extra info (zone, agent)')
         partner_extra = {}
@@ -516,26 +513,13 @@ class StatisticInvoice(orm.Model):
                 '',  # TODO cat stat!!!
                 )
 
-        # Destination in parent ID
-        # _logger.info('Read parent for destinations conversion')
-        # convert_destination = {}
-        # cursor = sql_pool.get_parent_partner(cr, uid, context=context)
-        # if not cursor:
-        #    _logger.error("Unable to connect to parent (destination)!")
-        #    return False # Fatal error!
-        # else:
-        #    for record in cursor:
-        #        convert_destination[record['CKY_CNT']] = record[
-        #            'CKY_CNT_CLI_FATT']
-        # _logger.info(
-        #    'Find %s destinations for conversion' % len(convert_destination))
-
         # Partner tags
         stats = {} # Statistic for partner
         partner_tags = {}
         tag_pool = self.pool.get('res.partner.category')
         tag_ids = tag_pool.search(cr, uid, [
-            ('statistic', '=', True)], context=context)
+            ('statistic', '=', True),
+        ], context=context)
         for tag in tag_pool.browse(cr, uid, tag_ids, context=context):
             for partner in tag.partner_ids:
                 partner_tags[partner.id] = tag.id  # todo problem in multi pres
@@ -566,8 +550,7 @@ class StatisticInvoice(orm.Model):
 
             if not(len(line) and (tot_col == len(line))):
                 _logger.error(
-                   '%s) Empty or colums different [%s >> %s]' % (
-                       counter, tot_col, len(line)))
+                   '%s) Empty or columns different [%s >> %s]' % (counter, tot_col, len(line)))
                 # Log:
                 log_f.write('%s|||||||||||||column different!\n' % counter)
                 continue
@@ -596,8 +579,7 @@ class StatisticInvoice(orm.Model):
                 partner_id = csv_base.get_create_partner_lite(
                     cr, uid, mexal_id, context=context)
                 if not partner_id:
-                    _logger.error(
-                        '%s) Partner not found: %s' % (counter, mexal_id))
+                    _logger.error('%s) Partner not found: %s' % (counter, mexal_id))
                     partner_name = '#ERR Partner code %s' % (mexal_id or '')
                 else:
                     partner_name = get_partner_name(self, cr, uid, partner_id)
@@ -657,8 +639,7 @@ class StatisticInvoice(orm.Model):
                 elif 9 <= current_month <= 12:
                     ref_year = current_year  # Ref. is current year
                 else:
-                    _logger.error('%s) Month error not [1:12]' % (
-                        counter))
+                    _logger.error('%s) Month error not [1:12]' % counter)
                     # todo no ref_year, continue?
 
                 # -------------------------------------------------------------
@@ -666,7 +647,7 @@ class StatisticInvoice(orm.Model):
                 # -------------------------------------------------------------
                 year_month = '%s%02d' % (year, month)
 
-                # september - current year >> august - next year
+                # September - current year >> august - next year
                 if '%s09' % ref_year <= year_month <= '%s08' % (ref_year + 1):
                     # current
                     data['season'] = 1
@@ -674,24 +655,20 @@ class StatisticInvoice(orm.Model):
                     if type_document == 'oo':
                         stats[partner_id][3] += total_invoice
 
-                elif '%s09' % (ref_year - 1) <= year_month <= \
-                        '%s08' % ref_year:
+                elif '%s09' % (ref_year - 1) <= year_month <= '%s08' % ref_year:
                     # year -1
                     data['season'] = -1
                     stats[partner_id][2] += total_invoice
 
-                elif '%s09' % (ref_year - 2) <= year_month <= '%s08' % \
-                        (ref_year - 1):
+                elif '%s09' % (ref_year - 2) <= year_month <= '%s08' % (ref_year - 1):
                     # year -2
                     data['season'] = -2
 
-                elif '%s09' % (ref_year - 3) <= year_month <= '%s08' % \
-                        (ref_year - 2):
+                elif '%s09' % (ref_year - 3) <= year_month <= '%s08' % (ref_year - 2):
                     # year -3
                     data['season'] = -3
 
-                elif '%s09' % (ref_year - 4) <= year_month <= '%s08' % \
-                        (ref_year - 3):
+                elif '%s09' % (ref_year - 4) <= year_month <= '%s08' % (ref_year - 3):
                     # year -4
                     data['season'] = -4
 
@@ -760,8 +737,7 @@ class StatisticInvoice(orm.Model):
 
             if stats[partner_id][2]:
                 invoice_trend_perc = 100.0 * (
-                    stats[partner_id][1] - stats[partner_id][2]) / \
-                    stats[partner_id][2]
+                    stats[partner_id][1] - stats[partner_id][2]) / stats[partner_id][2]
             else:
                 invoice_trend_perc = 0.0
 
